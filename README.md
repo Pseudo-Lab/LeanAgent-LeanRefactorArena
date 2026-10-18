@@ -2,6 +2,9 @@
 
 [HTML 개요 문서](docs/evaluation-overview.html): 평가 흐름·점수 기준·검증 결과·연결 방법을 정리한 문서.
 
+[가안: 문제별 환경 고정 — HTML 문서](docs/environment-proposal.html): 구조도, 2문제·4환경 파일럿 결과, 미검증 범위와 구현 순서.
+HTML을 내려받아 브라우저에서 열면 외부 서비스 없이 볼 수 있다. [Markdown 원문](docs/environment-architecture.md) · [검증 요약](docs/environment-pilot-results.json).
+
 리팩터링 전략과 모델 API에서 독립된 Python 평가 하네스다. Python 3.10+ 표준 라이브러리만 사용하며,
 실제 검증에는 문제별로 준비된 Lean/Lake 환경이 필요하다. 현재 실행기는 macOS/Linux를 지원한다.
 

@@ -1,0 +1,25 @@
+flowchart TB
+    benchmark["공식 benchmark snapshot"] --> resolver["Problem Resolver: 버전·commit·문맥"]
+    resolver --> registry["Environment Registry: 고정 pin + 실제 캐시 해시"]
+    registry --> worker["Lean Worker: 프로젝트 선언 교체 / 독립 header"]
+    registry -.-> sandbox["Linux sandbox: 읽기 전용 환경 + 실행별 scratch"]
+    sandbox -.-> worker
+
+    agents["API agent / sub-agent"] -. "후보 코드만 전달" .-> controller["Run Controller: 문제·환경 연결 고정"]
+    controller -. "검증 요청" .-> worker
+    controller -. "모델 호출" .-> adapter["OpenRouter Adapter + 문제별 비용 장부"]
+    adapter -.-> provider["OpenRouter"]
+
+    worker --> evidence["버전별 결과: compile · axioms · heartbeat · 로그"]
+    evidence -. "허용된 피드백" .-> controller
+    evidence -.-> policy["Arena Policy: 기본 검증과 호환률 분리"]
+    policy -. "후보 선택" .-> exporter["Submission Exporter: name + proof JSONL"]
+    evidence -->|"파일럿: 고정 후보 재검증"| exporter
+    exporter -. "별도 제출 단계" .-> official["공식 Arena Worker"]
+
+    classDef checked fill:#e9f6ef,stroke:#258058,color:#143e2c
+    classDef planned fill:#fff3df,stroke:#bc8225,color:#624312
+    classDef outside fill:#eff2f7,stroke:#8390a3,color:#36445a
+    class resolver,registry,worker,evidence,exporter checked
+    class agents,controller,adapter,policy,sandbox planned
+    class benchmark,provider,official outside

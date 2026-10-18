@@ -1,0 +1,140 @@
+{
+  "scope": "local feasibility pilot; not official scoring or a model run",
+  "passed": true,
+  "environments": [
+    {
+      "problem": "CallElimCorrect.extractedOldExprInVars",
+      "lean": "v4.26.0",
+      "commit": "451e5f047bafa010d178856db76c00029bfa4d7f",
+      "environment_id": "4375ef92a5115f4dd2a92d169f1357e08127d30786577345169d47729fb36356",
+      "original_tokens": 222,
+      "candidate_tokens": 146,
+      "local_heartbeats_original": 2698,
+      "local_heartbeats_candidate": 447,
+      "original_valid": true,
+      "candidate_valid": true,
+      "export_replay_valid": true,
+      "invalid_proof_rejected": true,
+      "artifacts_unchanged": true
+    },
+    {
+      "problem": "putnam_1964_a4",
+      "lean": "v4.25.0",
+      "commit": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+      "environment_id": "c8eb93db8cfb7521d4d84f2f8a6937e5d37222fd251b39b4d9705ec877f37b9e",
+      "original_tokens": 1769,
+      "candidate_tokens": 259,
+      "local_heartbeats_original": 141070,
+      "local_heartbeats_candidate": 3661,
+      "original_valid": true,
+      "candidate_valid": true,
+      "export_replay_valid": true,
+      "invalid_proof_rejected": true,
+      "artifacts_unchanged": true
+    },
+    {
+      "problem": "putnam_1964_a4",
+      "lean": "v4.26.0",
+      "commit": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+      "environment_id": "ee81db800669845e002e699fa3e6f715c7a5f57585f6a30ef600e657e037f1be",
+      "original_tokens": 1769,
+      "candidate_tokens": 259,
+      "local_heartbeats_original": 115677,
+      "local_heartbeats_candidate": 2931,
+      "original_valid": true,
+      "candidate_valid": true,
+      "export_replay_valid": true,
+      "invalid_proof_rejected": true,
+      "artifacts_unchanged": true
+    },
+    {
+      "problem": "putnam_1964_a4",
+      "lean": "v4.27.0",
+      "commit": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "environment_id": "78648a5c8ecb670439341b0fc47734be4f0f0ea6fbe380873bb5eee0566ae916",
+      "original_tokens": 1769,
+      "candidate_tokens": 259,
+      "local_heartbeats_original": 111470,
+      "local_heartbeats_candidate": 2876,
+      "original_valid": true,
+      "candidate_valid": true,
+      "export_replay_valid": true,
+      "invalid_proof_rejected": true,
+      "artifacts_unchanged": true
+    }
+  ],
+  "compiler_invocations": 24,
+  "api_calls": 0,
+  "arena_revision": "8fdaaaa25b993ae8d894e9bb756c3ae222b58507",
+  "benchmark_sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
+  "pilot_sha256": "108890fbd03efd34333e7b17914a5f69c246b8cfea6c340d4d61a44bbd201fe5",
+  "evaluator_sha256": "aa54c290b7a3fafb1e0dd3e2c2b9bb98109339f213c17a99a7920f4b58702436",
+  "platform": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "guard_tests": [
+    {
+      "case": "wrong_toolchain",
+      "reason": "lean-toolchain does not match official version_info",
+      "rejected": true
+    },
+    {
+      "case": "wrong_commit",
+      "reason": "Wrong checkout: <prepared Strata checkout>: 451e5f047bafa010d178856db76c00029bfa4d7f != 0000000000000000000000000000000000000000",
+      "rejected": true
+    }
+  ],
+  "intake_check": {
+    "source_app_sha256": "f2f89b64843a8ca24a7e2736817e1d563e675aaaf948bc8ffb1e6d8cf9bb3d9a",
+    "method": "Read regex string literals from the official app AST; no upstream Python code executed; these candidates contain no comments",
+    "server_submission": false,
+    "checks": [
+      {
+        "name": "CallElimCorrect.extractedOldExprInVars",
+        "statement_unchanged": true,
+        "bytes": 891,
+        "forbidden_pattern_matches": [],
+        "passed": true
+      },
+      {
+        "name": "putnam_1964_a4",
+        "statement_unchanged": true,
+        "bytes": 1255,
+        "forbidden_pattern_matches": [],
+        "passed": true
+      }
+    ]
+  },
+  "sandbox_positive_controls": {
+    "canary_unchanged": true,
+    "connection_with_sandbox": 1,
+    "connection_without_sandbox": 0,
+    "file_open_with_sandbox": 1,
+    "file_open_without_sandbox": 0
+  },
+  "postflight_checks": [
+    "exported proof hashes",
+    "all official versions of the two problems",
+    "24 source and log hashes",
+    "no timeout or infrastructure failure in invalid controls",
+    "pilot snapshot and current evaluator hashes"
+  ],
+  "limits": [
+    "Compiler file reads are not OS-confined; source tool is path-confined",
+    "Uses existing compiled caches; no clean rebuild or Linux container test",
+    "One measurement process per proof/environment; local heartbeat only",
+    "No official submission or official worker equivalence test",
+    "No live model, sub-agent scheduling, or API budget enforcement test"
+  ],
+  "submission_sha256": "ab8f71762e6a33d9750734359cc6de13f314dd8c86cbb716e8d086372e65d3ad",
+  "document_status": "proposal; not an adopted production design",
+  "raw_report_sha256": "6e9f53d0fe61de4d96bd4ac003a6a5612ee6b9c05099c8065f61c13be0bf357e",
+  "local_artifacts": {
+    "included_in_repository": false,
+    "run_directory": "runs/environment-pilot-20261018-r2",
+    "files": [
+      "report.json",
+      "submission.jsonl",
+      "postflight-check.json"
+    ],
+    "note": "Full compiler inputs, logs, and artifacts are retained on the experiment machine. This repository shares the verified summary and pilot code."
+  }
+}
