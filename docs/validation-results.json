@@ -1,0 +1,262 @@
+{
+  "runs": [
+    {
+      "candidates": [
+        {
+          "assessment": {
+            "eligible": true,
+            "heartbeat_reduction_pct": 0.0,
+            "reason": "eligible",
+            "score": 0.0,
+            "token_reduction_pct": 0.0
+          },
+          "environments": {
+            "lean-4-26": {
+              "error": null,
+              "measurements": [
+                {
+                  "axioms": [
+                    "propext"
+                  ],
+                  "raw": 47392,
+                  "scaled": 47,
+                  "target": "EvaluationExample.add_zero"
+                },
+                {
+                  "axioms": [
+                    "propext"
+                  ],
+                  "raw": 47399,
+                  "scaled": 47,
+                  "target": "EvaluationExample.add_zero"
+                },
+                {
+                  "axioms": [
+                    "propext"
+                  ],
+                  "raw": 47398,
+                  "scaled": 47,
+                  "target": "EvaluationExample.add_zero"
+                }
+              ],
+              "median_heartbeats": 47,
+              "valid": true
+            }
+          },
+          "id": "baseline",
+          "sha256": "5ec7c1564b7057455a08ba747c57aa9e8b2df6aaf1ff05a21e1da8fded8ea903",
+          "tokens": 14,
+          "valid": true
+        },
+        {
+          "assessment": {
+            "eligible": false,
+            "reason": "verification_failed",
+            "score": null
+          },
+          "environments": {
+            "lean-4-26": {
+              "error": "compile",
+              "measurements": [],
+              "median_heartbeats": null,
+              "valid": false
+            }
+          },
+          "id": "candidate-0001",
+          "sha256": "c7c83278299720540946965a013aa8ca3c9e58b3b04b443618124f0388572554",
+          "tokens": 3,
+          "valid": false
+        },
+        {
+          "assessment": {
+            "eligible": true,
+            "heartbeat_reduction_pct": 48.93617021276596,
+            "reason": "eligible",
+            "score": 67.32522796352583,
+            "token_reduction_pct": 85.71428571428572
+          },
+          "environments": {
+            "lean-4-26": {
+              "error": null,
+              "measurements": [
+                {
+                  "axioms": [],
+                  "raw": 24071,
+                  "scaled": 24,
+                  "target": "EvaluationExample.add_zero"
+                },
+                {
+                  "axioms": [],
+                  "raw": 24078,
+                  "scaled": 24,
+                  "target": "EvaluationExample.add_zero"
+                },
+                {
+                  "axioms": [],
+                  "raw": 24078,
+                  "scaled": 24,
+                  "target": "EvaluationExample.add_zero"
+                }
+              ],
+              "median_heartbeats": 24,
+              "valid": true
+            }
+          },
+          "id": "candidate-0002",
+          "sha256": "0336e17880d871966b33ac8f3c4f44f5f221f9e70516cbc3c44d95bd1562cde8",
+          "tokens": 2,
+          "valid": true
+        }
+      ],
+      "compiler": {
+        "lean-4-26": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)"
+      },
+      "config_sha256": "0af45ce40a7d433d1df46902b0300c5a210fc49c0e1e3321b672bb9de1fe5c35",
+      "final_runs": 3,
+      "implementation_sha256": "aa54c290b7a3fafb1e0dd3e2c2b9bb98109339f213c17a99a7920f4b58702436",
+      "problem": "nat-add-zero",
+      "run_directory": "runs/validated-demo",
+      "selected_at": "2026-10-18T08:23:29.501069+00:00",
+      "winner": {
+        "candidate_id": "candidate-0002",
+        "eligible": true,
+        "evaluation": "evaluations/candidate-0002/002-final",
+        "heartbeat_reduction_pct": 48.93617021276596,
+        "reason": "eligible",
+        "score": 67.32522796352583,
+        "sha256": "0336e17880d871966b33ac8f3c4f44f5f221f9e70516cbc3c44d95bd1562cde8",
+        "token_reduction_pct": 85.71428571428572
+      }
+    },
+    {
+      "candidates": [
+        {
+          "assessment": {
+            "eligible": true,
+            "heartbeat_reduction_pct": 0.0,
+            "reason": "eligible",
+            "score": 0.0,
+            "token_reduction_pct": 0.0
+          },
+          "environments": {
+            "lean-4-26": {
+              "error": null,
+              "measurements": [
+                {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound"
+                  ],
+                  "raw": 5173216,
+                  "scaled": 5173,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound"
+                  ],
+                  "raw": 5173550,
+                  "scaled": 5173,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound"
+                  ],
+                  "raw": 5173286,
+                  "scaled": 5173,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                }
+              ],
+              "median_heartbeats": 5173,
+              "valid": true
+            }
+          },
+          "id": "baseline",
+          "sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4",
+          "tokens": 313,
+          "valid": true
+        },
+        {
+          "assessment": {
+            "eligible": false,
+            "heartbeat_reduction_pct": -126.4836651846124,
+            "reason": "insufficient_gain",
+            "score": -18.832886905405243,
+            "token_reduction_pct": 88.81789137380191
+          },
+          "environments": {
+            "lean-4-26": {
+              "error": null,
+              "measurements": [
+                {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 11716435,
+                  "scaled": 11716,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 11716504,
+                  "scaled": 11716,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 11716509,
+                  "scaled": 11716,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                }
+              ],
+              "median_heartbeats": 11716,
+              "valid": true
+            }
+          },
+          "id": "candidate-0001",
+          "sha256": "ddebdebeef7d7a40a0f3f1b66c0e174c838e7005910ef7d15512ccee5f6356e9",
+          "tokens": 35,
+          "valid": true
+        }
+      ],
+      "compiler": {
+        "lean-4-26": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)"
+      },
+      "config_sha256": "b6b2f83773d21fe21823d3287a16392df27984a1cbb740d0c22bfa79a1e2d067",
+      "final_runs": 3,
+      "implementation_sha256": "aa54c290b7a3fafb1e0dd3e2c2b9bb98109339f213c17a99a7920f4b58702436",
+      "problem": "strata-subst-old",
+      "run_directory": "runs/strata-validated",
+      "selected_at": "2026-10-18T08:24:36.776344+00:00",
+      "winner": {
+        "candidate_id": "baseline",
+        "eligible": true,
+        "evaluation": "evaluations/baseline/002-final",
+        "heartbeat_reduction_pct": 0.0,
+        "reason": "eligible",
+        "score": 0.0,
+        "sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4",
+        "token_reduction_pct": 0.0
+      }
+    }
+  ],
+  "tests": {
+    "command": "REFACTOR_EVAL_LEAN_TESTS=1 python3 -m unittest discover -s tests -v",
+    "count": 30,
+    "passed": 30
+  },
+  "validated_date_kst": "2026-10-18"
+}

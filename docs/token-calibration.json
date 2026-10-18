@@ -1,0 +1,99 @@
+{
+  "comparisons": [
+    {
+      "computed": 313,
+      "matches": true,
+      "name": "CallElimCorrect.substOldPostSubset",
+      "reference": 313
+    },
+    {
+      "computed": 222,
+      "matches": true,
+      "name": "CallElimCorrect.extractedOldExprInVars",
+      "reference": 222
+    },
+    {
+      "computed": 224,
+      "matches": true,
+      "name": "Core.InitsUpdatesComm",
+      "reference": 224
+    },
+    {
+      "computed": 851,
+      "matches": true,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "reference": 851
+    },
+    {
+      "computed": 1372,
+      "matches": true,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "reference": 1372
+    },
+    {
+      "computed": 1217,
+      "matches": true,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "reference": 1217
+    },
+    {
+      "computed": 408,
+      "matches": true,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "reference": 408
+    },
+    {
+      "computed": 407,
+      "matches": true,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "reference": 407
+    },
+    {
+      "computed": 251,
+      "matches": true,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "reference": 251
+    },
+    {
+      "computed": 1463,
+      "matches": true,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "reference": 1463
+    },
+    {
+      "computed": 1906,
+      "matches": true,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "reference": 1906
+    },
+    {
+      "computed": 1353,
+      "matches": true,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "reference": 1353
+    },
+    {
+      "computed": 1769,
+      "matches": true,
+      "name": "putnam_1964_a4",
+      "reference": 1769
+    },
+    {
+      "computed": 1754,
+      "matches": true,
+      "name": "putnam_1964_b2",
+      "reference": 1754
+    },
+    {
+      "computed": 4085,
+      "matches": true,
+      "name": "putnam_1995_a3",
+      "reference": 4085
+    }
+  ],
+  "input_name": "benchmark_data_warmup.jsonl",
+  "input_sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
+  "matched": 15,
+  "tokenizer": "lean-source-anchored-v1",
+  "total": 15
+}
