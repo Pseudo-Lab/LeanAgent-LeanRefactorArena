@@ -1,8 +1,28 @@
+# Local upstream checkouts and centrally managed build links
+/sources/
 __pycache__/
 *.py[cod]
+.DS_Store
+
+# Versioned large data is distributed separately; metadata remains reviewable.
+/data/**/*.gz
+/data/corpora/**/context-index.json
+/benchmarks/arena/**/app.py
+/benchmarks/arena/**/benchmark.py
+/benchmarks/arena/**/*.jsonl
+/runs/**/*.jsonl
+/runs/**/*.gz
+
+# No expanded inputs or restored legacy workspaces inside the repository.
+/artifacts/
+/runs/corpus-survey/all_sources/summary.json
+/runs/corpus-survey/tactic_comparison/summary.json
+
+# Evaluation harness build outputs and local environment links
 *.egg-info/
 .venv/
 .lake/
-runs/
-build/
-dist/
+/build/
+/dist/
+/runs/demo/
+/runs/manual/

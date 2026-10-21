@@ -6,7 +6,7 @@ description: Measure and record intermediate Lean refactoring candidates with th
 # Lean 리팩터링 평가
 
 저장소 루트에서 실행한다. 문제 설정과 run directory를 먼저 확인한다.
-환경/입력 형식은 [평가 모듈 README](../../README.md)를 읽는다.
+환경/입력 형식은 [평가 하네스 사용법](../../docs/evaluation-harness.md)을 읽는다.
 
 1. 새 실험은 `python3 -m refactor_eval init --problem <config> --run-dir <run>`으로 시작한다.
    원본 측정이 실패하면 리팩터링 평가를 시작하지 말고 설정/Lean 환경을 수정해 새 run을 만든다.
