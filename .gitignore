@@ -20,8 +20,8 @@ __pycache__/
 
 # Evaluation harness build outputs and local environment links
 *.egg-info/
-.venv/
-.lake/
+.venv
+.lake
 /build/
 /dist/
 /runs/demo/
