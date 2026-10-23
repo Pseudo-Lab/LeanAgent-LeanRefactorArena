@@ -30,11 +30,6 @@ jobs:
             version: v4.26.0
           - source: arklib
             version: v4.31.0
-    env:
-      ELAN_HOME: ${{ runner.temp }}/elan
-      MATHLIB_CACHE_DIR: ${{ runner.temp }}/mathlib-cache
-      XDG_CACHE_HOME: ${{ runner.temp }}/cache
-      PYTHONPYCACHEPREFIX: ${{ runner.temp }}/pycache
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -42,6 +37,11 @@ jobs:
           persist-credentials: false
       - name: Install pinned Elan
         run: |
+          export ELAN_HOME="$RUNNER_TEMP/elan"
+          echo "ELAN_HOME=$ELAN_HOME" >> "$GITHUB_ENV"
+          echo "MATHLIB_CACHE_DIR=$RUNNER_TEMP/mathlib-cache" >> "$GITHUB_ENV"
+          echo "XDG_CACHE_HOME=$RUNNER_TEMP/cache" >> "$GITHUB_ENV"
+          echo "PYTHONPYCACHEPREFIX=$RUNNER_TEMP/pycache" >> "$GITHUB_ENV"
           curl --fail --location --retry 3 https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz -o "$RUNNER_TEMP/elan.tar.gz"
           tar xzf "$RUNNER_TEMP/elan.tar.gz" -C "$RUNNER_TEMP"
           "$RUNNER_TEMP/elan-init" -y --no-modify-path --default-toolchain none
