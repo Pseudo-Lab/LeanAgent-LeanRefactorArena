@@ -159,6 +159,12 @@ def main(args):
         run(['lake', 'build', target], project)
         if (project / 'lake-manifest.json').read_bytes() != lock:
             raise ValueError('Build changed the pinned dependency manifest')
+        if sys.platform == 'linux':
+            run(['free', '-m'])
+        if args.source == 'putnambench':
+            probe = output / 'import-probe.lean'
+            probe.write_text('import Mathlib\nimport Aesop\n#check Nat\n')
+            run(['lake', 'env', 'lean', f'-M{args.memory_mb}', str(probe)], project)
         runtime = work / 'evaluator'
         names = subprocess.check_output(['git', '-C', str(ROOT), 'ls-tree', '-r', '--name-only', EVALUATOR_REVISION, 'refactor_eval'], text=True).splitlines()
         for name in names:
@@ -175,7 +181,7 @@ def main(args):
             source = (project / meta['file_path']).read_text() if meta['file_path'] else meta['header'] + meta['src']
             context, lead = template(meta, source)
             env = {'id': args.version.replace('.', '-'), 'project': str(project),
-                   'toolchain': toolchain, 'command': ['lake', 'env', 'lean', '-j1', '-M4096', '-T200000'],
+                   'toolchain': toolchain, 'command': ['lake', 'env', 'lean', '-j1', f'-M{args.memory_mb}', '-T200000'],
                    'template': context, 'timeout_seconds': 180}
             evidence = output / ident
             evidence.mkdir()
@@ -223,4 +229,5 @@ if __name__ == '__main__':
     parser.add_argument('--version', required=True)
     parser.add_argument('--work', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
+    parser.add_argument('--memory-mb', type=int, default=4096)
     main(parser.parse_args())

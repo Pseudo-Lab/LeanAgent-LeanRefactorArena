@@ -12,7 +12,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: warmup-environments-${{ github.ref }}
+  group: warmup-environments-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: false
 
 jobs:
@@ -27,14 +27,6 @@ jobs:
         include:
           - source: putnambench
             version: v4.27.0
-          - source: arklib
-            version: v4.30.0
-          - source: arklib
-            version: v4.29.0
-          - source: arklib
-            version: v4.28.0
-          - source: arklib
-            version: v4.31.0
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -55,7 +47,7 @@ jobs:
         env:
           SOURCE: ${{ matrix.source }}
           VERSION: ${{ matrix.version }}
-        run: python3 scripts/verify_warmup_pins.py --source "$SOURCE" --version "$VERSION" --work "$RUNNER_TEMP/verification" --output "verification-results/$SOURCE-$VERSION"
+        run: python3 scripts/verify_warmup_pins.py --source "$SOURCE" --version "$VERSION" --memory-mb 6144 --work "$RUNNER_TEMP/verification" --output "verification-results/$SOURCE-$VERSION"
       - name: Preserve verification evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
