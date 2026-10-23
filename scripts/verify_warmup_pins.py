@@ -191,6 +191,13 @@ def main(args):
                       'fingerprint': evaluator.fingerprint(env), 'candidates': {}}
             report['problems'].append(result)
             baseline = evaluator.evaluate(lead + meta['src'], config, [env], evidence / 'baseline', 3)
+            if args.memory_mb < 8192 and any('memory_exception' in e.get('error', {}).get('message', '')
+                    for e in baseline.get('environments', {}).values() if e.get('error')):
+                write(evidence / f'baseline-result-{args.memory_mb}MiB.json', baseline)
+                env['command'] = ['lake', 'env', 'lean', '-j1', '-M8192', '-T200000']
+                result['fingerprint'] = evaluator.fingerprint(env)
+                result['resourceRetry'] = {'initialMemoryMiB': args.memory_mb, 'finalMemoryMiB': 8192}
+                baseline = evaluator.evaluate(lead + meta['src'], config, [env], evidence / 'baseline-8192MiB', 3)
             result['baseline'] = baseline
             write(evidence / 'baseline-result.json', baseline)
             seen = {}
@@ -222,6 +229,17 @@ def main(args):
     finally:
         report['finishedAt'] = datetime.now(timezone.utc).isoformat()
         write(output / 'summary.json', report)
+        if os.environ.get('GITHUB_STEP_SUMMARY'):
+            lines = [f'### {args.source} {args.version}',
+                     'Workflow completion records an attempt; proof validity is shown below.',
+                     '', '| Problem | Original | Candidate | Valid |', '|---|---|---|---|']
+            for item in report['problems']:
+                for name, candidate in item['candidates'].items():
+                    lines.append(f'| P{item["id"]:02} | {item["baseline"]["valid"]} | {name} | {candidate["result"]["valid"]} |')
+            if report.get('error'):
+                lines.extend(['', 'Preparation failed. See the error.log artifact.'])
+            with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as summary_file:
+                summary_file.write('\n'.join(lines) + '\n')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
@@ -229,5 +247,5 @@ if __name__ == '__main__':
     parser.add_argument('--version', required=True)
     parser.add_argument('--work', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
-    parser.add_argument('--memory-mb', type=int, default=4096)
+    parser.add_argument('--memory-mb', type=int, default=6144)
     main(parser.parse_args())
