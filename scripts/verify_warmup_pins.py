@@ -57,6 +57,13 @@ def trailing_doc_start(text):
 
 def template(meta, source):
     original = meta['src']
+    if source.count(original) == 0:
+        # Older ArkLib pins differ by horizontal spacing in this declaration.
+        # Match the same text without changing line boundaries or other context.
+        pattern = r'[ \t]+'.join(re.escape(part) for part in re.split(r'[ \t]+', original))
+        matches = list(re.finditer(pattern, source))
+        if len(matches) == 1:
+            original = matches[0].group()
     if source.count(original) != 1:
         raise ValueError('공식 원본 선언과 소스 문맥의 일치 위치를 유일하게 찾지 못함')
     prefix, suffix = source.split(original)

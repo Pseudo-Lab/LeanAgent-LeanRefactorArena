@@ -27,9 +27,15 @@ jobs:
       matrix:
         include:
           - source: putnambench
-            version: v4.26.0
+            version: v4.25.0
+          - source: putnambench
+            version: v4.27.0
           - source: arklib
-            version: v4.31.0
+            version: v4.30.0
+          - source: arklib
+            version: v4.29.0
+          - source: arklib
+            version: v4.28.0
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
