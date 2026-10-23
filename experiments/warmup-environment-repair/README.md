@@ -13,5 +13,6 @@ This directory records actual CI verification attempts and their preparation/com
 | final-arklib-v430 | 39953916716 | P10 and P11 originals and candidates passed. |
 | retry-arklib-v428 | 39956098384 | P10 original and candidate passed after an automatic 6 to 8 GiB retry. |
 | final-arklib-v431 | 39953916716 | Original compilation passed, but measurement exceeded 4 GiB. |
+| retry-arklib-v431 | 39958437942 | P10 and P11 originals and candidates passed at 6 GiB. |
 
 Final published evidence is stored separately under submissions/warmup/verification-results.json. A successful workflow means the measurement attempt completed; consult each baseline/candidate valid field for proof validity. Every published measurement pairs the original and candidate in the same pinned environment.

@@ -1,0 +1,22 @@
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:256:84: warning: `not_lt_zero'` has been deprecated: Use `_root_.not_lt_zero` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:348:48: warning: `not_lt_zero'` has been deprecated: Use `_root_.not_lt_zero` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:670:4: warning: declaration uses `sorry`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:706:6: warning: declaration uses `sorry`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:820:8: warning: declaration uses `sorry`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:886:15: warning: `Subtype.eq_iff` has been deprecated: Use `Subtype.ext_iff` instead
+
+Note: The updated constant has a different type:
+  ∀ {α : Sort u} {p : α → Prop} {a1 a2 : { x // p x }}, a1 = a2 ↔ ↑a1 = ↑a2
+instead of
+  ∀ {α : Sort u_1} {p : α → Prop} {a1 a2 : { x // p x }}, a1 = a2 ↔ ↑a1 = ↑a2
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:894:15: warning: `Subtype.eq_iff` has been deprecated: Use `Subtype.ext_iff` instead
+
+Note: The updated constant has a different type:
+  ∀ {α : Sort u} {p : α → Prop} {a1 a2 : { x // p x }}, a1 = a2 ↔ ↑a1 = ↑a2
+instead of
+  ∀ {α : Sort u_1} {p : α → Prop} {a1 a2 : { x // p x }}, a1 = a2 ↔ ↑a1 = ↑a2
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:908:28: warning: `AddSubmonoidClass.coe_finset_sum` has been deprecated: Use `AddSubmonoidClass.coe_finsetSum` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:946:52: warning: `Nat.add_eq_zero` has been deprecated: Use `Nat.add_eq_zero_iff` instead
+hammingClose 𝔽q β : (i : Fin (ℓ + 1)) → OracleFunction 𝔽q β i → Prop
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/73cd94253cff6e1c/v4-31-0/measure-2.lean:1324:9: warning: `mul_le_mul_left'` has been deprecated: Use `_root_.mul_le_mul_right` instead
+REFACTOR_EVAL 0512b90cd05c4c0581df12a054e1701c {"axioms":["propext","Classical.choice","Quot.sound"],"raw":8807382,"scaled":8807,"target":"Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"}
