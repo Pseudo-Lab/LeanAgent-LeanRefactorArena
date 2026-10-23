@@ -4,8 +4,9 @@
 공식 제출 성적이 아니며 자료 미확보·환경 준비 실패·검증기 지원 대기·증명 실패를 구분합니다.
 일부 버전만 통과한 후보는 대표 환경의 측정값과 미완료 호환성을 구분해 표시합니다.
 
-원본·출처·실행법은 `../experiments/warmup-team-results/README.md`에 있습니다.
+후보 출처와 검증 상태는 `../submissions/warmup/manifest.json`에 있습니다.
 문제별 대표 표시는 담당자 최종본을 우선하며, 다른 후보도 상세 화면에서 확인할 수 있습니다.
+동일한 15개 대표 후보는 `../submissions/warmup/best/`에 보관하며, 제출 준비 묶음의 `manifest.json`에서 파일 해시와 검증 상태를 확인할 수 있습니다.
 
 ## 실행
 
@@ -22,7 +23,7 @@ npm run dev
 
 결과 JSON은 `public/data/`에 두고 `index.json`에 파일 이름을 적습니다.
 파일 형식은 `src/lib/model.ts`에 있습니다. `warmup`은 15문제, `competition`은 50문제를 받습니다.
-웜업 JSON은 `experiments/warmup-team-results/export.py`로 생성하며 점수를 직접 편집하지 않습니다. 확인하지 않은 결과는 대기로 표시합니다.
+웜업 JSON에는 완료된 로컬 재검증의 측정값을 보존합니다. 수집 사본과 해당 실행의 원시 로그는 정리했으며, 확인하지 않은 결과는 대기로 표시합니다.
 JSON 불러오기는 현재 화면에서만 적용됩니다.
 
 ## 확인
