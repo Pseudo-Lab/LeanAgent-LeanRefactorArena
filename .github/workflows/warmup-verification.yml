@@ -2,11 +2,6 @@ name: Verify pinned warmup environments
 
 on:
   workflow_dispatch:
-  push:
-    branches: [codex/warmup-environment-repair]
-    paths:
-      - '.github/workflows/warmup-verification.yml'
-      - 'scripts/verify_warmup_pins.py'
 
 permissions:
   contents: read
@@ -25,6 +20,18 @@ jobs:
       max-parallel: 4
       matrix:
         include:
+          - source: putnambench
+            version: v4.25.0
+          - source: putnambench
+            version: v4.26.0
+          - source: putnambench
+            version: v4.27.0
+          - source: arklib
+            version: v4.28.0
+          - source: arklib
+            version: v4.29.0
+          - source: arklib
+            version: v4.30.0
           - source: arklib
             version: v4.31.0
     steps:

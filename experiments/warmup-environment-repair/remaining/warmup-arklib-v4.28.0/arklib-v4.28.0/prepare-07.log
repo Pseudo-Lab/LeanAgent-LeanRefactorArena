@@ -1,67 +1,0 @@
-info: CompPoly: cloning https://github.com/Verified-zkEVM/CompPoly
-info: CompPoly: checking out revision 'd7b9f987496841b066d4958b72f774f545ce907b'
-info: checkdecls: cloning https://github.com/PatrickMassot/checkdecls.git
-info: checkdecls: checking out revision '3d425859e73fcfbef85b9638c2a91708ef4a22d4'
-info: doc-gen4: cloning https://github.com/leanprover/doc-gen4
-info: doc-gen4: checking out revision 'a41d5ebebfa77afe737fec8de8ad03fc8b08fdff'
-info: VCVio: cloning https://github.com/Verified-zkEVM/VCV-io
-info: VCVio: checking out revision 'a99013079c6404712a1383122f25a4b9a771abce'
-info: ExtTreeMapLemmas: cloning https://github.com/Verified-zkEVM/ExtTreeMapLemmas
-info: ExtTreeMapLemmas: checking out revision '82d5763c08b020fc38898a4fd59a5213059a5f87'
-info: mathlib: cloning https://github.com/leanprover-community/mathlib4
-info: mathlib: checking out revision '8f9d9cff6bd728b17a24e163c9402775d9e6a365'
-info: plausible: cloning https://github.com/leanprover-community/plausible
-info: plausible: checking out revision '55c8532eb21ec9f6d565d51d96b8ca50bd1fbef3'
-info: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient
-info: LeanSearchClient: checking out revision 'c5d5b8fe6e5158def25cd28eb94e4141ad97c843'
-info: importGraph: cloning https://github.com/leanprover-community/import-graph
-info: importGraph: checking out revision '85b59af46828c029a9168f2f9c35119bd0721e6e'
-info: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4
-info: proofwidgets: checking out revision 'be3b2e63b1bbf496c478cef98b86972a37c1417d'
-info: aesop: cloning https://github.com/leanprover-community/aesop
-info: aesop: checking out revision 'f642a64c76df8ba9cb53dba3b919425a0c2aeaf1'
-info: Qq: cloning https://github.com/leanprover-community/quote4
-info: Qq: checking out revision 'b8f98e9087e02c8553945a2c5abf07cec8e798c3'
-info: batteries: cloning https://github.com/leanprover-community/batteries
-info: batteries: checking out revision '495c008c3e3f4fb4256ff5582ddb3abf3198026f'
-info: Cli: cloning https://github.com/leanprover/lean4-cli
-info: Cli: checking out revision '4f10f47646cb7d5748d6f423f4a07f98f7bbcc9e'
-info: UnicodeBasic: cloning https://github.com/fgdorais/lean4-unicode-basic
-info: UnicodeBasic: checking out revision 'ff04f5c424e50e23476d3539c7c0cc4956e971ad'
-info: BibtexQuery: cloning https://github.com/dupuisf/BibtexQuery
-info: BibtexQuery: checking out revision '058ada3acad7dd0d55657476bf292c8e02a2f650'
-info: MD4Lean: cloning https://github.com/acmepjz/md4lean
-info: MD4Lean: checking out revision '7e097e9a076d5fbe48aa39aceee871af0d011101'
-✔ [5/23] Built Batteries.Data.String.Basic (362ms)
-✔ [6/23] Built Batteries.Data.Array.Match (760ms)
-✔ [7/23] Built Cache.Lean (428ms)
-✔ [8/23] Built Batteries.Data.String.Basic:c.o (92ms)
-✔ [9/23] Built Batteries.Data.Array.Match:c.o (211ms)
-✔ [10/23] Built Cache.Lean:c.o (116ms)
-✔ [11/23] Built Cache.Init (330ms)
-✔ [12/23] Built Batteries.Data.String.Matcher (349ms)
-✔ [13/23] Built Cache.Init:c.o (90ms)
-✔ [14/23] Built Batteries.Data.String.Matcher:c.o (201ms)
-✔ [15/23] Built Cache.IO (1.2s)
-✔ [16/23] Built Cache.Hashing (806ms)
-✔ [17/23] Built Cache.Hashing:c.o (461ms)
-✔ [18/23] Built Cache.IO:c.o (1.4s)
-✔ [19/23] Built Cache.Requests (1.0s)
-✔ [20/23] Built Cache.Main (801ms)
-✔ [21/23] Built Cache.Main:c.o (536ms)
-✔ [22/23] Built Cache.Requests:c.o (1.4s)
-✔ [23/23] Built cache:exe (575ms)
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-100 1125k  100 1125k    0     0  4067k      0 --:--:-- --:--:-- --:--:-- 4067k
-
-installing leantar 0.1.16
-Fetching ProofWidgets cloud release... done!
-Current branch: HEAD
-Using cache (Azure) from origin: leanprover-community/mathlib4
-Attempting to download 8010 file(s) from leanprover-community/mathlib4 cache
-Downloaded: 1 file(s) [attempted 1/8010 = 0%, 31 KB/s]Downloaded: 416 file(s) [attempted 416/8010 = 5%, 9701 KB/s]Downloaded: 897 file(s) [attempted 897/8010 = 11%, 1158 KB/s]Downloaded: 1365 file(s) [attempted 1365/8010 = 17%, 2925 KB/s]Downloaded: 1843 file(s) [attempted 1843/8010 = 23%, 3180 KB/s]Downloaded: 2267 file(s) [attempted 2267/8010 = 28%, 11377 KB/s]Downloaded: 2721 file(s) [attempted 2721/8010 = 33%, 1391 KB/s]Downloaded: 3138 file(s) [attempted 3138/8010 = 39%, 8290 KB/s]Downloaded: 3555 file(s) [attempted 3555/8010 = 44%, 3933 KB/s]Downloaded: 4011 file(s) [attempted 4011/8010 = 50%, 2110 KB/s]Downloaded: 4442 file(s) [attempted 4442/8010 = 55%, 6547 KB/s]Downloaded: 4868 file(s) [attempted 4868/8010 = 60%, 2279 KB/s]Downloaded: 5284 file(s) [attempted 5284/8010 = 65%, 4354 KB/s]Downloaded: 5702 file(s) [attempted 5702/8010 = 71%, 11209 KB/s]Downloaded: 6114 file(s) [attempted 6114/8010 = 76%, 4305 KB/s]Downloaded: 6543 file(s) [attempted 6543/8010 = 81%, 6510 KB/s]Downloaded: 6966 file(s) [attempted 6966/8010 = 86%, 2571 KB/s]Downloaded: 7375 file(s) [attempted 7375/8010 = 92%, 3420 KB/s]Downloaded: 7780 file(s) [attempted 7780/8010 = 97%, 6527 KB/s]Downloaded: 8006 file(s) [attempted 8006/8010 = 99%, 1042 KB/s]Downloaded: 8009 file(s) [attempted 8009/8010 = 99%, 86 KB/s]Downloaded: 8010 file(s) [attempted 8010/8010 = 100%, 86 KB/s]
-Decompressing 8007 file(s) (3 already decompressed)
-Decompressed in 72133 ms
-Completed successfully!
