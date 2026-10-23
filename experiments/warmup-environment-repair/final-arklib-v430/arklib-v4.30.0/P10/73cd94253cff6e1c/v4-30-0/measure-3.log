@@ -1,0 +1,33 @@
+warning: manifest out of date: git revision of dependency 'VCVio' changed; use `lake update VCVio` to update it
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:128:44: warning: This simp argument is unused:
+  Finset.prod_ite
+
+Hint: Omit it from the simp argument list.
+  simp +decide [MvPolynomial.monomial_eq,̵ ̵F̵i̵n̵s̵e̵t̵.̵p̵r̵o̵d̵_̵i̵t̵e̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:156:9: warning: `Finsupp.finset_sum_apply` has been deprecated: Use `Finsupp.finsetSum_apply` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:172:21: warning: `Finsupp.finset_sum_apply` has been deprecated: Use `Finsupp.finsetSum_apply` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:228:20: warning: `Fin.coe_castSucc` has been deprecated: Use `Fin.val_castSucc` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:384:84: warning: `not_lt_zero'` has been deprecated: Use `_root_.not_lt_zero` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:476:48: warning: `not_lt_zero'` has been deprecated: Use `_root_.not_lt_zero` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:798:4: warning: declaration uses `sorry`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:834:6: warning: declaration uses `sorry`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:948:8: warning: declaration uses `sorry`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:1014:15: warning: `Subtype.eq_iff` has been deprecated: Use `Subtype.ext_iff` instead
+
+Note: The updated constant has a different type:
+  ∀ {α : Sort u} {p : α → Prop} {a1 a2 : { x // p x }}, a1 = a2 ↔ ↑a1 = ↑a2
+instead of
+  ∀ {α : Sort u_1} {p : α → Prop} {a1 a2 : { x // p x }}, a1 = a2 ↔ ↑a1 = ↑a2
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:1022:15: warning: `Subtype.eq_iff` has been deprecated: Use `Subtype.ext_iff` instead
+
+Note: The updated constant has a different type:
+  ∀ {α : Sort u} {p : α → Prop} {a1 a2 : { x // p x }}, a1 = a2 ↔ ↑a1 = ↑a2
+instead of
+  ∀ {α : Sort u_1} {p : α → Prop} {a1 a2 : { x // p x }}, a1 = a2 ↔ ↑a1 = ↑a2
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:1036:28: warning: `AddSubmonoidClass.coe_finset_sum` has been deprecated: Use `AddSubmonoidClass.coe_finsetSum` instead
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:1074:52: warning: `Nat.add_eq_zero` has been deprecated: Use `Nat.add_eq_zero_iff` instead
+hammingClose 𝔽q β : (i : Fin (ℓ + 1)) → OracleFunction 𝔽q β i → Prop
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.30.0/P10/73cd94253cff6e1c/v4-30-0/measure-3.lean:1453:9: warning: `mul_le_mul_left'` has been deprecated: Use `_root_.mul_le_mul_right` instead
+REFACTOR_EVAL 0d36007c7f4e43809e8d81b2d6f8a861 {"axioms":["propext","Classical.choice","Quot.sound"],"raw":10299779,"scaled":10299,"target":"Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"}

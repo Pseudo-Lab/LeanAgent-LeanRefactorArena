@@ -1,0 +1,40 @@
+{
+  "valid": false,
+  "tokens": 1463,
+  "environments": {
+    "v4-28-0": {
+      "valid": false,
+      "runs": [
+        {
+          "command": [
+            "lake",
+            "env",
+            "lean",
+            "-j1",
+            "-M6144",
+            "-T200000",
+            "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.28.0/P10/baseline/v4-28-0",
+            "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.28.0/P10/baseline/v4-28-0/check.lean"
+          ],
+          "returncode": 134,
+          "timed_out": false,
+          "seconds": 32.077943,
+          "stderr": "",
+          "source": "check.lean",
+          "source_sha256": "ba3c1ce6df8f6ed660d120f6766aca6fa8b5facc40170244a0469d36885e6101",
+          "log": "check.log",
+          "log_sha256": "48bc2200174632932b9ea98fd0a0c30e6dc353ce535531045f1c7efc7b79940a"
+        }
+      ],
+      "median_heartbeats": null,
+      "error": {
+        "kind": "compile",
+        "message": "libc++abi: terminating due to uncaught exception of type lean::memory_exception: excessive memory consumption detected at 'interpreter' (potential solution: increase memory consumption threshold)\n"
+      }
+    }
+  },
+  "error": {
+    "kind": "lean",
+    "message": "One or more required environments failed"
+  }
+}

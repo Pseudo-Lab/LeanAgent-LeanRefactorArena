@@ -1,0 +1,407 @@
+{
+  "id": 13,
+  "sourceSha256": "5a04c464cc6d845401a3dbe806ee45f9151fd337d76201129b0dcbf917cfd0ea",
+  "fingerprint": {
+    "project": "/home/runner/work/_temp/verification/project",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-j1",
+      "-M6144",
+      "-T200000"
+    ],
+    "version": "Lean (version 4.27.0, x86_64-unknown-linux-gnu, commit db93fe1608548721853390a10cd40580fe7d22ae, Release)",
+    "files": {
+      "lake-manifest.json": "6c24676b690a32627317b1d6dd58cf9318d689c5481e1edc53d07c93c892632f",
+      "lakefile.lean": "f10e41a5182e7c05c2796bd172032937a8b39e2617692d7e58bee40e026b1462",
+      "lakefile.toml": null,
+      "lean-toolchain": "d55ca0039a5479db5b38919d005b2c427b89b3be4f0184a20f2f4eae931f5bdb"
+    },
+    "git": {
+      "head": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "template_sha256": "40ab003e87d11a9a916c343ed77ea304decdf866259463271b0d01e9b761dd2f"
+  },
+  "candidates": {
+    "권주원-final": {
+      "sha256": "6bf40078bbbbbafe922d313feb4228bc8c6262269d3a13231482b25c001feda9",
+      "result": {
+        "valid": true,
+        "tokens": 259,
+        "environments": {
+          "v4-27-0": {
+            "valid": true,
+            "runs": [
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M6144",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/check.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 6.126111,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "eec246eba6a1e39238929c9baaec6263c94083b415b37b7b0e52edee17bb3d16",
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M6144",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-1.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 6.320823,
+                "stderr": "",
+                "source": "measure-1.lean",
+                "source_sha256": "251d50a07c9ec6342bcab69e5f2f1046e25cb670880eb57138db42645f6e51ac",
+                "log": "measure-1.log",
+                "log_sha256": "da3aaf0a1994e89be9ccfb8c8129590ec682e62625f44a0bf68687ed3d8e7c64",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2876150,
+                  "scaled": 2876,
+                  "target": "putnam_1964_a4"
+                }
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M6144",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-2.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 6.362122,
+                "stderr": "",
+                "source": "measure-2.lean",
+                "source_sha256": "51a6b3c3bdd06b2da11657ff6f4bf4e980d5b8cb139943f225138fdfe3a58c72",
+                "log": "measure-2.log",
+                "log_sha256": "ee845a535dd92f881278fe0eb807a15377e61d08cdd6171394406ea2e369ba52",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2875973,
+                  "scaled": 2875,
+                  "target": "putnam_1964_a4"
+                }
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M6144",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-3.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 6.337306,
+                "stderr": "",
+                "source": "measure-3.lean",
+                "source_sha256": "98af926cc44159d3d6cc34ad97a343fbcbef3ab1f2b790f39e7b27e649405567",
+                "log": "measure-3.log",
+                "log_sha256": "f95d39e0c307abf3450e7808f4046042b2fd6e629e16d3176e109add3281b98d",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2875955,
+                  "scaled": 2875,
+                  "target": "putnam_1964_a4"
+                }
+              }
+            ],
+            "median_heartbeats": 2875,
+            "error": null
+          }
+        },
+        "error": null
+      }
+    },
+    "권주원-development": {
+      "sha256": "639587d781669920f53805ab49450d40002e358e33cff361e679bcbbb1f09348",
+      "result": {
+        "valid": true,
+        "tokens": 183,
+        "environments": {
+          "v4-27-0": {
+            "valid": true,
+            "runs": [
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M6144",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/639587d781669920/v4-27-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/639587d781669920/v4-27-0/check.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 6.089495,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "6c8de9a11a3f450a41be3211bced906f0142ece2aab4b03b46a010ec78f34493",
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M6144",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/639587d781669920/v4-27-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/639587d781669920/v4-27-0/measure-1.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 6.349986,
+                "stderr": "",
+                "source": "measure-1.lean",
+                "source_sha256": "33c6496ceb93fa59b4cca4211b640028be23d8faf97abb8694b5326371cf2601",
+                "log": "measure-1.log",
+                "log_sha256": "1b87be53569b7a2a7e71e12e82c598ec1153cf2bd1e4f4d0330915693dcf7978",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2933364,
+                  "scaled": 2933,
+                  "target": "putnam_1964_a4"
+                }
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M6144",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/639587d781669920/v4-27-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/639587d781669920/v4-27-0/measure-2.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 6.14841,
+                "stderr": "",
+                "source": "measure-2.lean",
+                "source_sha256": "b7b0cffd50067fcd8ba684041ed2ae9730b9a5bbbce5ac9d1bf570c4fb14757b",
+                "log": "measure-2.log",
+                "log_sha256": "367ba04040a70272559eddeeb1628f0bef087451c91026f2aab3ac947f1e5236",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2933527,
+                  "scaled": 2933,
+                  "target": "putnam_1964_a4"
+                }
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M6144",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/639587d781669920/v4-27-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/639587d781669920/v4-27-0/measure-3.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 6.376764,
+                "stderr": "",
+                "source": "measure-3.lean",
+                "source_sha256": "ead57ced220453e7421eaca1321f9b32d5587d07fe73c1a257089d6e158ff11d",
+                "log": "measure-3.log",
+                "log_sha256": "a5175d1e7050262fa352fc4c6fe289d56f870830dc683554b1afa25760daec25",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2933350,
+                  "scaled": 2933,
+                  "target": "putnam_1964_a4"
+                }
+              }
+            ],
+            "median_heartbeats": 2933,
+            "error": null
+          }
+        },
+        "error": null
+      }
+    }
+  },
+  "baseline": {
+    "valid": true,
+    "tokens": 1769,
+    "environments": {
+      "v4-27-0": {
+        "valid": true,
+        "runs": [
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M6144",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/baseline/v4-27-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/baseline/v4-27-0/check.lean"
+            ],
+            "returncode": 0,
+            "timed_out": false,
+            "seconds": 18.209066,
+            "stderr": "",
+            "source": "check.lean",
+            "source_sha256": "a3a5d3bbcd05fd035e55fd65efcc45abe6aff5e241fa7f971baf05ea6d449b44",
+            "log": "check.log",
+            "log_sha256": "2ff7b578fcc9b5583b20a50319ab05841ff74a17138023204ed4f9d5293cd2ba"
+          },
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M6144",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/baseline/v4-27-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/baseline/v4-27-0/measure-1.lean"
+            ],
+            "returncode": 0,
+            "timed_out": false,
+            "seconds": 17.550715,
+            "stderr": "",
+            "source": "measure-1.lean",
+            "source_sha256": "1065119186a4495cbf7113586e3c90142835a855c05e363ad50095c50956cd0a",
+            "log": "measure-1.log",
+            "log_sha256": "84fe4a52dfe2474e90cc0d4d531df54348247e8e078a0b67b32cc2d901cb4f4a",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 111470130,
+              "scaled": 111470,
+              "target": "putnam_1964_a4"
+            }
+          },
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M6144",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/baseline/v4-27-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/baseline/v4-27-0/measure-2.lean"
+            ],
+            "returncode": 0,
+            "timed_out": false,
+            "seconds": 17.041918,
+            "stderr": "",
+            "source": "measure-2.lean",
+            "source_sha256": "da107d5594995a86ceaba069a6fd2477394b795d43a3f125a62c0c68c3328514",
+            "log": "measure-2.log",
+            "log_sha256": "75cc3bce6f5a63660517368a005fdf0b2dfd17d8b0688e54f31f5d1e0b7e35d8",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 111469863,
+              "scaled": 111469,
+              "target": "putnam_1964_a4"
+            }
+          },
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M6144",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/baseline/v4-27-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/baseline/v4-27-0/measure-3.lean"
+            ],
+            "returncode": 0,
+            "timed_out": false,
+            "seconds": 16.853941,
+            "stderr": "",
+            "source": "measure-3.lean",
+            "source_sha256": "606682d63deac0d487d28e2d80eaf3f48c6bd56665dc45e1e4f936df4d84e5e9",
+            "log": "measure-3.log",
+            "log_sha256": "19733ff1634f939fb428caa3c7073f0842ce60ab2e71fa33bd8bd084108cc2d4",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 111467220,
+              "scaled": 111467,
+              "target": "putnam_1964_a4"
+            }
+          }
+        ],
+        "median_heartbeats": 111469,
+        "error": null
+      }
+    },
+    "error": null
+  }
+}

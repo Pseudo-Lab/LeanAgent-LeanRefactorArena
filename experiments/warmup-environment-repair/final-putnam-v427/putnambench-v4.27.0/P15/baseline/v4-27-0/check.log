@@ -1,0 +1,123 @@
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:56:65: warning: This simp argument is unused:
+  i.is_lt
+
+Hint: Omit it from the simp argument list.
+  simp [Finset.sum_ite_eq', Finset.mem_univ,̵ ̵i̵.̵i̵s̵_̵l̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:105:65: warning: This simp argument is unused:
+  i.is_lt
+
+Hint: Omit it from the simp argument list.
+  simp [Finset.sum_ite_eq', Finset.mem_univ,̵ ̵i̵.̵i̵s̵_̵l̵t̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:154:36: warning: This simp argument is unused:
+  Finset.card_fin
+
+Hint: Omit it from the simp argument list.
+  simp [Finset.sum_const,̵ ̵F̵i̵n̵s̵e̵t̵.̵c̵a̵r̵d̵_̵f̵i̵n̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:36:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:47:22: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:59:20: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:61:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:65:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:85:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:96:22: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:108:20: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:110:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:114:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:143:12: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:155:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:156:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:183:20: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:247:16: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:252:14: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:45:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:94:18: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:36:12: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:47:22: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:59:20: warning: 'simp [hdigits_to_num]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:61:16: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:65:12: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:85:12: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:96:22: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:108:20: warning: 'simp [hdigits_to_num]' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:110:16: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:114:12: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:143:12: warning: 'rfl' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:155:16: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:156:16: warning: 'norm_num' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:183:20: warning: 'ring' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:247:16: warning: 'simpa [Int.coe_nat_dvd_left] using h' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean:252:14: warning: 'contradiction' tactic does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`

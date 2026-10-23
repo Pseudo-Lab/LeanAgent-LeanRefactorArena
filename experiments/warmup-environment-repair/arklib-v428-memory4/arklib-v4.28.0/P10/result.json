@@ -1,0 +1,79 @@
+{
+  "id": 10,
+  "sourceSha256": "d499d34aa6260d607a3c2b6aecdb0dec7ac8c3592829e8c3d263a7ee7131e851",
+  "fingerprint": {
+    "project": "/home/runner/work/_temp/verification/project",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-j1",
+      "-M4096",
+      "-T200000"
+    ],
+    "version": "Lean (version 4.28.0, x86_64-unknown-linux-gnu, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b, Release)",
+    "files": {
+      "lake-manifest.json": "68efb9b3c76cf8c1519dc12a42c36819070683381113128cf12e68aa4665b301",
+      "lakefile.lean": null,
+      "lakefile.toml": "c669ae0655761cb4cf2c4803e4594fb031e4ebfb0f4a890a831e8a5fb6e2b2d9",
+      "lean-toolchain": "26df5f74b79af0cd9e298b6583993699a54938d047ba1919428da80d3ae80c6e"
+    },
+    "git": {
+      "head": "673fa440714eb1949b8b50a28f2a4f52b1837e9b",
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "template_sha256": "3403f71605f896c5fb4f4f0c577bc8036461d2d4b05f8ef16fedfedca97ce0c0"
+  },
+  "candidates": {
+    "박성호-final": {
+      "sha256": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+      "result": {
+        "valid": false,
+        "error": {
+          "kind": "baseline",
+          "message": "Original failed in the pinned environment"
+        }
+      }
+    }
+  },
+  "baseline": {
+    "valid": false,
+    "tokens": 1463,
+    "environments": {
+      "v4-28-0": {
+        "valid": false,
+        "runs": [
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M4096",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.28.0/P10/baseline/v4-28-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.28.0/P10/baseline/v4-28-0/check.lean"
+            ],
+            "returncode": 134,
+            "timed_out": false,
+            "seconds": 14.674143,
+            "stderr": "",
+            "source": "check.lean",
+            "source_sha256": "ba3c1ce6df8f6ed660d120f6766aca6fa8b5facc40170244a0469d36885e6101",
+            "log": "check.log",
+            "log_sha256": "48bc2200174632932b9ea98fd0a0c30e6dc353ce535531045f1c7efc7b79940a"
+          }
+        ],
+        "median_heartbeats": null,
+        "error": {
+          "kind": "compile",
+          "message": "libc++abi: terminating due to uncaught exception of type lean::memory_exception: excessive memory consumption detected at 'interpreter' (potential solution: increase memory consumption threshold)\n"
+        }
+      }
+    },
+    "error": {
+      "kind": "lean",
+      "message": "One or more required environments failed"
+    }
+  }
+}

@@ -1,0 +1,293 @@
+{
+  "source": "arklib",
+  "version": "v4.31.0",
+  "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+  "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+  "repetitions": 3,
+  "startedAt": "2026-10-23T12:34:02.343305+00:00",
+  "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "commit": "7d883e25d16cf53e962cc6a5f1cf6f46ae128295",
+  "runId": "39953916716",
+  "status": "completed",
+  "problems": [
+    {
+      "id": 10,
+      "sourceSha256": "7b6cd84808024e67fa8aadde67e7953e67ed5f5e4ecd69ac0c061143f69cffac",
+      "fingerprint": {
+        "project": "/home/runner/work/_temp/verification/project",
+        "command": [
+          "lake",
+          "env",
+          "lean",
+          "-j1",
+          "-M4096",
+          "-T200000"
+        ],
+        "version": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)",
+        "files": {
+          "lake-manifest.json": "25e545bb447c1f4e0bc1d55ffb17813ae58f9abd0c7cb48273186e0e5fd367a5",
+          "lakefile.lean": null,
+          "lakefile.toml": "f1de06f1b58a7f069cf6cf505981db3d400bd4daee22d838f6649f2856672520",
+          "lean-toolchain": "efac0b94923b2d8b6840cd35be9177ad0fc5ab2332f4f4311c98712cee92fdee"
+        },
+        "git": {
+          "head": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "template_sha256": "9637ce08e4c5ccfe31225879b060b59ea12c156af01716b4ca8f438352ce2222"
+      },
+      "candidates": {
+        "박성호-final": {
+          "sha256": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+          "result": {
+            "valid": false,
+            "error": {
+              "kind": "baseline",
+              "message": "Original failed in the pinned environment"
+            }
+          }
+        }
+      },
+      "baseline": {
+        "valid": false,
+        "tokens": 1463,
+        "environments": {
+          "v4-31-0": {
+            "valid": false,
+            "runs": [
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/baseline/v4-31-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/baseline/v4-31-0/check.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 19.866337,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "d7a2c333cc45da45d0cdb66460e30e412bb0d2e2c7749aacd46144bfea8d1b93",
+                "log": "check.log",
+                "log_sha256": "96dad120cc5d95027f4e888949ee1724f84b2e1fc38be0672dcb6b39348b7a82"
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/baseline/v4-31-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P10/baseline/v4-31-0/measure-1.lean"
+                ],
+                "returncode": 134,
+                "timed_out": false,
+                "seconds": 30.440676,
+                "stderr": "",
+                "source": "measure-1.lean",
+                "source_sha256": "d86c07343489e70bd132578b18634b5b2123023f5194c0e46ac863353859a223",
+                "log": "measure-1.log",
+                "log_sha256": "48bc2200174632932b9ea98fd0a0c30e6dc353ce535531045f1c7efc7b79940a"
+              }
+            ],
+            "median_heartbeats": null,
+            "error": {
+              "kind": "compile",
+              "message": "libc++abi: terminating due to uncaught exception of type lean::memory_exception: excessive memory consumption detected at 'interpreter' (potential solution: increase memory consumption threshold)\n"
+            }
+          }
+        },
+        "error": {
+          "kind": "lean",
+          "message": "One or more required environments failed"
+        }
+      }
+    },
+    {
+      "id": 11,
+      "sourceSha256": "7b6cd84808024e67fa8aadde67e7953e67ed5f5e4ecd69ac0c061143f69cffac",
+      "fingerprint": {
+        "project": "/home/runner/work/_temp/verification/project",
+        "command": [
+          "lake",
+          "env",
+          "lean",
+          "-j1",
+          "-M4096",
+          "-T200000"
+        ],
+        "version": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)",
+        "files": {
+          "lake-manifest.json": "25e545bb447c1f4e0bc1d55ffb17813ae58f9abd0c7cb48273186e0e5fd367a5",
+          "lakefile.lean": null,
+          "lakefile.toml": "f1de06f1b58a7f069cf6cf505981db3d400bd4daee22d838f6649f2856672520",
+          "lean-toolchain": "efac0b94923b2d8b6840cd35be9177ad0fc5ab2332f4f4311c98712cee92fdee"
+        },
+        "git": {
+          "head": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "template_sha256": "1f56868bbe5e295608662171fcee5d10c69d82d64939e799216f78d3637bc180"
+      },
+      "candidates": {
+        "박선영-final": {
+          "sha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
+          "result": {
+            "valid": false,
+            "error": {
+              "kind": "baseline",
+              "message": "Original failed in the pinned environment"
+            }
+          }
+        }
+      },
+      "baseline": {
+        "valid": false,
+        "tokens": 1906,
+        "environments": {
+          "v4-31-0": {
+            "valid": false,
+            "runs": [
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P11/baseline/v4-31-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P11/baseline/v4-31-0/check.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 19.632573,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "a53492ce95e61aaa40ad3b47364104b15d736521a43073fd7ec9cb9ac9af034c",
+                "log": "check.log",
+                "log_sha256": "e3a24440e24e24388fd879400be7a8b4529dc6bd17f435829a9c8e1ecfd7a877"
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P11/baseline/v4-31-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P11/baseline/v4-31-0/measure-1.lean"
+                ],
+                "returncode": 134,
+                "timed_out": false,
+                "seconds": 23.159954,
+                "stderr": "",
+                "source": "measure-1.lean",
+                "source_sha256": "4539b6da0d33f2f7661476e674b8a14707797ec68635b31541875bf9a34171ba",
+                "log": "measure-1.log",
+                "log_sha256": "48bc2200174632932b9ea98fd0a0c30e6dc353ce535531045f1c7efc7b79940a"
+              }
+            ],
+            "median_heartbeats": null,
+            "error": {
+              "kind": "compile",
+              "message": "libc++abi: terminating due to uncaught exception of type lean::memory_exception: excessive memory consumption detected at 'interpreter' (potential solution: increase memory consumption threshold)\n"
+            }
+          }
+        },
+        "error": {
+          "kind": "lean",
+          "message": "One or more required environments failed"
+        }
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "CompPoly",
+      "revision": "e95ba1b1cac21ac3e980725abcfb2a0c707d1062"
+    },
+    {
+      "name": "checkdecls",
+      "revision": "3d425859e73fcfbef85b9638c2a91708ef4a22d4"
+    },
+    {
+      "name": "«doc-gen4»",
+      "revision": "0bc516c1b9db83658d6475c40d9b1ed71219b921"
+    },
+    {
+      "name": "VCVio",
+      "revision": "cbd4144b51d92da00dd50f05e068b2348fa6e529"
+    },
+    {
+      "name": "mathlib",
+      "revision": "fabf563a7c95a166b8d7b6efca11c8b4dc9d911f"
+    },
+    {
+      "name": "leansqlite",
+      "revision": "0be4df908d1a8e75b58961041e2b4973692623df"
+    },
+    {
+      "name": "Cli",
+      "revision": "92564e5770e4d09f2d86dfbf8ada1e9c715b384c"
+    },
+    {
+      "name": "UnicodeBasic",
+      "revision": "a2e430a4c9d3ad24078b8581fe0162fc5b0c9a6c"
+    },
+    {
+      "name": "BibtexQuery",
+      "revision": "5d31b64fb703c5d77f6ef4d1fb958f9bdf1ea539"
+    },
+    {
+      "name": "MD4Lean",
+      "revision": "6a3fb240133bcb7e1a066fdc784b3fdc304e3fc5"
+    },
+    {
+      "name": "PolyFun",
+      "revision": "04a12b67fa2048c9412fdd26ed9e446f25919d37"
+    },
+    {
+      "name": "loom2",
+      "revision": "0e11dcf85dd5fbb362bf6a6cafaba5c476ed9333"
+    },
+    {
+      "name": "plausible",
+      "revision": "63045536fe95024e6c18fc7b48e03f506701c5bc"
+    },
+    {
+      "name": "LeanSearchClient",
+      "revision": "c5d5b8fe6e5158def25cd28eb94e4141ad97c843"
+    },
+    {
+      "name": "importGraph",
+      "revision": "5c7542ed018c78194f1e2b903eaf6a792b74c03d"
+    },
+    {
+      "name": "proofwidgets",
+      "revision": "24b0d9dc081c5423f8eec7e866c441e5184f29d9"
+    },
+    {
+      "name": "aesop",
+      "revision": "e3cb2f741431ce31bf73549fb52316a57368b06f"
+    },
+    {
+      "name": "Qq",
+      "revision": "f46324995fca5f0483b742e4eb4daec7f4ee50d2"
+    },
+    {
+      "name": "batteries",
+      "revision": "fa08db58b30eb033edcdab331bba000827f9f785"
+    }
+  ],
+  "manifestSha256": "25e545bb447c1f4e0bc1d55ffb17813ae58f9abd0c7cb48273186e0e5fd367a5",
+  "tokenizer": "lean-source-anchored-v1",
+  "finishedAt": "2026-10-23T13:02:17.653548+00:00"
+}

@@ -1,0 +1,60 @@
+{
+  "valid": false,
+  "tokens": 1906,
+  "environments": {
+    "v4-31-0": {
+      "valid": false,
+      "runs": [
+        {
+          "command": [
+            "lake",
+            "env",
+            "lean",
+            "-j1",
+            "-M4096",
+            "-T200000",
+            "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P11/baseline/v4-31-0",
+            "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P11/baseline/v4-31-0/check.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 19.632573,
+          "stderr": "",
+          "source": "check.lean",
+          "source_sha256": "a53492ce95e61aaa40ad3b47364104b15d736521a43073fd7ec9cb9ac9af034c",
+          "log": "check.log",
+          "log_sha256": "e3a24440e24e24388fd879400be7a8b4529dc6bd17f435829a9c8e1ecfd7a877"
+        },
+        {
+          "command": [
+            "lake",
+            "env",
+            "lean",
+            "-j1",
+            "-M4096",
+            "-T200000",
+            "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P11/baseline/v4-31-0",
+            "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.31.0/P11/baseline/v4-31-0/measure-1.lean"
+          ],
+          "returncode": 134,
+          "timed_out": false,
+          "seconds": 23.159954,
+          "stderr": "",
+          "source": "measure-1.lean",
+          "source_sha256": "4539b6da0d33f2f7661476e674b8a14707797ec68635b31541875bf9a34171ba",
+          "log": "measure-1.log",
+          "log_sha256": "48bc2200174632932b9ea98fd0a0c30e6dc353ce535531045f1c7efc7b79940a"
+        }
+      ],
+      "median_heartbeats": null,
+      "error": {
+        "kind": "compile",
+        "message": "libc++abi: terminating due to uncaught exception of type lean::memory_exception: excessive memory consumption detected at 'interpreter' (potential solution: increase memory consumption threshold)\n"
+      }
+    }
+  },
+  "error": {
+    "kind": "lean",
+    "message": "One or more required environments failed"
+  }
+}

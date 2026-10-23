@@ -1,0 +1,280 @@
+{
+  "id": 11,
+  "sourceSha256": "bee74a914714a136db0f48690db7f0bd317a82311e3f320414b74e3894f5a6a2",
+  "fingerprint": {
+    "project": "/home/runner/work/_temp/verification/project",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-j1",
+      "-M4096",
+      "-T200000"
+    ],
+    "version": "Lean (version 4.29.0, x86_64-unknown-linux-gnu, commit 98dc76e3c0a9b856c9b98726b713fb04fab16740, Release)",
+    "files": {
+      "lake-manifest.json": "0e0a71ebfb1b30da08fc6a3553b851606601fabbb2f0dd2baa97f393ea0c3951",
+      "lakefile.lean": null,
+      "lakefile.toml": "365ed3bd0097f0907a4a637323bb2355f12d6c59737f735ef569abab921260ed",
+      "lean-toolchain": "651c8accb402b0c071cd336e9d3dc0a55516b1bfb434ddc4801f14936785b1d2"
+    },
+    "git": {
+      "head": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "template_sha256": "1e1c527b801b94fed549648af7a863654fabb355e9fb5003ab4d747e41cf6a8a"
+  },
+  "candidates": {
+    "박선영-final": {
+      "sha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
+      "result": {
+        "valid": true,
+        "tokens": 1656,
+        "environments": {
+          "v4-29-0": {
+            "valid": true,
+            "runs": [
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/06afddcc6cdeaaba/v4-29-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/06afddcc6cdeaaba/v4-29-0/check.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 18.929689,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "a9b1101a5dfef2c5c4af55a4caeacd9ad181ad71beef8126feb912e85eb87518",
+                "log": "check.log",
+                "log_sha256": "df42d1cf3c9aad91c9d7a4fcbd1600817df7ef18e488ccf3154563097a2976b5"
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/06afddcc6cdeaaba/v4-29-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/06afddcc6cdeaaba/v4-29-0/measure-1.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 18.272349,
+                "stderr": "",
+                "source": "measure-1.lean",
+                "source_sha256": "72f18414f9caff19bc7cf90c0eb37a26cfcdcfef143c632d874c522b6dafba96",
+                "log": "measure-1.log",
+                "log_sha256": "4bda5acffc107946d61bee63fc4f9099ecb0ea89dadedf91e703ce4fe819b8d3",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 45850119,
+                  "scaled": 45850,
+                  "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+                }
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/06afddcc6cdeaaba/v4-29-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/06afddcc6cdeaaba/v4-29-0/measure-2.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 18.431834,
+                "stderr": "",
+                "source": "measure-2.lean",
+                "source_sha256": "264daa376e591217e7a8fd18ad8d628d083731de372b82741147957335aa8b08",
+                "log": "measure-2.log",
+                "log_sha256": "9d3e327ec62bf95ccae8069ae3067cee4727fa57efc819e726717921ab55e361",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 45850261,
+                  "scaled": 45850,
+                  "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+                }
+              },
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/06afddcc6cdeaaba/v4-29-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/06afddcc6cdeaaba/v4-29-0/measure-3.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 18.144814,
+                "stderr": "",
+                "source": "measure-3.lean",
+                "source_sha256": "d775ca8c2764bc8ca4ebac12c1e1d78cbca75e277e4bf814cd5614af1ca32ddb",
+                "log": "measure-3.log",
+                "log_sha256": "2491d6a6141d9a4a72a23de70a1a8f72073d09ad34d323a5fb03ca4a506f5ff5",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 45850158,
+                  "scaled": 45850,
+                  "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+                }
+              }
+            ],
+            "median_heartbeats": 45850,
+            "error": null
+          }
+        },
+        "error": null
+      }
+    }
+  },
+  "baseline": {
+    "valid": true,
+    "tokens": 1906,
+    "environments": {
+      "v4-29-0": {
+        "valid": true,
+        "runs": [
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M4096",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/baseline/v4-29-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/baseline/v4-29-0/check.lean"
+            ],
+            "returncode": 0,
+            "timed_out": false,
+            "seconds": 19.510463,
+            "stderr": "",
+            "source": "check.lean",
+            "source_sha256": "ccb4cc2067e4fc89197a66b73f4dc67bc38d43b6e29fd8891af746e144e6bf1c",
+            "log": "check.log",
+            "log_sha256": "869a10c42c163b7cf112e0e585ca5b2a4b94d37020ca516b6a89e0d1279f4596"
+          },
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M4096",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/baseline/v4-29-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/baseline/v4-29-0/measure-1.lean"
+            ],
+            "returncode": 0,
+            "timed_out": false,
+            "seconds": 19.705976,
+            "stderr": "",
+            "source": "measure-1.lean",
+            "source_sha256": "14af6a1d01397e5f945eb1128c60ce0f55be293c2d720a97a9ad8a02d887498f",
+            "log": "measure-1.log",
+            "log_sha256": "46a805a16fc4916d7f79a95c3c0efc4196a1b73647cc4451a81769d250971c8d",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 50128826,
+              "scaled": 50128,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          },
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M4096",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/baseline/v4-29-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/baseline/v4-29-0/measure-2.lean"
+            ],
+            "returncode": 0,
+            "timed_out": false,
+            "seconds": 19.657804,
+            "stderr": "",
+            "source": "measure-2.lean",
+            "source_sha256": "338bd2d153f1f0e7de7f1a4c4d2a8a6cb55cfff4e7c9d34cd46916faf62f1566",
+            "log": "measure-2.log",
+            "log_sha256": "1a9d9a2b1b703cb07d773ab3a3f39f8bc43bd07adba7776bebb845e38e207626",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 50129262,
+              "scaled": 50129,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          },
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M4096",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/baseline/v4-29-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.29.0/P11/baseline/v4-29-0/measure-3.lean"
+            ],
+            "returncode": 0,
+            "timed_out": false,
+            "seconds": 19.680749,
+            "stderr": "",
+            "source": "measure-3.lean",
+            "source_sha256": "0c12fe4a0bfcc64d8b08b15e21040a992f47265cc9837fbbd9bc4d7a226113bd",
+            "log": "measure-3.log",
+            "log_sha256": "b9f3e9ec5a2d24c78c24d66e0dc79c35dc602f01f9a25b00ff3257f6f5079868",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 50128883,
+              "scaled": 50128,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          }
+        ],
+        "median_heartbeats": 50128,
+        "error": null
+      }
+    },
+    "error": null
+  }
+}

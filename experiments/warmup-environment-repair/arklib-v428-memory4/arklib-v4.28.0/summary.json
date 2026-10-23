@@ -1,0 +1,166 @@
+{
+  "source": "arklib",
+  "version": "v4.28.0",
+  "revision": "673fa440714eb1949b8b50a28f2a4f52b1837e9b",
+  "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+  "repetitions": 3,
+  "startedAt": "2026-10-23T12:31:16.183189+00:00",
+  "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "commit": "7d883e25d16cf53e962cc6a5f1cf6f46ae128295",
+  "runId": "39953916716",
+  "status": "completed",
+  "problems": [
+    {
+      "id": 10,
+      "sourceSha256": "d499d34aa6260d607a3c2b6aecdb0dec7ac8c3592829e8c3d263a7ee7131e851",
+      "fingerprint": {
+        "project": "/home/runner/work/_temp/verification/project",
+        "command": [
+          "lake",
+          "env",
+          "lean",
+          "-j1",
+          "-M4096",
+          "-T200000"
+        ],
+        "version": "Lean (version 4.28.0, x86_64-unknown-linux-gnu, commit 7e01a1bf5c70fc6167d49c345d3bf80596e9a79b, Release)",
+        "files": {
+          "lake-manifest.json": "68efb9b3c76cf8c1519dc12a42c36819070683381113128cf12e68aa4665b301",
+          "lakefile.lean": null,
+          "lakefile.toml": "c669ae0655761cb4cf2c4803e4594fb031e4ebfb0f4a890a831e8a5fb6e2b2d9",
+          "lean-toolchain": "26df5f74b79af0cd9e298b6583993699a54938d047ba1919428da80d3ae80c6e"
+        },
+        "git": {
+          "head": "673fa440714eb1949b8b50a28f2a4f52b1837e9b",
+          "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "template_sha256": "3403f71605f896c5fb4f4f0c577bc8036461d2d4b05f8ef16fedfedca97ce0c0"
+      },
+      "candidates": {
+        "박성호-final": {
+          "sha256": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+          "result": {
+            "valid": false,
+            "error": {
+              "kind": "baseline",
+              "message": "Original failed in the pinned environment"
+            }
+          }
+        }
+      },
+      "baseline": {
+        "valid": false,
+        "tokens": 1463,
+        "environments": {
+          "v4-28-0": {
+            "valid": false,
+            "runs": [
+              {
+                "command": [
+                  "lake",
+                  "env",
+                  "lean",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.28.0/P10/baseline/v4-28-0",
+                  "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/arklib-v4.28.0/P10/baseline/v4-28-0/check.lean"
+                ],
+                "returncode": 134,
+                "timed_out": false,
+                "seconds": 14.674143,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "ba3c1ce6df8f6ed660d120f6766aca6fa8b5facc40170244a0469d36885e6101",
+                "log": "check.log",
+                "log_sha256": "48bc2200174632932b9ea98fd0a0c30e6dc353ce535531045f1c7efc7b79940a"
+              }
+            ],
+            "median_heartbeats": null,
+            "error": {
+              "kind": "compile",
+              "message": "libc++abi: terminating due to uncaught exception of type lean::memory_exception: excessive memory consumption detected at 'interpreter' (potential solution: increase memory consumption threshold)\n"
+            }
+          }
+        },
+        "error": {
+          "kind": "lean",
+          "message": "One or more required environments failed"
+        }
+      }
+    }
+  ],
+  "dependencies": [
+    {
+      "name": "CompPoly",
+      "revision": "d7b9f987496841b066d4958b72f774f545ce907b"
+    },
+    {
+      "name": "checkdecls",
+      "revision": "3d425859e73fcfbef85b9638c2a91708ef4a22d4"
+    },
+    {
+      "name": "«doc-gen4»",
+      "revision": "a41d5ebebfa77afe737fec8de8ad03fc8b08fdff"
+    },
+    {
+      "name": "VCVio",
+      "revision": "a99013079c6404712a1383122f25a4b9a771abce"
+    },
+    {
+      "name": "ExtTreeMapLemmas",
+      "revision": "82d5763c08b020fc38898a4fd59a5213059a5f87"
+    },
+    {
+      "name": "mathlib",
+      "revision": "8f9d9cff6bd728b17a24e163c9402775d9e6a365"
+    },
+    {
+      "name": "plausible",
+      "revision": "55c8532eb21ec9f6d565d51d96b8ca50bd1fbef3"
+    },
+    {
+      "name": "LeanSearchClient",
+      "revision": "c5d5b8fe6e5158def25cd28eb94e4141ad97c843"
+    },
+    {
+      "name": "importGraph",
+      "revision": "85b59af46828c029a9168f2f9c35119bd0721e6e"
+    },
+    {
+      "name": "proofwidgets",
+      "revision": "be3b2e63b1bbf496c478cef98b86972a37c1417d"
+    },
+    {
+      "name": "aesop",
+      "revision": "f642a64c76df8ba9cb53dba3b919425a0c2aeaf1"
+    },
+    {
+      "name": "Qq",
+      "revision": "b8f98e9087e02c8553945a2c5abf07cec8e798c3"
+    },
+    {
+      "name": "batteries",
+      "revision": "495c008c3e3f4fb4256ff5582ddb3abf3198026f"
+    },
+    {
+      "name": "Cli",
+      "revision": "4f10f47646cb7d5748d6f423f4a07f98f7bbcc9e"
+    },
+    {
+      "name": "UnicodeBasic",
+      "revision": "ff04f5c424e50e23476d3539c7c0cc4956e971ad"
+    },
+    {
+      "name": "BibtexQuery",
+      "revision": "058ada3acad7dd0d55657476bf292c8e02a2f650"
+    },
+    {
+      "name": "MD4Lean",
+      "revision": "7e097e9a076d5fbe48aa39aceee871af0d011101"
+    }
+  ],
+  "manifestSha256": "68efb9b3c76cf8c1519dc12a42c36819070683381113128cf12e68aa4665b301",
+  "tokenizer": "lean-source-anchored-v1",
+  "finishedAt": "2026-10-23T12:45:49.311940+00:00"
+}
