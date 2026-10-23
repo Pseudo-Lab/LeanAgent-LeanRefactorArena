@@ -1,0 +1,89 @@
+{
+  "id": 15,
+  "sourceSha256": "6ff85196fa73dbd145b63d772941e28f33dee93bfee1a425d2c4e4fac1d22231",
+  "fingerprint": {
+    "project": "/home/runner/work/_temp/verification/project",
+    "command": [
+      "lake",
+      "env",
+      "lean",
+      "-j1",
+      "-M2048",
+      "-T200000"
+    ],
+    "version": "Lean (version 4.27.0, x86_64-unknown-linux-gnu, commit db93fe1608548721853390a10cd40580fe7d22ae, Release)",
+    "files": {
+      "lake-manifest.json": "6c24676b690a32627317b1d6dd58cf9318d689c5481e1edc53d07c93c892632f",
+      "lakefile.lean": "f10e41a5182e7c05c2796bd172032937a8b39e2617692d7e58bee40e026b1462",
+      "lakefile.toml": null,
+      "lean-toolchain": "d55ca0039a5479db5b38919d005b2c427b89b3be4f0184a20f2f4eae931f5bdb"
+    },
+    "git": {
+      "head": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "template_sha256": "9fa6d0066ba5be5bef4b9145568eff517ee4ae2afbf0101f59c65f8cd32e30a4"
+  },
+  "candidates": {
+    "박채원-local-v426": {
+      "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+      "result": {
+        "valid": false,
+        "error": {
+          "kind": "baseline",
+          "message": "Original failed in the pinned environment"
+        }
+      }
+    },
+    "박채원-final": {
+      "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+      "result": {
+        "valid": false,
+        "error": {
+          "kind": "baseline",
+          "message": "Original failed in the pinned environment"
+        }
+      }
+    }
+  },
+  "baseline": {
+    "valid": false,
+    "tokens": 4085,
+    "environments": {
+      "v4-27-0": {
+        "valid": false,
+        "runs": [
+          {
+            "command": [
+              "lake",
+              "env",
+              "lean",
+              "-j1",
+              "-M2048",
+              "-T200000",
+              "--root=/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0",
+              "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/baseline/v4-27-0/check.lean"
+            ],
+            "returncode": 134,
+            "timed_out": false,
+            "seconds": 20.068764,
+            "stderr": "",
+            "source": "check.lean",
+            "source_sha256": "aa575ee8627b0b1257e7ab5f952ba56523953b55471e2988f91c73bb387b80ef",
+            "log": "check.log",
+            "log_sha256": "48bc2200174632932b9ea98fd0a0c30e6dc353ce535531045f1c7efc7b79940a"
+          }
+        ],
+        "median_heartbeats": null,
+        "error": {
+          "kind": "compile",
+          "message": "libc++abi: terminating due to uncaught exception of type lean::memory_exception: excessive memory consumption detected at 'interpreter' (potential solution: increase memory consumption threshold)\n"
+        }
+      }
+    },
+    "error": {
+      "kind": "lean",
+      "message": "One or more required environments failed"
+    }
+  }
+}

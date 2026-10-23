@@ -1,0 +1,15 @@
+{
+  "source": "arklib",
+  "version": "v4.28.0",
+  "revision": "673fa440714eb1949b8b50a28f2a4f52b1837e9b",
+  "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+  "repetitions": 3,
+  "startedAt": "2026-10-23T11:57:37.071518+00:00",
+  "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+  "commit": "5bf54d565f7c420e9fbb804b3621b1462c8b3b6c",
+  "runId": "39944826874",
+  "status": "environment_failed",
+  "problems": [],
+  "error": "Command '['git', '-C', '/home/runner/work/_temp/verification/project/.lake/packages/«doc-gen4»', 'rev-parse', 'HEAD']' returned non-zero exit status 128.",
+  "finishedAt": "2026-10-23T12:07:37.970067+00:00"
+}

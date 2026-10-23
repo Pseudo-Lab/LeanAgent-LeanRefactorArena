@@ -1,0 +1,11 @@
+{{HARNESS_IMPORT}}
+import Mathlib
+import Aesop
+{{HARNESS_COMMANDS}}
+
+set_option maxHeartbeats 0
+
+open Set Function Filter Topology
+
+
+{{DECLARATION}}
