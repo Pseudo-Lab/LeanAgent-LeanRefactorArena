@@ -139,20 +139,26 @@ def main(args):
         run(['elan', 'toolchain', 'install', toolchain], project)
         run(['lake', 'exe', 'cache', 'get'], project)
         target = '+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean' if args.source == 'arklib' else '+Mathlib:olean'
-        run(['lake', 'build', target], project)
         if (project / 'lake-manifest.json').read_bytes() != lock:
             raise ValueError('Preparation changed the pinned dependency manifest')
         packages = []
         for package in json.loads(lock)['packages']:
             if package['type'] != 'git':
                 raise ValueError('Unexpected non-git dependency in pinned manifest')
-            path = project / '.lake/packages' / package['name']
+            # Old Lake manifests serialize escaped Lean names with guillemets,
+            # but the package directory uses the unescaped identifier.
+            name = package['name']
+            directory = name[1:-1] if name.startswith('«') and name.endswith('»') else name
+            path = project / '.lake/packages' / directory
             head = subprocess.check_output(['git', '-C', str(path), 'rev-parse', 'HEAD'], text=True).strip()
             if head != package['rev']:
                 raise ValueError(f'Dependency revision mismatch: {package["name"]}')
             packages.append({'name': package['name'], 'revision': head})
         report['dependencies'] = packages
         report['manifestSha256'] = sha(lock)
+        run(['lake', 'build', target], project)
+        if (project / 'lake-manifest.json').read_bytes() != lock:
+            raise ValueError('Build changed the pinned dependency manifest')
         runtime = work / 'evaluator'
         names = subprocess.check_output(['git', '-C', str(ROOT), 'ls-tree', '-r', '--name-only', EVALUATOR_REVISION, 'refactor_eval'], text=True).splitlines()
         for name in names:
@@ -169,8 +175,8 @@ def main(args):
             source = (project / meta['file_path']).read_text() if meta['file_path'] else meta['header'] + meta['src']
             context, lead = template(meta, source)
             env = {'id': args.version.replace('.', '-'), 'project': str(project),
-                   'toolchain': toolchain, 'command': ['lake', 'env', 'lean', '-j1', '-M2048', '-T200000'],
-                   'template': context, 'timeout_seconds': 90}
+                   'toolchain': toolchain, 'command': ['lake', 'env', 'lean', '-j1', '-M4096', '-T200000'],
+                   'template': context, 'timeout_seconds': 180}
             evidence = output / ident
             evidence.mkdir()
             (evidence / 'context.lean.in').write_text(context)

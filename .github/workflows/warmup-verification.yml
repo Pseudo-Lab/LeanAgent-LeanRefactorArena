@@ -7,7 +7,6 @@ on:
     paths:
       - '.github/workflows/warmup-verification.yml'
       - 'scripts/verify_warmup_pins.py'
-      - 'submissions/warmup/verification-inputs.json'
 
 permissions:
   contents: read
@@ -23,11 +22,9 @@ jobs:
     timeout-minutes: 60
     strategy:
       fail-fast: false
-      max-parallel: 2
+      max-parallel: 4
       matrix:
         include:
-          - source: putnambench
-            version: v4.25.0
           - source: putnambench
             version: v4.27.0
           - source: arklib
@@ -36,6 +33,8 @@ jobs:
             version: v4.29.0
           - source: arklib
             version: v4.28.0
+          - source: arklib
+            version: v4.31.0
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
