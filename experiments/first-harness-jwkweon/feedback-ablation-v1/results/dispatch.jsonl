@@ -1,0 +1,16 @@
+{"event": "dispatched", "trial_id": "P01-L-r1", "agent": "/root/feedback_p01_l_r1", "dispatched_at": "2026-10-25T06:01:58.530790+00:00"}
+{"event": "dispatched", "trial_id": "P13-S-r1", "agent": "/root/feedback_p13_s_r1", "dispatched_at": "2026-10-25T06:02:07.433523+00:00"}
+{"event": "completed", "trial_id": "P01-L-r1", "agent": "/root/feedback_p01_l_r1", "observed_at": "2026-10-25T06:31:43.622335+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-L-r1", "agent": "/root/feedback_p13_l_r1", "dispatched_at": "2026-10-25T06:31:52.555494+00:00"}
+{"event": "completed", "trial_id": "P13-S-r1", "agent": "/root/feedback_p13_s_r1", "observed_at": "2026-10-25T07:27:36.218110+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P01-S-r1", "agent": "/root/feedback_p01_s_r1", "dispatched_at": "2026-10-25T07:27:47.965279+00:00"}
+{"event": "completed", "trial_id": "P13-L-r1", "agent": "/root/feedback_p13_l_r1", "observed_at": "2026-10-25T07:38:00.532607+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P01-S-r2", "agent": "/root/feedback_p01_s_r2", "dispatched_at": "2026-10-25T07:38:13.394468+00:00"}
+{"event": "completed", "trial_id": "P01-S-r1", "agent": "/root/feedback_p01_s_r1", "observed_at": "2026-10-25T07:43:06.927701+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-L-r2", "agent": "/root/feedback_p13_l_r2", "dispatched_at": "2026-10-25T07:43:16.859235+00:00"}
+{"event": "completed", "trial_id": "P01-S-r2", "agent": "/root/feedback_p01_s_r2", "observed_at": "2026-10-25T07:52:21.008761+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-S-r2", "agent": "/root/feedback_p13_s_r2", "dispatched_at": "2026-10-25T07:52:30.190318+00:00"}
+{"event": "completed", "trial_id": "P13-L-r2", "agent": "/root/feedback_p13_l_r2", "observed_at": "2026-10-25T08:18:30.298613+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P01-L-r2", "agent": "/root/feedback_p01_l_r2", "dispatched_at": "2026-10-25T08:18:37.784460+00:00"}
+{"event": "completed", "trial_id": "P13-S-r2", "agent": "/root/feedback_p13_s_r2", "observed_at": "2026-10-25T08:26:19.671765+00:00", "final_valid": true}
+{"event": "completed", "trial_id": "P01-L-r2", "agent": "/root/feedback_p01_l_r2", "observed_at": "2026-10-25T08:33:13.787826+00:00", "final_valid": true}
