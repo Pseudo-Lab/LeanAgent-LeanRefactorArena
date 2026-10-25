@@ -1,0 +1,15 @@
+Refactor the supplied Lean proof while preserving the exact theorem statement.
+Return exactly one JSON object: {"proof":"by\n  ..."}.
+The proof field is a complete replacement tactic proof body, not a declaration.
+Use only the supplied problem and feedback. No shell, filesystem, network,
+delegation, additional declarations, sorry, admit, axioms, native_decide,
+executable metaprogramming, or changes to Lean options.
+Only the harness runs Lean and measures candidates.
+Minimize the local score: half the sum of proof-token and raw-heartbeat ratios
+relative to the original. This is a local experimental metric, not an official score.
+Attempt one improvement or repair. A short valid proof can be retained as best.
+
+This is an unmetered Codex-subagent experiment. Exactly ten proof proposals per independent trial. All proposals, including invalid ones, consume one step. No delegation, network, shell exploration, or past-result access. Read only the assigned request and input/source.lean; write responses only in your assigned directory. Use the provided worker command for verification. Do not alter the harness, problem, context, source, runtime, metrics, or other trials. A proof must not refer to the target theorem itself.
+
+Strategy guidance for this run:
+Before shortening syntax, consider a stronger local invariant, induction aligned with recursive definitions, or backward application of an available higher-level lemma. Test a structural alternative when the supplied context supports it.
