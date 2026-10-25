@@ -8,6 +8,10 @@ on:
         type: choice
         default: all
         options: [all, putnambench, arklib, p12-separate, primary-experiment]
+      matrix:
+        description: 'Optional explicit source/version matrix for a bounded experiment'
+        type: string
+        default: ''
       experiment:
         description: 'Run the frozen 2026-10-26 experiment candidates against the current selection'
         type: boolean
@@ -29,7 +33,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        include: ${{ fromJSON(inputs.source == 'primary-experiment' && '[{"source":"putnambench","version":"v4.26.0"},{"source":"arklib","version":"v4.31.0"},{"source":"p12-separate","version":"v4.31.0"}]' || inputs.source == 'p12-separate' && '[{"source":"p12-separate","version":"v4.29.0"},{"source":"p12-separate","version":"v4.30.0"},{"source":"p12-separate","version":"v4.31.0"}]' || inputs.source == 'putnambench' && '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"}]' || inputs.source == 'arklib' && '[{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]' || '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"},{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]') }}
+        include: ${{ fromJSON(inputs.matrix || inputs.source == 'primary-experiment' && '[{"source":"putnambench","version":"v4.26.0"},{"source":"arklib","version":"v4.31.0"},{"source":"p12-separate","version":"v4.31.0"}]' || inputs.source == 'p12-separate' && '[{"source":"p12-separate","version":"v4.29.0"},{"source":"p12-separate","version":"v4.30.0"},{"source":"p12-separate","version":"v4.31.0"}]' || inputs.source == 'putnambench' && '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"}]' || inputs.source == 'arklib' && '[{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]' || '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"},{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
