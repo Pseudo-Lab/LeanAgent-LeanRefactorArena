@@ -1,0 +1,23 @@
+{
+  "raw_cohort": "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p13-prompt-ablation-20261024",
+  "audited_summary_sha256": "b097d3fe97c21ba6892e65d0e7e9bf445eac14eaa5026b0983a08957d752ac84",
+  "files_sha256": {
+    "selected/P13-B3-r1.lean": "a063ddbff2c1ed4b5bab1c208290c511002ca6b7e80943ea299bb280497fdad5",
+    "selected/P13-A-r1.lean": "0356ec8b03acfde65cc39a662fa4aafc4647a357672c17cca3159331806633c6",
+    "selected/P13-B2-r1.lean": "049f758948ae7fa6011be8142c1709f2b643984aaa4e1c7458c67a3f9e9b7175",
+    "selected/P13-B1-r1.lean": "d0aca9420fafb9ab851ab9bd904d3269480e3724628d7ef4b90b0727729f900a",
+    "selected/P13-B4-r1.lean": "d61ea6f5aca68ee76e02774db7a267d028666c5527eb43aa0850673169b59df4",
+    "selected/P13-B4-r2.lean": "cf1693bbcb3da8210b4e68395cb636ac7ef44b7ba0cfdfaa90391551a2ddd44d",
+    "selected/P13-B1-r2.lean": "a48731606b08526764ed0485d1b1ca8dbdd5a5ea1d64fa5565d115be8c468211",
+    "selected/P13-B2-r2.lean": "57a4e2fb63a8c528232a5b58147bdc025f39f45a32a038e8690a5ac71ecdc413",
+    "selected/P13-A-r2.lean": "75cfb78e88012bf344251b21a06a32ab1d8f8862901220dca76ff4aafd0e8704",
+    "selected/P13-B3-r2.lean": "6d7113ff58921806f9f5cf6c434ed61ed3b3a41d48504f32875c1fe3915b257b",
+    "results.json": "b097d3fe97c21ba6892e65d0e7e9bf445eac14eaa5026b0983a08957d752ac84",
+    "execution-protocol.json": "b391ab42800bdc776d8d801806f0fdc93617b9f66256a9c705c8c8a766fdf8be",
+    "cohort.frozen.json": "a252cf41dd25752720769fd35d225cb22a200503460558a03329231c5ec2abab",
+    "dispatch.jsonl": "c15fed7438bbe23c269aacb56e7ff45b581228d9e2c5345f03c730d4a2459458",
+    "runtime-inventory-check.json": "ea75e42684cafdabb634830c7e01967659196c715aec86f6067cc2e1e1cf8997"
+  },
+  "selected_proof_context": "../input/context.lean.in; declarations are not standalone projects",
+  "model_calls_and_cost": "unobservable; null, not zero"
+}

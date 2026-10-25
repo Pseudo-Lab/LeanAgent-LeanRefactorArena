@@ -1,0 +1,335 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-23T17:11:25.129347+00:00",
+  "status": "design_ready_not_executed",
+  "research_question": "Effect of each added strategy instruction on the best observed P13 score after 3, 6 and 10 proposals.",
+  "user_confirmed_budget_interpretation": "One ten-proposal run with checkpoints at 3, 6 and 10; not separate runs told budgets of 3 or 6.",
+  "control_prompt_origin": "runs/first-harness-jwkweon/p13-budget10-subagents-20261024/P13-10-r1/input/prompt.txt",
+  "core_naive_prompt_sha256": "824dc40978fb97776c8fc0bd33931ed91e0655db299cf4bb805a1e48bae944a0",
+  "control_prompt_sha256": "392cb9211192e4621a1f6a634df9663c86e9d13e4c6d9f99591fee468f0366b9",
+  "arms": [
+    {
+      "condition": "A",
+      "factor": "naive",
+      "prompt": "prompts/A.txt",
+      "prompt_sha256": "392cb9211192e4621a1f6a634df9663c86e9d13e4c6d9f99591fee468f0366b9",
+      "utf8_bytes": 1232,
+      "added_instruction": null,
+      "changes_from_A": 0
+    },
+    {
+      "condition": "B1",
+      "factor": "alternative_structure",
+      "prompt": "prompts/B1.txt",
+      "prompt_sha256": "8bf35dc25e8c6b4f909020fc3a978aa05a7d4188ff5d581592f5076d25e21490",
+      "utf8_bytes": 1503,
+      "added_instruction": "Before shortening syntax, consider a stronger local invariant, induction aligned with recursive definitions, or backward application of an available higher-level lemma. Test a structural alternative when the supplied context supports it.",
+      "changes_from_A": 1
+    },
+    {
+      "condition": "B2",
+      "factor": "goal_local_simplification",
+      "prompt": "prompts/B2.txt",
+      "prompt_sha256": "fb57bfa006efc952a9728421b2622b5d5e8adbe7749faa4c8e6a656e641394e0",
+      "utf8_bytes": 1487,
+      "added_instruction": "When simplifying a goal, consider simplifying only the goal with the relevant local facts instead of repeatedly simplifying the entire local context. Keep broader simplification when the measured combined score favors it.",
+      "changes_from_A": 1
+    },
+    {
+      "condition": "B3",
+      "factor": "one_structural_followup",
+      "prompt": "prompts/B3.txt",
+      "prompt_sha256": "cbb875c2fc6e7aa74b72541ae0c0d36dddfa68f65cc42cf259a64e39b695bdb1",
+      "utf8_bytes": 1621,
+      "added_instruction": "If latest explores a materially different proof structure, consider using the next proposal for one focused repair or refinement of latest before returning to best, even when latest is invalid or currently worse. Allow at most one such follow-up per structural change. It consumes an ordinary proposal within total_steps and grants no additional attempts.",
+      "changes_from_A": 1
+    },
+    {
+      "condition": "B4",
+      "factor": "goal_driven_lemma_application",
+      "prompt": "prompts/B4.txt",
+      "prompt_sha256": "61da17463b61360cb607a1347740418b360ee4e77db6d562cf03cd11980b146b",
+      "utf8_bytes": 1527,
+      "added_instruction": "Try applying an available lemma backwards from the current goal with apply, refine, or exact, rather than first constructing a large typed intermediate result. Let the target infer arguments where reliable, while retaining annotations needed to avoid ambiguity.",
+      "changes_from_A": 1
+    }
+  ],
+  "problem_id": "P13",
+  "fixed_inputs_sha256": {
+    "input/problem.json": "fcde55311ab5dc46d98fc619318f8d34a36862a320ce65e2d9aa37a190411e19",
+    "input/source.lean": "5a04c464cc6d845401a3dbe806ee45f9151fd337d76201129b0dcbf917cfd0ea",
+    "input/context.lean.in": "40ab003e87d11a9a916c343ed77ea304decdf866259463271b0d01e9b761dd2f",
+    "input/environment.lock.json": "038fbb1e295023fe3d014565fafe228e7abe49c6bf302dd50f07c5f09d1b5551",
+    "input/baseline-observation.json": "b9e57ffca65b4de2334157101b73f85975cf586d59a2bfc40e463dbfaaf30f5f"
+  },
+  "common_model_input_baseline": {
+    "tokens": 1769,
+    "raw_heartbeats": 115674908
+  },
+  "baseline_policy": "Use the same frozen baseline values in every first request and ranking denominator. Keep readiness remeasurements as separate observations; do not inject run-specific baseline noise into requests.",
+  "planned_repetitions_per_condition": 2,
+  "number_of_conditions": 5,
+  "planned_trial_count": 10,
+  "planned_candidate_count": 100,
+  "proposal_budget": 10,
+  "checkpoints": [
+    3,
+    6,
+    10
+  ],
+  "primary_checkpoint": 10,
+  "secondary_checkpoints": [
+    3,
+    6
+  ],
+  "schedule_seed": 20261024,
+  "schedule_seed_scope": "condition order only, not model sampling",
+  "planned_condition_order_by_repetition": [
+    [
+      "B3",
+      "A",
+      "B2",
+      "B1",
+      "B4"
+    ],
+    [
+      "B4",
+      "B1",
+      "B2",
+      "A",
+      "B3"
+    ]
+  ],
+  "trials": [
+    {
+      "trial_id": "P13-B3-r1",
+      "condition": "B3",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-A-r1",
+      "condition": "A",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B2-r1",
+      "condition": "B2",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B1-r1",
+      "condition": "B1",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B4-r1",
+      "condition": "B4",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B4-r2",
+      "condition": "B4",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B1-r2",
+      "condition": "B1",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B2-r2",
+      "condition": "B2",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-A-r2",
+      "condition": "A",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B3-r2",
+      "condition": "B3",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    }
+  ],
+  "constants": [
+    "Exact theorem, original proof, source and compilation context",
+    "Pinned Lean/Mathlib, measurement method and ranking",
+    "Ten proposals including rejected or timed-out candidates",
+    "Best and latest state fields and within-run history policy",
+    "Fresh solver context and access restrictions for each trial",
+    "Same frozen baseline numbers in model requests",
+    "Final revalidation protocol and artifact/record replay audits"
+  ],
+  "execution_readiness": {
+    "status": "not_started",
+    "wallclock_timeout_seconds": null,
+    "required_before_first_solver": "Calibrate and freeze one common runtime/time limit for all A and B runs, including final validation. Previous A final checks timed out under the 180-second limit. Record import/startup costs and readiness measurements separately.",
+    "harness_snapshot": "Freeze an identical worker and evaluator snapshot for all arms, with common baseline handling prepared before execution.",
+    "no_mid_experiment_changes": "Do not adapt timeouts, retries, shared memory, source access or proposal budgets by arm or observed score."
+  },
+  "outcomes": {
+    "checkpoint_metric": "Lowest observed local cost among valid candidates up to checkpoint; original remains fallback.",
+    "local_cost": "0.5 * (proof_tokens / original_tokens + raw_heartbeats / original_raw_heartbeats); lower is better",
+    "final_status": "Record final validation separately; do not label search-time metrics as final-confirmed after timeout.",
+    "comparison": "Report each B against freshly rerun A at each checkpoint, plus raw trial rows, valid/invalid counts and timeouts. Prior A trials are historical references only.",
+    "uncertainty": "Two repetitions are exploratory; do not claim statistical significance or general policy superiority.",
+    "reporting": "At each checkpoint report per-trial metrics, condition mean and range, and mean_cost(B)-mean_cost(A). Negative differences favor B. Since best-so-far cannot worsen by construction, within-run improvement alone is not evidence that B beats A.",
+    "paired_seed_claim": false
+  },
+  "provenance": {
+    "thread_id": "01a1695c-2d2e-76e1-b5e2-103b6ba1d7b8",
+    "thread_title": "에이전트 하네스 점수 분석",
+    "source_receipt_sha256": {
+      "insights-20261024-round2/synthesis.json": "ab2bd1bfc14c0bf98e59ca8d367558f25b5b530f844ebba5d788263a9025ded2",
+      "insights-20261024-round2/strata/insights.json": "c931a8f5eaf2365f093b63399e32b096bd40e761ee0beac8812ffd057a1bfc2b",
+      "insights-20261024-round2/strata/P01-functional-all-to-goal.diff": "6731454fd345c013cc7ca4d63aedc61716b267a6c6ca406e7526e20b3dd1528e",
+      "insights-20261024-round3/putnam/summary.json": "41b772bab686b97696be50e320a96c2a15ee3e3dad640cf769d2ade4383c4ef8",
+      "insights-20261024-round2/strata/P01-archived/result.json": "e0c96b3b1b7eb04400609d50d50b5a189a58d6b1a5bcdab3b6e50c0ae595488b",
+      "insights-20261024-round2/strata/P01-confirmed/result.json": "d08edb1de510ee9a8240a78f358cf9cc016592cf1d9a1347905c690e166d06e1",
+      "insights-20261024-round2/strata/P02-archived/result.json": "3933489559e1736443c5a6b4292c11da79a8801b5b0b10ce83a6fd43ba6a8b87",
+      "insights-20261024-round2/strata/P02-confirmed/result.json": "e10b4bb88b3c024f7f12fc632812b17449e46195c1ac23389278758cf4a2e0b9"
+    },
+    "confirmed_round2_examples": [
+      {
+        "problem_id": 1,
+        "previous_best": {
+          "tokens": 43,
+          "raw_heartbeat_median": 1922790,
+          "raw_samples": [
+            1922777,
+            1922900,
+            1922790
+          ],
+          "hb_reduction_vs_original_pct": 62.832456781971445,
+          "length_reduction_vs_original_pct": 86.26198083067092,
+          "local_formula_score_pct": 83.03147920421412
+        },
+        "new_best": {
+          "tokens": 42,
+          "raw_heartbeat_median": 1446740,
+          "raw_samples": [
+            1446740,
+            1446662,
+            1446825
+          ],
+          "hb_reduction_vs_original_pct": 72.03450638122175,
+          "length_reduction_vs_original_pct": 86.5814696485623,
+          "local_formula_score_pct": 86.20532534326135
+        },
+        "hb_saved_vs_previous_best_pct": 24.758293937455466,
+        "required_pins": [
+          "v4.26.0"
+        ]
+      },
+      {
+        "problem_id": 2,
+        "previous_best": {
+          "tokens": 27,
+          "raw_heartbeat_median": 481648,
+          "raw_samples": [
+            481648,
+            481654,
+            481630
+          ],
+          "hb_reduction_vs_original_pct": 82.12810894830173,
+          "length_reduction_vs_original_pct": 87.83783783783784,
+          "local_formula_score_pct": 89.98864892871319
+        },
+        "new_best": {
+          "tokens": 21,
+          "raw_heartbeat_median": 328658,
+          "raw_samples": [
+            328658,
+            328666,
+            328653
+          ],
+          "hb_reduction_vs_original_pct": 87.8049115344213,
+          "length_reduction_vs_original_pct": 90.54054054054053,
+          "local_formula_score_pct": 92.78181735832061
+        },
+        "hb_saved_vs_previous_best_pct": 31.763860744776274,
+        "required_pins": [
+          "v4.26.0"
+        ]
+      }
+    ],
+    "rule_support": {
+      "B1": "P02 stronger Sublist invariant combined with function induction improved measured proof.",
+      "B2": "P01 same structural family: goal-only simp improved over simp_all; not a universal tactic speed ranking.",
+      "B3": "P01 initially worse function-induction structure became better after one local simplification edit; policy effect itself remains untested.",
+      "B4": "P14 round3 findings: backward application and goal-driven inference remove typed intermediates. Development artifact exists while source chat continues."
+    }
+  },
+  "deferred_factors": [
+    "Multiple branch parents or global_best/search_parent separation require a harness experiment.",
+    "Expression normalization before automation and removal of redundant simp entries can become separate later prompt arms.",
+    "No combined B1+B2+B3+B4 arm in this first single-factor comparison."
+  ],
+  "limitations": [
+    "These strategies have evidence on other development problems; their effect on P13 is untested.",
+    "The observed free-search session is not a controlled Astra-versus-other-model comparison.",
+    "Exact Codex model sampling seed, hidden system context, model calls and cost are not observable with the manual subagent adapter."
+  ],
+  "planned_solver_concurrency": 2
+}

@@ -1,0 +1,26 @@
+{
+  "raw_cohort": "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024",
+  "audited_summary_sha256": "f9715eebd4c39a4bf8295fb68f07213b38eb43159fe2305f00c1ccfb6fd69f36",
+  "files_sha256": {
+    "selected/P01-B3-r1.lean": "e869d9c49f3358ad0cf0846a2af8e445ac0d31fb783b06eec7472fb070fcb1cd",
+    "selected/P01-A-r1.lean": "19b8dc17299658127dd663f7094d63b0b4b818a0b3cc1145a22355186453862b",
+    "selected/P01-B2-r1.lean": "f37fa2ec83b7e1a9729d3c609ce3c222e81a494e95c6f0b9010c34c3a69334be",
+    "selected/P01-B1-r1.lean": "ab980ae19f17366cc436f6a27f0589f1c331b6ac1b84ad29e5d3003c34c3838c",
+    "selected/P01-B4-r1.lean": "fe0935975e479b7192fc6d3d387b38b884da0404e1bacc683e1942517378eae5",
+    "selected/P01-B4-r2.lean": "7ea5048c4aae0cd4785dfee0a2ca0e27d4a037afdfcfc83240b1462ebdd9eec2",
+    "selected/P01-B1-r2.lean": "2da7cb0a44cdc208cf5f907a1619862a12babb0331a3aa3d4fa6a6de2847cb69",
+    "selected/P01-B2-r2.lean": "bf2ae333c5e380f9fb1a848356d1ccfb252bfae055d62fa1f8fade0937ca8fb8",
+    "selected/P01-A-r2.lean": "b637a4703f3e2abef8b273b32486e05840aa0d1a1f025397c3655dda4d182067",
+    "selected/P01-B3-r2.lean": "08a65871d8daf5c227ebfd5d4f68de5b300fff4a5d145cff773df28b12a73121",
+    "results.json": "f9715eebd4c39a4bf8295fb68f07213b38eb43159fe2305f00c1ccfb6fd69f36",
+    "execution-protocol.json": "2a759c4dad302390d7a64a714df6b76470dec40a2cd9f15143de929cf7bbecc8",
+    "cohort.frozen.json": "1c4e53863e4c9e5053ba81fad614b489ea6e6637ac9f868efdaa3e3590f847b2",
+    "dispatch.jsonl": "4e84518eb91a1eddcaac3a024831a9c68383971763fc6ed9f2907ceb7ca676a3",
+    "operator-incidents.jsonl": "31b8c3885f96526cf8122c0fef6f3ecd4b81144e4a5667e59b1f6443a0bf017e",
+    "runtime-inventory-check.json": "a0e61f23906297019c40da76595a804a6d61fb6453f403d9713c6375726a5a1f",
+    "readiness-observations.json": "bd5bfec9364c615910b115ca57e15c72b7a644d04861676fba0359253ebb8c2b",
+    "cross-problem-comparison.json": "097da1c10602a4f34faa677a3698ca10bd3cc0cfef5b1522c30a585b9710a531"
+  },
+  "selected_proof_context": "../input/context.lean.in; declarations are not standalone projects",
+  "model_calls_and_cost": "unobservable; null, not zero"
+}
