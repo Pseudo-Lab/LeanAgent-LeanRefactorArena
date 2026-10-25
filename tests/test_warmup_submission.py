@@ -14,9 +14,14 @@ spec.loader.exec_module(exporter)
 
 
 class SubmissionTests(unittest.TestCase):
-    def test_current_team_p12_requires_explicit_fallback(self):
-        with self.assertRaisesRegex(ValueError, 'expected the exact benchmark statement'):
-            exporter.build_bundle()
+    def test_current_p12_is_a_single_selected_declaration(self):
+        payload, audit = exporter.build_bundle()
+        rows = [json.loads(line) for line in payload.decode().splitlines()]
+        self.assertEqual(rows[11]['proof'], (ROOT / 'submissions/warmup/best/P12.lean').read_text())
+        self.assertEqual(audit['problems'][11]['selection'], 'team_best')
+        self.assertEqual(audit['problems'][11]['localStatus'], 'separate_verified')
+        self.assertFalse(audit['officiallySubmitted'])
+        self.assertIsNone(audit['officialEvaluationPassed'])
 
     def test_bundle_preserves_every_selected_source(self):
         payload, audit = exporter.build_bundle(p12_reference=True)

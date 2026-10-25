@@ -16,7 +16,7 @@ function ProblemTile({ problem, metric, selected, onSelect }: { problem: Problem
   const warning = (value !== null && value <= 60) || ['failed', 'unsubmitted'].includes(problem.status);
   const Arrow = delta !== null && delta < 0 ? ArrowDownRight : delta !== null && delta > 0 ? ArrowUpRight : Minus;
   const unit = METRICS.find(m => m.id === metric)!.unit;
-  const measured = ['measured', 'partial'].includes(problem.status) ? problem.candidate : null;
+  const measured = ['measured', 'partial', 'separate_verified'].includes(problem.status) ? problem.candidate : null;
   const tokens = measured ? measured.tokens.toLocaleString('ko-KR') : '—';
   const heartbeats = measured ? measured.heartbeats.toLocaleString('ko-KR', { maximumFractionDigits: 20 }) : '—';
   return <button className={`problem-tile ${warning ? 'tone-warning' : value === null ? 'tone-unknown' : ''} ${selected ? 'is-selected' : ''} ${problem.status === 'unreleased' ? 'is-locked' : ''}`}

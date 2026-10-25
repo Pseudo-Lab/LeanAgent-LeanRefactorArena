@@ -4,15 +4,27 @@
 
 2026-10-26부터 대표는 검증된 후보의 원본 대비 토큰·HB 감소율 평균으로 선택한다. 기존 담당자 최종본과 출처는 대시보드의 보관 실험에 남긴다. 모든 지정 버전 통과 여부는 문제별 manifest를 확인한다. Track1 API 비용·생성 요건은 별도이며 아직 공식 제출하지 않았다.
 
-- `best/`: 제출 준비용 선언·증명. P12는 필요한 새 보조정리까지 포함한다.
+- `best/`: 선택한 단일 선언·증명. P12도 필요한 보조사실을 본문 안에 담은 단일 선언이며 별도 전체 문맥 검증 결과로 표시한다.
 - `manifest.json`: 작성자, 출처 저장소·경로·커밋·작업 사본 여부, 후보 해시, 검증 상태·지정 버전.
 - 공식 명제·헤더·소스 위치: manifest의 `benchmarkSnapshot`이 가리키는 기존 벤치마크 JSONL. 전체 문맥은 지정된 라이브러리 커밋에서 복원한다.
 
 이 파일들은 고정된 문제 문맥에 넣는 후보이므로 모두 독립 실행 파일인 것은 아니다. P14·P15의 계측용 헤더·후행 명령은 후보에서 제외했으며 원본 LeanAgent 파일에서 확인할 수 있다. API 요청 형식은 API를 연결할 때 별도로 준비한다.
 
+## 현재 P12 상태와 묶음 생성
+
+P12는 `separate_verified` 상태다. 원본1353토큰/HB9198과 선택한886토큰/HB6575를 v4.31.0 전체 문맥에서 각각3회 검증했다. 정확한 명제·후행 문맥·허용 공리를 확인했으며 추가로 v4.29.0 통과를 확인했고 v4.30.0는 확인 중이다. 측정값은 표시하지만 다른 계측 경로이므로 공통 평균에는 포함하지 않는다. 근거는 `../../dashboard/public/research/warmup15/p12-v2.json`에 있다.
+
+현재 선택은 단일 선언이므로 다음 기본 명령으로15개 후보를 묶을 수 있다.
+
+```bash
+python3 scripts/export_warmup_submission.py
+```
+
+`--p12-reference`는 P12만 공식 원본으로 대체하고 싶을 때 쓰는 선택 옵션이다. 기본 생성에 더 이상 필요하지 않다. 묶음 생성은 입력 형식·해시 검사를 뜻하며 Lean 검증, 공식 평가와 비용 조건 충족을 대신하지 않는다.
+
 ## 지정 환경 재검증
 
-문헌·팀 기법 확장의 측정 근거는 `../../dashboard/public/research/warmup15/verification.json`, 적용·실패·선택 기록은 같은 폴더의 `experiment.json`에 있다. P09의 초기 호환성 보완은 `../../dashboard/public/research/p09/experiment.json`에 별도 보존한다. 새 native 측정과 Linux Actions의 주 버전을 구분하며 축소 import 진단값은 대표 점수로 사용하지 않는다.
+15문제 독립 검증·성능 개선 실험의 측정 근거는 `../../dashboard/public/research/warmup15/verification.json`, 적용·실패·선택 기록은 같은 폴더의 `experiment.json`에 있다. P09의 초기 호환성 보완은 `../../dashboard/public/research/p09/experiment.json`에 별도 보존한다. 새 native 측정과 Linux Actions의 주 버전을 구분하며 축소 import 진단값은 대표 점수로 사용하지 않는다.
 
 
 P10·P11·P13·P14·P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. `source` 선택으로 PutnamBench 또는 ArkLib만 검사할 수 있다. ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다.
@@ -42,7 +54,7 @@ P10·P11·P13·P14·P15의 환경은 `.github/workflows/warmup-verification.yml`
 python3 scripts/export_warmup_submission.py --p12-reference
 ```
 
-로컬에 manifest의 `benchmarkSnapshot` 파일이 있어야 한다. 배포 저장소에는 benchmark 원본이 포함되지 않을 수 있으므로 `benchmarks/README.md`의 출처를 확인한다. `--p12-reference`는 대체 사용을 명시적으로 선택하는 옵션이다. 이를 빼면 현재 P12 후보의 선언 구조를 검사하다 실패하며 기존 출력 파일을 덮어쓰지 않는다. P12 수정 완료 후에는 이 옵션 없이 생성한다.
+로컬에 manifest의 `benchmarkSnapshot` 파일이 있어야 한다. 배포 저장소에는 benchmark 원본이 포함되지 않을 수 있으므로 `benchmarks/README.md`의 출처를 확인한다. `--p12-reference`는 대체 사용을 명시적으로 선택하는 옵션이다. 당시에는 이 옵션 없이 생성하면 선언 구조 검사에서 실패했다. 현재는 단일 선언 선택을 반영해 기본 생성이 가능하며, 위의 현재 상태를 따른다.
 
 검사 기록 `submission.audit.json`에는 제출 파일·각 proof의 SHA-256, 공식 규칙 revision, 선택 출처, 원본 대체 여부와 로컬 검증 상태가 있다. 생성기는 정확한 15개 이름·중복·manifest 해시·명제 보존·공식 업로드 금지 패턴·추가 선언을 검사한다. 이 검사는 Lean 컴파일이나 공식 평가를 대체하지 않는다.
 

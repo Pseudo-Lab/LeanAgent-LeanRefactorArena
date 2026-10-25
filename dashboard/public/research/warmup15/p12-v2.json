@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "problemId": 12,
-  "state": "primary_verified_other_versions_pending",
+  "state": "primary_verified_some_other_versions_pending",
   "protocol": "Somi-full-source-2026-10-05; finite-cardinality-gate-v2",
   "frozenPR3Compatible": false,
   "countsInCommonScore": false,
@@ -176,7 +176,7 @@
     {
       "version": "v4.29.0",
       "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
-      "status": "pending"
+      "status": "pass"
     }
   ],
   "credit": "손지연 PR27 source · 정소미 full-source v2 재검증",
@@ -192,5 +192,842 @@
     "sourceRevision": "Verified-zkEVM/ArkLib의 지정 라이브러리 커밋",
     "sourceCommit": "feynlang/LeanAgent의 PR27 증명 출처 커밋"
   },
-  "nextCheck": "남은 정확한4.30·4.29환경에서 같은 원본·후보를 각각3회 확인한 뒤 버전 상태를 갱신합니다."
+  "nextCheck": "남은 v4.30.0 원격 검증 결과를 기다립니다. 환경 오류는 증명 실패로 바꾸지 않습니다.",
+  "compatibilityRuns": [
+    {
+      "version": "v4.29.0",
+      "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
+      "protocol": "Somi-full-source-2026-10-05; finite-cardinality-gate-v2",
+      "commit": "2d3d0a2b95ac39d2615aa1363e907616a5079fd2",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "runId": "40241495413",
+      "repetitions": 3,
+      "manifestSha256": "0e0a71ebfb1b30da08fc6a3553b851606601fabbb2f0dd2baa97f393ea0c3951",
+      "toolchain": "leanprover/lean4:v4.29.0",
+      "sourceSha256": "93e568c1148ebdef2bcc7ce4db8edfa28af2d36938170729ee5d6a8866bddccf",
+      "compilerVersion": "Lean (version 4.29.0, x86_64-unknown-linux-gnu, commit 98dc76e3c0a9b856c9b98726b713fb04fab16740, Release)",
+      "tokenizerSourceSha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+      "verifierSha256": "0e652eb1b573746330406745784992f4f405f38ebd3a4d23f434753bb0cc5b2e",
+      "wrapperSha256": "1d9c0be48cb67e7d5c921cdc41a3229d38b6f9522f8e2584f09cb680a5f10510",
+      "contextAudit": {
+        "wholeFileEqual": true,
+        "hashes": {
+          "check": {
+            "prefixSha256": "adb9fb1dad4d8ccce1a31babb1c7765515efe60c8b036d574aa5a0cc172cbd1b",
+            "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+          },
+          "hb": {
+            "prefixSha256": "0185b0479d8e335d59d4d17e0d99f8f3d6df9bcb6d82eb98ad4403ad402eedd0",
+            "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+          }
+        },
+        "allAllowedAxioms": true
+      },
+      "candidates": {
+        "original": {
+          "sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+          "tokens": 1353,
+          "valid": true,
+          "runs": [
+            {
+              "tag": "repeat-1",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1213,
+                1389
+              ],
+              "candidate_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 1353,
+              "declaration_lines": 177,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-1.check.lean",
+                "returncode": 0,
+                "seconds": 17.35,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-1.hb.lean",
+                "returncode": 0,
+                "seconds": 16.97,
+                "timed_out": false,
+                "heartbeats": 10292,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "adb9fb1dad4d8ccce1a31babb1c7765515efe60c8b036d574aa5a0cc172cbd1b",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "0185b0479d8e335d59d4d17e0d99f8f3d6df9bcb6d82eb98ad4403ad402eedd0",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2445faa8695cd8491ce0a4fa4d2f42eb038502cd615cc0408952ef895b796fcf",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "9bcb67d4cb7926a0003d8437b8d927d2f463a80f1a136315f3048260408280f7",
+              "hbLogSha256": "8ce2fcca5520b2812ef3d3e1f7125b15d9682238f5bfdefc0f795de87aca7c8e"
+            },
+            {
+              "tag": "repeat-2",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1213,
+                1389
+              ],
+              "candidate_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 1353,
+              "declaration_lines": 177,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-2.check.lean",
+                "returncode": 0,
+                "seconds": 17.01,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-2.hb.lean",
+                "returncode": 0,
+                "seconds": 17.11,
+                "timed_out": false,
+                "heartbeats": 10292,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "adb9fb1dad4d8ccce1a31babb1c7765515efe60c8b036d574aa5a0cc172cbd1b",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "0185b0479d8e335d59d4d17e0d99f8f3d6df9bcb6d82eb98ad4403ad402eedd0",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2445faa8695cd8491ce0a4fa4d2f42eb038502cd615cc0408952ef895b796fcf",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "9bcb67d4cb7926a0003d8437b8d927d2f463a80f1a136315f3048260408280f7",
+              "hbLogSha256": "8ce2fcca5520b2812ef3d3e1f7125b15d9682238f5bfdefc0f795de87aca7c8e"
+            },
+            {
+              "tag": "repeat-3",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1213,
+                1389
+              ],
+              "candidate_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 1353,
+              "declaration_lines": 177,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-3.check.lean",
+                "returncode": 0,
+                "seconds": 17.25,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-3.hb.lean",
+                "returncode": 0,
+                "seconds": 16.58,
+                "timed_out": false,
+                "heartbeats": 10292,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "adb9fb1dad4d8ccce1a31babb1c7765515efe60c8b036d574aa5a0cc172cbd1b",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "0185b0479d8e335d59d4d17e0d99f8f3d6df9bcb6d82eb98ad4403ad402eedd0",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2445faa8695cd8491ce0a4fa4d2f42eb038502cd615cc0408952ef895b796fcf",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "9bcb67d4cb7926a0003d8437b8d927d2f463a80f1a136315f3048260408280f7",
+              "hbLogSha256": "8ce2fcca5520b2812ef3d3e1f7125b15d9682238f5bfdefc0f795de87aca7c8e"
+            }
+          ],
+          "medianHeartbeats": 10292
+        },
+        "selected": {
+          "sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+          "tokens": 886,
+          "valid": true,
+          "runs": [
+            {
+              "tag": "repeat-1",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1213,
+                1389
+              ],
+              "candidate_sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 886,
+              "declaration_lines": 99,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-1.check.lean",
+                "returncode": 0,
+                "seconds": 17.28,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-1.hb.lean",
+                "returncode": 0,
+                "seconds": 16.71,
+                "timed_out": false,
+                "heartbeats": 7370,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "adb9fb1dad4d8ccce1a31babb1c7765515efe60c8b036d574aa5a0cc172cbd1b",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "0185b0479d8e335d59d4d17e0d99f8f3d6df9bcb6d82eb98ad4403ad402eedd0",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2559330fac7b25c1fc81f4aba10dc301494c94174d216edeca72f69eedf06da7",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "d1bcda8dc8e9c32bc881fb85ad17125f784c5746562b28300bafe2a1afe4578c",
+              "hbLogSha256": "85c7ecc34a18fc34b2d5747a737b94b97d974ba6ce9cb5031ffeb80fb5a9c327"
+            },
+            {
+              "tag": "repeat-2",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1213,
+                1389
+              ],
+              "candidate_sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 886,
+              "declaration_lines": 99,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-2.check.lean",
+                "returncode": 0,
+                "seconds": 17.03,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-2.hb.lean",
+                "returncode": 0,
+                "seconds": 16.47,
+                "timed_out": false,
+                "heartbeats": 7370,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "adb9fb1dad4d8ccce1a31babb1c7765515efe60c8b036d574aa5a0cc172cbd1b",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "0185b0479d8e335d59d4d17e0d99f8f3d6df9bcb6d82eb98ad4403ad402eedd0",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2559330fac7b25c1fc81f4aba10dc301494c94174d216edeca72f69eedf06da7",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "d1bcda8dc8e9c32bc881fb85ad17125f784c5746562b28300bafe2a1afe4578c",
+              "hbLogSha256": "85c7ecc34a18fc34b2d5747a737b94b97d974ba6ce9cb5031ffeb80fb5a9c327"
+            },
+            {
+              "tag": "repeat-3",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1213,
+                1389
+              ],
+              "candidate_sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 886,
+              "declaration_lines": 99,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-3.check.lean",
+                "returncode": 0,
+                "seconds": 16.69,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-3.hb.lean",
+                "returncode": 0,
+                "seconds": 16.34,
+                "timed_out": false,
+                "heartbeats": 7370,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "adb9fb1dad4d8ccce1a31babb1c7765515efe60c8b036d574aa5a0cc172cbd1b",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "0185b0479d8e335d59d4d17e0d99f8f3d6df9bcb6d82eb98ad4403ad402eedd0",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2559330fac7b25c1fc81f4aba10dc301494c94174d216edeca72f69eedf06da7",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "d1bcda8dc8e9c32bc881fb85ad17125f784c5746562b28300bafe2a1afe4578c",
+              "hbLogSha256": "85c7ecc34a18fc34b2d5747a737b94b97d974ba6ce9cb5031ffeb80fb5a9c327"
+            }
+          ],
+          "medianHeartbeats": 7370
+        }
+      },
+      "finishedAt": "2026-10-25T22:53:52.766191+00:00",
+      "valid": true,
+      "summarySha256": "87fe7f11f3768d59697b6b725769d3020f33ef35293cc9c2a74f6d4d8fc49007"
+    },
+    {
+      "version": "v4.31.0",
+      "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "protocol": "Somi-full-source-2026-10-05; finite-cardinality-gate-v2",
+      "commit": "2d3d0a2b95ac39d2615aa1363e907616a5079fd2",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "runId": "40241495413",
+      "repetitions": 3,
+      "manifestSha256": "25e545bb447c1f4e0bc1d55ffb17813ae58f9abd0c7cb48273186e0e5fd367a5",
+      "toolchain": "leanprover/lean4:v4.31.0",
+      "sourceSha256": "5ed5afbd2f8a11f27701c8135eebac4db9dd9f30184ec759d78f6e43a5702531",
+      "compilerVersion": "Lean (version 4.31.0, x86_64-unknown-linux-gnu, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)",
+      "tokenizerSourceSha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+      "verifierSha256": "0e652eb1b573746330406745784992f4f405f38ebd3a4d23f434753bb0cc5b2e",
+      "wrapperSha256": "1d9c0be48cb67e7d5c921cdc41a3229d38b6f9522f8e2584f09cb680a5f10510",
+      "contextAudit": {
+        "wholeFileEqual": true,
+        "hashes": {
+          "check": {
+            "prefixSha256": "ebc722999073d53af80009c01aada292276f1933c7a700585aeb5f3ee2150c41",
+            "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+          },
+          "hb": {
+            "prefixSha256": "5d157e236c674b9741890f7368efc4a507a66c4183cd3165762777430b3bb2dc",
+            "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+          }
+        },
+        "allAllowedAxioms": true
+      },
+      "candidates": {
+        "original": {
+          "sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+          "tokens": 1353,
+          "valid": true,
+          "runs": [
+            {
+              "tag": "repeat-1",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1207,
+                1383
+              ],
+              "candidate_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 1353,
+              "declaration_lines": 177,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-1.check.lean",
+                "returncode": 0,
+                "seconds": 14.37,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-1.hb.lean",
+                "returncode": 0,
+                "seconds": 14.67,
+                "timed_out": false,
+                "heartbeats": 9198,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "ebc722999073d53af80009c01aada292276f1933c7a700585aeb5f3ee2150c41",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "5d157e236c674b9741890f7368efc4a507a66c4183cd3165762777430b3bb2dc",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2227a92473d3dfcd3817d91553101d5b5ffb19f243537835f8b7b8a493485ffe",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "75ac8c04061e2d26d17b248e25aeff80570eb85884210ecc34ef50067bf097f9",
+              "hbLogSha256": "d6a5caf42b4f8fbcbb5fb3a78b8b42004c7b1feecd90e5596258e7c91cea68ec"
+            },
+            {
+              "tag": "repeat-2",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1207,
+                1383
+              ],
+              "candidate_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 1353,
+              "declaration_lines": 177,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-2.check.lean",
+                "returncode": 0,
+                "seconds": 14.56,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-2.hb.lean",
+                "returncode": 0,
+                "seconds": 15.25,
+                "timed_out": false,
+                "heartbeats": 9198,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "ebc722999073d53af80009c01aada292276f1933c7a700585aeb5f3ee2150c41",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "5d157e236c674b9741890f7368efc4a507a66c4183cd3165762777430b3bb2dc",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2227a92473d3dfcd3817d91553101d5b5ffb19f243537835f8b7b8a493485ffe",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "75ac8c04061e2d26d17b248e25aeff80570eb85884210ecc34ef50067bf097f9",
+              "hbLogSha256": "d6a5caf42b4f8fbcbb5fb3a78b8b42004c7b1feecd90e5596258e7c91cea68ec"
+            },
+            {
+              "tag": "repeat-3",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1207,
+                1383
+              ],
+              "candidate_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 1353,
+              "declaration_lines": 177,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-3.check.lean",
+                "returncode": 0,
+                "seconds": 15.7,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-3.hb.lean",
+                "returncode": 0,
+                "seconds": 15.93,
+                "timed_out": false,
+                "heartbeats": 9198,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "ebc722999073d53af80009c01aada292276f1933c7a700585aeb5f3ee2150c41",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "5d157e236c674b9741890f7368efc4a507a66c4183cd3165762777430b3bb2dc",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "2227a92473d3dfcd3817d91553101d5b5ffb19f243537835f8b7b8a493485ffe",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "75ac8c04061e2d26d17b248e25aeff80570eb85884210ecc34ef50067bf097f9",
+              "hbLogSha256": "d6a5caf42b4f8fbcbb5fb3a78b8b42004c7b1feecd90e5596258e7c91cea68ec"
+            }
+          ],
+          "medianHeartbeats": 9198
+        },
+        "selected": {
+          "sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+          "tokens": 886,
+          "valid": true,
+          "runs": [
+            {
+              "tag": "repeat-1",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1207,
+                1383
+              ],
+              "candidate_sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 886,
+              "declaration_lines": 99,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-1.check.lean",
+                "returncode": 0,
+                "seconds": 15.57,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-1.hb.lean",
+                "returncode": 0,
+                "seconds": 15.5,
+                "timed_out": false,
+                "heartbeats": 6575,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "ebc722999073d53af80009c01aada292276f1933c7a700585aeb5f3ee2150c41",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "5d157e236c674b9741890f7368efc4a507a66c4183cd3165762777430b3bb2dc",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "c90b9602df14868f303ae46fa91315b2d0590abfc7f5953455a52b73d39fd37a",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "7ae89e1ebbe57b5e0c5ac91acbec9c215d178922d7cd163d781df7d0064dc799",
+              "hbLogSha256": "0e797b3934e30b06c1b85d629efca5f007427636d9855b1f45292e18619f4c74"
+            },
+            {
+              "tag": "repeat-2",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1207,
+                1383
+              ],
+              "candidate_sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 886,
+              "declaration_lines": 99,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-2.check.lean",
+                "returncode": 0,
+                "seconds": 15.53,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-2.hb.lean",
+                "returncode": 0,
+                "seconds": 15.84,
+                "timed_out": false,
+                "heartbeats": 6575,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "ebc722999073d53af80009c01aada292276f1933c7a700585aeb5f3ee2150c41",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "5d157e236c674b9741890f7368efc4a507a66c4183cd3165762777430b3bb2dc",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "c90b9602df14868f303ae46fa91315b2d0590abfc7f5953455a52b73d39fd37a",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "7ae89e1ebbe57b5e0c5ac91acbec9c215d178922d7cd163d781df7d0064dc799",
+              "hbLogSha256": "0e797b3934e30b06c1b85d629efca5f007427636d9855b1f45292e18619f4c74"
+            },
+            {
+              "tag": "repeat-3",
+              "name": "interleaved_affine_gaps_imply_tensor_gaps",
+              "source_file": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+              "replaced_lines": [
+                1207,
+                1383
+              ],
+              "candidate_sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+              "statement_unchanged": true,
+              "forbidden_patterns": [],
+              "proof_tokens": 886,
+              "declaration_lines": 99,
+              "check": {
+                "command": "lake env lean -j1 -M6144 repeat-3.check.lean",
+                "returncode": 0,
+                "seconds": 15.9,
+                "timed_out": false,
+                "error_count": 0,
+                "first_errors": [],
+                "warning_count": 0,
+                "axioms": [
+                  "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+                ],
+                "sorryAx": false
+              },
+              "compiled": true,
+              "heartbeat": {
+                "command": "lake env lean -j1 -M6144 repeat-3.hb.lean",
+                "returncode": 0,
+                "seconds": 16.19,
+                "timed_out": false,
+                "heartbeats": 6575,
+                "measurement_ambiguous": false,
+                "error_count": 0,
+                "first_errors": []
+              },
+              "driverReturncode": 0,
+              "actualAxioms": [
+                "Classical.choice",
+                "Quot.sound",
+                "propext"
+              ],
+              "allowedAxiomsOnly": true,
+              "valid": true,
+              "failureKind": null,
+              "contextHashes": {
+                "check": {
+                  "prefixSha256": "ebc722999073d53af80009c01aada292276f1933c7a700585aeb5f3ee2150c41",
+                  "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d"
+                },
+                "hb": {
+                  "prefixSha256": "5d157e236c674b9741890f7368efc4a507a66c4183cd3165762777430b3bb2dc",
+                  "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6"
+                }
+              },
+              "checkSourceSha256": "c90b9602df14868f303ae46fa91315b2d0590abfc7f5953455a52b73d39fd37a",
+              "checkLogSha256": "9039a3573bc1e0e40e65696d340a3c9ee2ddb25a89c26c00abeb06e2461649df",
+              "hbSourceSha256": "7ae89e1ebbe57b5e0c5ac91acbec9c215d178922d7cd163d781df7d0064dc799",
+              "hbLogSha256": "0e797b3934e30b06c1b85d629efca5f007427636d9855b1f45292e18619f4c74"
+            }
+          ],
+          "medianHeartbeats": 6575
+        }
+      },
+      "finishedAt": "2026-10-25T22:53:20.975647+00:00",
+      "valid": true,
+      "summarySha256": "e80f3288079ff41ca72d5ec1a1841feb34a1956310aa32f93bfe65c8247a7427"
+    }
+  ],
+  "ciEvidenceUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40241495413"
 }

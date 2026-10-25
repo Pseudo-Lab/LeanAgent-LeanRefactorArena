@@ -1505,5 +1505,1405 @@
     "historicalControllerRerun": false,
     "executionMode": "Current assistant proposals/repair; frozen PR3 evaluator; Somi workflow contracts retained.",
     "confirmationDesign": "Original, starting best parent, and final candidate each have three fresh native measurements. Parent and final use screen1+confirm2; original uses one three-run evaluation. Each evaluation also has an uninstrumented full-source compile."
-  }
+  },
+  "P15": [
+    {
+      "version": "v4.25.0",
+      "revision": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "6ff85196fa73dbd145b63d772941e28f33dee93bfee1a425d2c4e4fac1d22231",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40216037003",
+      "original": {
+        "valid": true,
+        "tokens": 4085,
+        "heartbeats": 17949,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 17948566,
+            "scaled": 17948,
+            "target": "putnam_1995_a3"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 17949540,
+            "scaled": 17949,
+            "target": "putnam_1995_a3"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 17950769,
+            "scaled": 17950,
+            "target": "putnam_1995_a3"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박채원-local-v426": {
+          "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+          "valid": true,
+          "tokens": 283,
+          "heartbeats": 2629,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2629205,
+              "scaled": 2629,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2629184,
+              "scaled": 2629,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2629165,
+              "scaled": 2629,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        },
+        "박채원-final": {
+          "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+          "valid": true,
+          "tokens": 283,
+          "heartbeats": 2629,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2629205,
+              "scaled": 2629,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2629184,
+              "scaled": 2629,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2629165,
+              "scaled": 2629,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P15": {
+          "sha256": "5374438fff6ceacbb7b8dfdbed055e89fa3a891e223c6463359386c58499eb56",
+          "valid": false,
+          "tokens": 282,
+          "heartbeats": null,
+          "measurements": [],
+          "errorKind": "compile"
+        },
+        "정소미-team-methods-20261026-P15-compat": {
+          "sha256": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
+          "valid": true,
+          "tokens": 281,
+          "heartbeats": 2516,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2517008,
+              "scaled": 2517,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2516992,
+              "scaled": 2516,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2516970,
+              "scaled": 2516,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        }
+      }
+    },
+    {
+      "version": "v4.26.0",
+      "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "6ff85196fa73dbd145b63d772941e28f33dee93bfee1a425d2c4e4fac1d22231",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40216037003",
+      "original": {
+        "valid": true,
+        "tokens": 4085,
+        "heartbeats": 14303,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 14303025,
+            "scaled": 14303,
+            "target": "putnam_1995_a3"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 14303972,
+            "scaled": 14303,
+            "target": "putnam_1995_a3"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 14305272,
+            "scaled": 14305,
+            "target": "putnam_1995_a3"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박채원-local-v426": {
+          "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+          "valid": true,
+          "tokens": 283,
+          "heartbeats": 2107,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2107956,
+              "scaled": 2107,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2107936,
+              "scaled": 2107,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2107916,
+              "scaled": 2107,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        },
+        "박채원-final": {
+          "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+          "valid": true,
+          "tokens": 283,
+          "heartbeats": 2107,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2107956,
+              "scaled": 2107,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2107936,
+              "scaled": 2107,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2107916,
+              "scaled": 2107,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P15": {
+          "sha256": "5374438fff6ceacbb7b8dfdbed055e89fa3a891e223c6463359386c58499eb56",
+          "valid": false,
+          "tokens": 282,
+          "heartbeats": null,
+          "measurements": [],
+          "errorKind": "compile"
+        },
+        "정소미-team-methods-20261026-P15-compat": {
+          "sha256": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
+          "valid": true,
+          "tokens": 281,
+          "heartbeats": 2015,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2015663,
+              "scaled": 2015,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2015648,
+              "scaled": 2015,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2015625,
+              "scaled": 2015,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        }
+      }
+    },
+    {
+      "version": "v4.27.0",
+      "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "6ff85196fa73dbd145b63d772941e28f33dee93bfee1a425d2c4e4fac1d22231",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40216037003",
+      "original": {
+        "valid": true,
+        "tokens": 4085,
+        "heartbeats": 14127,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 14126827,
+            "scaled": 14126,
+            "target": "putnam_1995_a3"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 14127768,
+            "scaled": 14127,
+            "target": "putnam_1995_a3"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 14129070,
+            "scaled": 14129,
+            "target": "putnam_1995_a3"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박채원-local-v426": {
+          "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+          "valid": true,
+          "tokens": 283,
+          "heartbeats": 2087,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2087154,
+              "scaled": 2087,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2087114,
+              "scaled": 2087,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2087108,
+              "scaled": 2087,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        },
+        "박채원-final": {
+          "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+          "valid": true,
+          "tokens": 283,
+          "heartbeats": 2087,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2087154,
+              "scaled": 2087,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2087114,
+              "scaled": 2087,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 2087108,
+              "scaled": 2087,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P15": {
+          "sha256": "5374438fff6ceacbb7b8dfdbed055e89fa3a891e223c6463359386c58499eb56",
+          "valid": false,
+          "tokens": 282,
+          "heartbeats": null,
+          "measurements": [],
+          "errorKind": "compile"
+        },
+        "정소미-team-methods-20261026-P15-compat": {
+          "sha256": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
+          "valid": true,
+          "tokens": 281,
+          "heartbeats": 1995,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 1995878,
+              "scaled": 1995,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 1995839,
+              "scaled": 1995,
+              "target": "putnam_1995_a3"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 1995832,
+              "scaled": 1995,
+              "target": "putnam_1995_a3"
+            }
+          ],
+          "errorKind": null
+        }
+      }
+    }
+  ],
+  "P10": [
+    {
+      "version": "v4.28.0",
+      "revision": "673fa440714eb1949b8b50a28f2a4f52b1837e9b",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "d499d34aa6260d607a3c2b6aecdb0dec7ac8c3592829e8c3d263a7ee7131e851",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40220080823",
+      "original": {
+        "valid": true,
+        "tokens": 1463,
+        "heartbeats": 22479,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 22479401,
+            "scaled": 22479,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 22481332,
+            "scaled": 22481,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 22479643,
+            "scaled": 22479,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박성호-final": {
+          "sha256": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+          "valid": true,
+          "tokens": 484,
+          "heartbeats": 16060,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 16060378,
+              "scaled": 16060,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 16060416,
+              "scaled": 16060,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 16060407,
+              "scaled": 16060,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P10": {
+          "sha256": "e0b1d54956a39ab2ac17fff544c1f0c059f3bce80e08e4419dfe67dceca88cca",
+          "valid": false,
+          "tokens": 481,
+          "heartbeats": null,
+          "measurements": [],
+          "errorKind": "compile"
+        }
+      }
+    },
+    {
+      "version": "v4.29.0",
+      "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "bee74a914714a136db0f48690db7f0bd317a82311e3f320414b74e3894f5a6a2",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40220080823",
+      "original": {
+        "valid": true,
+        "tokens": 1463,
+        "heartbeats": 19167,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 19167172,
+            "scaled": 19167,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 19167036,
+            "scaled": 19167,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 19168244,
+            "scaled": 19168,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박성호-final": {
+          "sha256": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+          "valid": true,
+          "tokens": 484,
+          "heartbeats": 11516,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 11516309,
+              "scaled": 11516,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 11516300,
+              "scaled": 11516,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 11516335,
+              "scaled": 11516,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P10": {
+          "sha256": "e0b1d54956a39ab2ac17fff544c1f0c059f3bce80e08e4419dfe67dceca88cca",
+          "valid": false,
+          "tokens": 481,
+          "heartbeats": null,
+          "measurements": [],
+          "errorKind": "compile"
+        }
+      }
+    },
+    {
+      "version": "v4.30.0",
+      "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "bee74a914714a136db0f48690db7f0bd317a82311e3f320414b74e3894f5a6a2",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40220080823",
+      "original": {
+        "valid": true,
+        "tokens": 1463,
+        "heartbeats": 17337,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 17336825,
+            "scaled": 17336,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 17338523,
+            "scaled": 17338,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 17337786,
+            "scaled": 17337,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박성호-final": {
+          "sha256": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+          "valid": true,
+          "tokens": 484,
+          "heartbeats": 10299,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 10299536,
+              "scaled": 10299,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 10299794,
+              "scaled": 10299,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 10299779,
+              "scaled": 10299,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P10": {
+          "sha256": "e0b1d54956a39ab2ac17fff544c1f0c059f3bce80e08e4419dfe67dceca88cca",
+          "valid": false,
+          "tokens": 481,
+          "heartbeats": null,
+          "measurements": [],
+          "errorKind": "compile"
+        }
+      }
+    },
+    {
+      "version": "v4.31.0",
+      "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "7b6cd84808024e67fa8aadde67e7953e67ed5f5e4ecd69ac0c061143f69cffac",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40220080823",
+      "original": {
+        "valid": true,
+        "tokens": 1463,
+        "heartbeats": 15908,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 15908592,
+            "scaled": 15908,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 15907436,
+            "scaled": 15907,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 15908336,
+            "scaled": 15908,
+            "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박성호-final": {
+          "sha256": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+          "valid": true,
+          "tokens": 484,
+          "heartbeats": 8807,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 8807662,
+              "scaled": 8807,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 8807382,
+              "scaled": 8807,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 8807572,
+              "scaled": 8807,
+              "target": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P10": {
+          "sha256": "e0b1d54956a39ab2ac17fff544c1f0c059f3bce80e08e4419dfe67dceca88cca",
+          "valid": false,
+          "tokens": 481,
+          "heartbeats": null,
+          "measurements": [],
+          "errorKind": "compile"
+        }
+      }
+    }
+  ],
+  "P11": [
+    {
+      "version": "v4.29.0",
+      "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "bee74a914714a136db0f48690db7f0bd317a82311e3f320414b74e3894f5a6a2",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40220080823",
+      "original": {
+        "valid": true,
+        "tokens": 1906,
+        "heartbeats": 50128,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 50128826,
+            "scaled": 50128,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 50129262,
+            "scaled": 50129,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 50128884,
+            "scaled": 50128,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박선영-final": {
+          "sha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
+          "valid": true,
+          "tokens": 1656,
+          "heartbeats": 45850,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 45850119,
+              "scaled": 45850,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 45850261,
+              "scaled": 45850,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 45850158,
+              "scaled": 45850,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        },
+        "박선영-PR30-c002": {
+          "sha256": "4dba964e5f3e2eb94a7af92d235d09dcc0257479ed16625e07f8f81eb54cea0a",
+          "valid": true,
+          "tokens": 966,
+          "heartbeats": 26460,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 26459359,
+              "scaled": 26459,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 26460502,
+              "scaled": 26460,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 26460439,
+              "scaled": 26460,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P11": {
+          "sha256": "1947d44782d33fe4dc34df3afff34c46005505c22dfc7fdc5f97064431f67f1c",
+          "valid": true,
+          "tokens": 891,
+          "heartbeats": 26118,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 26118015,
+              "scaled": 26118,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 26118929,
+              "scaled": 26118,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ],
+              "raw": 26118890,
+              "scaled": 26118,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        }
+      }
+    },
+    {
+      "version": "v4.30.0",
+      "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "bee74a914714a136db0f48690db7f0bd317a82311e3f320414b74e3894f5a6a2",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40220080823",
+      "original": {
+        "valid": true,
+        "tokens": 1906,
+        "heartbeats": 46991,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 46991242,
+            "scaled": 46991,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 46992131,
+            "scaled": 46992,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 46991738,
+            "scaled": 46991,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박선영-final": {
+          "sha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
+          "valid": true,
+          "tokens": 1656,
+          "heartbeats": 42930,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 42930607,
+              "scaled": 42930,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 42930818,
+              "scaled": 42930,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 42930420,
+              "scaled": 42930,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        },
+        "박선영-PR30-c002": {
+          "sha256": "4dba964e5f3e2eb94a7af92d235d09dcc0257479ed16625e07f8f81eb54cea0a",
+          "valid": true,
+          "tokens": 966,
+          "heartbeats": 21503,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21502809,
+              "scaled": 21502,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21503948,
+              "scaled": 21503,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21503600,
+              "scaled": 21503,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P11": {
+          "sha256": "1947d44782d33fe4dc34df3afff34c46005505c22dfc7fdc5f97064431f67f1c",
+          "valid": true,
+          "tokens": 891,
+          "heartbeats": 21189,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21189022,
+              "scaled": 21189,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21189563,
+              "scaled": 21189,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21189345,
+              "scaled": 21189,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        }
+      }
+    },
+    {
+      "version": "v4.31.0",
+      "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "host": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+      "sourceSha256": "7b6cd84808024e67fa8aadde67e7953e67ed5f5e4ecd69ac0c061143f69cffac",
+      "runUrl": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40220080823",
+      "original": {
+        "valid": true,
+        "tokens": 1906,
+        "heartbeats": 45535,
+        "measurements": [
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 45533904,
+            "scaled": 45533,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 45536803,
+            "scaled": 45536,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          },
+          {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 45535629,
+            "scaled": 45535,
+            "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+          }
+        ],
+        "errorKind": null
+      },
+      "candidates": {
+        "박선영-final": {
+          "sha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
+          "valid": true,
+          "tokens": 1656,
+          "heartbeats": 41620,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 41618173,
+              "scaled": 41618,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 41620878,
+              "scaled": 41620,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 41620350,
+              "scaled": 41620,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        },
+        "박선영-PR30-c002": {
+          "sha256": "4dba964e5f3e2eb94a7af92d235d09dcc0257479ed16625e07f8f81eb54cea0a",
+          "valid": true,
+          "tokens": 966,
+          "heartbeats": 21003,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21003377,
+              "scaled": 21003,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21004197,
+              "scaled": 21004,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 21003453,
+              "scaled": 21003,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        },
+        "정소미-team-methods-20261026-P11": {
+          "sha256": "1947d44782d33fe4dc34df3afff34c46005505c22dfc7fdc5f97064431f67f1c",
+          "valid": true,
+          "tokens": 891,
+          "heartbeats": 20696,
+          "measurements": [
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 20696239,
+              "scaled": 20696,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 20696909,
+              "scaled": 20696,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            },
+            {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 20696748,
+              "scaled": 20696,
+              "target": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+            }
+          ],
+          "errorKind": null
+        }
+      }
+    }
+  ]
 }

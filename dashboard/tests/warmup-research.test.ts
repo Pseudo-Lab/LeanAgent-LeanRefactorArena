@@ -2,12 +2,13 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
+import { aggregate, parseSnapshot, valueOf } from '../src/lib/model.ts';
 
 const read = (path: string) => JSON.parse(readFileSync(new URL(path, import.meta.url), 'utf8'));
 const median = (values: number[]) => [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
 
 test('promoted improvements match independent-process counters and exact proof hashes', () => {
-  const snapshot = read('../public/data/warmup-team-results.json');
+  const snapshot = parseSnapshot(read('../public/data/warmup-team-results.json'));
   const evidence = read('../public/research/warmup15/verification.json');
   const find = (id: number) => snapshot.problems.find((p: { id: number }) => p.id === id);
   for (const id of [1, 2, 5]) {
@@ -42,13 +43,33 @@ test('promoted improvements match independent-process counters and exact proof h
   }
 });
 
-test('P12 separate-protocol evidence never becomes an unverified common score', () => {
-  const snapshot = read('../public/data/warmup-team-results.json');
+test('P12 verified measurements are visible and remain outside the common average', () => {
+  const snapshot = parseSnapshot(read('../public/data/warmup-team-results.json'));
   const separate = read('../public/research/warmup15/p12-v2.json');
   const p12 = snapshot.problems.find((p: { id: number }) => p.id === 12);
   assert.equal(separate.frozenPR3Compatible, false);
   assert.equal(separate.countsInCommonScore, false);
-  assert.equal(p12.candidate, null);
+  assert.ok(p12);
+  assert.equal(p12.status, 'separate_verified');
+  assert.deepEqual(p12.candidate, { tokens: 886, heartbeats: 6575 });
+  assert.deepEqual(p12.baseline, { tokens: 1353, heartbeats: 9198 });
+  assert.equal(p12.candidateHash, separate.candidate.candidateSha256);
+  assert.equal(p12.teamResults?.find(c => c.id === p12.selectedCandidateId)?.author, '손지연');
+  assert.deepEqual(p12.versions, separate.versions);
+  for (const pin of p12.versions.filter(v => v.status === 'pass')) {
+    const remote = separate.compatibilityRuns.find((r: { version: string; revision: string }) => r.version === pin.version && r.revision === pin.revision);
+    assert.ok(remote, `P12 ${pin.version}: missing paired CI evidence`);
+    assert.equal(remote.valid, true);
+    for (const result of [remote.candidates.original, remote.candidates.selected]) {
+      assert.equal(result.valid, true);
+      assert.equal(result.runs.length, 3);
+      assert.ok(result.runs.every((r: { valid: boolean; allowedAxiomsOnly: boolean }) => r.valid && r.allowedAxiomsOnly));
+    }
+    assert.equal(remote.candidates.selected.sha256, p12.candidateHash);
+  }
+  assert.equal(valueOf(p12, 'improvement'), null);
+  assert.equal(aggregate(snapshot.problems, 'improvement').count, 14);
+  assert.equal(aggregate(snapshot.problems, 'improvement').value, aggregate(snapshot.problems.filter(p => p.id !== 12), 'improvement').value);
   assert.equal(separate.sourceRepository, 'feynlang/LeanAgent');
   const proof = readFileSync(new URL('../public/research/warmup15/P12-pr27-single.lean', import.meta.url), 'utf8');
   assert.equal(createHash('sha256').update(proof).digest('hex'), separate.candidate.candidateSha256);

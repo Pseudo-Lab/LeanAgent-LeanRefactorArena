@@ -4,7 +4,7 @@
   "rulesSource": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/blob/8fdaaaa25b993ae8d894e9bb756c3ae222b58507/app.py",
   "benchmarkRevision": "56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c",
   "benchmarkSha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
-  "submissionSha256": "251be9a7dc5576d1303c9e3968ad24f8a54a4358d16adbdd1bd2df7de8a5c130",
+  "submissionSha256": "cefa0378d7fa39116929e9f7900c907320710a5abb5abe2e37d3cc72bf81daa2",
   "format": "UTF-8 JSONL; one name/proof object per line",
   "rows": 15,
   "checks": {
@@ -16,12 +16,11 @@
   },
   "officiallySubmitted": false,
   "officialEvaluationPassed": null,
-  "apiEligibility": "not-assessed; historical team experiments, not a Track1 API run",
+  "apiEligibility": "not_assessed; no complete per-problem model-cost ledger or budgeted OpenRouter reproduction run",
   "limitations": [
     "Packaging checks are not Lean compilation or official scoring.",
     "Designated-version status is recorded per problem; compatibility checks do not establish official scoring.",
-    "No exemption from the OpenRouter, budget or reproduction requirements is inferred from warmup upload availability.",
-    "P12 uses the official reference, not the owner refactor; it has not been reverified in this export."
+    "No exemption from the OpenRouter, budget or reproduction requirements is inferred from warmup upload availability."
   ],
   "problems": [
     {
@@ -259,8 +258,8 @@
       "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
       "selection": "team_best",
       "source": "submissions/warmup/best/P11.lean",
-      "sha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
-      "teamBestSha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
+      "sha256": "1947d44782d33fe4dc34df3afff34c46005505c22dfc7fdc5f97064431f67f1c",
+      "teamBestSha256": "1947d44782d33fe4dc34df3afff34c46005505c22dfc7fdc5f97064431f67f1c",
       "localStatus": "measured",
       "versions": [
         {
@@ -284,16 +283,16 @@
     {
       "id": 12,
       "name": "interleaved_affine_gaps_imply_tensor_gaps",
-      "selection": "official_reference_fallback",
-      "source": "benchmarks/arena/56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c/benchmark_data_warmup.jsonl",
-      "sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
-      "teamBestSha256": "0b696bdf18421ecfda5f0d12ced0dffe9e1090d01f6f7a6d2f34b385aecd3b85",
-      "localStatus": "reference_not_reverified",
+      "selection": "team_best",
+      "source": "submissions/warmup/best/P12.lean",
+      "sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+      "teamBestSha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+      "localStatus": "separate_verified",
       "versions": [
         {
           "version": "v4.31.0",
           "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.30.0",
@@ -306,7 +305,7 @@
           "status": "pending"
         }
       ],
-      "note": "P12 team candidate has three top-level helper lemmas. The upload uses the unchanged official reference until that candidate is repaired and verified."
+      "note": ""
     },
     {
       "id": 13,
@@ -362,8 +361,8 @@
       "name": "putnam_1995_a3",
       "selection": "team_best",
       "source": "submissions/warmup/best/P15.lean",
-      "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
-      "teamBestSha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+      "sha256": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
+      "teamBestSha256": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
       "localStatus": "measured",
       "versions": [
         {

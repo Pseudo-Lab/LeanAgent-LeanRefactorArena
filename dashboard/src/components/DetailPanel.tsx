@@ -27,8 +27,8 @@ export function DetailPanel({ problem, metric, snapshot }: { problem: Problem | 
         <tr><th>Heartbeat</th><td>{format(problem.baseline?.heartbeats ?? null, 0)}</td><td>{format(problem.candidate?.heartbeats ?? null, 0)}</td><td className={hb !== null && hb < 0 ? 'negative' : 'positive'}>{format(hb)}</td></tr>
         <tr><th>호환성</th><td>{format(problem.baselineCompatibility, 0)}{problem.baselineCompatibility === null ? '' : '%'}</td><td>{problem.versions.filter(v => v.status === 'pass').length} / {problem.versions.length} 통과</td><td className="positive">{format(compat)}</td></tr>
       </tbody></table>
-      <div className="reduction-bars"><h3>감소율 시각화</h3><ReductionBar label="토큰" value={token}/><ReductionBar label="Heartbeat" value={hb}/></div>
-      <div className="contest-score"><span>대회식 종합 <small>세 항목 평균</small></span><strong>{format(combined)}<small> / 100</small></strong></div>
+      {problem.status === 'separate_verified' ? <p className="source-disclosure">별도 검증 경로에서 원본과 후보를 확인했습니다. 위 수치는 실제 측정값이며 공통 점수·평균에는 합산하지 않습니다. 남은 버전의 확인 상태는 아래에 표시합니다.</p> : <><div className="reduction-bars"><h3>감소율 시각화</h3><ReductionBar label="토큰" value={token}/><ReductionBar label="Heartbeat" value={hb}/></div>
+      <div className="contest-score"><span>대회식 종합 <small>세 항목 평균</small></span><strong>{format(combined)}<small> / 100</small></strong></div></>}
       <div className="version-list" aria-label="버전별 검증 결과">{problem.versions.map(v => <span key={`${v.version}-${v.revision}`} className={`version-${v.status}`} title={`${v.version} · ${v.revision} · ${v.status === 'pass' ? '통과' : v.status === 'fail' ? '실패' : '대기'}`}>{v.status === 'pass' ? <Check size={12}/> : <Clock3 size={12}/>} {v.version}</span>)}</div>
       <p className="detail-note">{problem.note || waitingLabel(problem)}</p>
       {problem.environment ? <div className="provenance"><span>측정 환경</span><code>{problem.environment}</code></div> : null}
@@ -45,6 +45,6 @@ export function DetailPanel({ problem, metric, snapshot }: { problem: Problem | 
         <pre className="candidate-code"><code>{candidate.proof}</code></pre>
       </details>)}
     </section> : null}
-    <div className="dataset-total"><span>전체 {snapshot.problems.length}문제 대회식 종합</span><strong>{format(total.value)}{total.value === null ? '' : '점'}</strong><small>{total.count} / {total.total}문제 산출 완료{total.value === null ? ' · 전체 점수 집계 대기' : ' · 공식 점수 아님'}</small></div>
+    <div className="dataset-total"><span>전체 {snapshot.problems.length}문제 대회식 종합</span><strong>{format(total.value)}{total.value === null ? '' : '점'}</strong><small>{total.count} / {total.total}문제 공통 집계{total.value === null ? ' · 전체 점수 산출 전' : ' · 공식 점수 아님'}</small></div>
   </aside>;
 }

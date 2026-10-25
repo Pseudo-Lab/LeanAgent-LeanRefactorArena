@@ -41,7 +41,7 @@
         15
       ],
       "action": "정확한 고정 버전의 선언과 시그니처를 검색하고, 사용 가능한 기존 정리로 증명 블록을 대체한다.",
-      "evidence": "P14 Intersecting.is_max_iff_card_eq 후보; 지정 버전 검증 전에는 탐색 후보로만 보존"
+      "evidence": "P14 Intersecting.is_max_iff_card_eq를 적용한105토큰 후보를 지정 두 버전에서 검증. 주 환경 HB2433과 토큰의 고정 평균으로 채택"
     },
     "structure": {
       "label": "증명 블록·스켈레톤 변경",
