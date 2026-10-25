@@ -3,6 +3,9 @@
 __pycache__/
 *.pyc
 .DS_Store
+.env
+.env.*
+!.env.example
 
 # Versioned large data is distributed separately; metadata remains reviewable.
 /data/**/*.gz
@@ -17,3 +20,6 @@ __pycache__/
 /artifacts/
 /runs/corpus-survey/all_sources/summary.json
 /runs/corpus-survey/tactic_comparison/summary.json
+
+# Reproducible local traces; concise checks live with the experiment.
+/runs/first-harness-jwkweon/
