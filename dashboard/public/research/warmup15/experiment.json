@@ -19,7 +19,8 @@
       "references": [
         "2605.22885"
       ],
-      "selectedHash": "94fa7cf232cd193d79d60bd114a21b9070699481c1a21bbc32862b43bf097248"
+      "selectedHash": "94fa7cf232cd193d79d60bd114a21b9070699481c1a21bbc32862b43bf097248",
+      "trialEvidence": null
     },
     {
       "id": 2,
@@ -35,7 +36,8 @@
         "2605.22885",
         "2410.04753"
       ],
-      "selectedHash": "bf7a6f7ff9c0b76d903beb2e011ed3758fab790de2d88116607d197278a9aa05"
+      "selectedHash": "bf7a6f7ff9c0b76d903beb2e011ed3758fab790de2d88116607d197278a9aa05",
+      "trialEvidence": null
     },
     {
       "id": 3,
@@ -50,7 +52,8 @@
       "references": [
         "2609.38384"
       ],
-      "selectedHash": "af9eeefe9c65365b6b5f4dbc1e0a4fcebfa3f33cebc644f5803e021491da298d"
+      "selectedHash": "af9eeefe9c65365b6b5f4dbc1e0a4fcebfa3f33cebc644f5803e021491da298d",
+      "trialEvidence": null
     },
     {
       "id": 4,
@@ -65,7 +68,8 @@
       "references": [
         "2609.38384"
       ],
-      "selectedHash": "b9350a3add1ed182b93fc4731c657a971caa1412c0690fb942af26aa14c469a9"
+      "selectedHash": "b9350a3add1ed182b93fc4731c657a971caa1412c0690fb942af26aa14c469a9",
+      "trialEvidence": null
     },
     {
       "id": 5,
@@ -81,7 +85,8 @@
         "2606.03743",
         "2610.26942"
       ],
-      "selectedHash": "fcbba98915d7e303b859b5d985aa14aa6c40698d68645fb9f9489184721428c9"
+      "selectedHash": "fcbba98915d7e303b859b5d985aa14aa6c40698d68645fb9f9489184721428c9",
+      "trialEvidence": null
     },
     {
       "id": 6,
@@ -97,7 +102,8 @@
         "2410.04753",
         "2510.15700"
       ],
-      "selectedHash": "13fa4d936f31ad00fb889421ab5d7c9ad3fdd602e5a2c7e9f28282d5253875f1"
+      "selectedHash": "13fa4d936f31ad00fb889421ab5d7c9ad3fdd602e5a2c7e9f28282d5253875f1",
+      "trialEvidence": null
     },
     {
       "id": 7,
@@ -113,7 +119,8 @@
         "2605.22885",
         "2610.26942"
       ],
-      "selectedHash": "a399f146582a9b68ce9cd3f020993d293a3a030fe6657cf10a76485ea7b7d919"
+      "selectedHash": "a399f146582a9b68ce9cd3f020993d293a3a030fe6657cf10a76485ea7b7d919",
+      "trialEvidence": null
     },
     {
       "id": 8,
@@ -129,7 +136,8 @@
         "2605.20244",
         "2609.38384"
       ],
-      "selectedHash": "0c537d3538abe01527c7e76b96b1924a4e124f22c12f602b6eacdc29ec161db5"
+      "selectedHash": "0c537d3538abe01527c7e76b96b1924a4e124f22c12f602b6eacdc29ec161db5",
+      "trialEvidence": null
     },
     {
       "id": 9,
@@ -145,7 +153,8 @@
         "2609.38384",
         "2605.20244"
       ],
-      "selectedHash": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a"
+      "selectedHash": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
+      "trialEvidence": null
     },
     {
       "id": 10,
@@ -160,7 +169,8 @@
       "references": [
         "2306.15626"
       ],
-      "selectedHash": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed"
+      "selectedHash": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+      "trialEvidence": null
     },
     {
       "id": 11,
@@ -176,19 +186,21 @@
         "2605.20244",
         "2606.03743"
       ],
-      "selectedHash": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f"
+      "selectedHash": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
+      "trialEvidence": null
     },
     {
       "id": 12,
       "method": "단일 선언 보존·검증기 적용 범위 확인",
-      "decision": "손지연 PR27의 단일 선언 후보를 확인했습니다. 원문의 정상적인 # 기수 표기를 기존 검증기가 막아 별도 검증 경로로 원본·후보를 비교합니다.",
-      "status": "별도 검증 중",
+      "decision": "손지연 PR27 단일 선언을 같은 전체 문맥에서 원본·후보 각각3회 확인:1353토큰/HB9198→886토큰/HB6575. 정상 # 기수 표기를 허용한 별도v2·4.31결과이며 공통점수에 넣지 않습니다.",
+      "status": "별도 v2 검증 확인 · 남은 버전 대기",
       "credit": "손지연 PR27",
       "previous": null,
       "references": [
         "2306.15626"
       ],
-      "selectedHash": "0b696bdf18421ecfda5f0d12ced0dffe9e1090d01f6f7a6d2f34b385aecd3b85"
+      "selectedHash": "0b696bdf18421ecfda5f0d12ced0dffe9e1090d01f6f7a6d2f34b385aecd3b85",
+      "trialEvidence": "/research/warmup15/p12-v2.json"
     },
     {
       "id": 13,
@@ -203,7 +215,8 @@
       "references": [
         "2605.20244"
       ],
-      "selectedHash": "639587d781669920f53805ab49450d40002e358e33cff361e679bcbbb1f09348"
+      "selectedHash": "639587d781669920f53805ab49450d40002e358e33cff361e679bcbbb1f09348",
+      "trialEvidence": null
     },
     {
       "id": 14,
@@ -218,7 +231,8 @@
       "references": [
         "2306.15626"
       ],
-      "selectedHash": "e00f8c3bd53b158a79d09d1a568dea9f9812e6b81a3c9c2c6620dff6c3b460ab"
+      "selectedHash": "e00f8c3bd53b158a79d09d1a568dea9f9812e6b81a3c9c2c6620dff6c3b460ab",
+      "trialEvidence": null
     },
     {
       "id": 15,
@@ -233,7 +247,8 @@
       "references": [
         "2610.26942"
       ],
-      "selectedHash": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd"
+      "selectedHash": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+      "trialEvidence": null
     }
   ],
   "routeChanges": [

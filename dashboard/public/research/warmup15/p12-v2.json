@@ -1,0 +1,196 @@
+{
+  "schemaVersion": 1,
+  "problemId": 12,
+  "state": "primary_verified_other_versions_pending",
+  "protocol": "Somi-full-source-2026-10-05; finite-cardinality-gate-v2",
+  "frozenPR3Compatible": false,
+  "countsInCommonScore": false,
+  "primaryVersion": "v4.31.0",
+  "sourceRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+  "sourceSha256": "5ed5afbd2f8a11f27701c8135eebac4db9dd9f30184ec759d78f6e43a5702531",
+  "statementSha256": "a5fa44f5255cfd05d237fcee036ff87fa7f71b4a2a875ff514d48290bc3047fe",
+  "environment": {
+    "toolchain": "leanprover/lean4:v4.31.0",
+    "compilerVersion": "Lean (version 4.31.0, arm64-apple-darwin24.6.0, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)",
+    "manifestSha256": "25e545bb447c1f4e0bc1d55ffb17813ae58f9abd0c7cb48273186e0e5fd367a5",
+    "dependencyPinEvidence": "arklib-environment.json"
+  },
+  "original": {
+    "candidateSha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+    "tokens": 1353,
+    "valid": true,
+    "runs": [
+      {
+        "statementUnchanged": true,
+        "forbiddenPatterns": [],
+        "compiled": true,
+        "axioms": [
+          "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+        ],
+        "heartbeat": {
+          "command": "lake env lean -j1 -M6144 repeat-1.hb.lean",
+          "returncode": 0,
+          "seconds": 31.37,
+          "timed_out": false,
+          "heartbeats": 9198,
+          "measurement_ambiguous": false,
+          "error_count": 0,
+          "first_errors": []
+        }
+      },
+      {
+        "statementUnchanged": true,
+        "forbiddenPatterns": [],
+        "compiled": true,
+        "axioms": [
+          "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+        ],
+        "heartbeat": {
+          "command": "lake env lean -j1 -M6144 repeat-2.hb.lean",
+          "returncode": 0,
+          "seconds": 30.9,
+          "timed_out": false,
+          "heartbeats": 9198,
+          "measurement_ambiguous": false,
+          "error_count": 0,
+          "first_errors": []
+        }
+      },
+      {
+        "statementUnchanged": true,
+        "forbiddenPatterns": [],
+        "compiled": true,
+        "axioms": [
+          "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+        ],
+        "heartbeat": {
+          "command": "lake env lean -j1 -M6144 repeat-3.hb.lean",
+          "returncode": 0,
+          "seconds": 30.55,
+          "timed_out": false,
+          "heartbeats": 9198,
+          "measurement_ambiguous": false,
+          "error_count": 0,
+          "first_errors": []
+        }
+      }
+    ]
+  },
+  "candidate": {
+    "candidateSha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+    "tokens": 886,
+    "valid": true,
+    "runs": [
+      {
+        "statementUnchanged": true,
+        "forbiddenPatterns": [],
+        "compiled": true,
+        "axioms": [
+          "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+        ],
+        "heartbeat": {
+          "command": "lake env lean -j1 -M6144 repeat-1.hb.lean",
+          "returncode": 0,
+          "seconds": 31.17,
+          "timed_out": false,
+          "heartbeats": 6575,
+          "measurement_ambiguous": false,
+          "error_count": 0,
+          "first_errors": []
+        }
+      },
+      {
+        "statementUnchanged": true,
+        "forbiddenPatterns": [],
+        "compiled": true,
+        "axioms": [
+          "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+        ],
+        "heartbeat": {
+          "command": "lake env lean -j1 -M6144 repeat-2.hb.lean",
+          "returncode": 0,
+          "seconds": 34.0,
+          "timed_out": false,
+          "heartbeats": 6575,
+          "measurement_ambiguous": false,
+          "error_count": 0,
+          "first_errors": []
+        }
+      },
+      {
+        "statementUnchanged": true,
+        "forbiddenPatterns": [],
+        "compiled": true,
+        "axioms": [
+          "'interleaved_affine_gaps_imply_tensor_gaps' depends on axioms: [propext, Classical.choice, Quot.sound]"
+        ],
+        "heartbeat": {
+          "command": "lake env lean -j1 -M6144 repeat-3.hb.lean",
+          "returncode": 0,
+          "seconds": 21.95,
+          "timed_out": false,
+          "heartbeats": 6575,
+          "measurement_ambiguous": false,
+          "error_count": 0,
+          "first_errors": []
+        }
+      }
+    ]
+  },
+  "contextAudit": {
+    "problem": 12,
+    "protocol": "Somi-full-source-2026-10-05; finite-cardinality-gate-v2",
+    "statementSha256": "a5fa44f5255cfd05d237fcee036ff87fa7f71b4a2a875ff514d48290bc3047fe",
+    "sourceSha256": "5ed5afbd2f8a11f27701c8135eebac4db9dd9f30184ec759d78f6e43a5702531",
+    "environmentEqual": true,
+    "wholeContext": {
+      "check": {
+        "prefixSha256": "ebc722999073d53af80009c01aada292276f1933c7a700585aeb5f3ee2150c41",
+        "suffixSha256": "afe1a8685840380c67070dd600c41218a416cc096498e24296f0c5bd90f16a1d",
+        "prefixEqual": true,
+        "suffixEqual": true
+      },
+      "hb": {
+        "prefixSha256": "5d157e236c674b9741890f7368efc4a507a66c4183cd3165762777430b3bb2dc",
+        "suffixSha256": "254712f74627fdaa1ca33f7d15d66c68f0001ae61d8fdbea6380a0c12fd8ede6",
+        "prefixEqual": true,
+        "suffixEqual": true
+      }
+    },
+    "referenceRepetitions": 3,
+    "candidateRepetitions": 3,
+    "allAllowedAxioms": true,
+    "wrapperSha256": "3b11959e22727e9f10ee403bc13bf1f681e610dc72c0410ca71ac426d148a442"
+  },
+  "versions": [
+    {
+      "version": "v4.31.0",
+      "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "status": "pass"
+    },
+    {
+      "version": "v4.30.0",
+      "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+      "status": "pending"
+    },
+    {
+      "version": "v4.29.0",
+      "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
+      "status": "pending"
+    }
+  ],
+  "credit": "손지연 PR27 source · 정소미 full-source v2 재검증",
+  "sourceRepository": "feynlang/LeanAgent",
+  "sourceCommit": "fba3658112ba18ca7f1731f84d897226225bf0e7",
+  "sourceUrl": "https://github.com/feynlang/LeanAgent/blob/fba3658112ba18ca7f1731f84d897226225bf0e7/docs/research/verification-repair/손지연/experiment%28week4%29/evidence/experiment/runs/20261024T000653%2B0900/runs/P_A/P12/normal/A3/repeat_3/selected.proof.lean",
+  "note": "원문 proof body는 upstreamProofBodySha256으로 고정. 공식 명제와 합친 단일 선언은 candidate.candidateSha256으로 고정. 정상 #(...) 기수 표기를 기존 입력 검사가 막아 별도v2로 검증했으며 공통PR3점수에 합산하지 않습니다.",
+  "publishedProof": "/research/warmup15/P12-pr27-single.lean",
+  "peerReportedTokens": 873,
+  "tokenCountNote": "원문과 같은 proof body를 고정했으나 작성자보고873과 source-anchored 재계산886이 다릅니다. 차이 원인은 확정하지 않았으며 이 실험은 같은 tokenizer로 원본1353·후보886을 사용합니다.",
+  "upstreamProofBodySha256": "5a7f9ee8614cc8f657ed67b7d44500c7f3e6c730cb394675e15ce7be436f07e0",
+  "revisionMeaning": {
+    "sourceRevision": "Verified-zkEVM/ArkLib의 지정 라이브러리 커밋",
+    "sourceCommit": "feynlang/LeanAgent의 PR27 증명 출처 커밋"
+  },
+  "nextCheck": "남은 정확한4.30·4.29환경에서 같은 원본·후보를 각각3회 확인한 뒤 버전 상태를 갱신합니다."
+}

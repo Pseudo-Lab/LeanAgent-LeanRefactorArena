@@ -41,3 +41,24 @@ test('promoted improvements match independent-process counters and exact proof h
     assert.equal(row.selectedHash, find(row.id).candidateHash, `P${row.id}: stale experiment description`);
   }
 });
+
+test('P12 separate-protocol evidence never becomes an unverified common score', () => {
+  const snapshot = read('../public/data/warmup-team-results.json');
+  const separate = read('../public/research/warmup15/p12-v2.json');
+  const p12 = snapshot.problems.find((p: { id: number }) => p.id === 12);
+  assert.equal(separate.frozenPR3Compatible, false);
+  assert.equal(separate.countsInCommonScore, false);
+  assert.equal(p12.candidate, null);
+  assert.equal(separate.sourceRepository, 'feynlang/LeanAgent');
+  const proof = readFileSync(new URL('../public/research/warmup15/P12-pr27-single.lean', import.meta.url), 'utf8');
+  assert.equal(createHash('sha256').update(proof).digest('hex'), separate.candidate.candidateSha256);
+  for (const result of [separate.original, separate.candidate]) {
+    assert.equal(result.valid, true);
+    assert.equal(result.runs.length, 3);
+    assert.ok(result.runs.every((r: { compiled: boolean; statementUnchanged: boolean; forbiddenPatterns: string[] }) => r.compiled && r.statementUnchanged && r.forbiddenPatterns.length === 0));
+  }
+  assert.equal(separate.contextAudit.environmentEqual, true);
+  for (const context of Object.values(separate.contextAudit.wholeContext) as { prefixEqual: boolean; suffixEqual: boolean }[]) {
+    assert.ok(context.prefixEqual && context.suffixEqual);
+  }
+});
