@@ -28,6 +28,28 @@ def write(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
 
+def load_experiment(path):
+    """Read frozen candidate bytes without changing the published selection."""
+    data = json.loads(path.read_text())
+    snapshot = ROOT / 'dashboard/public/data/warmup-team-results.json'
+    if data['startingSnapshotSha256'] != sha(snapshot.read_bytes()):
+        raise ValueError('Experiment starting selection changed')
+    groups = data['problems']
+    if not isinstance(groups, dict) or not groups:
+        raise ValueError('Expected a nonempty problem/candidate map')
+    for problem, candidates in groups.items():
+        if not problem.isdigit() or not 1 <= int(problem) <= 15 or not isinstance(candidates, list):
+            raise ValueError('Invalid experiment problem')
+        names = set()
+        for candidate in candidates:
+            name = candidate['id']
+            if not re.fullmatch(r'[A-Za-z0-9_-]+', name) or name in names or name in {'original', 'selected'}:
+                raise ValueError('Invalid or duplicate experiment candidate label')
+            if sha(candidate['proof'].encode()) != candidate['candidateHash']:
+                raise ValueError('Experiment proof hash mismatch')
+            names.add(name)
+    return groups
+
 def trailing_doc_start(text):
     """Locate the immediately trailing declaration doc, respecting nested comments.
 
@@ -93,9 +115,15 @@ def main(args):
     work.mkdir(parents=True, exist_ok=True)
     output.mkdir(parents=True, exist_ok=False)
     snapshot = json.loads((ROOT / 'dashboard/public/data/warmup-team-results.json').read_text())
+    experiments = load_experiment(args.candidate_file) if args.candidate_file else None
     inputs = json.loads((ROOT / 'submissions/warmup/verification-inputs.json').read_text())
     rows = []
     for row in snapshot['problems']:
+        if experiments is not None:
+            if str(row['id']) not in experiments:
+                continue
+            selected = next(c for c in row['teamResults'] if c['id'] == row['selectedCandidateId'])
+            row = {**row, 'teamResults': [selected, *experiments[str(row['id'])]]}
         if row['source'] != args.source or str(row['id']) not in inputs['problems']:
             continue
         meta = inputs['problems'][str(row['id'])]
@@ -110,6 +138,8 @@ def main(args):
               'startedAt': datetime.now(timezone.utc).isoformat(),
               'host': platform.platform(), 'commit': os.environ.get('GITHUB_SHA'),
               'runId': os.environ.get('GITHUB_RUN_ID'), 'status': 'preparing', 'problems': []}
+    if args.candidate_file:
+        report['experimentInputSha256'] = sha(args.candidate_file.read_bytes())
     write(output / 'summary.json', report)
     counter = 0
     def run(command, cwd=work, capture=False):
@@ -248,4 +278,5 @@ if __name__ == '__main__':
     parser.add_argument('--work', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--memory-mb', type=int, default=6144)
+    parser.add_argument('--candidate-file', type=Path)
     main(parser.parse_args())

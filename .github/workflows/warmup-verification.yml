@@ -7,7 +7,11 @@ on:
         description: 'Pinned environment group to verify'
         type: choice
         default: all
-        options: [all, putnambench, arklib, p12-separate]
+        options: [all, putnambench, arklib, p12-separate, primary-experiment]
+      experiment:
+        description: 'Run the frozen 2026-10-26 experiment candidates against the current selection'
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -25,7 +29,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        include: ${{ fromJSON(inputs.source == 'p12-separate' && '[{"source":"p12-separate","version":"v4.29.0"},{"source":"p12-separate","version":"v4.30.0"},{"source":"p12-separate","version":"v4.31.0"}]' || inputs.source == 'putnambench' && '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"}]' || inputs.source == 'arklib' && '[{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]' || '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"},{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]') }}
+        include: ${{ fromJSON(inputs.source == 'primary-experiment' && '[{"source":"putnambench","version":"v4.26.0"},{"source":"arklib","version":"v4.31.0"},{"source":"p12-separate","version":"v4.31.0"}]' || inputs.source == 'p12-separate' && '[{"source":"p12-separate","version":"v4.29.0"},{"source":"p12-separate","version":"v4.30.0"},{"source":"p12-separate","version":"v4.31.0"}]' || inputs.source == 'putnambench' && '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"}]' || inputs.source == 'arklib' && '[{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]' || '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"},{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -47,12 +51,20 @@ jobs:
         env:
           SOURCE: ${{ matrix.source }}
           VERSION: ${{ matrix.version }}
-        run: python3 scripts/verify_warmup_pins.py --source "$SOURCE" --version "$VERSION" --memory-mb 6144 --work "$RUNNER_TEMP/verification" --output "verification-results/$SOURCE-$VERSION"
+          EXPERIMENT: ${{ inputs.experiment }}
+        run: |
+          args=()
+          if [[ "$EXPERIMENT" == 'true' ]]; then args+=(--candidate-file experiments/warmup/2026-10-26/candidates.json); fi
+          python3 scripts/verify_warmup_pins.py --source "$SOURCE" --version "$VERSION" --memory-mb 6144 --work "$RUNNER_TEMP/verification" --output "verification-results/$SOURCE-$VERSION" "${args[@]}"
       - name: Verify separate P12 original and candidates
         if: matrix.source == 'p12-separate'
         env:
           VERSION: ${{ matrix.version }}
-        run: python3 scripts/verify_p12_pins.py --version "$VERSION" --memory-mb 6144 --work "$RUNNER_TEMP/verification" --output "verification-results/p12-separate-$VERSION"
+          EXPERIMENT: ${{ inputs.experiment }}
+        run: |
+          args=()
+          if [[ "$EXPERIMENT" == 'true' ]]; then args+=(--candidate-file experiments/warmup/2026-10-26/candidates.json); fi
+          python3 scripts/verify_p12_pins.py --version "$VERSION" --memory-mb 6144 --work "$RUNNER_TEMP/verification" --output "verification-results/p12-separate-$VERSION" "${args[@]}"
       - name: Preserve verification evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

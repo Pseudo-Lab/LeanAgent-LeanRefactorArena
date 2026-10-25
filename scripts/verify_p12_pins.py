@@ -163,6 +163,13 @@ def main(args):
 
     try:
         _, meta, public, original, selected = load_inputs()
+        trials = [('original', original), ('selected', selected)]
+        if args.candidate_file:
+            extras = common.load_experiment(args.candidate_file).get('12', [])
+            if not extras:
+                raise ValueError('Experiment input has no P12 candidates')
+            trials.extend((c['id'], c['proof']) for c in extras)
+            report['experimentInputSha256'] = common.sha(args.candidate_file.read_bytes())
         tokens = frozen_tokens(work)
         if gate(original, meta['statement'], tokens) != 1353 or gate(selected, meta['statement'], tokens) != 886:
             raise ValueError('Fixed P12 token counts changed')
@@ -222,7 +229,7 @@ def main(args):
         statement = output / 'statement.lean'
         statement.write_text(meta['statement'])
         expected_context = None
-        for label, code in [('original', original), ('selected', selected)]:
+        for label, code in trials:
             candidate = output / f'{label}.lean'
             candidate.write_bytes(code.encode())
             folder = output / label
@@ -273,7 +280,8 @@ def main(args):
             path = project / '.lake/packages' / package['name'].strip('«»')
             if subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=path, text=True).strip() != package['revision'] or subprocess.check_output(['git', 'diff', 'HEAD', '--', '.'], cwd=path):
                 raise ValueError('Pinned dependency changed during verification')
-        paired = set(report['candidates']) == {'original', 'selected'} and all(x['valid'] for x in report['candidates'].values())
+        paired = set(report['candidates']) == {label for label, _ in trials} and all(x['valid'] for x in report['candidates'].values())
+        report['controlsValid'] = all(report['candidates'].get(label, {}).get('valid', False) for label in ('original', 'selected'))
         report['contextAudit'] = {'wholeFileEqual': paired, 'hashes': expected_context,
             'allAllowedAxioms': paired and all(r['allowedAxiomsOnly'] for x in report['candidates'].values() for r in x['runs'])}
         report['valid'] = paired
@@ -334,6 +342,7 @@ if __name__ == '__main__':
     parser.add_argument('--work', type=Path)
     parser.add_argument('--output', type=Path)
     parser.add_argument('--memory-mb', type=int, choices=[6144, 8192], default=6144)
+    parser.add_argument('--candidate-file', type=Path)
     args = parser.parse_args()
     if args.self_check:
         self_check()
