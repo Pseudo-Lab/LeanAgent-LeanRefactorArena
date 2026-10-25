@@ -377,6 +377,8 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
 .paper-list h4 { font-size: 13px; line-height: 1.7; margin: 0 0 9px; }
 .paper-list p { font-size: 12px; line-height: 1.9; color: #4e6577; }
 .paper-list .paper-application { color: #667d71; margin-top: 10px; }
+.literature-toolbar { margin-top: 24px; }
+.literature-search { border: 1px solid var(--border); border-radius: 6px; padding: 10px 12px; min-width: 0; flex: 1; font-size: 12px; }
 @media (max-width: 959px) { .pr-list, .research-columns { grid-template-columns: 1fr; } }
 @media (max-width: 639px) {
   .activity-panel, .research-panel { padding: 18px 14px; }

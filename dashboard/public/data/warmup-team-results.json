@@ -1380,6 +1380,32 @@
           ],
           "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
           "note": "고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
+        },
+        {
+          "id": "정소미-team-methods-20261026-P14",
+          "author": "정소미 · 팀 기법 확장",
+          "proof": "theorem putnam_1964_b2\n(S : Type*) [Fintype S] [Nonempty S]\n(P : Finset (Set S))\n(hPP : ∀ T ∈ P, ∀ U ∈ P, T ∩ U ≠ ∅)\n(hPS : ¬∃ T : Set S, T ∉ P ∧ (∀ U ∈ P, T ∩ U ≠ ∅))\n: (P.card = 2 ^ (Fintype.card S - 1)) := by\n  classical\n  have hP : (P : Set (Set S)).Intersecting := by\n    simpa [Set.Intersecting, Set.disjoint_iff_inter_eq_empty] using hPP\n  have hcard := hP.is_max_iff_card_eq.mp (by\n    intro Q hQ hPQ\n    apply Finset.Subset.antisymm hPQ\n    intro T hT\n    by_contra hT'\n    exact hPS ⟨T, hT', fun U hU => by\n      simpa [Set.disjoint_iff_inter_eq_empty] using hQ hT (hPQ hU)⟩)\n  rw [Fintype.card_set] at hcard\n  have hn := Fintype.card_pos (α := S)\n  rw [show Fintype.card S = (Fintype.card S - 1) + 1 by omega, pow_succ] at hcard\n  omega\n",
+          "sourcePath": "dashboard/public/research/warmup15/P14-lemma-maximal.lean",
+          "sourceCommit": "456dbc4823dd5dbbdb86b173beaee6f7949167be",
+          "sourceState": "working-tree-snapshot",
+          "candidateHash": "e00f8c3bd53b158a79d09d1a568dea9f9812e6b81a3c9c2c6620dff6c3b460ab",
+          "status": "pending",
+          "baseline": null,
+          "candidate": null,
+          "versions": [
+            {
+              "version": "v4.25.0",
+              "revision": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+              "status": "pending"
+            },
+            {
+              "version": "v4.26.0",
+              "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+              "status": "pending"
+            }
+          ],
+          "environment": "지정 버전·원본 전체 import 문맥에서 검증 대기",
+          "note": "기존 정리 재사용 후보. v4.31의 축소 import 진단에서 통과했으나 지정 버전·전체 문맥 검증 전이므로 점수에 포함하지 않습니다."
         }
       ]
     },
