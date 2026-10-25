@@ -16,7 +16,7 @@ export function ExternalResearch() {
     <div className="panel-title"><h2 id="external-research-title">기존 63편 밖 · 문제별 추가 문헌</h2><span>{research.date}</span></div>
     <p className="section-intro">{research.scope}</p>
     <p className="source-disclosure">P05–P12를 우선 설계했습니다. 직접 대응하는 문헌이 부족한 문제는 간접 유추·추가 조사 필요로 표시합니다. 아래는 다음 실험 계획이며 위의 검증된 성능 결과와 구분합니다.</p>
-    <figure className="external-figure"><img src={research.figure.path} width="802" height="516" loading="lazy" alt="LeanGraphSearch 원문 그림: 의미 검색으로 찾은 정리에서 의존 그래프로 후보를 확장한 뒤 재평가하는 흐름"/><figcaption>{research.figure.label}. {research.figure.qualification} <a href={papers.get(research.figure.paper)!.url} target="_blank" rel="noreferrer">원문 Figure 2 · p. 4</a></figcaption></figure>
+    <figure className="external-figure"><a href={research.figure.path} target="_blank" rel="noreferrer" aria-label="LeanGraphSearch 원문 그림 확대"><img src={research.figure.path} width="802" height="516" loading="lazy" alt="LeanGraphSearch 원문 그림: 의미 검색으로 찾은 정리에서 의존 그래프로 후보를 확장한 뒤 재평가하는 흐름"/></a><figcaption>{research.figure.label}. {research.figure.qualification} <a href={papers.get(research.figure.paper)!.url} target="_blank" rel="noreferrer">원문 Figure 2 · p. 4</a></figcaption></figure>
     <div className="external-routes">{research.problems.filter(p => p.problem >= 5 && p.problem <= 12).map(route)}</div>
     <details className="collection-note"><summary>P01–P04·P13–P15 · 추가 조사 범위</summary><div className="external-routes">{research.problems.filter(p => p.problem < 5 || p.problem > 12).map(route)}</div></details>
     <details className="collection-note"><summary>새 원문 6편 · 읽은 방법과 적용 한계</summary>{research.papers.map(paper => <article className="external-paper" key={paper.id}>

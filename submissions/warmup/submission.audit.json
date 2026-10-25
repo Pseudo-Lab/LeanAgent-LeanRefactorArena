@@ -297,12 +297,12 @@
         {
           "version": "v4.30.0",
           "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.29.0",
           "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
-          "status": "pending"
+          "status": "pass"
         }
       ],
       "note": ""

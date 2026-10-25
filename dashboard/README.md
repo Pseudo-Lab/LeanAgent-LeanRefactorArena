@@ -23,7 +23,7 @@ npm run build
 - `public/data/warmup-team-results.json`: 현재 대표와 전체 후보, 주 환경 성능, 지정 버전 상태. 형식은 `src/lib/model.ts`에 있습니다.
 - `public/data/warmup-team-baseline.json`: 종전 담당자 최종본 우선 선택의 보관 사본.
 - `public/research/warmup15/experiment.json`:15문제별 기법·판단·문헌 연결과 실제 작업 경로 변경.
-- `public/research/warmup15/p12-v2.json`: P12의 별도 전체 문맥 검증. v4.31.0에서 원본1353/HB9198과 후보886/HB6575를 각각3회 확인했습니다. `separate_verified` 상태로 수치를 표시하되 공통 평균에는 합산하지 않습니다. 추가로 v4.29.0 통과를 확인했으며 v4.30.0는 확인 중입니다.
+- `public/research/warmup15/p12-v2.json`: P12의 별도 전체 문맥 검증. v4.31.0에서 원본1353/HB9198과 후보886/HB6575를 각각3회 확인했습니다. `separate_verified` 상태로 수치를 표시하되 공통 평균에는 합산하지 않습니다. 동일 후보의 지정 세 버전 확인도 완료했습니다.
 - `public/research/warmup15/verification.json`: 원본·출발 후보·새 후보의 측정 counter, 해시와 정확한 버전 근거. 계측 경로가 다른 진단 결과는 점수표에 섞지 않습니다.
 - `public/research/external/problem-literature.json`: 기존 63편·종전 추가 4편과 중복되지 않는 새 6편의 원문 방법 대조와 문제별 후속 실험 설계. P05–P12 우선이며, 15문제 전체의 분야 문헌 확보나 새 성능 결과를 뜻하지 않습니다. 인용 구절·PDF 해시는 같은 폴더의 `reading-evidence.json`에 있습니다.
 - `public/research/literature.json`: 저장소에서 확인한 arXiv 61편과 ACL 2편 및 추가 조사 문헌. 초록만 확인한 자료와 방법 절까지 확인한 자료를 구분합니다. 방법군의 적용이며 학습·검색 시스템 전체의 재현은 아닙니다.

@@ -3,7 +3,7 @@
   "id": "warmup-team-results",
   "label": "웜업 · 증명 개선 실험",
   "dataset": "warmup",
-  "measuredAt": "2026-10-25T22:57:37.137722+00:00",
+  "measuredAt": "2026-10-25T22:59:21.036939+00:00",
   "releaseDate": null,
   "provenance": "2026-10-26 갱신. 고정 PR3 평가기와 명제·원문 전체 문맥 검증. P01·P02·P05·P07·P08·P09는 이번 macOS arm64 측정, P10·P11·P13·P14·P15는 이번 Linux x86_64 지정 핀 재검증. 나머지는 보관된 공통 평가 결과 유지 또는 개별 실험 기록 참조. 토큰·HB 평균으로 대표 재선정. Track1 API·공식 점수 아님. 모델 호출 비용은 미계측이므로 문제당$3 적합성은 확인되지 않았습니다. P12는 고정 명제·전체 문맥을 확인한 Somi full-source v2의 별도 검증 결과이며 공통 점수 평균에는 미포함.",
   "problems": [
@@ -1351,7 +1351,7 @@
         {
           "version": "v4.30.0",
           "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.29.0",
@@ -1361,7 +1361,7 @@
       ],
       "environment": "v4.31.0 · macOS arm64 · Somi full-source v2 · scaled heartbeat · 독립 프로세스3회 중앙값 · 별도 검증",
       "candidateHash": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
-      "note": "단일 선언 후보의 고정 명제·전체 문맥·허용 공리를 독립 검증했습니다. v4.31.0, v4.29.0에서 원본과 후보 각각3회 통과했습니다. v4.30.0는 확인 중입니다. 정상 기수 표기를 허용한 별도 경로의 측정이므로 공통 점수·평균에는 합산하지 않습니다.",
+      "note": "단일 선언 후보의 고정 명제·전체 문맥·허용 공리를 독립 검증했습니다. v4.31.0, v4.30.0, v4.29.0에서 원본과 후보 각각3회 통과했습니다. 지정 세 버전 확인을 완료했습니다. 정상 기수 표기를 허용한 별도 경로의 측정이므로 공통 점수·평균에는 합산하지 않습니다.",
       "baselineCompatibility": null,
       "evidence": [
         "dashboard/public/research/warmup15/p12-v2.json",
@@ -1427,7 +1427,7 @@
             {
               "version": "v4.30.0",
               "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
-              "status": "pending"
+              "status": "pass"
             },
             {
               "version": "v4.29.0",
@@ -1436,7 +1436,7 @@
             }
           ],
           "environment": "v4.31.0 · macOS arm64 · Somi full-source v2 · scaled heartbeat · 독립 프로세스3회 중앙값 · 별도 검증",
-          "note": "단일 선언 후보의 고정 명제·전체 문맥·허용 공리를 독립 검증했습니다. v4.31.0, v4.29.0에서 원본과 후보 각각3회 통과했습니다. v4.30.0는 확인 중입니다. 정상 기수 표기를 허용한 별도 경로의 측정이므로 공통 점수·평균에는 합산하지 않습니다."
+          "note": "단일 선언 후보의 고정 명제·전체 문맥·허용 공리를 독립 검증했습니다. v4.31.0, v4.30.0, v4.29.0에서 원본과 후보 각각3회 통과했습니다. 지정 세 버전 확인을 완료했습니다. 정상 기수 표기를 허용한 별도 경로의 측정이므로 공통 점수·평균에는 합산하지 않습니다."
         }
       ]
     },

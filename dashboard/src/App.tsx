@@ -40,6 +40,10 @@ export default function App() {
     return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    if (loaded && window.location.hash) document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+  }, [loaded]);
+
   const snapshot = snapshots.find(s => s.id === snapshotId) ?? snapshots[0];
   function chooseSnapshot(id: string) { setSnapshotId(id); setSelectedId(1); setQuery(''); setSource('all'); setSort('number'); }
   function chooseProblem(p: Problem) {
