@@ -66,7 +66,7 @@ export function TeamActivity() {
     <div className="pr-list">{filtered.map(pr => {
       const related = groups.filter(g => g.prNumbers.includes(pr.number) && (problem === 'all' || g.problemIds.some(id => id === Number(problem))));
       return <article key={pr.number} className="pr-card">
-        <div className="pr-meta"><span className={`pr-status pr-${pr.status}`}>{statusName[pr.status]}</span><strong>{pr.authorName}</strong><span>#{pr.number}</span><span>{pr.updatedAt.slice(0, 10)}</span></div>
+        <div className="pr-meta"><span className={`pr-status pr-${pr.status}`}>{statusName[pr.status]}</span><strong>{pr.authorName}</strong><span>#{pr.number}</span><span>{new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeZone: 'Asia/Seoul' }).format(new Date(pr.updatedAt))}</span></div>
         <h3><a href={pr.url} target="_blank" rel="noreferrer">{pr.title} <ExternalLink size={13}/></a></h3>
         {pr.status === 'closed' ? <p className="closed-pr-note">{pr.number === 21 ? '철회된 초안입니다.' : '이전 중복 PR입니다. 최신 #27과 실험을 중복 집계하지 않습니다.'}</p> : null}
         {related.length ? <details className="experiment-details"><summary>실험과 후보 {related.length}묶음 보기</summary>{related.map(group => <section key={group.id} className="experiment-group">

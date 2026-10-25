@@ -174,7 +174,7 @@ def build_bundle(root=ROOT, *, p12_reference=False):
         'apiEligibility': manifest['apiEligibility'],
         'limitations': [
             'Packaging checks are not Lean compilation or official scoring.',
-            'P03, P07, P08, P09 still have pending designated-version checks.',
+            'Designated-version status is recorded per problem; compatibility checks do not establish official scoring.',
             'No exemption from the OpenRouter, budget or reproduction requirements is inferred from warmup upload availability.',
         ],
         'problems': evidence,

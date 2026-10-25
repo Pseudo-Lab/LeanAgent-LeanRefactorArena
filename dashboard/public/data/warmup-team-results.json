@@ -1,11 +1,11 @@
 {
   "schemaVersion": 1,
   "id": "warmup-team-results",
-  "label": "웜업 · 팀원 후보 재검증",
+  "label": "웜업 · 문헌·팀 기법 확장",
   "dataset": "warmup",
-  "measuredAt": "2026-10-23T13:27:30.284396+00:00",
+  "measuredAt": "2026-10-25T17:18:35.676216+00:00",
   "releaseDate": null,
-  "provenance": "PR3 평가기 c18ec56682462847e2f4d8b6d60aa79ec071a10b의 원본·후보 동일 환경 3회 중앙값. P10·P11·P13·P14·P15는 GitHub Actions Linux x86_64에서 지정 커밋 의존성을 복원해 재검증. 나머지 문제는 기존 로컬 측정 유지. Track1 API 실행 결과 아님.",
+  "provenance": "2026-10-26 갱신. 고정 PR3 평가기와 명제·원문 전체 문맥 검증. P01·P02·P05·P07·P08·P09는 이번 macOS arm64 측정, P13·P14·P15는 이번 Linux x86_64 지정 핀 재검증. 나머지는 보관된 공통 평가 결과 유지 또는 개별 실험 기록 참조. 토큰·HB 평균으로 대표 재선정. Track1 API·공식 점수 아님.",
   "problems": [
     {
       "id": 1,
@@ -17,8 +17,8 @@
         "heartbeats": 5173
       },
       "candidate": {
-        "tokens": 46,
-        "heartbeats": 4660
+        "tokens": 39,
+        "heartbeats": 1269
       },
       "versions": [
         {
@@ -27,16 +27,16 @@
           "status": "pass"
         }
       ],
-      "environment": "v4.26.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "2861c028472142b869a9e2df832101f14b32381f61d35cbaf62aff9e5a1870d8",
-      "note": "지정 환경의 원본과 후보를 재검증했습니다.",
+      "environment": "v4.26.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+      "candidateHash": "94fa7cf232cd193d79d60bd114a21b9070699481c1a21bbc32862b43bf097248",
+      "note": "권주원43토큰 후보의 정규화·마무리는 유지하고 수동 귀납/분기를 함수 귀납으로 변경. 원본·시작·새후보 각각3회,39토큰/HB1269 확인. 시작 후보 대비 추가 개선+6.9506점.",
       "baselineCompatibility": 100,
       "evidence": [
-        "submissions/warmup/manifest.json",
-        "submissions/warmup/best/P01.lean"
+        "dashboard/public/research/warmup15/verification.json",
+        "dashboard/public/research/warmup15/P01-improved.lean"
       ],
-      "selectedCandidateId": "남성우-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "정소미-team-methods-20261026-P01",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "남성우-final",
@@ -90,7 +90,34 @@
             }
           ],
           "environment": "v4.26.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "기존 best.json에 선택된 후보. 이번 수집에서 점수로 재선택하지 않음."
+          "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다."
+        },
+        {
+          "id": "정소미-team-methods-20261026-P01",
+          "author": "정소미 · 팀 기법 확장",
+          "proof": "open OldExpressions in\ntheorem substOldPostSubset:\n  (Imperative.HasVarsPure.getVars (P:=Expression)\n    (substOld h2 (Lambda.LExpr.fvar m h1 ty) post)).Subset\n    (Imperative.HasVarsPure.getVars (P:=Expression) post ++ [h1]) := by\n  intro x\n  simp only [Imperative.HasVarsPure.getVars, List.mem_append, List.mem_singleton]\n  fun_induction substOld h2 (Lambda.LExpr.fvar m h1 ty) post <;>\n    simp only [Lambda.LExpr.LExpr.getVars, List.mem_append,\n      List.mem_singleton, List.not_mem_nil] <;>\n    grind only []\n",
+          "sourcePath": "dashboard/public/research/warmup15/P01-improved.lean",
+          "sourceCommit": "75efae19aab99406bba2d6eb33b547884513f091",
+          "sourceState": "working-tree-snapshot",
+          "candidateHash": "94fa7cf232cd193d79d60bd114a21b9070699481c1a21bbc32862b43bf097248",
+          "status": "measured",
+          "baseline": {
+            "tokens": 313,
+            "heartbeats": 5173
+          },
+          "candidate": {
+            "tokens": 39,
+            "heartbeats": 1269
+          },
+          "versions": [
+            {
+              "version": "v4.26.0",
+              "revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+              "status": "pass"
+            }
+          ],
+          "environment": "v4.26.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+          "note": "권주원43토큰 후보의 정규화·마무리는 유지하고 수동 귀납/분기를 함수 귀납으로 변경. 원본·시작·새후보 각각3회,39토큰/HB1269 확인. 시작 후보 대비 추가 개선+6.9506점."
         }
       ]
     },
@@ -101,11 +128,11 @@
       "status": "measured",
       "baseline": {
         "tokens": 222,
-        "heartbeats": 2695
+        "heartbeats": 2694
       },
       "candidate": {
-        "tokens": 43,
-        "heartbeats": 2497
+        "tokens": 20,
+        "heartbeats": 329
       },
       "versions": [
         {
@@ -114,16 +141,16 @@
           "status": "pass"
         }
       ],
-      "environment": "v4.26.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "2bd0d1e1a5b75be5f48049b853bba5925c7788e86b3fb47285bbcde86c71d2e4",
-      "note": "지정 환경의 원본과 후보를 재검증했습니다.",
+      "environment": "v4.26.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+      "candidateHash": "bf7a6f7ff9c0b76d903beb2e011ed3758fab790de2d88116607d197278a9aa05",
+      "note": "권주원27토큰 기존 후보를 출발점으로 함수 귀납 구조를 적용. 원본·시작 후보·새 후보 모두3회 같은 전체 문맥에서 검증.",
       "baselineCompatibility": 100,
       "evidence": [
-        "submissions/warmup/manifest.json",
-        "submissions/warmup/best/P02.lean"
+        "dashboard/public/research/warmup15/verification.json",
+        "dashboard/public/research/warmup15/P02-improved.lean"
       ],
-      "selectedCandidateId": "남성우-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "정소미-team-methods-20261026-P02",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "남성우-final",
@@ -177,7 +204,34 @@
             }
           ],
           "environment": "v4.26.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "기존 best.json에 선택된 후보. 이번 수집에서 점수로 재선택하지 않음."
+          "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다."
+        },
+        {
+          "id": "정소미-team-methods-20261026-P02",
+          "author": "정소미 · 팀 기법 확장",
+          "proof": "open OldExpressions in\ntheorem extractedOldExprInVars :\n  NormalizedOldExpr post →\n  (extractOldExprVars post).Subset\n  (Imperative.HasVarsPure.getVars post) := by\n  rintro -\n  apply List.Sublist.subset\n  fun_induction extractOldExprVars post <;>\n    apply_rules only [*, List.nil_sublist, List.Sublist.append, List.Sublist.refl]\n",
+          "sourcePath": "dashboard/public/research/warmup15/P02-improved.lean",
+          "sourceCommit": "75efae19aab99406bba2d6eb33b547884513f091",
+          "sourceState": "working-tree-snapshot",
+          "candidateHash": "bf7a6f7ff9c0b76d903beb2e011ed3758fab790de2d88116607d197278a9aa05",
+          "status": "measured",
+          "baseline": {
+            "tokens": 222,
+            "heartbeats": 2694
+          },
+          "candidate": {
+            "tokens": 20,
+            "heartbeats": 329
+          },
+          "versions": [
+            {
+              "version": "v4.26.0",
+              "revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+              "status": "pass"
+            }
+          ],
+          "environment": "v4.26.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+          "note": "권주원27토큰 기존 후보를 출발점으로 함수 귀납 구조를 적용. 원본·시작 후보·새 후보 모두3회 같은 전체 문맥에서 검증."
         }
       ]
     },
@@ -185,25 +239,25 @@
       "id": 3,
       "name": "Core.InitsUpdatesComm",
       "source": "strata",
-      "status": "partial",
+      "status": "measured",
       "baseline": {
         "tokens": 224,
         "heartbeats": 4671
       },
       "candidate": {
-        "tokens": 90,
-        "heartbeats": 162
+        "tokens": 80,
+        "heartbeats": 230
       },
       "versions": [
         {
           "version": "v4.29.1",
           "revision": "384e22374e0872095ad9c6f74c5998c09cfd93a9",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.27.0",
           "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.26.0",
@@ -212,15 +266,15 @@
         }
       ],
       "environment": "v4.26.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "b26ec6c9d391fec384f763798852cb9a77a82e277061ec5728c49427c9f74fc2",
-      "note": "담당자 발표의 최종 수정본. 지역 이름 단축을 포함한 마지막 코드 블록. v4.29.1: 컴파일러·의존성 준비 필요 v4.27.0: 컴파일러·의존성 준비 필요",
-      "baselineCompatibility": null,
+      "candidateHash": "af9eeefe9c65365b6b5f4dbc1e0a4fcebfa3f33cebc644f5803e021491da298d",
+      "note": "기존80토큰/HB230의4.26주측정은 보존. 2026-10-26 남은4.27·4.29.1에서 원본·동일후보각3회 전체소스 검증. module환경의 공리검사는 컴파일된 원문을 별도파일에서 import해 감사했습니다.",
+      "baselineCompatibility": 100,
       "evidence": [
-        "submissions/warmup/manifest.json",
+        "dashboard/public/research/warmup15/verification.json",
         "submissions/warmup/best/P03.lean"
       ],
-      "selectedCandidateId": "권주원-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "권주원-20261016",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "권주원-final",
@@ -267,7 +321,7 @@
           "sourceCommit": "5eb5a8c61350d59f1c2f0655c18387abb58cafe4",
           "sourceState": "working-tree-snapshot",
           "candidateHash": "af9eeefe9c65365b6b5f4dbc1e0a4fcebfa3f33cebc644f5803e021491da298d",
-          "status": "partial",
+          "status": "measured",
           "baseline": {
             "tokens": 224,
             "heartbeats": 4671
@@ -280,12 +334,12 @@
             {
               "version": "v4.29.1",
               "revision": "384e22374e0872095ad9c6f74c5998c09cfd93a9",
-              "status": "pending"
+              "status": "pass"
             },
             {
               "version": "v4.27.0",
               "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
-              "status": "pending"
+              "status": "pass"
             },
             {
               "version": "v4.26.0",
@@ -294,7 +348,7 @@
             }
           ],
           "environment": "v4.26.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "기존 best.json에 선택된 후보. 이번 수집에서 점수로 재선택하지 않음. v4.29.1: 컴파일러·의존성 준비 필요 v4.27.0: 컴파일러·의존성 준비 필요"
+          "note": "기존80토큰/HB230의4.26주측정은 보존. 2026-10-26 남은4.27·4.29.1에서 원본·동일후보각3회 전체소스 검증. module환경의 공리검사는 컴파일된 원문을 별도파일에서 import해 감사했습니다."
         }
       ]
     },
@@ -309,7 +363,7 @@
       },
       "candidate": {
         "tokens": 123,
-        "heartbeats": 1406
+        "heartbeats": 1384
       },
       "versions": [
         {
@@ -319,15 +373,15 @@
         }
       ],
       "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "534b3f8929bc01e93d50fe36133ffc14ac729ff0eee74cacbc8cb03fe5ac0eb8",
-      "note": "지정 환경의 원본과 후보를 재검증했습니다.",
+      "candidateHash": "b9350a3add1ed182b93fc4731c657a971caa1412c0690fb942af26aa14c469a9",
+      "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다.",
       "baselineCompatibility": 100,
       "evidence": [
         "submissions/warmup/manifest.json",
         "submissions/warmup/best/P04.lean"
       ],
-      "selectedCandidateId": "정소미-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "권주원-20261016",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "정소미-final",
@@ -381,7 +435,7 @@
             }
           ],
           "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "기존 best.json에 선택된 후보. 이번 수집에서 점수로 재선택하지 않음."
+          "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다."
         }
       ]
     },
@@ -395,8 +449,8 @@
         "heartbeats": 26982
       },
       "candidate": {
-        "tokens": 721,
-        "heartbeats": 11318
+        "tokens": 528,
+        "heartbeats": 9465
       },
       "versions": [
         {
@@ -405,16 +459,16 @@
           "status": "pass"
         }
       ],
-      "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "294ddf305dee94ccf19c3974265b59ab5e4e354b48383555134f5e4e6b0a729c",
-      "note": "지정 환경의 원본과 후보를 재검증했습니다.",
+      "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+      "candidateHash": "fcbba98915d7e303b859b5d985aa14aa6c40698d68645fb9f9489184721428c9",
+      "note": "권주원527토큰 후보에서 공유 C3 정규성 사실과 오류 기반 수정을 적용. 원본·시작·새후보 각각3회. 1토큰 증가·HB약26감소, 같은 시작 후보 대비 평균 점수약+0.012점의 미세 절충.",
       "baselineCompatibility": 100,
       "evidence": [
-        "submissions/warmup/manifest.json",
-        "submissions/warmup/best/P05.lean"
+        "dashboard/public/research/warmup15/verification.json",
+        "dashboard/public/research/warmup15/P05-improved.lean"
       ],
-      "selectedCandidateId": "박성호-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "정소미-team-methods-20261026-P05",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "박성호-final",
@@ -468,7 +522,34 @@
             }
           ],
           "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "기존 best.json에 선택된 후보. 이번 수집에서 점수로 재선택하지 않음."
+          "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다."
+        },
+        {
+          "id": "정소미-team-methods-20261026-P05",
+          "author": "정소미 · 팀 기법 확장",
+          "proof": "lemma time_deriv_time_deriv_electricField_of_isExtrema {A : ElectromagneticPotential d}\n    {𝓕 : FreeSpace}\n    (hA : ContDiff ℝ ∞ A) (J : LorentzCurrentDensity d)\n    (hJ : ContDiff ℝ ∞ J) (h : IsExtrema 𝓕 A J)\n    (t : Time) (x : Space d) (i : Fin d) :\n    ∂ₜ (∂ₜ (A.electricField 𝓕.c · x i)) t =\n      𝓕.c ^ 2 * ∑ j, (∂[j] (∂[j] (A.electricField 𝓕.c t · i)) x) -\n      𝓕.c ^ 2 / 𝓕.ε₀ * ∂[i] (J.chargeDensity 𝓕.c t ·) x -\n      𝓕.c ^ 2 * 𝓕.μ₀ * ∂ₜ (J.currentDensity 𝓕.c · x i) t := by\n  let k := 1 / (𝓕.μ₀ * 𝓕.ε₀)\n  have hA₂ : ContDiff ℝ 2 A := hA.of_le (by decide)\n  have hA₃ : ContDiff ℝ 3 A := hA.of_le (by decide)\n  have hEs := fun j => electricField_apply_contDiff_space (n := 2) (c := 𝓕.c) (i := j) hA₃ t\n  have hEd := fun j => Space.deriv_differentiable (hEs j)\n  have hBs := magneticFieldMatrix_contDiff (n := 2) (c := 𝓕.c) A hA₃\n  have hBt := fun j => Space.space_deriv_differentiable_time (i := j) (hBs (j, i)) x\n  have hSum := Differentiable.fun_sum (u := Finset.univ) fun j _ => hBt j\n  have hJd := hJ.differentiable (by decide)\n  have hJt := LorentzCurrentDensity.currentDensity_apply_differentiable_time (c := 𝓕.c) hJd x i\n  calc\n    _ = k * ∑ j, (∂[j] (fun x => ∂[j] (A.electricField 𝓕.c t · i) x) x) -\n        k * ∑ j, (∂[i] (fun x => ∂[j] (A.electricField 𝓕.c t · j) x) x) -\n        1 / 𝓕.ε₀ * ∂ₜ (J.currentDensity 𝓕.c · x i) t := by\n        conv_lhs =>\n          enter [1, t]\n          rw [Time.deriv_euclid (electricField_differentiable_time hA₂ _),\n            time_deriv_electricField_of_isExtrema hA J hJ h]\n        rw [Time.deriv_eq, fderiv_fun_sub (hSum.differentiableAt.const_mul k)\n          (hJt.differentiableAt.const_mul _), fderiv_const_mul\n          hSum.differentiableAt, fderiv_const_mul hJt.differentiableAt]\n        simp only [FunLike.coe_sub, Pi.sub_apply, _root_.smul_apply, smul_eq_mul, ← Time.deriv_eq]\n        rw [Time.deriv_fun_sum _ _ fun i _ => (hBt i).differentiableAt]\n        simp only [Space.time_deriv_comm_space_deriv (hBs _),\n          time_deriv_magneticFieldMatrix _ hA₂, ← mul_sub, ← Finset.sum_sub_distrib]\n        congr 3\n        funext j\n        rw [Space.fun_deriv_sub _ _ (hEd _ _) (hEd _ _)]\n        simp only [Pi.sub_apply, sub_right_inj]\n        rw [Space.deriv_commute _ (hEs _)]\n      _ = _ - 1 / (𝓕.μ₀ * 𝓕.ε₀ ^ 2) * ∂[i] (J.chargeDensity 𝓕.c t ·) x - _ := by\n        congr 2\n        rw [isExtrema_iff_gauss_ampere_magneticFieldMatrix hA J hJ] at h\n        trans k * ∂[i] (fun x => ∑ j, ∂[j] (A.electricField 𝓕.c t · j) x) x\n        · rw [Space.deriv_eq_fderiv_basis, fderiv_fun_sum fun j _ => (hEd j j).differentiableAt]\n          simp only [_root_.sum_apply, ← deriv_eq_fderiv_basis]\n        change _ * ∂[i] (fun x => (∇ ⬝ (A.electricField 𝓕.c t)) x) x = _\n        simp only [k, (h t _).1, div_eq_inv_mul, Space.deriv_eq_fderiv_basis, fderiv_const_mul\n          ((LorentzCurrentDensity.chargeDensity_differentiable_space hJd t) _)]\n        simp only [_root_.smul_apply, smul_eq_mul, ← Space.deriv_eq_fderiv_basis]\n        ring1\n      _ = _ := by\n          rw [FreeSpace.c_sq]\n          simp [k, div_eq_mul_inv, pow_two,\n            mul_assoc, mul_left_comm, mul_comm]\n",
+          "sourcePath": "dashboard/public/research/warmup15/P05-improved.lean",
+          "sourceCommit": "75efae19aab99406bba2d6eb33b547884513f091",
+          "sourceState": "working-tree-snapshot",
+          "candidateHash": "fcbba98915d7e303b859b5d985aa14aa6c40698d68645fb9f9489184721428c9",
+          "status": "measured",
+          "baseline": {
+            "tokens": 1372,
+            "heartbeats": 26982
+          },
+          "candidate": {
+            "tokens": 528,
+            "heartbeats": 9465
+          },
+          "versions": [
+            {
+              "version": "v4.32.0",
+              "revision": "c48433678e8fb6306ebcd48453300c8e16058a62",
+              "status": "pass"
+            }
+          ],
+          "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+          "note": "권주원527토큰 후보에서 공유 C3 정규성 사실과 오류 기반 수정을 적용. 원본·시작·새후보 각각3회. 1토큰 증가·HB약26감소, 같은 시작 후보 대비 평균 점수약+0.012점의 미세 절충."
         }
       ]
     },
@@ -501,7 +582,7 @@
         "submissions/warmup/best/P06.lean"
       ],
       "selectedCandidateId": "권주원-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "권주원-final",
@@ -555,7 +636,7 @@
             }
           ],
           "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "기존 best.json에 선택된 후보. 이번 수집에서 점수로 재선택하지 않음."
+          "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다."
         }
       ]
     },
@@ -563,20 +644,20 @@
       "id": 7,
       "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
       "source": "cslib",
-      "status": "partial",
+      "status": "measured",
       "baseline": {
         "tokens": 408,
-        "heartbeats": 61948
+        "heartbeats": 61944
       },
       "candidate": {
-        "tokens": 300,
-        "heartbeats": 45378
+        "tokens": 293,
+        "heartbeats": 1543
       },
       "versions": [
         {
           "version": "v4.33.0-rc2",
           "revision": "3aa9d4416c185e0b9faeb72bbd65abe85b95dbcc",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.32.0",
@@ -589,16 +670,16 @@
           "status": "pass"
         }
       ],
-      "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "66c1018745361d88bb74dc092d2bc48bc32d5c8140f3c2b31b5bc994953cf194",
-      "note": "v4.33.0-rc2: 컴파일러·의존성 준비 필요",
-      "baselineCompatibility": null,
+      "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+      "candidateHash": "a399f146582a9b68ce9cd3f020993d293a3a030fe6657cf10a76485ea7b7d919",
+      "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다. v4.33.0-rc2: 컴파일러·의존성 준비 필요 2026-10-26 원본·후보 전체 문맥 재검증 및 모든 지정 버전 통과 확인.",
+      "baselineCompatibility": 100,
       "evidence": [
         "submissions/warmup/manifest.json",
         "submissions/warmup/best/P07.lean"
       ],
-      "selectedCandidateId": "손지연-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "권주원-20261016",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "손지연-final",
@@ -645,10 +726,10 @@
           "sourceCommit": "5eb5a8c61350d59f1c2f0655c18387abb58cafe4",
           "sourceState": "working-tree-snapshot",
           "candidateHash": "a399f146582a9b68ce9cd3f020993d293a3a030fe6657cf10a76485ea7b7d919",
-          "status": "partial",
+          "status": "measured",
           "baseline": {
             "tokens": 408,
-            "heartbeats": 61948
+            "heartbeats": 61944
           },
           "candidate": {
             "tokens": 293,
@@ -658,7 +739,7 @@
             {
               "version": "v4.33.0-rc2",
               "revision": "3aa9d4416c185e0b9faeb72bbd65abe85b95dbcc",
-              "status": "pending"
+              "status": "pass"
             },
             {
               "version": "v4.32.0",
@@ -671,8 +752,8 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "기존 best.json에 선택된 후보. 이번 수집에서 점수로 재선택하지 않음. v4.33.0-rc2: 컴파일러·의존성 준비 필요"
+          "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+          "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다. v4.33.0-rc2: 컴파일러·의존성 준비 필요 2026-10-26 원본·후보 전체 문맥 재검증 및 모든 지정 버전 통과 확인."
         }
       ]
     },
@@ -680,20 +761,20 @@
       "id": 8,
       "name": "Cslib.SKI.parallelReduction_diamond",
       "source": "cslib",
-      "status": "partial",
+      "status": "measured",
       "baseline": {
         "tokens": 407,
         "heartbeats": 1380
       },
       "candidate": {
-        "tokens": 412,
-        "heartbeats": 1318
+        "tokens": 210,
+        "heartbeats": 434
       },
       "versions": [
         {
           "version": "v4.33.0-rc2",
           "revision": "3aa9d4416c185e0b9faeb72bbd65abe85b95dbcc",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.32.0",
@@ -708,19 +789,19 @@
         {
           "version": "v4.30.0",
           "revision": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
-          "status": "pending"
+          "status": "pass"
         }
       ],
-      "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "56b6f27c11c9f36d561362f3a2abb4265c407bd0f44603959d6781a5215e4ec6",
-      "note": "담당자가 명시적으로 선택한 후보. 후속 세션 best와 구분. v4.33.0-rc2: 컴파일러·의존성 준비 필요 v4.30.0: 컴파일러·의존성 준비 필요",
-      "baselineCompatibility": null,
+      "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+      "candidateHash": "0c537d3538abe01527c7e76b96b1924a4e124f22c12f602b6eacdc29ec161db5",
+      "note": "권주원221토큰 후보에서 K분기 직접 생성자·refine 및 메서드 표기를 적용. 박선영PR30도 별도 비교. 원본·시작 후보·새 후보 각3회, 지정4버전 전부 통과.",
+      "baselineCompatibility": 100,
       "evidence": [
-        "submissions/warmup/manifest.json",
-        "submissions/warmup/best/P08.lean"
+        "dashboard/public/research/warmup15/verification.json",
+        "dashboard/public/research/warmup15/P08-improved.lean"
       ],
-      "selectedCandidateId": "박선영-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "정소미-team-methods-20261026-P08",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "박선영-final",
@@ -804,7 +885,49 @@
             }
           ],
           "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "기존 best.json에 선택된 후보. 이번 수집에서 점수로 재선택하지 않음. v4.33.0-rc2: 컴파일러·의존성 준비 필요 v4.30.0: 컴파일러·의존성 준비 필요"
+          "note": "보관된 best.json의 후보. 2026-10-26 대표 선정은 토큰·HB 감소율 평균을 따릅니다. v4.33.0-rc2: 컴파일러·의존성 준비 필요 v4.30.0: 컴파일러·의존성 준비 필요"
+        },
+        {
+          "id": "정소미-team-methods-20261026-P08",
+          "author": "정소미 · 팀 기법 확장",
+          "proof": "theorem parallelReduction_diamond : Diamond ParallelReduction := by\n  intro a a₁ a₂ h₁ h₂\n  induction h₁ generalizing a₂\n  case refl => use a₂, h₂, .refl a₂\n  all_goals cases h₂\n  case' par.par iha ihb _ _ ha'' hb'' =>\n    rcases iha ha'', ihb hb'' with ⟨⟨_, ha⟩, ⟨_, hb⟩⟩\n    exact ⟨_, ha.1.par hb.1, ha.2.par hb.2⟩\n  case' par.red_I b' _ _ ha' _ =>\n    cases I_irreducible _ ha'\n    use b', .red_I b'\n  case' par.red_K ha' _ | red_K.par ha' _ =>\n    obtain ⟨k, h, rfl⟩ := Ka_irreducible _ _ ha'\n    refine ⟨k, ?_, ?_⟩ <;> first | assumption | constructor\n  case' par.red_S hb' _ _ _ ha' _ | red_S.par ha' hb' =>\n    obtain ⟨_, _, ha, hc, rfl⟩ := Sab_irreducible _ _ _ ha'\n    have hj := (ha.par hb').par (hc.par hb')\n    first\n    | exact ⟨_, hj, .red_S ..⟩\n    | exact ⟨_, .red_S .., hj⟩\n  case' red_I.par a₁' hc ha =>\n    cases I_irreducible _ hc\n    use a₁', ha, .red_I _\n  all_goals exact ⟨_, .refl _, by constructor <;> assumption⟩\n",
+          "sourcePath": "dashboard/public/research/warmup15/P08-improved.lean",
+          "sourceCommit": "75efae19aab99406bba2d6eb33b547884513f091",
+          "sourceState": "working-tree-snapshot",
+          "candidateHash": "0c537d3538abe01527c7e76b96b1924a4e124f22c12f602b6eacdc29ec161db5",
+          "status": "measured",
+          "baseline": {
+            "tokens": 407,
+            "heartbeats": 1380
+          },
+          "candidate": {
+            "tokens": 210,
+            "heartbeats": 434
+          },
+          "versions": [
+            {
+              "version": "v4.33.0-rc2",
+              "revision": "3aa9d4416c185e0b9faeb72bbd65abe85b95dbcc",
+              "status": "pass"
+            },
+            {
+              "version": "v4.32.0",
+              "revision": "197a7be621263b84c67ca4f803f69205b36d06df",
+              "status": "pass"
+            },
+            {
+              "version": "v4.31.0",
+              "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+              "status": "pass"
+            },
+            {
+              "version": "v4.30.0",
+              "revision": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
+              "status": "pass"
+            }
+          ],
+          "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+          "note": "권주원221토큰 후보에서 K분기 직접 생성자·refine 및 메서드 표기를 적용. 박선영PR30도 별도 비교. 원본·시작 후보·새 후보 각3회, 지정4버전 전부 통과."
         }
       ]
     },
@@ -838,9 +961,9 @@
           "status": "pass"
         }
       ],
-      "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+      "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
       "candidateHash": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
-      "note": "2026-10-26: 동일한 후보·명제를 지정된 세 커밋과 고정 의존성에서 각각 3회 전체 파일 검증해 모두 통과했습니다. 호환성만 보완했으며 기존 v4.32.0 토큰·HB 측정값은 유지합니다.",
+      "note": "2026-10-26: 동일한 후보·명제를 지정된 세 커밋과 고정 의존성에서 각각 3회 전체 파일 검증해 모두 통과했습니다. 호환성만 보완했으며 기존 v4.32.0 토큰·HB 측정값은 유지합니다. 2026-10-26 원본·후보 전체 문맥 재검증 및 모든 지정 버전 통과 확인.",
       "baselineCompatibility": 100,
       "evidence": [
         "submissions/warmup/manifest.json",
@@ -848,7 +971,7 @@
         "research/p09/experiment.json · full-source-local-2026-10-26 · 호환성 보완"
       ],
       "selectedCandidateId": "정소미-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "정소미-final",
@@ -884,8 +1007,8 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "2026-10-26: 동일한 후보·명제를 지정된 세 커밋과 고정 의존성에서 각각 3회 전체 파일 검증해 모두 통과했습니다. 호환성만 보완했으며 기존 v4.32.0 토큰·HB 측정값은 유지합니다."
+          "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+          "note": "2026-10-26: 동일한 후보·명제를 지정된 세 커밋과 고정 의존성에서 각각 3회 전체 파일 검증해 모두 통과했습니다. 호환성만 보완했으며 기존 v4.32.0 토큰·HB 측정값은 유지합니다. 2026-10-26 원본·후보 전체 문맥 재검증 및 모든 지정 버전 통과 확인."
         },
         {
           "id": "권주원-20261016",
@@ -921,8 +1044,8 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.32.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "2026-10-26: 동일한 후보·명제를 지정된 세 커밋과 고정 의존성에서 각각 3회 전체 파일 검증해 모두 통과했습니다. 호환성만 보완했으며 기존 v4.32.0 토큰·HB 측정값은 유지합니다."
+          "environment": "v4.32.0 · macOS arm64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+          "note": "2026-10-26: 동일한 후보·명제를 지정된 세 커밋과 고정 의존성에서 각각 3회 전체 파일 검증해 모두 통과했습니다. 호환성만 보완했으며 기존 v4.32.0 토큰·HB 측정값은 유지합니다. 2026-10-26 원본·후보 전체 문맥 재검증 및 모든 지정 버전 통과 확인."
         }
       ]
     },
@@ -970,7 +1093,7 @@
         "submissions/warmup/best/P10.lean"
       ],
       "selectedCandidateId": "박성호-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "박성호-final",
@@ -1055,7 +1178,7 @@
         "submissions/warmup/best/P11.lean"
       ],
       "selectedCandidateId": "박선영-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "박선영-final",
@@ -1174,8 +1297,8 @@
         "heartbeats": 115674
       },
       "candidate": {
-        "tokens": 259,
-        "heartbeats": 2931
+        "tokens": 183,
+        "heartbeats": 2996
       },
       "versions": [
         {
@@ -1194,16 +1317,16 @@
           "status": "pass"
         }
       ],
-      "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "6bf40078bbbbbafe922d313feb4228bc8c6262269d3a13231482b25c001feda9",
-      "note": "담당자 발표의 최종 수정본. 지역 이름 단축을 포함한 마지막 코드 블록. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다.",
+      "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+      "candidateHash": "639587d781669920f53805ab49450d40002e358e33cff361e679bcbbb1f09348",
+      "note": "추가 import를 사용한 개발 후보. 지정 환경에서 별도 재검증 필요. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다.",
       "baselineCompatibility": 100,
       "evidence": [
         "submissions/warmup/verification-results.json",
         "submissions/warmup/best/P13.lean"
       ],
-      "selectedCandidateId": "권주원-final",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "권주원-development",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "권주원-final",
@@ -1239,7 +1362,7 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
           "note": "담당자 발표의 최종 수정본. 지역 이름 단축을 포함한 마지막 코드 블록. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
         },
         {
@@ -1276,7 +1399,7 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
           "note": "추가 import를 사용한 개발 후보. 지정 환경에서 별도 재검증 필요. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
         }
       ]
@@ -1291,8 +1414,8 @@
         "heartbeats": 134471
       },
       "candidate": {
-        "tokens": 364,
-        "heartbeats": 1699
+        "tokens": 105,
+        "heartbeats": 2433
       },
       "versions": [
         {
@@ -1306,16 +1429,16 @@
           "status": "pass"
         }
       ],
-      "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "cfc6d844740f6ec56444dc84842227f9c831c834eb049ae44334354607d30a54",
-      "note": "담당자 측정 파일에서 선언 추출. 계측용 앞뒤 명령은 원본 및 별도 파일에 보존. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다.",
+      "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+      "candidateHash": "e00f8c3bd53b158a79d09d1a568dea9f9812e6b81a3c9c2c6620dff6c3b460ab",
+      "note": "박채원 기존 증명을 출발점으로 Set.Intersecting.is_max_iff_card_eq 정리 재사용. 정확한 두 지정 버전의 원본 전체 문맥에서 원본·기존·새 후보 각3회 통과. 주 측정은4.26,4.25결과는 호환성 근거로 별도 보존.",
       "baselineCompatibility": 100,
       "evidence": [
-        "submissions/warmup/verification-results.json",
-        "submissions/warmup/best/P14.lean"
+        "dashboard/public/research/warmup15/verification.json",
+        "dashboard/public/research/warmup15/P14-lemma-maximal.lean"
       ],
-      "selectedCandidateId": "박채원-local-v426",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectedCandidateId": "정소미-team-methods-20261026-P14",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "박채원-local-v426",
@@ -1346,7 +1469,7 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
           "note": "담당자 측정 파일에서 선언 추출. 계측용 앞뒤 명령은 원본 및 별도 파일에 보존. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
         },
         {
@@ -1378,7 +1501,7 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
           "note": "고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
         },
         {
@@ -1389,23 +1512,29 @@
           "sourceCommit": "456dbc4823dd5dbbdb86b173beaee6f7949167be",
           "sourceState": "working-tree-snapshot",
           "candidateHash": "e00f8c3bd53b158a79d09d1a568dea9f9812e6b81a3c9c2c6620dff6c3b460ab",
-          "status": "pending",
-          "baseline": null,
-          "candidate": null,
+          "status": "measured",
+          "baseline": {
+            "tokens": 1754,
+            "heartbeats": 134471
+          },
+          "candidate": {
+            "tokens": 105,
+            "heartbeats": 2433
+          },
           "versions": [
             {
               "version": "v4.25.0",
               "revision": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
-              "status": "pending"
+              "status": "pass"
             },
             {
               "version": "v4.26.0",
               "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
-              "status": "pending"
+              "status": "pass"
             }
           ],
-          "environment": "지정 버전·원본 전체 import 문맥에서 검증 대기",
-          "note": "기존 정리 재사용 후보. v4.31의 축소 import 진단에서 통과했으나 지정 버전·전체 문맥 검증 전이므로 점수에 포함하지 않습니다."
+          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
+          "note": "박채원 기존 증명을 출발점으로 Set.Intersecting.is_max_iff_card_eq 정리 재사용. 정확한 두 지정 버전의 원본 전체 문맥에서 원본·기존·새 후보 각3회 통과. 주 측정은4.26,4.25결과는 호환성 근거로 별도 보존."
         }
       ]
     },
@@ -1439,7 +1568,7 @@
           "status": "pass"
         }
       ],
-      "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+      "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
       "candidateHash": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
       "note": "담당자 측정 파일에서 선언 추출. 계측용 앞뒤 명령은 원본 및 별도 파일에 보존. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다.",
       "baselineCompatibility": 100,
@@ -1448,7 +1577,7 @@
         "submissions/warmup/best/P15.lean"
       ],
       "selectedCandidateId": "박채원-local-v426",
-      "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
+      "selectionReason": "검증된 후보의 원본 대비 토큰·HB 감소율 평균 최대. 지정 버전 미완료는 호환성 대기로 표시. 기존 담당자 최종본과 모든 후보는 보존.",
       "teamResults": [
         {
           "id": "박채원-local-v426",
@@ -1484,7 +1613,7 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
           "note": "담당자 측정 파일에서 선언 추출. 계측용 앞뒤 명령은 원본 및 별도 파일에 보존. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
         },
         {
@@ -1521,7 +1650,7 @@
               "status": "pass"
             }
           ],
-          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+          "environment": "v4.26.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스3회 중앙값 · lean-source-anchored-v1",
           "note": "고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
         },
         {
@@ -1532,6 +1661,37 @@
           "sourceCommit": "73751b6e04674cb8a3a04ed28dae15e0f4437f8a",
           "sourceState": "working-tree-snapshot",
           "candidateHash": "5374438fff6ceacbb7b8dfdbed055e89fa3a891e223c6463359386c58499eb56",
+          "status": "proof_failed",
+          "baseline": null,
+          "candidate": null,
+          "versions": [
+            {
+              "version": "v4.25.0",
+              "revision": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+              "status": "fail"
+            },
+            {
+              "version": "v4.26.0",
+              "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+              "status": "fail"
+            },
+            {
+              "version": "v4.27.0",
+              "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+              "status": "fail"
+            }
+          ],
+          "environment": "지정 버전·원본 전체 import 문맥에서 검증 대기",
+          "note": "축소4.31 진단에서는 통과했지만 지정된4.25·4.26·4.27 전체 문맥에서는 convert! 전술 미지원으로 실패. 실패 후보로 보존하며 대표 점수에 포함하지 않습니다."
+        },
+        {
+          "id": "정소미-team-methods-20261026-P15-compat",
+          "author": "정소미 · 팀 기법 확장",
+          "proof": "theorem putnam_1995_a3\n(relation : (Fin 9 → ℤ) → (Fin 9 → ℤ) → Prop)\n(digits_to_num : (Fin 9 → ℤ) → ℤ)\n(hdigits_to_num : digits_to_num = fun dig => ∑ i : Fin 9, (dig i) * 10^i.1)\n(hrelation : ∀ d e : (Fin 9 → ℤ), relation d e ↔ (∀ i : Fin 9, d i < 10 ∧ d i ≥ 0 ∧ e i < 10 ∧ e i ≥ 0) ∧ (∀ i : Fin 9, 7 ∣ (digits_to_num (fun j : Fin 9 => if j = i then e j else d j))))\n: ∀ d e f : (Fin 9 → ℤ), ((relation d e) ∧ (relation e f)) → (∀ i : Fin 9, 7 ∣ d i - f i) := by\n  intro d e f ⟨hde, hef⟩ i\n  -- \"자리 하나 바꾼 수 9개가 7의 배수\" 조건만 꺼냄 (0~9 범위 조건은 안 씀)\n  obtain ⟨-, h1⟩ := (hrelation d e).mp hde\n  obtain ⟨-, h2⟩ := (hrelation e f).mp hef\n  subst hdigits_to_num\n  -- [1단계] i번째 자리만 바꾼 수 = 원래 수 + (바뀐 숫자 − 원래 숫자) × 10^i\n  have key : ∀ (x y : Fin 9 → ℤ) i, ∑ j, (if j = i then y j else x j) * 10 ^ j.1\n      = ∑ j, x j * 10 ^ j.1 + (y i - x i) * 10 ^ i.1 := fun x y i => by\n    rw [show (y i - x i) * 10 ^ i.1 = ∑ j, if j = i then (y j - x j) * 10 ^ j.1 else 0 by simp,\n      ← Finset.sum_add_distrib]\n    exact Finset.sum_congr rfl fun j _ => by split_ifs with h <;> [(subst h; ring); simp]\n  simp only [key] at h1 h2\n  -- [2단계] A 9개를 모두 더함: 7 ∣ 9D + (E − D)\n  have hS := Finset.dvd_sum (s := .univ) fun j _ => h1 j\n  simp only [Finset.sum_add_distrib, sub_mul, Finset.sum_sub_distrib, Finset.sum_const,\n    Finset.card_univ, Fintype.card_fin, nsmul_eq_mul] at hS\n  -- [3단계] (fᵢ − dᵢ)·10^i = Aᵢ + Bᵢ − (9D + E − D) + 7D 는 7의 배수\n  have h3 : 7 ∣ (f i - d i) * 10 ^ i.1 := by\n    convert dvd_add (dvd_sub (dvd_add (h1 i) (h2 i)) hS) (dvd_mul_right 7 (∑ j, d j * 10 ^ j.1)) using 1\n    ring\n  -- [4단계] 7 과 10^i 는 서로소 (7·3 + 10·(−2) = 1) → 10^i 를 떼어냄\n  exact dvd_sub_comm.mp ((IsCoprime.pow_right ⟨3, -2, by norm_num⟩).dvd_of_dvd_mul_right h3)\n",
+          "sourcePath": "dashboard/public/research/warmup15/P15-drop-cast.lean",
+          "sourceCommit": "75efae19aab99406bba2d6eb33b547884513f091",
+          "sourceState": "working-tree-snapshot",
+          "candidateHash": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
           "status": "pending",
           "baseline": null,
           "candidate": null,
@@ -1552,8 +1712,8 @@
               "status": "pending"
             }
           ],
-          "environment": "지정 버전·원본 전체 import 문맥에서 검증 대기",
-          "note": "convert! 및 중복 cast 정리 후보. 축소 문맥 v4.31 진단에서만 비교를 마쳤으므로 점수에 포함하지 않습니다."
+          "environment": "지정 버전·원본 전체 문맥 검증 대기",
+          "note": "convert는 원래대로 유지하고 push_cast만 제거한281토큰 후보. convert!가 없는 이전 버전 호환성을 목표로 한 후속 수정이며 아직 지정 버전 검증 전입니다."
         }
       ]
     }

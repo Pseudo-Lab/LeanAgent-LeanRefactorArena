@@ -3,8 +3,7 @@ theorem extractedOldExprInVars :
   NormalizedOldExpr post →
   (extractOldExprVars post).Subset
   (Imperative.HasVarsPure.getVars post) := by
-  intro h
-  induction h <;> unfold extractOldExprVars <;> (try split) <;>
-    simp_all [Imperative.HasVarsPure.getVars, Lambda.LExpr.LExpr.getVars] <;>
-    (repeat' apply List.Subset.app) <;> (try (apply List.Subset.trans; assumption)) <;>
-    simp +contextual [List.Subset]
+  rintro -
+  apply List.Sublist.subset
+  fun_induction extractOldExprVars post <;>
+    apply_rules only [*, List.nil_sublist, List.Sublist.append, List.Sublist.refl]
