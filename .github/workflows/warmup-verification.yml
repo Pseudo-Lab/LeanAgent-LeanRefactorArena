@@ -2,6 +2,12 @@ name: Verify pinned warmup environments
 
 on:
   workflow_dispatch:
+    inputs:
+      source:
+        description: 'Pinned environment group to verify'
+        type: choice
+        default: all
+        options: [all, putnambench, arklib]
 
 permissions:
   contents: read
@@ -19,21 +25,7 @@ jobs:
       fail-fast: false
       max-parallel: 4
       matrix:
-        include:
-          - source: putnambench
-            version: v4.25.0
-          - source: putnambench
-            version: v4.26.0
-          - source: putnambench
-            version: v4.27.0
-          - source: arklib
-            version: v4.28.0
-          - source: arklib
-            version: v4.29.0
-          - source: arklib
-            version: v4.30.0
-          - source: arklib
-            version: v4.31.0
+        include: ${{ fromJSON(inputs.source == 'putnambench' && '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"}]' || inputs.source == 'arklib' && '[{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]' || '[{"source":"putnambench","version":"v4.25.0"},{"source":"putnambench","version":"v4.26.0"},{"source":"putnambench","version":"v4.27.0"},{"source":"arklib","version":"v4.28.0"},{"source":"arklib","version":"v4.29.0"},{"source":"arklib","version":"v4.30.0"},{"source":"arklib","version":"v4.31.0"}]') }}
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
