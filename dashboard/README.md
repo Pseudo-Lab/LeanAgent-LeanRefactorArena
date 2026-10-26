@@ -47,7 +47,9 @@ npm run build
 
 ## 배포
 
-Cloudflare Pages의 Direct Upload 프로젝트를 사용합니다. 운영 주소는 GitHub Actions 저장소 변수 `DASHBOARD_URL`에 설정합니다.
+운영 주소: https://lean-arena-dashboard.pages.dev
+
+Cloudflare Pages의 Direct Upload 프로젝트 `lean-arena-dashboard`를 사용합니다. GitHub Actions 저장소 변수 `DASHBOARD_URL`에도 이 주소를 설정합니다.
 
 `.github/workflows/dashboard-ci.yml`이 main의 `dashboard/**` 또는 해당 워크플로 변경을 처리합니다. PR에서는 테스트·데이터 검사·빌드만 실행하며, main에서는 검사 성공 후 **같은 실행에서 검증한 `dist/` artifact**를 Cloudflare Pages로 배포합니다. Actions의 수동 실행도 main에서만 운영 배포합니다. Cloudflare의 별도 Git 연결이나 팀원별 유료 좌석은 필요하지 않습니다.
 
@@ -64,7 +66,7 @@ Cloudflare Pages의 Direct Upload 프로젝트를 사용합니다. 운영 주소
 | Variable | `CLOUDFLARE_PAGES_PROJECT` | 생성한 Pages 프로젝트 이름 |
 | Variable | `DASHBOARD_URL` | 해당 프로젝트의 실제 운영 URL (`https://…pages.dev`) |
 
-Wrangler CLI는 `4.152.0`으로 고정합니다. API 토큰이 만료되면 Secret을 갱신합니다. 필수 설정이 없으면 배포 단계가 명시적인 오류로 중단됩니다.
+Wrangler CLI는 `4.152.0`으로 고정합니다. 배포 토큰 `lean-arena-github-actions`의 만료일은 2027-10-26이며, 만료 전에 Secret을 갱신합니다. 필수 설정이 없으면 배포 단계가 명시적인 오류로 중단됩니다.
 
 ### 배포 확인과 재실행
 
@@ -73,7 +75,7 @@ Wrangler CLI는 `4.152.0`으로 고정합니다. API 토큰이 만료되면 Secr
 로컬에서 운영 데이터를 확인하려면 다음과 같이 실제 주소를 지정합니다.
 
 ```sh
-DASHBOARD_URL=https://YOUR_PROJECT.pages.dev npm run deploy:check
+DASHBOARD_URL=https://lean-arena-dashboard.pages.dev npm run deploy:check
 ```
 
 재배포는 GitHub Actions의 **Dashboard CI and Production → Run workflow → main**에서 실행합니다. `check` 성공만으로 운영 배포가 끝난 것은 아니며, `deploy`의 데이터 확인까지 성공했는지 확인합니다. PR·다른 브랜치에서 수동 실행하면 검증만 수행합니다.
