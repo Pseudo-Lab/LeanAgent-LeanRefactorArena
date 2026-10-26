@@ -30,6 +30,7 @@ export function ProofResearch() {
       <tr><th>명시적 생성자 변형</th><td>79</td><td>515</td><td>77.59</td><td>+0.013점의 미세 차이</td></tr>
     </tbody></table></div>
     <p className="source-disclosure">표의 HB는 이번 전체 문맥 검증 도구의 결과입니다. 기존 점수표의 원본·후보 HB와는 계측 경로가 달라 섞지 않았습니다. 토큰은 LLM 사용량이 아닌 증명 본문의 구문 토큰입니다.</p>
+    <p className="source-disclosure">후속 공통 평가기(PR3) 재검증에서는 기존 최종본과 명시적 생성자 변형이 모두 79토큰·HB 512였습니다. 위 표의 1 HB 차이는 공통 평가기에서 재현되지 않아 새 대표 후보로 채택하지 않았습니다.</p>
     <div className="research-columns"><div><h3>9번에서 무엇을 바꿨나</h3><ol>
       <li><code>And.imp (by first | exact id | exact Tr.choiceL)</code>의 국소 자동화를 <code>solve_by_elim [Tr.choiceL]</code>로 바꿔 3토큰을 줄였습니다. HB는 늘었습니다.</li>
       <li>명시적 생성자 추론, 분기 순서, 직접 적용과 큰 자동화를 포함해 22개 변형을 시험했습니다. 통과 12개·실패 10개를 모두 기록했습니다.</li>

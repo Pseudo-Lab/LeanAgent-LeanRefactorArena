@@ -23,6 +23,6 @@ theorem putnam_1995_a3
   -- [3단계] (fᵢ − dᵢ)·10^i = Aᵢ + Bᵢ − (9D + E − D) + 7D 는 7의 배수
   have h3 : 7 ∣ (f i - d i) * 10 ^ i.1 := by
     convert dvd_add (dvd_sub (dvd_add (h1 i) (h2 i)) hS) (dvd_mul_right 7 (∑ j, d j * 10 ^ j.1)) using 1
-    push_cast; ring
+    ring
   -- [4단계] 7 과 10^i 는 서로소 (7·3 + 10·(−2) = 1) → 10^i 를 떼어냄
   exact dvd_sub_comm.mp ((IsCoprime.pow_right ⟨3, -2, by norm_num⟩).dvd_of_dvd_mul_right h3)

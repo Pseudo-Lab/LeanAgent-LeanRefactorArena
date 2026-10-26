@@ -4,7 +4,7 @@
   "rulesSource": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/blob/8fdaaaa25b993ae8d894e9bb756c3ae222b58507/app.py",
   "benchmarkRevision": "56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c",
   "benchmarkSha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
-  "submissionSha256": "9435c72818264d722fd81995a3ef43cb36d4d0633cb6e1aa89bb9abced856114",
+  "submissionSha256": "cefa0378d7fa39116929e9f7900c907320710a5abb5abe2e37d3cc72bf81daa2",
   "format": "UTF-8 JSONL; one name/proof object per line",
   "rows": 15,
   "checks": {
@@ -16,12 +16,11 @@
   },
   "officiallySubmitted": false,
   "officialEvaluationPassed": null,
-  "apiEligibility": "not-assessed; historical team experiments, not a Track1 API run",
+  "apiEligibility": "not_assessed; no complete per-problem model-cost ledger or budgeted OpenRouter reproduction run",
   "limitations": [
     "Packaging checks are not Lean compilation or official scoring.",
-    "P03, P07, P08, P09 still have pending designated-version checks.",
-    "No exemption from the OpenRouter, budget or reproduction requirements is inferred from warmup upload availability.",
-    "P12 uses the official reference, not the owner refactor; it has not been reverified in this export."
+    "Designated-version status is recorded per problem; compatibility checks do not establish official scoring.",
+    "No exemption from the OpenRouter, budget or reproduction requirements is inferred from warmup upload availability."
   ],
   "problems": [
     {
@@ -29,8 +28,8 @@
       "name": "CallElimCorrect.substOldPostSubset",
       "selection": "team_best",
       "source": "submissions/warmup/best/P01.lean",
-      "sha256": "2861c028472142b869a9e2df832101f14b32381f61d35cbaf62aff9e5a1870d8",
-      "teamBestSha256": "2861c028472142b869a9e2df832101f14b32381f61d35cbaf62aff9e5a1870d8",
+      "sha256": "94fa7cf232cd193d79d60bd114a21b9070699481c1a21bbc32862b43bf097248",
+      "teamBestSha256": "94fa7cf232cd193d79d60bd114a21b9070699481c1a21bbc32862b43bf097248",
       "localStatus": "measured",
       "versions": [
         {
@@ -46,8 +45,8 @@
       "name": "CallElimCorrect.extractedOldExprInVars",
       "selection": "team_best",
       "source": "submissions/warmup/best/P02.lean",
-      "sha256": "2bd0d1e1a5b75be5f48049b853bba5925c7788e86b3fb47285bbcde86c71d2e4",
-      "teamBestSha256": "2bd0d1e1a5b75be5f48049b853bba5925c7788e86b3fb47285bbcde86c71d2e4",
+      "sha256": "bf7a6f7ff9c0b76d903beb2e011ed3758fab790de2d88116607d197278a9aa05",
+      "teamBestSha256": "bf7a6f7ff9c0b76d903beb2e011ed3758fab790de2d88116607d197278a9aa05",
       "localStatus": "measured",
       "versions": [
         {
@@ -63,19 +62,19 @@
       "name": "Core.InitsUpdatesComm",
       "selection": "team_best",
       "source": "submissions/warmup/best/P03.lean",
-      "sha256": "b26ec6c9d391fec384f763798852cb9a77a82e277061ec5728c49427c9f74fc2",
-      "teamBestSha256": "b26ec6c9d391fec384f763798852cb9a77a82e277061ec5728c49427c9f74fc2",
-      "localStatus": "partial",
+      "sha256": "af9eeefe9c65365b6b5f4dbc1e0a4fcebfa3f33cebc644f5803e021491da298d",
+      "teamBestSha256": "af9eeefe9c65365b6b5f4dbc1e0a4fcebfa3f33cebc644f5803e021491da298d",
+      "localStatus": "measured",
       "versions": [
         {
           "version": "v4.29.1",
           "revision": "384e22374e0872095ad9c6f74c5998c09cfd93a9",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.27.0",
           "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.26.0",
@@ -90,8 +89,8 @@
       "name": "fundamental_theorem_of_variational_calculus'",
       "selection": "team_best",
       "source": "submissions/warmup/best/P04.lean",
-      "sha256": "534b3f8929bc01e93d50fe36133ffc14ac729ff0eee74cacbc8cb03fe5ac0eb8",
-      "teamBestSha256": "534b3f8929bc01e93d50fe36133ffc14ac729ff0eee74cacbc8cb03fe5ac0eb8",
+      "sha256": "b9350a3add1ed182b93fc4731c657a971caa1412c0690fb942af26aa14c469a9",
+      "teamBestSha256": "b9350a3add1ed182b93fc4731c657a971caa1412c0690fb942af26aa14c469a9",
       "localStatus": "measured",
       "versions": [
         {
@@ -107,8 +106,8 @@
       "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
       "selection": "team_best",
       "source": "submissions/warmup/best/P05.lean",
-      "sha256": "294ddf305dee94ccf19c3974265b59ab5e4e354b48383555134f5e4e6b0a729c",
-      "teamBestSha256": "294ddf305dee94ccf19c3974265b59ab5e4e354b48383555134f5e4e6b0a729c",
+      "sha256": "fcbba98915d7e303b859b5d985aa14aa6c40698d68645fb9f9489184721428c9",
+      "teamBestSha256": "fcbba98915d7e303b859b5d985aa14aa6c40698d68645fb9f9489184721428c9",
       "localStatus": "measured",
       "versions": [
         {
@@ -141,14 +140,14 @@
       "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
       "selection": "team_best",
       "source": "submissions/warmup/best/P07.lean",
-      "sha256": "66c1018745361d88bb74dc092d2bc48bc32d5c8140f3c2b31b5bc994953cf194",
-      "teamBestSha256": "66c1018745361d88bb74dc092d2bc48bc32d5c8140f3c2b31b5bc994953cf194",
-      "localStatus": "partial",
+      "sha256": "a399f146582a9b68ce9cd3f020993d293a3a030fe6657cf10a76485ea7b7d919",
+      "teamBestSha256": "a399f146582a9b68ce9cd3f020993d293a3a030fe6657cf10a76485ea7b7d919",
+      "localStatus": "measured",
       "versions": [
         {
           "version": "v4.33.0-rc2",
           "revision": "3aa9d4416c185e0b9faeb72bbd65abe85b95dbcc",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.32.0",
@@ -168,14 +167,14 @@
       "name": "Cslib.SKI.parallelReduction_diamond",
       "selection": "team_best",
       "source": "submissions/warmup/best/P08.lean",
-      "sha256": "56b6f27c11c9f36d561362f3a2abb4265c407bd0f44603959d6781a5215e4ec6",
-      "teamBestSha256": "56b6f27c11c9f36d561362f3a2abb4265c407bd0f44603959d6781a5215e4ec6",
-      "localStatus": "partial",
+      "sha256": "0c537d3538abe01527c7e76b96b1924a4e124f22c12f602b6eacdc29ec161db5",
+      "teamBestSha256": "0c537d3538abe01527c7e76b96b1924a4e124f22c12f602b6eacdc29ec161db5",
+      "localStatus": "measured",
       "versions": [
         {
           "version": "v4.33.0-rc2",
           "revision": "3aa9d4416c185e0b9faeb72bbd65abe85b95dbcc",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.32.0",
@@ -190,7 +189,7 @@
         {
           "version": "v4.30.0",
           "revision": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
-          "status": "pending"
+          "status": "pass"
         }
       ],
       "note": ""
@@ -202,12 +201,12 @@
       "source": "submissions/warmup/best/P09.lean",
       "sha256": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
       "teamBestSha256": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
-      "localStatus": "partial",
+      "localStatus": "measured",
       "versions": [
         {
           "version": "v4.33.0-rc2",
           "revision": "3aa9d4416c185e0b9faeb72bbd65abe85b95dbcc",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.32.0",
@@ -259,8 +258,8 @@
       "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
       "selection": "team_best",
       "source": "submissions/warmup/best/P11.lean",
-      "sha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
-      "teamBestSha256": "06afddcc6cdeaaba9efc456f5ef500b2f37c9e2eb180cc665056d85e4d342d4f",
+      "sha256": "1947d44782d33fe4dc34df3afff34c46005505c22dfc7fdc5f97064431f67f1c",
+      "teamBestSha256": "1947d44782d33fe4dc34df3afff34c46005505c22dfc7fdc5f97064431f67f1c",
       "localStatus": "measured",
       "versions": [
         {
@@ -284,37 +283,37 @@
     {
       "id": 12,
       "name": "interleaved_affine_gaps_imply_tensor_gaps",
-      "selection": "official_reference_fallback",
-      "source": "benchmarks/arena/56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c/benchmark_data_warmup.jsonl",
-      "sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
-      "teamBestSha256": "0b696bdf18421ecfda5f0d12ced0dffe9e1090d01f6f7a6d2f34b385aecd3b85",
-      "localStatus": "reference_not_reverified",
+      "selection": "team_best",
+      "source": "submissions/warmup/best/P12.lean",
+      "sha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+      "teamBestSha256": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+      "localStatus": "separate_verified",
       "versions": [
         {
           "version": "v4.31.0",
           "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.30.0",
           "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.29.0",
           "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
-          "status": "pending"
+          "status": "pass"
         }
       ],
-      "note": "P12 team candidate has three top-level helper lemmas. The upload uses the unchanged official reference until that candidate is repaired and verified."
+      "note": ""
     },
     {
       "id": 13,
       "name": "putnam_1964_a4",
       "selection": "team_best",
       "source": "submissions/warmup/best/P13.lean",
-      "sha256": "6bf40078bbbbbafe922d313feb4228bc8c6262269d3a13231482b25c001feda9",
-      "teamBestSha256": "6bf40078bbbbbafe922d313feb4228bc8c6262269d3a13231482b25c001feda9",
+      "sha256": "639587d781669920f53805ab49450d40002e358e33cff361e679bcbbb1f09348",
+      "teamBestSha256": "639587d781669920f53805ab49450d40002e358e33cff361e679bcbbb1f09348",
       "localStatus": "measured",
       "versions": [
         {
@@ -340,8 +339,8 @@
       "name": "putnam_1964_b2",
       "selection": "team_best",
       "source": "submissions/warmup/best/P14.lean",
-      "sha256": "cfc6d844740f6ec56444dc84842227f9c831c834eb049ae44334354607d30a54",
-      "teamBestSha256": "cfc6d844740f6ec56444dc84842227f9c831c834eb049ae44334354607d30a54",
+      "sha256": "e00f8c3bd53b158a79d09d1a568dea9f9812e6b81a3c9c2c6620dff6c3b460ab",
+      "teamBestSha256": "e00f8c3bd53b158a79d09d1a568dea9f9812e6b81a3c9c2c6620dff6c3b460ab",
       "localStatus": "measured",
       "versions": [
         {
@@ -362,8 +361,8 @@
       "name": "putnam_1995_a3",
       "selection": "team_best",
       "source": "submissions/warmup/best/P15.lean",
-      "sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
-      "teamBestSha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+      "sha256": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
+      "teamBestSha256": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
       "localStatus": "measured",
       "versions": [
         {
