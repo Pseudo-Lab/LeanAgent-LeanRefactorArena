@@ -2,17 +2,23 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from contextlib import redirect_stdout
+import argparse
 import hashlib
 import importlib.util
+import io
 import json
+import os
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import types
 import unittest
 from unittest.mock import patch
 
 from scripts import publish_warmup_verification as publisher
+from scripts import verify_warmup_pins as verifier
 from scripts import warmup_evaluator
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -129,8 +135,93 @@ class ValidatorTests(unittest.TestCase):
             warmup_evaluator.patch_validator(self.original_source + b'\n')
 
 
+class CslibRunnerTests(unittest.TestCase):
+    def test_each_p07_pin_routes_through_cslib_preparation_and_evaluation(self):
+        """Exercise the actual runner with synthetic preparation; no Lean or network."""
+        inputs = json.loads((ROOT / 'submissions/warmup/verification-inputs.json').read_text())
+        meta = inputs['problems']['7']
+        snapshot = json.loads((ROOT / 'dashboard/public/data/warmup-team-results.json').read_text())
+        row = next(p for p in snapshot['problems'] if p['id'] == 7)
+        selected = next(c for c in row['teamResults'] if c['id'] == row['selectedCandidateId'])
+        for pin in meta['version_info']:
+            version, revision = next(iter(pin.items()))
+            with self.subTest(version=version), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp)
+                folder = root / 'submissions/warmup'
+                (folder / 'best').mkdir(parents=True)
+                (folder / 'best/P07.lean').write_text(selected['proof'])
+                (folder / 'verification-inputs.json').write_text(json.dumps({'problems': {'7': meta}}))
+                published = root / 'dashboard/public/data/warmup-team-results.json'
+                published.parent.mkdir(parents=True)
+                published.write_text(json.dumps({'problems': [row]}))
+                args = argparse.Namespace(source='cslib', version=version,
+                                          work=root / 'work', output=root / 'output', memory_mb=6144)
+                project = args.work / 'project'
+                commands, evaluations = [], []
+
+                def prepare(command, **kwargs):
+                    commands.append(command)
+                    if command == ['git', 'rev-parse', 'HEAD']:
+                        kwargs['stdout'].write(revision + '\n')
+                    if command[:2] == ['git', 'init']:
+                        project.mkdir()
+                        (project / 'lean-toolchain').write_text(f'leanprover/lean4:{version}\n')
+                        (project / 'lake-manifest.json').write_text('{"packages": []}')
+                        source = project / meta['file_path']
+                        source.parent.mkdir(parents=True)
+                        source.write_text(
+                            'module\npublic import Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Typing\n'
+                            'namespace Cslib.LambdaCalculus.LocallyNameless.Fsub\n'
+                            'set_option linter.tacticAnalysis.verifyGrindOnly false in\n'
+                            '/-- Synthetic surrounding context. -/\n' + meta['src'] + '\nend\n')
+                    return subprocess.CompletedProcess(command, 0)
+
+                def checkout_head(command, **kwargs):
+                    self.assertEqual(command, ['git', '-C', str(project), 'rev-parse', 'HEAD'])
+                    return revision + '\n'
+
+                class FakeEvaluator:
+                    def fingerprint(self, env):
+                        return {'command': env['command']}
+
+                    def evaluate(self, code, config, environments, output, runs):
+                        evaluations.append((code, config, runs))
+                        return {'valid': True, 'environments': {}}
+
+                lean = types.ModuleType('refactor_eval.lean')
+                lean.LeanEvaluator = FakeEvaluator
+                tokens = types.ModuleType('refactor_eval.tokens')
+                tokens.TOKENIZER_ID = 'synthetic'
+                with (patch.object(verifier, 'ROOT', root),
+                      patch.object(verifier.platform, 'platform', return_value='synthetic'),
+                      patch.object(verifier, 'restore_evaluator', return_value=warmup_evaluator.evaluator_metadata()),
+                      patch.object(verifier.subprocess, 'run', side_effect=prepare),
+                      patch.object(verifier.subprocess, 'check_output', side_effect=checkout_head),
+                      patch.dict(sys.modules, {'refactor_eval.lean': lean, 'refactor_eval.tokens': tokens}),
+                      patch.object(sys, 'path', sys.path.copy()),
+                      patch.dict(os.environ, {'GITHUB_STEP_SUMMARY': ''}),
+                      redirect_stdout(io.StringIO())):
+                    verifier.main(args)
+                self.assertIn(['git', 'remote', 'add', 'origin', 'https://github.com/leanprover/cslib.git'], commands)
+                self.assertIn(['git', 'fetch', '--depth=1', 'origin', revision], commands)
+                self.assertIn(['lake', 'build',
+                               '+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'], commands)
+                summary = json.loads((args.output / 'summary.json').read_text())
+                self.assertEqual(summary['status'], 'completed')
+                self.assertEqual(summary['source'], 'cslib')
+                self.assertEqual(summary['revision'], revision)
+                self.assertEqual([p['id'] for p in summary['problems']], [7])
+                self.assertEqual(len(evaluations), 1 + len(row['teamResults']))
+                self.assertTrue(all(runs == 3 for _, _, runs in evaluations))
+                self.assertTrue(all(code.startswith(config['statement']) for code, config, _ in evaluations))
+
+
 class PublicationTests(unittest.TestCase):
     """Synthetic successful measurements test metadata handling in an isolated tree."""
+
+    source = 'arklib'
+    problem_id = 12
+    designated_versions = ('v4.29.0', 'v4.30.0', 'v4.31.0')
 
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
@@ -141,36 +232,36 @@ class PublicationTests(unittest.TestCase):
         self.manifest_path = self.folder / 'manifest.json'
         proof = STATEMENT + ' := by trivial\n'
         digest = hashlib.sha256(proof.encode()).hexdigest()
-        versions = [{'version': v, 'revision': c * 40, 'status': 'pending'}
-                    for v, c in [('v4.29.0', 'a'), ('v4.30.0', 'b'), ('v4.31.0', 'c')]]
+        versions = [{'version': v, 'revision': chr(97 + i) * 40, 'status': 'pending'}
+                    for i, v in enumerate(self.designated_versions)]
         candidate = {'id': 'fixture', 'proof': proof, 'candidateHash': digest,
                      'note': 'Synthetic fixture.', 'status': 'pending',
                      'baseline': None, 'candidate': None, 'versions': versions,
                      'environment': 'fixture'}
-        row = {'id': 12, 'source': 'arklib', 'selectedCandidateId': 'fixture',
+        row = {'id': self.problem_id, 'source': self.source, 'selectedCandidateId': 'fixture',
                'teamResults': [candidate]}
         self.write(self.snapshot_path, {'problems': [row]})
-        self.write(self.manifest_path, {'problems': [{'id': 12, 'sha256': digest,
+        self.write(self.manifest_path, {'problems': [{'id': self.problem_id, 'sha256': digest,
                                                      'allDesignatedVersionsVerified': False}]})
         self.write(self.folder / 'verification-inputs.json', {
-            'problems': {'12': {'version_info': [{v['version']: v['revision']} for v in versions]}}})
-        best = self.folder / 'best/P12.lean'
+            'problems': {str(self.problem_id): {'version_info': [{v['version']: v['revision']} for v in versions]}}})
+        best = self.folder / f'best/P{self.problem_id:02}.lean'
         best.parent.mkdir(parents=True)
         best.write_text(proof)
         self.reports = []
         self.paths = []
-        for version in versions:
+        for index, version in enumerate(versions):
             def measured(tokens, heartbeats):
                 return {'valid': True, 'tokens': tokens, 'environments': {
                     'fixture': {'runs': [{} for _ in range(4)], 'median_heartbeats': heartbeats}}}
             self.reports.append({
                 **warmup_evaluator.evaluator_metadata(), 'status': 'completed', 'repetitions': 3,
-                'source': 'arklib', 'version': version['version'], 'revision': version['revision'],
+                'source': self.source, 'version': version['version'], 'revision': version['revision'],
                 'host': 'synthetic', 'commit': 'd' * 40, 'runId': 'fixture',
                 'manifestSha256': 'e' * 64, 'dependencies': [],
                 'finishedAt': '2026-10-26T00:00:00+00:00',
-                'problems': [{'id': 12, 'baseline': measured(100, 1000), 'candidates': {
-                    'fixture': {'sha256': digest, 'result': measured(50, 500)}}}],
+                'problems': [{'id': self.problem_id, 'baseline': measured(100 + index, 1000 + index * 100), 'candidates': {
+                    'fixture': {'sha256': digest, 'result': measured(50 + index, 500 + index * 50)}}}],
             })
             self.paths.append(self.root / f'{version["version"]}.json')
 
@@ -195,6 +286,12 @@ class PublicationTests(unittest.TestCase):
         manifest = json.loads(self.manifest_path.read_text())
         snapshot = json.loads(self.snapshot_path.read_text())
         self.assertEqual(snapshot['problems'][0]['status'], 'measured')
+        primary = next(r for r in self.reports if r['version'] == publisher.PRIMARY[self.source])
+        original = primary['problems'][0]['baseline']
+        candidate = primary['problems'][0]['candidates']['fixture']['result']
+        self.assertEqual(snapshot['problems'][0]['baseline'], publisher.measurement(original))
+        self.assertEqual(snapshot['problems'][0]['candidate'], publisher.measurement(candidate))
+        self.assertTrue(all(v['status'] == 'pass' for v in snapshot['problems'][0]['versions']))
         self.assertIn(warmup_evaluator.VALIDATOR_VERSION, snapshot['provenance'])
         self.assertEqual(manifest['dashboardSnapshotSha256'],
                          hashlib.sha256(self.snapshot_path.read_bytes()).hexdigest())
@@ -226,6 +323,24 @@ class PublicationTests(unittest.TestCase):
         self.publish(self.reports)
         after = json.loads(self.snapshot_path.read_text())
         self.assertEqual(after['problems'][1], untouched)
+
+
+class CslibPublicationTests(PublicationTests):
+    source = 'cslib'
+    problem_id = 7
+    designated_versions = ('v4.33.0-rc2', 'v4.32.0', 'v4.31.0')
+
+    def test_missing_cslib_version_cannot_write_published_files(self):
+        for path, report in zip(self.paths, self.reports):
+            self.write(path, report)
+        snapshot_before = self.snapshot_path.read_bytes()
+        manifest_before = self.manifest_path.read_bytes()
+        with patch.object(publisher, 'ROOT', self.root):
+            with self.assertRaisesRegex(ValueError, 'Missing designated verification: P07 cslib v4.33.0-rc2'):
+                publisher.publish(self.paths[1:])
+        self.assertEqual(self.snapshot_path.read_bytes(), snapshot_before)
+        self.assertEqual(self.manifest_path.read_bytes(), manifest_before)
+        self.assertFalse((self.folder / 'verification-results.json').exists())
 
 
 if __name__ == '__main__':

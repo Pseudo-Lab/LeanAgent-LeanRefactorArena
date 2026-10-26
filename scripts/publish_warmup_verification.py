@@ -13,7 +13,7 @@ else:
     from warmup_evaluator import evaluator_metadata
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIMARY = {'arklib': 'v4.31.0', 'putnambench': 'v4.26.0'}
+PRIMARY = {'arklib': 'v4.31.0', 'cslib': 'v4.32.0', 'putnambench': 'v4.26.0'}
 
 
 def encoded(value):
@@ -66,7 +66,11 @@ def publish(summaries):
         pins = [(v, r) for pin in meta['version_info'] for v, r in pin.items()]
         results = {}
         for version, revision in pins:
-            report = reports[(row['source'], version, revision)]
+            key = (row['source'], version, revision)
+            if key not in reports:
+                raise ValueError(f'Missing designated verification: P{row["id"]:02} '
+                                 f'{row["source"]} {version} at {revision}')
+            report = reports[key]
             result, = [r for r in report['problems'] if r['id'] == row['id']]
             results[version] = result
         for candidate in row['teamResults']:

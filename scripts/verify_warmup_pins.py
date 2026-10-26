@@ -23,6 +23,7 @@ else:
 
 ROOT = Path(__file__).resolve().parents[1]
 REPOSITORIES = {'arklib': 'https://github.com/Verified-zkEVM/ArkLib.git',
+                'cslib': 'https://github.com/leanprover/cslib.git',
                 'putnambench': 'https://github.com/leanprover-community/mathlib4.git'}
 
 def sha(data):
@@ -145,10 +146,16 @@ def main(args):
         lock = (project / 'lake-manifest.json').read_bytes()
         run(['elan', 'toolchain', 'install', toolchain], project)
         run(['lake', 'exe', 'cache', 'get'], project)
-        targets = (['+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean']
-                   if args.source == 'arklib' else ['+Mathlib:olean'])
-        if args.source == 'arklib' and any(row['id'] == 12 for row, _, _ in rows):
-            targets.append('+ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults:olean')
+        if args.source == 'arklib':
+            targets = ['+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean']
+            if any(row['id'] == 12 for row, _, _ in rows):
+                targets.append('+ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults:olean')
+        elif args.source == 'cslib':
+            targets = ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean']
+        elif args.source == 'putnambench':
+            targets = ['+Mathlib:olean']
+        else:
+            raise ValueError(f'Unsupported source: {args.source}')
         if (project / 'lake-manifest.json').read_bytes() != lock:
             raise ValueError('Preparation changed the pinned dependency manifest')
         packages = []
