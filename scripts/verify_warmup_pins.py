@@ -138,7 +138,10 @@ def main(args):
         lock = (project / 'lake-manifest.json').read_bytes()
         run(['elan', 'toolchain', 'install', toolchain], project)
         run(['lake', 'exe', 'cache', 'get'], project)
-        target = '+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean' if args.source == 'arklib' else '+Mathlib:olean'
+        targets = (['+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean']
+                   if args.source == 'arklib' else ['+Mathlib:olean'])
+        if args.source == 'arklib' and any(row['id'] == 12 for row, _, _ in rows):
+            targets.append('+ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults:olean')
         if (project / 'lake-manifest.json').read_bytes() != lock:
             raise ValueError('Preparation changed the pinned dependency manifest')
         packages = []
@@ -156,7 +159,7 @@ def main(args):
             packages.append({'name': package['name'], 'revision': head})
         report['dependencies'] = packages
         report['manifestSha256'] = sha(lock)
-        run(['lake', 'build', target], project)
+        run(['lake', 'build', *targets], project)
         if (project / 'lake-manifest.json').read_bytes() != lock:
             raise ValueError('Build changed the pinned dependency manifest')
         if sys.platform == 'linux':

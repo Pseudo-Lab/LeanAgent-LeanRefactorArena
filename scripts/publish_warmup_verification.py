@@ -119,8 +119,9 @@ def publish(summaries):
         submitted.update(status=row['status'], versions=deepcopy(row['versions']),
                          allDesignatedVersionsVerified=all(v['status'] == 'pass' for v in row['versions']))
     snapshot['measuredAt'] = max(r['finishedAt'] for r in reports.values())
+    verified_problems = '·'.join(f'P{p["id"]:02}' for p in evidence['problems'])
     snapshot['provenance'] = ('PR3 평가기 ' + EVALUATOR + '의 원본·후보 동일 환경 3회 중앙값. '
-                              'P10·P11·P13·P14·P15는 GitHub Actions Linux x86_64에서 지정 커밋 의존성을 복원해 재검증. '
+                              + verified_problems + '는 GitHub Actions Linux x86_64에서 지정 커밋 의존성을 복원해 재검증. '
                               '나머지 문제는 기존 로컬 측정 유지. Track1 API 실행 결과 아님.')
     manifest['measuredAt'] = snapshot['measuredAt']
     manifest['dashboardSnapshotSha256'] = hashlib.sha256(encoded(snapshot)).hexdigest()

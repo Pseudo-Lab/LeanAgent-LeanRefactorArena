@@ -26,7 +26,7 @@ npm run dev
 
 결과 JSON은 `public/data/`에 두고 `index.json`에 파일 이름을 적습니다.
 파일 형식은 `src/lib/model.ts`에 있습니다. `warmup`은 15문제, `competition`은 50문제를 받습니다.
-P10·P11·P13·P14·P15의 웜업 JSON은 `scripts/publish_warmup_verification.py`로 검증 artifact에서 갱신하며 점수를 직접 편집하지 않습니다. 나머지 문제는 기존 측정 결과를 유지합니다. 확인하지 않은 결과는 대기로 표시합니다.
+P10·P11·P12·P13·P14·P15의 웜업 JSON은 `scripts/publish_warmup_verification.py`로 검증 artifact에서 갱신하며 점수를 직접 편집하지 않습니다. P12는 수정 후보를 동기화하고 평가 대상에 등록한 상태이며, 지정 환경 재검증을 기다리고 있습니다. 나머지 문제는 기존 측정 결과를 유지합니다. 확인하지 않은 결과는 대기로 표시합니다.
 JSON 불러오기는 현재 화면에서만 적용됩니다.
 
 ## 팀 PR과 개선 조사
