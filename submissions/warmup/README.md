@@ -12,9 +12,25 @@
 
 ## 지정 환경 재검증
 
-P10·P11·P12·P13·P14·P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. P12는 평가 입력과 빌드 준비를 연결한 상태이며, 새 후보의 지정 환경 검증은 아직 실행하지 않았다.
+P10·P11·P12·P13·P14·P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. P12는 평가 입력과 빌드 준비를 연결한 상태이며, 새 후보의 Linux 공통 환경 재검증은 아직 완료되지 않았다.
+
+현재 P07·P12 best 파일은 각각 SHA-256 `a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e`, `cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4`인 수정 후보다. 패치한 평가기로 macOS arm64의 고정 커밋·의존성에서 P07(v4.31.0/v4.32.0/v4.33.0-rc2), P12(v4.29.0/v4.30.0/v4.31.0)의 원본·후보 컴파일·공리 검사와 각각 3회 측정을 통과했다. 후보·manifest·대시보드 proof와 해시를 동기화했으며, 기존 후보의 측정값·통과 상태는 새 후보에 이월하지 않고 `pending`으로 둔다. 로컬 측정값은 게시하지 않았다. P07은 현재 Linux warmup 워크플로의 대상에 포함되지 않는다.
 
 `scripts/verify_warmup_pins.py`는 고정 커밋을 checkout하고, 해당 Lean 컴파일러 설치 → 공식 Mathlib 캐시 복원 → 필요한 모듈 빌드 → 의존성 커밋 대조를 수행한다. 원본이 통과한 환경에서만 후보를 PR3 평가기로 측정한다. 후보는 대시보드의 파일 해시와 대조하고, 선택 후보는 `best/` 파일과도 일치해야 한다. 세 번의 독립 실행 중앙값과 허용 공리 검사는 기존 평가기와 같다.
+
+### Cardinality 표기 사전검사 수정
+
+실행 `40278829841`에서 P12의 공식 원본에 있는 `#(filter …)`가 PR3 사전검사의 `#` 전체 금지에 걸렸다. 세 지정 버전 모두 원본 사전검사에서 중단되어 수정 후보는 평가하지 못했다. Actions 성공은 검증 시도와 artifact 저장의 완료이며 증명 통과를 뜻하지 않는다.
+
+`scripts/warmup_evaluator.py`는 평가기 커밋 `c18ec56682462847e2f4d8b6d60aa79ec071a10b`를 복원하고 `tokens.py`의 `|#|` 한 곳만 `|#(?![({])|`로 바꾼다. 버전은 `lean-declaration-cardinality-v1`이며, 복원 전후 파일의 고정 SHA-256을 확인한다. 공백 없이 붙은 `#(`·`#{`만 허용하고, 내부·후행 코드의 금지 명령과 기존 금지 항목은 계속 검사한다. 공식 원본, 후보, 토큰 계산, Lean 실행·heartbeat 계측·공리 검사는 변경하지 않는다. 이 사전검사는 샌드박스가 아니며 문법·증명 유효성은 Lean 검증으로 확인한다.
+
+summary에는 기준 커밋 `evaluatorRevision`, 패치 버전 `validatorVersion`, 실제 `tokens.py` 해시 `validatorSha256`을 기록한다. 게시기는 세 값이 현재 설정과 일치하는 summary만 받으며, 게시한 `verification-results.json`은 schemaVersion 2로 이 정보를 전체 및 실행별로 보존한다. 기존 실행의 summary에는 패치 정보가 없으므로 새 결과와 섞어 게시할 수 없다. 새 설정으로 전체 7개 환경을 다시 실행한 뒤 반영한다. 회귀 검사는 다음 명령으로 실행하며 warmup 워크플로에서도 의존성 설치 전에 수행한다. Lean 설치나 네트워크는 사용하지 않는다.
+
+```sh
+python3 -m unittest discover -s tests -p test_warmup_validator.py
+```
+
+### 검증 결과 반영
 
 메모리 기본 한도는 6 GiB이며, 원본 실행에서 Lean 메모리 예외가 확인되면 준비된 환경에서 8 GiB로 한 번 재시도한다. 이 경우 후보도 같은 8 GiB 설정으로 측정하고 실제 명령을 fingerprint에 남긴다. 메모리 한도·시간 초과는 증명 오류와 구분한다.
 

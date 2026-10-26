@@ -4,7 +4,7 @@
   "selectionPolicy": "assigned-author-final",
   "sourceCommit": "5eb5a8c61350d59f1c2f0655c18387abb58cafe4",
   "benchmarkRevision": "56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c",
-  "dashboardSnapshotSha256": "448b8bedd48b5c40afd5ad1f1e5c269cfca025cda0a1bd475339db2131e7a95a",
+  "dashboardSnapshotSha256": "339d71537b271d649dfc0535e992add2a4abc7119815191de82ad5b3c48ff26b",
   "measuredAt": "2026-10-23T13:27:30.284396+00:00",
   "officiallySubmitted": false,
   "apiEligibility": "not-assessed; historical team experiments, not a Track1 API run",
@@ -158,13 +158,13 @@
       "author": "손지연",
       "candidateId": "손지연-final",
       "path": "best/P07.lean",
-      "sha256": "66c1018745361d88bb74dc092d2bc48bc32d5c8140f3c2b31b5bc994953cf194",
-      "sourcePath": "docs/research/refactoring/warmup/손지연/report.md",
-      "sourceCommit": "5eb5a8c61350d59f1c2f0655c18387abb58cafe4",
-      "sourceSha256": "bb87f731959c1d98979d5c689af870e4a7555a10ec1959269b7fc0104a915dfe",
-      "sourceState": "committed",
+      "sha256": "a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e",
+      "sourcePath": "submissions/warmup/best/P07.lean",
+      "sourceCommit": "45a5d26975ca5127197ebd05251bc456532f837d",
+      "sourceSha256": "a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e",
+      "sourceState": "working-tree-snapshot",
       "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
-      "status": "partial",
+      "status": "pending",
       "allDesignatedVersionsVerified": false,
       "versions": [
         {
@@ -175,12 +175,12 @@
         {
           "version": "v4.32.0",
           "revision": "197a7be621263b84c67ca4f803f69205b36d06df",
-          "status": "pass"
+          "status": "pending"
         },
         {
           "version": "v4.31.0",
           "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
-          "status": "pass"
+          "status": "pending"
         }
       ]
     },
@@ -328,10 +328,10 @@
       "author": "손지연",
       "candidateId": "손지연-final",
       "path": "best/P12.lean",
-      "sha256": "31299edcdeae3360ec196e1ded3e9d458bb3ad459d2db2f4b079b81ac51a9cd6",
+      "sha256": "cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4",
       "sourcePath": "submissions/warmup/best/P12.lean",
-      "sourceCommit": "456dbc4823dd5dbbdb86b173beaee6f7949167be",
-      "sourceSha256": "31299edcdeae3360ec196e1ded3e9d458bb3ad459d2db2f4b079b81ac51a9cd6",
+      "sourceCommit": "45a5d26975ca5127197ebd05251bc456532f837d",
+      "sourceSha256": "cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4",
       "sourceState": "working-tree-snapshot",
       "selectionReason": "담당자가 공유한 최종본 우선. 없으면 명시적으로 선택된 팀 실험 후보를 표시. 점수 순위 선정 아님.",
       "status": "pending",
