@@ -216,6 +216,17 @@ class PublicationTests(unittest.TestCase):
                 self.assertEqual(self.manifest_path.read_bytes(), manifest_before)
                 self.assertFalse((self.folder / 'verification-results.json').exists())
 
+    def test_unregistered_problem_and_its_evidence_are_preserved(self):
+        snapshot = json.loads(self.snapshot_path.read_text())
+        untouched = {'id': 9, 'status': 'measured',
+                     'evidence': ['submissions/warmup/best/P09.lean',
+                                  'dashboard/public/research/p09/experiment.json']}
+        snapshot['problems'].append(deepcopy(untouched))
+        self.write(self.snapshot_path, snapshot)
+        self.publish(self.reports)
+        after = json.loads(self.snapshot_path.read_text())
+        self.assertEqual(after['problems'][1], untouched)
+
 
 if __name__ == '__main__':
     unittest.main()

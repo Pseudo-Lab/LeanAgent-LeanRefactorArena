@@ -61,7 +61,6 @@ def publish(summaries):
         evidence['runs'].append({k: report[k] for k in [*evaluator, 'source', 'version', 'revision', 'host', 'commit', 'runId', 'manifestSha256', 'dependencies', 'finishedAt']})
     for row in snapshot['problems']:
         if str(row['id']) not in inputs['problems']:
-            row['evidence'] = ['submissions/warmup/manifest.json', f'submissions/warmup/best/P{row["id"]:02}.lean']
             continue
         meta = inputs['problems'][str(row['id'])]
         pins = [(v, r) for pin in meta['version_info'] for v, r in pin.items()]

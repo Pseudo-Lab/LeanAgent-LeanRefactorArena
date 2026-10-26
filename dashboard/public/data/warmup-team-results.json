@@ -3,9 +3,9 @@
   "id": "warmup-team-results",
   "label": "웜업 · 팀원 후보 재검증",
   "dataset": "warmup",
-  "measuredAt": "2026-10-23T13:27:30.284396+00:00",
+  "measuredAt": "2026-10-26T10:32:31.072241+00:00",
   "releaseDate": null,
-  "provenance": "PR3 평가기 c18ec56682462847e2f4d8b6d60aa79ec071a10b의 원본·후보 동일 환경 3회 중앙값. P10·P11·P13·P14·P15는 GitHub Actions Linux x86_64에서 지정 커밋 의존성을 복원해 재검증. 나머지 문제는 기존 로컬 측정 유지. Track1 API 실행 결과 아님.",
+  "provenance": "PR3 평가기 c18ec56682462847e2f4d8b6d60aa79ec071a10b · validator lean-declaration-cardinality-v1 · SHA-256 514dd5f732ad92ba7c9a8e3dfef45574342e32f15ffda61b9017ca5bd7450cf3의 원본·후보 동일 환경 3회 중앙값. P10·P11·P12·P13·P14·P15는 GitHub Actions Linux x86_64에서 지정 커밋 의존성을 복원해 재검증. 나머지 문제는 기존 로컬 측정 유지. Track1 API 실행 결과 아님.",
   "problems": [
     {
       "id": 1,
@@ -1088,32 +1088,38 @@
       "id": 12,
       "name": "interleaved_affine_gaps_imply_tensor_gaps",
       "source": "arklib",
-      "status": "pending",
-      "baseline": null,
-      "candidate": null,
+      "status": "measured",
+      "baseline": {
+        "tokens": 1353,
+        "heartbeats": 9199
+      },
+      "candidate": {
+        "tokens": 747,
+        "heartbeats": 3501
+      },
       "versions": [
         {
           "version": "v4.31.0",
           "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.30.0",
           "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
-          "status": "pending"
+          "status": "pass"
         },
         {
           "version": "v4.29.0",
           "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
-          "status": "pending"
+          "status": "pass"
         }
       ],
-      "environment": "v4.31.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+      "environment": "v4.31.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
       "candidateHash": "cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4",
-      "note": "수정 후보를 best 파일과 동기화했습니다. 패치한 평가기로 macOS 로컬의 지정 세 버전에서 원본·후보 검증과 각 3회 측정을 통과했습니다. 공통 환경 결과 게시 전이며 이전 후보의 측정값·호환성은 새 후보에 이월하지 않습니다.",
-      "baselineCompatibility": null,
+      "note": "보조 증명을 대상 정리 내부의 have로 옮기고, Nonempty F 인스턴스와 명시적 Code.distFromCode 표기를 사용한 담당자 수정 후보. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다.",
+      "baselineCompatibility": 100,
       "evidence": [
-        "submissions/warmup/manifest.json",
+        "submissions/warmup/verification-results.json",
         "submissions/warmup/best/P12.lean"
       ],
       "selectedCandidateId": "손지연-final",
@@ -1127,28 +1133,34 @@
           "sourceCommit": "45a5d26975ca5127197ebd05251bc456532f837d",
           "sourceState": "working-tree-snapshot",
           "candidateHash": "cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4",
-          "status": "pending",
-          "baseline": null,
-          "candidate": null,
+          "status": "measured",
+          "baseline": {
+            "tokens": 1353,
+            "heartbeats": 9199
+          },
+          "candidate": {
+            "tokens": 747,
+            "heartbeats": 3501
+          },
           "versions": [
             {
               "version": "v4.31.0",
               "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
-              "status": "pending"
+              "status": "pass"
             },
             {
               "version": "v4.30.0",
               "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
-              "status": "pending"
+              "status": "pass"
             },
             {
               "version": "v4.29.0",
               "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
-              "status": "pending"
+              "status": "pass"
             }
           ],
-          "environment": "v4.31.0 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "수정 후보를 best 파일과 동기화했습니다. 패치한 평가기로 macOS 로컬의 지정 세 버전에서 원본·후보 검증과 각 3회 측정을 통과했습니다. 공통 환경 결과 게시 전이며 이전 후보의 측정값·호환성은 새 후보에 이월하지 않습니다."
+          "environment": "v4.31.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
+          "note": "보조 증명을 대상 정리 내부의 have로 옮기고, Nonempty F 인스턴스와 명시적 Code.distFromCode 표기를 사용한 담당자 수정 후보. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
         }
       ]
     },

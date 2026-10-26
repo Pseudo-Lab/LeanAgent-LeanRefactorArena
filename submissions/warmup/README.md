@@ -12,9 +12,9 @@
 
 ## 지정 환경 재검증
 
-P10·P11·P12·P13·P14·P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. P12는 평가 입력과 빌드 준비를 연결한 상태이며, 새 후보의 Linux 공통 환경 재검증은 아직 완료되지 않았다.
+P10·P11·P12·P13·P14·P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. 실행 [40301978929](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40301978929)의 전체 7개 summary로 결과를 갱신했으며, P12를 포함한 모든 등록 원본·후보가 지정 버전을 통과했다.
 
-현재 P07·P12 best 파일은 각각 SHA-256 `a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e`, `cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4`인 수정 후보다. 패치한 평가기로 macOS arm64의 고정 커밋·의존성에서 P07(v4.31.0/v4.32.0/v4.33.0-rc2), P12(v4.29.0/v4.30.0/v4.31.0)의 원본·후보 컴파일·공리 검사와 각각 3회 측정을 통과했다. 후보·manifest·대시보드 proof와 해시를 동기화했으며, 기존 후보의 측정값·통과 상태는 새 후보에 이월하지 않고 `pending`으로 둔다. 로컬 측정값은 게시하지 않았다. P07은 현재 Linux warmup 워크플로의 대상에 포함되지 않는다.
+현재 P07·P12 best 파일은 각각 SHA-256 `a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e`, `cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4`인 수정 후보다. 패치한 평가기로 macOS arm64의 고정 커밋·의존성에서 P07(v4.31.0/v4.32.0/v4.33.0-rc2), P12(v4.29.0/v4.30.0/v4.31.0)의 원본·후보 컴파일·공리 검사와 각각 3회 측정을 통과했다. 후보·manifest·대시보드 proof와 해시를 동기화했으며, 이전 후보의 측정값·통과 상태는 새 후보에 이월하지 않았다. P12는 이후 Linux 공통 환경의 세 버전에서도 통과하여 새 측정값을 반영했다. 대표 v4.31.0에서 원본 1,353토큰/9,199 HB, 후보 747토큰/3,501 HB이며 호환성은 3/3이다. macOS 측정값은 게시하지 않았고, P07은 현재 Linux warmup 워크플로의 대상에 포함되지 않아 `pending`을 유지한다.
 
 `scripts/verify_warmup_pins.py`는 고정 커밋을 checkout하고, 해당 Lean 컴파일러 설치 → 공식 Mathlib 캐시 복원 → 필요한 모듈 빌드 → 의존성 커밋 대조를 수행한다. 원본이 통과한 환경에서만 후보를 PR3 평가기로 측정한다. 후보는 대시보드의 파일 해시와 대조하고, 선택 후보는 `best/` 파일과도 일치해야 한다. 세 번의 독립 실행 중앙값과 허용 공리 검사는 기존 평가기와 같다.
 
@@ -38,7 +38,7 @@ python3 -m unittest discover -s tests -p test_warmup_validator.py
 
 `verification-results.json`에는 게시한 결과와 GitHub Actions 실행 ID를 보존한다. 상세 실험 로그는 작업 브랜치에 기록 후 삭제하며, main에는 후보·재현 스크립트·검증 요약만 유지한다. Actions artifact 보관 기간은 30일이며, 이후에도 작업 브랜치의 실험 기록 커밋 `8baf521`에서 `experiments/warmup-environment-repair/`의 상세 로그를 복구할 수 있다.
 
-기존 웜업 수집 사본·보조 스크립트·원시 로그는 정리 요청에 따라 최종 트리에서 제거했다. 이번에 재검증한 5문제 외의 측정은 기존 대시보드 데이터를 유지하며, 과거 로그는 삭제 전 커밋에서 확인한다. 후보를 변경하면 새로 검증한 뒤 best 파일·manifest 해시·대시보드 후보를 함께 갱신한다.
+기존 웜업 수집 사본·보조 스크립트·원시 로그는 정리 요청에 따라 최종 트리에서 제거했다. 평가 입력에 등록되지 않은 문제의 측정과 근거 링크는 기존 대시보드 데이터를 유지하며, 과거 로그는 삭제 전 커밋에서 확인한다. 후보를 변경하면 새로 검증한 뒤 best 파일·manifest 해시·대시보드 후보를 함께 갱신한다.
 
 
 ## 첫 업로드 파일과 남은 수정 범위 (2026-10-23)
@@ -59,8 +59,8 @@ python3 scripts/export_warmup_submission.py --p12-reference
 
 | 우선순위 | 수정 범위 | 완료 조건 |
 |---|---|---|
-| P12 팀 후보 제출 전 필수 | 보조정리 세 개를 내부 `have`로 이동하고 후보의 최상위 `omit` 제거 완료. 공식 statement와 동일하며 manifest·대시보드 후보 해시를 동기화함 | ArkLib v4.29/v4.30/v4.31에서 원본·후보 재검증 대기. 암묵적 인자·타입클래스 범위가 바뀌므로 실제 검증 필요 |
-| P12 검증 연결 | 공식 P12 입력 등록 및 `ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults` 빌드 타깃 추가 완료. 게시기는 등록 입력을 따라 P12도 처리함 | PR 브랜치에서 수동 검증 후 전체 7개 summary로 결과 게시. `submission.jsonl` 재생성은 별도 진행 |
+| P12 팀 후보 제출 전 필수 | 보조정리 세 개를 내부 `have`로 이동하고 후보의 최상위 `omit` 제거 완료. 공식 statement와 동일하며 manifest·대시보드 후보 해시를 동기화함 | ArkLib v4.29/v4.30/v4.31에서 원본·후보 검증 통과 및 Linux 측정 결과 반영 완료 |
+| P12 검증 연결 | 공식 P12 입력 및 `ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults` 빌드 타깃 연결 완료. 게시기는 등록 입력을 따라 P12도 처리함 | 실행 40301978929의 전체 7개 summary 반영 완료. `submission.jsonl` 재생성은 별도 진행 |
 | 나머지 검증 보완 | P03(v4.29.1/v4.27.0), P07(v4.33.0-rc2), P08(v4.33.0-rc2/v4.30.0), P09(v4.33.0-rc2)의 환경 준비 | 실제 검증 결과에 따라 상태 갱신. 현재 JSONL에 포함되어 있지만 전체 버전 통과를 보장하지 않음 |
 | 공식 점수 표시 | `dashboard/src/lib/model.ts`와 결과 데이터에 공식 결과 표시 경로 추가 | 로컬 실험 평균과 분리해 미제출·실패 0점 포함 15문제 평균, 공식 heartbeat 기준 및 worker 결과 사용 |
 | 최종 참가 요건 | `docs/architecture.md`의 OpenRouter 실행·비용 장부·재현 하네스·보고서 계획 구현 | 문제당 $3에 재시도/폐기 후보 포함, 모델 공개, 재현 코드와 OpenReview 보고서 준비. 지금 업로드 가능하다는 사실을 비용 요건 면제로 해석하지 않음 |
