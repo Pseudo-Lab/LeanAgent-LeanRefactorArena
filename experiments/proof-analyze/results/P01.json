@@ -1,0 +1,245 @@
+{
+ "proof_tokens": 313,
+ "type": "case",
+ "subtype": null,
+ "kind_share": {
+  "other": 2.2,
+  "case": 97.4
+ },
+ "tags": {
+  "source": "strata",
+  "length": "medium",
+  "repeat_pairs": 0,
+  "case_body_pairs": 2
+ },
+ "type_hint": "Branch proof. Compare branch bodies: identical bodies can share one `case a | b =>`; a tactic repeated in every branch can move before the split with `<;>`.",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    6,
+    6
+   ],
+   "kind": "other",
+   "head": "induction post <;> simp [substOld]",
+   "tokens": 7,
+   "share": 2.2,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    7,
+    14
+   ],
+   "kind": "case",
+   "head": "case fvar =>",
+   "tokens": 20,
+   "share": 6.4,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    15,
+    21
+   ],
+   "kind": "case",
+   "head": "case op =>",
+   "tokens": 20,
+   "share": 6.4,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    22,
+    26
+   ],
+   "kind": "case",
+   "head": "case const =>",
+   "tokens": 13,
+   "share": 4.2,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    27,
+    31
+   ],
+   "kind": "case",
+   "head": "case bvar =>",
+   "tokens": 13,
+   "share": 4.2,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    32,
+    33
+   ],
+   "kind": "case",
+   "head": "case abs ih =>",
+   "tokens": 6,
+   "share": 1.9,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    34,
+    51
+   ],
+   "kind": "case",
+   "head": "case ite cih tih eih =>",
+   "tokens": 59,
+   "share": 18.8,
+   "children": []
+  },
+  {
+   "id": "B8",
+   "lines": [
+    52,
+    71
+   ],
+   "kind": "case",
+   "head": "case app ih1 ih2 =>",
+   "tokens": 71,
+   "share": 22.7,
+   "children": []
+  },
+  {
+   "id": "B9",
+   "lines": [
+    72,
+    85
+   ],
+   "kind": "case",
+   "head": "case quant trih eih =>",
+   "tokens": 62,
+   "share": 19.8,
+   "children": []
+  },
+  {
+   "id": "B10",
+   "lines": [
+    86,
+    97
+   ],
+   "kind": "case",
+   "head": "case eq ih1 ih2 =>",
+   "tokens": 41,
+   "share": 13.1,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     7,
+     14
+    ],
+    [
+     15,
+     21
+    ]
+   ],
+   "blocks": [
+    "B2",
+    "B3"
+   ],
+   "heads": [
+    "case fvar =>",
+    "case op =>"
+   ],
+   "tokens": [
+    17,
+    17
+   ],
+   "similarity": 1.0,
+   "differs": [],
+   "est_saving": 17,
+   "id": "T1",
+   "edit_span": [
+    7,
+    21
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     22,
+     26
+    ],
+    [
+     27,
+     31
+    ]
+   ],
+   "blocks": [
+    "B4",
+    "B5"
+   ],
+   "heads": [
+    "case const =>",
+    "case bvar =>"
+   ],
+   "tokens": [
+    10,
+    10
+   ],
+   "similarity": 1.0,
+   "differs": [
+    [
+     "name",
+     "d"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T2",
+   "edit_span": [
+    22,
+    31
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     52,
+     71
+    ]
+   ],
+   "blocks": [
+    "B8"
+   ],
+   "heads": [
+    "case app ih1 ih2 =>"
+   ],
+   "tokens": [
+    71
+   ],
+   "share": 22.7,
+   "est_saving": null,
+   "id": "T3",
+   "edit_span": [
+    52,
+    71
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "CallElimCorrect.substOldPostSubset"
+}

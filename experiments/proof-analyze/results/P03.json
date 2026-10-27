@@ -1,0 +1,177 @@
+{
+ "proof_tokens": 224,
+ "type": "case",
+ "subtype": null,
+ "kind_share": {
+  "other": 6.2,
+  "have": 9.4,
+  "case": 83.9
+ },
+ "tags": {
+  "source": "strata",
+  "length": "short",
+  "repeat_pairs": 0,
+  "case_body_pairs": 0
+ },
+ "type_hint": "Branch proof. Compare branch bodies: identical bodies can share one `case a | b =>`; a tactic repeated in every branch can move before the split with `<;>`.",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    10,
+    10
+   ],
+   "kind": "other",
+   "head": "intros Hup Hinit",
+   "tokens": 3,
+   "share": 1.3,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    11,
+    11
+   ],
+   "kind": "other",
+   "head": "exists (updatedStates σ ks' vs')",
+   "tokens": 7,
+   "share": 3.1,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    12,
+    12
+   ],
+   "kind": "have",
+   "head": "have Hk : (isDefined σ' ks) := UpdateStatesDefined Hup",
+   "tokens": 11,
+   "share": 4.9,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    13,
+    13
+   ],
+   "kind": "have",
+   "head": "have Hlen1 := InitStatesLength Hinit",
+   "tokens": 5,
+   "share": 2.2,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    14,
+    14
+   ],
+   "kind": "have",
+   "head": "have Hlen2 := UpdateStatesLength Hup",
+   "tokens": 5,
+   "share": 2.2,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    15,
+    15
+   ],
+   "kind": "other",
+   "head": "induction Hup generalizing σ''",
+   "tokens": 4,
+   "share": 1.8,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    16,
+    23
+   ],
+   "kind": "case",
+   "head": "case update_none =>",
+   "tokens": 23,
+   "share": 10.3,
+   "children": []
+  },
+  {
+   "id": "B8",
+   "lines": [
+    24,
+    55
+   ],
+   "kind": "case",
+   "head": "case update_some σ x v σ₀ xs vs σ₁ Hup Hups ih =>",
+   "tokens": 165,
+   "share": 73.7,
+   "children": [
+    {
+     "lines": [
+      25,
+      25
+     ],
+     "kind": "other",
+     "head": "refine ⟨rfl, ?_, ?_⟩",
+     "tokens": 8
+    },
+    {
+     "lines": [
+      26,
+      30
+     ],
+     "kind": "other",
+     "head": ". apply updatedStatesInit Hlen1",
+     "tokens": 18
+    },
+    {
+     "lines": [
+      31,
+      55
+     ],
+     "kind": "other",
+     "head": ". apply UpdateStates.update_some (σ':=updatedStates σ₀ ks' vs')",
+     "tokens": 126
+    }
+   ]
+  }
+ ],
+ "targets": [
+  {
+   "kind": "large",
+   "lines": [
+    [
+     24,
+     55
+    ]
+   ],
+   "blocks": [
+    "B8"
+   ],
+   "heads": [
+    "case update_some σ x v σ₀ xs vs σ₁ Hup Hups ih =>"
+   ],
+   "tokens": [
+    165
+   ],
+   "share": 73.7,
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    24,
+    55
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "Core.InitsUpdatesComm"
+}

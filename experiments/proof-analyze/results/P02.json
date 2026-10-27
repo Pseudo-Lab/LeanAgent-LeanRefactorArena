@@ -1,0 +1,136 @@
+{
+ "proof_tokens": 222,
+ "type": "case",
+ "subtype": null,
+ "kind_share": {
+  "other": 8.1,
+  "case": 91.4
+ },
+ "tags": {
+  "source": "strata",
+  "length": "short",
+  "repeat_pairs": 0,
+  "case_body_pairs": 0
+ },
+ "type_hint": "Branch proof. Compare branch bodies: identical bodies can share one `case a | b =>`; a tactic repeated in every branch can move before the split with `<;>`.",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    6,
+    6
+   ],
+   "kind": "other",
+   "head": "intros Hnorm",
+   "tokens": 2,
+   "share": 0.9,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    7,
+    10
+   ],
+   "kind": "other",
+   "head": "induction post <;>",
+   "tokens": 16,
+   "share": 7.2,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    11,
+    38
+   ],
+   "kind": "case",
+   "head": "case app fn e fn_ih e_ih =>",
+   "tokens": 77,
+   "share": 34.7,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    39,
+    41
+   ],
+   "kind": "case",
+   "head": "case abs ih =>",
+   "tokens": 10,
+   "share": 4.5,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    42,
+    55
+   ],
+   "kind": "case",
+   "head": "case quant trih eih =>",
+   "tokens": 40,
+   "share": 18.0,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    56,
+    71
+   ],
+   "kind": "case",
+   "head": "case ite cih tih eih =>",
+   "tokens": 45,
+   "share": 20.3,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    72,
+    82
+   ],
+   "kind": "case",
+   "head": "case eq ih1 ih2 =>",
+   "tokens": 31,
+   "share": 14.0,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "large",
+   "lines": [
+    [
+     11,
+     38
+    ]
+   ],
+   "blocks": [
+    "B3"
+   ],
+   "heads": [
+    "case app fn e fn_ih e_ih =>"
+   ],
+   "tokens": [
+    77
+   ],
+   "share": 34.7,
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    11,
+    38
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "CallElimCorrect.extractedOldExprInVars"
+}

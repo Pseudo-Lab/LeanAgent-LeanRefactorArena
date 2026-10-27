@@ -1,0 +1,354 @@
+{
+ "proof_tokens": 4085,
+ "type": "have",
+ "subtype": null,
+ "kind_share": {
+  "other": 0.3,
+  "have": 98.5
+ },
+ "tags": {
+  "source": "putnambench",
+  "length": "long",
+  "repeat_pairs": 2,
+  "case_body_pairs": 0
+ },
+ "type_hint": "Intermediate-claim proof. Look for claims used once (inline them), claims never used (delete them) and claims proved twice up to renaming (prove once with arguments).",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    8,
+    8
+   ],
+   "kind": "other",
+   "head": "intro d e f h",
+   "tokens": 5,
+   "share": 0.1,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    9,
+    9
+   ],
+   "kind": "have",
+   "head": "have h₁ : relation d e := h.1",
+   "tokens": 8,
+   "share": 0.2,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    10,
+    10
+   ],
+   "kind": "have",
+   "head": "have h₂ : relation e f := h.2",
+   "tokens": 8,
+   "share": 0.2,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    11,
+    13
+   ],
+   "kind": "have",
+   "head": "have h₃ : ∀ (i : Fin 9), 7 ∣ (digits_to_num (fun j : Fin 9 => if j = …",
+   "tokens": 83,
+   "share": 2.0,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    14,
+    16
+   ],
+   "kind": "have",
+   "head": "have h₄ : ∀ (i : Fin 9), 7 ∣ (digits_to_num (fun j : Fin 9 => if j = …",
+   "tokens": 83,
+   "share": 2.0,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    18,
+    65
+   ],
+   "kind": "have",
+   "head": "have h₅ : ∀ (i : Fin 9), 7 ∣ (e i - d i) * (10 : ℤ) ^ (i : ℕ) + digit…",
+   "tokens": 812,
+   "share": 19.9,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    67,
+    114
+   ],
+   "kind": "have",
+   "head": "have h₆ : ∀ (i : Fin 9), 7 ∣ (f i - e i) * (10 : ℤ) ^ (i : ℕ) + digit…",
+   "tokens": 812,
+   "share": 19.9,
+   "children": []
+  },
+  {
+   "id": "B8",
+   "lines": [
+    116,
+    189
+   ],
+   "kind": "have",
+   "head": "have h₇ : 7 ∣ digits_to_num e + digits_to_num d := by",
+   "tokens": 1160,
+   "share": 28.4,
+   "children": []
+  },
+  {
+   "id": "B9",
+   "lines": [
+    191,
+    222
+   ],
+   "kind": "have",
+   "head": "have h₈ : ∀ (i : Fin 9), 7 ∣ (f i - d i) * (10 : ℤ) ^ (i : ℕ) := by",
+   "tokens": 521,
+   "share": 12.8,
+   "children": []
+  },
+  {
+   "id": "B10",
+   "lines": [
+    224,
+    277
+   ],
+   "kind": "have",
+   "head": "have h₉ : ∀ (i : Fin 9), 7 ∣ d i - f i := by",
+   "tokens": 525,
+   "share": 12.9,
+   "children": []
+  },
+  {
+   "id": "B11",
+   "lines": [
+    279,
+    279
+   ],
+   "kind": "other",
+   "head": "intro i",
+   "tokens": 2,
+   "share": 0.0,
+   "children": []
+  },
+  {
+   "id": "B12",
+   "lines": [
+    280,
+    280
+   ],
+   "kind": "have",
+   "head": "have h₁₀ : 7 ∣ d i - f i := h₉ i",
+   "tokens": 13,
+   "share": 0.3,
+   "children": []
+  },
+  {
+   "id": "B13",
+   "lines": [
+    281,
+    281
+   ],
+   "kind": "other",
+   "head": "exact h₁₀",
+   "tokens": 2,
+   "share": 0.0,
+   "children": []
+  },
+  {
+   "id": "B14",
+   "lines": [
+    282,
+    282
+   ],
+   "kind": "other",
+   "head": "exact h_main",
+   "tokens": 2,
+   "share": 0.0,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     18,
+     65
+    ],
+    [
+     67,
+     114
+    ]
+   ],
+   "blocks": [
+    "B6",
+    "B7"
+   ],
+   "heads": [
+    "have h₅ : ∀ (i : Fin 9), 7 ∣ (e i - d i) * (10 : …",
+    "have h₆ : ∀ (i : Fin 9), 7 ∣ (f i - e i) * (10 : …"
+   ],
+   "tokens": [
+    812,
+    812
+   ],
+   "similarity": 1.0,
+   "differs": [
+    [
+     "h₅",
+     "h₆"
+    ],
+    [
+     "e",
+     "f"
+    ],
+    [
+     "d",
+     "e"
+    ],
+    [
+     "d",
+     "e"
+    ],
+    [
+     "h₆",
+     "h₇"
+    ],
+    [
+     "e",
+     "f"
+    ],
+    [
+     "d",
+     "e"
+    ],
+    [
+     "h₃",
+     "h₄"
+    ]
+   ],
+   "est_saving": 807,
+   "id": "T1",
+   "edit_span": [
+    18,
+    114
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     11,
+     13
+    ],
+    [
+     14,
+     16
+    ]
+   ],
+   "blocks": [
+    "B4",
+    "B5"
+   ],
+   "heads": [
+    "have h₃ : ∀ (i : Fin 9), 7 ∣ (digits_to_num (fun …",
+    "have h₄ : ∀ (i : Fin 9), 7 ∣ (digits_to_num (fun …"
+   ],
+   "tokens": [
+    83,
+    83
+   ],
+   "similarity": 1.0,
+   "differs": [
+    [
+     "h₃",
+     "h₄"
+    ],
+    [
+     "e",
+     "f"
+    ],
+    [
+     "d",
+     "e"
+    ],
+    [
+     "h₄",
+     "h₅"
+    ],
+    [
+     "e",
+     "f"
+    ],
+    [
+     "d",
+     "e"
+    ],
+    [
+     "d",
+     ""
+    ],
+    [
+     "",
+     "f"
+    ]
+   ],
+   "est_saving": 78,
+   "id": "T2",
+   "edit_span": [
+    11,
+    16
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     116,
+     189
+    ]
+   ],
+   "blocks": [
+    "B8"
+   ],
+   "heads": [
+    "have h₇ : 7 ∣ digits_to_num e + digits_to_num d := by"
+   ],
+   "tokens": [
+    1160
+   ],
+   "share": 28.4,
+   "est_saving": null,
+   "id": "T3",
+   "edit_span": [
+    116,
+    189
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "putnam_1995_a3"
+}

@@ -1,0 +1,521 @@
+{
+ "proof_tokens": 1769,
+ "type": "have",
+ "subtype": null,
+ "kind_share": {
+  "have": 99.8,
+  "other": 0.1
+ },
+ "tags": {
+  "source": "putnambench",
+  "length": "long",
+  "repeat_pairs": 4,
+  "case_body_pairs": 4
+ },
+ "type_hint": "Intermediate-claim proof. Look for claims used once (inline them), claims never used (delete them) and claims proved twice up to renaming (prove once with arguments).",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    6,
+    61
+   ],
+   "kind": "have",
+   "head": "have h_main : ∃ (i j : ℕ), i < j ∧ (u i = u j ∧ u (i + 1) = u (j + 1)…",
+   "tokens": 527,
+   "share": 29.8,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    63,
+    184
+   ],
+   "kind": "have",
+   "head": "have h_periodic : ∃ N c : ℕ, c > 0 ∧ ∀ n ≥ N, u (n + c) = u n := by",
+   "tokens": 1239,
+   "share": 70.0,
+   "children": [
+    {
+     "lines": [
+      64,
+      64
+     ],
+     "kind": "have",
+     "head": "obtain ⟨i, j, hij, h_eq⟩ := h_main",
+     "tokens": 12
+    },
+    {
+     "lines": [
+      65,
+      163
+     ],
+     "kind": "have",
+     "head": "have h₁ : ∀ m : ℕ, u (i + m) = u (j + m) := by",
+     "tokens": 1027
+    },
+    {
+     "lines": [
+      164,
+      183
+     ],
+     "kind": "have",
+     "head": "have h₂ : ∃ N c : ℕ, c > 0 ∧ ∀ n ≥ N, u (n + c) = u n := by",
+     "tokens": 169
+    },
+    {
+     "lines": [
+      184,
+      184
+     ],
+     "kind": "other",
+     "head": "exact h₂",
+     "tokens": 2
+    }
+   ]
+  },
+  {
+   "id": "B3",
+   "lines": [
+    186,
+    186
+   ],
+   "kind": "other",
+   "head": "exact h_periodic",
+   "tokens": 2,
+   "share": 0.1,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     98,
+     105
+    ],
+    [
+     106,
+     116
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "have h₄ : u (i + (m + 4)) = ((u (i + (m + 4) - 1)…",
+    "have h₅ : u (j + (m + 4)) = ((u (j + (m + 4) - 1)…"
+   ],
+   "tokens": [
+    167,
+    178
+   ],
+   "similarity": 0.945,
+   "differs": [
+    [
+     "h₄",
+     "h₅"
+    ],
+    [
+     "i",
+     "j"
+    ],
+    [
+     "i",
+     "j"
+    ],
+    [
+     "i",
+     "j"
+    ],
+    [
+     "i",
+     "j"
+    ],
+    [
+     "i",
+     "j"
+    ],
+    [
+     "i",
+     "j"
+    ],
+    [
+     "i",
+     "j"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    98,
+    116
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     133,
+     136
+    ],
+    [
+     137,
+     140
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "have h₁₄ : u (i + (m + 3)) = u (j + (m + 3)) := by",
+    "have h₁₅ : u (i + (m + 2)) = u (j + (m + 2)) := by"
+   ],
+   "tokens": [
+    48,
+    48
+   ],
+   "similarity": 0.938,
+   "differs": [
+    [
+     "h₁₄",
+     "h₁₅"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "h₁₅",
+     "h₁₆"
+    ],
+    [
+     "3",
+     "2"
+    ],
+    [
+     "h₁₅",
+     "h₁₆"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T2",
+   "edit_span": [
+    133,
+    140
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     133,
+     136
+    ],
+    [
+     141,
+     144
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "have h₁₄ : u (i + (m + 3)) = u (j + (m + 3)) := by",
+    "have h₁₆ : u (i + (m + 1)) = u (j + (m + 1)) := by"
+   ],
+   "tokens": [
+    48,
+    48
+   ],
+   "similarity": 0.938,
+   "differs": [
+    [
+     "h₁₄",
+     "h₁₆"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "h₁₅",
+     "h₁₇"
+    ],
+    [
+     "3",
+     "1"
+    ],
+    [
+     "h₁₅",
+     "h₁₇"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T3",
+   "edit_span": [
+    133,
+    144
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     137,
+     140
+    ],
+    [
+     141,
+     144
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "have h₁₅ : u (i + (m + 2)) = u (j + (m + 2)) := by",
+    "have h₁₆ : u (i + (m + 1)) = u (j + (m + 1)) := by"
+   ],
+   "tokens": [
+    48,
+    48
+   ],
+   "similarity": 0.938,
+   "differs": [
+    [
+     "h₁₅",
+     "h₁₆"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "h₁₆",
+     "h₁₇"
+    ],
+    [
+     "2",
+     "1"
+    ],
+    [
+     "h₁₆",
+     "h₁₇"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T4",
+   "edit_span": [
+    137,
+    144
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     76,
+     81
+    ],
+    [
+     82,
+     87
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "| 1 =>",
+    "| 2 =>"
+   ],
+   "tokens": [
+    19,
+    19
+   ],
+   "similarity": 0.947,
+   "differs": [
+    [
+     "h_eq.2.1",
+     "h_eq.2.2.1"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T5",
+   "edit_span": [
+    76,
+    87
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     76,
+     81
+    ],
+    [
+     88,
+     93
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "| 1 =>",
+    "| 3 =>"
+   ],
+   "tokens": [
+    19,
+    19
+   ],
+   "similarity": 0.947,
+   "differs": [
+    [
+     "h_eq.2.1",
+     "h_eq.2.2.2"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T6",
+   "edit_span": [
+    76,
+    93
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     82,
+     87
+    ],
+    [
+     88,
+     93
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "| 2 =>",
+    "| 3 =>"
+   ],
+   "tokens": [
+    19,
+    19
+   ],
+   "similarity": 0.947,
+   "differs": [
+    [
+     "h_eq.2.2.1",
+     "h_eq.2.2.2"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T7",
+   "edit_span": [
+    82,
+    93
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     45,
+     47
+    ],
+    [
+     48,
+     50
+    ]
+   ],
+   "blocks": [
+    "B1"
+   ],
+   "heads": [
+    "| inl h₈ =>",
+    "| inr h₈ =>"
+   ],
+   "tokens": [
+    8,
+    8
+   ],
+   "similarity": 1.0,
+   "differs": [
+    [
+     "",
+     "j"
+    ],
+    [
+     "j",
+     ""
+    ]
+   ],
+   "est_saving": null,
+   "id": "T8",
+   "edit_span": [
+    45,
+    50
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     63,
+     184
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "have h_periodic : ∃ N c : ℕ, c > 0 ∧ ∀ n ≥ N, u (n + c) = u n := by"
+   ],
+   "tokens": [
+    1239
+   ],
+   "share": 70.0,
+   "est_saving": null,
+   "id": "T9",
+   "edit_span": [
+    63,
+    184
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "putnam_1964_a4"
+}

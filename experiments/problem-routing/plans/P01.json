@@ -1,0 +1,38 @@
+{
+ "type": "case",
+ "subtype": null,
+ "source_group": "library",
+ "steps": [
+  {
+   "step": "merge_same_branches",
+   "rule": "규칙 8: 본문이 같은 분기를 `case a | b =>`로 합침",
+   "script": "block_dp.py",
+   "compile": true,
+   "model": false
+  },
+  {
+   "step": "prune_unused_have",
+   "rule": "린터가 찾은 미사용 `have` 반복 제거",
+   "script": "prune_unused.py",
+   "compile": true,
+   "model": false
+  },
+  {
+   "step": "llm_focus",
+   "rule": "analyze 대상 구간만 LLM에 넘김",
+   "script": "(하네스)",
+   "compile": true,
+   "model": true
+  }
+ ],
+ "why": [
+  "같은 부모 아래 본문이 같은 분기 쌍 1개",
+  "`have` 1줄 (모델 비용 없이 컴파일만 씀)",
+  "규칙으로 처리하지 못한 비슷한 쌍 1개와 가장 큰 블록"
+ ],
+ "llm_targets": [
+  "T2"
+ ],
+ "llm_classify_needed": false,
+ "name": "CallElimCorrect.substOldPostSubset"
+}

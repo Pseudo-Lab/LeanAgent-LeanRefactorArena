@@ -1,0 +1,395 @@
+{
+ "proof_tokens": 251,
+ "type": "case",
+ "subtype": null,
+ "kind_share": {
+  "other": 7.6,
+  "case": 92.0
+ },
+ "tags": {
+  "source": "cslib",
+  "length": "short",
+  "repeat_pairs": 1,
+  "case_body_pairs": 5
+ },
+ "type_hint": "Branch proof. Compare branch bodies: identical bodies can share one `case a | b =>`; a tactic repeated in every branch can move before the split with `<;>`.",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    3,
+    3
+   ],
+   "kind": "other",
+   "head": "intro h",
+   "tokens": 2,
+   "share": 0.8,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    4,
+    4
+   ],
+   "kind": "other",
+   "head": "exists @ChoiceBisim _ _ defs",
+   "tokens": 6,
+   "share": 2.4,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    5,
+    5
+   ],
+   "kind": "other",
+   "head": "constructor",
+   "tokens": 1,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    6,
+    6
+   ],
+   "kind": "other",
+   "head": "· constructor; assumption",
+   "tokens": 4,
+   "share": 1.6,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    7,
+    7
+   ],
+   "kind": "other",
+   "head": "intro s1 s2 r μ",
+   "tokens": 5,
+   "share": 2.0,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    8,
+    8
+   ],
+   "kind": "other",
+   "head": "constructor",
+   "tokens": 1,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    9,
+    35
+   ],
+   "kind": "case",
+   "head": "case left =>",
+   "tokens": 115,
+   "share": 45.8,
+   "children": [
+    {
+     "lines": [
+      10,
+      10
+     ],
+     "kind": "other",
+     "head": "intro s1' htr",
+     "tokens": 3
+    },
+    {
+     "lines": [
+      11,
+      11
+     ],
+     "kind": "other",
+     "head": "cases r",
+     "tokens": 2
+    },
+    {
+     "lines": [
+      12,
+      27
+     ],
+     "kind": "case",
+     "head": "case choice p q r hbisim =>",
+     "tokens": 70
+    },
+    {
+     "lines": [
+      28,
+      35
+     ],
+     "kind": "case",
+     "head": "case bisim hbisim =>",
+     "tokens": 37
+    }
+   ]
+  },
+  {
+   "id": "B8",
+   "lines": [
+    36,
+    62
+   ],
+   "kind": "case",
+   "head": "case right =>",
+   "tokens": 116,
+   "share": 46.2,
+   "children": [
+    {
+     "lines": [
+      37,
+      37
+     ],
+     "kind": "other",
+     "head": "intro s2' htr",
+     "tokens": 3
+    },
+    {
+     "lines": [
+      38,
+      38
+     ],
+     "kind": "other",
+     "head": "cases r",
+     "tokens": 2
+    },
+    {
+     "lines": [
+      39,
+      54
+     ],
+     "kind": "case",
+     "head": "case choice p q r hbisim =>",
+     "tokens": 70
+    },
+    {
+     "lines": [
+      55,
+      62
+     ],
+     "kind": "case",
+     "head": "case bisim hbisim =>",
+     "tokens": 38
+    }
+   ]
+  }
+ ],
+ "targets": [
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     9,
+     35
+    ],
+    [
+     36,
+     62
+    ]
+   ],
+   "blocks": [
+    "B7",
+    "B8"
+   ],
+   "heads": [
+    "case left =>",
+    "case right =>"
+   ],
+   "tokens": [
+    115,
+    116
+   ],
+   "similarity": 0.978,
+   "differs": [
+    [
+     "left",
+     "right"
+    ],
+    [
+     "s1'",
+     "s2'"
+    ],
+    [
+     "s2'",
+     "s1'"
+    ],
+    [
+     "htr2",
+     "htr1"
+    ],
+    [
+     "hr2",
+     "hr1"
+    ],
+    [
+     "hb.follow_fst",
+     "hb.follow_snd"
+    ],
+    [
+     "s2'",
+     "s1'"
+    ],
+    [
+     "htr2",
+     "htr1"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    9,
+    62
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     12,
+     27
+    ],
+    [
+     39,
+     54
+    ]
+   ],
+   "blocks": [
+    "B7",
+    "B8"
+   ],
+   "heads": [
+    "case choice p q r hbisim =>",
+    "case choice p q r hbisim =>"
+   ],
+   "tokens": [
+    63,
+    63
+   ],
+   "similarity": 0.984,
+   "differs": [
+    [
+     "s2'",
+     "s1'"
+    ],
+    [
+     "htr2",
+     "htr1"
+    ],
+    [
+     "hr2",
+     "hr1"
+    ],
+    [
+     "hb.follow_fst",
+     "hb.follow_snd"
+    ],
+    [
+     "s2'",
+     "s1'"
+    ],
+    [
+     "htr2",
+     "htr1"
+    ],
+    [
+     "hr2",
+     "hr1"
+    ],
+    [
+     "s1'",
+     "s2'"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T2",
+   "edit_span": [
+    12,
+    54
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     22,
+     27
+    ],
+    [
+     49,
+     54
+    ]
+   ],
+   "blocks": [
+    "B7",
+    "B8"
+   ],
+   "heads": [
+    "case choiceR a b c htr =>",
+    "case choiceR a b c htr =>"
+   ],
+   "tokens": [
+    11,
+    11
+   ],
+   "similarity": 1.0,
+   "differs": [
+    [
+     "s1'",
+     "s2'"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T3",
+   "edit_span": [
+    22,
+    54
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     36,
+     62
+    ]
+   ],
+   "blocks": [
+    "B8"
+   ],
+   "heads": [
+    "case right =>"
+   ],
+   "tokens": [
+    116
+   ],
+   "share": 46.2,
+   "est_saving": null,
+   "id": "T4",
+   "edit_span": [
+    36,
+    62
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "Cslib.CCS.bisimilarity_congr_choice"
+}

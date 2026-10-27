@@ -1,0 +1,28 @@
+{
+ "type": "case",
+ "subtype": null,
+ "source_group": "library",
+ "steps": [
+  {
+   "step": "prune_unused_have",
+   "rule": "린터가 찾은 미사용 `have` 반복 제거",
+   "script": "prune_unused.py",
+   "compile": true,
+   "model": false
+  },
+  {
+   "step": "llm_focus",
+   "rule": "analyze 대상 구간만 LLM에 넘김",
+   "script": "(하네스)",
+   "compile": true,
+   "model": true
+  }
+ ],
+ "why": [
+  "`have` 4줄 (모델 비용 없이 컴파일만 씀)",
+  "남은 구간은 가장 큰 블록부터"
+ ],
+ "llm_targets": [],
+ "llm_classify_needed": false,
+ "name": "Core.InitsUpdatesComm"
+}
