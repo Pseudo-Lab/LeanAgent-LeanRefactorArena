@@ -1,0 +1,557 @@
+{
+ "proof_tokens": 408,
+ "type": "case",
+ "subtype": null,
+ "kind_share": {
+  "other": 3.4,
+  "have": 2.2,
+  "case": 94.1
+ },
+ "tags": {
+  "source": "cslib",
+  "length": "medium",
+  "repeat_pairs": 0,
+  "case_body_pairs": 9
+ },
+ "type_hint": "Branch proof. Compare branch bodies: identical bodies can share one `case a | b =>`; a tactic repeated in every branch can move before the split with `<;>`.",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    2,
+    2
+   ],
+   "kind": "other",
+   "head": "generalize eq : [] = Γ at der",
+   "tokens": 9,
+   "share": 2.2,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    3,
+    3
+   ],
+   "kind": "have",
+   "head": "have der' : Typing Γ t τ := der",
+   "tokens": 9,
+   "share": 2.2,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    4,
+    4
+   ],
+   "kind": "other",
+   "head": "induction der <;> subst eq",
+   "tokens": 5,
+   "share": 1.2,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    5,
+    5
+   ],
+   "kind": "case",
+   "head": "case var mem => grind",
+   "tokens": 5,
+   "share": 1.2,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    6,
+    22
+   ],
+   "kind": "case",
+   "head": "case app t₁ _ _ t₂ l r ih_l ih_r =>",
+   "tokens": 79,
+   "share": 19.4,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    23,
+    34
+   ],
+   "kind": "case",
+   "head": "case tapp σ' der _ ih =>",
+   "tokens": 53,
+   "share": 13.0,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    35,
+    44
+   ],
+   "kind": "case",
+   "head": "case let' t₁ σ t₂ τ L der _ ih _ =>",
+   "tokens": 44,
+   "share": 10.8,
+   "children": []
+  },
+  {
+   "id": "B8",
+   "lines": [
+    45,
+    52
+   ],
+   "kind": "case",
+   "head": "case inl der _ ih =>",
+   "tokens": 35,
+   "share": 8.6,
+   "children": []
+  },
+  {
+   "id": "B9",
+   "lines": [
+    53,
+    60
+   ],
+   "kind": "case",
+   "head": "case inr der _ ih =>",
+   "tokens": 35,
+   "share": 8.6,
+   "children": []
+  },
+  {
+   "id": "B10",
+   "lines": [
+    61,
+    70
+   ],
+   "kind": "case",
+   "head": "case case t₁ _ _ t₂ _ t₃ _ der _ _ ih _ _ =>",
+   "tokens": 70,
+   "share": 17.2,
+   "children": []
+  },
+  {
+   "id": "B11",
+   "lines": [
+    71,
+    71
+   ],
+   "kind": "case",
+   "head": "case sub => grind",
+   "tokens": 4,
+   "share": 1.0,
+   "children": []
+  },
+  {
+   "id": "B12",
+   "lines": [
+    72,
+    77
+   ],
+   "kind": "case",
+   "head": "case abs σ _ τ L _ _=>",
+   "tokens": 31,
+   "share": 7.6,
+   "children": []
+  },
+  {
+   "id": "B13",
+   "lines": [
+    78,
+    83
+   ],
+   "kind": "case",
+   "head": "case tabs L _ _=>",
+   "tokens": 28,
+   "share": 6.9,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     45,
+     52
+    ],
+    [
+     53,
+     60
+    ]
+   ],
+   "blocks": [
+    "B8",
+    "B9"
+   ],
+   "heads": [
+    "case inl der _ ih =>",
+    "case inr der _ ih =>"
+   ],
+   "tokens": [
+    29,
+    29
+   ],
+   "similarity": 0.966,
+   "differs": [
+    [
+     ".inl",
+     ".inr"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    45,
+    60
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     72,
+     77
+    ],
+    [
+     78,
+     83
+    ]
+   ],
+   "blocks": [
+    "B12",
+    "B13"
+   ],
+   "heads": [
+    "case abs σ _ τ L _ _=>",
+    "case tabs L _ _=>"
+   ],
+   "tokens": [
+    22,
+    22
+   ],
+   "similarity": 0.955,
+   "differs": [
+    [
+     "LC.abs",
+     "LC.tabs"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T2",
+   "edit_span": [
+    72,
+    83
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     15,
+     18
+    ],
+    [
+     31,
+     34
+    ]
+   ],
+   "blocks": [
+    "B5",
+    "B6"
+   ],
+   "heads": [
+    "| inr red_r =>",
+    "| inr red =>"
+   ],
+   "tokens": [
+    12,
+    13
+   ],
+   "similarity": 0.88,
+   "differs": [
+    [
+     "t₂'",
+     "t'"
+    ],
+    [
+     "red_r",
+     "red"
+    ],
+    [
+     "t₁.app t₂'",
+     ".tapp t' σ'"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T3",
+   "edit_span": [
+    15,
+    34
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     19,
+     22
+    ],
+    [
+     31,
+     34
+    ]
+   ],
+   "blocks": [
+    "B5",
+    "B6"
+   ],
+   "heads": [
+    "| inr red_l =>",
+    "| inr red =>"
+   ],
+   "tokens": [
+    12,
+    13
+   ],
+   "similarity": 0.88,
+   "differs": [
+    [
+     "t₁'",
+     "t'"
+    ],
+    [
+     "red_l",
+     "red"
+    ],
+    [
+     "t₁'.app t₂",
+     ".tapp t' σ'"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T4",
+   "edit_span": [
+    19,
+    34
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     19,
+     22
+    ],
+    [
+     41,
+     44
+    ]
+   ],
+   "blocks": [
+    "B5",
+    "B7"
+   ],
+   "heads": [
+    "| inr red_l =>",
+    "| inr red =>"
+   ],
+   "tokens": [
+    12,
+    12
+   ],
+   "similarity": 0.917,
+   "differs": [
+    [
+     "red_l",
+     "red"
+    ],
+    [
+     "t₁'.app",
+     "t₁'.let'"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T5",
+   "edit_span": [
+    19,
+    44
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     19,
+     22
+    ],
+    [
+     67,
+     70
+    ]
+   ],
+   "blocks": [
+    "B10",
+    "B5"
+   ],
+   "heads": [
+    "| inr red_l =>",
+    "| inr red =>"
+   ],
+   "tokens": [
+    12,
+    13
+   ],
+   "similarity": 0.88,
+   "differs": [
+    [
+     "red_l",
+     "red"
+    ],
+    [
+     "t₁'.app",
+     "t₁'.case"
+    ],
+    [
+     "",
+     "t₃"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T6",
+   "edit_span": [
+    19,
+    70
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     31,
+     34
+    ],
+    [
+     41,
+     44
+    ]
+   ],
+   "blocks": [
+    "B6",
+    "B7"
+   ],
+   "heads": [
+    "| inr red =>",
+    "| inr red =>"
+   ],
+   "tokens": [
+    13,
+    12
+   ],
+   "similarity": 0.88,
+   "differs": [
+    [
+     "t'",
+     "t₁'"
+    ],
+    [
+     ".tapp t' σ'",
+     "t₁'.let' t₂"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T7",
+   "edit_span": [
+    31,
+    44
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     41,
+     44
+    ],
+    [
+     67,
+     70
+    ]
+   ],
+   "blocks": [
+    "B10",
+    "B7"
+   ],
+   "heads": [
+    "| inr red =>",
+    "| inr red =>"
+   ],
+   "tokens": [
+    12,
+    13
+   ],
+   "similarity": 0.88,
+   "differs": [
+    [
+     "t₁'.let'",
+     "t₁'.case"
+    ],
+    [
+     "",
+     "t₃"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T8",
+   "edit_span": [
+    41,
+    70
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     6,
+     22
+    ]
+   ],
+   "blocks": [
+    "B5"
+   ],
+   "heads": [
+    "case app t₁ _ _ t₂ l r ih_l ih_r =>"
+   ],
+   "tokens": [
+    79
+   ],
+   "share": 19.4,
+   "est_saving": null,
+   "id": "T9",
+   "edit_span": [
+    6,
+    22
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress"
+}

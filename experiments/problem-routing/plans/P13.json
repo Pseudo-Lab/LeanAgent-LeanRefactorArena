@@ -1,0 +1,41 @@
+{
+ "type": "have",
+ "subtype": null,
+ "source_group": "competition",
+ "steps": [
+  {
+   "step": "prune_unused_have",
+   "rule": "린터가 찾은 미사용 `have` 반복 제거",
+   "script": "prune_unused.py",
+   "compile": true,
+   "model": false
+  },
+  {
+   "step": "generalise_repeat",
+   "rule": "이름만 다른 중복 `have`를 보조정리 하나로 묶음",
+   "script": "block_dp.py",
+   "compile": true,
+   "model": false
+  },
+  {
+   "step": "llm_focus",
+   "rule": "analyze 대상 구간만 LLM에 넘김",
+   "script": "(하네스)",
+   "compile": true,
+   "model": true
+  }
+ ],
+ "why": [
+  "`have` 55줄 (모델 비용 없이 컴파일만 씀)",
+  "다른 토큰이 이름·숫자뿐인 중복 쌍 4개",
+  "규칙으로 처리하지 못한 비슷한 쌍 4개와 가장 큰 블록"
+ ],
+ "llm_targets": [
+  "T5",
+  "T6",
+  "T7",
+  "T8"
+ ],
+ "llm_classify_needed": false,
+ "name": "putnam_1964_a4"
+}

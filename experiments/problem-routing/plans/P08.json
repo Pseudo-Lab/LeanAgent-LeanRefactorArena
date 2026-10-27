@@ -1,0 +1,28 @@
+{
+ "type": "case",
+ "subtype": null,
+ "source_group": "library",
+ "steps": [
+  {
+   "step": "llm_focus",
+   "rule": "analyze 대상 구간만 LLM에 넘김",
+   "script": "(하네스)",
+   "compile": true,
+   "model": true
+  }
+ ],
+ "why": [
+  "규칙으로 처리하지 못한 비슷한 쌍 7개와 가장 큰 블록"
+ ],
+ "llm_targets": [
+  "T1",
+  "T2",
+  "T3",
+  "T4",
+  "T5",
+  "T6",
+  "T7"
+ ],
+ "llm_classify_needed": false,
+ "name": "Cslib.SKI.parallelReduction_diamond"
+}
