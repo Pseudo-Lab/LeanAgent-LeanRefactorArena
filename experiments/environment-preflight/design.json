@@ -1,0 +1,198 @@
+{
+  "schema_version": 1,
+  "experiment_id": "environment-preflight-v2",
+  "status": "planned_not_executed",
+  "purpose": "환경 사전 점검과 단계별 진단을 main 하네스 기준으로 비교한다.",
+  "baseline_revision": "ba593fc4357ee5c429b8f28f1aac512d05bb4355",
+  "reference_revision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+  "base_config": "baseline/main/configs/smoke.json",
+  "model_backend": "fixture",
+  "paid_api_calls_allowed": false,
+  "candidate_source": "Only the frozen smoke fixture responses; no prior Arena candidate inputs.",
+  "stage_order": [
+    "config",
+    "environment",
+    "context",
+    "baseline",
+    "model",
+    "candidate",
+    "final"
+  ],
+  "diagnostic_statuses": [
+    "started",
+    "passed",
+    "failed",
+    "incomplete"
+  ],
+  "failure_kinds": [
+    "configuration",
+    "environment",
+    "api",
+    "response",
+    "proof",
+    "timeout",
+    "measurement",
+    "unknown"
+  ],
+  "cases": [
+    {
+      "id": "normal",
+      "mutation": "none",
+      "execution": "real_lean_and_fixture",
+      "expectation": "기존 고정 응답 3개를 처리하고 최종 검증 및 외부 호출 없는 replay를 확인한다. 증명 실패 후보는 선택하지 않는다."
+    },
+    {
+      "id": "missing_compiler",
+      "mutation": {
+        "config.lean.command": [
+          "__environment_preflight_missing_lean__"
+        ]
+      },
+      "execution": "real_process_launch_failure",
+      "precondition": "이 실행 파일이 PATH에 존재하지 않는지 먼저 확인한다.",
+      "expected_stage": "environment",
+      "expected_kind": "environment",
+      "expected_model_requests": 0
+    },
+    {
+      "id": "toolchain_mismatch",
+      "mutation": {
+        "project/lean-toolchain": "leanprover/lean4:v4.25.0\n"
+      },
+      "execution": "config_file_check_only",
+      "note": "config의 기대 버전 v4.26.0은 유지한다. v4.25.0 compiler를 실행하거나 설치하지 않는다.",
+      "expected_stage": "environment",
+      "expected_kind": "environment",
+      "expected_model_requests": 0
+    },
+    {
+      "id": "missing_import",
+      "mutation": {
+        "template_prefix": "import LeanAgentPreflightMissingModule_20261027\n"
+      },
+      "execution": "real_lean",
+      "expected_stage": "context",
+      "expected_kind": "environment",
+      "expected_model_requests": 0
+    },
+    {
+      "id": "invalid_baseline",
+      "mutation": {
+        "reference_proof_body": "by\n  exact False.elim (by assumption)\n"
+      },
+      "execution": "real_lean",
+      "expected_stage": "baseline",
+      "expected_kind": "proof",
+      "expected_model_requests": 0,
+      "note": "고정 statement를 유지한다. 문맥 점검 통과와 원문 compiler 진단으로 원인을 확인한다."
+    },
+    {
+      "id": "invalid_candidate",
+      "mutation": "none; inspect the first frozen fixture response",
+      "execution": "real_lean_and_fixture",
+      "expected_stage": "candidate",
+      "expected_kind": "proof",
+      "note": "첫 후보 거절 후 다음 fixture 후보 처리가 계속되는지 확인한다. 사전 환경 실패로 바꾸지 않는다."
+    },
+    {
+      "id": "missing_measurement_report",
+      "mutation": "컴파일 성공과 종료 코드 0을 유지하되 계측 출력의 REFACTOR_EVAL report를 제거한다.",
+      "execution": "injected_unit",
+      "expected_stage": "candidate",
+      "expected_kind": "measurement",
+      "note": "기존 environment 분류와 구분하고 유효 후보로 채택하지 않는다."
+    },
+    {
+      "id": "api_response_unavailable",
+      "execution": "injected_unit",
+      "mutation": "models.query 경계에 transport_error=TimeoutError, http_status=null을 주입한다. 실제 API는 호출하지 않는다.",
+      "expected_stage": "model",
+      "expected_kind": "api",
+      "expectation": "응답 수신 실패와 비용 미확정을 기록하고 자동 재호출하지 않는다."
+    },
+    {
+      "id": "malformed_model_response",
+      "execution": "fixture",
+      "mutation": "고정 응답의 첫 항목을 JSON으로 파싱할 수 없는 문자열로 교체한다.",
+      "expected_stage": "model",
+      "expected_kind": "response",
+      "expectation": "증명 컴파일 오류와 구분하며 원문 응답 근거를 연결한다."
+    },
+    {
+      "id": "unfinished_stage_status",
+      "execution": "injected_unit",
+      "mutation": "후보 검증 시작 기록 뒤 종료 기록이 없는 상태를 만든다.",
+      "expected_stage": "candidate",
+      "expected_status": "incomplete",
+      "expectation": "마지막 완료 단계와 미완료 단계를 조회한다. 프로세스 종료를 단정하지 않고, 최종 결과로 집계하거나 자동 재개하지 않는다."
+    }
+  ],
+  "comparison": {
+    "arms": [
+      "frozen_main",
+      "experimental_preflight"
+    ],
+    "keep_fixed": [
+      "problem statement",
+      "fixture responses",
+      "prompt",
+      "tokenizer and evaluator acceptance",
+      "raw heartbeat ranking and tie-break",
+      "Lean version and configured resource limits"
+    ],
+    "record": [
+      "stage and diagnosis",
+      "original evaluator error",
+      "log path and SHA-256",
+      "fixture/model request count",
+      "paid API call count",
+      "additional compiler invocations",
+      "elapsed seconds",
+      "selected candidate hash",
+      "replay result"
+    ],
+    "normal_path_assertion": "고정 관측값 기반 검증에서 선택·상태 전이를 보존한다. 실제 Lean 반복에서 heartbeat 수치의 완전 일치를 요구하지 않는다.",
+    "no_retry": true,
+    "resume_allowed": false,
+    "install_or_download_allowed": false
+  },
+  "run_lock_required": [
+    "experiment implementation commit and tracked diff hash",
+    "exact runnable code snapshot and hashes",
+    "baseline.lock.json and design.json bytes and hashes",
+    "per-case resolved input and config hashes",
+    "Python executable/version/hash",
+    "actual Lean executable/version/hash",
+    "host and selected non-secret environment configuration"
+  ],
+  "next_step": "실험 실행기와 사례 생성·주입 구현을 작성하고 run-lock을 남긴 뒤 실행한다. 이 JSON은 기존 main CLI용 config가 아니다.",
+  "optional_cases": [
+    {
+      "id": "stage_timeouts",
+      "mutation": "다음 단계 구현에서 execute 경계에 timed_out=true, 부분 출력, 종료 정보를 주입한다.",
+      "execution": "injected_unit",
+      "stages": [
+        "environment",
+        "context",
+        "baseline",
+        "candidate",
+        "final"
+      ],
+      "expected_kind": "timeout",
+      "note": "기존 Lean 로컬 보호 설정에 대한 선택적 회귀 검사다. 대회 실패·증명 오류로 집계하지 않는다. 핵심 기능의 완료 조건으로 삼지 않는다."
+    }
+  ],
+  "scope": {
+    "primary_features": [
+      "environment_preflight",
+      "failure_diagnosis_and_feedback",
+      "execution_status_query"
+    ],
+    "deferred_candidates": [
+      "resume",
+      "api_subagent_cost_accounting",
+      "cross_run_comparison"
+    ],
+    "lean_timeout_role": "existing local process protection only; not a competition failure criterion"
+  }
+}
