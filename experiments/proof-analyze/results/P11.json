@@ -1,0 +1,535 @@
+{
+ "proof_tokens": 1906,
+ "type": "have",
+ "subtype": "calc",
+ "kind_share": {
+  "other": 0.6,
+  "have": 71.1,
+  "calc": 28.2
+ },
+ "tags": {
+  "source": "arklib",
+  "length": "long",
+  "repeat_pairs": 4,
+  "case_body_pairs": 0
+ },
+ "type_hint": "Intermediate-claim proof. Look for claims used once (inline them), claims never used (delete them) and claims proved twice up to renaming (prove once with arguments).",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    25,
+    25
+   ],
+   "kind": "other",
+   "head": "simp only",
+   "tokens": 2,
+   "share": 0.1,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    26,
+    26
+   ],
+   "kind": "other",
+   "head": "intro y",
+   "tokens": 2,
+   "share": 0.1,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    27,
+    28
+   ],
+   "kind": "have",
+   "head": "set fiberMap := qMap_total_fiber 𝔽q β (i := ⟨i, by omega⟩) (steps := …",
+   "tokens": 35,
+   "share": 1.8,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    29,
+    29
+   ],
+   "kind": "have",
+   "head": "set x₀ := fiberMap 0",
+   "tokens": 5,
+   "share": 0.3,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    30,
+    30
+   ],
+   "kind": "have",
+   "head": "set x₁ := fiberMap 1",
+   "tokens": 5,
+   "share": 0.3,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    31,
+    31
+   ],
+   "kind": "have",
+   "head": "set P_i := intermediateEvaluationPoly 𝔽q β h_ℓ_add_R_rate (i := ⟨i, b…",
+   "tokens": 18,
+   "share": 0.9,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    32,
+    47
+   ],
+   "kind": "have",
+   "head": "set new_coeffs := fun j : Fin (2^(ℓ - (i + 1))) =>",
+   "tokens": 187,
+   "share": 9.8,
+   "children": []
+  },
+  {
+   "id": "B8",
+   "lines": [
+    48,
+    54
+   ],
+   "kind": "have",
+   "head": "have h_eval_qMap_x₀ : (AdditiveNTT.qMap 𝔽q β ⟨i, by omega⟩).eval x₀.v…",
+   "tokens": 82,
+   "share": 4.3,
+   "children": []
+  },
+  {
+   "id": "B9",
+   "lines": [
+    56,
+    62
+   ],
+   "kind": "have",
+   "head": "have h_eval_qMap_x₁ : (AdditiveNTT.qMap 𝔽q β ⟨i, by omega⟩).eval x₁.v…",
+   "tokens": 82,
+   "share": 4.3,
+   "children": []
+  },
+  {
+   "id": "B10",
+   "lines": [
+    63,
+    64
+   ],
+   "kind": "have",
+   "head": "have hx₀ := qMap_total_fiber_basis_sum_repr 𝔽q β i (steps := 1)",
+   "tokens": 20,
+   "share": 1.0,
+   "children": []
+  },
+  {
+   "id": "B11",
+   "lines": [
+    65,
+    66
+   ],
+   "kind": "have",
+   "head": "have hx₁ := qMap_total_fiber_basis_sum_repr 𝔽q β i (steps := 1)",
+   "tokens": 20,
+   "share": 1.0,
+   "children": []
+  },
+  {
+   "id": "B12",
+   "lines": [
+    67,
+    67
+   ],
+   "kind": "other",
+   "head": "simp only [Fin.isValue] at hx₀ hx₁",
+   "tokens": 8,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B13",
+   "lines": [
+    69,
+    111
+   ],
+   "kind": "have",
+   "head": "have h_fiber_diff : x₁.val - x₀.val = 1 := by",
+   "tokens": 429,
+   "share": 22.5,
+   "children": []
+  },
+  {
+   "id": "B14",
+   "lines": [
+    112,
+    113
+   ],
+   "kind": "have",
+   "head": "set P_i_plus_1 :=",
+   "tokens": 20,
+   "share": 1.0,
+   "children": []
+  },
+  {
+   "id": "B15",
+   "lines": [
+    115,
+    119
+   ],
+   "kind": "have",
+   "head": "set P₀_coeffs := fun j : Fin (2^(ℓ - (i + 1))) => coeffs ⟨j.val * 2, …",
+   "tokens": 124,
+   "share": 6.5,
+   "children": []
+  },
+  {
+   "id": "B16",
+   "lines": [
+    120,
+    124
+   ],
+   "kind": "have",
+   "head": "set P₁_coeffs := fun j : Fin (2^(ℓ - (i + 1))) => coeffs ⟨j.val * 2 +…",
+   "tokens": 126,
+   "share": 6.6,
+   "children": []
+  },
+  {
+   "id": "B17",
+   "lines": [
+    125,
+    125
+   ],
+   "kind": "have",
+   "head": "set P₀ := evenRefinement 𝔽q β h_ℓ_add_R_rate i coeffs",
+   "tokens": 9,
+   "share": 0.5,
+   "children": []
+  },
+  {
+   "id": "B18",
+   "lines": [
+    126,
+    126
+   ],
+   "kind": "have",
+   "head": "set P₁ := oddRefinement 𝔽q β h_ℓ_add_R_rate i coeffs",
+   "tokens": 9,
+   "share": 0.5,
+   "children": []
+  },
+  {
+   "id": "B19",
+   "lines": [
+    127,
+    127
+   ],
+   "kind": "have",
+   "head": "have h_P_i_eval := evaluation_poly_split_identity 𝔽q β h_ℓ_add_R_rate…",
+   "tokens": 14,
+   "share": 0.7,
+   "children": []
+  },
+  {
+   "id": "B20",
+   "lines": [
+    129,
+    131
+   ],
+   "kind": "have",
+   "head": "have h_equation_39_x₀ : P_i.eval x₀.val = P₀.eval y.val + x₀.val * P₁…",
+   "tokens": 38,
+   "share": 2.0,
+   "children": []
+  },
+  {
+   "id": "B21",
+   "lines": [
+    132,
+    134
+   ],
+   "kind": "have",
+   "head": "have h_equation_39_x₁ : P_i.eval x₁.val = P₀.eval y.val + x₁.val * P₁…",
+   "tokens": 38,
+   "share": 2.0,
+   "children": []
+  },
+  {
+   "id": "B22",
+   "lines": [
+    135,
+    135
+   ],
+   "kind": "have",
+   "head": "set f_i := fun (x : (sDomain 𝔽q β h_ℓ_add_R_rate) ⟨i, by omega⟩) => P…",
+   "tokens": 27,
+   "share": 1.4,
+   "children": []
+  },
+  {
+   "id": "B23",
+   "lines": [
+    136,
+    136
+   ],
+   "kind": "have",
+   "head": "set f_i_plus_1 := fold (i := ⟨i, by omega⟩) (h_i := by omega) (f := f…",
+   "tokens": 30,
+   "share": 1.6,
+   "children": []
+  },
+  {
+   "id": "B24",
+   "lines": [
+    138,
+    140
+   ],
+   "kind": "have",
+   "head": "have h_fold_def : f_i_plus_1 y =",
+   "tokens": 37,
+   "share": 1.9,
+   "children": []
+  },
+  {
+   "id": "B25",
+   "lines": [
+    142,
+    184
+   ],
+   "kind": "calc",
+   "head": "calc f_i_plus_1 y",
+   "tokens": 538,
+   "share": 28.2,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     115,
+     119
+    ],
+    [
+     120,
+     124
+    ]
+   ],
+   "blocks": [
+    "B15",
+    "B16"
+   ],
+   "heads": [
+    "set P₀_coeffs := fun j : Fin (2^(ℓ - (i + 1))) =>…",
+    "set P₁_coeffs := fun j : Fin (2^(ℓ - (i + 1))) =>…"
+   ],
+   "tokens": [
+    124,
+    126
+   ],
+   "similarity": 0.992,
+   "differs": [
+    [
+     "P₀_coeffs",
+     "P₁_coeffs"
+    ],
+    [
+     "",
+     "+ 1"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    115,
+    124
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     48,
+     54
+    ],
+    [
+     56,
+     62
+    ]
+   ],
+   "blocks": [
+    "B8",
+    "B9"
+   ],
+   "heads": [
+    "have h_eval_qMap_x₀ : (AdditiveNTT.qMap 𝔽q β ⟨i, …",
+    "have h_eval_qMap_x₁ : (AdditiveNTT.qMap 𝔽q β ⟨i, …"
+   ],
+   "tokens": [
+    82,
+    82
+   ],
+   "similarity": 0.988,
+   "differs": [
+    [
+     "h_eval_qMap_x₀",
+     "h_eval_qMap_x₁"
+    ],
+    [
+     "x₀.val",
+     "x₁.val"
+    ],
+    [
+     "x₀",
+     "x₁"
+    ],
+    [
+     "x₀",
+     "x₁"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T2",
+   "edit_span": [
+    48,
+    62
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     79,
+     85
+    ],
+    [
+     86,
+     93
+    ]
+   ],
+   "blocks": [
+    "B13"
+   ],
+   "heads": [
+    "have h_cast_0 :",
+    "have h_cast_1 :"
+   ],
+   "tokens": [
+    77,
+    79
+   ],
+   "similarity": 0.962,
+   "differs": [
+    [
+     "h_cast_0",
+     "h_cast_1"
+    ],
+    [
+     "0",
+     "1"
+    ],
+    [
+     "0",
+     "1"
+    ],
+    [
+     "",
+     ", tsub_pos_iff_lt"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T3",
+   "edit_span": [
+    79,
+    93
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     174,
+     175
+    ],
+    [
+     178,
+     179
+    ]
+   ],
+   "blocks": [
+    "B25"
+   ],
+   "heads": [
+    "apply mul_two_add_bit_lt_two_pow (c := ℓ - i) (a …",
+    "apply mul_two_add_bit_lt_two_pow (c := ℓ - i) (a …"
+   ],
+   "tokens": [
+    46,
+    46
+   ],
+   "similarity": 0.978,
+   "differs": [
+    [
+     "0",
+     "1"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T4",
+   "edit_span": [
+    174,
+    179
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     142,
+     184
+    ]
+   ],
+   "blocks": [
+    "B25"
+   ],
+   "heads": [
+    "calc f_i_plus_1 y"
+   ],
+   "tokens": [
+    538
+   ],
+   "share": 28.2,
+   "est_saving": null,
+   "id": "T5",
+   "edit_span": [
+    142,
+    184
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly"
+}

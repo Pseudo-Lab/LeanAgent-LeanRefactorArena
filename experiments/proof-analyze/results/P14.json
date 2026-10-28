@@ -1,0 +1,510 @@
+{
+ "proof_tokens": 1754,
+ "type": "have",
+ "subtype": null,
+ "kind_share": {
+  "have": 99.8,
+  "other": 0.1
+ },
+ "tags": {
+  "source": "putnambench",
+  "length": "long",
+  "repeat_pairs": 3,
+  "case_body_pairs": 0
+ },
+ "type_hint": "Intermediate-claim proof. Look for claims used once (inline them), claims never used (delete them) and claims proved twice up to renaming (prove once with arguments).",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    7,
+    12
+   ],
+   "kind": "have",
+   "head": "have h_no_empty : ∀ (T : Set S), T ∈ P → T.Nonempty := by",
+   "tokens": 58,
+   "share": 3.3,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    14,
+    126
+   ],
+   "kind": "have",
+   "head": "have h_subset_or_compl : ∀ (A : Set S), A ∈ P ∨ Aᶜ ∈ P := by",
+   "tokens": 746,
+   "share": 42.5,
+   "children": [
+    {
+     "lines": [
+      15,
+      15
+     ],
+     "kind": "other",
+     "head": "intro A",
+     "tokens": 2
+    },
+    {
+     "lines": [
+      16,
+      16
+     ],
+     "kind": "other",
+     "head": "by_contra! h",
+     "tokens": 3
+    },
+    {
+     "lines": [
+      17,
+      17
+     ],
+     "kind": "have",
+     "head": "have h₁ : A ∉ P := h.1",
+     "tokens": 8
+    },
+    {
+     "lines": [
+      18,
+      18
+     ],
+     "kind": "have",
+     "head": "have h₂ : Aᶜ ∉ P := h.2",
+     "tokens": 8
+    },
+    {
+     "lines": [
+      20,
+      55
+     ],
+     "kind": "have",
+     "head": "have h₃ : ∃ (U : Set S), U ∈ P ∧ A ∩ U = ∅ := by",
+     "tokens": 256
+    },
+    {
+     "lines": [
+      57,
+      92
+     ],
+     "kind": "have",
+     "head": "have h₄ : ∃ (V : Set S), V ∈ P ∧ Aᶜ ∩ V = ∅ := by",
+     "tokens": 256
+    },
+    {
+     "lines": [
+      94,
+      94
+     ],
+     "kind": "have",
+     "head": "obtain ⟨U, hU, hU'⟩ := h₃",
+     "tokens": 10
+    },
+    {
+     "lines": [
+      95,
+      95
+     ],
+     "kind": "have",
+     "head": "obtain ⟨V, hV, hV'⟩ := h₄",
+     "tokens": 10
+    },
+    {
+     "lines": [
+      97,
+      104
+     ],
+     "kind": "have",
+     "head": "have h₅ : U ⊆ Aᶜ := by",
+     "tokens": 48
+    },
+    {
+     "lines": [
+      105,
+      112
+     ],
+     "kind": "have",
+     "head": "have h₆ : V ⊆ A := by",
+     "tokens": 48
+    },
+    {
+     "lines": [
+      114,
+      122
+     ],
+     "kind": "have",
+     "head": "have h₇ : U ∩ V = ∅ := by",
+     "tokens": 57
+    },
+    {
+     "lines": [
+      124,
+      124
+     ],
+     "kind": "have",
+     "head": "have h₈ : U ∩ V ≠ ∅ := hPP U hU V hV",
+     "tokens": 14
+    },
+    {
+     "lines": [
+      125,
+      125
+     ],
+     "kind": "other",
+     "head": "simp_all [Set.ext_iff]",
+     "tokens": 4
+    },
+    {
+     "lines": [
+      126,
+      126
+     ],
+     "kind": "other",
+     "head": "<;> aesop",
+     "tokens": 2
+    }
+   ]
+  },
+  {
+   "id": "B3",
+   "lines": [
+    128,
+    138
+   ],
+   "kind": "have",
+   "head": "have h_not_both : ∀ (A : Set S), A ∈ P → Aᶜ ∉ P := by",
+   "tokens": 72,
+   "share": 4.1,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    140,
+    292
+   ],
+   "kind": "have",
+   "head": "have h_card : P.card = 2 ^ (Fintype.card S - 1) := by",
+   "tokens": 875,
+   "share": 49.9,
+   "children": [
+    {
+     "lines": [
+      141,
+      141
+     ],
+     "kind": "other",
+     "head": "classical",
+     "tokens": 1
+    },
+    {
+     "lines": [
+      143,
+      143
+     ],
+     "kind": "have",
+     "head": "let Q : Finset (Set S) := (Finset.univ : Finset (Set S)) \\ P",
+     "tokens": 20
+    },
+    {
+     "lines": [
+      145,
+      211
+     ],
+     "kind": "have",
+     "head": "have h₁ : P.card = Q.card := by",
+     "tokens": 313
+    },
+    {
+     "lines": [
+      213,
+      258
+     ],
+     "kind": "have",
+     "head": "have h₂ : P.card + Q.card = 2 ^ Fintype.card S := by",
+     "tokens": 242
+    },
+    {
+     "lines": [
+      260,
+      263
+     ],
+     "kind": "have",
+     "head": "have h₃ : P.card * 2 = 2 ^ Fintype.card S := by",
+     "tokens": 35
+    },
+    {
+     "lines": [
+      265,
+      270
+     ],
+     "kind": "have",
+     "head": "have h₄ : Fintype.card S ≥ 1 := by",
+     "tokens": 33
+    },
+    {
+     "lines": [
+      271,
+      291
+     ],
+     "kind": "have",
+     "head": "have h₅ : P.card = 2 ^ (Fintype.card S - 1) := by",
+     "tokens": 214
+    },
+    {
+     "lines": [
+      292,
+      292
+     ],
+     "kind": "other",
+     "head": "exact h₅",
+     "tokens": 2
+    }
+   ]
+  },
+  {
+   "id": "B5",
+   "lines": [
+    294,
+    294
+   ],
+   "kind": "other",
+   "head": "exact h_card",
+   "tokens": 2,
+   "share": 0.1,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     97,
+     104
+    ],
+    [
+     105,
+     112
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "have h₅ : U ⊆ Aᶜ := by",
+    "have h₆ : V ⊆ A := by"
+   ],
+   "tokens": [
+    48,
+    48
+   ],
+   "similarity": 1.0,
+   "differs": [
+    [
+     "h₅",
+     "h₆"
+    ],
+    [
+     "U",
+     "V"
+    ],
+    [
+     "Aᶜ",
+     "A"
+    ],
+    [
+     "h₆",
+     "h₇"
+    ],
+    [
+     "h₇",
+     "h₈"
+    ],
+    [
+     "A",
+     "Aᶜ"
+    ],
+    [
+     "h₈",
+     "h₉"
+    ],
+    [
+     "A",
+     "Aᶜ"
+    ]
+   ],
+   "est_saving": 43,
+   "id": "T1",
+   "edit_span": [
+    97,
+    112
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     21,
+     40
+    ],
+    [
+     58,
+     77
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "have h₄ : ¬(A ∉ P ∧ ∀ (U : Set S), U ∈ P → A ∩ U …",
+    "have h₅ : ¬(Aᶜ ∉ P ∧ ∀ (U : Set S), U ∈ P → Aᶜ ∩ …"
+   ],
+   "tokens": [
+    139,
+    139
+   ],
+   "similarity": 0.986,
+   "differs": [
+    [
+     "h₄",
+     "h₅"
+    ],
+    [
+     "A",
+     "Aᶜ"
+    ],
+    [
+     "A",
+     "Aᶜ"
+    ],
+    [
+     "h₅",
+     "h₆"
+    ],
+    [
+     "h₆",
+     "h₇"
+    ],
+    [
+     "A",
+     "Aᶜ"
+    ],
+    [
+     "h₅.1",
+     "h₆.1"
+    ],
+    [
+     "h₇",
+     "h₈"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T2",
+   "edit_span": [
+    21,
+    77
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     42,
+     53
+    ],
+    [
+     79,
+     90
+    ]
+   ],
+   "blocks": [
+    "B2"
+   ],
+   "heads": [
+    "· have h₆ : ¬(∀ (U : Set S), U ∈ P → A ∩ U ≠ ∅) :…",
+    "· have h₇ : ¬(∀ (U : Set S), U ∈ P → Aᶜ ∩ U ≠ ∅) …"
+   ],
+   "tokens": [
+    86,
+    86
+   ],
+   "similarity": 0.93,
+   "differs": [
+    [
+     "h₆",
+     "h₇"
+    ],
+    [
+     "A",
+     "Aᶜ"
+    ],
+    [
+     "h₇",
+     "h₈"
+    ],
+    [
+     "h₄",
+     "h₅"
+    ],
+    [
+     "h₅",
+     "h₆"
+    ],
+    [
+     "h₇",
+     "h₈"
+    ],
+    [
+     "h₆",
+     "h₇"
+    ],
+    [
+     "U",
+     "V"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T3",
+   "edit_span": [
+    42,
+    90
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     140,
+     292
+    ]
+   ],
+   "blocks": [
+    "B4"
+   ],
+   "heads": [
+    "have h_card : P.card = 2 ^ (Fintype.card S - 1) := by"
+   ],
+   "tokens": [
+    875
+   ],
+   "share": 49.9,
+   "est_saving": null,
+   "id": "T4",
+   "edit_span": [
+    140,
+    292
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "putnam_1964_b2"
+}

@@ -1,0 +1,197 @@
+{
+ "proof_tokens": 1372,
+ "type": "calc",
+ "subtype": null,
+ "kind_share": {
+  "have": 11.5,
+  "other": 7.1,
+  "calc": 81.2
+ },
+ "tags": {
+  "source": "physlib",
+  "length": "medium",
+  "repeat_pairs": 0,
+  "case_body_pairs": 0
+ },
+ "type_hint": "Calculation chain. Adjacent steps closed by the same tactic can often be merged, or the whole chain replaced by one rewrite plus a closing tactic.",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    10,
+    11
+   ],
+   "kind": "have",
+   "head": "have hEs : ∀ j, ContDiff ℝ 2 (fun y => A.electricField 𝓕.c t y j) :=",
+   "tokens": 37,
+   "share": 2.7,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    12,
+    13
+   ],
+   "kind": "have",
+   "head": "have hEd : ∀ j k, Differentiable ℝ (∂[k] (fun y => A.electricField 𝓕.…",
+   "tokens": 36,
+   "share": 2.6,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    14,
+    17
+   ],
+   "kind": "have",
+   "head": "have hBt : ∀ j, Differentiable ℝ",
+   "tokens": 59,
+   "share": 4.3,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    18,
+    19
+   ],
+   "kind": "have",
+   "head": "have hJt : Differentiable ℝ (fun s => J.currentDensity 𝓕.c s x i) :=",
+   "tokens": 26,
+   "share": 1.9,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    21,
+    30
+   ],
+   "kind": "other",
+   "head": "_= ∂ₜ (fun t =>",
+   "tokens": 97,
+   "share": 7.1,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    31,
+    40
+   ],
+   "kind": "calc",
+   "head": "_ = 1 / (𝓕.μ₀ * 𝓕.ε₀) * ∂ₜ (fun t => ∑ j, ∂[j] (A.magneticFieldMatrix…",
+   "tokens": 116,
+   "share": 8.5,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    41,
+    47
+   ],
+   "kind": "calc",
+   "head": "_ = 1 / (𝓕.μ₀ * 𝓕.ε₀) * ((∑ j, ∂ₜ (fun t => ∂[j] (A.magneticFieldMatr…",
+   "tokens": 86,
+   "share": 6.3,
+   "children": []
+  },
+  {
+   "id": "B8",
+   "lines": [
+    48,
+    56
+   ],
+   "kind": "calc",
+   "head": "_ = 1 / (𝓕.μ₀ * 𝓕.ε₀) * (∑ j, ∂[j] (fun x => ∂ₜ (A.magneticFieldMatri…",
+   "tokens": 77,
+   "share": 5.6,
+   "children": []
+  },
+  {
+   "id": "B9",
+   "lines": [
+    57,
+    66
+   ],
+   "kind": "calc",
+   "head": "_ = 1 / (𝓕.μ₀ * 𝓕.ε₀) *(∑ j, ∂[j] (fun x => ∂[j] (A.electricField 𝓕.c…",
+   "tokens": 90,
+   "share": 6.6,
+   "children": []
+  },
+  {
+   "id": "B10",
+   "lines": [
+    67,
+    76
+   ],
+   "kind": "calc",
+   "head": "_ = (1 / (𝓕.μ₀ * 𝓕.ε₀) * ∑ j, (∂[j] (fun x => ∂[j] (A.electricField 𝓕…",
+   "tokens": 113,
+   "share": 8.2,
+   "children": []
+  },
+  {
+   "id": "B11",
+   "lines": [
+    77,
+    79
+   ],
+   "kind": "calc",
+   "head": "_ = 1 / (𝓕.μ₀ * 𝓕.ε₀) * ∑ j, (∂[j] (fun x => ∂[j] (A.electricField 𝓕.…",
+   "tokens": 94,
+   "share": 6.9,
+   "children": []
+  },
+  {
+   "id": "B12",
+   "lines": [
+    80,
+    126
+   ],
+   "kind": "calc",
+   "head": "_ = 1 / (𝓕.μ₀ * 𝓕.ε₀) * ∑ j, (∂[j] (fun x => ∂[j] (A.electricField 𝓕.…",
+   "tokens": 538,
+   "share": 39.2,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "large",
+   "lines": [
+    [
+     80,
+     126
+    ]
+   ],
+   "blocks": [
+    "B12"
+   ],
+   "heads": [
+    "_ = 1 / (𝓕.μ₀ * 𝓕.ε₀) * ∑ j, (∂[j] (fun x => ∂[j] (A.electricField 𝓕.…"
+   ],
+   "tokens": [
+    538
+   ],
+   "share": 39.2,
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    80,
+    126
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema"
+}

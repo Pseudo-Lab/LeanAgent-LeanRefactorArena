@@ -1,0 +1,487 @@
+{
+ "proof_tokens": 1353,
+ "type": "have",
+ "subtype": null,
+ "kind_share": {
+  "other": 3.9,
+  "case": 11.1,
+  "have": 84.3
+ },
+ "tags": {
+  "source": "arklib",
+  "length": "medium",
+  "repeat_pairs": 1,
+  "case_body_pairs": 0
+ },
+ "type_hint": "Intermediate-claim proof. Look for claims used once (inline them), claims never used (delete them) and claims proved twice up to renaming (prove once with arguments).",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    9,
+    9
+   ],
+   "kind": "other",
+   "head": "classical",
+   "tokens": 1,
+   "share": 0.1,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    10,
+    10
+   ],
+   "kind": "other",
+   "head": "intro ϑ",
+   "tokens": 2,
+   "share": 0.1,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    11,
+    11
+   ],
+   "kind": "other",
+   "head": "induction ϑ with",
+   "tokens": 3,
+   "share": 0.2,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    12,
+    14
+   ],
+   "kind": "case",
+   "head": "| zero =>",
+   "tokens": 6,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    16,
+    16
+   ],
+   "kind": "other",
+   "head": "cases ϑ_sub_1 with",
+   "tokens": 3,
+   "share": 0.2,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    17,
+    36
+   ],
+   "kind": "case",
+   "head": "| zero =>",
+   "tokens": 144,
+   "share": 10.6,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    38,
+    38
+   ],
+   "kind": "other",
+   "head": "intro hϑ_gt_0 u hP_multilinearCombine_close_gt",
+   "tokens": 4,
+   "share": 0.3,
+   "children": []
+  },
+  {
+   "id": "B8",
+   "lines": [
+    41,
+    41
+   ],
+   "kind": "have",
+   "head": "let ϑ := ϑ_sub_2 + 1 + 1",
+   "tokens": 8,
+   "share": 0.6,
+   "children": []
+  },
+  {
+   "id": "B9",
+   "lines": [
+    42,
+    42
+   ],
+   "kind": "have",
+   "head": "have hϑ : ϑ = ϑ_sub_2 + 1 + 1 := by rfl",
+   "tokens": 13,
+   "share": 1.0,
+   "children": []
+  },
+  {
+   "id": "B10",
+   "lines": [
+    44,
+    45
+   ],
+   "kind": "have",
+   "head": "set U₀ : Fin (2 ^ (ϑ_sub_2 + 1)) → Word A ι :=",
+   "tokens": 30,
+   "share": 2.2,
+   "children": []
+  },
+  {
+   "id": "B11",
+   "lines": [
+    46,
+    47
+   ],
+   "kind": "have",
+   "head": "set U₁ : Fin (2 ^ (ϑ_sub_2 + 1)) → Word A ι :=",
+   "tokens": 30,
+   "share": 2.2,
+   "children": []
+  },
+  {
+   "id": "B12",
+   "lines": [
+    48,
+    48
+   ],
+   "kind": "other",
+   "head": "unfold jointProximityNat",
+   "tokens": 2,
+   "share": 0.1,
+   "children": []
+  },
+  {
+   "id": "B13",
+   "lines": [
+    49,
+    49
+   ],
+   "kind": "other",
+   "head": "simp only",
+   "tokens": 2,
+   "share": 0.1,
+   "children": []
+  },
+  {
+   "id": "B14",
+   "lines": [
+    51,
+    63
+   ],
+   "kind": "have",
+   "head": "have h_finsnoc_eq_r: ∀ r: Fin (ϑ_sub_2 + 1 + 1) → F,",
+   "tokens": 151,
+   "share": 11.2,
+   "children": []
+  },
+  {
+   "id": "B15",
+   "lines": [
+    64,
+    65
+   ],
+   "kind": "have",
+   "head": "let P : F → (Fin (ϑ_sub_2 + 1) → F) → Prop := fun r_last r_init =>",
+   "tokens": 42,
+   "share": 3.1,
+   "children": []
+  },
+  {
+   "id": "B16",
+   "lines": [
+    66,
+    67
+   ],
+   "kind": "have",
+   "head": "let hP_split_r_last := prob_split_last_uniform_sampling_of_finFun",
+   "tokens": 21,
+   "share": 1.6,
+   "children": []
+  },
+  {
+   "id": "B17",
+   "lines": [
+    68,
+    68
+   ],
+   "kind": "other",
+   "head": "unfold P at hP_split_r_last",
+   "tokens": 4,
+   "share": 0.3,
+   "children": []
+  },
+  {
+   "id": "B18",
+   "lines": [
+    69,
+    69
+   ],
+   "kind": "other",
+   "head": "simp_rw [h_finsnoc_eq_r] at hP_split_r_last",
+   "tokens": 6,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B19",
+   "lines": [
+    70,
+    70
+   ],
+   "kind": "other",
+   "head": "rw [hP_split_r_last] at hP_multilinearCombine_close_gt",
+   "tokens": 6,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B20",
+   "lines": [
+    93,
+    93
+   ],
+   "kind": "have",
+   "head": "let ϑ_pred := ϑ_sub_2 + 1",
+   "tokens": 6,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B21",
+   "lines": [
+    94,
+    94
+   ],
+   "kind": "have",
+   "head": "have h_ϑ_pred : ϑ_pred = ϑ_sub_2 + 1 := by rfl",
+   "tokens": 11,
+   "share": 0.8,
+   "children": []
+  },
+  {
+   "id": "B22",
+   "lines": [
+    95,
+    95
+   ],
+   "kind": "have",
+   "head": "have h_ϑ : ϑ = ϑ_pred + 1 := by rfl",
+   "tokens": 11,
+   "share": 0.8,
+   "children": []
+  },
+  {
+   "id": "B23",
+   "lines": [
+    99,
+    104
+   ],
+   "kind": "have",
+   "head": "have multilinearCombine_snoc_eq_multilinearCombine_affine",
+   "tokens": 46,
+   "share": 3.4,
+   "children": []
+  },
+  {
+   "id": "B24",
+   "lines": [
+    106,
+    107
+   ],
+   "kind": "other",
+   "head": "simp_rw [multilinearCombine_snoc_eq_multilinearCombine_affine]",
+   "tokens": 6,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B25",
+   "lines": [
+    112,
+    112
+   ],
+   "kind": "have",
+   "head": "let R_star_set := R_star_tensor MC (m:=ϑ_pred) (e:=e) (ε:=ε) U₀ U₁",
+   "tokens": 22,
+   "share": 1.6,
+   "children": []
+  },
+  {
+   "id": "B26",
+   "lines": [
+    114,
+    118
+   ],
+   "kind": "have",
+   "head": "have h_prob_Rstar_gt_eps_div_q : Pr_{ let r ← $ᵖ F }[ r ∈ R_star_set ]",
+   "tokens": 69,
+   "share": 5.1,
+   "children": []
+  },
+  {
+   "id": "B27",
+   "lines": [
+    120,
+    132
+   ],
+   "kind": "have",
+   "head": "have h_R_star_card_gt_eps : R_star_set.card > ε := by",
+   "tokens": 116,
+   "share": 8.6,
+   "children": []
+  },
+  {
+   "id": "B28",
+   "lines": [
+    134,
+    139
+   ],
+   "kind": "have",
+   "head": "have h_line_close_to_C_m : ∀ (r : R_star_set),",
+   "tokens": 53,
+   "share": 3.9,
+   "children": []
+  },
+  {
+   "id": "B29",
+   "lines": [
+    141,
+    141
+   ],
+   "kind": "have",
+   "head": "have h_C_m_gap := h_interleaved_gaps (2^(ϑ_sub_2 + 1)) (Nat.one_le_tw…",
+   "tokens": 16,
+   "share": 1.2,
+   "children": []
+  },
+  {
+   "id": "B30",
+   "lines": [
+    143,
+    167
+   ],
+   "kind": "have",
+   "head": "have h_prob_line_gt_eps_div_q :",
+   "tokens": 354,
+   "share": 26.2,
+   "children": []
+  },
+  {
+   "id": "B31",
+   "lines": [
+    169,
+    175
+   ],
+   "kind": "have",
+   "head": "have h_final_gap : jointProximityNat₂",
+   "tokens": 141,
+   "share": 10.4,
+   "children": []
+  },
+  {
+   "id": "B32",
+   "lines": [
+    176,
+    176
+   ],
+   "kind": "other",
+   "head": "apply CA_split_rowwise_implies_CA (u := u) (e := e)",
+   "tokens": 12,
+   "share": 0.9,
+   "children": []
+  },
+  {
+   "id": "B33",
+   "lines": [
+    177,
+    177
+   ],
+   "kind": "other",
+   "head": "exact h_final_gap",
+   "tokens": 2,
+   "share": 0.1,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "repeat",
+   "lines": [
+    [
+     145,
+     147
+    ],
+    [
+     152,
+     155
+    ]
+   ],
+   "blocks": [
+    "B30"
+   ],
+   "heads": [
+    "Δ₀(affineLineEvaluation (u₀ := ⋈|(show WordStack …",
+    "Δ₀(affineLineEvaluation"
+   ],
+   "tokens": [
+    83,
+    85
+   ],
+   "similarity": 0.988,
+   "differs": [
+    [
+     "",
+     ":= by"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    145,
+    155
+   ],
+   "hint": "These two blocks are the same argument up to local names (see `differs`). Prove it once as `have name : ∀ (args), claim := by ...` and call `name args` at both places; the differing tokens are candidate arguments."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     143,
+     167
+    ]
+   ],
+   "blocks": [
+    "B30"
+   ],
+   "heads": [
+    "have h_prob_line_gt_eps_div_q :"
+   ],
+   "tokens": [
+    354
+   ],
+   "share": 26.2,
+   "est_saving": null,
+   "id": "T2",
+   "edit_span": [
+    143,
+    167
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "interleaved_affine_gaps_imply_tensor_gaps"
+}

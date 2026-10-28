@@ -1,0 +1,376 @@
+{
+ "proof_tokens": 851,
+ "type": "have",
+ "subtype": null,
+ "kind_share": {
+  "other": 4.8,
+  "have": 95.1
+ },
+ "tags": {
+  "source": "physlib",
+  "length": "medium",
+  "repeat_pairs": 0,
+  "case_body_pairs": 0
+ },
+ "type_hint": "Intermediate-claim proof. Look for claims used once (inline them), claims never used (delete them) and claims proved twice up to renaming (prove once with arguments).",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    7,
+    7
+   ],
+   "kind": "other",
+   "head": "rw [funext_iff]; by_contra h₀",
+   "tokens": 7,
+   "share": 0.8,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    8,
+    8
+   ],
+   "kind": "have",
+   "head": "obtain ⟨x₀, hx0⟩ := not_forall.1 h₀",
+   "tokens": 9,
+   "share": 1.1,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    9,
+    9
+   ],
+   "kind": "other",
+   "head": "simp at hx0 -- hx0 : f x₀ ≠ 0",
+   "tokens": 3,
+   "share": 0.4,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    13,
+    13
+   ],
+   "kind": "have",
+   "head": "let f₂ : Y → WithLp 2 V := toL2 ℝ ∘ f",
+   "tokens": 13,
+   "share": 1.5,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    14,
+    14
+   ],
+   "kind": "have",
+   "head": "let x₂ := f₂ x₀",
+   "tokens": 5,
+   "share": 0.6,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    16,
+    17
+   ],
+   "kind": "have",
+   "head": "have hx2 : x₂ ≠ 0 := by",
+   "tokens": 21,
+   "share": 2.5,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    19,
+    19
+   ],
+   "kind": "have",
+   "head": "have hcont₂ : ContinuousAt f₂ x₀ := ((toL2 ℝ).continuous.comp hf).con…",
+   "tokens": 16,
+   "share": 1.9,
+   "children": []
+  },
+  {
+   "id": "B8",
+   "lines": [
+    24,
+    24
+   ],
+   "kind": "have",
+   "head": "obtain ⟨δ₂, hδ₂_pos, hδ₂⟩ :=",
+   "tokens": 9,
+   "share": 1.1,
+   "children": []
+  },
+  {
+   "id": "B9",
+   "lines": [
+    25,
+    26
+   ],
+   "kind": "other",
+   "head": "Metric.continuousAt_iff.mp hcont₂ (‖x₂‖ / 2)",
+   "tokens": 21,
+   "share": 2.5,
+   "children": []
+  },
+  {
+   "id": "B10",
+   "lines": [
+    28,
+    43
+   ],
+   "kind": "have",
+   "head": "have inner_pos₂ : ∀ x (hx : x ∈ Metric.ball x₀ δ₂), 0 < (⟪f₂ x, x₂⟫_ℝ…",
+   "tokens": 178,
+   "share": 20.9,
+   "children": []
+  },
+  {
+   "id": "B11",
+   "lines": [
+    45,
+    45
+   ],
+   "kind": "have",
+   "head": "have inner_pos_V : ∀ x ∈ Metric.ball x₀ δ₂, 0 < ⟪f x, f x₀⟫_ℝ := fun …",
+   "tokens": 28,
+   "share": 3.3,
+   "children": []
+  },
+  {
+   "id": "B12",
+   "lines": [
+    49,
+    62
+   ],
+   "kind": "have",
+   "head": "have bump_exists : ∃ φ : Y → ℝ, IsTestFunction φ ∧ φ x₀ > 0 ∧",
+   "tokens": 149,
+   "share": 17.5,
+   "children": []
+  },
+  {
+   "id": "B13",
+   "lines": [
+    63,
+    64
+   ],
+   "kind": "have",
+   "head": "obtain ⟨φ, hφ_testfun, hφ_pos_x₀, hφ_non_neg, hφ_support_subset, hφ_p…",
+   "tokens": 16,
+   "share": 1.9,
+   "children": []
+  },
+  {
+   "id": "B14",
+   "lines": [
+    66,
+    66
+   ],
+   "kind": "have",
+   "head": "let g : Y → V := fun x => φ x • f x₀",
+   "tokens": 15,
+   "share": 1.8,
+   "children": []
+  },
+  {
+   "id": "B15",
+   "lines": [
+    68,
+    68
+   ],
+   "kind": "have",
+   "head": "have hg_test : IsTestFunction g := IsTestFunction.smul_right hφ_testf…",
+   "tokens": 9,
+   "share": 1.1,
+   "children": []
+  },
+  {
+   "id": "B16",
+   "lines": [
+    72,
+    72
+   ],
+   "kind": "have",
+   "head": "have key_integral := hg g hg_test",
+   "tokens": 6,
+   "share": 0.7,
+   "children": []
+  },
+  {
+   "id": "B17",
+   "lines": [
+    74,
+    74
+   ],
+   "kind": "other",
+   "head": "simp only [g, inner_smul_right'] at key_integral",
+   "tokens": 9,
+   "share": 1.1,
+   "children": []
+  },
+  {
+   "id": "B18",
+   "lines": [
+    81,
+    82
+   ],
+   "kind": "have",
+   "head": "have support_subset : Function.support φ ⊆ Metric.ball x₀ δ₂ :=",
+   "tokens": 18,
+   "share": 2.1,
+   "children": []
+  },
+  {
+   "id": "B19",
+   "lines": [
+    83,
+    86
+   ],
+   "kind": "have",
+   "head": "have supp_subset2 : Function.support (fun x => φ x * ⟪f x, f x₀⟫_ℝ) ⊆…",
+   "tokens": 35,
+   "share": 4.1,
+   "children": []
+  },
+  {
+   "id": "B20",
+   "lines": [
+    87,
+    88
+   ],
+   "kind": "have",
+   "head": "have hinner_cont : Continuous (fun x => ⟪f x, f x₀⟫_ℝ) :=",
+   "tokens": 35,
+   "share": 4.1,
+   "children": []
+  },
+  {
+   "id": "B21",
+   "lines": [
+    89,
+    93
+   ],
+   "kind": "have",
+   "head": "have integrable_prod :",
+   "tokens": 32,
+   "share": 3.8,
+   "children": []
+  },
+  {
+   "id": "B22",
+   "lines": [
+    96,
+    102
+   ],
+   "kind": "have",
+   "head": "have h_nonneg : ∀ x, 0 ≤ φ x * ⟪f x, f x₀⟫_ℝ := by",
+   "tokens": 53,
+   "share": 6.2,
+   "children": []
+  },
+  {
+   "id": "B23",
+   "lines": [
+    106,
+    107
+   ],
+   "kind": "have",
+   "head": "have hμ_ball : 0 < μ (Metric.ball x₀ (δ₂/4)) :=",
+   "tokens": 25,
+   "share": 2.9,
+   "children": []
+  },
+  {
+   "id": "B24",
+   "lines": [
+    108,
+    109
+   ],
+   "kind": "have",
+   "head": "have hμ : 0 < μ (Metric.closedBall x₀ (δ₂/4)) :=",
+   "tokens": 22,
+   "share": 2.6,
+   "children": []
+  },
+  {
+   "id": "B25",
+   "lines": [
+    110,
+    120
+   ],
+   "kind": "have",
+   "head": "have closedBall_subset_support :",
+   "tokens": 79,
+   "share": 9.3,
+   "children": []
+  },
+  {
+   "id": "B26",
+   "lines": [
+    123,
+    125
+   ],
+   "kind": "have",
+   "head": "have integral_pos : 0 < ∫ x, φ x * ⟪f x, f x₀⟫_ℝ ∂μ :=",
+   "tokens": 36,
+   "share": 4.2,
+   "children": []
+  },
+  {
+   "id": "B27",
+   "lines": [
+    126,
+    126
+   ],
+   "kind": "other",
+   "head": "linarith",
+   "tokens": 1,
+   "share": 0.1,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "large",
+   "lines": [
+    [
+     28,
+     43
+    ]
+   ],
+   "blocks": [
+    "B10"
+   ],
+   "heads": [
+    "have inner_pos₂ : ∀ x (hx : x ∈ Metric.ball x₀ δ₂), 0 < (⟪f₂ x, x₂⟫_ℝ…"
+   ],
+   "tokens": [
+    178
+   ],
+   "share": 20.9,
+   "est_saving": null,
+   "id": "T1",
+   "edit_span": [
+    28,
+    43
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "fundamental_theorem_of_variational_calculus'"
+}

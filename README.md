@@ -3,6 +3,8 @@
 가짜연구소 LeanAgent 팀의 Lean Refactor Arena 참가 코드입니다.
 기존 Lean 증명을 리팩터링해 증명 길이와 검증 비용을 줄이고, 지정된 Lean 버전에서의 호환성을 검증합니다.
 
+팀 실험 결과 대시보드: [lean-arena-dashboard.pages.dev](https://lean-arena-dashboard.pages.dev)
+
 ## 목표
 
 원래 명제와 필요한 문맥을 유지하면서 증명 길이와 검증 비용을 줄이고, 지정된 Lean 버전에서
@@ -22,6 +24,10 @@
 대회 규칙과 제출 요건은 [공식 Arena](https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena)를 기준으로 확인합니다.
 
 ## 개발 범위
+
+첫 실행 하네스는 `src/lean_agent/`에 있습니다. 고정 응답과 실제 Lean 검증으로 실행 흐름을
+확인하고, 저장된 기록으로 후보 선택을 재생할 수 있습니다.
+[설치·실행·테스트와 현재 지원 범위](docs/first-harness.md)를 참고하세요.
 
 | 영역 | 주요 작업 |
 | --- | --- |
@@ -50,7 +56,8 @@ Lean 실행 환경은 문제에 고정된 버전과 의존성으로 후보를 �
 
 ## 폴더 구조 (초안)
 
-에이전트·하네스 부분은 구조 초안입니다. 수집 데이터와 기존 실험은 아래 구분에 맞춰 재배치했습니다.
+아래는 전체 구조 초안입니다. 현재 첫 하네스의 실제 파일 구성은
+[첫 하네스 문서](docs/first-harness.md)에 정리했습니다. 수집 데이터와 기존 실험은 아래 구분을 따릅니다.
 
 ```text
 LeanAgent-LeanRefactorArena/

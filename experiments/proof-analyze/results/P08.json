@@ -1,0 +1,405 @@
+{
+ "proof_tokens": 407,
+ "type": "case",
+ "subtype": null,
+ "kind_share": {
+  "other": 2.0,
+  "case": 97.8
+ },
+ "tags": {
+  "source": "cslib",
+  "length": "medium",
+  "repeat_pairs": 0,
+  "case_body_pairs": 7
+ },
+ "type_hint": "Branch proof. Compare branch bodies: identical bodies can share one `case a | b =>`; a tactic repeated in every branch can move before the split with `<;>`.",
+ "blocks": [
+  {
+   "id": "B1",
+   "lines": [
+    2,
+    2
+   ],
+   "kind": "other",
+   "head": "intro a a₁ a₂ h₁ h₂",
+   "tokens": 6,
+   "share": 1.5,
+   "children": []
+  },
+  {
+   "id": "B2",
+   "lines": [
+    3,
+    3
+   ],
+   "kind": "other",
+   "head": "cases h₁",
+   "tokens": 2,
+   "share": 0.5,
+   "children": []
+  },
+  {
+   "id": "B3",
+   "lines": [
+    4,
+    4
+   ],
+   "kind": "case",
+   "head": "case refl => exact ⟨a₂, h₂, .refl a₂⟩",
+   "tokens": 12,
+   "share": 2.9,
+   "children": []
+  },
+  {
+   "id": "B4",
+   "lines": [
+    5,
+    31
+   ],
+   "kind": "case",
+   "head": "case par a a' b b' ha' hb' =>",
+   "tokens": 160,
+   "share": 39.3,
+   "children": []
+  },
+  {
+   "id": "B5",
+   "lines": [
+    32,
+    39
+   ],
+   "kind": "case",
+   "head": "case red_I =>",
+   "tokens": 55,
+   "share": 13.5,
+   "children": []
+  },
+  {
+   "id": "B6",
+   "lines": [
+    40,
+    49
+   ],
+   "kind": "case",
+   "head": "case red_K c =>",
+   "tokens": 67,
+   "share": 16.5,
+   "children": []
+  },
+  {
+   "id": "B7",
+   "lines": [
+    50,
+    64
+   ],
+   "kind": "case",
+   "head": "case red_S a b c =>",
+   "tokens": 104,
+   "share": 25.6,
+   "children": []
+  }
+ ],
+ "targets": [
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     39,
+     39
+    ],
+    [
+     48,
+     49
+    ]
+   ],
+   "blocks": [
+    "B5",
+    "B6"
+   ],
+   "heads": [
+    "case red_I => use a₁; exact ⟨.refl a₁, …",
+    "case red_K =>"
+   ],
+   "tokens": [
+    11,
+    11
+   ],
+   "similarity": 1.0,
+   "differs": [],
+   "est_saving": 11,
+   "id": "T1",
+   "edit_span": [
+    39,
+    49
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     20,
+     24
+    ],
+    [
+     43,
+     47
+    ]
+   ],
+   "blocks": [
+    "B4",
+    "B6"
+   ],
+   "heads": [
+    "case red_K =>",
+    "case par a' c' ha hc =>"
+   ],
+   "tokens": [
+    25,
+    25
+   ],
+   "similarity": 0.88,
+   "differs": [
+    [
+     "a₂'",
+     "a₁'"
+    ],
+    [
+     "ha₂'",
+     "h'"
+    ],
+    [
+     "a₂",
+     "a₁"
+    ],
+    [
+     "ha'",
+     "ha"
+    ],
+    [
+     "ha₂'.2",
+     "h'.2"
+    ],
+    [
+     "a₂'",
+     "a₁'"
+    ],
+    [
+     "",
+     "h'.1 ,"
+    ],
+    [
+     "a₂' b' , ha₂'.1",
+     "a₁' c'"
+    ]
+   ],
+   "est_saving": null,
+   "id": "T2",
+   "edit_span": [
+    20,
+    47
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     34,
+     34
+    ],
+    [
+     39,
+     39
+    ]
+   ],
+   "blocks": [
+    "B5"
+   ],
+   "heads": [
+    "case refl => use a₁; exact ⟨.refl a₁, .…",
+    "case red_I => use a₁; exact ⟨.refl a₁, …"
+   ],
+   "tokens": [
+    11,
+    11
+   ],
+   "similarity": 0.909,
+   "differs": [],
+   "est_saving": null,
+   "id": "T3",
+   "edit_span": [
+    34,
+    39
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     34,
+     34
+    ],
+    [
+     42,
+     42
+    ]
+   ],
+   "blocks": [
+    "B5",
+    "B6"
+   ],
+   "heads": [
+    "case refl => use a₁; exact ⟨.refl a₁, .…",
+    "case refl => use a₁; exact ⟨.refl a₁, .…"
+   ],
+   "tokens": [
+    11,
+    12
+   ],
+   "similarity": 0.87,
+   "differs": [],
+   "est_saving": null,
+   "id": "T4",
+   "edit_span": [
+    34,
+    42
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     34,
+     34
+    ],
+    [
+     48,
+     49
+    ]
+   ],
+   "blocks": [
+    "B5",
+    "B6"
+   ],
+   "heads": [
+    "case refl => use a₁; exact ⟨.refl a₁, .…",
+    "case red_K =>"
+   ],
+   "tokens": [
+    11,
+    11
+   ],
+   "similarity": 0.909,
+   "differs": [],
+   "est_saving": null,
+   "id": "T5",
+   "edit_span": [
+    34,
+    49
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     39,
+     39
+    ],
+    [
+     42,
+     42
+    ]
+   ],
+   "blocks": [
+    "B5",
+    "B6"
+   ],
+   "heads": [
+    "case red_I => use a₁; exact ⟨.refl a₁, …",
+    "case refl => use a₁; exact ⟨.refl a₁, .…"
+   ],
+   "tokens": [
+    11,
+    12
+   ],
+   "similarity": 0.87,
+   "differs": [],
+   "est_saving": null,
+   "id": "T6",
+   "edit_span": [
+    39,
+    42
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "case_body",
+   "lines": [
+    [
+     42,
+     42
+    ],
+    [
+     48,
+     49
+    ]
+   ],
+   "blocks": [
+    "B6"
+   ],
+   "heads": [
+    "case refl => use a₁; exact ⟨.refl a₁, .…",
+    "case red_K =>"
+   ],
+   "tokens": [
+    12,
+    11
+   ],
+   "similarity": 0.87,
+   "differs": [],
+   "est_saving": null,
+   "id": "T7",
+   "edit_span": [
+    42,
+    49
+   ],
+   "hint": "These branches have (near-)identical bodies (see `differs`). If nothing differs, merge them into one alternative `case a | b =>`; otherwise close both with a shared tactic that covers the differing step."
+  },
+  {
+   "kind": "large",
+   "lines": [
+    [
+     5,
+     31
+    ]
+   ],
+   "blocks": [
+    "B4"
+   ],
+   "heads": [
+    "case par a a' b b' ha' hb' =>"
+   ],
+   "tokens": [
+    160
+   ],
+   "share": 39.3,
+   "est_saving": null,
+   "id": "T8",
+   "edit_span": [
+    5,
+    31
+   ],
+   "hint": "This block holds a large share of the proof. Shorten it: replace manual steps by stronger closing tactics, drop intermediate claims that are not needed."
+  }
+ ],
+ "needs_compile": [
+  "unused_have (Lean linter linter.unusedVariables.analyzeTactics)",
+  "heartbeats",
+  "axioms"
+ ],
+ "name": "Cslib.SKI.parallelReduction_diamond"
+}
