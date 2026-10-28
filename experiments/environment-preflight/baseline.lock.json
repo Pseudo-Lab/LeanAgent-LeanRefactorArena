@@ -173,7 +173,7 @@
   },
   "design": {
     "path": "design.json",
-    "sha256": "6dc05edae7d3214344ccb852df0729c3f7a7314272892b42bad53731a8bbed06"
+    "sha256": "7a9c3e443202aac979ecbc2a812953ef0444fd2c286715d7c38ac2655a25d29d"
   },
   "runtime_status": "not_fingerprinted_for_this_experiment",
   "runtime_capture_required_at_run_start": [
@@ -188,10 +188,10 @@
   "baseline_code_materialization": "Recover sources.main.files from the exact revision into a separate project cache directory, verify hashes, and use its lean_agent package. Do not substitute the PR3 evaluator.",
   "historical_pilot": "PR3 pilot code and report are reference evidence only; not inputs or results of this experiment.",
   "planning_revision": {
-    "previous_experiment_id": "environment-preflight-v2",
-    "previous_design_sha256": "0da3c621189e0d6407663ba35df42d4ca1a6ecb9ccae373299c56032735551c6",
-    "previous_status": "features_1_and_2_executed_at_879af9b; feature_3_not_implemented",
-    "reason": "Freeze audit fixes: interruption state, invalid Unicode/deep JSON rejection, malformed measurement evidence. Pinned sources and baseline inputs unchanged."
+    "previous_experiment_id": "environment-preflight-v3",
+    "previous_design_sha256": "6dc05edae7d3214344ccb852df0729c3f7a7314272892b42bad53731a8bbed06",
+    "previous_status": "features_1_and_2_verified_and_refactored_at_a6f5566",
+    "reason": "Freeze feature-3 durable stage journal and read-only status contract; pinned sources and inputs unchanged."
   },
   "planning_history": [
     {
@@ -199,6 +199,12 @@
       "previous_design_sha256": "79f0ae24e516480a8d732bf2d64cf362fa5c0c0d269eff56b0a0c692a6b64c57",
       "previous_status": "uncommitted_plan_not_executed",
       "reason": "Clarify features 1–3; defer features 4–6; distinguish API failures from optional local Lean timeout checks."
+    },
+    {
+      "previous_experiment_id": "environment-preflight-v2",
+      "previous_design_sha256": "0da3c621189e0d6407663ba35df42d4ca1a6ecb9ccae373299c56032735551c6",
+      "previous_status": "features_1_and_2_executed_at_879af9b; feature_3_not_implemented",
+      "reason": "Freeze audit fixes: interruption state, invalid Unicode/deep JSON rejection, malformed measurement evidence. Pinned sources and baseline inputs unchanged."
     }
   ]
 }

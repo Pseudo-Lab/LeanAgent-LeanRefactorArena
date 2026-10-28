@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-10-28",
+  "base_commit": "a6f5566",
+  "implementation_state": "Uncommitted feature-3 implementation; exact runnable snapshots verified.",
+  "design": "environment-preflight-v4",
+  "source_sha256": {
+    "baseline.py": "73e7df8fae08a9779532bc94caab50f82ba9ffacd38cad542a7aed7290c78eca",
+    "diagnostics.py": "19a42692df0c4c36903043e33395495d4dd3b6807f6730c6bdf3964c6cdcc541",
+    "preflight.py": "2e5b464413e076f27ac6a43a7068312365d53375cac5b3464d51de16ad857df7",
+    "replay.py": "eb33a846133f74693b8c1879508b9537be788013ff8b916207e7b49e006969d0",
+    "run.py": "d8c46a009c9f9843ea1d10aaf5548f1e198b668aaaec33dc659a3366262c428b",
+    "status.py": "76702c8eb9568573fdc1e7e6bc140d9c1ba5b5af86bfed5763d15ab797048043",
+    "test_diagnostics.py": "7e0e6555fd3f66112b648e0347101211d14a0c3b1ac6b9ccf1b6c7dd1d717185",
+    "test_hardening.py": "1cf035eee5a4a79feb5267932d222f8794743ed487f2254e90f882222116d320",
+    "test_preflight.py": "88f471f93ea5c99c6767633a48bff1506443e11763db638445948aaabb7aee84",
+    "test_status.py": "d76f7075c78dcd3765a3aea154941e12cd8bab6748b995b425a35f6108623328"
+  },
+  "design_sha256": "7a9c3e443202aac979ecbc2a812953ef0444fd2c286715d7c38ac2655a25d29d",
+  "baseline_lock_sha256": "f83df421c31d986a862e8448209c8a68be00c23da0484943fcc228d3055ae764",
+  "tests": {
+    "experiment_passed": 68,
+    "new_status_tests": 15,
+    "pinned_main_passed": 19,
+    "command": "python3.13 -m unittest discover -s experiments/environment-preflight -p 'test_*.py' -q"
+  },
+  "cases": [
+    {
+      "case": "normal",
+      "method": "real Lean 4.26 + fixture",
+      "run_directory": "runs/environment-preflight/feature3-20261028-normal",
+      "status": "completed",
+      "sealed": true,
+      "process_state": "unknown",
+      "last_completed_stage": "replay",
+      "incomplete_stages": [],
+      "latest_verified_candidate": {
+        "sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c",
+        "source": "harness/steps/003/candidate.lean",
+        "stage": "candidate",
+        "attempt": 3
+      },
+      "final_result": {
+        "sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c",
+        "source": "harness/selected.lean",
+        "stage": "final"
+      },
+      "journal_records": 39,
+      "journal_sha256": "8dd7f108b28132134d7f0ee3c17df01d270153bff2fd37bfa90086d1f7e36ec1"
+    },
+    {
+      "case": "hard-kill",
+      "method": "simulated compiler; actual SIGKILL child",
+      "run_directory": "runs/environment-preflight/feature3-20261028-hard-kill",
+      "status": "incomplete",
+      "sealed": false,
+      "process_state": "unknown",
+      "last_completed_stage": "response",
+      "incomplete_stages": [
+        {
+          "stage": "candidate",
+          "details": {
+            "attempt": 2
+          }
+        }
+      ],
+      "latest_verified_candidate": {
+        "sha256": "67ffb506b253529e70310fda7347974330524e1864525bfd30490f2d455b7cd5",
+        "source": "harness/steps/001/candidate.lean",
+        "stage": "candidate",
+        "attempt": 1
+      },
+      "final_result": null,
+      "journal_records": 25,
+      "journal_sha256": "d0722d6a34e24f32a1e2a411a552e77c1c787c47111bdc631dfbfadb078822bb"
+    },
+    {
+      "case": "interrupted",
+      "method": "simulated compiler; KeyboardInterrupt injection",
+      "run_directory": "runs/environment-preflight/feature3-20261028-interrupted",
+      "status": "interrupted",
+      "sealed": true,
+      "process_state": "unknown",
+      "last_completed_stage": "baseline",
+      "incomplete_stages": [],
+      "latest_verified_candidate": {
+        "sha256": "8625ca1cda4352a1340b52fcabeff56487ed351426d90798f6ec26feb9bf6fe2",
+        "source": "harness/input/problem.json",
+        "stage": "baseline"
+      },
+      "final_result": null,
+      "journal_records": 17,
+      "journal_sha256": "1e8d82090977cd8281b5d0a93febe5148cdb1a83cdcf20609baea8bea5520eb9"
+    }
+  ],
+  "confirmed": [
+    "Read-only live queries do not change artifact bytes.",
+    "Actual SIGKILL leaves candidate 2 incomplete and candidate 1 verified; no final result.",
+    "Ctrl-C records interrupted and preserves propagation.",
+    "Final verification alone, or a stopped run, does not become a completed result.",
+    "Partial trailing records, damaged complete records, missing seals and altered evidence are handled conservatively.",
+    "Archived status CLI works after relocation with empty PATH and no model/Lean calls.",
+    "Real Lean normal selection and archived replay retain the previous by rfl result.",
+    "Pinned baseline sources/inputs and src remain unchanged."
+  ],
+  "limits": [
+    "Process liveness is intentionally unknown. No retry/resume.",
+    "Single writer per fresh output folder.",
+    "Legacy runs without a journal return unknown.",
+    "Status checks saved evidence; it does not recompile or authenticate records from an untrusted party.",
+    "Raw run directories are ignored local artifacts."
+  ],
+  "paid_api_calls": 0
+}

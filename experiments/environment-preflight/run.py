@@ -1,4 +1,4 @@
-"""Preflight and diagnose the pinned main fixture harness (features 1 and 2)."""
+"""Preflight, diagnose and record stages of the pinned main fixture harness."""
 from __future__ import annotations
 
 import argparse
@@ -14,21 +14,32 @@ import baseline
 from baseline import artifact_hashes as files
 import diagnostics
 import preflight
+import status
 
 
 @dataclass
 class RunProgress:
-    """In-memory context for exception records; not a persisted status journal."""
+    """One active operation, persisted before work and after its evidence is saved."""
+    journal: status.Journal
     stage: str = "setup"
     calls: int = 0
     failure_report: str | None = None
+    active: dict | None = None
 
-    def enter(self, stage):
+    def enter(self, stage, **details):
+        if self.active:
+            raise ValueError("Previous stage has no finish record: " + self.stage)
         self.stage, self.failure_report = stage, None
+        self.active = self.journal.start(stage, details)
+
+    def finish(self, outcome="passed", paths=(), candidate=None):
+        if self.active:
+            self.journal.finish(self.active, outcome, paths, candidate)
+            self.active = None
 
 
 def implementation_snapshot(root):
-    for name in ("baseline.py", "preflight.py", "diagnostics.py", "replay.py", "run.py"):
+    for name in ("baseline.py", "preflight.py", "diagnostics.py", "replay.py", "run.py", "status.py"):
         dest = root / "code" / name
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(baseline.HERE / name, dest)
@@ -62,7 +73,7 @@ def lock(root, harness, config_path):
         "implementation_git": harness.git_metadata(baseline.HERE) if harness else None,
         "python": {"executable": str(compiler), "sha256": baseline.sha(compiler.read_bytes()), "version": sys.version},
         "host": platform.platform(), "original_config_path": str(config_path),
-        "files_before_compiler_execution": files(root),
+        "files_before_compiler_execution": {k: v for k, v in files(root).items() if k != "events.jsonl"},
         "prepared_compiler_evidence": "compiler-before-check.json and environment.json, when available",
         "model_backend": "fixture", "paid_api_calls_allowed": False,
     })
@@ -85,6 +96,9 @@ def run_harness(harness, evaluator_module, config_path, environment, output, rec
     expected = {k: v for k, v in environment.items() if k not in ("project", "git")}
 
     class CheckedEvaluator(evaluator_module.LeanEvaluator):
+        pending_evaluation = None
+        fingerprint_calls = 0
+
         def _evaluate_environment(self, code, problem, env, folder, row, runs):
             try:
                 return super()._evaluate_environment(code, problem, env, folder, row, runs)
@@ -100,33 +114,75 @@ def run_harness(harness, evaluator_module, config_path, environment, output, rec
                     "exception_type": type(exc).__name__})
 
         def fingerprint(self, env):
-            progress.enter("environment")
+            self.fingerprint_calls += 1
+            progress.enter("environment", phase="harness_start" if self.fingerprint_calls == 1 else "harness_end")
             value = super().fingerprint(env)
             if {k: v for k, v in value.items() if k not in ("project", "git")} != expected:
                 raise ValueError("Harness environment differs from the preflight snapshot")
+            progress.finish()
             return value
 
         def evaluate(self, code, problem, environments, folder, repetitions):
-            progress.enter(folder.name if folder.name in ("baseline", "final") else "candidate")
+            stage = folder.name if folder.name in ("baseline", "final") else "candidate"
+            details = {"attempt": int(folder.parent.name)} if stage == "candidate" else {}
+            progress.enter(stage, **details)
             value = super().evaluate(code, problem, environments, folder, repetitions)
             recorder.evaluated(value, folder)
             if recorder.records[-1]["kind"]:
                 progress.failure_report = recorder.records[-1]["path"]
+            source = ("harness/input/problem.json" if stage == "baseline" else "harness/selected.lean"
+                      if stage == "final" else str((folder.parent / "candidate.lean").relative_to(output)))
+            candidate = {"sha256": baseline.sha(code.encode()), "source": source, "stage": stage, **details}
+            self.pending_evaluation = (folder / "result.json", recorder.records[-1]["path"], candidate)
             return value
 
     original_query = harness.models.query
+    original_write = harness.write
+    evaluator = CheckedEvaluator()
 
     def counted_query(*args, **kwargs):
-        progress.enter("model")
+        progress.enter("model", attempt=progress.calls + 1)
         progress.calls += 1
         return original_query(*args, **kwargs)
 
+    def persisted_write(path, value):
+        original_write(path, value)
+        if evaluator.pending_evaluation and path == evaluator.pending_evaluation[0]:
+            _, report, candidate = evaluator.pending_evaluation
+            refs = [path, report] + ([candidate["source"]] if value["valid"] else [])
+            progress.finish("passed" if value["valid"] else "failed", refs,
+                            candidate if value["valid"] else None)
+            evaluator.pending_evaluation = None
+        elif path == output / "harness/steps" / f"{progress.calls:03}" / "response.json":
+            failed = isinstance(value, dict) and (value.get("transport_error") or
+                     isinstance(value.get("http_status"), int) and value["http_status"] >= 400)
+            progress.finish("failed" if failed else "passed", [path])
+
     harness.models.query = counted_query
+    harness.write = persisted_write
     try:
         with diagnostics.feedback_adapter(harness, output, recorder):
-            return harness.run(config_path, output / "harness", evaluator=CheckedEvaluator())
+            original_parse = harness.parse_proof
+
+            def parsed_response(*args, **kwargs):
+                progress.enter("response", attempt=progress.calls)
+                receipt = output / "harness/steps" / f"{progress.calls:03}" / "response.json"
+                try:
+                    code = original_parse(*args, **kwargs)
+                except (ValueError, TypeError):
+                    progress.finish("failed", [receipt])
+                    raise
+                progress.finish(paths=[receipt])
+                return code
+
+            harness.parse_proof = parsed_response
+            try:
+                return harness.run(config_path, output / "harness", evaluator=evaluator)
+            finally:
+                harness.parse_proof = original_parse
     finally:
         harness.models.query = original_query
+        harness.write = original_write
 
 
 def execute(config_path, output, *, continue_run=False, cache=None):
@@ -137,10 +193,11 @@ def execute(config_path, output, *, continue_run=False, cache=None):
     output.mkdir(parents=True, exist_ok=False)
     output = output.resolve()
     harness = None
-    progress = RunProgress()
+    progress = RunProgress(status.Journal(output))
     recorder = diagnostics.Recorder(output)
     summary = {"schema_version": 1, "status": "failed", "model_requests": 0, "api_calls": 0}
     try:
+        progress.enter("setup")
         implementation_snapshot(output)
         harness, evaluator_module, source_root = baseline.load(cache)
         # Freeze the baseline implementation even for a failed preflight run.
@@ -148,14 +205,15 @@ def execute(config_path, output, *, continue_run=False, cache=None):
             dest = output / "code/lean_agent" / relative
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source_root / "src/lean_agent" / relative, dest)
+        progress.finish()
         progress.enter("config")
         config, paths = harness.load_config(config_path)
         if config["model"]["backend"] != "fixture":
             raise ValueError("This experiment only accepts fixture mode; no live API calls")
         environment = snapshot_inputs(config_path, config, paths, output)
         lock(output, harness, config_path)
-        progress.enter("preflight")
-        checked = preflight.check(environment, output, evaluator_module)
+        progress.finish(paths=["input/config.original.json"])
+        checked = preflight.check(environment, output, evaluator_module, progress=progress)
         diagnosed = diagnostics.preflight_diagnosis(checked, output)
         if diagnosed:
             recorder.save("preflight", diagnosed)
@@ -167,9 +225,11 @@ def execute(config_path, output, *, continue_run=False, cache=None):
                 progress.enter("harness")
                 summary.update(status="incomplete", stage=progress.stage)
                 path = launch_config(config, checked["effective_command"], output)
+                progress.finish(paths=[path])
                 result = run_harness(harness, evaluator_module, path, checked["environment"], output, recorder, progress)
                 progress.enter("replay")
                 replay = diagnostics.replay(harness, output)
+                progress.finish(paths=["harness/summary.json"])
                 summary.update(status=result["status"], stage="harness", harness_summary="harness/summary.json",
                                selected_sha256=result["state"]["best"]["sha256"], replay=replay)
     except (Exception, KeyboardInterrupt, SystemExit) as exc:
@@ -186,6 +246,7 @@ def execute(config_path, output, *, continue_run=False, cache=None):
                 progress.stage, summary["error"]["kind"], "execution_interrupted" if interrupted else "execution_exception",
                 evidence=[diagnostics.evidence(output, diagnostic)], original_error=summary["error"]))
             summary["failure_diagnosis"] = "diagnostics/failure.json"
+        progress.finish("interrupted" if interrupted else "failed", [diagnostic, summary["failure_diagnosis"]])
         if interrupted:
             raise  # Persist in finally while retaining Ctrl-C/SystemExit behavior.
     finally:
@@ -194,6 +255,7 @@ def execute(config_path, output, *, continue_run=False, cache=None):
         summary["model_requests"] = progress.calls
         summary["diagnostics"] = recorder.records
         preflight.write(output / "result.json", summary)
+        progress.journal.seal(summary["status"])
         preflight.write(output / "artifacts.json", files(output))
     return summary
 

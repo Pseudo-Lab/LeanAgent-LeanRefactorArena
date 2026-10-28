@@ -1,6 +1,6 @@
 # 환경 사전 점검·오류 상태 실험
 
-[이슈 #27](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/27)의 기획과 기능 1·2 실험이다.
+[이슈 #27](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/27)의 기획과 기능 1–3 실험이다.
 작성일은 2026-10-27이며, 작업 브랜치는 기존 `proposal/problem-environment-lock`이다.
 기획 기준은 커밋 `e872351`, 기능 1은 `35906ca`에 보존했다. 기능 2도 `experiments/`에서 구현하며 `src/` 통합은 마지막 단계다.
 
@@ -45,7 +45,7 @@ PR #3 전체를 main에 병합하는 대신 현재 main 하네스를 기준으�
 | Lean | `leanprover/lean4:v4.26.0`, 외부 패키지 없는 단일 환경 |
 | 모델 | `fixture`, 유료 API 호출 0회 |
 | 제한 | 고정 응답 3개, Lean 실행당 30초, 계측 3회. 나머지는 복사한 설정 그대로 |
-| 실험 설계 | [design.json](design.json), 버전 `environment-preflight-v3` |
+| 실험 설계 | [design.json](design.json), 버전 `environment-preflight-v4` |
 | 출처·무결성 | [baseline.lock.json](baseline.lock.json)의 commit·Git tree·파일 SHA-256 |
 
 입력 복사본은 [baseline/main/configs/smoke.json](baseline/main/configs/smoke.json)부터 상대 경로로 연결된다.
@@ -58,6 +58,7 @@ PR #3의 과거 Strata·PutnamBench 후보와 결과를 이번 스모크 입력�
 초기 미실행 v1 기획에서 기능 1–3과 timeout의 역할을 정리해 v2로 갱신했다.
 기준 코드·입력·설정 bytes는 동일하며, lock에 이전 설계 해시와 변경 사유를 남긴다.
 v3는 subagent 검증에서 발견한 중단 상태·잘못된 Unicode/깊은 JSON·계측 보고서 손상 처리 계약을 추가했다.
+v4는 단계 기록과 읽기 전용 상태 조회를 추가한다. 고정 main·기준 입력·선택 규칙은 동일하다.
 
 ## 다음 단계의 실행 계약
 
@@ -73,7 +74,7 @@ v3는 subagent 검증에서 발견한 중단 상태·잘못된 Unicode/깊은 JS
    `fixture` 요청도 호출 루프 진입 여부를 판단하기 위해 센다. API 비용 0이라는 사실만으로 사전 중단을 입증하지 않는다.
 6. 기존 평가·선택 정책과 replay 회귀 검사를 통과한 기능만 별도 통합 PR에서 `src/lean_agent`로 옮긴다.
 
-아래 실행기는 기능 1·2를 구현한다. 기능 3의 실행 상태 조회는 후속 범위다.
+아래 실행기는 기능 1–3을 구현한다. 자동 재개·비용 관리·src 통합은 포함하지 않는다.
 기준 또는 설계를 변경하면 새 실험 버전과 lock을 만들고, 과거 run의 lock·입력·로그를 덮어쓰지 않는다.
 
 ## 기능 1 구현과 사용법
@@ -88,6 +89,8 @@ v3는 subagent 검증에서 발견한 중단 상태·잘못된 Unicode/깊은 JS
 | [test_preflight.py](test_preflight.py) | 실패 시 모델 호출 차단, 정상 선택·replay 유지 등 20개 검사 |
 | [test_diagnostics.py](test_diagnostics.py) | API 오류 주입, 계측·증명·응답 구분, 피드백·선택·replay 검사 |
 | [test_hardening.py](test_hardening.py) | 중단 신호·응답 경계·계측 보고서 손상의 재현 및 회귀 검사 |
+| [status.py](status.py) | 단계 시작·종료 기록과 읽기 전용 상태 조회 CLI |
+| [test_status.py](test_status.py) | 실행 중 조회·실제 SIGKILL·최종 결과 구분·기록 손상·이동 검증 |
 
 Python 3.10 이상이 필요하다. 이번 검증은 기존 Python 3.13.11과 설치된 Lean 4.26.0으로 수행했고
 환경·의존성을 새로 설치하지 않았다. `python3.13`은 로컬에서 사용한 실행 명령이며 다른 호스트에서는
@@ -121,6 +124,7 @@ python3.13 experiments/environment-preflight/run.py run \
 - `artifacts.json`: 실행 산출물 해시 목록.
 - `harness/`: 사전 점검을 통과한 `run` 명령에만 생성되는 기존 main 실행 기록.
 - `diagnostics/`: 기능 2의 단계별 진단. 원문 오류, 근거 파일의 상대 경로·SHA-256, 오류 발췌와 안내.
+- `events.jsonl`: 기능 3의 단계별 시작·종료 및 실행 종료 기록. 쓰기 직후 flush/fsync.
 
 문맥에는 template의 기존 문맥만 사용한다. 증명 후보, 계측용 `import Lean`, 계측 wrapper를 추가하지 않는다.
 문맥 컴파일 실패는 `stage=context`, `reason=context_compile_failed`로 차단한다. import 오류와
@@ -177,8 +181,7 @@ fixture 실행에서 발생한 임의의 Python 예외를 API 오류라고 단�
 
 최초 검증 근거는 [validation-feature2.json](validation-feature2.json)에 정리했다. 이 기록은 설계 v2의
 `879af9b` 구현에 대한 것이며 이후 보완 검증은 아래에 별도로 기록한다. 기능 1 검증 파일과 과거 실행
-산출물을 수정하지 않는다. 설계 전체에는 미구현 기능 3이 포함되어
-있으므로 기능 2 완료를 전체 설계 완료로 해석하지 않는다.
+산출물을 수정하지 않는다. 이 최초 검증 기록에는 기능 3 검증이 포함되지 않는다.
 
 2026-10-28 검증 결과:
 
@@ -226,6 +229,49 @@ fixture 실행에서 발생한 임의의 Python 예외를 API 오류라고 단�
 계측 단계 판별과 실행/replay의 산출물 해시 수집은 각각 공통 함수로 합쳤다.
 새 실행 계층이나 의존성을 추가하지 않았으며, 기존 53개 회귀 검사와 실제 Lean 실행·보관 코드
 replay로 확인한다. 검증 기록은 [validation-refactor.json](validation-refactor.json)에 남긴다.
+
+## 기능 3: 실행 상태 조회 — 설계 v4
+
+리팩터링은 `a6f5566`에 보존했다. 새 실행은 코드·입력 고정부터 단계별 기록을 남긴다.
+실행 방법은 이전과 같고, 조회는 별도 명령이다:
+
+```sh
+python3.13 experiments/environment-preflight/status.py runs/environment-preflight/my-run
+python3.13 experiments/environment-preflight/status.py runs/environment-preflight/my-run --json
+```
+
+조회는 실행 폴더를 읽기만 한다. Lean·모델 호출, 파일 갱신, 재시도·재개, PID 생존 추정을 하지 않는다.
+보관된 `code/status.py`로도 조회할 수 있어 폴더를 옮긴 뒤에도 원래 코드로 확인할 수 있다.
+
+| 조회 항목 | 의미 |
+| --- | --- |
+| `last_completed_stage` | 마지막으로 통과 완료가 기록된 단계 |
+| `last_finished_stage` | 실패·중단을 포함해 마지막 종료 기록이 있는 단계 |
+| `incomplete_stages` | 시작 기록은 있지만 종료 기록이 없는 단계와 후보 번호 |
+| `latest_verified_candidate` | 평가 결과와 근거가 저장된 마지막 유효 후보. 최종 선택과 다를 수 있음 |
+| `final_verification` | 최종 검증 단계 자체의 종료 결과 |
+| `final_result` | 전체 실행 완료, 최종 검증·replay 성공, 결과·기록 봉인까지 확인된 결과 |
+| `diagnostics` | 기능 2의 오류 분류와 원문 근거로 연결되는 진단 파일 |
+
+예를 들어 후보 1 통과 후 후보 2 검증 중 강제 종료되면, 후보 1을 마지막 검증 후보로 보여주고
+후보 2는 `incomplete`, 최종 결과는 미확정으로 표시한다. 조회 시 프로세스가 아직 실행 중일 수도
+있으므로 `process_state`는 `unknown`이다. Ctrl-C처럼 정리 코드가 실행되면 `interrupted` 종료를 기록한다.
+API 오류로 `stopped`가 된 실행은 마지막 증명의 최종 검증을 통과했더라도 완료된 실험 결과로 올리지 않는다.
+
+기록은 단일 writer의 append-only JSONL이다. 시작은 해당 작업 전에, 종료는 근거 파일 저장 후에 남긴다.
+계측 결과·응답 파일을 쓰기 전에 종료 기록부터 남기지 않는다. 원본 문맥 검사, 하네스 시작/끝 환경 검사,
+기준 증명, 모델 요청, 응답 해석, 각 후보, 최종 검증, replay를 구분한다.
+진행 중인 `events.jsonl`은 실행 전 고정 파일 해시에서 제외하고, 실행 종료 시 산출물 목록에 봉인한다.
+
+마지막 줄이 아직 쓰이는 중이면 그 줄을 제외한 완전한 기록까지만 읽는다. 완전한 줄의 형식 오류나
+저장된 근거 해시 불일치는 `unknown`과 `record_error`로 알린다. 종료 기록은 있지만 최종 봉인이 없으면
+완료 여부는 미확정이다. 단계 기록이 없는 과거 실행은 이력 추정 없이 `unknown`으로 표시한다.
+이 조회는 기록 무결성 확인이며 증명 재검증이나 실행 재개 기능이 아니다.
+
+검증은 기존 53개 + 상태 조회 15개, 총 **68개 검사**, 고정 main 회귀 19개를 통과했다.
+새 Python subprocess를 후보 2에서 실제 SIGKILL한 검사(compiler는 fixture)와 실행 중 조회,
+Ctrl-C·봉인 누락·변조·부분 기록·폴더 이동을 확인했다. 실제 Lean 정상 경로는 기존 선택과 replay를 유지한다.
+검증 근거는 [validation-feature3.json](validation-feature3.json)에 정리했다.
 
 현재 지원은 **외부 의존성이 없는 단일 환경 + 직접 실행하는 Lean compiler + fixture**다.
 설치된 `elan` shim은 고정 버전의 실제 binary로 해석하여 실행하고, 버전이 없으면 설치 없이 중단한다.
@@ -282,5 +328,5 @@ source /Users/jwkweon/00_work/00_project/env/use.sh 05_pseudolab/LeanAgent-LeanR
 - [x] 기능 1 코드·실행 환경 고정 및 정상·환경 실패 사례 실행
 - [x] 기능 1 추가 검사 비용·정상 선택·replay 비교
 - [x] 기능 2의 오류 구분·근거 저장·다음 요청 피드백 및 회귀 검사
-- [ ] 기능 3의 실행 상태 조회 구현 및 나머지 사례 실행
+- [x] 기능 3의 실행 상태 조회·강제 종료·기록 무결성·최종 결과 구분 검증
 - [ ] 검증 요약을 근거로 src 통합

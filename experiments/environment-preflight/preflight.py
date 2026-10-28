@@ -112,13 +112,15 @@ def record_fingerprint_commands(module, recorder):
         module.execute = original
 
 
-def check(environment, root, evaluator_module):
+def check(environment, root, evaluator_module, *, progress=None):
     """Persist diagnostics; return failed results without calling any model."""
     started = time.monotonic()
     recorder = Recorder(root, evaluator_module.execute)
     stage, fingerprint = "environment", None
     result = {"schema_version": 1, "status": "failed", "model_requests": 0, "api_calls": 0}
     try:
+        if progress:
+            progress.enter("environment", phase="preflight")
         environment = dict(environment)
         environment["command"] = resolve_command(environment["command"], environment["toolchain"], environment["project"])
         compiler = Path(environment["command"][0])
@@ -130,6 +132,9 @@ def check(environment, root, evaluator_module):
             raise CheckFailed(stage, "compiler_prefix_mismatch", "--print-prefix does not identify the resolved compiler")
         write(root / "environment.json", fingerprint)
         stage = "context"
+        if progress:
+            progress.finish(paths=["environment.json"])
+            progress.enter("context", phase="preflight")
         evaluator_module.validate_template(environment["template"])
         # No proof declaration, measurement wrapper, extra import or Lean options.
         context = evaluator_module.render(environment["template"], "", "", None)
@@ -163,4 +168,6 @@ def check(environment, root, evaluator_module):
                   compiler_invocations=len(recorder.records),
                   context_compilations=sum(r["stage"] == "context" for r in recorder.records))
     write(root / "preflight.json", result)
+    if progress:
+        progress.finish("passed" if result["status"] == "passed" else "failed", ["preflight.json"])
     return result

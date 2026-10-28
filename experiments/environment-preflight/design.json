@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "experiment_id": "environment-preflight-v3",
+  "experiment_id": "environment-preflight-v4",
   "status": "planned_not_executed",
   "purpose": "환경 사전 점검과 단계별 진단을 main 하네스 기준으로 비교한다.",
   "baseline_revision": "ba593fc4357ee5c429b8f28f1aac512d05bb4355",
@@ -204,5 +204,28 @@
     "unexpected_exception": "Record failed, not stale preflight-ready. Uncatchable termination is not addressed here.",
     "malformed_measurement_schema": "After a successful check and successful measurement process, preserve malformed-report exceptions and logs as an invalid environment result with separate measurement diagnosis.",
     "comparison": "Unchanged valid inputs retain their serialized requests except for the already planned diagnostic feedback; ranking and metrics unchanged."
+  },
+  "status_query_contract": {
+    "journal": "Append-only events.jsonl, one active operation, durable start before work and finish after evidence files close.",
+    "stages": [
+      "setup",
+      "config",
+      "environment",
+      "context",
+      "harness",
+      "baseline",
+      "model",
+      "response",
+      "candidate",
+      "final",
+      "replay"
+    ],
+    "status_query": "Read-only; does not import Lean, query a model, install, retry or resume.",
+    "unfinished": "Start without a finish is incomplete; process liveness always unknown.",
+    "partial_write": "Ignore incomplete trailing JSONL bytes; malformed complete records are unknown with a record error.",
+    "verified_candidate": "Only a passed baseline/candidate evaluation whose result and source evidence are saved.",
+    "final_result": "Requires passed final verification, completed result with replay, and matching sealed journal/result inventory; stopped runs are not completed results.",
+    "legacy": "Without a journal report unknown; do not fabricate historical stage transitions.",
+    "validation": "Actual child SIGKILL at candidate 2 after candidate 1 passes, plus live/read-only/relocation/seal/tamper cases."
   }
 }
