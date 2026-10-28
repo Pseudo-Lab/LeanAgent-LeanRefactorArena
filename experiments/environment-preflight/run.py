@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from dataclasses import dataclass
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -10,14 +11,20 @@ import shutil
 import sys
 
 import baseline
+from baseline import artifact_hashes as files
 import diagnostics
 import preflight
 
 
-def files(root):
-    return {str(p.relative_to(root)): baseline.sha(p.read_bytes())
-            for p in sorted(root.rglob("*")) if p.is_file() and "__pycache__" not in p.parts
-            and p != root / "artifacts.json"}
+@dataclass
+class RunProgress:
+    """In-memory context for exception records; not a persisted status journal."""
+    stage: str = "setup"
+    calls: int = 0
+    failure_report: str | None = None
+
+    def enter(self, stage):
+        self.stage, self.failure_report = stage, None
 
 
 def implementation_snapshot(root):
@@ -73,6 +80,55 @@ def launch_config(config, command, root):
     return path
 
 
+def run_harness(harness, evaluator_module, config_path, environment, output, recorder, progress):
+    """Adapt the pinned harness for this run; restore all hooks before replay."""
+    expected = {k: v for k, v in environment.items() if k not in ("project", "git")}
+
+    class CheckedEvaluator(evaluator_module.LeanEvaluator):
+        def _evaluate_environment(self, code, problem, env, folder, row, runs):
+            try:
+                return super()._evaluate_environment(code, problem, env, folder, row, runs)
+            except (KeyError, TypeError, RecursionError) as exc:
+                records = row["runs"]
+                last = records[-1] if records else {}
+                if not (diagnostics.measuring_after_check(records) and last.get("returncode") == 0
+                        and not last.get("timed_out") and "measurement" not in last):
+                    raise
+                # Match main's malformed-report stop policy without inventing a counter.
+                row.update(valid=False, error={"kind": "environment",
+                    "message": "Malformed measurement report: " + str(exc),
+                    "exception_type": type(exc).__name__})
+
+        def fingerprint(self, env):
+            progress.enter("environment")
+            value = super().fingerprint(env)
+            if {k: v for k, v in value.items() if k not in ("project", "git")} != expected:
+                raise ValueError("Harness environment differs from the preflight snapshot")
+            return value
+
+        def evaluate(self, code, problem, environments, folder, repetitions):
+            progress.enter(folder.name if folder.name in ("baseline", "final") else "candidate")
+            value = super().evaluate(code, problem, environments, folder, repetitions)
+            recorder.evaluated(value, folder)
+            if recorder.records[-1]["kind"]:
+                progress.failure_report = recorder.records[-1]["path"]
+            return value
+
+    original_query = harness.models.query
+
+    def counted_query(*args, **kwargs):
+        progress.enter("model")
+        progress.calls += 1
+        return original_query(*args, **kwargs)
+
+    harness.models.query = counted_query
+    try:
+        with diagnostics.feedback_adapter(harness, output, recorder):
+            return harness.run(config_path, output / "harness", evaluator=CheckedEvaluator())
+    finally:
+        harness.models.query = original_query
+
+
 def execute(config_path, output, *, continue_run=False, cache=None):
     """Single-process experiment; preflight failures stop before any model request."""
     output, config_path = Path(output), Path(config_path).resolve()
@@ -81,10 +137,8 @@ def execute(config_path, output, *, continue_run=False, cache=None):
     output.mkdir(parents=True, exist_ok=False)
     output = output.resolve()
     harness = None
-    calls = 0
+    progress = RunProgress()
     recorder = diagnostics.Recorder(output)
-    stage = "setup"
-    failure_report = None
     summary = {"schema_version": 1, "status": "failed", "model_requests": 0, "api_calls": 0}
     try:
         implementation_snapshot(output)
@@ -94,13 +148,13 @@ def execute(config_path, output, *, continue_run=False, cache=None):
             dest = output / "code/lean_agent" / relative
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(source_root / "src/lean_agent" / relative, dest)
-        stage = "config"
+        progress.enter("config")
         config, paths = harness.load_config(config_path)
         if config["model"]["backend"] != "fixture":
             raise ValueError("This experiment only accepts fixture mode; no live API calls")
         environment = snapshot_inputs(config_path, config, paths, output)
         lock(output, harness, config_path)
-        stage = "preflight"
+        progress.enter("preflight")
         checked = preflight.check(environment, output, evaluator_module)
         diagnosed = diagnostics.preflight_diagnosis(checked, output)
         if diagnosed:
@@ -110,63 +164,11 @@ def execute(config_path, output, *, continue_run=False, cache=None):
         if checked["status"] == "passed":
             summary.update(status="ready", stage="preflight", error=None)
             if continue_run:
-                stage = "harness"
-                summary.update(status="incomplete", stage=stage)
+                progress.enter("harness")
+                summary.update(status="incomplete", stage=progress.stage)
                 path = launch_config(config, checked["effective_command"], output)
-                expected = {k: v for k, v in checked["environment"].items() if k not in ("project", "git")}
-
-                class CheckedEvaluator(evaluator_module.LeanEvaluator):
-                    def _evaluate_environment(self, code, problem, env, folder, row, runs):
-                        try:
-                            return super()._evaluate_environment(code, problem, env, folder, row, runs)
-                        except (KeyError, TypeError, RecursionError) as exc:
-                            records = row["runs"]
-                            last = records[-1] if records else {}
-                            checked = any(r.get("source") == "check.lean" and r.get("returncode") == 0
-                                          and not r.get("timed_out") for r in records)
-                            if not (checked and str(last.get("source", "")).startswith("measure-")
-                                    and last.get("returncode") == 0 and not last.get("timed_out")
-                                    and "measurement" not in last):
-                                raise
-                            # Match main's existing malformed-report stop policy.
-                            # Keep raw records and original exception, never invent a counter.
-                            row.update(valid=False, error={"kind": "environment",
-                                "message": "Malformed measurement report: " + str(exc),
-                                "exception_type": type(exc).__name__})
-
-                    def fingerprint(self, env):
-                        nonlocal stage, failure_report
-                        stage, failure_report = "environment", None
-                        value = super().fingerprint(env)
-                        if {k: v for k, v in value.items() if k not in ("project", "git")} != expected:
-                            raise ValueError("Harness environment differs from the preflight snapshot")
-                        return value
-
-                    def evaluate(self, code, problem, environments, folder, repetitions):
-                        nonlocal stage, failure_report
-                        stage = folder.name if folder.name in ("baseline", "final") else "candidate"
-                        failure_report = None
-                        value = super().evaluate(code, problem, environments, folder, repetitions)
-                        recorder.evaluated(value, folder)
-                        if recorder.records[-1]["kind"]:
-                            failure_report = recorder.records[-1]["path"]
-                        return value
-
-                original_query = harness.models.query
-
-                def counted_query(*args, **kwargs):
-                    nonlocal calls, stage, failure_report
-                    stage, failure_report = "model", None
-                    calls += 1
-                    return original_query(*args, **kwargs)
-
-                harness.models.query = counted_query
-                try:
-                    with diagnostics.feedback_adapter(harness, output, recorder):
-                        result = harness.run(path, output / "harness", evaluator=CheckedEvaluator())
-                finally:
-                    harness.models.query = original_query
-                stage, failure_report = "replay", None
+                result = run_harness(harness, evaluator_module, path, checked["environment"], output, recorder, progress)
+                progress.enter("replay")
                 replay = diagnostics.replay(harness, output)
                 summary.update(status=result["status"], stage="harness", harness_summary="harness/summary.json",
                                selected_sha256=result["state"]["best"]["sha256"], replay=replay)
@@ -174,14 +176,14 @@ def execute(config_path, output, *, continue_run=False, cache=None):
         interrupted = isinstance(exc, (KeyboardInterrupt, SystemExit))
         diagnostic = output / "diagnostic.log"
         diagnostic.write_text(f"{type(exc).__name__}: {exc}\n", encoding="utf-8")
-        summary.update(status="interrupted" if interrupted else "failed", stage=stage, diagnostic_log=diagnostic.name,
-                       error={"kind": "configuration" if stage == "config" else "unknown",
+        summary.update(status="interrupted" if interrupted else "failed", stage=progress.stage, diagnostic_log=diagnostic.name,
+                       error={"kind": "configuration" if progress.stage == "config" else "unknown",
                               "exception_type": type(exc).__name__, "message": str(exc)})
-        if failure_report:
-            summary["failure_diagnosis"] = failure_report
+        if progress.failure_report:
+            summary["failure_diagnosis"] = progress.failure_report
         else:
             recorder.save("failure", diagnostics.diagnosis(
-                stage, summary["error"]["kind"], "execution_interrupted" if interrupted else "execution_exception",
+                progress.stage, summary["error"]["kind"], "execution_interrupted" if interrupted else "execution_exception",
                 evidence=[diagnostics.evidence(output, diagnostic)], original_error=summary["error"]))
             summary["failure_diagnosis"] = "diagnostics/failure.json"
         if interrupted:
@@ -189,7 +191,7 @@ def execute(config_path, output, *, continue_run=False, cache=None):
     finally:
         if not (output / "run-lock.json").exists():
             lock(output, harness, config_path)
-        summary["model_requests"] = calls
+        summary["model_requests"] = progress.calls
         summary["diagnostics"] = recorder.records
         preflight.write(output / "result.json", summary)
         preflight.write(output / "artifacts.json", files(output))

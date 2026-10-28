@@ -71,6 +71,12 @@ def import_failure(text):
                           r"object file '[^'\n]+' of module [^\n]+ does not exist)", text))
 
 
+def measuring_after_check(records):
+    return bool(records and str(records[-1].get("source", "")).startswith("measure-")
+                and any(r.get("source") == "check.lean" and r.get("returncode") == 0
+                        and not r.get("timed_out") for r in records))
+
+
 def evaluation(result, folder, root, stage):
     """Classify only what the invocation order and recorded compiler evidence show."""
     rows = result.get("environments", {})
@@ -101,9 +107,6 @@ def evaluation(result, folder, root, stage):
                     text = path.read_text(encoding="utf-8")
         error = row.get("error") or {}
         excerpts.append(text or error.get("message", ""))
-        checked = any(r.get("source") == "check.lean" and r.get("returncode") == 0
-                      and not r.get("timed_out") for r in runs)
-        measuring = str(last.get("source", "")).startswith("measure-")
         if last.get("timed_out") or error.get("kind") == "timeout":
             item = ("timeout", "local_process_timeout")
         elif type(last.get("returncode")) is int and last["returncode"] < 0:
@@ -112,7 +115,7 @@ def evaluation(result, folder, root, stage):
             item = ("environment", "missing_import")
         elif error.get("kind") == "axioms":
             item = ("proof", "disallowed_axioms")
-        elif checked and measuring:
+        elif measuring_after_check(runs):
             item = ("measurement", "measurement_failed_after_check")
         elif (last.get("source") == "check.lean" and last.get("returncode") == 1
               and re.search(r"(?m)(?:^|: )error:", text)):

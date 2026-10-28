@@ -80,7 +80,7 @@ v3는 subagent 검증에서 발견한 중단 상태·잘못된 Unicode/깊은 JS
 
 | 파일 | 역할 |
 | --- | --- |
-| [baseline.py](baseline.py) | 고정 main을 중앙 캐시에 복원하고 파일 해시를 확인한 뒤 import |
+| [baseline.py](baseline.py) | 고정 main 복원·해시 확인·import 및 공통 산출물 해시 수집 |
 | [preflight.py](preflight.py) | 준비된 Lean 실행 파일·버전·문맥 검사, 결과·원문 로그 저장 |
 | [run.py](run.py) | 입력·코드 snapshot, 사전 점검, 통과한 경우에만 기존 main fixture 실행 |
 | [diagnostics.py](diagnostics.py) | 원문 평가 결과를 유지한 실패 진단 및 다음 요청의 오류 피드백 |
@@ -217,6 +217,15 @@ fixture 실행에서 발생한 임의의 Python 예외를 API 오류라고 단�
 별도 보존했다. 총 5개 실행의 코드 snapshot·산출물 목록·진단 근거 해시를 확인했다.
 이 변경은 기능 3의 실행 중 상태 조회를 구현한 것이 아니다. SIGKILL·전원 종료처럼 정리 코드를
 실행할 수 없는 중단은 여기서 처리하지 않으며, 시작/완료 기록을 통한 미완료 조회는 기능 3의 범위다.
+
+### 구조 정리
+
+보완 구현은 `1b78f0f`에 보존했다. 이후 리팩터링은 설계 v3와 출력 형식을 유지한다.
+`execute()`는 입력 고정·사전 검사·결과 기록을 담당하고, 하네스 연결은 `run_harness()`로 분리했다.
+단계·호출 수·실패 참조는 `RunProgress`에서 관리하여 중첩 함수의 `nonlocal` 공유를 제거했다.
+계측 단계 판별과 실행/replay의 산출물 해시 수집은 각각 공통 함수로 합쳤다.
+새 실행 계층이나 의존성을 추가하지 않았으며, 기존 53개 회귀 검사와 실제 Lean 실행·보관 코드
+replay로 확인한다. 검증 기록은 [validation-refactor.json](validation-refactor.json)에 남긴다.
 
 현재 지원은 **외부 의존성이 없는 단일 환경 + 직접 실행하는 Lean compiler + fixture**다.
 설치된 `elan` shim은 고정 버전의 실제 binary로 해석하여 실행하고, 버전이 없으면 설치 없이 중단한다.

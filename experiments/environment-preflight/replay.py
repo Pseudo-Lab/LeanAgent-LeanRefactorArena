@@ -23,9 +23,7 @@ def archived(root):
     from lean_agent import harness
 
     expected = json.loads((root / "artifacts.json").read_bytes())
-    actual = {str(p.relative_to(root)): baseline.sha(p.read_bytes()) for p in root.rglob("*")
-              if p.is_file() and "__pycache__" not in p.parts and p != root / "artifacts.json"}
-    if actual != expected:
+    if baseline.artifact_hashes(root) != expected:
         raise ValueError("Experiment artifact inventory/hash differs")
     for name in ("replay.py", "diagnostics.py", "baseline.py", "preflight.py"):
         if Path(__file__).with_name(name).read_bytes() != (root / "code" / name).read_bytes():

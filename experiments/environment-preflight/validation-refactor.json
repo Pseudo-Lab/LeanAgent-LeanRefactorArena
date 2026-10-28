@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-10-28",
+  "base_commit": "1b78f0f0be6a0849a94c59a538310494f77437e0",
+  "scope": "Behavior-preserving experimental-code refactor; src unchanged.",
+  "source_sha256": {
+    "baseline.py": "73e7df8fae08a9779532bc94caab50f82ba9ffacd38cad542a7aed7290c78eca",
+    "diagnostics.py": "19a42692df0c4c36903043e33395495d4dd3b6807f6730c6bdf3964c6cdcc541",
+    "run.py": "dccd7e9c53195fcf7413d78ea63060b4c92d43e8fea63e34b1c3e8a0267eab67",
+    "replay.py": "eb33a846133f74693b8c1879508b9537be788013ff8b916207e7b49e006969d0"
+  },
+  "tests_passed": 53,
+  "execute_lines_before": 121,
+  "execute_lines_after": 67,
+  "nonlocal_statements_before": 3,
+  "nonlocal_statements_after": 0,
+  "real_lean_run": "runs/environment-preflight/refactor-20261028-normal",
+  "status": "completed",
+  "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c",
+  "paid_api_calls": 0,
+  "new_and_pre_refactor_archived_replay_passed": true,
+  "selection_status_calls_diagnostics_match_previous_real_run": true,
+  "design_and_baseline_lock_unchanged": true,
+  "artifact_inventory_sha256": "78a118fdebb0ed07b67697390eb32bc5aab07502b46d2e4bf0b29af460835261"
+}
