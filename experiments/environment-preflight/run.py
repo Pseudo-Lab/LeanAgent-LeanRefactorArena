@@ -7,7 +7,6 @@ import json
 from pathlib import Path
 import platform
 import shutil
-import subprocess
 import sys
 
 import baseline
@@ -75,7 +74,7 @@ def launch_config(config, command, root):
 
 
 def execute(config_path, output, *, continue_run=False, cache=None):
-    """Single-process experiment. Failure paths persist a result without any model call."""
+    """Single-process experiment; preflight failures stop before any model request."""
     output, config_path = Path(output), Path(config_path).resolve()
     if output.exists() or output.is_symlink():
         raise FileExistsError("Refusing to reuse an existing output: " + str(output))
@@ -112,10 +111,29 @@ def execute(config_path, output, *, continue_run=False, cache=None):
             summary.update(status="ready", stage="preflight", error=None)
             if continue_run:
                 stage = "harness"
+                summary.update(status="incomplete", stage=stage)
                 path = launch_config(config, checked["effective_command"], output)
                 expected = {k: v for k, v in checked["environment"].items() if k not in ("project", "git")}
 
                 class CheckedEvaluator(evaluator_module.LeanEvaluator):
+                    def _evaluate_environment(self, code, problem, env, folder, row, runs):
+                        try:
+                            return super()._evaluate_environment(code, problem, env, folder, row, runs)
+                        except (KeyError, TypeError, RecursionError) as exc:
+                            records = row["runs"]
+                            last = records[-1] if records else {}
+                            checked = any(r.get("source") == "check.lean" and r.get("returncode") == 0
+                                          and not r.get("timed_out") for r in records)
+                            if not (checked and str(last.get("source", "")).startswith("measure-")
+                                    and last.get("returncode") == 0 and not last.get("timed_out")
+                                    and "measurement" not in last):
+                                raise
+                            # Match main's existing malformed-report stop policy.
+                            # Keep raw records and original exception, never invent a counter.
+                            row.update(valid=False, error={"kind": "environment",
+                                "message": "Malformed measurement report: " + str(exc),
+                                "exception_type": type(exc).__name__})
+
                     def fingerprint(self, env):
                         nonlocal stage, failure_report
                         stage, failure_report = "environment", None
@@ -152,19 +170,22 @@ def execute(config_path, output, *, continue_run=False, cache=None):
                 replay = diagnostics.replay(harness, output)
                 summary.update(status=result["status"], stage="harness", harness_summary="harness/summary.json",
                                selected_sha256=result["state"]["best"]["sha256"], replay=replay)
-    except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as exc:
+    except (Exception, KeyboardInterrupt, SystemExit) as exc:
+        interrupted = isinstance(exc, (KeyboardInterrupt, SystemExit))
         diagnostic = output / "diagnostic.log"
         diagnostic.write_text(f"{type(exc).__name__}: {exc}\n", encoding="utf-8")
-        summary.update(status="failed", stage=stage, diagnostic_log=diagnostic.name,
+        summary.update(status="interrupted" if interrupted else "failed", stage=stage, diagnostic_log=diagnostic.name,
                        error={"kind": "configuration" if stage == "config" else "unknown",
                               "exception_type": type(exc).__name__, "message": str(exc)})
         if failure_report:
             summary["failure_diagnosis"] = failure_report
         else:
             recorder.save("failure", diagnostics.diagnosis(
-                stage, summary["error"]["kind"], "execution_exception",
+                stage, summary["error"]["kind"], "execution_interrupted" if interrupted else "execution_exception",
                 evidence=[diagnostics.evidence(output, diagnostic)], original_error=summary["error"]))
             summary["failure_diagnosis"] = "diagnostics/failure.json"
+        if interrupted:
+            raise  # Persist in finally while retaining Ctrl-C/SystemExit behavior.
     finally:
         if not (output / "run-lock.json").exists():
             lock(output, harness, config_path)

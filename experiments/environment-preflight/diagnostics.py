@@ -21,6 +21,34 @@ GUIDANCE = {
     "unknown": "Cause is undetermined. Inspect the saved evidence before deciding what to change.",
 }
 
+# Bound parsing independently of the Python runtime's recursion limit. Brackets
+# inside JSON strings (including escaped quotes) do not contribute to depth.
+MAX_RESPONSE_JSON_DEPTH = 128
+
+
+def validate_response_text(content):
+    try:
+        content.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise ValueError("Model content contains invalid Unicode") from exc
+    depth, quoted, escaped = 0, False, False
+    for char in content:
+        if quoted:
+            if escaped:
+                escaped = False
+            elif char == "\\":
+                escaped = True
+            elif char == '"':
+                quoted = False
+        elif char == '"':
+            quoted = True
+        elif char in "[{":
+            depth += 1
+            if depth > MAX_RESPONSE_JSON_DEPTH:
+                raise ValueError("Model JSON exceeds maximum nesting depth")
+        elif char in "]}":
+            depth -= 1
+
 
 def diagnosis(stage, kind, reason, *, evidence=(), original_error=None, excerpt=""):
     return {"schema_version": 1, "stage": stage, "kind": kind, "reason": reason,
@@ -159,7 +187,28 @@ class Recorder:
 def feedback_adapter(harness, root, recorder=None):
     """Augment deterministic feedback only; all upstream state transitions remain."""
     original = harness.advance
+    original_parse = harness.parse_proof
+    original_canonical = harness.canonical
     root = Path(root)
+
+    def canonical(value):
+        # Preserve even an invalid Unicode response as lossless JSON escapes,
+        # before parse_proof rejects it. Ordinary serialized bytes are unchanged.
+        return original_canonical(value).encode("utf-8", errors="backslashreplace").decode("utf-8")
+
+    def parse_proof(raw, problem, limit):
+        content = harness.models.receipt(raw)["content"]
+        if isinstance(content, str) and len(content) <= limit * 2:
+            validate_response_text(content)
+        try:
+            code = original_parse(raw, problem, limit)
+        except RecursionError as exc:
+            raise ValueError("Model JSON exceeds parser nesting capacity") from exc
+        try:
+            code.encode("utf-8")
+        except UnicodeEncodeError as exc:
+            raise ValueError("Proof contains invalid Unicode") from exc
+        return code
 
     def advance(state, raw, code, result, rejection, baseline, config, run_directory):
         next_state = original(state, raw, code, result, rejection, baseline, config, run_directory)
@@ -183,12 +232,21 @@ def feedback_adapter(harness, root, recorder=None):
         return next_state
 
     harness.advance = advance
+    harness.parse_proof = parse_proof
+    harness.canonical = canonical
     try:
         yield
     finally:
         harness.advance = original
+        harness.parse_proof = original_parse
+        harness.canonical = original_canonical
 
 
 def replay(harness, root):
+    root = Path(root)
+    if (root / "result.json").exists():
+        result = harness.read(root / "result.json")
+        if result["status"] not in ("completed", "stopped"):
+            raise ValueError("Incomplete experiment: " + result["status"] + " at " + result.get("stage", "unknown"))
     with feedback_adapter(harness, root):
-        return harness.replay(Path(root) / "harness")
+        return harness.replay(root / "harness")

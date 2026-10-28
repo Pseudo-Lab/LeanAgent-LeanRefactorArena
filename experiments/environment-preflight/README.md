@@ -45,7 +45,7 @@ PR #3 전체를 main에 병합하는 대신 현재 main 하네스를 기준으�
 | Lean | `leanprover/lean4:v4.26.0`, 외부 패키지 없는 단일 환경 |
 | 모델 | `fixture`, 유료 API 호출 0회 |
 | 제한 | 고정 응답 3개, Lean 실행당 30초, 계측 3회. 나머지는 복사한 설정 그대로 |
-| 실험 설계 | [design.json](design.json), 버전 `environment-preflight-v2` |
+| 실험 설계 | [design.json](design.json), 버전 `environment-preflight-v3` |
 | 출처·무결성 | [baseline.lock.json](baseline.lock.json)의 commit·Git tree·파일 SHA-256 |
 
 입력 복사본은 [baseline/main/configs/smoke.json](baseline/main/configs/smoke.json)부터 상대 경로로 연결된다.
@@ -57,6 +57,7 @@ PR #3의 과거 Strata·PutnamBench 후보와 결과를 이번 스모크 입력�
 `run-lock.json`, `compiler-before-check.json`, `environment.json`으로 별도 기록한다.
 초기 미실행 v1 기획에서 기능 1–3과 timeout의 역할을 정리해 v2로 갱신했다.
 기준 코드·입력·설정 bytes는 동일하며, lock에 이전 설계 해시와 변경 사유를 남긴다.
+v3는 subagent 검증에서 발견한 중단 상태·잘못된 Unicode/깊은 JSON·계측 보고서 손상 처리 계약을 추가했다.
 
 ## 다음 단계의 실행 계약
 
@@ -86,6 +87,7 @@ PR #3의 과거 Strata·PutnamBench 후보와 결과를 이번 스모크 입력�
 | [replay.py](replay.py) | 보관된 코드로 진단 피드백까지 재현하는 외부 호출 없는 replay |
 | [test_preflight.py](test_preflight.py) | 실패 시 모델 호출 차단, 정상 선택·replay 유지 등 20개 검사 |
 | [test_diagnostics.py](test_diagnostics.py) | API 오류 주입, 계측·증명·응답 구분, 피드백·선택·replay 검사 |
+| [test_hardening.py](test_hardening.py) | 중단 신호·응답 경계·계측 보고서 손상의 재현 및 회귀 검사 |
 
 Python 3.10 이상이 필요하다. 이번 검증은 기존 Python 3.13.11과 설치된 Lean 4.26.0으로 수행했고
 환경·의존성을 새로 설치하지 않았다. `python3.13`은 로컬에서 사용한 실행 명령이며 다른 호스트에서는
@@ -148,7 +150,7 @@ python3.13 experiments/environment-preflight/run.py run \
 분류는 기록된 단계·진단에 근거한 실험용 해석이다. 특히 `measurement`는 별도 계측 과정의 실패이며
 정확한 근본 원인을 확정하지 않는다. compiler 실행에 추가 재시도를 넣지 않는다.
 
-원래 `harness/**/result.json`의 `valid`, `error`, 측정값은 바꾸지 않는다. main이 계측 보고서 누락을
+원래 평가기가 반환한 `valid`, `error`, 측정값은 바꾸지 않는다. main이 계측 보고서 누락을
 `environment`로 기록하고 중단하는 것도 유지한다. 추가 진단에서만 `measurement`로 설명한다.
 기존 `feedback.status`도 중단 규칙과의 호환성을 위해 유지하고, `feedback.diagnosis`와 `details`에
 추가 분류·안내·Lean 로그 발췌를 넣는다. 예를 들어 main의 `proof_rejected` 상태가 로컬 timeout에
@@ -173,8 +175,9 @@ replay만으로 검사하면 상태 불일치가 발생한다. 과거 기능 1 �
 저장된 main 어댑터가 반환하는 receipt 형식을 대상으로 하며 실제 네트워크·API 통합 검증은 아니다.
 fixture 실행에서 발생한 임의의 Python 예외를 API 오류라고 단정하지 않는다.
 
-검증 근거는 [validation-feature2.json](validation-feature2.json)에 정리했다. 기준 입력과 `design.json` v2는
-유지하며, 기능 1 검증 파일과 과거 실행 산출물을 수정하지 않는다. 설계 전체에는 미구현 기능 3이 포함되어
+최초 검증 근거는 [validation-feature2.json](validation-feature2.json)에 정리했다. 이 기록은 설계 v2의
+`879af9b` 구현에 대한 것이며 이후 보완 검증은 아래에 별도로 기록한다. 기능 1 검증 파일과 과거 실행
+산출물을 수정하지 않는다. 설계 전체에는 미구현 기능 3이 포함되어
 있으므로 기능 2 완료를 전체 설계 완료로 해석하지 않는다.
 
 2026-10-28 검증 결과:
@@ -188,6 +191,32 @@ fixture 실행에서 발생한 임의의 Python 예외를 API 오류라고 단�
 - API 오류·계측 보고서 누락·timeout·신호 종료는 주입 검사. 유료 API 호출은 모든 사례에서 0회.
 - 실제 4개 실행의 산출물 목록·근거 파일 해시 검증, 보관 코드 replay 검증 완료.
   원문은 로컬 `runs/environment-preflight/feature2-20261028-*`에 있으며 Git에는 포함하지 않는다.
+
+### subagent 검증 후 보완 — 설계 v3
+
+세 subagent의 1라운드 검증에서 기존 41개 검사가 놓친 세 가지 경계를 발견했고,
+재현 사례를 [test_hardening.py](test_hardening.py)에 추가했다.
+
+- **중단/미처리 예외**: Ctrl-C·SystemExit는 실제 단계를 `interrupted`로 저장한 뒤 다시 전달한다.
+  그 밖의 실행 예외는 `failed`로 저장한다. `run` 시작 후 사전 검사 상태인 `ready`가 남지 않으며,
+  미완료 실행의 replay는 명시적으로 거절한다. 자동 재개·재시도는 하지 않는다.
+- **응답 경계**: JSON 깊이 128을 초과하거나 Unicode scalar가 잘못된 응답은 `response`로 거절한다.
+  원문 receipt는 손실 없는 JSON escape로 보존한다. 문자열 안의 괄호와 정상적인 Unicode surrogate
+  pair는 허용하며, 후보 파일 작성 전 검사한다. 알려진 비용의 fixture는 다음 시도로 진행한다.
+  정상 응답의 직렬화 bytes·선택 기준은 그대로다. 같은 응답 검사를 archived replay에도 적용한다.
+- **계측 예외**: 원본 검사가 통과하고 계측 프로세스도 성공했지만 보고서 해석에서
+  `KeyError`·`TypeError`·`RecursionError`가 발생하면, 이전에는 반환되지 않던 invalid 평가 결과를
+  만들어 예외 종류와 원문을 보존한다. main의 기존 malformed-report 환경 오류 중단 정책에 맞추고,
+  별도 진단에서는 `measurement`와 원문 로그·SHA-256을 연결한다. 측정값은 만들어내지 않는다.
+  계측 근거가 없는 예외는 `unknown`으로 남긴다. 기준 증명·후보·최종 검증에 동일하게 적용한다.
+
+보완 결과는 [validation-feature2-hardening.json](validation-feature2-hardening.json)에 기록했다.
+기존 41개 + 추가 12개, 총 53개 실험 검사와 고정 main 19개 회귀 검사를 통과했다.
+실제 Lean 정상/Unicode 오류 fixture 실행은 모두 3개 응답 처리 후 같은 `by rfl`을 선택하고
+보관 코드 replay를 통과했다. 깊은 JSON·SIGINT·계측 필드 누락 재현은 compiler 응답 주입으로
+별도 보존했다. 총 5개 실행의 코드 snapshot·산출물 목록·진단 근거 해시를 확인했다.
+이 변경은 기능 3의 실행 중 상태 조회를 구현한 것이 아니다. SIGKILL·전원 종료처럼 정리 코드를
+실행할 수 없는 중단은 여기서 처리하지 않으며, 시작/완료 기록을 통한 미완료 조회는 기능 3의 범위다.
 
 현재 지원은 **외부 의존성이 없는 단일 환경 + 직접 실행하는 Lean compiler + fixture**다.
 설치된 `elan` shim은 고정 버전의 실제 binary로 해석하여 실행하고, 버전이 없으면 설치 없이 중단한다.

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "experiment_id": "environment-preflight-v2",
+  "experiment_id": "environment-preflight-v3",
   "status": "planned_not_executed",
   "purpose": "환경 사전 점검과 단계별 진단을 main 하네스 기준으로 비교한다.",
   "baseline_revision": "ba593fc4357ee5c429b8f28f1aac512d05bb4355",
@@ -194,5 +194,15 @@
       "cross_run_comparison"
     ],
     "lean_timeout_role": "existing local process protection only; not a competition failure criterion"
+  },
+  "robustness_contract": {
+    "scope": "Feature-2 audit follow-up; no feature-3 status query or src integration.",
+    "response_json_max_depth": 128,
+    "invalid_unicode": "Preserve the raw response as lossless JSON escapes; reject before writing candidate Lean.",
+    "invalid_response_action": "Use existing response rejection and next-attempt policy; unknown billing still stops.",
+    "interruption": "Record interrupted with the active stage, then re-raise KeyboardInterrupt/SystemExit. No automatic retry/resume.",
+    "unexpected_exception": "Record failed, not stale preflight-ready. Uncatchable termination is not addressed here.",
+    "malformed_measurement_schema": "After a successful check and successful measurement process, preserve malformed-report exceptions and logs as an invalid environment result with separate measurement diagnosis.",
+    "comparison": "Unchanged valid inputs retain their serialized requests except for the already planned diagnostic feedback; ranking and metrics unchanged."
   }
 }
