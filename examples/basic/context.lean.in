@@ -1,0 +1,12 @@
+{{HARNESS_IMPORT}}
+import Lean
+{{HARNESS_COMMANDS}}
+
+namespace EvaluationExample
+
+{{DECLARATION}}
+
+-- Also check a use of the target after its replacement.
+example (n : Nat) : n + 0 = n := add_zero n
+
+end EvaluationExample

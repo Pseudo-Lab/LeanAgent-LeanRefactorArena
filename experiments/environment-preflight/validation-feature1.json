@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-27",
+  "timezone": "Asia/Seoul",
+  "feature": 1,
+  "planning_commit": "e872351",
+  "baseline_revision": "ba593fc4357ee5c429b8f28f1aac512d05bb4355",
+  "design_sha256": "0da3c621189e0d6407663ba35df42d4ca1a6ecb9ccae373299c56032735551c6",
+  "baseline_lock_sha256": "7cafa28bba36ff83161c5d4387661ef22d991edcd75a9b8dded75f1e2bc050b1",
+  "implementation_files": {
+    "baseline.py": "41f8e4c6f82b1607ad45ba0e938e51f75ce733c9326cad878e4609ec7e738d84",
+    "preflight.py": "33a86855fdafffb7fc7e5454dfd7a380615ff70ecc66e5352e573d6a04b8d0b6",
+    "run.py": "e56bfbce853ba01bdb5eedef10fae55f81cfdb468c5c771d9a9768d47a4d77c7",
+    "test_preflight.py": "c3e1571d96948cec2f79c2bdcd0bbb68dd011a80bf6ce9627ec5a24e5baafc98"
+  },
+  "runtime": {
+    "python": {
+      "executable": "/opt/homebrew/Caskroom/miniconda/base/bin/python3.13",
+      "sha256": "e86301c60346e49c4ce6d84f74b1b1ecf34b484340bca62f5ea57f58c14f15da",
+      "version": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:08) [Clang 20.1.8 ]"
+    },
+    "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "lean_version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+    "lean_sha256": "2974847fff2e2621502841f4c2dbac4035b4847d6060a4f2087cbc0d04005e37"
+  },
+  "tests": {
+    "feature1": {
+      "passed": 20,
+      "compiler": "injected unit-test responses"
+    },
+    "pinned_main_harness": {
+      "passed": 19,
+      "compiler": "upstream test doubles"
+    }
+  },
+  "real_lean": {
+    "normal_status": "completed",
+    "fixture_requests": 3,
+    "api_calls": 0,
+    "baseline_final": {
+      "raw_heartbeats": 23213,
+      "raw_samples": [
+        23206,
+        23213,
+        23213
+      ],
+      "tokens": 2
+    },
+    "experimental_final": {
+      "raw_heartbeats": 23213,
+      "raw_samples": [
+        23206,
+        23213,
+        23213
+      ],
+      "tokens": 2
+    },
+    "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c",
+    "same_selected_candidate_as_baseline": true,
+    "replay": {
+      "record_replay_passed": true,
+      "model_called": false,
+      "lean_called": false,
+      "steps": 3,
+      "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c"
+    },
+    "archived_replay_from_other_cwd_passed": true,
+    "preflight_seconds": 2.1751038750007865,
+    "extra_compiler_processes": 3,
+    "extra_context_compilations": 1
+  },
+  "failure_cases": {
+    "missing_compiler": {
+      "schema_version": 1,
+      "status": "failed",
+      "model_requests": 0,
+      "api_calls": 0,
+      "preflight_status": "failed",
+      "stage": "environment",
+      "preflight_report": "preflight.json",
+      "error": {
+        "kind": "environment",
+        "reason": "compiler_not_found",
+        "message": "Lean executable not found: __environment_preflight_missing_lean__",
+        "exception_type": "CheckFailed"
+      }
+    },
+    "toolchain_mismatch": {
+      "schema_version": 1,
+      "status": "failed",
+      "model_requests": 0,
+      "api_calls": 0,
+      "preflight_status": "failed",
+      "stage": "environment",
+      "preflight_report": "preflight.json",
+      "error": {
+        "kind": "environment",
+        "reason": "toolchain_mismatch",
+        "message": "Configured leanprover/lean4:v4.26.0; project declares leanprover/lean4:v4.25.0",
+        "exception_type": "CheckFailed"
+      }
+    },
+    "missing_import": {
+      "schema_version": 1,
+      "status": "failed",
+      "model_requests": 0,
+      "api_calls": 0,
+      "preflight_status": "failed",
+      "stage": "context",
+      "preflight_report": "preflight.json",
+      "error": {
+        "kind": "unknown",
+        "reason": "context_compile_failed",
+        "message": "Declaration-free context did not compile; inspect the compiler log (context or unsupported template)",
+        "exception_type": "CheckFailed"
+      }
+    }
+  },
+  "evidence": [
+    {
+      "directory": "runs/environment-preflight/feature1-20261027-normal",
+      "artifacts_sha256": "7bd6aa84e23a96c146d6c623bb43eded6dfda378fdbf442530eb9266c85e65f1",
+      "all_listed_hashes_verified": true
+    },
+    {
+      "directory": "runs/environment-preflight/feature1-20261027-baseline",
+      "artifacts_sha256": "cdc69b763f21ac14ad37431dc7ac243973fadfef355c23391e726feb5ead5091",
+      "all_listed_hashes_verified": true
+    },
+    {
+      "directory": "runs/environment-preflight/feature1-20261027-check",
+      "artifacts_sha256": "363de10e564a3c3718cc95ccd9dd7b176aaece0020d82833d45b65ddbcd922ba",
+      "all_listed_hashes_verified": true
+    },
+    {
+      "directory": "runs/environment-preflight/feature1-20261027-missing_compiler",
+      "artifacts_sha256": "4bbab5dc806c279f4ef4d99d7636b5a27a2debcc41d5c8caecce05da77393d66",
+      "all_listed_hashes_verified": true
+    },
+    {
+      "directory": "runs/environment-preflight/feature1-20261027-toolchain_mismatch",
+      "artifacts_sha256": "65b7de664923958edfba53cffd9588ed47d45985611ca28bfd71439f5274812e",
+      "all_listed_hashes_verified": true
+    },
+    {
+      "directory": "runs/environment-preflight/feature1-20261027-missing_import",
+      "artifacts_sha256": "4cd653bb8a2cbcb67281c086182e230efb3ace3501267bf501c655a916ab04f7",
+      "all_listed_hashes_verified": true
+    }
+  ],
+  "limits": [
+    "Feature 1 only; no src integration or live API calls",
+    "Core Lean fixture only; library adapters and arbitrary command wrappers unsupported",
+    "Context compile failures remain unknown-kind with raw logs; detailed diagnosis is feature 2",
+    "One real normal run per arm; not a performance comparison",
+    "Full local run artifacts are not included in Git"
+  ]
+}

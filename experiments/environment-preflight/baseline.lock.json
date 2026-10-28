@@ -1,0 +1,210 @@
+{
+  "schema_version": 1,
+  "experiment_id": "environment-preflight-v2",
+  "prepared_date": "2026-10-27",
+  "timezone": "Asia/Seoul",
+  "status": "source_inputs_and_design_pinned_execution_not_started",
+  "issue": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/27",
+  "working_branch": "proposal/problem-environment-lock",
+  "sources": {
+    "main": {
+      "repository": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena",
+      "revision": "ba593fc4357ee5c429b8f28f1aac512d05bb4355",
+      "tree": "587f3998fd0133d924175aaa181ed88c452a58e1",
+      "files": {
+        "src/lean_agent/__init__.py": {
+          "git_blob": "4e11e31537e33f11eb828e5e6a19ef891f0c20a5",
+          "sha256": "9cd399170b43e79e6135afe023a5462b2a4cd4329bf4dff761ebce9952958400"
+        },
+        "src/lean_agent/__main__.py": {
+          "git_blob": "6f1d39724e9933cfc704661e7769db1817c00f30",
+          "sha256": "f30e39b7432a423762327b9868a4ec0d5a95acec2025adf1c753fea40321355f"
+        },
+        "src/lean_agent/evaluator/__init__.py": {
+          "git_blob": "4a46c38e1ff98c4a15b6b1235ec1aca40c396190",
+          "sha256": "0eab47670182910a6f889d4f5bf1712d73b159bfffe499d63c6a1a94e8abacd7"
+        },
+        "src/lean_agent/evaluator/lean.py": {
+          "git_blob": "95a6d67decf26ae4ac7fcbfdad46187e80cdf7cf",
+          "sha256": "c4e779e71fc8e5999b81641e458ae4543c420e4dee32586acdfeebe1aea7e5a8"
+        },
+        "src/lean_agent/evaluator/provenance.json": {
+          "git_blob": "a6a7d115aa3e1fc189ae7206d35cf5dbff48ed37",
+          "sha256": "b5a61820afb043091f175ff2ff071ff1554a155e026d8f6093ecf470ce982c0b"
+        },
+        "src/lean_agent/evaluator/tokens.py": {
+          "git_blob": "145349937475ab00c4098d87a76ff1e2689877b8",
+          "sha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d"
+        },
+        "src/lean_agent/harness.py": {
+          "git_blob": "136c9f791ab1f819511ed5918de598800280511b",
+          "sha256": "1331b6600e7f7c6f5108a82fcd1333d3d296435541ddbc75e1a3dcef02053313"
+        },
+        "src/lean_agent/models.py": {
+          "git_blob": "49b1d861cfc0881e2846b642e97efdcea1f46f9d",
+          "sha256": "29ced33ee6fb906a03b5b8d5df2e6162a8421aa47e45d52c8192d16be04912d7"
+        },
+        "src/lean_agent/provenance.json": {
+          "git_blob": "0e9dc78a196b37bdc99e061fa1755c0d1204f368",
+          "sha256": "e24c8f32214c39eaa70a6079620eb50eede597f5df47ea35da6d7c30779bcfe5"
+        },
+        "tests/test_harness.py": {
+          "git_blob": "d8ac04a6335844270951525c4ff94527924836d1",
+          "sha256": "0c7531f5d28aad9147558d7778ab9661da0c5a5a762589ad81ae97935a789951"
+        },
+        "pyproject.toml": {
+          "git_blob": "cea48252f067311d5e62c4eaaf8dd13edd17b731",
+          "sha256": "354a098136a6ae9a3e33e0f1aeafdd6f5d2984dacf0302d0102c8dfc1a4f3607"
+        },
+        "docs/first-harness.md": {
+          "git_blob": "781e948d77a34ec9a698e792e5439570125ebc34",
+          "sha256": "55558c61bf97f7f3fc337fb1b93698f80128d7d385d05d687e543312b6f521b2"
+        },
+        "configs/smoke.json": {
+          "git_blob": "19d9fff455d4687f7a70dcf448b66169a585d733",
+          "sha256": "e49c7cb82de3d3df0069333577510df08b642cbc1c9027c5144626f31424dc64"
+        },
+        "examples/first-harness/context.lean.in": {
+          "git_blob": "0c7f421b5e5bb9787bd0b63ff66f81db5dd63c2e",
+          "sha256": "0f4999ba302e9911eeb99423687c4e09973242698b036c9dc566b9e15b4d389c"
+        },
+        "examples/first-harness/problem.json": {
+          "git_blob": "a6735def3f618936cda66392d2ef3ec95e09e73f",
+          "sha256": "0d0a2e4e0f8f161b45daef59c1bf95d54a789d611cec96ebbfab5b7f65a6fb41"
+        },
+        "examples/first-harness/prompt.txt": {
+          "git_blob": "6d2e2f709dac408bb7466757e1003740b913c726",
+          "sha256": "824dc40978fb97776c8fc0bd33931ed91e0655db299cf4bb805a1e48bae944a0"
+        },
+        "examples/first-harness/responses.json": {
+          "git_blob": "eb24c17af38c0ef2074d78f3c4871159118f2b0f",
+          "sha256": "a3f3f5fdd958c9ac36f3b17b8920f0733f8e1a6583b9cceb16244838351442fd"
+        },
+        "examples/first-harness/project/lakefile.toml": {
+          "git_blob": "46d4f3bde74e4b9fe33c9d1ba63204029c5ee005",
+          "sha256": "c655427d111dd8ca2ad1839c82bb29f5ccc348879aad256af0b6c2e9601eac5b"
+        },
+        "examples/first-harness/project/lean-toolchain": {
+          "git_blob": "e59446d59f6a2bf7f43d60788e2088a603ae6bd4",
+          "sha256": "e8173aad377a6d70041e5f7a5d8895ed587628f5cab243c53a18c40a1b7b6bf8"
+        }
+      }
+    },
+    "pr3": {
+      "pull_request": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/3",
+      "revision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+      "tree": "423282d3367ce417a61ea718998d4eb1a7e031e5",
+      "files": {
+        "refactor_eval/lean.py": {
+          "git_blob": "f09adc71c9691a0322138478fc0e35b815a5ec64",
+          "sha256": "79cfa9ed2d4f7b9e1b0defc74d2ea0c6f91bbfed8fded82a7512dc893195e154"
+        },
+        "refactor_eval/session.py": {
+          "git_blob": "f01697496158a4eab83e68b2fad8f34622bd2bdd",
+          "sha256": "a75c2fc70591d241dad178ad29aa4eb4c226f9522c322a064a1ee974eca53b6d"
+        },
+        "refactor_eval/cli.py": {
+          "git_blob": "31fc044a974fd24fa0b3cdde8930387a350c61a9",
+          "sha256": "f92a0656ae70b0a8bdbb54d94b2ab768bf16d403fb29124e20f4fa3f769e2162"
+        },
+        "refactor_eval/tokens.py": {
+          "git_blob": "145349937475ab00c4098d87a76ff1e2689877b8",
+          "sha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d"
+        },
+        "scripts/validate_environment_pilot.py": {
+          "git_blob": "37b6cab1faea40e208be07e14865e82366b86535",
+          "sha256": "108890fbd03efd34333e7b17914a5f69c246b8cfea6c340d4d61a44bbd201fe5"
+        },
+        "tests/test_evaluation.py": {
+          "git_blob": "c3936422febf8d4620bc2daf0e90ca9cfd4cea04",
+          "sha256": "31762c666a6590b5674b11dbbc62222db276e5d7ce024b19b30d97daaf20d7ea"
+        },
+        "tests/test_lean_integration.py": {
+          "git_blob": "f48e20dc96ef933b5ca246719f5af376b4af4eeb",
+          "sha256": "988e2892d317786418ec8917a73946a112def4f685f184bf27b1a211a6407acb"
+        },
+        "docs/environment-architecture.md": {
+          "git_blob": "39094b9efe8807039ca1c44526ad530535940261",
+          "sha256": "643b4e1d0834dc0428b9d40b0f6faa39b8910af33c451e057aacc4f990bf9260"
+        },
+        "docs/environment-pilot-results.json": {
+          "git_blob": "57b752b4496c726dbd9b98d96db647e921ef8c62",
+          "sha256": "5f438e7dacf5f7b02c7eb43f81ecbf1a67b8abcdf819ab4d72624015538d7fec"
+        }
+      }
+    }
+  },
+  "copied_inputs": {
+    "baseline/main/configs/smoke.json": {
+      "source": "main",
+      "source_path": "configs/smoke.json",
+      "sha256": "e49c7cb82de3d3df0069333577510df08b642cbc1c9027c5144626f31424dc64"
+    },
+    "baseline/main/examples/first-harness/context.lean.in": {
+      "source": "main",
+      "source_path": "examples/first-harness/context.lean.in",
+      "sha256": "0f4999ba302e9911eeb99423687c4e09973242698b036c9dc566b9e15b4d389c"
+    },
+    "baseline/main/examples/first-harness/problem.json": {
+      "source": "main",
+      "source_path": "examples/first-harness/problem.json",
+      "sha256": "0d0a2e4e0f8f161b45daef59c1bf95d54a789d611cec96ebbfab5b7f65a6fb41"
+    },
+    "baseline/main/examples/first-harness/prompt.txt": {
+      "source": "main",
+      "source_path": "examples/first-harness/prompt.txt",
+      "sha256": "824dc40978fb97776c8fc0bd33931ed91e0655db299cf4bb805a1e48bae944a0"
+    },
+    "baseline/main/examples/first-harness/responses.json": {
+      "source": "main",
+      "source_path": "examples/first-harness/responses.json",
+      "sha256": "a3f3f5fdd958c9ac36f3b17b8920f0733f8e1a6583b9cceb16244838351442fd"
+    },
+    "baseline/main/examples/first-harness/project/lakefile.toml": {
+      "source": "main",
+      "source_path": "examples/first-harness/project/lakefile.toml",
+      "sha256": "c655427d111dd8ca2ad1839c82bb29f5ccc348879aad256af0b6c2e9601eac5b"
+    },
+    "baseline/main/examples/first-harness/project/lean-toolchain": {
+      "source": "main",
+      "source_path": "examples/first-harness/project/lean-toolchain",
+      "sha256": "e8173aad377a6d70041e5f7a5d8895ed587628f5cab243c53a18c40a1b7b6bf8"
+    }
+  },
+  "design": {
+    "path": "design.json",
+    "sha256": "7a9c3e443202aac979ecbc2a812953ef0444fd2c286715d7c38ac2655a25d29d"
+  },
+  "runtime_status": "not_fingerprinted_for_this_experiment",
+  "runtime_capture_required_at_run_start": [
+    "experiment implementation commit and tracked diff hash",
+    "exact runnable code snapshot and hashes",
+    "baseline.lock.json and design.json bytes and hashes",
+    "per-case resolved input and config hashes",
+    "Python executable/version/hash",
+    "actual Lean executable/version/hash",
+    "host and selected non-secret environment configuration"
+  ],
+  "baseline_code_materialization": "Recover sources.main.files from the exact revision into a separate project cache directory, verify hashes, and use its lean_agent package. Do not substitute the PR3 evaluator.",
+  "historical_pilot": "PR3 pilot code and report are reference evidence only; not inputs or results of this experiment.",
+  "planning_revision": {
+    "previous_experiment_id": "environment-preflight-v3",
+    "previous_design_sha256": "6dc05edae7d3214344ccb852df0729c3f7a7314272892b42bad53731a8bbed06",
+    "previous_status": "features_1_and_2_verified_and_refactored_at_a6f5566",
+    "reason": "Freeze feature-3 durable stage journal and read-only status contract; pinned sources and inputs unchanged."
+  },
+  "planning_history": [
+    {
+      "previous_experiment_id": "environment-preflight-v1",
+      "previous_design_sha256": "79f0ae24e516480a8d732bf2d64cf362fa5c0c0d269eff56b0a0c692a6b64c57",
+      "previous_status": "uncommitted_plan_not_executed",
+      "reason": "Clarify features 1–3; defer features 4–6; distinguish API failures from optional local Lean timeout checks."
+    },
+    {
+      "previous_experiment_id": "environment-preflight-v2",
+      "previous_design_sha256": "0da3c621189e0d6407663ba35df42d4ca1a6ecb9ccae373299c56032735551c6",
+      "previous_status": "features_1_and_2_executed_at_879af9b; feature_3_not_implemented",
+      "reason": "Freeze audit fixes: interruption state, invalid Unicode/deep JSON rejection, malformed measurement evidence. Pinned sources and baseline inputs unchanged."
+    }
+  ]
+}

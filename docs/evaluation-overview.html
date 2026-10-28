@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="Lean 리팩터링의 중간 평가, 후보 기록, 최종 자동 선택을 위한 평가 하네스 설계 및 검증 결과.">
+  <title>Lean Refactor — 평가 하네스</title>
+  <style>
+    :root{--paper:#f6f6f0;--surface:#fff;--ink:#202923;--muted:#626b63;--line:#d9dfd6;--green:#316648;--soft:#e8eee5;--lime:#d6edaa;--red:#9e483b;--red-soft:#f7e9e4;--mono:ui-monospace,SFMono-Regular,Consolas,"Liberation Mono",monospace;--sans:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic","Noto Sans KR",sans-serif}
+    *{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:90px}body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.7;word-break:keep-all;-webkit-font-smoothing:antialiased}button,input{font:inherit}button,a,input{touch-action:manipulation}button{cursor:pointer}a{color:inherit;text-underline-offset:4px}button:focus-visible,a:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid #52836c;outline-offset:5px}::selection{background:var(--lime);color:var(--ink)}h1,h2,h3,p{margin:0}h1,h2,h3{line-height:1.3;letter-spacing:-.04em}button{color:inherit}code{font-family:var(--mono);font-size:.88em}small{font-size:12px}section{scroll-margin-top:90px}[hidden]{display:none!important}.container{max-width:1180px;margin:auto;padding:0 42px}.mono{font-family:var(--mono)}.eyebrow{font:600 11px/1.5 var(--mono);letter-spacing:.13em;text-transform:uppercase;color:var(--green)}.muted{color:var(--muted)}.skip{position:absolute;left:16px;top:-80px;background:var(--ink);color:white;padding:10px 16px;z-index:20}.skip:focus{top:16px}
+    .topbar{height:72px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);gap:20px}.brand{display:flex;align-items:center;gap:12px;text-decoration:none;font-weight:700;font-size:15px;letter-spacing:-.02em}.brand-mark{display:grid;place-items:center;width:30px;height:30px;background:var(--ink);color:var(--lime);font:600 18px var(--mono);border-radius:7px}.top-meta{display:flex;gap:22px;align-items:center;color:var(--muted);font:11px var(--mono)}
+    .hero{padding:64px 0 46px;display:grid;grid-template-columns:1.4fr 1fr;gap:55px;align-items:center}.hero h1{font-size:clamp(32px,4.1vw,50px);font-weight:750;margin:20px 0 21px;line-height:1.26;letter-spacing:-.055em}.hero h1 em{font-style:normal;color:var(--green)}.hero .lead{font-size:16px;line-height:1.85;color:var(--muted);max-width:570px}.hero-tags{display:flex;gap:8px;flex-wrap:wrap;margin-top:23px}.tag{font-size:11px;padding:4px 10px;border:1px solid var(--line);border-radius:100px;color:var(--muted)}
+    .proof-card{border-radius:14px;background:var(--ink);color:#f3f5ee;box-shadow:0 16px 38px #293b2310;overflow:hidden;transform:rotate(1deg)}.proof-title{padding:17px 22px;border-bottom:1px solid #ffffff20;display:flex;align-items:center;justify-content:space-between;font:11px var(--mono);color:#c0c9bc}.status-dot{width:6px;height:6px;background:var(--lime);border-radius:50%;display:inline-block;margin-right:7px}.proof-code{padding:27px 23px 22px;font:13px/1.9 var(--mono);white-space:pre-wrap;color:#c9d1c6}.proof-code b{color:var(--lime);font-weight:400}.proof-metrics{display:grid;grid-template-columns:1fr 1fr;padding:0 23px 23px;gap:18px}.proof-metric{border-top:1px solid #ffffff25;padding-top:14px}.proof-metric span{display:block;color:#b9c4b3;font-size:11px}.proof-metric strong{font:400 26px/1.5 var(--mono);color:var(--lime)}.proof-metric del{font:13px var(--mono);color:#b0b9ab;margin-right:7px}.proof-footer{padding:11px 23px;background:#ffffff0a;color:#d7dfd0;font-size:11px}
+    .facts{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:25px 0;margin-bottom:38px}.fact{padding:0 28px;border-left:1px solid var(--line);display:flex;align-items:center;gap:17px}.fact:first-child{padding-left:0;border-left:0}.fact strong{font:500 32px/1.3 var(--mono);letter-spacing:-.06em;white-space:nowrap}.fact strong i{font-size:16px;color:var(--muted);font-style:normal}.fact p{font-size:12px;color:var(--muted);line-height:1.6}.fact b{display:block;font-size:13px;font-weight:600;color:var(--ink)}
+    .nav-wrap{position:sticky;top:0;z-index:5;background:#f6f6f0f5;backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.nav{display:flex;align-items:center;gap:28px;min-height:56px;overflow-x:auto;scrollbar-width:thin}.nav a{text-decoration:none;font-size:12px;color:var(--muted);white-space:nowrap;padding:17px 0}.nav a:hover{color:var(--green)}.nav a span{font:10px var(--mono);margin-right:6px;color:#879080}
+    .section{padding:65px 0;border-bottom:1px solid var(--line)}.section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:30px}.section-index{font:12px var(--mono);color:var(--green);margin-bottom:12px}.section h2{font-size:29px;font-weight:700}.section-head>p{font-size:13px;line-height:1.8;color:var(--muted);max-width:350px}.two-col{display:grid;grid-template-columns:1fr 1fr;gap:18px}.scenario{padding:30px 30px 26px;border-radius:10px;background:var(--surface);border:1px solid var(--line)}.scenario.dark{background:var(--ink);border-color:var(--ink);color:#f4f5ef}.scenario-top{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-bottom:20px}.scenario .label{font:11px var(--mono);letter-spacing:.1em;color:var(--green)}.scenario.dark .label{color:var(--lime)}.scenario-top .pill{font-size:10px;padding:3px 9px;border-radius:100px;background:var(--soft);color:var(--green)}.scenario.dark .pill{background:#d6edaa1a;color:var(--lime)}.scenario h3{font-size:22px;margin-bottom:12px}.scenario>p{color:var(--muted);font-size:13px;line-height:1.85}.scenario.dark>p{color:#c1cbbd}.scenario ul{list-style:none;margin:23px 0 0;padding:0;border-top:1px solid var(--line)}.scenario.dark ul{border-color:#ffffff20}.scenario li{padding-top:11px;font-size:13px;display:flex;gap:10px;align-items:baseline}.scenario li::before{content:"↳";color:var(--green);font-family:var(--mono)}.scenario.dark li::before{color:var(--lime)}
+    .flow{list-style:none;padding:0;margin:33px 0 0;display:grid;grid-template-columns:repeat(6,1fr);gap:14px}.flow li{position:relative;padding:0 8px 0 0}.flow li:not(:last-child)::after{content:"→";position:absolute;right:0;top:6px;color:#929c89;font-family:var(--mono)}.step-n{font:12px var(--mono);display:grid;place-items:center;width:32px;height:32px;background:var(--soft);border-radius:50%;margin-bottom:18px;color:var(--green)}.flow li:last-child .step-n{background:var(--green);color:white}.flow h3{font-size:15px;margin-bottom:7px}.flow p{font-size:12px;line-height:1.75;color:var(--muted)}.loop-note{margin:26px 0 22px 33.8%;width:49.3%;padding:10px 8px 0;border-top:1px solid #91a48a;text-align:center;font-size:11px;color:var(--green);position:relative}.loop-note::before,.loop-note::after{content:"";width:1px;height:8px;background:#91a48a;position:absolute;top:-8px}.loop-note::before{left:0}.loop-note::after{right:0}.callout{background:var(--soft);padding:16px 20px;border-radius:7px;font-size:12px;color:#465d46;line-height:1.8}.callout strong{font-weight:650}.callout code{font-size:12px}.table-wrap{overflow-x:auto;width:100%;scrollbar-width:thin}table{border-collapse:collapse;width:100%;text-align:left;font-size:12px}th{font-size:10px;font-weight:500;color:var(--muted);padding:10px 8px;border-bottom:1px solid var(--line);white-space:nowrap}td{padding:13px 8px;border-bottom:1px solid #e9ece6;vertical-align:middle}th:first-child,td:first-child{padding-left:0}th:last-child,td:last-child{padding-right:0}.num{text-align:right;font-family:var(--mono);font-variant-numeric:tabular-nums;white-space:nowrap}.score-negative{color:var(--red)}.score-footnote{font-size:11px;color:var(--muted);margin-top:13px;line-height:1.85}summary{cursor:pointer;color:var(--ink);padding:4px 0}
+    .evidence-intro{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--green);margin-bottom:23px}.evidence-intro::before{content:"";width:6px;height:6px;background:var(--green);border-radius:50%}.evidence-table{font-size:13px}.evidence-table th{font-size:11px}.evidence-table td{padding-top:19px;padding-bottom:19px}.evidence-table td:first-child{min-width:150px}.evidence-table td:last-child{min-width:125px}.evidence-table .sub{display:block;font-size:11px;color:var(--muted);margin-top:5px}.pass-label{font-size:11px;padding:4px 8px;background:var(--soft);border-radius:4px;color:var(--green);white-space:nowrap}.evidence-notes{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:25px}.evidence-note{padding-left:14px;border-left:2px solid #adc197;font-size:12px;color:var(--muted);line-height:1.8}.evidence-note strong{color:var(--ink);display:block;margin-bottom:5px;font-size:13px}.evidence-note:last-child{border-color:#cba697}
+    .implementation{display:grid;grid-template-columns:1fr 1.2fr;gap:30px}.implementation h3{font-size:17px;margin-bottom:12px}.implementation p{font-size:13px;color:var(--muted);line-height:1.9}.file-tree{background:var(--soft);border-radius:9px;margin-top:20px;padding:22px;font:12px/1.9 var(--mono);white-space:pre;overflow-x:auto}.file-tree .hl{color:var(--green);font-weight:600}.storage-note{font-size:11px!important;margin-top:12px;line-height:1.8!important}.code-box{background:var(--ink);border-radius:9px;overflow:hidden;color:#edf1e7}.code-header{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid #ffffff1c;font:10px var(--mono);color:#c0c9bc;gap:10px}.copy{background:transparent;border:1px solid #ffffff30;color:#d9e4d0;padding:4px 8px;border-radius:4px;font:10px var(--sans);white-space:nowrap}.copy:hover{background:#ffffff12}.code-box pre{margin:0;padding:20px;font:12px/1.85 var(--mono);white-space:pre;overflow-x:auto;tab-size:2}.code-box code{font-size:inherit}.code-box .comment{color:#aab7a2}.code-box .kw{color:var(--lime)}.integration-copy{font-size:12px!important;margin-top:13px}.command{margin-top:27px}.command .code-box pre{font-size:12px;padding:20px 22px;line-height:1.9}.command-label{display:flex;align-items:center;gap:10px;font-size:12px;margin-bottom:11px}.command-label span{color:var(--muted);font-size:11px}
+    .scope{margin-top:27px;border-top:1px solid var(--line);padding-top:18px;font-size:12px;color:var(--muted)}.scope ul{padding-left:18px;margin-bottom:0}.scope li{padding-top:7px}.scope strong{color:var(--ink)}.footer{padding:27px 0 35px;display:flex;justify-content:space-between;gap:20px;font:10px/1.8 var(--mono);color:var(--muted)}.footer span{display:block}.footer-right{text-align:right}
+    @media(min-width:1400px){.container{max-width:1240px;padding:0 60px}.hero{padding-top:76px}}
+    @media(max-width:950px){.container{padding:0 28px}.hero{gap:28px;grid-template-columns:1.3fr 1fr}.hero h1{font-size:36px}.hero .lead{font-size:14px}.proof-code{font-size:11px}.proof-metric strong{font-size:23px}.fact{gap:12px;padding:0 18px}.fact strong{font-size:28px}.flow{gap:10px}.flow h3{font-size:13px}.flow p{font-size:11px}.implementation{grid-template-columns:1fr 1.1fr;gap:20px}.section-head>p{max-width:290px}}
+    @media(max-width:720px){body{font-size:14px}.container{padding:0 22px}.topbar{height:65px}.top-meta{gap:8px}.brand{font-size:13px;gap:9px}.hero{grid-template-columns:1fr;padding:38px 0 32px;gap:30px}.hero h1{font-size:37px;margin-top:17px}.hero .lead{font-size:14px;max-width:470px}.proof-card{transform:none;max-width:none}.proof-code{padding:20px 23px 18px;font-size:12px}.proof-metrics{padding-bottom:19px}.proof-metric strong{font-size:25px}.facts{margin-bottom:18px;padding:20px 0}.fact{display:block;padding:0 14px}.fact strong{font-size:27px}.fact p{font-size:10px;margin-top:8px}.fact b{font-size:11px}.nav{gap:23px;min-height:51px}.nav a{font-size:11px;padding:15px 0}.section{padding:43px 0}.section-head{display:block;margin-bottom:24px}.section h2{font-size:25px}.section-head>p{margin-top:14px;max-width:100%;font-size:12px}.two-col{grid-template-columns:1fr}.scenario{padding:24px}.scenario-top{margin-bottom:15px}.scenario h3{font-size:21px}.scenario ul{margin-top:18px}.flow{grid-template-columns:repeat(3,1fr);gap:28px 16px;margin-top:27px}.flow li:nth-child(3)::after{display:none}.flow h3{font-size:14px}.flow p{font-size:12px}.step-n{margin-bottom:13px}.loop-note{width:100%;margin:28px 0 18px}.evidence-table{font-size:12px;min-width:590px}.evidence-notes{grid-template-columns:1fr;gap:19px}.implementation{grid-template-columns:1fr;gap:26px}.file-tree{font-size:11px}.code-box pre{font-size:11px}.command .code-box pre{font-size:11px}.footer{font-size:9px}.footer-right{max-width:150px}}
+    @media(max-width:380px){.container{padding:0 17px}.hero h1{font-size:31px}.fact{padding:0 10px}.fact strong{font-size:25px}.fact strong i{font-size:13px}.fact b{font-size:10px}.brand{font-size:12px}.flow{gap:24px 10px}.flow p{font-size:11px}.tag{font-size:10px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+    .score-summary{padding:24px 28px;background:var(--soft);border-radius:9px}.score-equation{font-size:16px;line-height:1.8;letter-spacing:-.02em}.score-equation strong{color:var(--green);margin-right:8px}.selection-rules{margin:17px 0 0;padding-left:18px;font-size:13px;line-height:1.85;color:var(--muted)}.selection-rules li+li{margin-top:5px}
+    @media(max-width:720px){.score-summary{padding:20px}.score-equation{font-size:14px}.selection-rules{font-size:12px}.top-meta{font-size:10px}}
+  </style>
+</head>
+<body>
+  <a class="skip" href="#main">본문으로 이동</a>
+  <header class="container">
+    <div class="topbar">
+      <a class="brand" href="#main"><span class="brand-mark" aria-hidden="true">λ</span>Lean Refactor <span class="muted" style="font-weight:400">/ Evaluation</span></a>
+      <div class="top-meta"><time datetime="2026-10-18">2026.10.18</time></div>
+    </div>
+  </header>
+  <main id="main">
+    <div class="container">
+      <section class="hero" aria-labelledby="hero-title">
+        <div>
+          <p class="eyebrow">LeanAgent · Evaluation harness v0.1.0</p>
+          <h1 id="hero-title">모든 후보를 측정하고,<br><em>검증된 최선</em>을 선택합니다.</h1>
+          <p class="lead">Lean 증명 리팩터링의 중간 평가부터 최종 후보 선정까지.<br>에이전트의 시도를 같은 기준으로 비교하고,<br>선택의 근거를 코드와 기록으로 남기는 평가 모듈입니다.</p>
+          <div class="hero-tags"><span class="tag">중간 산출물 평가</span><span class="tag">후보 매니페스트</span><span class="tag">최종 자동 선택</span></div>
+        </div>
+        <div class="proof-card" aria-label="실제 예제에서 선택된 후보: 토큰 14에서 2, heartbeat 47에서 24로 감소">
+          <div class="proof-title"><span>candidate-0002.lean</span><span><span class="status-dot"></span>VERIFIED</span></div>
+          <div class="proof-code"><b>theorem</b> add_zero (n : Nat) :<br>  n + 0 = n := <b>by</b><br>  rfl</div>
+          <div class="proof-metrics"><div class="proof-metric"><span>Proof source tokens</span><del>14</del><strong>2</strong></div><div class="proof-metric"><span>Elaboration heartbeats</span><del>47</del><strong>24</strong></div></div>
+          <div class="proof-footer">실제 예제 결과 · 최종 3회 측정의 중앙값 · Lean 4.26.0</div>
+        </div>
+      </section>
+      <div class="facts" aria-label="검증 요약">
+        <div class="fact"><strong>30<i> / 30</i></strong><p><b>자동 테스트 통과</b>실제 Lean 통합 테스트 포함</p></div>
+        <div class="fact"><strong>15<i> / 15</i></strong><p><b>기준 토큰 수 일치</b>공개 워밍업 원본 보정 검사</p></div>
+        <div class="fact"><strong>3<i> runs</i></strong><p><b>최종 반복 측정</b>독립 compiler process 기준</p></div>
+      </div>
+    </div>
+    <div class="nav-wrap"><nav class="nav container" aria-label="문서 목차"><a href="#scenarios"><span>01</span>두 가지 역할</a><a href="#flow"><span>02</span>평가 흐름</a><a href="#scoring"><span>03</span>점수와 선택</a><a href="#evidence"><span>04</span>검증 결과</a><a href="#integration"><span>05</span>연결 방법</a></nav></div>
+    <div class="container">
+      <section class="section" id="scenarios" aria-labelledby="scenarios-title">
+        <div class="section-head"><div><p class="section-index">01 / TWO SCENARIOS</p><h2 id="scenarios-title">실험 중에도, 실험이 끝난 뒤에도.</h2></div><p>생성 모델이나 리팩터링 전략과 독립적으로,<br>같은 평가 코드가 두 시나리오를 담당합니다.</p></div>
+        <div class="two-col">
+          <article class="scenario"><div class="scenario-top"><span class="label">DURING EXPERIMENT</span><span class="pill">Checkpoint</span></div><h3>중간 결과마다 평가</h3><p>원본의 기준값을 먼저 측정합니다. 이후 에이전트가 후보를 반환할 때마다 검증과 측정을 완료하고, 결과를 다음 시도에 전달합니다.</p><ul><li>증명 토큰 수와 heartbeat 측정</li><li>컴파일 오류와 점수를 다음 시도의 피드백으로 제공</li><li>평가·기록 완료 후에만 다음 agent 호출 진행</li></ul></article>
+          <article class="scenario dark"><div class="scenario-top"><span class="label">AFTER EXPERIMENT</span><span class="pill">Final selection</span></div><h3>최종 후보 자동 선정</h3><p>원본과 기록된 모든 후보를 지정 환경에서 다시 평가합니다. 검증과 정책을 통과한 후보 중 가장 높은 점수의 코드를 최종 결과로 내보냅니다.</p><ul><li>모든 지정 환경에서 재검증</li><li>기본 3회 독립 측정 후 중앙값으로 비교</li><li>개선이 없으면 재검증된 원본 유지</li></ul></article>
+        </div>
+      </section>
+      <section class="section" id="flow" aria-labelledby="flow-title">
+        <div class="section-head"><div><p class="section-index">02 / EVALUATION LOOP</p><h2 id="flow-title">제안은 agent가, 평가와 선택은 코드가.</h2></div><p>측정 기준과 환경은 실행 시작 시 고정합니다.<br>후보의 점수는 하네스가 직접 계산합니다.</p></div>
+        <ol class="flow">
+          <li><span class="step-n" aria-hidden="true">01</span><h3>문제 입력</h3><p>명제·원본 증명<br>Lean 환경·평가 정책</p></li>
+          <li><span class="step-n" aria-hidden="true">02</span><h3>원본 측정</h3><p>기준 token·heartbeat<br>초기 검증 성공 확인</p></li>
+          <li><span class="step-n" aria-hidden="true">03</span><h3>후보 생성</h3><p>API / agent 호출<br>중간 산출물 반환</p></li>
+          <li><span class="step-n" aria-hidden="true">04</span><h3>검증·측정</h3><p>명제·컴파일·공리 확인<br>token·heartbeat 측정</p></li>
+          <li><span class="step-n" aria-hidden="true">05</span><h3>기록·피드백</h3><p>오류·점수·부모 저장<br>개선 채택 또는 수정</p></li>
+          <li><span class="step-n" aria-hidden="true">06</span><h3>최종 선택</h3><p>모든 후보 재평가<br>최고점 코드 내보내기</p></li>
+        </ol>
+        <div class="loop-note">↶ 후보 생성 → 평가 → 피드백 반복</div>
+        <div class="callout"><strong>평가가 다음 시도의 필수 단계입니다.</strong> <code>run_search()</code>는 후보의 측정과 저장을 마친 뒤 다음 <code>propose()</code>를 호출합니다. 측정할 중간 산출물마다 한 번 반환하도록 adapter를 구성합니다.</div>
+      </section>
+      <section class="section" id="scoring" aria-labelledby="scoring-title">
+        <div class="section-head"><div><p class="section-index">03 / SCORING & SELECTION</p><h2 id="scoring-title">검증된 후보 중, 가장 높은 점수.</h2></div><p>평가 기준은 실행 시작 시 고정합니다.<br>원본은 0점, 높은 점수일수록 좋은 후보입니다.</p></div>
+        <div class="score-summary">
+          <p class="score-equation"><strong>기본 점수</strong> = 토큰 감소율 × 0.5 + heartbeat 감소율 × 0.5</p>
+          <ul class="selection-rules">
+            <li>모든 지정 환경의 검증과 설정된 정책을 통과한 후보만 비교합니다.</li>
+            <li>최고점 후보를 선택하며, 동점이면 먼저 기록된 후보를 유지합니다.</li>
+            <li>개선이 없으면 재검증된 원본을 유지하고, 원본 검증도 실패하면 선택하지 않습니다.</li>
+          </ul>
+        </div>
+        <p class="score-footnote">감소율은 % 기준입니다. 가중치와 최소 개선폭은 실행 설정에서 지정할 수 있습니다. 이 점수는 로컬 실험용이며 공식 Arena 점수가 아닙니다.</p>
+      </section>
+      <section class="section" id="evidence" aria-labelledby="evidence-title">
+        <div class="section-head"><div><p class="section-index">04 / VERIFIED RESULTS</p><h2 id="evidence-title">실제로 돌려서 확인했습니다.</h2></div><p>기본 50:50 정책으로 얻은 고정된 검증 결과입니다.<br>각 최종 heartbeat는 3회 측정의 중앙값입니다.</p></div>
+        <div class="evidence-intro">2026.10.18 KST · macOS / arm64 · Lean 4.26.0</div>
+        <div class="table-wrap"><table class="evidence-table"><thead><tr><th scope="col">평가 사례</th><th scope="col" class="num">토큰 · 원본 → 후보</th><th scope="col" class="num">HB · 원본 → 후보</th><th scope="col" class="num">후보 점수</th><th scope="col">최종 결정</th></tr></thead><tbody><tr><td><strong>기본 예제</strong><span class="sub">오류 후보를 수정한 뒤 재평가</span></td><td class="num">14 → 2</td><td class="num">47 → 24</td><td class="num">+67.33</td><td><span class="pass-label">수정 후보 선택</span></td></tr><tr><td><strong>Strata 문제</strong><span class="sub">substOldPostSubset</span></td><td class="num">313 → 35</td><td class="num">5,173 → 11,716</td><td class="num score-negative">−18.83</td><td><span class="pass-label">원본 유지</span></td></tr></tbody></table></div>
+        <div class="evidence-notes"><div class="evidence-note"><strong>오류 수정부터 자동 선택까지</strong>기본 예제의 첫 후보는 컴파일 실패로 점수 없이 기록됐습니다. 이후 수정 후보를 받아 재평가하고 최종 결과로 선택했습니다.</div><div class="evidence-note"><strong>토큰 감소만으로 채택하지 않기</strong>Strata 후보는 증명이 짧아졌지만 elaboration 비용이 크게 늘었습니다. 검증에는 성공했어도 종합 점수가 낮아 제외됐습니다.</div></div>
+      </section>
+      <section class="section" id="integration" aria-labelledby="integration-title">
+        <div class="section-head"><div><p class="section-index">05 / INTEGRATION CONTRACT</p><h2 id="integration-title">전략은 자유롭게. 평가 접점은 하나로.</h2></div><p>API / agent 담당자는 <code>propose(feedback)</code>에<br>생성 로직을 연결하면 됩니다.</p></div>
+        <div class="implementation">
+          <div><h3>후보와 선택 근거를 함께 보존</h3><p>코드, 부모 후보, SHA-256, 측정 로그, 오류와 점수를 하나의 실행 기록으로 연결합니다. 중단된 평가는 미완료로 남기고 후속 선택을 차단합니다.</p><div class="file-tree" aria-label="평가 결과 디렉터리 구조">run/
+├─ <span class="hl">manifest.json</span>
+├─ candidates/
+│  ├─ baseline.lean
+│  └─ candidate-0001.lean
+├─ evaluations/
+│  └─ 입력 코드 · 측정 로그
+└─ selections/final-001/
+   ├─ <span class="hl">selected.lean</span>
+   └─ selection.json</div><p class="storage-note">현재 확정 결과는 <code>manifest.json.selection</code>이 가리킵니다.<br>새 후보를 추가하면 이전 선택을 해제하고 다시 최종 평가합니다.</p></div>
+          <div><div class="code-box"><div class="code-header"><span>PYTHON · MODEL-NEUTRAL INTERFACE</span><button class="copy" type="button" data-copy="python-code" aria-label="Python 연결 코드 복사">복사</button></div><pre><code id="python-code"><span class="kw">from</span> refactor_eval.session <span class="kw">import</span> Session, run_search
+
+session = Session("runs/experiment-001")
+session.initialize("problem.json")
+
+<span class="kw">def</span> propose(feedback):
+    <span class="comment"># API / agent의 생성 로직 연결</span>
+    code = your_agent(feedback)
+    <span class="kw">if</span> code <span class="kw">is None</span>:
+        <span class="kw">return None</span>  <span class="comment"># 탐색 종료 → 최종 평가</span>
+    <span class="kw">return</span> {
+        "code": code,
+        "parent_id": feedback["incumbent_id"],
+        "note": "이번 시도의 변경 의도",
+    }
+
+selection = run_search(
+    session, propose, max_attempts=20
+)</code></pre></div><p class="integration-copy"><code>feedback</code>에는 명제·원본 측정값·현재 최선의 코드·직전 후보의 평가 결과가 들어갑니다. 후보 코드는 명제를 보존한 <code>:= by</code> 형식의 전체 선언입니다.</p></div>
+        </div>
+        <div class="command"><p class="command-label"><strong>바로 실행할 수 있는 오프라인 예제</strong><span>저장소 루트에서 실행</span></p><div class="code-box"><div class="code-header"><span>TERMINAL · NO MODEL / API CALLS</span><button class="copy" type="button" data-copy="shell-code" aria-label="예제 실행 명령 복사">복사</button></div><pre><code id="shell-code">python3 -m refactor_eval run \
+  --problem examples/basic/problem.json \
+  --run-dir runs/demo \
+  --max-attempts 3 \
+  -- python3 examples/replay_agent.py</code></pre></div><p class="integration-copy">Python 3.10+와 사전 설치된 Lean 4.26.0이 필요합니다. 외부 Python 패키지 없이 실행하며, 재실행 시에는 새 <code>--run-dir</code>을 지정합니다.</p></div>
+        <details class="scope"><summary>현재 구현의 보장 범위와 확인한 환경</summary><ul><li><strong>측정 강제 범위:</strong> 하네스에 반환한 중간 산출물입니다. 에이전트 내부에서 반환하지 않은 임시 결과까지 감시하지는 않습니다. skill은 호출 절차를 안내하고, <code>run_search()</code>가 실제 반복 순서를 제어합니다.</li><li><strong>측정 의미:</strong> token은 모델의 BPE 토큰이나 proof term 크기가 아닌 증명 소스의 lexical token입니다. heartbeat는 대상 선언을 동기 elaboration하며 측정한 raw 값을 1,000으로 나눈 정수값입니다.</li><li><strong>검증 범위:</strong> 실제 Lean 통합 검증은 4.26.0에서 수행했습니다. 다중 환경 선택 로직은 테스트로 확인했지만, 전체 Arena 지정 버전을 모두 실행한 것은 아닙니다.</li><li><strong>담당 경계:</strong> 유료 API 호출·재시도·예산 관리는 adapter 담당 범위이며, 실제 생성 agent와의 연결은 이번 검증에 포함하지 않았습니다.</li></ul></details>
+      </section>
+      <footer class="footer"><div><span>LEANAGENT / LEAN REFACTOR ARENA</span><span>Evaluation module · v0.1.0 · 2026.10.18</span></div><div class="footer-right"><span>Local evaluation, reproducible evidence.</span><span>근거: 구현 코드 및 2026-10-18 검증 기록</span></div></footer>
+    </div>
+  </main>
+  <script>
+    (() => {
+      'use strict';
+      const $ = id => document.getElementById(id);
+      document.querySelectorAll('[data-copy]').forEach(button => {
+        button.addEventListener('click', async () => {
+          const content = $(button.dataset.copy).textContent;
+          try {
+            if (navigator.clipboard && window.isSecureContext) {
+              await navigator.clipboard.writeText(content);
+            } else {
+              const textarea = document.createElement('textarea');
+              textarea.value = content;
+              textarea.style.position = 'fixed';
+              textarea.style.opacity = '0';
+              document.body.append(textarea);
+              textarea.select();
+              const copied = document.execCommand('copy');
+              textarea.remove();
+              button.focus();
+              if (!copied) throw new Error('Clipboard unavailable');
+            }
+            button.textContent = '복사 완료';
+          } catch (_) {
+            button.textContent = '코드를 선택해 복사';
+            const selection = window.getSelection();
+            const range = document.createRange();
+            range.selectNodeContents($(button.dataset.copy));
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+          window.setTimeout(() => { button.textContent = '복사'; }, 2200);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

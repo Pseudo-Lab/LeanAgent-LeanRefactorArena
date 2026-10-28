@@ -27,6 +27,16 @@ class FakeEvaluator:
     def fingerprint(self, environment):
         return {"evaluator": "fake-for-unit-tests"}
 
+    def preflight(self, environment, output, progress):
+        progress.enter("environment", phase="preflight")
+        fingerprint = self.fingerprint(environment)
+        harness.write(output / "environment.json", fingerprint)
+        report = {"status": "passed", "environment": fingerprint,
+                  "effective_command": environment["command"], "error": None}
+        harness.write(output / "preflight.json", report)
+        progress.finish(paths=["environment.json", "preflight.json"])
+        return report
+
     def evaluate(self, code, problem, environments, output, runs):
         output.mkdir(parents=True, exist_ok=False)
         self.calls.append(output)
@@ -224,8 +234,9 @@ class HarnessTests(unittest.TestCase):
         self.config["model"].update(id="test/model", provider="test-provider")
         with patch.dict(os.environ, {}, clear=True):
             with self.assertRaisesRegex(ValueError, "OPENROUTER_API_KEY"):
-                self.run_experiment()
-        self.assertFalse(self.output.exists())
+                self.run_experiment(output=self.root / "missing-key")
+        self.assertEqual(harness.read(self.output / "result.json")["stage"], "config")
+        self.assertEqual(harness.read(self.root / "missing-key/result.json")["model_requests"], 0)
 
 
 if __name__ == "__main__":

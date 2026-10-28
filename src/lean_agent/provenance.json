@@ -5,5 +5,16 @@
     "Package the original harness under lean_agent with relative imports and an explicit configuration path",
     "Archive the package and a standalone replay launcher in each run",
     "Allow package execution without a Git checkout; exact code and input bytes remain archived"
-  ]
+  ],
+  "runtime_integration": {
+    "main_revision": "09ea3c4",
+    "experiment_revision": "7c67003",
+    "experiment_directory": "experiments/environment-preflight",
+    "features": [
+      "prepared environment preflight",
+      "evidence-based error feedback",
+      "durable stage journal and read-only status"
+    ],
+    "implementation": "Native package calls; no experiment loader or global function replacement"
+  }
 }

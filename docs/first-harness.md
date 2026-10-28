@@ -6,7 +6,8 @@
 
 원본은 [첫 하네스 커밋 a4b4662](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/tree/a4b46622aaea36a9d4470a01ec048613b45fb08a/experiments/first-harness-jwkweon)입니다.
 평가·선택 규칙을 유지하고 패키지 경로, 실행 진입점, 보관 코드의 실행 방법을 정리했습니다.
-후속 프롬프트·피드백 실험과 그 결과물은 원래 실험 브랜치에서 관리합니다.
+환경 사전 점검·오류 피드백·실행 상태 조회는 검증된 실험을 바탕으로 통합했습니다.
+[통합 범위와 검증 기록](runtime-integration.md)을 참고합니다.
 
 ## 설치와 실행
 
@@ -17,6 +18,7 @@ Python 3.10 이상을 사용하는 프로젝트 환경에서 저장소 루트를
 ```sh
 python -m pip install -e .
 python -m lean_agent run --config configs/smoke.json --output runs/first-harness/trial-01
+python -m lean_agent status runs/first-harness/trial-01
 python -m lean_agent replay runs/first-harness/trial-01
 ```
 
@@ -32,14 +34,18 @@ python -m lean_agent replay runs/first-harness/trial-01
 ## 실행 흐름과 구성
 
 ```text
-코드·입력·설정 스냅샷 → 원본 검증·기준값 측정
+코드·입력·설정 스냅샷 → 준비된 컴파일러·문맥 사전 점검 → 원본 검증·기준값 측정
   → 후보 요청 → 응답 해석 → Lean 검증·측정 → 최선 후보 갱신 ↺
-  → 최선 후보 재검증 → 결과·해시 저장
+  → 최선 후보 재검증 → 환경 불변·기록 재생 확인 → 결과·해시 봉인
 ```
 
 | 위치 | 역할 |
 | --- | --- |
 | `src/lean_agent/harness.py` | 실행 루프, 문맥·상태, 종료·선택 규칙, 스냅샷·replay |
+| `src/lean_agent/preflight.py` | 설치된 컴파일러·버전·선언 없는 문맥 검사 |
+| `src/lean_agent/diagnostics.py` | 근거 로그 연결, 오류 분류와 다음 요청의 피드백 |
+| `src/lean_agent/status.py` | 단계 시작·완료 기록과 읽기 전용 상태 조회 |
+| `src/lean_agent/artifacts.py` | JSON 저장과 산출물 해시 공통 처리 |
 | `src/lean_agent/models.py` | 고정 응답과 OpenRouter 연결, 사용량·비용 해석 |
 | `src/lean_agent/evaluator/` | 명제·공리 검사, Lean 컴파일, 토큰·heartbeat 측정 |
 | `configs/` | 스모크 설정과 OpenRouter 설정 예제 |
@@ -55,7 +61,9 @@ heartbeat는 표본 중앙값을 사용합니다. 실제 비교에는 같은 비
 ## 기록과 재생
 
 각 실행은 `input/`, `code/`, `baseline/`, `steps/`, `selected.lean`, `final/`,
-`manifest.json`, `summary.json`, `artifacts.json`을 남깁니다. 코드·입력·컴파일러 식별 정보와
+`manifest.json`, `summary.json`, `artifacts.json`을 남깁니다.
+추가로 `preflight.json`, `environment.json`, `checks/`, `diagnostics/`, `events.jsonl`,
+`result.json`에 사전 점검·오류 근거·단계 이력·실행 종료 상태를 기록합니다. 코드·입력·컴파일러 식별 정보와
 실제 요청·응답·후보·원문 로그·측정값을 보존하며, Git checkout 정보는 확인 가능한 경우 기록합니다.
 정확한 실행 코드와 입력은 Git 유무와 관계없이 복사하고 해시를 기록합니다.
 
@@ -74,9 +82,10 @@ replay는 저장된 관측으로 요청·상태 전이·종료 조건·최종 �
 
 ```sh
 python -m unittest discover -s tests -p 'test_harness.py' -v
+python -m unittest discover -s tests -p 'test_runtime_integration.py' -v
 ```
 
-이 테스트와 Harness CI는 Lean 설치·네트워크·모델 API 없이 실행합니다.
+위 테스트는 Lean 설치·네트워크·모델 API 없이 실행합니다.
 실제 Lean 스모크와 replay는 위의 실행 명령으로 별도 확인합니다.
 
 현재 기본 실행기는 외부 라이브러리 의존성이 없는 Lean 프로젝트와 단일 환경을 지원합니다.
@@ -87,3 +96,43 @@ OpenRouter 설정 예제는 정확한 모델 ID·provider를 지정한 뒤 사�
 호출 횟수·요청·후보 크기 제한과 실제 응답 비용 기록은 구현되어 있습니다.
 비용을 알 수 없으면 재시도 없이 중단합니다. 실제 OpenRouter 연결 검증, 달러 비용의 사전 상한,
 외부 라이브러리 환경 연결, OS 수준 격리와 중단 후 재개는 후속 작업입니다.
+
+## 사전 점검과 상태 조회
+
+```sh
+lean-agent check --config configs/smoke.json --output runs/first-harness/check-01
+lean-agent status runs/first-harness/check-01 --json
+lean-agent status runs/first-harness/trial-01 --json
+```
+
+`run`은 항상 사전 점검을 수행합니다. `check`는 같은 점검 후 `ready`로 종료하며 모델을
+호출하지 않습니다. 둘은 각각 새 실행 폴더를 사용하며, `ready` 기록을 재개하지 않습니다.
+Lean 실행 파일·고정 버전·설치 prefix·선언 없는 문맥을 검사합니다. `elan` shim은 이미 설치된
+바이너리로 해석하고, 없으면 다운로드 없이 실패합니다. 직접 Lean 명령만 지원합니다.
+사전 점검 실패는 원인과 로그를 기록하고 종료하며 모델에 복구를 요청하지 않습니다.
+
+후보 실행에서 API/응답 형식/증명/계측/환경/로컬 timeout/원인 불명을 구분합니다.
+분류는 원래 평가 결과를 덮어쓰지 않고 별도 진단으로 남깁니다. 다음 시도가 허용되는 경우에만
+진단과 제한 길이의 로그를 피드백에 넣습니다. 점수·선택·기존 종료 규칙은 유지합니다.
+로컬 timeout은 프로세스 보호 장치이며 대회 실패 판정이 아닙니다.
+
+`events.jsonl`은 한 실행기의 단일 writer가 단계 시작·종료마다 flush/fsync하는 기록입니다.
+조회는 파일을 읽기만 하며 Lean·모델 호출이나 PID 생존 확인을 하지 않습니다.
+
+| 상태 필드 | 의미 |
+| --- | --- |
+| `status` | `ready`, `completed`, `stopped`, `failed`, `interrupted`, `incomplete`, `unknown` |
+| `last_completed_stage` | 성공 완료가 기록된 가장 최근 단계 |
+| `incomplete_stages` | 시작만 기록되어 완료를 확인할 수 없는 단계 |
+| `latest_verified_candidate` | 마지막 검증 통과 후보; 최선 후보와 다를 수 있음 |
+| `final_result` | 전체 완료·최종 검증·replay·봉인까지 확인된 최종 후보 |
+| `process_state` | 항상 `unknown`; 미완료 기록만으로 프로세스 종료를 추정하지 않음 |
+
+Ctrl-C는 `interrupted`를 기록하고 다시 전달합니다. SIGKILL은 정리 코드를 실행할 수 없어
+마지막 완료 후보와 미완료 단계를 조회합니다. API 결과·과금이 불확실하면 재시도 없이
+`stopped`로 종료하며 최종 결과로 확정하지 않습니다. JSON 형식 오류·근거 변조는 `unknown`,
+마지막의 불완전한 JSONL 줄은 미완료 쓰기로 취급합니다. 상태 기록이 없는 과거 실행도 `unknown`입니다.
+
+원문 실험 기록은 실험 당시 보관 코드로 읽습니다. 새 실행은 루트에 단계·후보 기록을 두므로
+실험의 `harness/` 하위 구조와 다릅니다. 보관된 패키지에는 `status` 명령도 포함됩니다.
+자동 설치·복구·재시도·중단 후 재개·여러 에이전트의 공용 journal 쓰기는 이번 범위에 없습니다.

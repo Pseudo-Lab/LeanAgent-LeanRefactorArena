@@ -1,7 +1,7 @@
 # Local upstream checkouts and centrally managed build links
 /sources/
 __pycache__/
-*.pyc
+*.py[cod]
 .DS_Store
 *.egg-info
 /build
@@ -23,3 +23,13 @@ __pycache__/
 /artifacts/
 /runs/corpus-survey/all_sources/summary.json
 /runs/corpus-survey/tactic_comparison/summary.json
+
+# Evaluation harness build outputs and local environment links
+*.egg-info/
+.venv
+.lake
+/build/
+/dist/
+/runs/demo/
+/runs/manual/
+/runs/environment-preflight/

@@ -113,13 +113,24 @@ def render(template: str, code: str, name: str, nonce: str | None) -> str:
 class LeanEvaluator:
     """Interface consumed by Session: fingerprint(env), evaluate(...)."""
 
-    def fingerprint(self, environment: dict) -> dict:
+    def __init__(self, executor=None):
+        self._executor = executor
+
+    def execute(self, *args, **kwargs):
+        return (self._executor or execute)(*args, **kwargs)
+
+    def preflight(self, environment, output, progress):
+        from ..preflight import check
+        return check(environment, output, self, progress=progress)
+
+    def fingerprint(self, environment: dict, *, executor=None) -> dict:
+        invoke = executor or self.execute
         project = Path(environment["project"])
         toolchain = project / "lean-toolchain"
         if not toolchain.is_file() or read_text(toolchain).strip() != environment["toolchain"]:
             raise ValueError(f"Pinned lean-toolchain mismatch: {environment['id']}")
         command = environment["command"]
-        version = execute([*command, "--version"], project, environment["timeout_seconds"])
+        version = invoke([*command, "--version"], project, environment["timeout_seconds"])
         if version["returncode"] or version["timed_out"]:
             raise ValueError(f"Lean unavailable: {environment['id']}: {version['output'][-2000:]}")
         version_lines = [line for line in version["output"].splitlines() if line.startswith("Lean (version ")]
@@ -128,7 +139,7 @@ class LeanEvaluator:
         pin = re.search(r":v([0-9][^\s:]*)$", environment["toolchain"])
         if pin and not version_lines[0].startswith(f"Lean (version {pin[1]},"):
             raise ValueError("Actual Lean executable does not match the toolchain pin")
-        prefix = execute([*command, "--print-prefix"], project, environment["timeout_seconds"])
+        prefix = invoke([*command, "--print-prefix"], project, environment["timeout_seconds"])
         if prefix["returncode"] or prefix["timed_out"]:
             raise ValueError("Cannot resolve the actual Lean installation")
         compiler = Path(prefix["output"].strip()) / "bin" / ("lean.exe" if os.name == "nt" else "lean")
@@ -142,8 +153,8 @@ class LeanEvaluator:
         git = None
         # Do not accidentally use the enclosing application's Git repository.
         if (project / ".git").exists():
-            head = execute(["git", "rev-parse", "HEAD"], project, 15)
-            diff = execute(["git", "diff", "HEAD", "--", "."], project, 15)
+            head = invoke(["git", "rev-parse", "HEAD"], project, 15)
+            diff = invoke(["git", "diff", "HEAD", "--", "."], project, 15)
             if head["returncode"] or diff["returncode"]:
                 raise ValueError("Cannot fingerprint Git checkout")
             git = {"head": head["output"].strip(), "tracked_diff_sha256": sha256(diff["output"])}
@@ -169,6 +180,15 @@ class LeanEvaluator:
             result["environments"][label] = row
             try:
                 self._evaluate_environment(code, config, environment, folder, row, runs)
+            except (KeyError, TypeError, RecursionError) as error:
+                from ..diagnostics import measuring_after_check
+                records = row["runs"]
+                last = records[-1] if records else {}
+                if not (measuring_after_check(records) and last.get("returncode") == 0
+                        and not last.get("timed_out") and "measurement" not in last):
+                    raise
+                row["error"] = {"kind": "environment", "message": "Malformed measurement report: " + str(error),
+                                "exception_type": type(error).__name__}
             except (OSError, ValueError) as error:
                 row["error"] = {"kind": "environment", "message": str(error)}
         result["valid"] = all(row["valid"] for row in result["environments"].values())
@@ -186,7 +206,7 @@ class LeanEvaluator:
             path = (folder / f"{label}.lean").resolve()
             source = render(environment["template"], code, config["name"], nonce)
             path.write_text(source, encoding="utf-8")
-            invocation = execute([*environment["command"], "--root=" + str(folder.resolve()), str(path)],
+            invocation = self.execute([*environment["command"], "--root=" + str(folder.resolve()), str(path)],
                                  project, environment["timeout_seconds"])
             log = invocation.pop("output")
             log_path = folder / f"{label}.log"

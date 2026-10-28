@@ -1,0 +1,294 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-10-28",
+  "base_commit": "879af9b",
+  "implementation_state": "Uncommitted audit fixes, exact code snapshots verified.",
+  "design": "environment-preflight-v3",
+  "source_sha256": {
+    "run.py": "2cb7cc0f662e76a4f04bff7b3d23c7765bbbc4ec8bef03988ab9349894500bdd",
+    "diagnostics.py": "47870b994e5238ed92847e904badb561d070251ebe213e6ba3025a01c62bb4c0",
+    "replay.py": "4c01a7fa1e8e3eeb6daef14958f871fc5562caf6d38e93e066b51f4d2d4acedd",
+    "preflight.py": "33a86855fdafffb7fc7e5454dfd7a380615ff70ecc66e5352e573d6a04b8d0b6",
+    "baseline.py": "41f8e4c6f82b1607ad45ba0e938e51f75ce733c9326cad878e4609ec7e738d84",
+    "test_hardening.py": "1cf035eee5a4a79feb5267932d222f8794743ed487f2254e90f882222116d320",
+    "test_preflight.py": "88f471f93ea5c99c6767633a48bff1506443e11763db638445948aaabb7aee84",
+    "test_diagnostics.py": "7e0e6555fd3f66112b648e0347101211d14a0c3b1ac6b9ccf1b6c7dd1d717185",
+    "design.json": "6dc05edae7d3214344ccb852df0729c3f7a7314272892b42bad53731a8bbed06",
+    "baseline.lock.json": "1bc2e807d43b46ddc40e26651ff083e4554fb0dc36851dfb5119211ab250c0d3"
+  },
+  "tests": {
+    "experiment_passed": 53,
+    "added_hardening_tests": 12,
+    "pinned_main_passed": 19,
+    "command": "python3.13 -m unittest discover -s experiments/environment-preflight -p 'test_*.py' -q"
+  },
+  "cases": [
+    {
+      "case": "normal",
+      "method": "real Lean 4.26.0 + fixture",
+      "run_directory": "runs/environment-preflight/feature2-hardening-20261028/normal",
+      "status": "completed",
+      "stage": "harness",
+      "model_requests": 3,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/baseline.json",
+          "stage": "baseline",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/candidate-001.json",
+          "stage": "candidate",
+          "kind": "proof",
+          "reason": "lean_check_rejected"
+        },
+        {
+          "path": "diagnostics/candidate-002.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/candidate-003.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/final.json",
+          "stage": "final",
+          "kind": null,
+          "reason": "verified"
+        }
+      ],
+      "artifacts_sha256": "518416ceb746d4a9e650142049bd3c680cc6d9b4419e4277249549d500d20898",
+      "run_lock_sha256": "0be0cf89cb3332165632bc963ef39ac38ae7c349f9c9a7b1900a43cd66a9b03f",
+      "replay": {
+        "record_replay_passed": true,
+        "model_called": false,
+        "lean_called": false,
+        "steps": 3,
+        "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c"
+      },
+      "final": {
+        "raw_heartbeats": 23213,
+        "raw_samples": [
+          23207,
+          23213,
+          23213
+        ],
+        "tokens": 2
+      }
+    },
+    {
+      "case": "unicode",
+      "method": "real Lean 4.26.0 + fixture",
+      "run_directory": "runs/environment-preflight/feature2-hardening-20261028/unicode",
+      "status": "completed",
+      "stage": "harness",
+      "model_requests": 3,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/baseline.json",
+          "stage": "baseline",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/model-001.json",
+          "stage": "model",
+          "kind": "response",
+          "reason": "model_content_rejected"
+        },
+        {
+          "path": "diagnostics/candidate-002.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/candidate-003.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/final.json",
+          "stage": "final",
+          "kind": null,
+          "reason": "verified"
+        }
+      ],
+      "artifacts_sha256": "f6f6ea1f486340a7f67bef665cf13c18c939b544d4d83c8c44dfa50f5ac6b3b5",
+      "run_lock_sha256": "10b4cdcf71cce96fa79519cf47d86827c47862d4bacf2f3421ee3e156f1af986",
+      "replay": {
+        "record_replay_passed": true,
+        "model_called": false,
+        "lean_called": false,
+        "steps": 3,
+        "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c"
+      },
+      "final": {
+        "raw_heartbeats": 23213,
+        "raw_samples": [
+          23207,
+          23213,
+          23214
+        ],
+        "tokens": 2
+      }
+    },
+    {
+      "case": "simulated-deep-json",
+      "method": "simulated compiler receipts",
+      "run_directory": "runs/environment-preflight/feature2-hardening-20261028/simulated-deep-json",
+      "status": "completed",
+      "stage": "harness",
+      "model_requests": 3,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/baseline.json",
+          "stage": "baseline",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/model-001.json",
+          "stage": "model",
+          "kind": "response",
+          "reason": "model_content_rejected"
+        },
+        {
+          "path": "diagnostics/candidate-002.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/candidate-003.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/final.json",
+          "stage": "final",
+          "kind": null,
+          "reason": "verified"
+        }
+      ],
+      "artifacts_sha256": "7b4eab000e81e3f9a0ad3200918840f9a547b7487cda5f125d270191a16503d6",
+      "run_lock_sha256": "3e471cb498e5827c8907466452da539b22b086d1d79dd66a09027b2c208874d9",
+      "replay": {
+        "record_replay_passed": true,
+        "model_called": false,
+        "lean_called": false,
+        "steps": 3,
+        "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c"
+      },
+      "final": {
+        "raw_heartbeats": 2000,
+        "raw_samples": [
+          2000,
+          2000,
+          2000
+        ],
+        "tokens": 2
+      }
+    },
+    {
+      "case": "simulated-sigint",
+      "method": "simulated compiler receipts",
+      "run_directory": "runs/environment-preflight/feature2-hardening-20261028/simulated-sigint",
+      "status": "interrupted",
+      "stage": "model",
+      "model_requests": 1,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/baseline.json",
+          "stage": "baseline",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/failure.json",
+          "stage": "model",
+          "kind": "unknown",
+          "reason": "execution_interrupted"
+        }
+      ],
+      "artifacts_sha256": "72d2e40bcb3587e0571582beac80c89a4ef945c048f0a7267137eed725837833",
+      "run_lock_sha256": "1d2a66d16ff409bd7f0bc54b021b8e38040ab603b62059af087834cb3e4bda94",
+      "replay": "Rejected as incomplete experiment; verified in regression test."
+    },
+    {
+      "case": "simulated-measurement",
+      "method": "simulated compiler receipts",
+      "run_directory": "runs/environment-preflight/feature2-hardening-20261028/simulated-measurement",
+      "status": "stopped",
+      "stage": "harness",
+      "model_requests": 1,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/baseline.json",
+          "stage": "baseline",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/candidate-001.json",
+          "stage": "candidate",
+          "kind": "measurement",
+          "reason": "measurement_failed_after_check"
+        },
+        {
+          "path": "diagnostics/final.json",
+          "stage": "final",
+          "kind": null,
+          "reason": "verified"
+        }
+      ],
+      "artifacts_sha256": "07092b48963aa6b22409b059b9f2144ac436c5ce14bac7c0a002569971647517",
+      "run_lock_sha256": "3ff627b47d0889aefdcb442560e27f6c1760e9b3062b990f7624ab7aef916324",
+      "replay": {
+        "record_replay_passed": true,
+        "model_called": false,
+        "lean_called": false,
+        "steps": 1,
+        "selected_sha256": "8625ca1cda4352a1340b52fcabeff56487ed351426d90798f6ec26feb9bf6fe2"
+      },
+      "final": {
+        "raw_heartbeats": 6000,
+        "raw_samples": [
+          6000,
+          6000,
+          6000
+        ],
+        "tokens": 14
+      }
+    }
+  ],
+  "confirmed": [
+    "Interrupted runs cannot retain preflight-ready; Ctrl-C/SystemExit still propagate.",
+    "Unexpected runtime exceptions produce failed with active stage.",
+    "Invalid Unicode receipts remain losslessly readable; no candidate file is created.",
+    "Over-depth JSON is rejected before parsing; string contents do not count as nesting.",
+    "Valid Unicode surrogate pairs are accepted.",
+    "Malformed measurement schema retains invalid result, exception type, raw logs and hashes.",
+    "Baseline/candidate/final measurement cases are diagnosed without accepting the bad measurement.",
+    "Normal real Lean selection matches the pre-fix run; replay makes no model or Lean calls.",
+    "Pinned baseline source/input hashes and previous validation files remain unchanged."
+  ],
+  "limitations": [
+    "SIGKILL/power-loss status is deferred to feature 3.",
+    "Live API mode is still disabled; paid API calls 0.",
+    "New exceptional-result conversion is in the experimental evaluator adapter only.",
+    "Full run folders are ignored local artifacts, not committed sources."
+  ]
+}

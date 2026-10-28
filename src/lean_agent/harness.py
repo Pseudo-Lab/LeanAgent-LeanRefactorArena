@@ -4,7 +4,6 @@ from __future__ import annotations
 import argparse
 from datetime import datetime, timezone
 from decimal import Decimal
-import hashlib
 import json
 from pathlib import Path
 import platform
@@ -13,40 +12,16 @@ import statistics
 import subprocess
 import sys
 
-from . import models
+from . import diagnostics, models, status
+from .artifacts import canonical, inventory, read, sha as digest, write
 from .evaluator.lean import LeanEvaluator, validate_template
 from .evaluator.tokens import TOKENIZER_ID, proof_body
 
 BASE = Path(__file__).resolve().parent
 CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
+              "artifacts.py", "preflight.py", "diagnostics.py", "status.py",
               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
 SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
-
-
-def canonical(value):
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":"), allow_nan=False) + "\n"
-
-
-def digest(data):
-    return hashlib.sha256(data.encode() if isinstance(data, str) else data).hexdigest()
-
-
-def read(path):
-    def unique(pairs):
-        result = {}
-        for key, value in pairs:
-            if key in result:
-                raise ValueError("Duplicate JSON key: " + key)
-            result[key] = value
-        return result
-    return json.loads(path.read_bytes(), object_pairs_hook=unique,
-                      parse_constant=lambda value: (_ for _ in ()).throw(ValueError("Non-finite JSON")))
-
-
-def write(path, value):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("x", encoding="utf-8") as stream:
-        stream.write(canonical(value))
 
 
 def positive(value):
@@ -111,8 +86,15 @@ def git_metadata(directory):
         return None
 
 
+def snapshot_code(output):
+    for relative in CODE_FILES:
+        dest = output / "code/lean_agent" / relative
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(BASE / relative, dest)
+    shutil.copyfile(BASE / "__main__.py", output / "code/replay.py")
+
+
 def snapshot(output, config_path, paths):
-    output.mkdir(parents=True, exist_ok=False)
     for key, filename in {"problem": "problem.json", "template": "context.lean.in", "prompt": "prompt.txt",
                           "responses": "responses.json"}.items():
         if key in paths:
@@ -125,20 +107,14 @@ def snapshot(output, config_path, paths):
     for name in ("lean-toolchain", "lakefile.toml", "lakefile.lean", "lake-manifest.json"):
         if (paths["project"] / name).exists():
             shutil.copyfile(paths["project"] / name, project / name)
-    # Preserve the exact runnable experiment code even while its branch changes.
-    for relative in CODE_FILES:
-        dest = output / "code/lean_agent" / relative
-        dest.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(BASE / relative, dest)
-    shutil.copyfile(BASE / "__main__.py", output / "code/replay.py")
-    manifest = {"schema_version": 1, "created_at": datetime.now(timezone.utc).isoformat(),
+    manifest = {"schema_version": 2, "created_at": datetime.now(timezone.utc).isoformat(),
                 "run_directory": str(output),
                 "backend": read(output / "input/config.json")["model"]["backend"],
                 "git": git_metadata(BASE),
                 "host": {"python": sys.version, "platform": platform.platform()},
                 "tokenizer": TOKENIZER_ID, "selection": SELECTION,
-                "files": {str(p.relative_to(output)): digest(p.read_bytes())
-                          for p in sorted(output.rglob("*")) if p.is_file()}}
+                "files": {name: value for name, value in inventory(output).items()
+                          if name.startswith(("code/", "input/"))}}
     return manifest
 
 
@@ -201,6 +177,7 @@ def parse_proof(raw, problem, limit):
     content = models.receipt(raw)["content"]
     if content is None or len(content) > limit * 2:
         raise ValueError("Missing or oversized model content")
+    diagnostics.validate_response_text(content)
     # Use the same strict JSON parser for model output and saved configuration.
     def unique(pairs):
         result = {}
@@ -209,12 +186,19 @@ def parse_proof(raw, problem, limit):
                 raise ValueError("Duplicate model key")
             result[key] = value
         return result
-    value = json.loads(content, object_pairs_hook=unique)
+    try:
+        value = json.loads(content, object_pairs_hook=unique)
+    except RecursionError as exc:
+        raise ValueError("Model JSON exceeds parser nesting capacity") from exc
     if not isinstance(value, dict) or set(value) != {"proof"}:
         raise ValueError("Expected exactly one proof field")
     proof = value["proof"]
     if not isinstance(proof, str) or not proof.strip() or len(proof) > limit:
         raise ValueError("Invalid or oversized proof")
+    try:
+        proof.encode("utf-8")
+    except UnicodeEncodeError as exc:
+        raise ValueError("Proof contains invalid Unicode") from exc
     return problem["statement"] + " := " + proof.strip() + "\n"
 
 
@@ -228,7 +212,7 @@ def feedback(result, rejection, limit, run_directory):
             "details": canonical(details).replace(run_directory, "<RUN>")[:limit]}
 
 
-def advance(state, raw, code, result, rejection, baseline, config, run_directory):
+def advance(state, raw, code, result, rejection, baseline, config, run_directory, diagnosis=None):
     state = json.loads(canonical(state))
     bill = models.receipt(raw)
     state["step"] += 1
@@ -239,14 +223,14 @@ def advance(state, raw, code, result, rejection, baseline, config, run_directory
     proposal = candidate(code, result, baseline) if result else None
     if proposal and ranking(proposal) < ranking(state["best"]):
         state["best"] = proposal
-    state["latest"] = {"code": code, "feedback": feedback(result, rejection, config["limits"]["max_feedback_characters"], run_directory)}
+    limit = config["limits"]["max_feedback_characters"]
+    state["latest"] = {"code": code, "feedback": diagnostics.enrich(
+        feedback(result, rejection, limit, run_directory), diagnosis, limit, run_directory)}
     return state
 
 
 def seal(output):
-    files = {str(p.relative_to(output)): digest(p.read_bytes()) for p in sorted(output.rglob("*"))
-             if p.is_file() and p.name != "artifacts.json" and "__pycache__" not in p.parts}
-    write(output / "artifacts.json", files)
+    write(output / "artifacts.json", inventory(output))
 
 
 def stopping_reason(state, problem, config, prompt):
@@ -274,32 +258,69 @@ def summarize(state, baseline, final, config, stop):
             "final_samples_match_selection": measured is not None and measured["raw_samples"] == state["best"]["raw_samples"]}
 
 
-def run(config_path, output, evaluator=None):
+def run(config_path, output, evaluator=None, *, check_only=False, query=None):
     if output.exists() or output.is_symlink():
         raise FileExistsError("Refusing to reuse an existing run directory: " + str(output))
     config_path, output = config_path.resolve(), output.resolve()
-    config, paths = load_config(config_path)
-    if config["model"]["backend"] == "openrouter":
-        import os
-        if not os.environ.get("OPENROUTER_API_KEY"):
-            raise ValueError("Export OPENROUTER_API_KEY before running a live experiment")
-    manifest = snapshot(output, config_path, paths)
+    output.mkdir(parents=True)
+    progress = status.Progress(status.Journal(output))
+    recorder = diagnostics.Recorder(output)
     evaluator = evaluator or LeanEvaluator()
-    config = read(output / "input/config.json")
-    problem = read(output / "input/problem.json")
-    prompt = (output / "input/prompt.txt").read_text()
-    environment = {"id": "fixed", "project": str(output / "input/project"),
-                   "template": (output / "input/context.lean.in").read_text(),
-                   **{key: config["lean"][key] for key in ("toolchain", "command", "timeout_seconds")}}
-    fixtures = read(output / "input/responses.json") if config["model"]["backend"] == "fixture" else None
-    def evaluate(code, folder):
+    outcome = {"schema_version": 1, "status": "failed", "model_requests": 0}
+
+    def evaluate(code, folder, stage, source, **details):
+        progress.enter(stage, **details)
         result = evaluator.evaluate(code, problem, [environment], folder, config["lean"]["repetitions"])
         write(folder / "result.json", result)
+        recorder.evaluated(result, folder)
+        report = recorder.records[-1]["path"]
+        progress.failure_report = report
+        paths = [folder / "result.json", report]
+        verified = None
+        if result["valid"]:
+            paths.append(source)
+            verified = {"sha256": digest(code), "source": str(source.relative_to(output)), "stage": stage}
+        progress.finish("passed" if result["valid"] else "failed", paths, verified)
         return result
+
     try:
-        manifest["environment"] = evaluator.fingerprint(environment)
+        progress.enter("setup")
+        snapshot_code(output)
+        progress.finish()
+        progress.enter("config")
+        config, paths = load_config(config_path)
+        if config["model"]["backend"] == "openrouter":
+            import os
+            if not os.environ.get("OPENROUTER_API_KEY"):
+                raise ValueError("Export OPENROUTER_API_KEY before running a live experiment")
+        manifest = snapshot(output, config_path, paths)
+        config = read(output / "input/config.json")
+        problem = read(output / "input/problem.json")
+        prompt = (output / "input/prompt.txt").read_text()
+        environment = {"id": "fixed", "project": str(output / "input/project"),
+                       "template": (output / "input/context.lean.in").read_text(),
+                       **{key: config["lean"][key] for key in ("toolchain", "command", "timeout_seconds")}}
+        fixtures = read(output / "input/responses.json") if config["model"]["backend"] == "fixture" else None
+        outcome["backend"] = config["model"]["backend"]
+        progress.finish(paths=["input/config.json"])
+        checked = evaluator.preflight(environment, output, progress)
+        outcome["preflight_report"] = "preflight.json"
+        report = diagnostics.preflight_diagnosis(checked, output)
+        if report:
+            recorder.save("preflight", report)
+            progress.failure_report = recorder.records[-1]["path"]
+        if checked["status"] != "passed":
+            outcome["error"] = checked["error"]
+            raise ValueError(checked["error"]["message"])
+        environment["command"] = checked["effective_command"]
+        manifest["environment"] = checked["environment"]
         write(output / "manifest.json", manifest)
-        baseline_result = evaluate(problem["reference"], output / "baseline")
+        if check_only:
+            outcome.update(status="ready", stage="context")
+            return outcome
+        reference = output / "baseline.lean"
+        reference.write_text(problem["reference"], encoding="utf-8")
+        baseline_result = evaluate(problem["reference"], output / "baseline", "baseline", reference)
         state = initial_state(problem, baseline_result)
         baseline = metrics(baseline_result)
         write(output / "initial-state.json", state)
@@ -311,18 +332,28 @@ def run(config_path, output, evaluator=None):
             except ValueError:
                 stop = "context_limit"
                 break
-            write(folder / "request.json", body)  # Persist BEFORE a potentially billable call.
-            raw = models.query(body, config["model"], step, fixtures)
+            progress.enter("model", attempt=step)
+            write(folder / "request.json", body)
+            progress.calls += 1  # A dispatched call may have an unknown outcome.
+            raw = (query or models.query)(body, config["model"], step, fixtures)
             write(folder / "response.json", raw)
+            receipt_error = diagnostics.response(raw, None, folder / "response.json", output)
+            progress.finish("failed" if receipt_error else "passed", [folder / "request.json", folder / "response.json"])
+            progress.enter("response", attempt=step)
             code, result, rejection = None, None, None
             try:
                 code = parse_proof(raw, problem, config["limits"]["max_proof_characters"])
             except (ValueError, TypeError) as exc:
                 rejection = str(exc)
+            progress.finish("failed" if rejection else "passed", [folder / "response.json"])
             if code is not None:
-                (folder / "candidate.lean").write_text(code)
-                result = evaluate(code, folder / "evaluation")
-            state = advance(state, raw, code, result, rejection, baseline, config, str(output))
+                source = folder / "candidate.lean"
+                source.write_text(code, encoding="utf-8")
+                result = evaluate(code, folder / "evaluation", "candidate", source, attempt=step)
+            report = diagnostics.step(raw, rejection, result, folder, output)
+            if report and report["stage"] == "model":
+                recorder.save(f"model-{step:03}", report)
+            state = advance(state, raw, code, result, rejection, baseline, config, str(output), report)
             write(folder / "event.json", {"state_after": state, "rejection": rejection})
             if state["unknown_cost"]:
                 stop = "unknown_cost"
@@ -330,26 +361,42 @@ def run(config_path, output, evaluator=None):
             if result and environment_failed(result):
                 stop = "environment_failed"
                 break
-        (output / "selected.lean").write_text(state["best"]["code"])
-        final = evaluate(state["best"]["code"], output / "final")
+        selected = output / "selected.lean"
+        selected.write_text(state["best"]["code"], encoding="utf-8")
+        final = evaluate(state["best"]["code"], output / "final", "final", selected)
+        progress.enter("environment", phase="harness_end")
         if evaluator.fingerprint(environment) != manifest["environment"]:
             raise ValueError("Lean environment changed during the run")
+        progress.finish(paths=["environment.json"])
         summary = summarize(state, baseline, final, config, stop)
         write(output / "summary.json", summary)
-    except Exception as exc:
-        # This is an interrupted experiment, never a resumable fresh run. Inspect
-        # request/response receipts before manually resolving unknown billing.
-        write(output / "failure.json", {"status": "failed", "error_type": type(exc).__name__})
+        progress.enter("replay")
+        replayed = replay_records(output)
+        progress.finish(paths=["summary.json"])
+        outcome.update(status=summary["status"], stage="harness", replay=replayed,
+                       selected_sha256=state["best"]["sha256"])
+        return summary
+    except (Exception, KeyboardInterrupt, SystemExit) as exc:
+        interrupted = isinstance(exc, (KeyboardInterrupt, SystemExit))
+        outcome.update(status="interrupted" if interrupted else "failed", stage=progress.stage,
+                       error=outcome.get("error", {"exception_type": type(exc).__name__, "message": str(exc)}))
+        write(output / "failure.json", {"status": outcome["status"], "error_type": type(exc).__name__})
+        (output / "diagnostic.log").write_text(f"{type(exc).__name__}: {exc}\n", encoding="utf-8", errors="backslashreplace")
+        if not progress.failure_report:
+            recorder.save("failure", diagnostics.diagnosis(progress.stage, "unknown", "execution_interrupted" if interrupted else "execution_failed",
+                evidence=[diagnostics.evidence(output, output / "diagnostic.log")], excerpt=str(exc)))
+        progress.finish("interrupted" if interrupted else "failed", ["failure.json", "diagnostic.log"])
         raise
     finally:
+        outcome.update(model_requests=progress.calls, diagnostics=recorder.records)
+        write(output / "result.json", outcome)
+        progress.journal.seal(outcome["status"])
         seal(output)
-    return summary
 
 
 def check_artifacts(output):
     files = read(output / "artifacts.json")
-    actual = {str(p.relative_to(output)) for p in output.rglob("*")
-              if p.is_file() and p.name != "artifacts.json" and "__pycache__" not in p.parts}
+    actual = set(inventory(output))
     if set(files) != actual:
         raise ValueError("Artifact inventory differs")
     for name, expected in files.items():
@@ -358,16 +405,30 @@ def check_artifacts(output):
             raise ValueError("Artifact mismatch: " + name)
     if (output / "failure.json").exists():
         raise ValueError("Incomplete run: inspect failure.json and any pending request")
-    manifest = read(output / "manifest.json")
-    for name, expected in manifest["files"].items():
-        if files.get(name) != expected:
-            raise ValueError("Frozen input mismatch: " + name)
 
 
 def replay(output):
     output = output.resolve()
     check_artifacts(output)
+    if read(output / "result.json")["status"] not in ("completed", "stopped"):
+        raise ValueError("Run has no completed execution to replay")
+    replayed = replay_records(output)
+    lifecycle = read(output / "result.json")
+    if (lifecycle["status"] != read(output / "summary.json")["status"]
+            or lifecycle.get("selected_sha256") != replayed["selected_sha256"]
+            or lifecycle.get("replay") != replayed):
+        raise ValueError("Lifecycle result differs from replay")
+    observed = status.inspect(output)
+    if observed["record_error"] or not observed["sealed"]:
+        raise ValueError("Stage journal is inconsistent or unsealed")
+    return replayed
+
+
+def replay_records(output):
     manifest = read(output / "manifest.json")
+    for name, expected in manifest["files"].items():
+        if digest((output / name).read_bytes()) != expected:
+            raise ValueError("Frozen input mismatch: " + name)
     for name in CODE_FILES:
         if digest((BASE / name).read_bytes()) != manifest["files"]["code/lean_agent/" + name]:
             raise ValueError(f"Replay code differs. Use: python3 -B {output}/code/replay.py replay {output}")
@@ -396,7 +457,8 @@ def replay(output):
             if (folder / "candidate.lean").read_text() != code:
                 raise ValueError("Candidate differs from model response")
             result = read(folder / "evaluation/result.json")
-        state = advance(state, raw, code, result, rejection, baseline, config, manifest["run_directory"])
+        report = diagnostics.step(raw, rejection, result, folder, output)
+        state = advance(state, raw, code, result, rejection, baseline, config, manifest["run_directory"], report)
         if read(folder / "event.json") != {"state_after": state, "rejection": rejection}:
             raise ValueError("State transition differs")
     summary = read(output / "summary.json")
@@ -413,19 +475,28 @@ def replay(output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
-    start = commands.add_parser("run")
-    start.add_argument("--config", type=Path, required=True)
-    start.add_argument("--output", type=Path, required=True)
+    for name in ("run", "check"):
+        start = commands.add_parser(name)
+        start.add_argument("--config", type=Path, required=True)
+        start.add_argument("--output", type=Path, required=True)
+    observe = commands.add_parser("status")
+    observe.add_argument("run_directory", type=Path)
+    observe.add_argument("--json", action="store_true")
     again = commands.add_parser("replay")
     again.add_argument("run_directory", type=Path)
     args = parser.parse_args()
     try:
-        result = run(args.config, args.output) if args.command == "run" else replay(args.run_directory)
+        if args.command == "status":
+            result = status.inspect(args.run_directory)
+            print(json.dumps(result, ensure_ascii=False, indent=2) if args.json else status.describe(result))
+            return 0
+        result = (run(args.config, args.output, check_only=args.command == "check")
+                  if args.command in ("run", "check") else replay(args.run_directory))
     except (ValueError, OSError, KeyError, TypeError) as exc:
         print(f"{type(exc).__name__}: {exc}", file=sys.stderr)
         return 1
     print(json.dumps(result, ensure_ascii=False, indent=2))
-    return 0 if result.get("record_replay_passed") or result.get("status") == "completed" else 1
+    return 0 if result.get("record_replay_passed") or result.get("status") in ("completed", "ready") else 1
 
 
 if __name__ == "__main__":

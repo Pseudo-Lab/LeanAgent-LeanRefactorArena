@@ -1,0 +1,25 @@
+{
+  "problem_id": "nat-add-zero",
+  "name": "EvaluationExample.add_zero",
+  "statement_file": "statement.txt",
+  "baseline_file": "baseline.lean",
+  "scoring_environment": "lean-4-26",
+  "checkpoint_runs": 1,
+  "final_runs": 3,
+  "scoring": {
+    "token_weight": 0.5,
+    "heartbeat_weight": 0.5,
+    "minimum_gain": 0.0,
+    "require_non_regression": false
+  },
+  "environments": [
+    {
+      "id": "lean-4-26",
+      "project": ".",
+      "toolchain": "leanprover/lean4:v4.26.0",
+      "template_file": "context.lean.in",
+      "command": ["lake", "env", "lean"],
+      "timeout_seconds": 30
+    }
+  ]
+}
