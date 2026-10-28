@@ -1,0 +1,159 @@
+{
+  "baseline": {
+    "raw_heartbeats": 2695001,
+    "raw_samples": [
+      2694882,
+      2695038,
+      2695001
+    ],
+    "tokens": 222
+  },
+  "budget_ok": true,
+  "budget_usd": "2",
+  "calls": 3,
+  "cost_usd": "0.1394342",
+  "entrypoint": "lean_agent.harness.run",
+  "evidence_directory": "runs/api-comparison/20261028-main-loop-p02-light-v2",
+  "final_valid": true,
+  "full_original_module_passed": true,
+  "improved": true,
+  "main_commit": "1f51537b30ed778366bb9e030db8819825722c56",
+  "replay": {
+    "lean_called": false,
+    "model_called": false,
+    "record_replay_passed": true,
+    "selected_sha256": "815f7035e71ad88e159d993bb60053744d4391058499e0fe01560d85a3535dec",
+    "steps": 3
+  },
+  "selected_metrics": {
+    "raw_heartbeats": 1459084,
+    "raw_samples": [
+      1459045,
+      1459085,
+      1459084
+    ],
+    "tokens": 104
+  },
+  "status": "completed",
+  "steps": [
+    {
+      "candidate_metrics": null,
+      "candidate_valid": false,
+      "feedback_present": false,
+      "step": 1,
+      "usage": {
+        "completion_tokens": 1670,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1469
+        },
+        "cost": 0.0969285,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.0167,
+          "upstream_inference_cost": 0.0969285,
+          "upstream_inference_prompt_cost": 0.0802285
+        },
+        "is_byok": false,
+        "prompt_tokens": 32092,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 32089,
+          "cached_tokens": 0,
+          "video_tokens": 0
+        },
+        "total_tokens": 33762
+      }
+    },
+    {
+      "candidate_metrics": {
+        "raw_heartbeats": 1459078,
+        "raw_samples": [
+          1459005,
+          1459107,
+          1459078
+        ],
+        "tokens": 104
+      },
+      "candidate_valid": true,
+      "feedback_present": true,
+      "step": 2,
+      "usage": {
+        "completion_tokens": 551,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 339
+        },
+        "cost": 0.0142391,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.00551,
+          "upstream_inference_cost": 0.0142391,
+          "upstream_inference_prompt_cost": 0.0087291
+        },
+        "is_byok": false,
+        "prompt_tokens": 33018,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 2259,
+          "cached_tokens": 30756,
+          "video_tokens": 0
+        },
+        "total_tokens": 33569
+      }
+    },
+    {
+      "candidate_metrics": {
+        "raw_heartbeats": 1503647,
+        "raw_samples": [
+          1503649,
+          1503647,
+          1503576
+        ],
+        "tokens": 174
+      },
+      "candidate_valid": true,
+      "feedback_present": true,
+      "step": 3,
+      "usage": {
+        "completion_tokens": 2197,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1894
+        },
+        "cost": 0.0282666,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.02197,
+          "upstream_inference_cost": 0.0282666,
+          "upstream_inference_prompt_cost": 0.0062966
+        },
+        "is_byok": false,
+        "prompt_tokens": 32045,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1286,
+          "cached_tokens": 30756,
+          "video_tokens": 0
+        },
+        "total_tokens": 34242
+      }
+    }
+  ],
+  "validation": {
+    "cap_usd": "2",
+    "cost_usd": "0.1394342",
+    "feedback_failed_then_successful": true,
+    "full_module_passed": true,
+    "loop_calls": 3,
+    "main_entrypoint": "lean_agent.harness.run",
+    "model": "openai/gpt-6.1-sol",
+    "reasoning_effort": "high",
+    "record_replay_passed": true,
+    "secret_in_evidence": false,
+    "tests_passed": 44,
+    "total_input_tokens": 97155,
+    "total_output_tokens": 4418,
+    "wire_matches_main_record": true
+  }
+}

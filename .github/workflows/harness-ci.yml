@@ -9,6 +9,10 @@ on:
       - 'examples/first-harness/**'
       - 'tests/test_harness.py'
       - 'tests/test_runtime_integration.py'
+      - 'tests/test_api_integration.py'
+      - 'tests/test_accounting.py'
+      - 'experiments/api-comparison/**'
+      - 'experiments/usage-cost/**'
       - 'pyproject.toml'
       - '.github/workflows/harness-ci.yml'
   push:
@@ -19,6 +23,10 @@ on:
       - 'examples/first-harness/**'
       - 'tests/test_harness.py'
       - 'tests/test_runtime_integration.py'
+      - 'tests/test_api_integration.py'
+      - 'tests/test_accounting.py'
+      - 'experiments/api-comparison/**'
+      - 'experiments/usage-cost/**'
       - 'pyproject.toml'
       - '.github/workflows/harness-ci.yml'
   workflow_dispatch:
@@ -49,3 +57,11 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_harness.py' -v
       - name: Test preflight, diagnoses and durable status without external services
         run: python -m unittest discover -s tests -p 'test_runtime_integration.py' -v
+      - name: Test API usage and prepared-library integration without paid calls
+        run: python -m unittest discover -s tests -p 'test_api_integration.py' -v
+      - name: Test shared API and subagent cost accounting
+        run: python -m unittest discover -s tests -p 'test_accounting.py' -v
+      - name: Test experiment budget guard and compatibility commands offline
+        run: |
+          python -m unittest discover -s experiments/api-comparison -p 'test_*.py' -v
+          python -m unittest discover -s experiments/usage-cost -p 'test_*.py' -v

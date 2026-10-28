@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "currency": "USD",
+  "rate_card_id": "synthetic-demo-v1",
+  "source": "Synthetic demonstration prices; NOT an official model price",
+  "as_of": "2026-10-27",
+  "models": {
+    "test-model": {
+      "input_per_million": "2",
+      "cached_input_per_million": "0.5",
+      "output_per_million": "10"
+    }
+  }
+}

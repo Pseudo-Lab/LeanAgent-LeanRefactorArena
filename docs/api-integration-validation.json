@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "base_main": "1f51537b30ed778366bb9e030db8819825722c56",
+  "python": "3.13.11",
+  "repository_tests": {
+    "run": 109,
+    "passed": 105,
+    "skipped_opt_in_lean": 4
+  },
+  "experiment_regressions": {
+    "api_comparison_passed": 13,
+    "usage_cost_compat_passed": 19
+  },
+  "installed_wheel_tests": {
+    "harness": 22,
+    "runtime": 13,
+    "api_integration": 10,
+    "accounting": 19,
+    "total_passed": 64,
+    "outside_repository": true
+  },
+  "actual_lean_core_smoke": {
+    "passed": true,
+    "backend": "fixture",
+    "api_cost_usd": "0",
+    "native_replay": true,
+    "archive_replay": true
+  },
+  "actual_p02": {
+    "backend": "fixture",
+    "source": "previously saved final proof; not a new generation experiment",
+    "prepared_library_revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+    "pinned_files": 11311,
+    "baseline": {
+      "raw_heartbeats": 2695001,
+      "raw_samples": [
+        2694882,
+        2695038,
+        2695001
+      ],
+      "tokens": 222
+    },
+    "final": {
+      "raw_heartbeats": 499239,
+      "raw_samples": [
+        499239,
+        499248,
+        499223
+      ],
+      "tokens": 120
+    },
+    "final_valid": true,
+    "full_original_module_passed": true,
+    "native_replay": true,
+    "archive_replay": true,
+    "original_158_step_archive_replay": true,
+    "evidence_directory": "runs/api-comparison/main-integration-p02-fixture-20261028",
+    "source_matches_tested_package": true
+  },
+  "new_paid_api_calls": 0,
+  "code_sha256": {
+    "__init__.py": "9cd399170b43e79e6135afe023a5462b2a4cd4329bf4dff761ebce9952958400",
+    "__main__.py": "f30e39b7432a423762327b9868a4ec0d5a95acec2025adf1c753fea40321355f",
+    "harness.py": "033aaecef62d28028a5316c464993dac0f1a7227eac62bb58b8134f4f8ef3070",
+    "models.py": "f755778a28a5cc69f35a7877db8c6171a58995b7d4cb0a3799799f608a16a2b8",
+    "provenance.json": "b6b64e979cd67125555124fd22c71c243c3f4a815274476add0cfdfac26a589b",
+    "artifacts.py": "b32c126c0c17df322f1d9455bfb315099fb43c1fe95f93fcd5ea669db748dff4",
+    "preflight.py": "636b8efc6409c171efc09e7657793271e0dcc874bffd6d0597261ab8379dfbe7",
+    "diagnostics.py": "185cf1e00a736067b9ca29fd9c26936856da3ae8f7de3f45ba5a32ee3e66e7ac",
+    "status.py": "5d622837bee60a19d0678cae46cf295774c614fc9e875c9273fa19340c987a92",
+    "accounting.py": "53a638264044170a9c13be452338daf0cc432e91d334a91eafee84e363b105ef",
+    "prepared.py": "0359378034eb6afc6365082a0818693ac0aef88746cb8bd4f9d585e0f5d6ed07",
+    "evaluator/__init__.py": "0eab47670182910a6f889d4f5bf1712d73b159bfffe499d63c6a1a94e8abacd7",
+    "evaluator/lean.py": "b4fa9f8b1a3b61365a6c1b65c732355a150e0cbc1af6299b2721a6253eb76a42",
+    "evaluator/tokens.py": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+    "evaluator/provenance.json": "b5a61820afb043091f175ff2ff071ff1554a155e026d8f6093ecf470ce982c0b"
+  }
+}

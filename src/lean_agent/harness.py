@@ -2,9 +2,11 @@
 from __future__ import annotations
 
 import argparse
+from itertools import count
 from datetime import datetime, timezone
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
 import json
+import os
 from pathlib import Path
 import platform
 import shutil
@@ -12,14 +14,14 @@ import statistics
 import subprocess
 import sys
 
-from . import diagnostics, models, status
+from . import accounting, diagnostics, models, prepared, status
 from .artifacts import canonical, inventory, read, sha as digest, write
 from .evaluator.lean import LeanEvaluator, validate_template
 from .evaluator.tokens import TOKENIZER_ID, proof_body
 
 BASE = Path(__file__).resolve().parent
 CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
-              "artifacts.py", "preflight.py", "diagnostics.py", "status.py",
+              "artifacts.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py",
               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
 SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
 
@@ -33,11 +35,28 @@ def load_config(path):
     if config.get("schema_version") != 1:
         raise ValueError("Expected config schema_version 1")
     limits, lean, model = config["limits"], config["lean"], config["model"]
-    if set(model) - {"backend", "responses", "id", "provider", "max_tokens", "temperature", "seed", "timeout_seconds"}:
+    if "max_calls" not in limits:
+        raise ValueError("Set max_calls explicitly (null requires cost_stop_usd)")
+    if set(model) - {"backend", "responses", "id", "provider", "max_tokens", "temperature", "seed", "timeout_seconds", "reasoning_effort", "max_price"}:
         raise ValueError("Unexpected model setting; credentials belong in environment variables")
-    for key in ("max_calls", "max_proof_characters", "max_feedback_characters", "max_request_characters"):
+    for key in ("max_proof_characters", "max_feedback_characters", "max_request_characters"):
         if not positive(limits[key]):
             raise ValueError("Expected positive integer: " + key)
+    threshold = limits.get("cost_stop_usd")
+    if threshold is not None:
+        if isinstance(threshold, bool):
+            raise ValueError("Expected a positive finite cost_stop_usd")
+        try:
+            amount = Decimal(str(threshold))
+        except (InvalidOperation, ValueError) as exc:
+            raise ValueError("Expected a positive finite cost_stop_usd") from exc
+        if not amount.is_finite() or amount <= 0:
+            raise ValueError("Expected a positive finite cost_stop_usd")
+    if limits.get("max_calls") is None:
+        if model["backend"] != "openrouter" or threshold is None:
+            raise ValueError("Unlimited calls require an OpenRouter cost_stop_usd")
+    elif not positive(limits["max_calls"]):
+        raise ValueError("Expected positive integer max_calls or null with cost_stop_usd")
     if not positive(lean["repetitions"]) or lean["repetitions"] % 2 != 1:
         raise ValueError("Lean repetitions must be a positive odd integer")
     if not positive(lean["timeout_seconds"]):
@@ -52,9 +71,21 @@ def load_config(path):
                 raise ValueError("Set explicit model " + key)
         if not positive(model["max_tokens"]) or not positive(model["timeout_seconds"]):
             raise ValueError("Set positive model token and timeout limits")
-        if type(model["temperature"]) not in (int, float) or not 0 <= model["temperature"] <= 2:
+        if "temperature" in model and (type(model["temperature"]) not in (int, float) or not 0 <= model["temperature"] <= 2):
             raise ValueError("Invalid temperature")
+        if "reasoning_effort" in model and model["reasoning_effort"] not in {"none", "minimal", "low", "medium", "high", "xhigh", "max"}:
+            raise ValueError("Invalid reasoning effort")
+        if "max_price" in model:
+            prices = model["max_price"]
+            if (not isinstance(prices, dict) or set(prices) != {"prompt", "completion"}
+                    or any(type(v) not in (int, float) or not Decimal(str(v)).is_finite() or v < 0 for v in prices.values())):
+                raise ValueError("Expected finite prompt/completion price ceilings")
     paths = {key: (path.parent / config[key]).resolve() for key in ("problem", "template", "project", "prompt")}
+    if "prepared_environment" in lean:
+        if not isinstance(lean["prepared_environment"], str) or not lean["prepared_environment"]:
+            raise ValueError("Set a prepared_environment manifest path")
+        paths["prepared_environment"] = (path.parent / lean["prepared_environment"]).resolve()
+        prepared.PreparedLeanEvaluator(paths["prepared_environment"])
     if model["backend"] == "fixture":
         paths["responses"] = (path.parent / model["responses"]).resolve()
         responses = read(paths["responses"])
@@ -66,11 +97,9 @@ def load_config(path):
         if not isinstance(problem[key], str) or not problem[key]:
             raise ValueError("Missing problem field: " + key)
     proof_body(problem["reference"], problem["statement"])
-    # v1 intentionally supports core Lean only. Do not pretend an uncopied
-    # dependency tree is frozen; add a proper prepared-environment adapter later.
     if (paths["project"] / "lake-manifest.json").exists():
-        if read(paths["project"] / "lake-manifest.json").get("packages"):
-            raise ValueError("v1 supports dependency-free Lean projects only")
+        if read(paths["project"] / "lake-manifest.json").get("packages") and "prepared_environment" not in paths:
+            raise ValueError("External dependencies require a prepared_environment manifest")
     return config, paths
 
 
@@ -96,7 +125,7 @@ def snapshot_code(output):
 
 def snapshot(output, config_path, paths):
     for key, filename in {"problem": "problem.json", "template": "context.lean.in", "prompt": "prompt.txt",
-                          "responses": "responses.json"}.items():
+                          "responses": "responses.json", "prepared_environment": "prepared-environment.json"}.items():
         if key in paths:
             dest = output / "input" / filename
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -165,7 +194,13 @@ def make_request(state, problem, config, prompt):
     packet = {"problem": problem, "baseline": state["baseline"],
               "best": {k: v for k, v in state["best"].items() if k != "raw_samples"}, "latest": latest,
               "step": state["step"] + 1,
-              "remaining_calls": config["limits"]["max_calls"] - state["calls"]}
+              "remaining_calls": None if config["limits"]["max_calls"] is None else config["limits"]["max_calls"] - state["calls"]}
+    threshold = config["limits"].get("cost_stop_usd")
+    if threshold is not None:
+        spent = Decimal(state["cost_usd"])
+        packet["budget"] = {"stop_at_usd": str(threshold), "spent_usd": str(spent),
+                            "remaining_usd": str(max(Decimal(0), Decimal(str(threshold)) - spent)),
+                            "mode": "stop after the response reaching the threshold; last call may overshoot"}
     body = models.payload([{"role": "system", "content": prompt},
                            {"role": "user", "content": canonical(packet)}], config["model"])
     if len(canonical(body)) > config["limits"]["max_request_characters"]:
@@ -238,7 +273,9 @@ def stopping_reason(state, problem, config, prompt):
         return "unknown_cost"
     if state["latest"] and state["latest"]["feedback"]["status"] == "environment_failed":
         return "environment_failed"
-    if state["calls"] >= config["limits"]["max_calls"]:
+    if cost_threshold_reached(state, config):
+        return "cost_limit"
+    if config["limits"]["max_calls"] is not None and state["calls"] >= config["limits"]["max_calls"]:
         return "call_limit"
     try:
         make_request(state, problem, config, prompt)
@@ -247,9 +284,14 @@ def stopping_reason(state, problem, config, prompt):
     raise ValueError("Recorded run ended before a stopping condition")
 
 
+def cost_threshold_reached(state, config):
+    threshold = config["limits"].get("cost_stop_usd")
+    return threshold is not None and Decimal(state["cost_usd"]) >= Decimal(str(threshold))
+
+
 def summarize(state, baseline, final, config, stop):
     measured = metrics(final)
-    return {"status": "completed" if final["valid"] and stop in ("call_limit", "context_limit") else "stopped",
+    return {"status": "completed" if final["valid"] and stop in ("call_limit", "context_limit", "cost_limit") else "stopped",
             "stop_reason": stop, "backend": config["model"]["backend"],
             "state": state, "baseline": baseline, "final": measured,
             "final_valid": final["valid"], "official_evaluation": False,
@@ -258,15 +300,16 @@ def summarize(state, baseline, final, config, stop):
             "final_samples_match_selection": measured is not None and measured["raw_samples"] == state["best"]["raw_samples"]}
 
 
-def run(config_path, output, evaluator=None, *, check_only=False, query=None):
+def run(config_path, output, evaluator=None, *, check_only=False, query=None, dotenv=None):
     if output.exists() or output.is_symlink():
         raise FileExistsError("Refusing to reuse an existing run directory: " + str(output))
     config_path, output = config_path.resolve(), output.resolve()
     output.mkdir(parents=True)
     progress = status.Progress(status.Journal(output))
     recorder = diagnostics.Recorder(output)
-    evaluator = evaluator or LeanEvaluator()
     outcome = {"schema_version": 1, "status": "failed", "model_requests": 0}
+    previous_key = os.environ.get("OPENROUTER_API_KEY")
+    key_loaded = False
 
     def evaluate(code, folder, stage, source, **details):
         progress.enter(stage, **details)
@@ -289,11 +332,17 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None):
         progress.finish()
         progress.enter("config")
         config, paths = load_config(config_path)
+        evaluator = evaluator or (prepared.PreparedLeanEvaluator(paths["prepared_environment"])
+                                  if "prepared_environment" in paths else LeanEvaluator())
         if config["model"]["backend"] == "openrouter":
-            import os
+            if dotenv is not None:
+                os.environ["OPENROUTER_API_KEY"] = models.load_key(dotenv)
+                key_loaded = True
             if not os.environ.get("OPENROUTER_API_KEY"):
                 raise ValueError("Export OPENROUTER_API_KEY before running a live experiment")
         manifest = snapshot(output, config_path, paths)
+        if "prepared_environment" in paths and isinstance(evaluator, prepared.PreparedLeanEvaluator):
+            evaluator = prepared.PreparedLeanEvaluator(output / "input/prepared-environment.json", evaluator._executor)
         config = read(output / "input/config.json")
         problem = read(output / "input/problem.json")
         prompt = (output / "input/prompt.txt").read_text()
@@ -325,7 +374,14 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None):
         baseline = metrics(baseline_result)
         write(output / "initial-state.json", state)
         stop = "call_limit"
-        for step in range(1, config["limits"]["max_calls"] + 1):
+        usage_records = []
+        for step in count(1):
+            if cost_threshold_reached(state, config):
+                stop = "cost_limit"
+                break
+            if config["limits"]["max_calls"] is not None and step > config["limits"]["max_calls"]:
+                stop = "call_limit"
+                break
             folder = output / "steps" / f"{step:03}"
             try:
                 body = make_request(state, problem, config, prompt)
@@ -337,6 +393,9 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None):
             progress.calls += 1  # A dispatched call may have an unknown outcome.
             raw = (query or models.query)(body, config["model"], step, fixtures)
             write(folder / "response.json", raw)
+            usage = accounting.response_record(raw)
+            write(folder / "usage.json", usage)
+            usage_records.append(usage)
             receipt_error = diagnostics.response(raw, None, folder / "response.json", output)
             progress.finish("failed" if receipt_error else "passed", [folder / "request.json", folder / "response.json"])
             progress.enter("response", attempt=step)
@@ -369,6 +428,7 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None):
             raise ValueError("Lean environment changed during the run")
         progress.finish(paths=["environment.json"])
         summary = summarize(state, baseline, final, config, stop)
+        write(output / "usage-summary.json", accounting.response_summary(usage_records))
         write(output / "summary.json", summary)
         progress.enter("replay")
         replayed = replay_records(output)
@@ -388,6 +448,11 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None):
         progress.finish("interrupted" if interrupted else "failed", ["failure.json", "diagnostic.log"])
         raise
     finally:
+        if key_loaded:
+            if previous_key is None:
+                os.environ.pop("OPENROUTER_API_KEY", None)
+            else:
+                os.environ["OPENROUTER_API_KEY"] = previous_key
         outcome.update(model_requests=progress.calls, diagnostics=recorder.records)
         write(output / "result.json", outcome)
         progress.journal.seal(outcome["status"])
@@ -440,14 +505,20 @@ def replay_records(output):
     baseline = metrics(baseline_result)
     if read(output / "initial-state.json") != state:
         raise ValueError("Initial state differs")
-    steps = sorted((output / "steps").iterdir()) if (output / "steps").exists() else []
+    steps = sorted((output / "steps").iterdir(), key=lambda p: int(p.name)) if (output / "steps").exists() else []
+    usage_records = []
     for index, folder in enumerate(steps, 1):
-        if (folder.name != f"{index:03}" or state["unknown_cost"] or index > config["limits"]["max_calls"]
+        if (folder.name != f"{index:03}" or state["unknown_cost"] or cost_threshold_reached(state, config)
+                or config["limits"]["max_calls"] is not None and index > config["limits"]["max_calls"]
                 or state["latest"] and state["latest"]["feedback"]["status"] == "environment_failed"):
             raise ValueError("Invalid step sequence")
         if read(folder / "request.json") != make_request(state, problem, config, prompt):
             raise ValueError("Request does not match the recorded state")
         raw = read(folder / "response.json")
+        usage = accounting.response_record(raw)
+        if read(folder / "usage.json") != usage:
+            raise ValueError("Usage receipt differs from saved response")
+        usage_records.append(usage)
         code, result, rejection = None, None, None
         try:
             code = parse_proof(raw, problem, config["limits"]["max_proof_characters"])
@@ -462,6 +533,8 @@ def replay_records(output):
         if read(folder / "event.json") != {"state_after": state, "rejection": rejection}:
             raise ValueError("State transition differs")
     summary = read(output / "summary.json")
+    if read(output / "usage-summary.json") != accounting.response_summary(usage_records):
+        raise ValueError("Usage summary differs from saved responses")
     if state != summary["state"] or (output / "selected.lean").read_text() != state["best"]["code"]:
         raise ValueError("Final selection differs")
     final = read(output / "final/result.json")
@@ -473,12 +546,21 @@ def replay_records(output):
 
 
 def main():
+    if len(sys.argv) > 1 and sys.argv[1] == "usage-cost":
+        return accounting.main(sys.argv[2:])
     parser = argparse.ArgumentParser(description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
+    commands.add_parser("usage-cost", help="Offline API/subagent usage and cost accounting")
+    freeze = commands.add_parser("freeze-environment", help="Pin already-built Lean libraries; no downloads")
+    freeze.add_argument("--library-path", type=Path, action="append", required=True)
+    freeze.add_argument("--revision", required=True)
+    freeze.add_argument("--sandbox", choices=["none", "macos-readonly"], default="none")
+    freeze.add_argument("--output", type=Path, required=True)
     for name in ("run", "check"):
         start = commands.add_parser(name)
         start.add_argument("--config", type=Path, required=True)
         start.add_argument("--output", type=Path, required=True)
+        start.add_argument("--dotenv", type=Path, help="Explicit dotenv file; never copied into run artifacts")
     observe = commands.add_parser("status")
     observe.add_argument("run_directory", type=Path)
     observe.add_argument("--json", action="store_true")
@@ -486,11 +568,15 @@ def main():
     again.add_argument("run_directory", type=Path)
     args = parser.parse_args()
     try:
+        if args.command == "freeze-environment":
+            result = prepared.freeze(args.library_path, args.revision, args.output, sandbox=args.sandbox)
+            print(json.dumps(result, ensure_ascii=False, indent=2))
+            return 0
         if args.command == "status":
             result = status.inspect(args.run_directory)
             print(json.dumps(result, ensure_ascii=False, indent=2) if args.json else status.describe(result))
             return 0
-        result = (run(args.config, args.output, check_only=args.command == "check")
+        result = (run(args.config, args.output, check_only=args.command == "check", dotenv=args.dotenv)
                   if args.command in ("run", "check") else replay(args.run_directory))
     except (ValueError, OSError, KeyError, TypeError) as exc:
         print(f"{type(exc).__name__}: {exc}", file=sys.stderr)

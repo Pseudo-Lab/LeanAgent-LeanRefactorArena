@@ -33,3 +33,9 @@ __pycache__/
 /runs/demo/
 /runs/manual/
 /runs/environment-preflight/
+
+# API experiment credentials and full local request/runtime evidence
+.env.*
+!.env.example
+/runs/api-comparison/
+/runs/usage-cost/
