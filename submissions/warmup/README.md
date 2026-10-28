@@ -34,6 +34,8 @@ Strata v4.26.0은 `Strata.Transform.CallElimCorrect`와 `Strata.Languages.Core.S
 
 ### Cardinality 표기 사전검사 수정
 
+워크플로는 회귀 검사 전에 고정 평가기 커밋 `c18ec56682462847e2f4d8b6d60aa79ec071a10b`를 명시적으로 fetch한다. squash 병합 후에는 해당 커밋이 현재 브랜치의 조상이 아닐 수 있어 `fetch-depth: 0`만으로 복원되지 않는다.
+
 실행 `40278829841`에서 P12의 공식 원본에 있는 `#(filter …)`가 PR3 사전검사의 `#` 전체 금지에 걸렸다. 세 지정 버전 모두 원본 사전검사에서 중단되어 수정 후보는 평가하지 못했다. Actions 성공은 검증 시도와 artifact 저장의 완료이며 증명 통과를 뜻하지 않는다.
 
 `scripts/warmup_evaluator.py`는 평가기 커밋 `c18ec56682462847e2f4d8b6d60aa79ec071a10b`를 복원하고 `tokens.py`의 `|#|` 한 곳만 `|#(?![({])|`로 바꾼다. 버전은 `lean-declaration-cardinality-v1`이며, 복원 전후 파일의 고정 SHA-256을 확인한다. 공백 없이 붙은 `#(`·`#{`만 허용하고, 내부·후행 코드의 금지 명령과 기존 금지 항목은 계속 검사한다. 공식 원본, 후보, 토큰 계산, Lean 실행·heartbeat 계측·공리 검사는 변경하지 않는다. 이 사전검사는 샌드박스가 아니며 문법·증명 유효성은 Lean 검증으로 확인한다.

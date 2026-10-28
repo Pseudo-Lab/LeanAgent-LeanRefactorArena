@@ -53,6 +53,10 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Fetch frozen evaluator revision
+        # The evaluator came from a squash-merged PR and need not be reachable
+        # from any current branch, even with fetch-depth: 0.
+        run: git fetch --no-tags --depth=1 origin c18ec56682462847e2f4d8b6d60aa79ec071a10b
       - name: Check validator and publication regressions
         run: python3 -m unittest discover -s tests -p test_warmup_validator.py
       - name: Install pinned Elan
