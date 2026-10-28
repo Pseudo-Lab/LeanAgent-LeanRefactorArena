@@ -4,7 +4,7 @@
 
 `best`는 담당자 최종본을 선택했다는 뜻이다. 후보 간 점수 최적화, 모든 지정 버전 통과, Track1 API 비용·생성 요건 충족을 뜻하지 않는다. 아직 공식 제출하지 않았다.
 
-- `best/`: 제출 준비용 선언·증명. P12의 보조 증명은 대상 정리 내부의 `have`로 포함한다.
+- `best/`: 제출 준비용 선언·증명. P12의 보조 증명은 대상 정리의 귀납 분기 안에 포함한다.
 - `manifest.json`: 작성자, LeanAgent 원본 경로·커밋·해시, 후보 해시, 검증 상태·지정 버전.
 - 공식 명제·헤더·소스 위치: manifest의 `benchmarkSnapshot`이 가리키는 기존 벤치마크 JSONL. 전체 문맥은 지정된 라이브러리 커밋에서 복원한다.
 
@@ -14,7 +14,11 @@
 
 P01–P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. Strata v4.26.0/v4.27.0/v4.29.1, Physlib v4.32.0, Cslib v4.30.0/v4.31.0/v4.32.0/v4.33.0-rc2, ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. 현재 작업은 총 15개다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. 이전 실행 [40301978929](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40301978929)의 7개 summary는 P12를 포함한 당시 등록 6문제의 원본·후보가 지정 버전을 통과한 결과다. 15개 환경의 새 결과는 검증 후 아래 게시 절차로 반영해야 한다. 새 연결만으로 기존 대시보드의 측정값·통과 상태를 바꾸지는 않는다.
 
-현재 P07·P12 best 파일은 각각 SHA-256 `a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e`, `cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4`인 수정 후보다. 패치한 평가기로 macOS arm64의 고정 커밋·의존성에서 P07(v4.31.0/v4.32.0/v4.33.0-rc2), P12(v4.29.0/v4.30.0/v4.31.0)의 원본·후보 컴파일·공리 검사와 각각 3회 측정을 통과했다. 후보·manifest·대시보드 proof와 해시를 동기화했으며, 이전 후보의 측정값·통과 상태는 새 후보에 이월하지 않았다. P12는 이후 Linux 공통 환경의 세 버전에서도 통과하여 새 측정값을 반영했다. 대표 v4.31.0에서 원본 1,353토큰/9,199 HB, 후보 747토큰/3,501 HB이며 호환성은 3/3이다. macOS 측정값은 게시하지 않았다. P07은 공식 입력·Cslib 모듈 빌드・CI 작업을 연결했으며 Linux 검증 결과를 반영하기 전까지 `pending`을 유지한다. P07 대표 측정 버전은 기존 대시보드와 같은 v4.32.0이다.
+현재 P07 best는 SHA-256 `a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e`이며 Cslib 지정 환경 결과 게시 전까지 `pending`을 유지한다. 대표 측정 버전은 v4.32.0이다.
+
+현재 P12 best는 SHA-256 `cad3a711ad849eff00de920e3ea7622ba8636e6f97651784969e35f0fe627bd2`인 새 수정 후보다. 보조 `have`를 귀납 분기에 통합하고 `Fin.snoc`으로 확률 분할을 정리했다. 공식 statement는 보존하며 후보 파일·manifest·대시보드 proof와 해시를 동기화했다. 새 후보는 ArkLib v4.29.0/v4.30.0/v4.31.0에서 Lean 검증·측정 전이므로 `pending`이며, 후보 측정값과 지정 버전 통과 상태를 비웠다.
+
+이전 P12 후보 `cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4`의 Linux 지정 세 버전 통과 기록은 `verification-results.json`에 그대로 보존한다. 대표 v4.31.0의 원본 1,353토큰/9,199 HB → 후보 747토큰/3,501 HB는 그 이전 후보의 결과이며 새 후보에 적용하지 않는다. `measuredAt`은 기존 결과의 측정 시각을 유지하며 이번 후보 변경을 새 측정으로 기록하지 않는다.
 
 `scripts/verify_warmup_pins.py`는 고정 커밋을 checkout하고, 해당 Lean 컴파일러를 설치하고 지정 의존성을 복원한다. Strata는 Mathlib·cache 실행기가 없어 `lake env lean --version`으로 Lake 의존성을 준비하고, 다른 소스는 공식 Mathlib 캐시를 복원한다. 의존성 커밋과 manifest 불변 여부를 대조한 뒤 필요한 모듈을 빌드한다. 원본이 통과한 환경에서만 후보를 PR3 평가기로 측정한다. 후보는 대시보드의 파일 해시와 대조하고, 선택 후보는 `best/` 파일과도 일치해야 한다. 세 번의 독립 실행 중앙값과 허용 공리 검사는 기존 평가기와 같다.
 
@@ -89,8 +93,8 @@ python3 scripts/export_warmup_submission.py --p12-reference
 
 | 우선순위 | 수정 범위 | 완료 조건 |
 |---|---|---|
-| P12 팀 후보 제출 전 필수 | 보조정리 세 개를 내부 `have`로 이동하고 후보의 최상위 `omit` 제거 완료. 공식 statement와 동일하며 manifest·대시보드 후보 해시를 동기화함 | ArkLib v4.29/v4.30/v4.31에서 원본·후보 검증 통과 및 Linux 측정 결과 반영 완료 |
-| P12 검증 연결 | 공식 P12 입력 및 `ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults` 빌드 타깃 연결 완료. 게시기는 등록 입력을 따라 P12도 처리함 | 실행 40301978929의 전체 7개 summary 반영 완료. `submission.jsonl` 재생성은 별도 진행 |
+| P12 새 후보 검증 | 귀납 분기에 통합한 새 후보 `cad3a711`의 공식 statement·manifest·대시보드 해시 동기화 완료 | ArkLib v4.29/v4.30/v4.31에서 새 후보의 Lean 검증·측정 및 결과 게시 대기. 이전 `cbc9d981` 점수는 이월하지 않음 |
+| P12 검증 연결 | 공식 P12 입력 및 `ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults` 빌드 타깃 연결 완료. 게시기는 등록 입력을 따라 P12도 처리함 | 이전 후보 `cbc9d981`의 실행 40301978929 기록 보존. 새 후보의 결과 게시와 `submission.jsonl` 재생성은 별도 진행 |
 | P07 검증 연결 | 공식 P07 입력, Cslib 저장소와 `Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety` 모듈 빌드, 지정 버전 3개 CI 및 게시 대표 버전 v4.32.0 연결 완료 | Linux 원격 검증 후 전체 15개 summary로 결과 게시 대기. 현재 측정값과 통과 상태는 변경하지 않음 |
 | P01–P06 검증 연결 | 공식 입력·지정 커밋, Strata의 Mathlib 없는 준비 경로와 문제별 모듈 빌드, Physlib 세 모듈 및 4개 CI 작업 연결 완료 | Linux 원격 검증 후 전체 15개 summary로 결과 게시 대기. 기존 측정값·통과 상태 유지 |
 | P08·P09 검증 연결 | 공식 입력, 문제별 Cslib 모듈 빌드와 P08 전용 v4.30.0 작업 연결 완료 | Cslib 네 환경을 다시 실행한 뒤 전체 15개 summary로 게시 대기. 기존 측정값·후보 해시·P09 보충 근거 유지 |

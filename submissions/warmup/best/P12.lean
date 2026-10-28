@@ -8,67 +8,47 @@ theorem interleaved_affine_gaps_imply_tensor_gaps
       (ι := ι) (C := MC) (ϑ := ϑ) (e := e) (ε := ε) := by
   classical
   letI : Nonempty F := ⟨0⟩
-  have tensor_success_split {n : ℕ}
-      (u : WordStack A (Fin (2 ^ (n + 1))) ι) :
-      Pr_{let r ← $ᵖ (Fin (n + 1) → F)}[Code.distFromCode (multilinearCombine u r) (MC : Set (Word A ι)) ≤ e] =
-      Pr_{let r_last ← $ᵖ F; let r_init ← $ᵖ (Fin n → F)}[
-        multilinearCombine_affineComb_split_last_close (MC := MC) u e r_last r_init] := by
-    classical
-    have fold (r : Fin (n + 1) → F) :
-        (Code.distFromCode (multilinearCombine u r) (MC : Set (Word A ι)) ≤ e) =
-          multilinearCombine_affineComb_split_last_close (MC := MC) u e
-            (r (Fin.last n)) (fun i => r i.castSucc) := by
-      unfold multilinearCombine_affineComb_split_last_close
-      rw [multilinearCombine_recursive_form]
-      rfl
-    simp_rw [fold]
-    exact prob_split_last_uniform_sampling_of_finFun _
-
-
-  have tensor_gap_one
-      (hC : e_ε_correlatedAgreementAffineLinesNat (F := F) (A := A) (ι := ι) (C := MC) e ε) :
-      δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A) (ι := ι) (C := MC) 1 e ε := by
-    classical
-    intro u hprob
-    simp_rw [multilinearCombine₁_eq_affineLineEvaluation (F := F) (u := u)] at hprob
-    simp_rw [prob_uniform_singleton_finFun_eq (F := F)
-      (P := fun r => Code.distFromCode (affineLineEvaluation (u 0) (u 1) r) (MC : Set (Word A ι)) ≤ e),
-      Nat.cast_one, ENNReal.coe_one, one_mul] at hprob
-    have hCA := hC (u 0) (u 1) hprob
-    have hu : u = finMapTwoWords (u 0) (u 1) := by
-      funext i
-      fin_cases i <;> rfl
-    simpa only [jointProximityNat₂, ← hu] using hCA
-
-
-  have tensor_gap_succ {n : ℕ}
-      (ih : δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A) (ι := ι) (C := MC) n e ε)
-      (hGaps : ∀ m : ℕ, m ≥ 1 → e_ε_correlatedAgreementAffineLinesNat (F := F)
-        (A := InterleavedSymbol A (Fin m)) (ι := ι) (C := MC ^⋈ (Fin m)) e ε) :
-      δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A) (ι := ι) (C := MC) (n + 1) e ε := by
-    classical
-    intro u hprob
-    let U₀ := (splitHalfRowWiseInterleavedWords (ϑ := n) u).1
-    let U₁ := (splitHalfRowWiseInterleavedWords (ϑ := n) u).2
-    let good := R_star_tensor MC (m := n) (e := e) (ε := ε) U₀ U₁
-    have hgood : Pr_{let r ← $ᵖ F}[r ∈ good] >
-        (ε : ENNReal) / (Fintype.card F : ENNReal) := by
-      apply prob_R_star_gt_threshold (MC := MC) (u := u) (e := e)
-      rwa [← tensor_success_split (u := u)]
-    have hclose : ∀ r : F, r ∈ good →
-        Code.distFromCode (affineLineEvaluation (⋈|U₀) (⋈|U₁) r) (MC ^⋈ (Fin (2 ^ n))) ≤ e := by
-      intro r hr
-      exact correlatedAgreement_of_mem_R_star_tensor (MC := MC) (ih := ih) (u := u) ⟨r, hr⟩
-    apply CA_split_rowwise_implies_CA (C := MC) (u := u) (e := e)
-    apply hGaps (2 ^ n) Nat.one_le_two_pow (⋈|U₀) (⋈|U₁)
-    exact lt_of_lt_of_le hgood (Pr_le_Pr_of_implies (D := $ᵖ F) (h_imp := hclose))
-
   intro ϑ
   induction ϑ with
-  | zero => intro h; omega
+  | zero => intro h; contradiction
   | succ n ih =>
     cases n with
-    | zero => intro _; exact tensor_gap_one hC_proximityGapAffineLines
+    | zero =>
+      simp only [zero_add, gt_iff_lt, zero_lt_one, ModuleCode, forall_const]
+      intro u hp
+      simp_rw [multilinearCombine₁_eq_affineLineEvaluation] at hp
+      simp_rw [prob_uniform_singleton_finFun_eq (F := F)
+        (P := fun r => Code.distFromCode (affineLineEvaluation (u 0) (u 1) r) (MC : Set (Word A ι)) ≤ e),
+        Nat.cast_one, ENNReal.coe_one, one_mul] at hp
+      have hu : u = finMapTwoWords (u 0) (u 1) := by
+        funext i
+        fin_cases i <;> rfl
+      simpa only [jointProximityNat₂, ← hu] using hC_proximityGapAffineLines (u 0) (u 1) hp
     | succ n =>
-      intro _
-      exact tensor_gap_succ (ih (Nat.succ_pos n)) h_interleaved_gaps
+      intro _ u hp
+      let U₀ := (splitHalfRowWiseInterleavedWords (ϑ := n + 1) u).1
+      let U₁ := (splitHalfRowWiseInterleavedWords (ϑ := n + 1) u).2
+      let P : F → (Fin (n + 1) → F) → Prop := fun a r =>
+        Code.distFromCode (multilinearCombine u (Fin.snoc r a)) (MC : Set (Word A ι)) ≤ e
+      have hs := prob_split_last_uniform_sampling_of_finFun (P := P)
+      dsimp only [P] at hs
+      have hsnoc (r : Fin (n + 1 + 1) → F) :
+          Fin.snoc (fun i => r i.castSucc) (r (Fin.last (n + 1))) = r :=
+        Fin.snoc_init_self r
+      simp_rw [hsnoc] at hs
+      rw [hs] at hp
+      have hcomb (r : Fin (n + 1) → F) (a : F) :
+          multilinearCombine u (Fin.snoc r a) =
+            multilinearCombine (affineLineEvaluation U₀ U₁ a) r := by
+        rw [multilinearCombine_recursive_form]
+        simp only [Fin.snoc_last, Fin.init_snoc]
+        rfl
+      simp_rw [hcomb] at hp
+      have hR := prob_R_star_gt_threshold (ϑ := n + 1) (MC := MC) (ε := ε) (u := u) (e := e) hp
+      apply CA_split_rowwise_implies_CA (u := u) (e := e)
+      apply h_interleaved_gaps (2 ^ (n + 1)) Nat.one_le_two_pow
+      apply lt_of_lt_of_le hR
+      apply Pr_le_Pr_of_implies
+      intro r hr
+      exact correlatedAgreement_of_mem_R_star_tensor (MC := MC) (ϑ_pred := n + 1)
+        (ih := ih (Nat.succ_pos n)) (u := u) ⟨r, hr⟩

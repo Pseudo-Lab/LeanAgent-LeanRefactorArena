@@ -5,7 +5,7 @@
   "dataset": "warmup",
   "measuredAt": "2026-10-26T10:32:31.072241+00:00",
   "releaseDate": null,
-  "provenance": "PR3 평가기 c18ec56682462847e2f4d8b6d60aa79ec071a10b · validator lean-declaration-cardinality-v1 · SHA-256 514dd5f732ad92ba7c9a8e3dfef45574342e32f15ffda61b9017ca5bd7450cf3의 원본·후보 동일 환경 3회 중앙값. P10·P11·P12·P13·P14·P15는 GitHub Actions Linux x86_64에서 지정 커밋 의존성을 복원해 재검증. 나머지 문제는 기존 로컬 측정 유지. Track1 API 실행 결과 아님.",
+  "provenance": "PR3 평가기 c18ec56682462847e2f4d8b6d60aa79ec071a10b · validator lean-declaration-cardinality-v1 · SHA-256 514dd5f732ad92ba7c9a8e3dfef45574342e32f15ffda61b9017ca5bd7450cf3의 원본·후보 동일 환경 3회 중앙값. P10·P11·P13·P14·P15는 GitHub Actions Linux x86_64에서 지정 커밋 의존성을 복원해 재검증. P12는 새 후보 cad3a711로 교체하여 재검증 대기이며 기존 verification-results의 P12 기록은 이전 후보 cbc9d981 결과임. 나머지 문제는 기존 로컬 측정 유지. Track1 API 실행 결과 아님.",
   "problems": [
     {
       "id": 1,
@@ -1088,38 +1088,32 @@
       "id": 12,
       "name": "interleaved_affine_gaps_imply_tensor_gaps",
       "source": "arklib",
-      "status": "measured",
-      "baseline": {
-        "tokens": 1353,
-        "heartbeats": 9199
-      },
-      "candidate": {
-        "tokens": 747,
-        "heartbeats": 3501
-      },
+      "status": "pending",
+      "baseline": null,
+      "candidate": null,
       "versions": [
         {
           "version": "v4.31.0",
           "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
-          "status": "pass"
+          "status": "pending"
         },
         {
           "version": "v4.30.0",
           "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
-          "status": "pass"
+          "status": "pending"
         },
         {
           "version": "v4.29.0",
           "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
-          "status": "pass"
+          "status": "pending"
         }
       ],
-      "environment": "v4.31.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-      "candidateHash": "cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4",
-      "note": "보조 증명을 대상 정리 내부의 have로 옮기고, Nonempty F 인스턴스와 명시적 Code.distFromCode 표기를 사용한 담당자 수정 후보. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다.",
-      "baselineCompatibility": 100,
+      "environment": "v4.31.0 · 지정 환경 재검증 대기",
+      "candidateHash": "cad3a711ad849eff00de920e3ea7622ba8636e6f97651784969e35f0fe627bd2",
+      "note": "보조 have를 귀납 분기 안으로 통합하고 Fin.snoc으로 확률 분할을 정리한 담당자 수정 후보. 후보 변경 후 지정 세 버전의 Lean 검증과 측정 대기. 이전 후보의 통과 상태·점수는 이월하지 않음.",
+      "baselineCompatibility": null,
       "evidence": [
-        "submissions/warmup/verification-results.json",
+        "submissions/warmup/manifest.json",
         "submissions/warmup/best/P12.lean"
       ],
       "selectedCandidateId": "손지연-final",
@@ -1128,39 +1122,33 @@
         {
           "id": "손지연-final",
           "author": "손지연",
-          "proof": "theorem interleaved_affine_gaps_imply_tensor_gaps\n    (hC_proximityGapAffineLines : e_ε_correlatedAgreementAffineLinesNat\n      (F := F) (A := A) (ι := ι) (C := MC) (e := e) (ε := ε))\n    (h_interleaved_gaps : ∀ m : ℕ, m ≥ 1 →\n      e_ε_correlatedAgreementAffineLinesNat (F := F)\n        (A := InterleavedSymbol A (Fin m)) (ι := ι) (C := MC ^⋈ (Fin m)) e ε) :\n    ∀ (ϑ : ℕ), (hϑ_gt_0 : ϑ > 0) → δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A)\n      (ι := ι) (C := MC) (ϑ := ϑ) (e := e) (ε := ε) := by\n  classical\n  letI : Nonempty F := ⟨0⟩\n  have tensor_success_split {n : ℕ}\n      (u : WordStack A (Fin (2 ^ (n + 1))) ι) :\n      Pr_{let r ← $ᵖ (Fin (n + 1) → F)}[Code.distFromCode (multilinearCombine u r) (MC : Set (Word A ι)) ≤ e] =\n      Pr_{let r_last ← $ᵖ F; let r_init ← $ᵖ (Fin n → F)}[\n        multilinearCombine_affineComb_split_last_close (MC := MC) u e r_last r_init] := by\n    classical\n    have fold (r : Fin (n + 1) → F) :\n        (Code.distFromCode (multilinearCombine u r) (MC : Set (Word A ι)) ≤ e) =\n          multilinearCombine_affineComb_split_last_close (MC := MC) u e\n            (r (Fin.last n)) (fun i => r i.castSucc) := by\n      unfold multilinearCombine_affineComb_split_last_close\n      rw [multilinearCombine_recursive_form]\n      rfl\n    simp_rw [fold]\n    exact prob_split_last_uniform_sampling_of_finFun _\n\n\n  have tensor_gap_one\n      (hC : e_ε_correlatedAgreementAffineLinesNat (F := F) (A := A) (ι := ι) (C := MC) e ε) :\n      δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A) (ι := ι) (C := MC) 1 e ε := by\n    classical\n    intro u hprob\n    simp_rw [multilinearCombine₁_eq_affineLineEvaluation (F := F) (u := u)] at hprob\n    simp_rw [prob_uniform_singleton_finFun_eq (F := F)\n      (P := fun r => Code.distFromCode (affineLineEvaluation (u 0) (u 1) r) (MC : Set (Word A ι)) ≤ e),\n      Nat.cast_one, ENNReal.coe_one, one_mul] at hprob\n    have hCA := hC (u 0) (u 1) hprob\n    have hu : u = finMapTwoWords (u 0) (u 1) := by\n      funext i\n      fin_cases i <;> rfl\n    simpa only [jointProximityNat₂, ← hu] using hCA\n\n\n  have tensor_gap_succ {n : ℕ}\n      (ih : δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A) (ι := ι) (C := MC) n e ε)\n      (hGaps : ∀ m : ℕ, m ≥ 1 → e_ε_correlatedAgreementAffineLinesNat (F := F)\n        (A := InterleavedSymbol A (Fin m)) (ι := ι) (C := MC ^⋈ (Fin m)) e ε) :\n      δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A) (ι := ι) (C := MC) (n + 1) e ε := by\n    classical\n    intro u hprob\n    let U₀ := (splitHalfRowWiseInterleavedWords (ϑ := n) u).1\n    let U₁ := (splitHalfRowWiseInterleavedWords (ϑ := n) u).2\n    let good := R_star_tensor MC (m := n) (e := e) (ε := ε) U₀ U₁\n    have hgood : Pr_{let r ← $ᵖ F}[r ∈ good] >\n        (ε : ENNReal) / (Fintype.card F : ENNReal) := by\n      apply prob_R_star_gt_threshold (MC := MC) (u := u) (e := e)\n      rwa [← tensor_success_split (u := u)]\n    have hclose : ∀ r : F, r ∈ good →\n        Code.distFromCode (affineLineEvaluation (⋈|U₀) (⋈|U₁) r) (MC ^⋈ (Fin (2 ^ n))) ≤ e := by\n      intro r hr\n      exact correlatedAgreement_of_mem_R_star_tensor (MC := MC) (ih := ih) (u := u) ⟨r, hr⟩\n    apply CA_split_rowwise_implies_CA (C := MC) (u := u) (e := e)\n    apply hGaps (2 ^ n) Nat.one_le_two_pow (⋈|U₀) (⋈|U₁)\n    exact lt_of_lt_of_le hgood (Pr_le_Pr_of_implies (D := $ᵖ F) (h_imp := hclose))\n\n  intro ϑ\n  induction ϑ with\n  | zero => intro h; omega\n  | succ n ih =>\n    cases n with\n    | zero => intro _; exact tensor_gap_one hC_proximityGapAffineLines\n    | succ n =>\n      intro _\n      exact tensor_gap_succ (ih (Nat.succ_pos n)) h_interleaved_gaps\n",
+          "proof": "theorem interleaved_affine_gaps_imply_tensor_gaps\n    (hC_proximityGapAffineLines : e_ε_correlatedAgreementAffineLinesNat\n      (F := F) (A := A) (ι := ι) (C := MC) (e := e) (ε := ε))\n    (h_interleaved_gaps : ∀ m : ℕ, m ≥ 1 →\n      e_ε_correlatedAgreementAffineLinesNat (F := F)\n        (A := InterleavedSymbol A (Fin m)) (ι := ι) (C := MC ^⋈ (Fin m)) e ε) :\n    ∀ (ϑ : ℕ), (hϑ_gt_0 : ϑ > 0) → δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A)\n      (ι := ι) (C := MC) (ϑ := ϑ) (e := e) (ε := ε) := by\n  classical\n  letI : Nonempty F := ⟨0⟩\n  intro ϑ\n  induction ϑ with\n  | zero => intro h; contradiction\n  | succ n ih =>\n    cases n with\n    | zero =>\n      simp only [zero_add, gt_iff_lt, zero_lt_one, ModuleCode, forall_const]\n      intro u hp\n      simp_rw [multilinearCombine₁_eq_affineLineEvaluation] at hp\n      simp_rw [prob_uniform_singleton_finFun_eq (F := F)\n        (P := fun r => Code.distFromCode (affineLineEvaluation (u 0) (u 1) r) (MC : Set (Word A ι)) ≤ e),\n        Nat.cast_one, ENNReal.coe_one, one_mul] at hp\n      have hu : u = finMapTwoWords (u 0) (u 1) := by\n        funext i\n        fin_cases i <;> rfl\n      simpa only [jointProximityNat₂, ← hu] using hC_proximityGapAffineLines (u 0) (u 1) hp\n    | succ n =>\n      intro _ u hp\n      let U₀ := (splitHalfRowWiseInterleavedWords (ϑ := n + 1) u).1\n      let U₁ := (splitHalfRowWiseInterleavedWords (ϑ := n + 1) u).2\n      let P : F → (Fin (n + 1) → F) → Prop := fun a r =>\n        Code.distFromCode (multilinearCombine u (Fin.snoc r a)) (MC : Set (Word A ι)) ≤ e\n      have hs := prob_split_last_uniform_sampling_of_finFun (P := P)\n      dsimp only [P] at hs\n      have hsnoc (r : Fin (n + 1 + 1) → F) :\n          Fin.snoc (fun i => r i.castSucc) (r (Fin.last (n + 1))) = r :=\n        Fin.snoc_init_self r\n      simp_rw [hsnoc] at hs\n      rw [hs] at hp\n      have hcomb (r : Fin (n + 1) → F) (a : F) :\n          multilinearCombine u (Fin.snoc r a) =\n            multilinearCombine (affineLineEvaluation U₀ U₁ a) r := by\n        rw [multilinearCombine_recursive_form]\n        simp only [Fin.snoc_last, Fin.init_snoc]\n        rfl\n      simp_rw [hcomb] at hp\n      have hR := prob_R_star_gt_threshold (ϑ := n + 1) (MC := MC) (ε := ε) (u := u) (e := e) hp\n      apply CA_split_rowwise_implies_CA (u := u) (e := e)\n      apply h_interleaved_gaps (2 ^ (n + 1)) Nat.one_le_two_pow\n      apply lt_of_lt_of_le hR\n      apply Pr_le_Pr_of_implies\n      intro r hr\n      exact correlatedAgreement_of_mem_R_star_tensor (MC := MC) (ϑ_pred := n + 1)\n        (ih := ih (Nat.succ_pos n)) (u := u) ⟨r, hr⟩\n",
           "sourcePath": "submissions/warmup/best/P12.lean",
-          "sourceCommit": "45a5d26975ca5127197ebd05251bc456532f837d",
+          "sourceCommit": "461377d929e9cbaa0d871f1b82a79eb3ee41ee52",
           "sourceState": "working-tree-snapshot",
-          "candidateHash": "cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4",
-          "status": "measured",
-          "baseline": {
-            "tokens": 1353,
-            "heartbeats": 9199
-          },
-          "candidate": {
-            "tokens": 747,
-            "heartbeats": 3501
-          },
+          "candidateHash": "cad3a711ad849eff00de920e3ea7622ba8636e6f97651784969e35f0fe627bd2",
+          "status": "pending",
+          "baseline": null,
+          "candidate": null,
           "versions": [
             {
               "version": "v4.31.0",
               "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
-              "status": "pass"
+              "status": "pending"
             },
             {
               "version": "v4.30.0",
               "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
-              "status": "pass"
+              "status": "pending"
             },
             {
               "version": "v4.29.0",
               "revision": "de71a9dfd2f5a343e8895517b7efe857d9f1ce5c",
-              "status": "pass"
+              "status": "pending"
             }
           ],
-          "environment": "v4.31.0 · Linux x86_64 · scaled heartbeat · 독립 프로세스 3회 중앙값 · lean-source-anchored-v1",
-          "note": "보조 증명을 대상 정리 내부의 have로 옮기고, Nonempty F 인스턴스와 명시적 Code.distFromCode 표기를 사용한 담당자 수정 후보. 고정 커밋의 의존성을 복원하여 원본·후보를 모든 지정 버전에서 재검증했습니다."
+          "environment": "v4.31.0 · 지정 환경 재검증 대기",
+          "note": "보조 have를 귀납 분기 안으로 통합하고 Fin.snoc으로 확률 분할을 정리한 담당자 수정 후보. 후보 변경 후 지정 세 버전의 Lean 검증과 측정 대기. 이전 후보의 통과 상태·점수는 이월하지 않음."
         }
       ]
     },
