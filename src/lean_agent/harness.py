@@ -555,6 +555,8 @@ def main():
     freeze.add_argument("--library-path", type=Path, action="append", required=True)
     freeze.add_argument("--revision", required=True)
     freeze.add_argument("--sandbox", choices=["none", "macos-readonly"], default="none")
+    freeze.add_argument("--verification", choices=["full", "stat-cache"], default="full",
+                        help="Full content checks by default; opt into per-process file-stat hash reuse")
     freeze.add_argument("--output", type=Path, required=True)
     for name in ("run", "check"):
         start = commands.add_parser(name)
@@ -569,7 +571,8 @@ def main():
     args = parser.parse_args()
     try:
         if args.command == "freeze-environment":
-            result = prepared.freeze(args.library_path, args.revision, args.output, sandbox=args.sandbox)
+            result = prepared.freeze(args.library_path, args.revision, args.output,
+                                     sandbox=args.sandbox, verification=args.verification)
             print(json.dumps(result, ensure_ascii=False, indent=2))
             return 0
         if args.command == "status":

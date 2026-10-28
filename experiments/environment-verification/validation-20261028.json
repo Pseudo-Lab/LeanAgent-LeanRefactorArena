@@ -1,0 +1,37 @@
+{
+  "baseline_commit": "84412c8576a58110abeeaf9ec4a74a0055db554b",
+  "python": "3.13.11",
+  "test_suites": [
+    {
+      "command": "PYTHONPATH=\"$PWD/src:$PWD/tests\" python -m unittest test_harness test_runtime_integration test_api_integration test_accounting test_prepared_cache -v",
+      "passed": 76
+    },
+    {
+      "command": "PYTHONPATH=src python -m unittest discover -s experiments/api-comparison -p 'test_*.py' -v",
+      "passed": 13
+    },
+    {
+      "command": "PYTHONPATH=src python -m unittest discover -s experiments/usage-cost -p 'test_*.py' -v",
+      "passed": 19
+    }
+  ],
+  "total_passed": 108,
+  "native_smoke": {
+    "toolchain": "leanprover/lean4:v4.26.0",
+    "verification": "stat-cache",
+    "status": "completed",
+    "fixture_responses": 3,
+    "external_model_calls": 0,
+    "reported_cost_usd": "0",
+    "selected_proof_tokens": 2,
+    "final_valid": true,
+    "native_replay": true,
+    "archived_replay": true,
+    "summary_sha256": "53f30638f2bf0adba2ee8a67c2c0f0b9a1f4d632aa92e0b351b2a08c240a5681",
+    "artifacts_sha256": "b041df9f4f7318722b98da5d7b74b6826486a493d726d64d49fdedb468bcc00a"
+  },
+  "cli_cached_manifest": true,
+  "cli_default_manifest_compatible": true,
+  "benchmark_report_sha256": "9840b54224a87edd1a29ee48584176f36559a0840a76ae8c9044c6929f0531a1",
+  "cached_prepared_sha256": "e93053f8769d0a1d118bb0a6f607dddfaeeab4b1bc94952d9958a0c2c00f027f"
+}
