@@ -137,11 +137,20 @@ class ValidatorTests(unittest.TestCase):
 
 class CslibRunnerTests(unittest.TestCase):
     source = 'cslib'
-    problem_ids = (7,)
+    problem_ids = (7, 8, 9)
     repository = 'https://github.com/leanprover/cslib.git'
-    targets = {'v4.31.0': ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'],
-               'v4.32.0': ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'],
-               'v4.33.0-rc2': ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean']}
+    targets = {
+        'v4.30.0': ['+Cslib.Languages.CombinatoryLogic.Confluence:olean'],
+        'v4.31.0': ['+Cslib.Languages.CCS.BehaviouralTheory:olean',
+                     '+Cslib.Languages.CombinatoryLogic.Confluence:olean',
+                     '+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'],
+        'v4.32.0': ['+Cslib.Languages.CCS.BehaviouralTheory:olean',
+                     '+Cslib.Languages.CombinatoryLogic.Confluence:olean',
+                     '+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'],
+        'v4.33.0-rc2': ['+Cslib.Languages.CCS.BehaviouralTheory:olean',
+                         '+Cslib.Languages.CombinatoryLogic.Confluence:olean',
+                         '+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'],
+    }
 
     def test_each_pin_routes_only_designated_problems_through_preparation_and_evaluation(self):
         """Run the real runner with synthetic preparation; no Lean or network."""
@@ -235,7 +244,11 @@ class CslibRunnerTests(unittest.TestCase):
                 self.assertEqual(summary['revision'], revision)
                 self.assertEqual(summary['dependencies'], [{'name': 'dependency', 'revision': dependency_rev}])
                 self.assertEqual([p['id'] for p in summary['problems']], [row['id'] for row, _ in designated])
-                self.assertEqual(len(evaluations), sum(1 + len(row['teamResults']) for row, _ in designated))
+                self.assertEqual(len(evaluations), sum(
+                    1 + len({c['candidateHash'] for c in row['teamResults']})
+                    for row, _ in designated))
+                for result, (row, _) in zip(summary['problems'], designated):
+                    self.assertEqual(set(result['candidates']), {c['id'] for c in row['teamResults']})
                 self.assertTrue(all(runs == 3 for _, _, runs in evaluations))
                 self.assertTrue(all(code.startswith(config['statement']) for code, config, _ in evaluations))
 
@@ -268,6 +281,7 @@ class WorkflowCoverageTests(unittest.TestCase):
         import re
         inputs = json.loads((ROOT / 'submissions/warmup/verification-inputs.json').read_text())
         snapshot = json.loads((ROOT / 'dashboard/public/data/warmup-team-results.json').read_text())
+        self.assertEqual(set(inputs['problems']), {str(row['id']) for row in snapshot['problems']})
         workflow = (ROOT / '.github/workflows/warmup-verification.yml').read_text()
         matrix = re.findall(r'- source: (\w+)\s+version: (\S+)', workflow)
         pins = {}
@@ -282,7 +296,7 @@ class WorkflowCoverageTests(unittest.TestCase):
             self.assertIn(publisher.PRIMARY[row['source']], versions)
             for version, revision in versions.items():
                 pins.setdefault((row['source'], version), set()).add(revision)
-        self.assertEqual(len(matrix), 14)
+        self.assertEqual(len(matrix), 15)
         self.assertEqual(len(matrix), len(set(matrix)))
         self.assertEqual(set(matrix), set(pins))
         self.assertTrue(all(len(revisions) == 1 for revisions in pins.values()))
@@ -387,7 +401,7 @@ class PublicationTests(unittest.TestCase):
 
     def test_unregistered_problem_and_its_evidence_are_preserved(self):
         snapshot = json.loads(self.snapshot_path.read_text())
-        untouched = {'id': 9, 'status': 'measured',
+        untouched = {'id': 99, 'status': 'measured',
                      'evidence': ['submissions/warmup/best/P09.lean',
                                   'dashboard/public/research/p09/experiment.json']}
         snapshot['problems'].append(deepcopy(untouched))
@@ -414,6 +428,51 @@ class CslibPublicationTests(PublicationTests):
     source = 'cslib'
     problem_id = 7
     designated_versions = ('v4.33.0-rc2', 'v4.32.0', 'v4.31.0')
+
+
+class CslibP08PublicationTests(PublicationTests):
+    source = 'cslib'
+    problem_id = 8
+    designated_versions = ('v4.33.0-rc2', 'v4.32.0', 'v4.31.0', 'v4.30.0')
+
+    def test_missing_p08_v430_cannot_write_published_files(self):
+        for path, report in zip(self.paths, self.reports):
+            self.write(path, report)
+        before = (self.snapshot_path.read_bytes(), self.manifest_path.read_bytes())
+        with patch.object(publisher, 'ROOT', self.root):
+            with self.assertRaisesRegex(ValueError, 'Missing designated verification: P08 cslib v4.30.0'):
+                publisher.publish(self.paths[:-1])
+        self.assertEqual((self.snapshot_path.read_bytes(), self.manifest_path.read_bytes()), before)
+        self.assertFalse((self.folder / 'verification-results.json').exists())
+
+    def test_summary_without_new_problem_result_cannot_write_published_files(self):
+        reports = deepcopy(self.reports)
+        reports[1]['problems'] = []
+        before = (self.snapshot_path.read_bytes(), self.manifest_path.read_bytes())
+        with self.assertRaisesRegex(ValueError, 'Expected one problem result: P08 cslib v4.32.0; found 0'):
+            self.publish(reports)
+        self.assertEqual((self.snapshot_path.read_bytes(), self.manifest_path.read_bytes()), before)
+        self.assertFalse((self.folder / 'verification-results.json').exists())
+
+
+class CslibP09PublicationTests(PublicationTests):
+    source = 'cslib'
+    problem_id = 9
+    designated_versions = ('v4.33.0-rc2', 'v4.32.0', 'v4.31.0')
+
+    def test_registered_p09_preserves_supplemental_evidence(self):
+        # Use the real existing links: P09 is now registered for publication.
+        snapshot = json.loads(self.snapshot_path.read_text())
+        existing = json.loads((ROOT / 'dashboard/public/data/warmup-team-results.json').read_text())
+        old_links = next(row['evidence'] for row in existing['problems'] if row['id'] == 9)
+        snapshot['problems'][0]['evidence'] = old_links
+        self.write(self.snapshot_path, snapshot)
+        self.publish(self.reports)
+        after = json.loads(self.snapshot_path.read_text())['problems'][0]
+        self.assertEqual(after['status'], 'measured')
+        self.assertIn('submissions/warmup/verification-results.json', after['evidence'])
+        self.assertTrue(all(link in after['evidence'] for link in old_links))
+        self.assertEqual(len(after['evidence']), len(set(after['evidence'])))
 
 
 

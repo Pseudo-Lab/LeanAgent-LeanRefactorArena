@@ -157,11 +157,9 @@ def main(args):
             targets = ['+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean']
             if any(row['id'] == 12 for row, _, _ in rows):
                 targets.append('+ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults:olean')
-        elif args.source == 'cslib':
-            targets = ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean']
-        elif args.source in ('strata', 'physlib'):
+        elif args.source in ('cslib', 'strata', 'physlib'):
             # Build only modules containing problems designated for this pin.
-            # P01/P02 share a module and only exist at Strata v4.26.0.
+            # P01/P02 share a module; Cslib v4.30.0 designates only P08.
             targets = sorted({
                 '+' + meta['file_path'].removesuffix('.lean').replace('/', '.') + ':olean'
                 for _, meta, _ in rows

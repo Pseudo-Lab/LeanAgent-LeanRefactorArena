@@ -72,8 +72,11 @@ def publish(summaries):
                 raise ValueError(f'Missing designated verification: P{row["id"]:02} '
                                  f'{row["source"]} {version} at {revision}')
             report = reports[key]
-            result, = [r for r in report['problems'] if r['id'] == row['id']]
-            results[version] = result
+            matching = [r for r in report['problems'] if r['id'] == row['id']]
+            if len(matching) != 1:
+                raise ValueError(f'Expected one problem result: P{row["id"]:02} '
+                                 f'{row["source"]} {version}; found {len(matching)}')
+            results[version] = matching[0]
         for candidate in row['teamResults']:
             checks, notes = [], []
             source_note = re.split(r'(?:^|\s)v\d+\.\d+\.\d+(?:-[\w.]+)?:|고정 커밋의 의존성을 복원하여', candidate['note'], maxsplit=1)[0].strip()
@@ -118,7 +121,11 @@ def publish(summaries):
         for field in ['status', 'versions', 'baseline', 'candidate', 'environment', 'note', 'candidateHash']:
             row[field] = deepcopy(selected[field])
         row['baselineCompatibility'] = 100 if all(r['baseline']['valid'] for r in results.values()) else None
-        row['evidence'] = ['submissions/warmup/verification-results.json', f'submissions/warmup/best/P{row["id"]:02}.lean']
+        row['evidence'] = list(dict.fromkeys([
+            'submissions/warmup/verification-results.json',
+            f'submissions/warmup/best/P{row["id"]:02}.lean',
+            *row.get('evidence', []),
+        ]))
         evidence['problems'].append({'id': row['id'], 'versions': results})
         submitted, = [p for p in manifest['problems'] if p['id'] == row['id']]
         if submitted['sha256'] != row['candidateHash']:

@@ -12,7 +12,7 @@
 
 ## 지정 환경 재검증
 
-P01–P07·P10–P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. Strata v4.26.0/v4.27.0/v4.29.1, Physlib v4.32.0, Cslib v4.31.0/v4.32.0/v4.33.0-rc2, ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. 현재 작업은 총 14개다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. 이전 실행 [40301978929](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40301978929)의 7개 summary는 P12를 포함한 당시 등록 6문제의 원본·후보가 지정 버전을 통과한 결과다. 14개 환경의 새 결과는 검증 후 아래 게시 절차로 반영해야 한다. 새 연결만으로 기존 대시보드의 측정값·통과 상태를 바꾸지는 않는다.
+P01–P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. Strata v4.26.0/v4.27.0/v4.29.1, Physlib v4.32.0, Cslib v4.30.0/v4.31.0/v4.32.0/v4.33.0-rc2, ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. 현재 작업은 총 15개다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. 이전 실행 [40301978929](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40301978929)의 7개 summary는 P12를 포함한 당시 등록 6문제의 원본·후보가 지정 버전을 통과한 결과다. 15개 환경의 새 결과는 검증 후 아래 게시 절차로 반영해야 한다. 새 연결만으로 기존 대시보드의 측정값·통과 상태를 바꾸지는 않는다.
 
 현재 P07·P12 best 파일은 각각 SHA-256 `a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e`, `cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4`인 수정 후보다. 패치한 평가기로 macOS arm64의 고정 커밋·의존성에서 P07(v4.31.0/v4.32.0/v4.33.0-rc2), P12(v4.29.0/v4.30.0/v4.31.0)의 원본·후보 컴파일·공리 검사와 각각 3회 측정을 통과했다. 후보·manifest·대시보드 proof와 해시를 동기화했으며, 이전 후보의 측정값·통과 상태는 새 후보에 이월하지 않았다. P12는 이후 Linux 공통 환경의 세 버전에서도 통과하여 새 측정값을 반영했다. 대표 v4.31.0에서 원본 1,353토큰/9,199 HB, 후보 747토큰/3,501 HB이며 호환성은 3/3이다. macOS 측정값은 게시하지 않았다. P07은 공식 입력·Cslib 모듈 빌드・CI 작업을 연결했으며 Linux 검증 결과를 반영하기 전까지 `pending`을 유지한다. P07 대표 측정 버전은 기존 대시보드와 같은 v4.32.0이다.
 
@@ -30,7 +30,21 @@ P01–P07·P10–P15의 환경은 `.github/workflows/warmup-verification.yml`의
 
 Strata v4.26.0은 `Strata.Transform.CallElimCorrect`와 `Strata.Languages.Core.StatementSemanticsProps`를 빌드한다. v4.27.0/v4.29.1에서는 P03만 평가하므로 후자만 빌드한다. Physlib는 `Physlib.Mathematics.VariationalCalculus.Basic`, `Physlib.Electromagnetism.Dynamics.IsExtrema`, `Physlib.QFT.PerturbationTheory.WickAlgebra.TimeOrder`를 빌드한다. 각 환경은 공식 입력에 기록된 정확한 소스 커밋과 그 manifest의 의존성을 사용한다.
 
-워크플로는 계속 `workflow_dispatch` 수동 실행이다. PR 브랜치를 선택해 실행한 뒤 전체 14개 summary로 게시 스크립트를 실행한다. 실제 Linux 검증과 결과 게시·main 병합·운영 배포는 이번 연결 변경에 포함하지 않는다. P08·P09는 여전히 이 검증 입력에 등록되지 않아 기존 측정값과 근거 링크를 유지한다.
+워크플로는 계속 `workflow_dispatch` 수동 실행이다. PR 브랜치를 선택해 실행한 뒤 전체 15개 summary로 게시 스크립트를 실행한다. 실제 Linux 검증과 결과 게시·main 병합·운영 배포는 이번 연결 변경에 포함하지 않는다.
+
+### Cslib P07–P09 검증 연결
+
+P08·P09의 공식 입력도 고정 benchmark의 행을 그대로 등록했다. 후보 증명·해시·기존 게시 점수는 변경하지 않는다. Cslib 대표 측정 버전은 세 문제 모두 기존과 같은 v4.32.0이다.
+
+| 문제 | 지정 Lean 버전 | 빌드 모듈 |
+|---|---|---|
+| P07 | v4.31.0·v4.32.0·v4.33.0-rc2 | `Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety` |
+| P08 | v4.30.0·v4.31.0·v4.32.0·v4.33.0-rc2 | `Cslib.Languages.CombinatoryLogic.Confluence` |
+| P09 | v4.31.0·v4.32.0·v4.33.0-rc2 | `Cslib.Languages.CCS.BehaviouralTheory` |
+
+v4.30.0에서는 P08 모듈만 빌드·평가하고, v4.31.0/v4.32.0/v4.33.0-rc2에서는 세 모듈을 빌드하여 P07–P09를 평가한다.
+
+공식 입력은 이제 전체 15문제를 포함하며 워크플로 환경 수도 15개다. 새 결과 게시에는 모든 지정 문제의 결과가 들어 있는 15개 summary가 필요하다. P08·P09 등록 전의 Cslib summary에는 해당 결과가 없으므로 Cslib 네 환경을 다시 실행해야 한다. 게시기는 소스·버전뿐 아니라 문제 결과의 누락·중복도 검사한 뒤 갱신한다. P09의 기존 보충 실험 링크는 새 검증 근거와 함께 유지한다.
 
 ### Cardinality 표기 사전검사 수정
 
@@ -40,7 +54,7 @@ Strata v4.26.0은 `Strata.Transform.CallElimCorrect`와 `Strata.Languages.Core.S
 
 `scripts/warmup_evaluator.py`는 평가기 커밋 `c18ec56682462847e2f4d8b6d60aa79ec071a10b`를 복원하고 `tokens.py`의 `|#|` 한 곳만 `|#(?![({])|`로 바꾼다. 버전은 `lean-declaration-cardinality-v1`이며, 복원 전후 파일의 고정 SHA-256을 확인한다. 공백 없이 붙은 `#(`·`#{`만 허용하고, 내부·후행 코드의 금지 명령과 기존 금지 항목은 계속 검사한다. 공식 원본, 후보, 토큰 계산, Lean 실행·heartbeat 계측·공리 검사는 변경하지 않는다. 이 사전검사는 샌드박스가 아니며 문법·증명 유효성은 Lean 검증으로 확인한다.
 
-summary에는 기준 커밋 `evaluatorRevision`, 패치 버전 `validatorVersion`, 실제 `tokens.py` 해시 `validatorSha256`을 기록한다. 게시기는 세 값이 현재 설정과 일치하는 summary만 받으며, 게시한 `verification-results.json`은 schemaVersion 2로 이 정보를 전체 및 실행별로 보존한다. 패치 정보가 없는 과거 summary는 새 결과와 섞어 게시할 수 없다. 현재 설정에서는 총 14개 환경의 summary가 필요하며, Strata·Physlib·Cslib 결과가 없는 기존 7개 또는 Strata·Physlib 결과가 없는 10개만으로는 게시할 수 없다. 회귀 검사는 다음 명령으로 실행하며 warmup 워크플로에서도 의존성 설치 전에 수행한다. Lean 설치나 네트워크는 사용하지 않는다.
+summary에는 기준 커밋 `evaluatorRevision`, 패치 버전 `validatorVersion`, 실제 `tokens.py` 해시 `validatorSha256`을 기록한다. 게시기는 세 값이 현재 설정과 일치하는 summary만 받으며, 게시한 `verification-results.json`은 schemaVersion 2로 이 정보를 전체 및 실행별로 보존한다. 패치 정보가 없는 과거 summary는 새 결과와 섞어 게시할 수 없다. 현재 설정에서는 전체 15문제의 지정 결과를 포함한 15개 환경의 summary가 필요하다. 이전 7개·10개·14개 환경 실행은 새로 등록한 문제·버전의 결과가 없어 그대로 게시할 수 없다. 회귀 검사는 다음 명령으로 실행하며 warmup 워크플로에서도 의존성 설치 전에 수행한다. Lean 설치나 네트워크는 사용하지 않는다.
 
 ```sh
 python3 -m unittest discover -s tests -p test_warmup_validator.py
@@ -50,11 +64,11 @@ python3 -m unittest discover -s tests -p test_warmup_validator.py
 
 메모리 기본 한도는 6 GiB이며, 원본 실행에서 Lean 메모리 예외가 확인되면 준비된 환경에서 8 GiB로 한 번 재시도한다. 이 경우 후보도 같은 8 GiB 설정으로 측정하고 실제 명령을 fingerprint에 남긴다. 메모리 한도·시간 초과는 증명 오류와 구분한다.
 
-완료된 작업의 `warmup-<source>-<version>` artifact에는 준비 로그, 실제 컴파일 명령·오류, 측정 결과와 환경 fingerprint가 들어 있다. 전체 14개 summary(Strata 3개·Physlib 1개·Cslib 3개·ArkLib 4개·PutnamBench 3개)를 내려받은 뒤 `python3 scripts/publish_warmup_verification.py <summary.json ...>`으로 반영한다. 이 스크립트는 모든 지정 버전과 후보 해시가 맞는지 확인한 뒤 대시보드와 manifest를 갱신한다. 등록된 문제의 지정 결과가 누락되면 해당 문제·소스·버전을 표시하고 게시 파일을 변경하지 않는다. 환경 구축 실패나 미완료 artifact로는 게시할 수 없다. 원본 실패와 후보 실패는 검증 결과에 구분해 남긴다.
+완료된 작업의 `warmup-<source>-<version>` artifact에는 준비 로그, 실제 컴파일 명령·오류, 측정 결과와 환경 fingerprint가 들어 있다. 전체 15개 summary(Strata 3개·Physlib 1개·Cslib 4개·ArkLib 4개·PutnamBench 3개)를 내려받은 뒤 `python3 scripts/publish_warmup_verification.py <summary.json ...>`으로 반영한다. 이 스크립트는 모든 지정 버전과 후보 해시가 맞는지 확인한 뒤 대시보드와 manifest를 갱신한다. 등록된 문제의 지정 결과가 누락되면 해당 문제·소스·버전을 표시하고 게시 파일을 변경하지 않는다. 환경 구축 실패나 미완료 artifact로는 게시할 수 없다. 원본 실패와 후보 실패는 검증 결과에 구분해 남긴다.
 
 `verification-results.json`에는 게시한 결과와 GitHub Actions 실행 ID를 보존한다. 상세 실험 로그는 작업 브랜치에 기록 후 삭제하며, main에는 후보·재현 스크립트·검증 요약만 유지한다. Actions artifact 보관 기간은 30일이며, 이후에도 작업 브랜치의 실험 기록 커밋 `8baf521`에서 `experiments/warmup-environment-repair/`의 상세 로그를 복구할 수 있다.
 
-기존 웜업 수집 사본·보조 스크립트·원시 로그는 정리 요청에 따라 최종 트리에서 제거했다. 평가 입력에 등록되지 않은 문제의 측정과 근거 링크는 기존 대시보드 데이터를 유지하며, 과거 로그는 삭제 전 커밋에서 확인한다. 후보를 변경하면 새로 검증한 뒤 best 파일·manifest 해시·대시보드 후보를 함께 갱신한다.
+기존 웜업 수집 사본·보조 스크립트·원시 로그는 정리 요청에 따라 최종 트리에서 제거했다. 새 검증 결과를 게시하기 전에는 기존 대시보드 데이터를 유지하며, 게시 시에도 기존 근거 링크를 보존한다. 과거 로그는 삭제 전 커밋에서 확인한다. 후보를 변경하면 새로 검증한 뒤 best 파일·manifest 해시·대시보드 후보를 함께 갱신한다.
 
 
 ## 첫 업로드 파일과 남은 수정 범위 (2026-10-23)
@@ -77,9 +91,9 @@ python3 scripts/export_warmup_submission.py --p12-reference
 |---|---|---|
 | P12 팀 후보 제출 전 필수 | 보조정리 세 개를 내부 `have`로 이동하고 후보의 최상위 `omit` 제거 완료. 공식 statement와 동일하며 manifest·대시보드 후보 해시를 동기화함 | ArkLib v4.29/v4.30/v4.31에서 원본·후보 검증 통과 및 Linux 측정 결과 반영 완료 |
 | P12 검증 연결 | 공식 P12 입력 및 `ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults` 빌드 타깃 연결 완료. 게시기는 등록 입력을 따라 P12도 처리함 | 실행 40301978929의 전체 7개 summary 반영 완료. `submission.jsonl` 재생성은 별도 진행 |
-| P07 검증 연결 | 공식 P07 입력, Cslib 저장소와 `Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety` 모듈 빌드, 지정 버전 3개 CI 및 게시 대표 버전 v4.32.0 연결 완료 | Linux 원격 검증 후 전체 14개 summary로 결과 게시 대기. 현재 측정값과 통과 상태는 변경하지 않음 |
-| P01–P06 검증 연결 | 공식 입력·지정 커밋, Strata의 Mathlib 없는 준비 경로와 문제별 모듈 빌드, Physlib 세 모듈 및 4개 CI 작업 연결 완료 | Linux 원격 검증 후 전체 14개 summary로 결과 게시 대기. 기존 측정값·통과 상태 유지 |
-| 나머지 검증 보완 | P08(v4.33.0-rc2/v4.30.0), P09(v4.33.0-rc2)의 환경 준비 | 실제 검증 결과에 따라 상태 갱신. 현재 JSONL에 포함되어 있지만 전체 버전 통과를 보장하지 않음 |
+| P07 검증 연결 | 공식 P07 입력, Cslib 저장소와 `Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety` 모듈 빌드, 지정 버전 3개 CI 및 게시 대표 버전 v4.32.0 연결 완료 | Linux 원격 검증 후 전체 15개 summary로 결과 게시 대기. 현재 측정값과 통과 상태는 변경하지 않음 |
+| P01–P06 검증 연결 | 공식 입력·지정 커밋, Strata의 Mathlib 없는 준비 경로와 문제별 모듈 빌드, Physlib 세 모듈 및 4개 CI 작업 연결 완료 | Linux 원격 검증 후 전체 15개 summary로 결과 게시 대기. 기존 측정값·통과 상태 유지 |
+| P08·P09 검증 연결 | 공식 입력, 문제별 Cslib 모듈 빌드와 P08 전용 v4.30.0 작업 연결 완료 | Cslib 네 환경을 다시 실행한 뒤 전체 15개 summary로 게시 대기. 기존 측정값·후보 해시·P09 보충 근거 유지 |
 | 공식 점수 표시 | `dashboard/src/lib/model.ts`와 결과 데이터에 공식 결과 표시 경로 추가 | 로컬 실험 평균과 분리해 미제출·실패 0점 포함 15문제 평균, 공식 heartbeat 기준 및 worker 결과 사용 |
 | 최종 참가 요건 | `docs/architecture.md`의 OpenRouter 실행·비용 장부·재현 하네스·보고서 계획 구현 | 문제당 $3에 재시도/폐기 후보 포함, 모델 공개, 재현 코드와 OpenReview 보고서 준비. 지금 업로드 가능하다는 사실을 비용 요건 면제로 해석하지 않음 |
 
