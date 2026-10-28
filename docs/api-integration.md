@@ -133,6 +133,13 @@ P02 실험에는 별도 `BudgetQuery`가 공개 endpoint metadata를 확인하�
 평균·중앙값은 `null`이며 알려진 부분합만 제공한다. 잘못된 usage는 원문 응답을 보존하고
 `usage_error`로 표시하며, 알려진 제공 비용을 지우지 않는다.
 
+실행별 `usage-cost.json`에는 호출별 영수증과 agent/model별 집계, 제공 비용과 API 환산
+추정액을 함께 보존한다. 선택 설정 `usage_cost.prices`의 단가·출처는
+`input/usage-prices.json`으로 고정한다. `status`는 응답 없는 요청도 미확정으로 조회하고,
+replay는 기존 `usage-summary.json`과 새 비용 보고서를 모두 재계산한다.
+공통 계산기는 `lean_agent.accounting` 하나이며 `lean_agent.usage_cost`와
+`lean-agent-usage`는 호환 진입점이다. [설정·조회·외부 기록 가져오기](usage-cost.md)를 참고한다.
+
 - 캐시 읽기·쓰기는 입력에, reasoning은 출력에 이미 포함되므로 다시 더하지 않는다.
 - `reported_cost_usd`는 API 제공 비용이다. 토큰 추정액을 하네스의 실제 비용 종료 판정에 넣지 않는다.
 - replay는 원문 응답에서 사용량과 비용을 재계산해 응답별 기록과 전체 집계를 대조한다.
