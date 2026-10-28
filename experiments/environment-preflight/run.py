@@ -1,4 +1,4 @@
-"""Run feature-1 preflight alone, or gate the pinned main fixture harness with it."""
+"""Preflight and diagnose the pinned main fixture harness (features 1 and 2)."""
 from __future__ import annotations
 
 import argparse
@@ -11,6 +11,7 @@ import subprocess
 import sys
 
 import baseline
+import diagnostics
 import preflight
 
 
@@ -21,7 +22,7 @@ def files(root):
 
 
 def implementation_snapshot(root):
-    for name in ("baseline.py", "preflight.py", "run.py"):
+    for name in ("baseline.py", "preflight.py", "diagnostics.py", "replay.py", "run.py"):
         dest = root / "code" / name
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(baseline.HERE / name, dest)
@@ -82,7 +83,9 @@ def execute(config_path, output, *, continue_run=False, cache=None):
     output = output.resolve()
     harness = None
     calls = 0
+    recorder = diagnostics.Recorder(output)
     stage = "setup"
+    failure_report = None
     summary = {"schema_version": 1, "status": "failed", "model_requests": 0, "api_calls": 0}
     try:
         implementation_snapshot(output)
@@ -100,6 +103,9 @@ def execute(config_path, output, *, continue_run=False, cache=None):
         lock(output, harness, config_path)
         stage = "preflight"
         checked = preflight.check(environment, output, evaluator_module)
+        diagnosed = diagnostics.preflight_diagnosis(checked, output)
+        if diagnosed:
+            recorder.save("preflight", diagnosed)
         summary.update(preflight_status=checked["status"], stage=checked["stage"],
                        preflight_report="preflight.json", error=checked["error"])
         if checked["status"] == "passed":
@@ -111,24 +117,39 @@ def execute(config_path, output, *, continue_run=False, cache=None):
 
                 class CheckedEvaluator(evaluator_module.LeanEvaluator):
                     def fingerprint(self, env):
+                        nonlocal stage, failure_report
+                        stage, failure_report = "environment", None
                         value = super().fingerprint(env)
                         if {k: v for k, v in value.items() if k not in ("project", "git")} != expected:
                             raise ValueError("Harness environment differs from the preflight snapshot")
                         return value
 
+                    def evaluate(self, code, problem, environments, folder, repetitions):
+                        nonlocal stage, failure_report
+                        stage = folder.name if folder.name in ("baseline", "final") else "candidate"
+                        failure_report = None
+                        value = super().evaluate(code, problem, environments, folder, repetitions)
+                        recorder.evaluated(value, folder)
+                        if recorder.records[-1]["kind"]:
+                            failure_report = recorder.records[-1]["path"]
+                        return value
+
                 original_query = harness.models.query
 
                 def counted_query(*args, **kwargs):
-                    nonlocal calls
+                    nonlocal calls, stage, failure_report
+                    stage, failure_report = "model", None
                     calls += 1
                     return original_query(*args, **kwargs)
 
                 harness.models.query = counted_query
                 try:
-                    result = harness.run(path, output / "harness", evaluator=CheckedEvaluator())
+                    with diagnostics.feedback_adapter(harness, output, recorder):
+                        result = harness.run(path, output / "harness", evaluator=CheckedEvaluator())
                 finally:
                     harness.models.query = original_query
-                replay = harness.replay(output / "harness")
+                stage, failure_report = "replay", None
+                replay = diagnostics.replay(harness, output)
                 summary.update(status=result["status"], stage="harness", harness_summary="harness/summary.json",
                                selected_sha256=result["state"]["best"]["sha256"], replay=replay)
     except (OSError, ValueError, KeyError, TypeError, subprocess.SubprocessError) as exc:
@@ -137,10 +158,18 @@ def execute(config_path, output, *, continue_run=False, cache=None):
         summary.update(status="failed", stage=stage, diagnostic_log=diagnostic.name,
                        error={"kind": "configuration" if stage == "config" else "unknown",
                               "exception_type": type(exc).__name__, "message": str(exc)})
+        if failure_report:
+            summary["failure_diagnosis"] = failure_report
+        else:
+            recorder.save("failure", diagnostics.diagnosis(
+                stage, summary["error"]["kind"], "execution_exception",
+                evidence=[diagnostics.evidence(output, diagnostic)], original_error=summary["error"]))
+            summary["failure_diagnosis"] = "diagnostics/failure.json"
     finally:
         if not (output / "run-lock.json").exists():
             lock(output, harness, config_path)
         summary["model_requests"] = calls
+        summary["diagnostics"] = recorder.records
         preflight.write(output / "result.json", summary)
         preflight.write(output / "artifacts.json", files(output))
     return summary

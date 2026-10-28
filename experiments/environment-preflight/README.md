@@ -1,8 +1,8 @@
 # 환경 사전 점검·오류 상태 실험
 
-[이슈 #27](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/27)의 기획과 기능 1 실험이다.
+[이슈 #27](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/27)의 기획과 기능 1·2 실험이다.
 작성일은 2026-10-27이며, 작업 브랜치는 기존 `proposal/problem-environment-lock`이다.
-기획 기준은 커밋 `e872351`에 보존했다. 기능 1을 `experiments/`에서 구현·검증했으며 `src/` 통합은 아직 하지 않았다.
+기획 기준은 커밋 `e872351`, 기능 1은 `35906ca`에 보존했다. 기능 2도 `experiments/`에서 구현하며 `src/` 통합은 마지막 단계다.
 
 ## 목적과 결정
 
@@ -72,7 +72,7 @@ PR #3의 과거 Strata·PutnamBench 후보와 결과를 이번 스모크 입력�
    `fixture` 요청도 호출 루프 진입 여부를 판단하기 위해 센다. API 비용 0이라는 사실만으로 사전 중단을 입증하지 않는다.
 6. 기존 평가·선택 정책과 replay 회귀 검사를 통과한 기능만 별도 통합 PR에서 `src/lean_agent`로 옮긴다.
 
-아래 실행기는 기능 1만 구현한다. 전체 `design.json`의 기능 2·3 사례 실행기는 후속 범위다.
+아래 실행기는 기능 1·2를 구현한다. 기능 3의 실행 상태 조회는 후속 범위다.
 기준 또는 설계를 변경하면 새 실험 버전과 lock을 만들고, 과거 run의 lock·입력·로그를 덮어쓰지 않는다.
 
 ## 기능 1 구현과 사용법
@@ -82,7 +82,10 @@ PR #3의 과거 Strata·PutnamBench 후보와 결과를 이번 스모크 입력�
 | [baseline.py](baseline.py) | 고정 main을 중앙 캐시에 복원하고 파일 해시를 확인한 뒤 import |
 | [preflight.py](preflight.py) | 준비된 Lean 실행 파일·버전·문맥 검사, 결과·원문 로그 저장 |
 | [run.py](run.py) | 입력·코드 snapshot, 사전 점검, 통과한 경우에만 기존 main fixture 실행 |
+| [diagnostics.py](diagnostics.py) | 원문 평가 결과를 유지한 실패 진단 및 다음 요청의 오류 피드백 |
+| [replay.py](replay.py) | 보관된 코드로 진단 피드백까지 재현하는 외부 호출 없는 replay |
 | [test_preflight.py](test_preflight.py) | 실패 시 모델 호출 차단, 정상 선택·replay 유지 등 20개 검사 |
+| [test_diagnostics.py](test_diagnostics.py) | API 오류 주입, 계측·증명·응답 구분, 피드백·선택·replay 검사 |
 
 Python 3.10 이상이 필요하다. 이번 검증은 기존 Python 3.13.11과 설치된 Lean 4.26.0으로 수행했고
 환경·의존성을 새로 설치하지 않았다. `python3.13`은 로컬에서 사용한 실행 명령이며 다른 호스트에서는
@@ -115,14 +118,76 @@ python3.13 experiments/environment-preflight/run.py run \
 - `compiler-before-check.json`, `environment.json`: 실제 실행 파일 해시와 main 평가기의 fingerprint.
 - `artifacts.json`: 실행 산출물 해시 목록.
 - `harness/`: 사전 점검을 통과한 `run` 명령에만 생성되는 기존 main 실행 기록.
+- `diagnostics/`: 기능 2의 단계별 진단. 원문 오류, 근거 파일의 상대 경로·SHA-256, 오류 발췌와 안내.
 
 문맥에는 template의 기존 문맥만 사용한다. 증명 후보, 계측용 `import Lean`, 계측 wrapper를 추가하지 않는다.
 문맥 컴파일 실패는 `stage=context`, `reason=context_compile_failed`로 차단한다. import 오류와
 선언 없는 검사에 맞지 않는 template을 문자열 추측으로 구분하지 않으므로 상세 종류는 `unknown`으로 남기고
-원문 로그를 연결한다. 이는 기능 2의 세부 오류 분류 완료를 주장하지 않기 위한 경계다.
+원문 로그를 연결한다. 기능 2는 이 원문 결과를 덮어쓰지 않고, 명확한 누락 module 진단이 있는 경우에만
+별도 `diagnostics/preflight.json`에서 `environment/missing_import`로 분류한다.
 
 정상 점검 후에는 같은 compiler·설정·template인지 main의 시작 fingerprint에서 다시 비교한다.
 기존 평가·토큰·heartbeat·선택 정책과 main 소스 bytes는 바꾸지 않았다.
+
+## 기능 2: 실패 원인과 다음 시도의 피드백
+
+실행 명령은 위와 동일하다. 실패 진단은 `result.json`의 `diagnostics` 목록에서 찾는다.
+실행 예외로 중단되면 가능한 경우 `failure_diagnosis`가 해당 진단 파일을 가리킨다.
+이는 완료된 검사·오류 기록이며 실행 중인 프로세스의 상태 조회나 재개 기능은 아니다.
+
+| 분류 | 판단 근거 | 처리 |
+| --- | --- | --- |
+| `api` | 모델 어댑터의 transport error 또는 HTTP 오류 receipt | 호출 결과·청구 미확정 기록, 재호출 없이 기존 unknown-cost 중단 유지 |
+| `response` | JSON/응답 envelope 파싱 실패 또는 증명 선언 계약 위반 | 응답 형식 안내. 비용이 알려진 fixture는 다음 시도 진행 |
+| `proof` | 원본 문맥의 `check.lean`에서 종료 코드 1과 Lean 오류 진단, 또는 허용되지 않은 공리 | 실패 후보 배제, 실제 오류와 목표를 다음 요청에 전달 |
+| `measurement` | 원본 검사는 통과했고 `measure-*` 단계에서 실패 또는 보고서 누락 | 증명이 틀렸다고 안내하지 않음. 원래 평가기의 거절·중단 정책 유지 |
+| `environment` | 명시적 환경 점검 실패 또는 누락 module의 compiler 진단 | 원문 오류와 환경 점검 안내 |
+| `timeout` | 기존 compiler 실행 기록의 timed_out | 로컬 보호 중단, 증명 오류나 대회 실패로 판정하지 않음 |
+| `unknown` | 신호 종료, 근거 부족 또는 서로 다른 실패 원인 | 원인을 추정해 단정하지 않음 |
+
+분류는 기록된 단계·진단에 근거한 실험용 해석이다. 특히 `measurement`는 별도 계측 과정의 실패이며
+정확한 근본 원인을 확정하지 않는다. compiler 실행에 추가 재시도를 넣지 않는다.
+
+원래 `harness/**/result.json`의 `valid`, `error`, 측정값은 바꾸지 않는다. main이 계측 보고서 누락을
+`environment`로 기록하고 중단하는 것도 유지한다. 추가 진단에서만 `measurement`로 설명한다.
+기존 `feedback.status`도 중단 규칙과의 호환성을 위해 유지하고, `feedback.diagnosis`와 `details`에
+추가 분류·안내·Lean 로그 발췌를 넣는다. 예를 들어 main의 `proof_rejected` 상태가 로컬 timeout에
+대해 남아 있어도, 상세 진단의 `timeout`은 증명 실패 판정이 아니다.
+
+`details`는 기존 `max_feedback_characters` 이내이며 실행 경로를 `<RUN>`으로 바꾼다.
+전체 원문은 로그와 진단 파일에 남긴다. 전체 요청 크기 제한·호출 수 제한·토큰/heartbeat 선택 규칙은
+고정 main 그대로다. 피드백 변경으로 요청 크기가 달라질 수 있으므로 실시간 모델 성능 개선을 주장하지 않는다.
+
+피드백이 상태와 요청 기록에 포함되므로 기능 2 실행은 **실험용 replay**로 검사한다:
+
+```sh
+python3.13 experiments/environment-preflight/replay.py runs/environment-preflight/my-run
+```
+
+이 명령은 실행 폴더에 보관된 `code/replay.py`, `code/diagnostics.py`, `code/lean_agent/`를 사용한다.
+Git 캐시, Lean, 모델 호출 없이 전체 실행 산출물 해시와 main의 상태 전이를 검사한다.
+실행 폴더 전체를 다른 위치로 복사해도 재현된다. 기능 2의 피드백이 추가된 기록을 고정 main의
+replay만으로 검사하면 상태 불일치가 발생한다. 과거 기능 1 기록의 replay 방식은 그대로다.
+
+단위 검사는 compiler 출력이나 API receipt를 명시적으로 주입한다. API의 HTTP/transport/timeout 사례는
+저장된 main 어댑터가 반환하는 receipt 형식을 대상으로 하며 실제 네트워크·API 통합 검증은 아니다.
+fixture 실행에서 발생한 임의의 Python 예외를 API 오류라고 단정하지 않는다.
+
+검증 근거는 [validation-feature2.json](validation-feature2.json)에 정리했다. 기준 입력과 `design.json` v2는
+유지하며, 기능 1 검증 파일과 과거 실행 산출물을 수정하지 않는다. 설계 전체에는 미구현 기능 3이 포함되어
+있으므로 기능 2 완료를 전체 설계 완료로 해석하지 않는다.
+
+2026-10-28 검증 결과:
+
+- 기능 1·2 단위/연결 검사 41개(기존 20개 + 신규 21개), 고정 main 회귀 검사 19개 통과.
+- 실제 Lean 정상 실행: 첫 증명 오류와 `⊢ False` 목표가 다음 요청에 포함되고, 3개 fixture 이후
+  기존과 같은 2토큰 `by rfl` 선택. 최종 raw heartbeat 중앙값 23,213. 기록 replay 통과.
+- 실제 잘못된 기준 증명: `baseline/proof`로 진단하고 모델 요청 0회로 중단.
+- 실제 malformed JSON fixture: 첫 응답을 `model/response`로 거절하고 다음 후보 처리 및 replay 통과.
+- 실제 누락 import: `context/environment` 진단을 추가하고 모델 요청 0회로 중단.
+- API 오류·계측 보고서 누락·timeout·신호 종료는 주입 검사. 유료 API 호출은 모든 사례에서 0회.
+- 실제 4개 실행의 산출물 목록·근거 파일 해시 검증, 보관 코드 replay 검증 완료.
+  원문은 로컬 `runs/environment-preflight/feature2-20261028-*`에 있으며 Git에는 포함하지 않는다.
 
 현재 지원은 **외부 의존성이 없는 단일 환경 + 직접 실행하는 Lean compiler + fixture**다.
 설치된 `elan` shim은 고정 버전의 실제 binary로 해석하여 실행하고, 버전이 없으면 설치 없이 중단한다.
@@ -178,5 +243,6 @@ source /Users/jwkweon/00_work/00_project/env/use.sh 05_pseudolab/LeanAgent-LeanR
 - [x] 기준 commit·입력·설정·실험 설계와 파일 해시 고정
 - [x] 기능 1 코드·실행 환경 고정 및 정상·환경 실패 사례 실행
 - [x] 기능 1 추가 검사 비용·정상 선택·replay 비교
-- [ ] 기능 2·3의 오류 분류·실행 상태 조회 구현 및 전체 사례 실행
+- [x] 기능 2의 오류 구분·근거 저장·다음 요청 피드백 및 회귀 검사
+- [ ] 기능 3의 실행 상태 조회 구현 및 나머지 사례 실행
 - [ ] 검증 요약을 근거로 src 통합

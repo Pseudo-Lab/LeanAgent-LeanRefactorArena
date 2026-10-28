@@ -1,0 +1,258 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-10-28",
+  "scope": "Feature 2 experiment only; feature 3 and src integration remain deferred.",
+  "implementation_base_commit": "35906ca2c9c2bc2411bb977490c0025b2b56fa0a",
+  "implementation_state": "uncommitted feature-2 changes; exact runnable bytes frozen in each run",
+  "source_sha256": {
+    "run.py": "48ad673ebecedc8dd2df7a7d4b661310d9fe15d5de4d4608dabe90f4ba588dc7",
+    "diagnostics.py": "2036abc28124854667ae5782b309c67ecac1147bcfc7bedcf66790d0fbe133dd",
+    "replay.py": "4c01a7fa1e8e3eeb6daef14958f871fc5562caf6d38e93e066b51f4d2d4acedd",
+    "preflight.py": "33a86855fdafffb7fc7e5454dfd7a380615ff70ecc66e5352e573d6a04b8d0b6",
+    "baseline.py": "41f8e4c6f82b1607ad45ba0e938e51f75ce733c9326cad878e4609ec7e738d84",
+    "test_diagnostics.py": "7e0e6555fd3f66112b648e0347101211d14a0c3b1ac6b9ccf1b6c7dd1d717185",
+    "test_preflight.py": "88f471f93ea5c99c6767633a48bff1506443e11763db638445948aaabb7aee84",
+    "design.json": "0da3c621189e0d6407663ba35df42d4ca1a6ecb9ccae373299c56032735551c6",
+    "baseline.lock.json": "7cafa28bba36ff83161c5d4387661ef22d991edcd75a9b8dded75f1e2bc050b1"
+  },
+  "runtime": {
+    "python": {
+      "executable": "/opt/homebrew/Caskroom/miniconda/base/bin/python3.13",
+      "sha256": "e86301c60346e49c4ce6d84f74b1b1ecf34b484340bca62f5ea57f58c14f15da",
+      "version": "3.13.11 | packaged by Anaconda, Inc. | (main, Dec 10 2025, 21:21:08) [Clang 20.1.8 ]"
+    },
+    "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+    "lean": {
+      "project": "/Users/jwkweon/00_work/00_project/05_pseudolab/LeanAgent-LeanRefactorArena/runs/environment-preflight/feature2-20261028-normal-final/input/project",
+      "command": [
+        "/Users/jwkweon/.elan/toolchains/leanprover--lean4---v4.26.0/bin/lean",
+        "-j1",
+        "-M1024",
+        "-T20000"
+      ],
+      "version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+      "compiler": "/Users/jwkweon/.elan/toolchains/leanprover--lean4---v4.26.0/bin/lean",
+      "compiler_sha256": "2974847fff2e2621502841f4c2dbac4035b4847d6060a4f2087cbc0d04005e37",
+      "files": {
+        "lake-manifest.json": null,
+        "lakefile.lean": null,
+        "lakefile.toml": "c655427d111dd8ca2ad1839c82bb29f5ccc348879aad256af0b6c2e9601eac5b",
+        "lean-toolchain": "e8173aad377a6d70041e5f7a5d8895ed587628f5cab243c53a18c40a1b7b6bf8"
+      },
+      "git": null,
+      "template_sha256": "0f4999ba302e9911eeb99423687c4e09973242698b036c9dc566b9e15b4d389c"
+    }
+  },
+  "tests": [
+    {
+      "command": "python3.13 -m unittest discover -s experiments/environment-preflight -p 'test_*.py' -q",
+      "passed": 41,
+      "feature1_tests": 20,
+      "feature2_tests": 21,
+      "method": "Real pinned harness and evaluator with simulated process receipts; no live API or Lean subprocess in these unit tests. Archived replay uses Python only."
+    },
+    {
+      "suite": "Pinned main tests/test_harness.py",
+      "passed": 19,
+      "baseline_revision": "ba593fc4357ee5c429b8f28f1aac512d05bb4355"
+    }
+  ],
+  "injected_cases": [
+    "API TimeoutError/URLError/HTTP 429",
+    "invalid API envelope with unknown billing",
+    "missing measurement report",
+    "measurement wrapper error",
+    "local timeout",
+    "signal termination",
+    "ambiguous failure",
+    "disallowed axioms",
+    "final measurement failure",
+    "later query exception after rejected proof"
+  ],
+  "real_lean_cases": [
+    {
+      "case": "normal-final",
+      "run_directory": "runs/environment-preflight/feature2-20261028-normal-final",
+      "status": "completed",
+      "stage": "harness",
+      "model_requests": 3,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/baseline.json",
+          "stage": "baseline",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/candidate-001.json",
+          "stage": "candidate",
+          "kind": "proof",
+          "reason": "lean_check_rejected"
+        },
+        {
+          "path": "diagnostics/candidate-002.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/candidate-003.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/final.json",
+          "stage": "final",
+          "kind": null,
+          "reason": "verified"
+        }
+      ],
+      "artifacts_sha256": "f121a78701df17bd1bd93c3e507ff656894a9a0ab2851968865e09707794f642",
+      "run_lock_sha256": "87a6039b757f63df8b97a0dbb598a39c94ec8af8232a9be96114ef181bb2edc3",
+      "offline_replay": {
+        "record_replay_passed": true,
+        "model_called": false,
+        "lean_called": false,
+        "steps": 3,
+        "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c"
+      },
+      "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c",
+      "final": {
+        "raw_heartbeats": 23213,
+        "raw_samples": [
+          23206,
+          23213,
+          23214
+        ],
+        "tokens": 2
+      }
+    },
+    {
+      "case": "invalid_baseline",
+      "run_directory": "runs/environment-preflight/feature2-20261028-invalid_baseline",
+      "status": "failed",
+      "stage": "baseline",
+      "model_requests": 0,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/baseline.json",
+          "stage": "baseline",
+          "kind": "proof",
+          "reason": "lean_check_rejected"
+        }
+      ],
+      "artifacts_sha256": "9f56fdeee5f4c338a3ffac59fbd69b1e7bdf24d516e2ab7aac416ce6a5e57636",
+      "run_lock_sha256": "6f45c4d168f7464d15227341c38a0e558c1d6483639f8806731e84126df31279"
+    },
+    {
+      "case": "malformed_response",
+      "run_directory": "runs/environment-preflight/feature2-20261028-malformed_response",
+      "status": "completed",
+      "stage": "harness",
+      "model_requests": 3,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/baseline.json",
+          "stage": "baseline",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/model-001.json",
+          "stage": "model",
+          "kind": "response",
+          "reason": "model_content_rejected"
+        },
+        {
+          "path": "diagnostics/candidate-002.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/candidate-003.json",
+          "stage": "candidate",
+          "kind": null,
+          "reason": "verified"
+        },
+        {
+          "path": "diagnostics/final.json",
+          "stage": "final",
+          "kind": null,
+          "reason": "verified"
+        }
+      ],
+      "artifacts_sha256": "69efb7d53a03e38f480a628563765573402d04b690325e77144eeca566538a68",
+      "run_lock_sha256": "6d427fc708d9d051a26853646fce079beb1aaae3caaf34780434d7b231ec1231",
+      "offline_replay": {
+        "record_replay_passed": true,
+        "model_called": false,
+        "lean_called": false,
+        "steps": 3,
+        "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c"
+      },
+      "selected_sha256": "7618e4a59bfd6a526161f8c1260f195f68ddad050194e254cfe5c041e50c9b4c",
+      "final": {
+        "raw_heartbeats": 23214,
+        "raw_samples": [
+          23206,
+          23214,
+          23214
+        ],
+        "tokens": 2
+      }
+    },
+    {
+      "case": "missing_import",
+      "run_directory": "runs/environment-preflight/feature2-20261028-missing_import",
+      "status": "failed",
+      "stage": "context",
+      "model_requests": 0,
+      "api_calls": 0,
+      "diagnostics": [
+        {
+          "path": "diagnostics/preflight.json",
+          "stage": "context",
+          "kind": "environment",
+          "reason": "missing_import"
+        }
+      ],
+      "artifacts_sha256": "683ac446f628ddd8439a889bfc83aace25338632b1d5efbd4a9965eee2912c12",
+      "run_lock_sha256": "f3ac2eb89760953663946fbac9e2eca378b6a441e1a877038764ce8ff331dde0"
+    }
+  ],
+  "assertions": {
+    "original_evaluator_results_preserved": true,
+    "no_invalid_candidate_selected": true,
+    "proof_error_in_next_request": {
+      "details": "Correct the rejected proof using the Lean diagnostic below; preserve the theorem statement.\n<RUN>/steps/001/evaluation/fixed/check.lean:4:23: error: Tactic `assumption` failed\n\nn : Nat\n⊢ False\n",
+      "diagnosis": {
+        "kind": "proof",
+        "reason": "lean_check_rejected",
+        "stage": "candidate"
+      },
+      "metrics": null,
+      "status": "proof_rejected",
+      "valid": false
+    },
+    "api_errors_stop_without_retry": true,
+    "billing_unknown_preserved_in_injected_api_cases": true,
+    "selection_and_metrics_match_control_with_fixed_simulated_observations": true,
+    "real_selection_matches_previous_frozen_main_run": true,
+    "archived_replay_after_relocation_and_tamper_detection": "passed in unit test",
+    "all_real_run_inventories_and_evidence_hashes_verified": true,
+    "paid_api_calls": 0
+  },
+  "limitations": [
+    "Only dependency-free Lean 4.26.0 smoke inputs and fixture mode.",
+    "API/network errors are injected adapter receipts, not live provider integration.",
+    "The pinned main stopping/status fields are retained; additional diagnosis is separate.",
+    "No new compiler probes are added by feature 2.",
+    "Runtime improvements and live model proof improvement were not measured.",
+    "Raw run directories are local ignored artifacts; this JSON records hashes and observations."
+  ]
+}

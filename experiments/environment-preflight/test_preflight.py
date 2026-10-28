@@ -8,6 +8,7 @@ import unittest
 from unittest.mock import patch
 
 import baseline
+import diagnostics
 import preflight
 import run
 
@@ -222,7 +223,7 @@ class PreflightTests(unittest.TestCase):
         self.assertIn("rfl", (self.output / "harness/selected.lean").read_text())
         with patch.object(self.harness.models, "query", side_effect=AssertionError("model called")), \
                 patch.object(self.evaluator, "execute", side_effect=AssertionError("compiler called")):
-            self.assertTrue(self.harness.replay(self.output / "harness")["record_replay_passed"])
+            self.assertTrue(diagnostics.replay(self.harness, self.output)["record_replay_passed"])
 
     def test_environment_change_before_main_run_stops_before_model(self):
         original = run.launch_config
