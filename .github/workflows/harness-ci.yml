@@ -9,6 +9,8 @@ on:
       - 'examples/first-harness/**'
       - 'tests/test_harness.py'
       - 'tests/test_runtime_integration.py'
+      - 'tests/test_usage*.py'
+      - 'experiments/usage-cost/**'
       - 'pyproject.toml'
       - '.github/workflows/harness-ci.yml'
   push:
@@ -19,6 +21,8 @@ on:
       - 'examples/first-harness/**'
       - 'tests/test_harness.py'
       - 'tests/test_runtime_integration.py'
+      - 'tests/test_usage*.py'
+      - 'experiments/usage-cost/**'
       - 'pyproject.toml'
       - '.github/workflows/harness-ci.yml'
   workflow_dispatch:
@@ -49,3 +53,5 @@ jobs:
         run: python -m unittest discover -s tests -p 'test_harness.py' -v
       - name: Test preflight, diagnoses and durable status without external services
         run: python -m unittest discover -s tests -p 'test_runtime_integration.py' -v
+      - name: Test usage accounting and native integration without paid calls
+        run: python -m unittest discover -s tests -p 'test_usage*.py' -v

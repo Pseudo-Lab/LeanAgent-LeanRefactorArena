@@ -12,14 +12,14 @@ import statistics
 import subprocess
 import sys
 
-from . import diagnostics, models, status
+from . import diagnostics, models, status, usage_cost
 from .artifacts import canonical, inventory, read, sha as digest, write
 from .evaluator.lean import LeanEvaluator, validate_template
 from .evaluator.tokens import TOKENIZER_ID, proof_body
 
 BASE = Path(__file__).resolve().parent
 CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
-              "artifacts.py", "preflight.py", "diagnostics.py", "status.py",
+              "artifacts.py", "preflight.py", "diagnostics.py", "status.py", "usage_cost.py",
               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
 SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
 
@@ -60,6 +60,12 @@ def load_config(path):
         responses = read(paths["responses"])
         if not isinstance(responses, list) or len(responses) < limits["max_calls"] or not all(isinstance(s, str) for s in responses):
             raise ValueError("Fixture requires one response string for every call")
+    cost_config = config.get("usage_cost", {})
+    if not isinstance(cost_config, dict) or set(cost_config) - {"prices"}:
+        raise ValueError("usage_cost accepts only an optional prices file")
+    if "prices" in cost_config:
+        paths["prices"] = (path.parent / cost_config["prices"]).resolve()
+        usage_cost.validate_prices(read(paths["prices"]))
     validate_template(paths["template"].read_text())
     problem = read(paths["problem"])
     for key in ("id", "name", "statement", "reference"):
@@ -102,6 +108,9 @@ def snapshot(output, config_path, paths):
             dest.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(paths[key], dest)
     shutil.copyfile(config_path, output / "input/config.json")
+    prices = read(paths["prices"]) if "prices" in paths else usage_cost.NO_PRICES
+    usage_cost.validate_prices(prices)
+    write(output / "input/usage-prices.json", prices)
     project = output / "input/project"
     project.mkdir()
     for name in ("lean-toolchain", "lakefile.toml", "lakefile.lean", "lake-manifest.json"):
@@ -370,6 +379,7 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None):
         progress.finish(paths=["environment.json"])
         summary = summarize(state, baseline, final, config, stop)
         write(output / "summary.json", summary)
+        write(output / "usage-cost.json", usage_cost.native_report(output))
         progress.enter("replay")
         replayed = replay_records(output)
         progress.finish(paths=["summary.json"])
@@ -388,6 +398,14 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None):
         progress.finish("interrupted" if interrupted else "failed", ["failure.json", "diagnostic.log"])
         raise
     finally:
+        # Preserve pending calls even when dispatch/evaluation was interrupted.
+        # A reporting failure must not hide the original execution outcome.
+        if (output / "input/usage-prices.json").exists() and not (output / "usage-cost.json").exists():
+            try:
+                write(output / "usage-cost.json", usage_cost.native_report(output))
+            except (OSError, ValueError, TypeError, KeyError, AttributeError) as exc:
+                write(output / "usage-cost-error.json", {"error_type": type(exc).__name__,
+                                                       "reason": "usage_report_unavailable"})
         outcome.update(model_requests=progress.calls, diagnostics=recorder.records)
         write(output / "result.json", outcome)
         progress.journal.seal(outcome["status"])
@@ -468,7 +486,9 @@ def replay_records(output):
     expected = summarize(state, baseline, final, config, stopping_reason(state, problem, config, prompt))
     if summary != expected:
         raise ValueError("Final summary differs")
-    return {"record_replay_passed": True, "model_called": False, "lean_called": False,
+    if read(output / "usage-cost.json") != usage_cost.native_report(output):
+        raise ValueError("Usage/cost report differs from recorded attempts")
+    return {"usage_cost_replay_passed": True, "record_replay_passed": True, "model_called": False, "lean_called": False,
             "steps": len(steps), "selected_sha256": state["best"]["sha256"]}
 
 

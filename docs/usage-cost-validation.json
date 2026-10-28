@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "branch": "codex/usage-cost-accounting",
+  "scope": "feature 5 usage-cost src integration",
+  "python": "3.13.11",
+  "tests": {
+    "repository": {
+      "run": 117,
+      "passed": 113,
+      "skipped_real_lean": 4
+    },
+    "usage_cost": {
+      "run": 40,
+      "passed": 40
+    },
+    "frozen_experiment": {
+      "run": 35,
+      "passed": 35
+    }
+  },
+  "installed_package": {
+    "wheel_build": "passed",
+    "cli_outside_checkout": "passed",
+    "archived_replay_after_relocation": "passed"
+  },
+  "reused_real_usage": {
+    "api_calls": 6,
+    "reported_usd": "0.2011327",
+    "token_estimate_usd": "0.2011327",
+    "subagent_records": 3,
+    "subagent_token_estimate_usd": "0.1259104",
+    "subagent_reported_usd": null
+  },
+  "new_paid_calls": 0,
+  "new_subagent_runs": 0,
+  "benchmark_setup": {
+    "source": "existing local checkout; ignored benchmark snapshot copied without modification",
+    "sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804"
+  },
+  "checks": [
+    "failed proof usage included",
+    "live pending call remains unknown",
+    "interrupt retains pending attempt",
+    "partial response is unavailable",
+    "SIGKILL evidence remains queryable",
+    "no-call preflight is zero",
+    "reported billing stop unchanged despite available estimate",
+    "frozen prices and moved archive replay",
+    "resealed cost tampering rejected",
+    "actual receipt estimates match experiment"
+  ],
+  "excluded": [
+    "budget enforcement and finalization threshold",
+    "subagent execution backend",
+    "automatic retry/resume"
+  ],
+  "source_sha256": {
+    "src/lean_agent/usage_cost.py": "d405d11b2e3dd5d7633019fcacb89834aa56b8010d0a68c61f97a6d8885b6160",
+    "src/lean_agent/harness.py": "9dc5ab75b96ce8ed8f471d2afed405a43b01bdfb41853d978687bf297c2730b6",
+    "src/lean_agent/status.py": "b8aeda6311013e089ec4607c718073bbeda89a213ecb2030daaefda727ab429d",
+    "tests/test_usage_cost.py": "927ac1d690f37b6d14784ea5ebb6fb5494255b578dc2bb17620a032c6968d490",
+    "tests/test_usage_integration.py": "58c9c154f6df682cc7dda0e63285ec2c721481ff920f5c9d814a11bbd8a2c5fc",
+    "tests/test_usage_regressions.py": "d70dee2fb337c95ec3ee425399468c4a9e2c63fb9ef3340c806b3198eafb431a",
+    "tests/test_runtime_integration.py": "34a546c942316467b4ad499ebcd73ab9f1c3c01e7b8e41708e9329f0586eace5"
+  }
+}

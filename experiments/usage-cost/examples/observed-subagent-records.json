@@ -1,0 +1,47 @@
+[
+  {
+    "run_id": "issue28-p02-comparison",
+    "agent_id": "subagent-01",
+    "model": "gpt-6.1-sol",
+    "event_id": "turn-0001",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "usage": {
+      "input_tokens": 20381,
+      "cached_input_tokens": 12288,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 2606,
+      "reasoning_output_tokens": 2070
+    }
+  },
+  {
+    "run_id": "issue28-p02-comparison",
+    "agent_id": "subagent-02",
+    "model": "gpt-6.1-sol",
+    "event_id": "turn-0001",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "usage": {
+      "input_tokens": 20419,
+      "cached_input_tokens": 12288,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 2482,
+      "reasoning_output_tokens": 1916
+    }
+  },
+  {
+    "run_id": "issue28-p02-comparison",
+    "agent_id": "subagent-03",
+    "model": "gpt-6.1-sol",
+    "event_id": "turn-0001",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "usage": {
+      "input_tokens": 20381,
+      "cached_input_tokens": 12288,
+      "cache_write_input_tokens": 0,
+      "output_tokens": 2271,
+      "reasoning_output_tokens": 1781
+    }
+  }
+]

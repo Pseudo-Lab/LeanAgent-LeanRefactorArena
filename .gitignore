@@ -33,3 +33,6 @@ __pycache__/
 /runs/demo/
 /runs/manual/
 /runs/environment-preflight/
+
+# Private usage receipts and model/runtime response evidence
+/runs/usage-cost/

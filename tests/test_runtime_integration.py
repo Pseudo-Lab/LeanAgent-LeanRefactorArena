@@ -110,6 +110,7 @@ class RuntimeTests(unittest.TestCase):
                     self.assertEqual(case.read("result.json")["error"]["reason"], reason)
                     self.assertEqual(case.read("result.json")["model_requests"], 0)
                     self.assertEqual(status.inspect(case.output)["status"], "failed")
+                    self.assertEqual(status.inspect(case.output)["usage_cost"]["entries"], 0)
                     self.assertFalse((case.output / "baseline").exists())
                 finally:
                     case.doCleanups()
@@ -260,6 +261,8 @@ case.execute()
         self.assertEqual(view["status"], "incomplete")
         self.assertEqual(view["incomplete_stages"][0]["stage"], "candidate")
         self.assertEqual(view["incomplete_stages"][0]["details"]["attempt"], 2)
+        self.assertEqual(view["usage_cost"]["entries"], 2)
+        self.assertEqual(view["usage_cost"]["reported_cost_usd"], "0")
         self.assertEqual(view["latest_verified_candidate"]["source"], "steps/001/candidate.lean")
         self.assertIsNone(view["final_result"])
 

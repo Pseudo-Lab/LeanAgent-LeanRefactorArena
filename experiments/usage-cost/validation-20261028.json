@@ -1,0 +1,236 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "issue": 29,
+  "parent_issue": 28,
+  "branch": "codex/usage-cost-accounting",
+  "base_revision": "1f51537",
+  "stage": "experiments; src unchanged",
+  "new_live_api": {
+    "calls": 1,
+    "model": "openai/gpt-6.1-sol",
+    "summary": {
+      "entries": 1,
+      "mode": "api",
+      "unknown_cost_entries": 0,
+      "estimated_entries": 0,
+      "reported_cost_usd": "0.000154",
+      "reported_cost_known_subtotal_usd": "0.000154",
+      "estimated_token_cost_usd": "0.0001540",
+      "estimated_token_cost_known_subtotal_usd": "0.0001540",
+      "accounted_cost_usd": "0.000154",
+      "accounted_cost_known_subtotal_usd": "0.000154",
+      "tokens": {
+        "input_tokens": {
+          "total": 17,
+          "known_subtotal": 17,
+          "unknown_entries": 0
+        },
+        "output_tokens": {
+          "total": 12,
+          "known_subtotal": 12,
+          "unknown_entries": 0
+        },
+        "cached_input_tokens": {
+          "total": 0,
+          "known_subtotal": 0,
+          "unknown_entries": 0
+        },
+        "cache_write_tokens": {
+          "total": 0,
+          "known_subtotal": 0,
+          "unknown_entries": 0
+        },
+        "reasoning_tokens": {
+          "total": 0,
+          "known_subtotal": 0,
+          "unknown_entries": 0
+        }
+      },
+      "budget_usd": null,
+      "budget_status": "not_configured",
+      "remaining_accounted_usd": null,
+      "budget_scope": "observed_records_only; not a reservation or a hard cap on the next call"
+    },
+    "estimate_matches_reported": true,
+    "archived_replay_exit_code": 0
+  },
+  "reused_api": {
+    "calls": 5,
+    "new_calls": 0,
+    "summary": {
+      "entries": 5,
+      "mode": "api",
+      "unknown_cost_entries": 0,
+      "estimated_entries": 0,
+      "reported_cost_usd": "0.2009787",
+      "reported_cost_known_subtotal_usd": "0.2009787",
+      "estimated_token_cost_usd": "0.2009787",
+      "estimated_token_cost_known_subtotal_usd": "0.2009787",
+      "accounted_cost_usd": "0.2009787",
+      "accounted_cost_known_subtotal_usd": "0.2009787",
+      "tokens": {
+        "input_tokens": {
+          "total": 11530,
+          "known_subtotal": 11530,
+          "unknown_entries": 0
+        },
+        "output_tokens": {
+          "total": 19427,
+          "known_subtotal": 19427,
+          "unknown_entries": 0
+        },
+        "cached_input_tokens": {
+          "total": 9212,
+          "known_subtotal": 9212,
+          "unknown_entries": 0
+        },
+        "cache_write_tokens": {
+          "total": 2303,
+          "known_subtotal": 2303,
+          "unknown_entries": 0
+        },
+        "reasoning_tokens": {
+          "total": 17717,
+          "known_subtotal": 17717,
+          "unknown_entries": 0
+        }
+      },
+      "budget_usd": null,
+      "budget_status": "not_configured",
+      "remaining_accounted_usd": null,
+      "budget_scope": "observed_records_only; not a reservation or a hard cap on the next call"
+    },
+    "estimate_matches_reported": true
+  },
+  "reused_subagent": {
+    "agents": 3,
+    "new_agent_runs": 0,
+    "summary": {
+      "entries": 3,
+      "mode": "subagent",
+      "unknown_cost_entries": 0,
+      "estimated_entries": 3,
+      "reported_cost_usd": null,
+      "reported_cost_known_subtotal_usd": "0",
+      "estimated_token_cost_usd": "0.1259104",
+      "estimated_token_cost_known_subtotal_usd": "0.1259104",
+      "accounted_cost_usd": "0.1259104",
+      "accounted_cost_known_subtotal_usd": "0.1259104",
+      "tokens": {
+        "input_tokens": {
+          "total": 61181,
+          "known_subtotal": 61181,
+          "unknown_entries": 0
+        },
+        "output_tokens": {
+          "total": 7359,
+          "known_subtotal": 7359,
+          "unknown_entries": 0
+        },
+        "cached_input_tokens": {
+          "total": 36864,
+          "known_subtotal": 36864,
+          "unknown_entries": 0
+        },
+        "cache_write_tokens": {
+          "total": 0,
+          "known_subtotal": 0,
+          "unknown_entries": 0
+        },
+        "reasoning_tokens": {
+          "total": 5767,
+          "known_subtotal": 5767,
+          "unknown_entries": 0
+        }
+      },
+      "budget_usd": null,
+      "budget_status": "not_configured",
+      "remaining_accounted_usd": null,
+      "budget_scope": "observed_records_only; not a reservation or a hard cap on the next call"
+    },
+    "model_mapping": "CLI gpt-6.1-sol uses frozen OpenRouter openai/gpt-6.1-sol text rates for API-equivalent estimation only"
+  },
+  "evidence_directory": "runs/usage-cost/feature5-20261028",
+  "fixture_projections": {
+    "api": [
+      {
+        "fixture_event": "call-0",
+        "original_response_sha256": "010b05c430f5369dcb7ad17100b80c364c0a24662c39a8f5c368f971d10f50cb"
+      },
+      {
+        "fixture_event": "call-1",
+        "original_response_sha256": "237ac26c2343d3a9e5a8d9710c24f62d5409985eb548f0c6a699e40d58c56b9c"
+      },
+      {
+        "fixture_event": "call-2",
+        "original_response_sha256": "e625d3c55aca3cd9bd564a93af4108582b6d967f298b63215ca4255e628437ce"
+      },
+      {
+        "fixture_event": "call-3",
+        "original_response_sha256": "1abacea62fa79b10e7719dbddd4af18989e03f5d6f8eef7f63fb82989c53918d"
+      },
+      {
+        "fixture_event": "call-4",
+        "original_response_sha256": "c145987122745d971b61bd682a9b799101c0d62e393fb76f20dc5615d9f7c6c5"
+      },
+      {
+        "fixture_event": "call-5",
+        "original_response_sha256": "983c1000e32f2712ec910f63c40bfafb11aea12e54c0da199e6ae30c3a7689ea"
+      }
+    ],
+    "subagent": [
+      {
+        "agent_id": "subagent-01",
+        "runtime_sha256": "86a46eebd9b0168f477c8e6b7f0452552a6eea5c8afe55f3e96387f6c8a9239a",
+        "launch_sha256": "8450aa716529a1aa2523fd95ef9b1e4cf2c9630cf10f86a907834cfff17fd7ef"
+      },
+      {
+        "agent_id": "subagent-02",
+        "runtime_sha256": "5357416576314cc6b8fed341944da1d9a167060701f8648a9f384b2b7c32a7be",
+        "launch_sha256": "9de8886fecae4f6bc297db383625a9f7c2b1333662ac56c9fc4442ac934c5449"
+      },
+      {
+        "agent_id": "subagent-03",
+        "runtime_sha256": "d86c31d405876fe7c815975447b5aa526ab0ce0d7ae821e608aa413c1b305888",
+        "launch_sha256": "e6368eb30e03e4fb5c2dc8545a54e4016231f69695695121cf9eecda007a7d36"
+      }
+    ],
+    "privacy": "usage-only projection; API request IDs anonymized; original receipts/runtime logs stay local"
+  },
+  "source_sha256": {
+    "accounting.py": "cbdbec0c6ecead26a8ec43c4cba0ee97ba2c640ad59ead3cc4d1936d5150ad64",
+    "live_check.py": "271953037adbe4f1b745ab04ecbb41a3e08c79a27f9551597a53667738861d65"
+  },
+  "live_archive_note": "The initial API capture keeps its exact code snapshot. The final calculator additionally rejects multimodal text-rate estimates and conservatively handles partial Codex JSONL tails. No additional model call was made; final analysis reuses the original usage.",
+  "official_sources": [
+    "https://learn.chatgpt.com/docs/non-interactive-mode",
+    "https://developers.openai.com/api/docs/guides/token-counting",
+    "https://openrouter.ai/docs/cookbook/administration/usage-accounting",
+    "https://openrouter.ai/docs/guides/best-practices/prompt-caching"
+  ],
+  "limits": [
+    "Subagent actual subscription charge unknown",
+    "No concurrent budget reservation or hard cap on all calls",
+    "No automatic retry or resume",
+    "No src integration in this experiment"
+  ],
+  "tests": {
+    "python": "3.13.11",
+    "run": 35,
+    "passed": 35,
+    "failed": 0,
+    "model_calls_in_tests": 0
+  },
+  "native_harness_import": {
+    "attempts": 3,
+    "provider_reported_cost_usd": "0",
+    "backend": "fixture",
+    "read_only": true
+  },
+  "credential_scan": {
+    "scope": "experiment code, fixtures, and local usage-cost artifacts",
+    "exact_credential_matches": 0
+  },
+  "verification_note": "Actual API capture replay uses its archived code; final analyses and usage-only projections use the final calculator hashes above."
+}
