@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "problem_id": "warmup-P02",
+  "library_revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+  "model": {
+    "backend": "openrouter",
+    "id": "openai/gpt-6.1-sol",
+    "provider": "openai",
+    "reasoning_effort": "high",
+    "max_tokens": 16384,
+    "max_price": {
+      "prompt": 5,
+      "completion": 15
+    },
+    "timeout_seconds": 300
+  },
+  "lean": {
+    "command": [
+      "lean",
+      "-j1",
+      "-M2048",
+      "-T200000"
+    ],
+    "timeout_seconds": 120,
+    "repetitions": 3
+  },
+  "limits": {
+    "max_calls": 3,
+    "max_proof_characters": 12000,
+    "max_feedback_characters": 6000,
+    "max_request_characters": 160000
+  },
+  "authorization": {
+    "per_trial_usd": "2",
+    "total_usd": "2",
+    "max_trials": 3
+  }
+}

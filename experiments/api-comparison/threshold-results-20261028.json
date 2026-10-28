@@ -1,0 +1,782 @@
+{
+  "api_request_wall_seconds": 2817.603005332,
+  "baseline": {
+    "raw_heartbeats": 2695001,
+    "raw_samples": [
+      2694882,
+      2695038,
+      2695001
+    ],
+    "tokens": 222
+  },
+  "best": {
+    "best_raw_heartbeats": 499239,
+    "best_tokens": 120,
+    "local_score": 0.36289342699637167
+  },
+  "best_source_changes": 17,
+  "candidate_valid": 84,
+  "cost_after_last_best_change_usd": "0.3650747",
+  "duplicate_candidate_sources": 95,
+  "eighty_percent_of_observed_improvement_cost_usd": "0.1760350",
+  "eighty_percent_of_observed_improvement_step": 6,
+  "evaluated_calls": 158,
+  "evidence_directory": "runs/api-comparison/20261028-main-loop-p02-threshold-2p50",
+  "final_metrics": {
+    "raw_heartbeats": 499239,
+    "raw_samples": [
+      499239,
+      499248,
+      499223
+    ],
+    "tokens": 120
+  },
+  "full_original_module_passed": true,
+  "known_cost_usd": "2.5019843",
+  "latest_best_change_cost_usd": "2.1369096",
+  "latest_best_change_step": 124,
+  "main_base_commit": "1f51537b30ed778366bb9e030db8819825722c56",
+  "milestones": [
+    {
+      "best_raw_heartbeats": 2695001,
+      "best_sha256": "bd09b47c0a79a48c942bdcc94202049c727d1c6b5e57b714ba5bf7cf17784a70",
+      "best_source_changed": false,
+      "best_tokens": 222,
+      "candidate_sha256": "8075688193c71c3f9268bac7a21dff4bd87433208a4f587f325c3095f54b2464",
+      "cost_usd": "0.091996",
+      "cumulative_usd": "0.091996",
+      "duplicate_source": false,
+      "feedback_status": "proof_rejected",
+      "local_score": 1.0,
+      "step": 1,
+      "usage": {
+        "completion_tokens": 1162,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 961
+        },
+        "cost": 0.091996,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.01162,
+          "upstream_inference_cost": 0.091996,
+          "upstream_inference_prompt_cost": 0.080376
+        },
+        "is_byok": false,
+        "prompt_tokens": 32151,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 32148,
+          "cached_tokens": 0,
+          "video_tokens": 0
+        },
+        "total_tokens": 33313
+      },
+      "valid": false
+    },
+    {
+      "best_raw_heartbeats": 3132856,
+      "best_sha256": "848c06e2c41d382674f8a3de857a63d96ad2764ab4419979aadd67a7ac779338",
+      "best_source_changed": true,
+      "best_tokens": 95,
+      "candidate_sha256": "848c06e2c41d382674f8a3de857a63d96ad2764ab4419979aadd67a7ac779338",
+      "cost_usd": "0.0122608",
+      "cumulative_usd": "0.1231776",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.7951986276987826,
+      "step": 3,
+      "usage": {
+        "completion_tokens": 341,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 131
+        },
+        "cost": 0.0122608,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.00341,
+          "upstream_inference_cost": 0.0122608,
+          "upstream_inference_prompt_cost": 0.0088508
+        },
+        "is_byok": false,
+        "prompt_tokens": 33083,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 2307,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33424
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 2291951,
+      "best_sha256": "00c95d2ee732ecd3d157edaebe0fd48a09764fd1c401fe9cfef095398ae57cef",
+      "best_source_changed": true,
+      "best_tokens": 103,
+      "candidate_sha256": "00c95d2ee732ecd3d157edaebe0fd48a09764fd1c401fe9cfef095398ae57cef",
+      "cost_usd": "0.0173458",
+      "cumulative_usd": "0.1405234",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.6572046442370238,
+      "step": 4,
+      "usage": {
+        "completion_tokens": 1093,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 868
+        },
+        "cost": 0.0173458,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.01093,
+          "upstream_inference_cost": 0.0173458,
+          "upstream_inference_prompt_cost": 0.0064158
+        },
+        "is_byok": false,
+        "prompt_tokens": 32109,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1333,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33202
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 1355831,
+      "best_sha256": "b38cec412a0c667cc23fe52a39955228ad81ea7e6aff627e7d128e794732fd13",
+      "best_source_changed": true,
+      "best_tokens": 105,
+      "candidate_sha256": "b38cec412a0c667cc23fe52a39955228ad81ea7e6aff627e7d128e794732fd13",
+      "cost_usd": "0.0193783",
+      "cumulative_usd": "0.1760350",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.4880320332228328,
+      "step": 6,
+      "usage": {
+        "completion_tokens": 1220,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 993
+        },
+        "cost": 0.0193783,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.0122,
+          "upstream_inference_cost": 0.0193783,
+          "upstream_inference_prompt_cost": 0.0071783
+        },
+        "is_byok": false,
+        "prompt_tokens": 32414,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1638,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33634
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 1358111,
+      "best_sha256": "84321968076a1134efd6a5306b368467ffde594ff38a09a2be83b83a9cd55174",
+      "best_source_changed": true,
+      "best_tokens": 94,
+      "candidate_sha256": "84321968076a1134efd6a5306b368467ffde594ff38a09a2be83b83a9cd55174",
+      "cost_usd": "0.0162708",
+      "cumulative_usd": "0.2549132",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.46368026385696137,
+      "step": 10,
+      "usage": {
+        "completion_tokens": 950,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 746
+        },
+        "cost": 0.0162708,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.0095,
+          "upstream_inference_cost": 0.0162708,
+          "upstream_inference_prompt_cost": 0.0067708
+        },
+        "is_byok": false,
+        "prompt_tokens": 32251,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1475,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33201
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 675567,
+      "best_sha256": "9d378b151b771873b5da9958bac628540d9a1c9246e4e4ed07c467b15e119613",
+      "best_source_changed": true,
+      "best_tokens": 149,
+      "candidate_sha256": "9d378b151b771873b5da9958bac628540d9a1c9246e4e4ed07c467b15e119613",
+      "cost_usd": "0.0135508",
+      "cumulative_usd": "0.3229914",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.46092264482971945,
+      "step": 14,
+      "usage": {
+        "completion_tokens": 679,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 424
+        },
+        "cost": 0.0135508,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.00679,
+          "upstream_inference_cost": 0.0135508,
+          "upstream_inference_prompt_cost": 0.0067608
+        },
+        "is_byok": false,
+        "prompt_tokens": 32247,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1471,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 32926
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 502457,
+      "best_sha256": "90a12a6bb4174417cf5d3ce8293f5b95ae462e3bef268a75127b2336cd4820b7",
+      "best_source_changed": true,
+      "best_tokens": 163,
+      "candidate_sha256": "90a12a6bb4174417cf5d3ce8293f5b95ae462e3bef268a75127b2336cd4820b7",
+      "cost_usd": "0.0198958",
+      "cumulative_usd": "0.3578005",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.46033730516157423,
+      "step": 16,
+      "usage": {
+        "completion_tokens": 1300,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1034
+        },
+        "cost": 0.0198958,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.013,
+          "upstream_inference_cost": 0.0198958,
+          "upstream_inference_prompt_cost": 0.0068958
+        },
+        "is_byok": false,
+        "prompt_tokens": 32301,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1525,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33601
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 498714,
+      "best_sha256": "a4234eddbe8be00a66d92dca0f98851f0e4908e1f2ca6d676ce29b4b47101100",
+      "best_source_changed": true,
+      "best_tokens": 163,
+      "candidate_sha256": "a4234eddbe8be00a66d92dca0f98851f0e4908e1f2ca6d676ce29b4b47101100",
+      "cost_usd": "0.0111208",
+      "cumulative_usd": "0.4003954",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.45964287128195785,
+      "step": 19,
+      "usage": {
+        "completion_tokens": 421,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 163
+        },
+        "cost": 0.0111208,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.00421,
+          "upstream_inference_cost": 0.0111208,
+          "upstream_inference_prompt_cost": 0.0069108
+        },
+        "is_byok": false,
+        "prompt_tokens": 32307,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1531,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 32728
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 495254,
+      "best_sha256": "b46426fba6cab47ed6d5455bc77af985347723ed12e69af89775e22aa969cc0e",
+      "best_source_changed": true,
+      "best_tokens": 159,
+      "candidate_sha256": "b46426fba6cab47ed6d5455bc77af985347723ed12e69af89775e22aa969cc0e",
+      "cost_usd": "0.0123258",
+      "cumulative_usd": "0.4427753",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.4499919330120692,
+      "step": 22,
+      "usage": {
+        "completion_tokens": 543,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 291
+        },
+        "cost": 0.0123258,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.00543,
+          "upstream_inference_cost": 0.0123258,
+          "upstream_inference_prompt_cost": 0.0068958
+        },
+        "is_byok": false,
+        "prompt_tokens": 32301,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1525,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 32844
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 471142,
+      "best_sha256": "217811dbab22165057cc1fc9eff2413597df51ab068f39161f41a5256668a5db",
+      "best_source_changed": true,
+      "best_tokens": 152,
+      "candidate_sha256": "217811dbab22165057cc1fc9eff2413597df51ab068f39161f41a5256668a5db",
+      "cost_usd": "0.0162433",
+      "cumulative_usd": "0.4737744",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.4297526995184621,
+      "step": 24,
+      "usage": {
+        "completion_tokens": 934,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 703
+        },
+        "cost": 0.0162433,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.00934,
+          "upstream_inference_cost": 0.0162433,
+          "upstream_inference_prompt_cost": 0.0069033
+        },
+        "is_byok": false,
+        "prompt_tokens": 32304,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1528,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33238
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 465643,
+      "best_sha256": "572aa3d159e34e066368dfa4e0f33d1109ff8a84039080c658e64af7cdeabd73",
+      "best_source_changed": true,
+      "best_tokens": 148,
+      "candidate_sha256": "572aa3d159e34e066368dfa4e0f33d1109ff8a84039080c658e64af7cdeabd73",
+      "cost_usd": "0.0115308",
+      "cumulative_usd": "0.5145243",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.4197234682535059,
+      "step": 27,
+      "usage": {
+        "completion_tokens": 470,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 242
+        },
+        "cost": 0.0115308,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.0047,
+          "upstream_inference_cost": 0.0115308,
+          "upstream_inference_prompt_cost": 0.0068308
+        },
+        "is_byok": false,
+        "prompt_tokens": 32275,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1499,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 32745
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 465964,
+      "best_sha256": "70804a30c0b3771edfea648d9b4d5802bffced4caf5d3624c4415d554e738cbc",
+      "best_source_changed": true,
+      "best_tokens": 147,
+      "candidate_sha256": "70804a30c0b3771edfea648d9b4d5802bffced4caf5d3624c4415d554e738cbc",
+      "cost_usd": "0.0226433",
+      "cumulative_usd": "0.6075108",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.4175307707101387,
+      "step": 32,
+      "usage": {
+        "completion_tokens": 1585,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1358
+        },
+        "cost": 0.0226433,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.01585,
+          "upstream_inference_cost": 0.0226433,
+          "upstream_inference_prompt_cost": 0.0067933
+        },
+        "is_byok": false,
+        "prompt_tokens": 32260,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1484,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33845
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 465698,
+      "best_sha256": "375bbfb0c88dad1bc60b01cdec77b3dc55aae69e0da09e099f06a508c787bd77",
+      "best_source_changed": true,
+      "best_tokens": 142,
+      "candidate_sha256": "375bbfb0c88dad1bc60b01cdec77b3dc55aae69e0da09e099f06a508c787bd77",
+      "cost_usd": "0.0242383",
+      "cumulative_usd": "0.6894073",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.40622015881783874,
+      "step": 37,
+      "usage": {
+        "completion_tokens": 1774,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1552
+        },
+        "cost": 0.0242383,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.01774,
+          "upstream_inference_cost": 0.0242383,
+          "upstream_inference_prompt_cost": 0.0064983
+        },
+        "is_byok": false,
+        "prompt_tokens": 32142,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1366,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33916
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 464306,
+      "best_sha256": "23e4789c47183a052ab0fe06900450ccdda76da926ed7412acf4d64719853715",
+      "best_source_changed": true,
+      "best_tokens": 142,
+      "candidate_sha256": "23e4789c47183a052ab0fe06900450ccdda76da926ed7412acf4d64719853715",
+      "cost_usd": "0.0141158",
+      "cumulative_usd": "0.8762511",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.40596190288398193,
+      "step": 48,
+      "usage": {
+        "completion_tokens": 739,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 516
+        },
+        "cost": 0.0141158,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.00739,
+          "upstream_inference_cost": 0.0141158,
+          "upstream_inference_prompt_cost": 0.0067258
+        },
+        "is_byok": false,
+        "prompt_tokens": 32233,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1457,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 32972
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 425898,
+      "best_sha256": "95e68f237357ec94babad8ed4e338b14963cae38f8978c5cbeb6e817864783a5",
+      "best_source_changed": true,
+      "best_tokens": 139,
+      "candidate_sha256": "95e68f237357ec94babad8ed4e338b14963cae38f8978c5cbeb6e817864783a5",
+      "cost_usd": "0.0240133",
+      "cumulative_usd": "0.9002644",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.3920793602740845,
+      "step": 49,
+      "usage": {
+        "completion_tokens": 1755,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1526
+        },
+        "cost": 0.0240133,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.01755,
+          "upstream_inference_cost": 0.0240133,
+          "upstream_inference_prompt_cost": 0.0064633
+        },
+        "is_byok": false,
+        "prompt_tokens": 32128,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1352,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33883
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 506888,
+      "best_sha256": "8dc4d5c76f6625e3a6bc87b626b080f5c09d4c69dfc55d0cff217d81003660f3",
+      "best_source_changed": true,
+      "best_tokens": 126,
+      "candidate_sha256": "8dc4d5c76f6625e3a6bc87b626b080f5c09d4c69dfc55d0cff217d81003660f3",
+      "cost_usd": "0.0191658",
+      "cumulative_usd": "1.6965280",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.37782604944528075,
+      "step": 97,
+      "usage": {
+        "completion_tokens": 1237,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1034
+        },
+        "cost": 0.0191658,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.01237,
+          "upstream_inference_cost": 0.0191658,
+          "upstream_inference_prompt_cost": 0.0067958
+        },
+        "is_byok": false,
+        "prompt_tokens": 32261,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1485,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33498
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 435965,
+      "best_sha256": "b2b896b77341e94f78822a3317144fb511ced0b4a13c39532900ca782a5e6e41",
+      "best_source_changed": true,
+      "best_tokens": 127,
+      "candidate_sha256": "b2b896b77341e94f78822a3317144fb511ced0b4a13c39532900ca782a5e6e41",
+      "cost_usd": "0.0220133",
+      "cumulative_usd": "1.8035078",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.36692005055031635,
+      "step": 103,
+      "usage": {
+        "completion_tokens": 1475,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1269
+        },
+        "cost": 0.0220133,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.01475,
+          "upstream_inference_cost": 0.0220133,
+          "upstream_inference_prompt_cost": 0.0072633
+        },
+        "is_byok": false,
+        "prompt_tokens": 32448,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1672,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33923
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 499239,
+      "best_sha256": "df012527d538211f7c3718832025c574a27735eff45256acb16b6263bbda203a",
+      "best_source_changed": true,
+      "best_tokens": 120,
+      "candidate_sha256": "df012527d538211f7c3718832025c574a27735eff45256acb16b6263bbda203a",
+      "cost_usd": "0.0213733",
+      "cumulative_usd": "2.1369096",
+      "duplicate_source": false,
+      "feedback_status": "verified",
+      "local_score": 0.36289342699637167,
+      "step": 124,
+      "usage": {
+        "completion_tokens": 1498,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 1301
+        },
+        "cost": 0.0213733,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.01498,
+          "upstream_inference_cost": 0.0213733,
+          "upstream_inference_prompt_cost": 0.0063933
+        },
+        "is_byok": false,
+        "prompt_tokens": 32100,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1324,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 33598
+      },
+      "valid": true
+    },
+    {
+      "best_raw_heartbeats": 499239,
+      "best_sha256": "df012527d538211f7c3718832025c574a27735eff45256acb16b6263bbda203a",
+      "best_source_changed": false,
+      "best_tokens": 120,
+      "candidate_sha256": "df012527d538211f7c3718832025c574a27735eff45256acb16b6263bbda203a",
+      "cost_usd": "0.0085558",
+      "cumulative_usd": "2.5019843",
+      "duplicate_source": true,
+      "feedback_status": "verified",
+      "local_score": 0.36289342699637167,
+      "step": 158,
+      "usage": {
+        "completion_tokens": 222,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 25
+        },
+        "cost": 0.0085558,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.00222,
+          "upstream_inference_cost": 0.0085558,
+          "upstream_inference_prompt_cost": 0.0063358
+        },
+        "is_byok": false,
+        "prompt_tokens": 32077,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 1301,
+          "cached_tokens": 30773,
+          "video_tokens": 0
+        },
+        "total_tokens": 32299
+      },
+      "valid": true
+    }
+  ],
+  "model": "openai/gpt-6.1-sol",
+  "native_run_wall_seconds": 7099.786738,
+  "overshoot_usd": "0.0019843",
+  "paid_calls": 158,
+  "problem": "Warm-up P02",
+  "reasoning_effort": "high",
+  "replay": {
+    "lean_called": false,
+    "model_called": false,
+    "record_replay_passed": true,
+    "selected_sha256": "df012527d538211f7c3718832025c574a27735eff45256acb16b6263bbda203a",
+    "steps": 158
+  },
+  "settled_calls": 158,
+  "threshold_crossed_only_on_last_call": true,
+  "threshold_usd": "2.50",
+  "total_cache_write_tokens": 288859,
+  "total_cached_input_tokens": 4800588,
+  "total_input_tokens": 5089921,
+  "total_output_tokens": 129883,
+  "total_reasoning_output_tokens": 97107,
+  "unique_candidate_sources": 63,
+  "unique_valid_sources": 26,
+  "validation": {
+    "budget_packet_matches_prior_reported_cost": true,
+    "calls": 158,
+    "cost_usd": "2.5019843",
+    "full_module_passed": true,
+    "generation_ids_unique": true,
+    "last_call_only_crossed_threshold": true,
+    "main_replay_passed": true,
+    "no_step_159": true,
+    "overshoot_usd": "0.0019843",
+    "request_wire_matches_native_records": true,
+    "secret_in_evidence": false,
+    "stop_reason": "cost_limit",
+    "unit_tests_passed": 48
+  }
+}

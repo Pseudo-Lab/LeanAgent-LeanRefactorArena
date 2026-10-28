@@ -1,0 +1,16 @@
+[
+  {
+    "run_id": "example-run",
+    "agent_id": "agent-1",
+    "event_id": "call-1",
+    "model": "test-model",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "usage": {
+      "input_tokens": 1000,
+      "cached_input_tokens": 200,
+      "output_tokens": 100,
+      "reasoning_output_tokens": 80
+    }
+  }
+]

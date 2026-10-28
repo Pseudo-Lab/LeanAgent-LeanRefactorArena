@@ -8,6 +8,7 @@
 평가·선택 규칙을 유지하고 패키지 경로, 실행 진입점, 보관 코드의 실행 방법을 정리했습니다.
 환경 사전 점검·오류 피드백·실행 상태 조회는 검증된 실험을 바탕으로 통합했습니다.
 [통합 범위와 검증 기록](runtime-integration.md)을 참고합니다.
+실제 문제 실행·비용 종료·입출력 사용량 기록은 [API 통합 사용법](api-integration.md)에 정리했습니다.
 
 ## 설치와 실행
 
@@ -47,6 +48,8 @@ python -m lean_agent replay runs/first-harness/trial-01
 | `src/lean_agent/status.py` | 단계 시작·완료 기록과 읽기 전용 상태 조회 |
 | `src/lean_agent/artifacts.py` | JSON 저장과 산출물 해시 공통 처리 |
 | `src/lean_agent/models.py` | 고정 응답과 OpenRouter 연결, 사용량·비용 해석 |
+| `src/lean_agent/accounting.py` | API/subagent 사용량 정규화, 실제 비용과 환산 추정 분리, 토큰 집계 |
+| `src/lean_agent/prepared.py` | 준비된 외부 라이브러리 manifest 생성·검사, 명시적 Lean 검색 경로 |
 | `src/lean_agent/evaluator/` | 명제·공리 검사, Lean 컴파일, 토큰·heartbeat 측정 |
 | `configs/` | 스모크 설정과 OpenRouter 설정 예제 |
 | `examples/first-harness/` | 작은 입력 문제, 컴파일 문맥, 프롬프트, 고정 응답 |
@@ -66,6 +69,9 @@ heartbeat는 표본 중앙값을 사용합니다. 실제 비교에는 같은 비
 `result.json`에 사전 점검·오류 근거·단계 이력·실행 종료 상태를 기록합니다. 코드·입력·컴파일러 식별 정보와
 실제 요청·응답·후보·원문 로그·측정값을 보존하며, Git checkout 정보는 확인 가능한 경우 기록합니다.
 정확한 실행 코드와 입력은 Git 유무와 관계없이 복사하고 해시를 기록합니다.
+응답별 `steps/<회차>/usage.json`과 전체 `usage-summary.json`에는 과금 토큰의 합계·평균·중앙값을
+기록합니다. 실패·중복 후보도 포함하고, 캐시·reasoning을 중복 합산하지 않습니다.
+누락된 사용량은 0 대신 `null`로 남기며, replay에서 원문 응답과 다시 대조합니다.
 
 코드가 바뀌어 현재 패키지로 replay할 수 없으면 해당 실행에 보관한 코드를 사용합니다.
 
@@ -83,19 +89,24 @@ replay는 저장된 관측으로 요청·상태 전이·종료 조건·최종 �
 ```sh
 python -m unittest discover -s tests -p 'test_harness.py' -v
 python -m unittest discover -s tests -p 'test_runtime_integration.py' -v
+python -m unittest discover -s tests -p 'test_api_integration.py' -v
+python -m unittest discover -s tests -p 'test_accounting.py' -v
 ```
 
 위 테스트는 Lean 설치·네트워크·모델 API 없이 실행합니다.
 실제 Lean 스모크와 replay는 위의 실행 명령으로 별도 확인합니다.
 
-현재 기본 실행기는 외부 라이브러리 의존성이 없는 Lean 프로젝트와 단일 환경을 지원합니다.
+현재 기본 실행기는 단일 Lean 환경을 지원합니다. 외부 라이브러리는 미리 빌드하고
+`lean.prepared_environment`에 해시 manifest를 지정합니다. 자동 설치·빌드는 하지 않습니다.
 OpenRouter 설정 예제는 정확한 모델 ID·provider를 지정한 뒤 사용하며,
 인증은 `OPENROUTER_API_KEY` 환경 변수로 받습니다. `.env`를 자동 로드하지 않습니다.
+필요하면 `run`/`check`에 `--dotenv .env`를 명시해 `OPENROUTER_API_KEY` 또는 `OPENROUTER`를 읽습니다.
 인증 헤더는 기록하거나 Lean 프로세스에 전달하지 않습니다.
 
 호출 횟수·요청·후보 크기 제한과 실제 응답 비용 기록은 구현되어 있습니다.
-비용을 알 수 없으면 재시도 없이 중단합니다. 실제 OpenRouter 연결 검증, 달러 비용의 사전 상한,
-외부 라이브러리 환경 연결, OS 수준 격리와 중단 후 재개는 후속 작업입니다.
+비용을 알 수 없으면 재시도 없이 중단합니다. `cost_stop_usd`는 응답 뒤 누적 비용을 기준으로
+종료하며 마지막 호출의 초과분을 허용합니다. 엄격한 비용 사전 상한과 중단 후 재개는 공통 실행기의
+지원 범위에 포함하지 않습니다. P02의 실측 API 실험과 별도 예약 어댑터는 [API 통합 문서](api-integration.md)를 참고합니다.
 
 ## 사전 점검과 상태 조회
 

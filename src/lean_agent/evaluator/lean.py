@@ -53,15 +53,18 @@ def read_text(path: Path) -> str:
     return path.read_bytes().decode("utf-8")
 
 
-def execute(command: list[str], cwd: Path, timeout: float, *, input_text=None, separate_stderr=False) -> dict:
+def execute(command: list[str], cwd: Path, timeout: float, *, input_text=None, separate_stderr=False, lean_path=None) -> dict:
     """Kill the process group on timeout, including Lake's child Lean process."""
     started = time.monotonic()
+    child_env = {key: value for key, value in os.environ.items()
+                 if key in {"PATH", "HOME", "ELAN_HOME", "TMPDIR", "SYSTEMROOT", "WINDIR"}}
+    if lean_path is not None:
+        child_env["LEAN_PATH"] = lean_path
     process = subprocess.Popen(command, cwd=cwd, stdout=subprocess.PIPE,
                                stdin=subprocess.PIPE if input_text is not None else subprocess.DEVNULL,
                                stderr=subprocess.PIPE if separate_stderr else subprocess.STDOUT,
                                start_new_session=True,
-                               env={key: value for key, value in os.environ.items()
-                                    if key in {"PATH", "HOME", "ELAN_HOME", "TMPDIR", "SYSTEMROOT", "WINDIR"}})
+                               env=child_env)
     timed_out = False
     try:
         output, stderr = process.communicate(input=input_text.encode() if input_text is not None else None,

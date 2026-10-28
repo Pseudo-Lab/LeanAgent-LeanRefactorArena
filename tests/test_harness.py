@@ -53,6 +53,44 @@ class FakeEvaluator:
 
 
 class HarnessTests(unittest.TestCase):
+    def test_no_call_limit_requires_paid_cost_threshold(self):
+        self.config["limits"]["max_calls"] = None
+        self.save()
+        with self.assertRaisesRegex(ValueError, "Unlimited calls require"):
+            harness.load_config(self.path)
+        self.config["limits"]["cost_stop_usd"] = "0.05"
+        self.save()
+        with self.assertRaisesRegex(ValueError, "Unlimited calls require"):
+            harness.load_config(self.path)
+
+    def test_unlimited_loop_stops_on_crossing_cost_threshold_and_replays(self):
+        self.config["limits"].update(max_calls=None, cost_stop_usd="0.055")
+        self.config["model"] = {"backend": "openrouter", "id": "synthetic/model", "provider": "synthetic",
+            "max_tokens": 100, "temperature": 0, "timeout_seconds": 1}
+        self.save()
+        requests = []
+        def query(body, model, step, fixtures):
+            requests.append(body)
+            return {"choices": [{"message": {"content": '{"proof":"by rfl"}'}}], "usage": {"cost": "0.01"}}
+        with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-test-key"}):
+            result = harness.run(self.path, self.output, evaluator=FakeEvaluator(), query=query)
+        self.assertEqual(len(requests), 6)
+        self.assertEqual(result["state"]["cost_usd"], "0.06")
+        self.assertEqual(result["stop_reason"], "cost_limit")
+        self.assertEqual(result["status"], "completed")
+        packet = json.loads(requests[-1]["messages"][1]["content"])
+        self.assertIsNone(packet["remaining_calls"])
+        self.assertEqual(packet["budget"]["spent_usd"], "0.05")
+        with patch.object(models, "query", side_effect=AssertionError("No model in replay")):
+            self.assertTrue(harness.replay(self.output)["record_replay_passed"])
+
+    def test_cost_threshold_must_be_positive_and_finite(self):
+        for value in (0, -1, True, "NaN", "Infinity", "invalid"):
+            self.config["limits"]["cost_stop_usd"] = value
+            self.save()
+            with self.assertRaisesRegex(ValueError, "positive finite cost_stop_usd"):
+                harness.load_config(self.path)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory(dir=os.environ.get("PROJECT_CACHE_DIR"))
         self.addCleanup(self.temp.cleanup)

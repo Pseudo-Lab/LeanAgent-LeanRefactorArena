@@ -1,0 +1,446 @@
+{
+  "evidence_directory": "runs/api-comparison/20261028-p02-sol-high-v2",
+  "groups": {
+    "openrouter": {
+      "candidate_valid": 0,
+      "comparison_estimated_token_cost_usd": "0.1274061",
+      "comparison_reported_cost_usd": "0.1274061",
+      "comparison_trials": 3,
+      "completed_trials": 5,
+      "final_valid": 3,
+      "improved": 0,
+      "median_generation_seconds": 81.954337667,
+      "median_input_tokens": 2306,
+      "median_output_tokens": 4223,
+      "tool_using_trials": 0
+    },
+    "subagent": {
+      "candidate_valid": 1,
+      "comparison_estimated_token_cost_usd": "0.1259104",
+      "comparison_reported_cost_usd": null,
+      "comparison_trials": 3,
+      "completed_trials": 3,
+      "final_valid": 3,
+      "improved": 1,
+      "median_generation_seconds": 93.36324474999999,
+      "median_input_tokens": 20381,
+      "median_output_tokens": 2482,
+      "tool_using_trials": 0
+    }
+  },
+  "protocol": {
+    "api_model": "openai/gpt-6.1-sol",
+    "candidates_per_trial": 1,
+    "per_trial_usd": "2",
+    "reasoning_effort": "high",
+    "reservation_usd": "0.308005",
+    "scope": "Warm-up P02, Strata 451e5f0, Lean 4.26.0; original full source context",
+    "subagent_model": "gpt-6.1-sol",
+    "total_usd": "10"
+  },
+  "reported_openrouter_total_usd": "0.2009787",
+  "trials": [
+    {
+      "backend": "openrouter",
+      "baseline": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "candidate_metrics": null,
+      "candidate_valid": false,
+      "cost_usd": "0.0361335",
+      "estimated_token_cost_usd": "0.0361335",
+      "final_metrics": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694884,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "final_valid": true,
+      "generation_seconds": 58.747078875,
+      "improved": false,
+      "trial": "openrouter-01",
+      "usage": {
+        "completion_tokens": 3037,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 2699
+        },
+        "cost": 0.0361335,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.03037,
+          "upstream_inference_cost": 0.0361335,
+          "upstream_inference_prompt_cost": 0.0057635
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 2303,
+          "cached_tokens": 0,
+          "video_tokens": 0
+        },
+        "total_tokens": 5343
+      }
+    },
+    {
+      "backend": "openrouter",
+      "baseline": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "candidate_metrics": null,
+      "candidate_valid": false,
+      "cost_usd": "0.0424663",
+      "estimated_token_cost_usd": "0.0424663",
+      "final_metrics": {
+        "raw_heartbeats": 2695001,
+        "raw_samples": [
+          2694882,
+          2695039,
+          2695001
+        ],
+        "tokens": 222
+      },
+      "final_valid": true,
+      "generation_seconds": 81.954337667,
+      "improved": false,
+      "trial": "openrouter-02",
+      "usage": {
+        "completion_tokens": 4223,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 3920
+        },
+        "cost": 0.0424663,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.04223,
+          "upstream_inference_cost": 0.0424663,
+          "upstream_inference_prompt_cost": 0.0002363
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_tokens": 2303,
+          "video_tokens": 0
+        },
+        "total_tokens": 6529
+      }
+    },
+    {
+      "backend": "openrouter",
+      "baseline": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "candidate_metrics": null,
+      "candidate_valid": false,
+      "cost_usd": "0.0488063",
+      "estimated_token_cost_usd": "0.0488063",
+      "final_metrics": {
+        "raw_heartbeats": 2695001,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695001
+        ],
+        "tokens": 222
+      },
+      "final_valid": true,
+      "generation_seconds": 85.890713416,
+      "improved": false,
+      "trial": "openrouter-03",
+      "usage": {
+        "completion_tokens": 4857,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 4594
+        },
+        "cost": 0.0488063,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.04857,
+          "upstream_inference_cost": 0.0488063,
+          "upstream_inference_prompt_cost": 0.0002363
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_tokens": 2303,
+          "video_tokens": 0
+        },
+        "total_tokens": 7163
+      }
+    },
+    {
+      "backend": "openrouter",
+      "baseline": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "candidate_metrics": null,
+      "candidate_valid": false,
+      "cost_usd": "0.0383063",
+      "estimated_token_cost_usd": "0.0383063",
+      "final_metrics": {
+        "raw_heartbeats": 2695001,
+        "raw_samples": [
+          2694884,
+          2695038,
+          2695001
+        ],
+        "tokens": 222
+      },
+      "final_valid": true,
+      "generation_seconds": 74.458192541,
+      "improved": false,
+      "trial": "openrouter-04",
+      "usage": {
+        "completion_tokens": 3807,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 3425
+        },
+        "cost": 0.0383063,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.03807,
+          "upstream_inference_cost": 0.0383063,
+          "upstream_inference_prompt_cost": 0.0002363
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_tokens": 2303,
+          "video_tokens": 0
+        },
+        "total_tokens": 6113
+      }
+    },
+    {
+      "backend": "openrouter",
+      "baseline": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "candidate_metrics": null,
+      "candidate_valid": false,
+      "cost_usd": "0.0352663",
+      "estimated_token_cost_usd": "0.0352663",
+      "final_metrics": {
+        "raw_heartbeats": 2695001,
+        "raw_samples": [
+          2694882,
+          2695041,
+          2695001
+        ],
+        "tokens": 222
+      },
+      "final_valid": true,
+      "generation_seconds": 67.318424166,
+      "improved": false,
+      "trial": "openrouter-05",
+      "usage": {
+        "completion_tokens": 3503,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 3079
+        },
+        "cost": 0.0352663,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.03503,
+          "upstream_inference_cost": 0.0352663,
+          "upstream_inference_prompt_cost": 0.0002363
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_tokens": 2303,
+          "video_tokens": 0
+        },
+        "total_tokens": 5809
+      }
+    },
+    {
+      "backend": "subagent",
+      "baseline": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "candidate_metrics": {
+        "raw_heartbeats": 1901528,
+        "raw_samples": [
+          1901528,
+          1901523,
+          1901549
+        ],
+        "tokens": 270
+      },
+      "candidate_valid": true,
+      "cost_usd": null,
+      "estimated_token_cost_usd": "0.0434748",
+      "final_metrics": {
+        "raw_heartbeats": 1901528,
+        "raw_samples": [
+          1901528,
+          1901520,
+          1901549
+        ],
+        "tokens": 270
+      },
+      "final_valid": true,
+      "generation_seconds": 118.94626808400001,
+      "improved": true,
+      "trial": "subagent-01",
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 12288,
+        "input_tokens": 20381,
+        "output_tokens": 2606,
+        "reasoning_output_tokens": 2070
+      }
+    },
+    {
+      "backend": "subagent",
+      "baseline": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "candidate_metrics": null,
+      "candidate_valid": false,
+      "cost_usd": null,
+      "estimated_token_cost_usd": "0.0423108",
+      "final_metrics": {
+        "raw_heartbeats": 2695001,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695001
+        ],
+        "tokens": 222
+      },
+      "final_valid": true,
+      "generation_seconds": 93.36324474999999,
+      "improved": false,
+      "trial": "subagent-02",
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 12288,
+        "input_tokens": 20419,
+        "output_tokens": 2482,
+        "reasoning_output_tokens": 1916
+      }
+    },
+    {
+      "backend": "subagent",
+      "baseline": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "candidate_metrics": null,
+      "candidate_valid": false,
+      "cost_usd": null,
+      "estimated_token_cost_usd": "0.0401248",
+      "final_metrics": {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      },
+      "final_valid": true,
+      "generation_seconds": 76.906132208,
+      "improved": false,
+      "trial": "subagent-03",
+      "usage": {
+        "cache_write_input_tokens": 0,
+        "cached_input_tokens": 12288,
+        "input_tokens": 20381,
+        "output_tokens": 2271,
+        "reasoning_output_tokens": 1781
+      }
+    }
+  ],
+  "validation": {
+    "all_explicit_message_hashes_match": true,
+    "all_final_proofs_valid": true,
+    "balance_after": {
+      "available_usd": "9.7990213",
+      "total_credits": 10,
+      "total_usage": 0.2009787
+    },
+    "completed_trials": 8,
+    "evaluation_and_selection_source_matches_run_snapshot": true,
+    "paid_calls": 5,
+    "record_replay_passed": true,
+    "report_code_sha256": "34cecfe7b7107ac00932f6f6d7a244310f2dbdbd54a64fa49b8a4128bffd7f2a",
+    "reserved_and_actual_costs_within_limits": true,
+    "secret_in_evidence": false,
+    "source_formatting_changes_observed_after": [
+      {
+        "change": "trailing blank lines only; AST identical",
+        "current_sha256": "185cf1e00a736067b9ca29fd9c26936856da3ae8f7de3f45ba5a32ee3e66e7ac",
+        "file": "diagnostics.py",
+        "frozen_sha256": "03b888f59a8e47aaa87751ddf28086eceb7a07e660256c9d9adbe37eebed0650"
+      }
+    ],
+    "subagent_tool_executions": 0,
+    "unit_tests_passed": 7
+  }
+}
