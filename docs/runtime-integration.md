@@ -10,7 +10,8 @@
 없었으므로, main `09ea3c4066569309c971993af32d49200b72d07c`의 패키지·패키징 설정·예제·하네스
 회귀 검사를 가져온 뒤 기능을 통합했다. 해당 main의 `src/lean_agent`, 설정·예제·하네스 검사는
 실험이 고정했던 `ba593fc4357ee5c429b8f28f1aac512d05bb4355`와 동일함을 비교했다.
-main 전체를 merge하지 않았으며 다른 작업 디렉터리를 덮어쓰지 않았다.
+초기 통합은 필요한 main 파일만 가져왔다. PR 준비 시 main을 merge하고, 기준 이후 바뀌지 않은
+공유 파일 5개는 검증된 통합 버전을 유지해 충돌을 해결했다. 로컬의 별도 작업은 보존했다.
 
 기능 원본은 실험 commit `7c670039ce1b5a571752d3abca35e750dcd8e342`이다.
 실험의 기준 코드·설계 lock·검증 결과·실행기는 유지한다. 설치 패키지는 실험 디렉터리나
@@ -37,7 +38,8 @@ main 전체를 merge하지 않았으며 다른 작업 디렉터리를 덮어쓰�
 
 구조화된 결과는 [runtime-integration-validation.json](runtime-integration-validation.json)에 기록했다.
 
-- 전체 저장소 테스트: 72개 중 68개 통과, 별도 opt-in 실제 Lean 검사 4개 건너뜀.
+- main merge 후 전체 저장소 테스트: 77개 중 73개 통과, 별도 opt-in 실제 Lean 검사 4개 건너뜀.
+- Harness CI는 Python 3.10·3.13에서 기존 하네스와 새 runtime 통합 검사를 함께 실행한다.
 - 기존 실험 회귀 검사: 68개 모두 통과. 별도 Python 프로세스에서 실행해 패키지 경로를 분리했다.
 - 통합 검사: 환경 실패 시 모델 0회, 원문 증명 오류 피드백, Unicode·깊은 JSON 거절,
   API 응답·과금 불명 시 재시도 없음, 계측 실패 분리, Ctrl-C/SystemExit/예외 기록,

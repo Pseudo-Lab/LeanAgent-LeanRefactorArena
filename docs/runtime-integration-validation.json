@@ -7,14 +7,20 @@
   "main_package_matches_frozen_baseline": "ba593fc4357ee5c429b8f28f1aac512d05bb4355",
   "tests": {
     "repository": {
-      "run": 72,
-      "passed": 68,
+      "run": 77,
+      "passed": 73,
       "skipped": 4,
       "skips": "Opt-in legacy real Lean tests; separate installed-package real Lean smoke performed"
     },
     "experiment_regressions": {
       "run": 68,
       "passed": 68
+    },
+    "before_main_merge_repository": {
+      "run": 72,
+      "passed": 68,
+      "skipped": 4,
+      "skips": "Opt-in legacy real Lean tests; separate installed-package real Lean smoke performed"
     }
   },
   "installed_package": {
@@ -117,5 +123,11 @@
   ],
   "post_install_validation_changes": [
     "Removed extra blank lines at diagnostics.py EOF; no executable code changed. Repository unit suite rerun before commit. Installed wheel and archived replay retain the original bytes listed in installed_package.archived_source_sha256."
-  ]
+  ],
+  "main_merge_validation": {
+    "main_revision": "09ea3c4066569309c971993af32d49200b72d07c",
+    "merge_commit": "37498be",
+    "source_hashes_unchanged": true,
+    "harness_ci": "Run both test_harness.py and test_runtime_integration.py on Python 3.10 and 3.13"
+  }
 }
