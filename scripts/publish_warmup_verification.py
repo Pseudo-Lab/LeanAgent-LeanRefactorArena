@@ -13,7 +13,8 @@ else:
     from warmup_evaluator import evaluator_metadata
 
 ROOT = Path(__file__).resolve().parents[1]
-PRIMARY = {'arklib': 'v4.31.0', 'cslib': 'v4.32.0', 'putnambench': 'v4.26.0'}
+PRIMARY = {'arklib': 'v4.31.0', 'cslib': 'v4.32.0', 'putnambench': 'v4.26.0',
+           'strata': 'v4.26.0', 'physlib': 'v4.32.0'}
 
 
 def encoded(value):

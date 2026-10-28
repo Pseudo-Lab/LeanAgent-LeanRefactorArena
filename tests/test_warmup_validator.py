@@ -136,28 +136,42 @@ class ValidatorTests(unittest.TestCase):
 
 
 class CslibRunnerTests(unittest.TestCase):
-    def test_each_p07_pin_routes_through_cslib_preparation_and_evaluation(self):
-        """Exercise the actual runner with synthetic preparation; no Lean or network."""
+    source = 'cslib'
+    problem_ids = (7,)
+    repository = 'https://github.com/leanprover/cslib.git'
+    targets = {'v4.31.0': ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'],
+               'v4.32.0': ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'],
+               'v4.33.0-rc2': ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean']}
+
+    def test_each_pin_routes_only_designated_problems_through_preparation_and_evaluation(self):
+        """Run the real runner with synthetic preparation; no Lean or network."""
         inputs = json.loads((ROOT / 'submissions/warmup/verification-inputs.json').read_text())
-        meta = inputs['problems']['7']
         snapshot = json.loads((ROOT / 'dashboard/public/data/warmup-team-results.json').read_text())
-        row = next(p for p in snapshot['problems'] if p['id'] == 7)
-        selected = next(c for c in row['teamResults'] if c['id'] == row['selectedCandidateId'])
-        for pin in meta['version_info']:
-            version, revision = next(iter(pin.items()))
-            with self.subTest(version=version), tempfile.TemporaryDirectory() as temp:
-                root = Path(temp)
+        rows = [p for p in snapshot['problems'] if p['id'] in self.problem_ids]
+        for version, targets in self.targets.items():
+            designated = [(row, inputs['problems'][str(row['id'])]) for row in rows
+                          if any(version in pin for pin in inputs['problems'][str(row['id'])]['version_info'])]
+            revisions = {pin[version] for _, meta in designated for pin in meta['version_info'] if version in pin}
+            revision, = revisions
+            with self.subTest(source=self.source, version=version), tempfile.TemporaryDirectory() as temp:
+                root = Path(temp).resolve()
                 folder = root / 'submissions/warmup'
                 (folder / 'best').mkdir(parents=True)
-                (folder / 'best/P07.lean').write_text(selected['proof'])
-                (folder / 'verification-inputs.json').write_text(json.dumps({'problems': {'7': meta}}))
+                for row in rows:
+                    selected = next(c for c in row['teamResults'] if c['id'] == row['selectedCandidateId'])
+                    (folder / f'best/P{row["id"]:02}.lean').write_text(selected['proof'])
+                # Include all of this source's problems, including those NOT designated
+                # for this pin. The runner must filter before reading their sources.
+                (folder / 'verification-inputs.json').write_text(json.dumps({
+                    'problems': {str(row['id']): inputs['problems'][str(row['id'])] for row in rows}}))
                 published = root / 'dashboard/public/data/warmup-team-results.json'
                 published.parent.mkdir(parents=True)
-                published.write_text(json.dumps({'problems': [row]}))
-                args = argparse.Namespace(source='cslib', version=version,
+                published.write_text(json.dumps({'problems': rows}))
+                args = argparse.Namespace(source=self.source, version=version,
                                           work=root / 'work', output=root / 'output', memory_mb=6144)
                 project = args.work / 'project'
                 commands, evaluations = [], []
+                dependency_rev = 'a' * 40
 
                 def prepare(command, **kwargs):
                     commands.append(command)
@@ -166,19 +180,24 @@ class CslibRunnerTests(unittest.TestCase):
                     if command[:2] == ['git', 'init']:
                         project.mkdir()
                         (project / 'lean-toolchain').write_text(f'leanprover/lean4:{version}\n')
-                        (project / 'lake-manifest.json').write_text('{"packages": []}')
-                        source = project / meta['file_path']
-                        source.parent.mkdir(parents=True)
-                        source.write_text(
-                            'module\npublic import Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Typing\n'
-                            'namespace Cslib.LambdaCalculus.LocallyNameless.Fsub\n'
-                            'set_option linter.tacticAnalysis.verifyGrindOnly false in\n'
-                            '/-- Synthetic surrounding context. -/\n' + meta['src'] + '\nend\n')
+                        (project / 'lake-manifest.json').write_text(json.dumps({
+                            'packages': [{'type': 'git', 'name': 'dependency', 'rev': dependency_rev}]}))
+                        sources = {}
+                        for _, meta in designated:
+                            sources.setdefault(meta['file_path'], []).append(meta['src'])
+                        for name, declarations in sources.items():
+                            source = project / name
+                            source.parent.mkdir(parents=True)
+                            source.write_text('import Init\nnamespace Fixture\n'
+                                              'set_option maxRecDepth 1000 in\n'
+                                              '/-- Synthetic surrounding context. -/\n'
+                                              + '\n'.join(declarations) + '\nend\n')
                     return subprocess.CompletedProcess(command, 0)
 
                 def checkout_head(command, **kwargs):
-                    self.assertEqual(command, ['git', '-C', str(project), 'rev-parse', 'HEAD'])
-                    return revision + '\n'
+                    self.assertEqual(command, ['git', '-C', str(project / '.lake/packages/dependency'),
+                                               'rev-parse', 'HEAD'])
+                    return dependency_rev + '\n'
 
                 class FakeEvaluator:
                     def fingerprint(self, env):
@@ -202,18 +221,71 @@ class CslibRunnerTests(unittest.TestCase):
                       patch.dict(os.environ, {'GITHUB_STEP_SUMMARY': ''}),
                       redirect_stdout(io.StringIO())):
                     verifier.main(args)
-                self.assertIn(['git', 'remote', 'add', 'origin', 'https://github.com/leanprover/cslib.git'], commands)
+                self.assertIn(['git', 'remote', 'add', 'origin', self.repository], commands)
                 self.assertIn(['git', 'fetch', '--depth=1', 'origin', revision], commands)
-                self.assertIn(['lake', 'build',
-                               '+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean'], commands)
+                self.assertIn(['lake', 'build', *targets], commands)
+                if self.source == 'strata':
+                    self.assertIn(['lake', 'env', 'lean', '--version'], commands)
+                    self.assertNotIn(['lake', 'exe', 'cache', 'get'], commands)
+                else:
+                    self.assertIn(['lake', 'exe', 'cache', 'get'], commands)
                 summary = json.loads((args.output / 'summary.json').read_text())
                 self.assertEqual(summary['status'], 'completed')
-                self.assertEqual(summary['source'], 'cslib')
+                self.assertEqual(summary['source'], self.source)
                 self.assertEqual(summary['revision'], revision)
-                self.assertEqual([p['id'] for p in summary['problems']], [7])
-                self.assertEqual(len(evaluations), 1 + len(row['teamResults']))
+                self.assertEqual(summary['dependencies'], [{'name': 'dependency', 'revision': dependency_rev}])
+                self.assertEqual([p['id'] for p in summary['problems']], [row['id'] for row, _ in designated])
+                self.assertEqual(len(evaluations), sum(1 + len(row['teamResults']) for row, _ in designated))
                 self.assertTrue(all(runs == 3 for _, _, runs in evaluations))
                 self.assertTrue(all(code.startswith(config['statement']) for code, config, _ in evaluations))
+
+
+class StrataRunnerTests(CslibRunnerTests):
+    source = 'strata'
+    problem_ids = (1, 2, 3)
+    repository = 'https://github.com/strata-org/Strata.git'
+    targets = {
+        'v4.26.0': ['+Strata.Languages.Core.StatementSemanticsProps:olean',
+                     '+Strata.Transform.CallElimCorrect:olean'],
+        'v4.27.0': ['+Strata.Languages.Core.StatementSemanticsProps:olean'],
+        'v4.29.1': ['+Strata.Languages.Core.StatementSemanticsProps:olean'],
+    }
+
+
+class PhyslibRunnerTests(CslibRunnerTests):
+    source = 'physlib'
+    problem_ids = (4, 5, 6)
+    repository = 'https://github.com/leanprover-community/physlib.git'
+    targets = {'v4.32.0': [
+        '+Physlib.Electromagnetism.Dynamics.IsExtrema:olean',
+        '+Physlib.Mathematics.VariationalCalculus.Basic:olean',
+        '+Physlib.QFT.PerturbationTheory.WickAlgebra.TimeOrder:olean',
+    ]}
+
+
+class WorkflowCoverageTests(unittest.TestCase):
+    def test_matrix_exactly_covers_registered_pins_and_primary_versions(self):
+        import re
+        inputs = json.loads((ROOT / 'submissions/warmup/verification-inputs.json').read_text())
+        snapshot = json.loads((ROOT / 'dashboard/public/data/warmup-team-results.json').read_text())
+        workflow = (ROOT / '.github/workflows/warmup-verification.yml').read_text()
+        matrix = re.findall(r'- source: (\w+)\s+version: (\S+)', workflow)
+        pins = {}
+        for row in snapshot['problems']:
+            meta = inputs['problems'].get(str(row['id']))
+            if meta is None:
+                continue
+            self.assertEqual(meta['source'], row['source'])
+            self.assertEqual(meta['name'], row['name'])
+            versions = {v: r for pin in meta['version_info'] for v, r in pin.items()}
+            self.assertEqual(versions, {p['version']: p['revision'] for p in row['versions']})
+            self.assertIn(publisher.PRIMARY[row['source']], versions)
+            for version, revision in versions.items():
+                pins.setdefault((row['source'], version), set()).add(revision)
+        self.assertEqual(len(matrix), 14)
+        self.assertEqual(len(matrix), len(set(matrix)))
+        self.assertEqual(set(matrix), set(pins))
+        self.assertTrue(all(len(revisions) == 1 for revisions in pins.values()))
 
 
 class PublicationTests(unittest.TestCase):
@@ -301,10 +373,10 @@ class PublicationTests(unittest.TestCase):
             with self.subTest(field=field):
                 reports = deepcopy(self.reports)
                 if field == 'legacy':
-                    reports[1].pop('validatorVersion')
-                    reports[1].pop('validatorSha256')
+                    reports[0].pop('validatorVersion')
+                    reports[0].pop('validatorSha256')
                 else:
-                    reports[1][field] = 'changed'
+                    reports[0][field] = 'changed'
                 snapshot_before = self.snapshot_path.read_bytes()
                 manifest_before = self.manifest_path.read_bytes()
                 with self.assertRaisesRegex(ValueError, 'incompatible verification'):
@@ -325,22 +397,36 @@ class PublicationTests(unittest.TestCase):
         self.assertEqual(after['problems'][1], untouched)
 
 
-class CslibPublicationTests(PublicationTests):
-    source = 'cslib'
-    problem_id = 7
-    designated_versions = ('v4.33.0-rc2', 'v4.32.0', 'v4.31.0')
-
-    def test_missing_cslib_version_cannot_write_published_files(self):
+    def test_missing_designated_version_cannot_write_published_files(self):
         for path, report in zip(self.paths, self.reports):
             self.write(path, report)
         snapshot_before = self.snapshot_path.read_bytes()
         manifest_before = self.manifest_path.read_bytes()
         with patch.object(publisher, 'ROOT', self.root):
-            with self.assertRaisesRegex(ValueError, 'Missing designated verification: P07 cslib v4.33.0-rc2'):
+            with self.assertRaisesRegex(ValueError, f'Missing designated verification: P{self.problem_id:02} {self.source} {self.designated_versions[0]}'):
                 publisher.publish(self.paths[1:])
         self.assertEqual(self.snapshot_path.read_bytes(), snapshot_before)
         self.assertEqual(self.manifest_path.read_bytes(), manifest_before)
         self.assertFalse((self.folder / 'verification-results.json').exists())
+
+
+class CslibPublicationTests(PublicationTests):
+    source = 'cslib'
+    problem_id = 7
+    designated_versions = ('v4.33.0-rc2', 'v4.32.0', 'v4.31.0')
+
+
+
+class StrataPublicationTests(PublicationTests):
+    source = 'strata'
+    problem_id = 3
+    designated_versions = ('v4.29.1', 'v4.27.0', 'v4.26.0')
+
+
+class PhyslibPublicationTests(PublicationTests):
+    source = 'physlib'
+    problem_id = 4
+    designated_versions = ('v4.32.0',)
 
 
 if __name__ == '__main__':

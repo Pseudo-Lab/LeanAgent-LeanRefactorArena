@@ -20,6 +20,14 @@ jobs:
       max-parallel: 4
       matrix:
         include:
+          - source: strata
+            version: v4.26.0
+          - source: strata
+            version: v4.27.0
+          - source: strata
+            version: v4.29.1
+          - source: physlib
+            version: v4.32.0
           - source: putnambench
             version: v4.25.0
           - source: putnambench

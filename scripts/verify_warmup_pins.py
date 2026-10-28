@@ -24,6 +24,8 @@ else:
 ROOT = Path(__file__).resolve().parents[1]
 REPOSITORIES = {'arklib': 'https://github.com/Verified-zkEVM/ArkLib.git',
                 'cslib': 'https://github.com/leanprover/cslib.git',
+                'strata': 'https://github.com/strata-org/Strata.git',
+                'physlib': 'https://github.com/leanprover-community/physlib.git',
                 'putnambench': 'https://github.com/leanprover-community/mathlib4.git'}
 
 def sha(data):
@@ -145,13 +147,25 @@ def main(args):
             raise ValueError(f'Toolchain mismatch: {toolchain}')
         lock = (project / 'lake-manifest.json').read_bytes()
         run(['elan', 'toolchain', 'install', toolchain], project)
-        run(['lake', 'exe', 'cache', 'get'], project)
+        if args.source == 'strata':
+            # Strata has no Mathlib cache executable. Loading its Lake workspace
+            # fetches the dependencies recorded in the existing manifest.
+            run(['lake', 'env', 'lean', '--version'], project)
+        else:
+            run(['lake', 'exe', 'cache', 'get'], project)
         if args.source == 'arklib':
             targets = ['+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean']
             if any(row['id'] == 12 for row, _, _ in rows):
                 targets.append('+ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults:olean')
         elif args.source == 'cslib':
             targets = ['+Cslib.Languages.LambdaCalculus.LocallyNameless.Fsub.Safety:olean']
+        elif args.source in ('strata', 'physlib'):
+            # Build only modules containing problems designated for this pin.
+            # P01/P02 share a module and only exist at Strata v4.26.0.
+            targets = sorted({
+                '+' + meta['file_path'].removesuffix('.lean').replace('/', '.') + ':olean'
+                for _, meta, _ in rows
+            })
         elif args.source == 'putnambench':
             targets = ['+Mathlib:olean']
         else:
