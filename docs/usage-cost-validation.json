@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "date": "2026-10-28",
+  "base_main": "7c5054f",
+  "source_branch": "codex/usage-cost-main-integration",
+  "imported_feature_branch_commit": "b54afd4b48de419051f6ceb641513cb73136b7f2",
+  "scope": "Issue 29 integration into current main; one accounting engine; no new paid calls",
+  "python": "3.13.11",
+  "tests": {
+    "repository": {
+      "run": 144,
+      "passed": 140,
+      "skipped_opt_in_lean": 4
+    },
+    "harness_and_cost_integration_subset": {
+      "passed": 99
+    },
+    "api_comparison_regressions": {
+      "passed": 13
+    },
+    "usage_cost_compatibility": {
+      "passed": 19
+    }
+  },
+  "installed_package": {
+    "wheel_sha256": "5742a45ba8eae44c994e1430465295eb93b1f7fc11084f4a590f57b85dff3015",
+    "source_bytes_match_tested_wheel": true,
+    "cli_outside_checkout": true,
+    "three_cli_entrypoints_same_output": true,
+    "native_replay": true,
+    "archived_replay_after_relocation": true
+  },
+  "real_lean_smoke": {
+    "toolchain": "leanprover/lean4:v4.26.0",
+    "backend": "fixture",
+    "final_valid": true,
+    "final_proof_tokens": 2,
+    "cost_usd": "0",
+    "fixture_responses": 3,
+    "external_model_calls": 0
+  },
+  "existing_real_usage_only_records": {
+    "api_calls": 6,
+    "api_reported_usd": "0.2011327",
+    "api_estimated_usd": "0.2011327",
+    "subagent_records": 3,
+    "subagent_estimated_usd": "0.1259104",
+    "subagent_reported_usd": null
+  },
+  "new_paid_api_calls": 0,
+  "new_subagent_runs": 0,
+  "benchmark_snapshot_setup": {
+    "source": "byte-identical ignored input copied from existing local checkout",
+    "sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804"
+  },
+  "preserved": [
+    "response usage mean/median and missing counts",
+    "cost_stop_usd and unknown_cost policies",
+    "prepared-library stat cache and full fingerprint boundaries",
+    "historical archive replay code"
+  ],
+  "excluded": [
+    "general concurrent budget reservations and strict USD 3 cap",
+    "subagent dispatcher",
+    "automatic retry/resume"
+  ],
+  "source_sha256": {
+    "src/lean_agent/accounting.py": "461b70c0c70da603081a6369b56859b236ad549ca54f149a10ce172dc9c2046d",
+    "src/lean_agent/usage_cost.py": "58051772ef305ce532c18035c6d9473fa15835ea5f27b63a4ce5e969e31075be",
+    "src/lean_agent/harness.py": "a70f2af888cdf752ae64883d0a83bf417b3e67acdf51f01bed4c97a15519611e",
+    "src/lean_agent/status.py": "3429fd5d531a2871940db94e778690db918d6c2c8dca8f3ec8e0764884b66b08",
+    "src/lean_agent/prepared.py": "e93053f8769d0a1d118bb0a6f607dddfaeeab4b1bc94952d9958a0c2c00f027f",
+    "tests/test_usage_integration.py": "33ef9068b1ab2296913a3f2fed09209d8b76193846bfcc4a5d858cb4bcf6a5d9",
+    "tests/test_usage_regressions.py": "da89b81617d9fb1f1ca9cfcb3e76b062b934b2df46ea99fbf5105498ed309bab"
+  }
+}

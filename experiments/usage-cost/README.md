@@ -7,6 +7,11 @@
 `python -m lean_agent usage-cost ...`로 같은 계산기를 실행한다.
 [실행 하네스 연결과 검증 범위](../../docs/api-integration.md)를 참고한다.
 
+#29의 추가 검증은 같은 계산기로 통합했다. 고정 단가 보존, native 요청·응답 가져오기,
+중단·미확정 비용 조회와 재생은 [사용량·비용 기록](../../docs/usage-cost.md)에 있다.
+`lean_agent.usage_cost`는 호환 모듈이며 별도의 계산 구현을 유지하지 않는다.
+공개된 실제 usage-only 자료는 `examples/observed-*.json`에 보존한다.
+
 ## 두 모드
 
 | 모드 | 받는 기록 | 우선 사용할 비용 |

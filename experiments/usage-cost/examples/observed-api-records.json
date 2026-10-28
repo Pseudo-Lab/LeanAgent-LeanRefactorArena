@@ -1,0 +1,212 @@
+[
+  {
+    "run_id": "new-smoke",
+    "agent_id": "api",
+    "event_id": "call-0",
+    "model": "openai/gpt-6.1-sol",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "response": {
+      "id": "observed-call-0",
+      "model": "openai/gpt-6.1-sol",
+      "usage": {
+        "prompt_tokens": 17,
+        "completion_tokens": 12,
+        "total_tokens": 29,
+        "cost": 0.000154,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.000154,
+          "upstream_inference_prompt_cost": 3.4e-05,
+          "upstream_inference_completions_cost": 0.00012
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 0,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      }
+    }
+  },
+  {
+    "run_id": "issue28-existing",
+    "agent_id": "api",
+    "event_id": "call-1",
+    "model": "openai/gpt-6.1-sol",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "response": {
+      "id": "observed-call-1",
+      "model": "openai/gpt-6.1-sol",
+      "usage": {
+        "completion_tokens": 3037,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 2699
+        },
+        "cost": 0.0361335,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.03037,
+          "upstream_inference_cost": 0.0361335,
+          "upstream_inference_prompt_cost": 0.0057635
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 2303,
+          "cached_tokens": 0,
+          "video_tokens": 0
+        },
+        "total_tokens": 5343
+      }
+    }
+  },
+  {
+    "run_id": "issue28-existing",
+    "agent_id": "api",
+    "event_id": "call-2",
+    "model": "openai/gpt-6.1-sol",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "response": {
+      "id": "observed-call-2",
+      "model": "openai/gpt-6.1-sol",
+      "usage": {
+        "completion_tokens": 4223,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 3920
+        },
+        "cost": 0.0424663,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.04223,
+          "upstream_inference_cost": 0.0424663,
+          "upstream_inference_prompt_cost": 0.0002363
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_tokens": 2303,
+          "video_tokens": 0
+        },
+        "total_tokens": 6529
+      }
+    }
+  },
+  {
+    "run_id": "issue28-existing",
+    "agent_id": "api",
+    "event_id": "call-3",
+    "model": "openai/gpt-6.1-sol",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "response": {
+      "id": "observed-call-3",
+      "model": "openai/gpt-6.1-sol",
+      "usage": {
+        "completion_tokens": 4857,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 4594
+        },
+        "cost": 0.0488063,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.04857,
+          "upstream_inference_cost": 0.0488063,
+          "upstream_inference_prompt_cost": 0.0002363
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_tokens": 2303,
+          "video_tokens": 0
+        },
+        "total_tokens": 7163
+      }
+    }
+  },
+  {
+    "run_id": "issue28-existing",
+    "agent_id": "api",
+    "event_id": "call-4",
+    "model": "openai/gpt-6.1-sol",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "response": {
+      "id": "observed-call-4",
+      "model": "openai/gpt-6.1-sol",
+      "usage": {
+        "completion_tokens": 3807,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 3425
+        },
+        "cost": 0.0383063,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.03807,
+          "upstream_inference_cost": 0.0383063,
+          "upstream_inference_prompt_cost": 0.0002363
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_tokens": 2303,
+          "video_tokens": 0
+        },
+        "total_tokens": 6113
+      }
+    }
+  },
+  {
+    "run_id": "issue28-existing",
+    "agent_id": "api",
+    "event_id": "call-5",
+    "model": "openai/gpt-6.1-sol",
+    "usage_scope": "exclusive_delta",
+    "status": "completed",
+    "response": {
+      "id": "observed-call-5",
+      "model": "openai/gpt-6.1-sol",
+      "usage": {
+        "completion_tokens": 3503,
+        "completion_tokens_details": {
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "reasoning_tokens": 3079
+        },
+        "cost": 0.0352663,
+        "cost_details": {
+          "upstream_inference_completions_cost": 0.03503,
+          "upstream_inference_cost": 0.0352663,
+          "upstream_inference_prompt_cost": 0.0002363
+        },
+        "is_byok": false,
+        "prompt_tokens": 2306,
+        "prompt_tokens_details": {
+          "audio_tokens": 0,
+          "cache_write_tokens": 0,
+          "cached_tokens": 2303,
+          "video_tokens": 0
+        },
+        "total_tokens": 5809
+      }
+    }
+  }
+]

@@ -180,6 +180,17 @@ def inspect(root):
                     **{key: report[key] for key in ("stage", "kind", "reason")}})
         except (ValueError, KeyError, TypeError, AttributeError):
             continue  # A concurrent writer may not have finished this file yet.
+    # Derive costs from requests/receipts so pending calls remain explicit.
+    if (root / "input/usage-prices.json").exists():
+        from .accounting import native_report
+        try:
+            report = native_report(root)
+            if value["sealed"] and read_json(root / "usage-cost.json") != report:
+                raise ValueError("Usage/cost report differs from recorded attempts")
+            value["usage_cost"] = {"backend": report["backend"], **report["summary"]}
+        except (OSError, ValueError, KeyError, TypeError, AttributeError) as exc:
+            value["usage_cost"] = None
+            value["usage_cost_error"] = type(exc).__name__ + ": usage report unavailable or inconsistent"
     return value
 
 
@@ -195,6 +206,14 @@ def describe(value):
              "Process state: unknown (not inferred from missing records)",
              "Latest verified candidate: " + (value["latest_verified_candidate"] or {}).get("sha256", "none"),
              "Final result: " + (value["final_result"] or {}).get("sha256", "not confirmed")]
+    cost = value.get("usage_cost")
+    if cost:
+        lines.append(f"Usage ({cost['backend']}): {cost['entries']} calls; "
+                     f"reported USD {cost['reported_cost_usd']}; "
+                     f"token estimate USD {cost['estimated_token_cost_usd']}; "
+                     f"unknown cost entries {cost['unknown_cost_entries']}")
+    if value.get("usage_cost_error"):
+        lines.append(value["usage_cost_error"])
     if value["latest_failure"]:
         lines.append("Last failed/interrupted stage: " + stage(value["latest_failure"]))
     lines.extend(f"Diagnosis: {row['kind']} / {row['path']}" for row in value["diagnostics"])
