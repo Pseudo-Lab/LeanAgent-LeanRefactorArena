@@ -53,10 +53,19 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
-      - name: Fetch frozen evaluator revision
+      - name: Check out frozen evaluator revision
         # The evaluator came from a squash-merged PR and need not be reachable
         # from any current branch, even with fetch-depth: 0.
-        run: git fetch --no-tags --depth=1 origin c18ec56682462847e2f4d8b6d60aa79ec071a10b
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: c18ec56682462847e2f4d8b6d60aa79ec071a10b
+          path: .warmup-evaluator-source
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Import frozen evaluator revision
+        # Import locally so the private-repository token is neither persisted
+        # nor passed to subsequent dependency builds or proof evaluation.
+        run: git fetch --no-tags --depth=1 ./.warmup-evaluator-source c18ec56682462847e2f4d8b6d60aa79ec071a10b
       - name: Check validator and publication regressions
         run: python3 -m unittest discover -s tests -p test_warmup_validator.py
       - name: Install pinned Elan

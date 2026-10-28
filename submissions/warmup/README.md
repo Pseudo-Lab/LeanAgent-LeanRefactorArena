@@ -12,7 +12,7 @@
 
 ## 지정 환경 재검증
 
-P01–P07·P10–P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. Strata v4.26.0/v4.27.0/v4.29.1, Physlib v4.32.0, Cslib v4.31.0/v4.32.0/v4.33.0-rc2, ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. 현재 작업은 총 14개다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. 이전 실행 [40301978929](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40301978929)의 7개 summary는 P12를 포함한 당시 등록 6문제의 원본·후보가 지정 버전을 통과한 결과다. 추가한 P01–P06 Strata·Physlib 및 P07 Cslib 환경은 아직 이 브랜치에서 원격 실행하지 않았다. 새 연결만으로 기존 대시보드의 측정값·통과 상태를 바꾸지는 않는다.
+P01–P07·P10–P15의 환경은 `.github/workflows/warmup-verification.yml`의 **Verify pinned warmup environments**를 수동 실행해 복원한다. Strata v4.26.0/v4.27.0/v4.29.1, Physlib v4.32.0, Cslib v4.31.0/v4.32.0/v4.33.0-rc2, ArkLib v4.28–v4.31 및 Mathlib v4.25–v4.27을 각각 별도 Linux runner에서 준비한다. 현재 작업은 총 14개다. `verification-inputs.json`은 위 benchmarkRevision에서 가져온 공식 명제·원본 증명·헤더와 버전별 소스 커밋을 고정한다. 이전 실행 [40301978929](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40301978929)의 7개 summary는 P12를 포함한 당시 등록 6문제의 원본·후보가 지정 버전을 통과한 결과다. 14개 환경의 새 결과는 검증 후 아래 게시 절차로 반영해야 한다. 새 연결만으로 기존 대시보드의 측정값·통과 상태를 바꾸지는 않는다.
 
 현재 P07·P12 best 파일은 각각 SHA-256 `a5463ce0c227809919c02f9dee135565a88d06ff5a4f0aadaf1a45f5c9e4a07e`, `cbc9d9819e788a9c7f1bfa917c17edfd7b31907a3b7c17b765b0a3eddff1abc4`인 수정 후보다. 패치한 평가기로 macOS arm64의 고정 커밋·의존성에서 P07(v4.31.0/v4.32.0/v4.33.0-rc2), P12(v4.29.0/v4.30.0/v4.31.0)의 원본·후보 컴파일·공리 검사와 각각 3회 측정을 통과했다. 후보·manifest·대시보드 proof와 해시를 동기화했으며, 이전 후보의 측정값·통과 상태는 새 후보에 이월하지 않았다. P12는 이후 Linux 공통 환경의 세 버전에서도 통과하여 새 측정값을 반영했다. 대표 v4.31.0에서 원본 1,353토큰/9,199 HB, 후보 747토큰/3,501 HB이며 호환성은 3/3이다. macOS 측정값은 게시하지 않았다. P07은 공식 입력·Cslib 모듈 빌드・CI 작업을 연결했으며 Linux 검증 결과를 반영하기 전까지 `pending`을 유지한다. P07 대표 측정 버전은 기존 대시보드와 같은 v4.32.0이다.
 
@@ -34,7 +34,7 @@ Strata v4.26.0은 `Strata.Transform.CallElimCorrect`와 `Strata.Languages.Core.S
 
 ### Cardinality 표기 사전검사 수정
 
-워크플로는 회귀 검사 전에 고정 평가기 커밋 `c18ec56682462847e2f4d8b6d60aa79ec071a10b`를 명시적으로 fetch한다. squash 병합 후에는 해당 커밋이 현재 브랜치의 조상이 아닐 수 있어 `fetch-depth: 0`만으로 복원되지 않는다.
+워크플로는 회귀 검사 전에 고정 평가기 커밋 `c18ec56682462847e2f4d8b6d60aa79ec071a10b`를 별도 checkout하고 Git 객체를 로컬 fetch로 가져온다. squash 병합 후에는 해당 커밋이 현재 브랜치의 조상이 아닐 수 있어 `fetch-depth: 0`만으로 복원되지 않는다. 비공개 저장소의 인증은 checkout 단계에서만 사용하며 의존성 빌드·증명 평가에 자격 증명을 남기지 않는다.
 
 실행 `40278829841`에서 P12의 공식 원본에 있는 `#(filter …)`가 PR3 사전검사의 `#` 전체 금지에 걸렸다. 세 지정 버전 모두 원본 사전검사에서 중단되어 수정 후보는 평가하지 못했다. Actions 성공은 검증 시도와 artifact 저장의 완료이며 증명 통과를 뜻하지 않는다.
 
