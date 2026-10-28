@@ -1,0 +1,257 @@
+{
+  "all_environments_unchanged": true,
+  "all_valid": true,
+  "baseline_commit": "84412c8576a58110abeeaf9ec4a74a0055db554b",
+  "baseline_prepared_sha256": "0359378034eb6afc6365082a0818693ac0aef88746cb8bd4f9d585e0f5d6ed07",
+  "benchmark_sha256": "a401dfe69cb835f58b8b32f694a6b30114cd7f1f7be0fc783795ff69726987a2",
+  "cached_prepared_sha256": "e93053f8769d0a1d118bb0a6f607dddfaeeab4b1bc94952d9958a0c2c00f027f",
+  "candidate_sha256": "2bd0d1e1a5b75be5f48049b853bba5925c7788e86b3fb47285bbcde86c71d2e4",
+  "candidate_speedup": 1.4184063535853797,
+  "candidate_time_reduction_percent": 29.498341750074097,
+  "created_at": "2026-10-28T11:18:23.768323+00:00",
+  "exact_heartbeats_match": false,
+  "files": 11311,
+  "fresh_process_counts_match": true,
+  "hash_check_speedup": 26.02267338196065,
+  "host": "macOS-26.6.2-arm64-arm-64bit-Mach-O",
+  "library_bytes": 2498475791,
+  "library_revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+  "measurement_repetitions": 3,
+  "model_calls": 0,
+  "policies": {
+    "main": {
+      "final_fingerprint": {
+        "content_bytes": 7495427373,
+        "content_reads": 33933,
+        "seconds": 6.622431790994597
+      },
+      "hash_checks": [
+        {
+          "content_bytes": 2498475791,
+          "content_reads": 11311,
+          "seconds": 3.419543458003318
+        },
+        {
+          "content_bytes": 2498475791,
+          "content_reads": 11311,
+          "seconds": 3.6841276669874787
+        },
+        {
+          "content_bytes": 2498475791,
+          "content_reads": 11311,
+          "seconds": 2.877823292001267
+        },
+        {
+          "content_bytes": 2498475791,
+          "content_reads": 11311,
+          "seconds": 3.4477103750105016
+        },
+        {
+          "content_bytes": 2498475791,
+          "content_reads": 11311,
+          "seconds": 3.7160775420052232
+        }
+      ],
+      "initial_fingerprint": {
+        "content_bytes": 7495427373,
+        "content_reads": 33933,
+        "seconds": 11.119829999996
+      },
+      "median_candidate_seconds": 57.51771749999898,
+      "median_hash_check_seconds": 3.4477103750105016,
+      "median_raw_heartbeats": 2497328,
+      "trials": [
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 42.337794,
+          "content_bytes": 9993903164,
+          "content_reads": 45244,
+          "raw_heartbeats": [
+            2497328,
+            2497280,
+            2497448
+          ],
+          "seconds": 57.08919987500121,
+          "tokens": 43,
+          "valid": true
+        },
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 45.461744,
+          "content_bytes": 9993903164,
+          "content_reads": 45244,
+          "raw_heartbeats": [
+            2497328,
+            2497281,
+            2497449
+          ],
+          "seconds": 57.51771749999898,
+          "tokens": 43,
+          "valid": true
+        },
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 47.441058999999996,
+          "content_bytes": 9993903164,
+          "content_reads": 45244,
+          "raw_heartbeats": [
+            2497328,
+            2497280,
+            2497449
+          ],
+          "seconds": 59.92845137500262,
+          "tokens": 43,
+          "valid": true
+        },
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 44.30785,
+          "content_bytes": 9993903164,
+          "content_reads": 45244,
+          "raw_heartbeats": [
+            2497328,
+            2497280,
+            2497448
+          ],
+          "seconds": 56.143858457988244,
+          "tokens": 43,
+          "valid": true
+        },
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 49.166961,
+          "content_bytes": 9993903164,
+          "content_reads": 45244,
+          "raw_heartbeats": [
+            2497328,
+            2497280,
+            2497450
+          ],
+          "seconds": 61.80342324999219,
+          "tokens": 43,
+          "valid": true
+        }
+      ],
+      "unchanged_environment": true
+    },
+    "stat-cache": {
+      "final_fingerprint": {
+        "content_bytes": 2498475791,
+        "content_reads": 11311,
+        "seconds": 1.6518776670127409
+      },
+      "hash_checks": [
+        {
+          "content_bytes": 0,
+          "content_reads": 0,
+          "seconds": 0.12472504199831747
+        },
+        {
+          "content_bytes": 0,
+          "content_reads": 0,
+          "seconds": 0.11926833300094586
+        },
+        {
+          "content_bytes": 0,
+          "content_reads": 0,
+          "seconds": 0.21198533299320843
+        },
+        {
+          "content_bytes": 0,
+          "content_reads": 0,
+          "seconds": 0.1324887079972541
+        },
+        {
+          "content_bytes": 0,
+          "content_reads": 0,
+          "seconds": 0.20063116699748207
+        }
+      ],
+      "initial_fingerprint": {
+        "content_bytes": 2498475791,
+        "content_reads": 11311,
+        "seconds": 3.750295500009088
+      },
+      "median_candidate_seconds": 40.550944625007105,
+      "median_hash_check_seconds": 0.1324887079972541,
+      "median_raw_heartbeats": 2497328,
+      "trials": [
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 40.016721,
+          "content_bytes": 0,
+          "content_reads": 0,
+          "raw_heartbeats": [
+            2497328,
+            2497280,
+            2497448
+          ],
+          "seconds": 40.5312242499931,
+          "tokens": 43,
+          "valid": true
+        },
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 38.208187,
+          "content_bytes": 0,
+          "content_reads": 0,
+          "raw_heartbeats": [
+            2497328,
+            2497280,
+            2497448
+          ],
+          "seconds": 38.69770787500602,
+          "tokens": 43,
+          "valid": true
+        },
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 40.090392,
+          "content_bytes": 0,
+          "content_reads": 0,
+          "raw_heartbeats": [
+            2497328,
+            2497280,
+            2497448
+          ],
+          "seconds": 40.668362750002416,
+          "tokens": 43,
+          "valid": true
+        },
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 40.042551,
+          "content_bytes": 0,
+          "content_reads": 0,
+          "raw_heartbeats": [
+            2497328,
+            2497281,
+            2497448
+          ],
+          "seconds": 40.550944625007105,
+          "tokens": 43,
+          "valid": true
+        },
+        {
+          "compiler_processes": 4,
+          "compiler_seconds": 45.517475000000005,
+          "content_bytes": 0,
+          "content_reads": 0,
+          "raw_heartbeats": [
+            2497328,
+            2497280,
+            2497448
+          ],
+          "seconds": 46.090523416991346,
+          "tokens": 43,
+          "valid": true
+        }
+      ],
+      "unchanged_environment": true
+    }
+  },
+  "problem": "warmup-P02",
+  "python": "3.13.11",
+  "scope": "local warm-filesystem measurement; fresh Lean processes; not official Arena evaluation",
+  "tokens_match": true
+}

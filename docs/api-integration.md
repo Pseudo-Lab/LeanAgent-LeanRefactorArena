@@ -56,6 +56,36 @@ python -m lean_agent freeze-environment \
 컴파일된 파일 자체는 실행 폴더로 복사하지 않는다. 새 머신에서 실제 검증하려면 동일 환경을
 준비하고 새 manifest를 만든다. 보관 코드의 offline replay에는 라이브러리나 Lean이 필요 없다.
 
+### 반복 환경 검사의 비용 줄이기
+
+기본 `full` 정책과 기존 manifest는 각 compiler 호출 전에 모든 라이브러리 내용을 읽고
+SHA256을 다시 계산한다. 변경이 통제되는 로컬 라이브러리에서는 manifest 생성 시
+`--verification stat-cache`를 명시해 evaluator별 메모리 캐시를 사용할 수 있다.
+
+```sh
+python -m lean_agent freeze-environment \
+  --library-path /ABSOLUTE/PREPARED/LIB/lean \
+  --revision PINNED_LIBRARY_COMMIT \
+  --verification stat-cache \
+  --output configs/libraries.local.json
+```
+
+실행 설정의 `lean.prepared_environment`에 이 manifest를 지정한다. 별도 CLI 옵션 없이
+manifest의 정책을 사용하며 실행 입력에 그대로 보존한다. 각 compiler 호출에서는 파일 목록과
+device/inode/size/mtime/ctime/mode를 다시 검사하고, metadata가 같을 때만 이미 검증한 내용 해시를
+재사용한다. 추가·삭제·교체·내용 변경을 발견하면 검사하고, manifest와 다르면 compiler 실행 전에
+실패한다. 첫 호출은 실제 내용을 읽으며 캐시는 프로세스 간에 공유하거나 디스크에 저장하지 않는다.
+실행 시작과 종료의 `fingerprint()` 및 명시적인 `verify()`는 캐시와 관계없이 전체 내용을 읽는다.
+
+이 정책은 변경을 통제하는 로컬 파일시스템의 반복 읽기를 줄이는 선택 기능이다. metadata를
+신뢰할 수 없는 네트워크 파일시스템이나 적대적인 동시 변경에 대해 매 호출의 전체 내용 검사를
+대체하지 않는다. OS 격리나 검사 후 실행까지의 변경 차단을 제공하지 않으므로, 그런 보장이 필요한
+경우 기본 `full` 검사를 유지하고 별도 실행 격리를 적용한다. 증명 검증 결과나 heartbeat 표본은
+캐시하지 않으며 매번 새 Lean 프로세스로 측정한다.
+
+실제 main 대비 측정 방법과 결과는
+[환경 검사 비용 비교](../experiments/environment-verification/README.md)에 기록한다.
+
 macOS에서는 manifest 생성에 `--sandbox macos-readonly`를 지정하면 Lean 프로세스의 쓰기·네트워크를
 차단한다. 요청한 sandbox가 없으면 실패하며 조용히 해제하지 않는다. 기본 `none`은 OS 격리를
 적용하지 않는다. 두 모드 모두 Lean 자식 프로세스에 모델 인증값과 상속된 `LEAN_PATH`를 전달하지 않는다.
