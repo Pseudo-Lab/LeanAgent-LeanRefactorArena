@@ -1,16 +1,19 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "lean-refactor-eval"
+name = "lean-agent-arena"
 version = "0.1.0"
-description = "Checkpoint evaluation and deterministic selection for Lean refactoring"
+description = "A minimal, replayable Lean proof-refactoring harness"
 requires-python = ">=3.10"
 dependencies = []
 
 [project.scripts]
-lean-refactor-eval = "refactor_eval.cli:main"
+lean-agent = "lean_agent.harness:main"
 
 [tool.setuptools.packages.find]
-include = ["refactor_eval*"]
+where = ["src"]
+
+[tool.setuptools.package-data]
+lean_agent = ["provenance.json", "evaluator/provenance.json"]
