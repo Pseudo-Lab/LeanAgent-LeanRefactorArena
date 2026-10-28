@@ -108,9 +108,12 @@ experiments/
 
 ## 평가 하네스
 
-현재 평가 구현은 `refactor_eval/`에 있습니다. 후보 저장·Lean 검증·증명 토큰과 heartbeat 측정·
-최종 후보 선택을 제공하며, 실행 예제는 `examples/`에 있습니다.
-실행법과 입력 형식은 [평가 하네스 사용법](docs/evaluation-harness.md)을 참고합니다.
+현재 설치 패키지는 `src/lean_agent/`이며 `lean-agent` 또는 `python -m lean_agent`로 실행합니다.
+검증한 환경 사전 점검·오류 피드백·실행 상태 조회(기능 1–3)를 공통 실행기에 통합했습니다.
+설치·실행·조회·재생 방법은 [공통 하네스 사용법](docs/first-harness.md)을 참고합니다.
+
+`refactor_eval/`과 [평가 하네스 사용법](docs/evaluation-harness.md)은 이전 평가 실험의 참조 자료입니다.
+현재 패키지에는 포함하지 않으며, 기존 실험 코드와 기록은 그대로 보존합니다.
 
 이 모듈은 로컬 평가 기반입니다. 제출용 모델 호출·문제별 비용 관리·OS 격리는
 `docs/architecture.md`의 설계에 따라 별도로 연결해야 합니다.
