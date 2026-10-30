@@ -8,6 +8,12 @@
 코퍼스 분석 결과는 `runs/corpus-survey/`에 남아 있습니다.
 팀원 웜업 최종 후보는 `../submissions/warmup/`, 표시용 결과는 `../dashboard/public/data/`에서 관리합니다.
 
+## 검증·수리 정책 비교
+
+[실험 설계](verification-repair-policy/README.md)는 실패 유형에 따라 현재 후보를 수리하거나
+검증된 최선 후보에서 다시 탐색하는 정책을 비교합니다. 현재는 PR A의 설계 단계이며,
+정책 구현과 새 성능 실험은 후속 PR에서 수행합니다.
+
 ## 팀원 웜업 결과 재검증
 팀원 후보의 출처와 재검증 절차는 `../submissions/warmup/README.md`에서 관리합니다.
 옛 `warmup-team-results/` 및 환경 복구의 상세 로그는 작업 브랜치의 실험 기록 커밋에 보존한 뒤 제거합니다. 과거 후보와 실행 로그는 독립적인 에이전트 풀이 탐색의 입력에서 제외합니다.
