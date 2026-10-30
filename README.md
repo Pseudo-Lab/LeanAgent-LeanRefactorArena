@@ -92,6 +92,9 @@ LeanAgent-LeanRefactorArena/
 각 실험의 목적·방법·실행법·결론은 README에 기록하고, 필요한 코드와 설정을 함께 둡니다.
 공통으로 사용할 기능은 검증 후 `src/`로 옮깁니다.
 
+증명 단축 작업(예산 제한 API 탐색 → 로컬 golf → 지정 버전 전체 검증)을 에이전트가 따라 할 수 있도록
+[lean-proof-shortening skill](skills/lean-proof-shortening/SKILL.md)에 절차와 알려진 실패 원인을 정리했습니다.
+
 ```text
 experiments/
 └── <실험명>/
