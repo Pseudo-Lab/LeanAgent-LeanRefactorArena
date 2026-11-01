@@ -208,7 +208,7 @@
         "v4.32.0"
       ]
     },
-    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; aggregate independent review pending at capture.",
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; all four offline case audits and final comparison review passed.",
     "identical_bytes_to_main_submission": false
   },
   {
@@ -229,7 +229,7 @@
         "v4.26.0"
       ]
     },
-    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; aggregate independent review pending at capture.",
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; all four offline case audits and final comparison review passed.",
     "identical_bytes_to_main_submission": false
   },
   {
@@ -250,7 +250,7 @@
         "v4.26.0"
       ]
     },
-    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; aggregate independent review pending at capture.",
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; all four offline case audits and final comparison review passed.",
     "identical_bytes_to_main_submission": false
   },
   {
@@ -271,7 +271,7 @@
         "v4.26.0"
       ]
     },
-    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; aggregate independent review pending at capture.",
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; all four offline case audits and final comparison review passed.",
     "identical_bytes_to_main_submission": false
   },
   {

@@ -23,6 +23,14 @@
     "sha256": "3191c97c0b41dc3be3e04fe3cc2d55f4b6c180a73b57b0b6ffd75b3e72725dda",
     "bytes": 2549
   },
+  "results/competitive-structure-20261101/comparison.json": {
+    "sha256": "be6c1fd8bbd50fc00b721ad956cb10cef3b823b240fd84e1ce03739c87f20911",
+    "bytes": 26555
+  },
+  "results/competitive-structure-20261101/review.md": {
+    "sha256": "0d4e94cfa6515b68f7df78c1bd5818dd860f956dc47442d08683d68c973ae40f",
+    "bytes": 5141
+  },
   "runs/competitive-search40-20261031/portfolio/P01/state.json": {
     "sha256": "9a010113b378a169974d812bbc241ca2a8d9879c528131673e135e5eb6bbbb7a",
     "bytes": 286744
@@ -95,6 +103,14 @@
     "sha256": "a01f4c4a1ade6b77816049c63501b22d88746cff692288dbd3b7e286d97ab9aa",
     "bytes": 989
   },
+  "runs/competitive-structure-20261101/P13/attempt-28.lean": {
+    "sha256": "7dfc80978168e26ec9421b6c60c205933ff84720b7450c3f296e97d219a71c2c",
+    "bytes": 966
+  },
+  "runs/competitive-structure-20261101/P13/attempt-36.lean": {
+    "sha256": "240a8a1093abc4e021b382ce713023d4414a315ff1692e94d95d1aa9ad2a8f14",
+    "bytes": 982
+  },
   "runs/competitive-structure-20261101/P14/state.json": {
     "sha256": "0fb88a9237316d25e41ad1c1a721bd5249323fbda88a63fb10eac9f51c32725a",
     "bytes": 350901
@@ -108,6 +124,22 @@
     "bytes": 331856
   },
   "runs/competitive-structure-20261101/P15/final.lean": {
+    "sha256": "ac5b1fadac0923a96cbce17eefa0d38625f3b35490b190e27821d7ec27277325",
+    "bytes": 1352
+  },
+  "runs/competitive-structure-20261101/P15/attempt-03.lean": {
+    "sha256": "07df9ca67f4fed865056d94add771614c2ed3bcdc4e4579036d60710c97eba1f",
+    "bytes": 1490
+  },
+  "runs/competitive-structure-20261101/P15/attempt-32.lean": {
+    "sha256": "6fb54971b095ff301ffa449c1e88ed23c782302943115c0fc1c478b3039dbd06",
+    "bytes": 1383
+  },
+  "runs/competitive-structure-20261101/P15/attempt-34.lean": {
+    "sha256": "d582a5ddce7e4cce99a8475f26f95718859f7a898b435e64101851380f6575a6",
+    "bytes": 1363
+  },
+  "runs/competitive-structure-20261101/P15/attempt-39.lean": {
     "sha256": "ac5b1fadac0923a96cbce17eefa0d38625f3b35490b190e27821d7ec27277325",
     "bytes": 1352
   },
@@ -179,9 +211,33 @@
     "sha256": "1071f1a61c727dda89a13c0524244b473124af217e875d1d78bf932c3e5f0bdd",
     "bytes": 5546
   },
-  "results/competitive-structure-20261101/review.md": {
-    "sha256": "0d4e94cfa6515b68f7df78c1bd5818dd860f956dc47442d08683d68c973ae40f",
-    "bytes": 5141
+  "results/competitive-structure-20261101/analysis.md": {
+    "sha256": "e461cafbd5a40babe7ae1a1360ce368b8e47c7fef15e79ce58c5cf41bd60f8a3",
+    "bytes": 6514
+  },
+  "results/competitive-structure-20261101/comparison.md": {
+    "sha256": "9a296e3988f4c91e32bad41285b94fd268ea486b997311333cbab417a8694c92",
+    "bytes": 2597
+  },
+  "results/competitive-structure-20261101/report.json": {
+    "sha256": "89c2f226ee075530754dd79ab965ec1a3206decd87c469af2405292e22f32b5d",
+    "bytes": 18212
+  },
+  "experiments/competitive-structure-20261101/controller.py": {
+    "sha256": "d2f3896198ac06cb22fdbf7ba0850f3d98dd0a5108224dfbfb9729fbe1d17580",
+    "bytes": 32574
+  },
+  "experiments/competitive-structure-20261101/instructions.txt": {
+    "sha256": "a5b488f764e4e70aa27666ec57f01686129dbd9e358a074245c1b4761b06ed36",
+    "bytes": 5335
+  },
+  "runs/competitive-structure-20261101/P13/solver-report.md": {
+    "sha256": "fa88f2650e81d4c75ace94f000106bce60c135c776947bc47fde019841d983a9",
+    "bytes": 8940
+  },
+  "runs/competitive-structure-20261101/P15/solver-report.md": {
+    "sha256": "50f9ece8848b509573c772cff6e814960e0ec5cfa06c4bc16ba93bb94f05b46c",
+    "bytes": 8250
   },
   "experiments/retrieval-harness-20261101/README.md": {
     "sha256": "1ef18ebc4ec5a5e62a72fc43c41e2bf2b363a6c150c8f568cc379e7c88e676c9",

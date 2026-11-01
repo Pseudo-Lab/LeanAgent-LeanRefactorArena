@@ -5,7 +5,8 @@
 - `evidence/git-audit.json`: main 기준 SHA, branch tip, 로컬 연구 파일 239개의 내용 비교와 과거 커밋 조회.
 - `evidence/facts.json`: 기존 측정에서 뽑은 수치·완료 상태·제한.
 - `evidence/proofs.json`, `evidence/proofs/*.lean`: 예제 14개의 정확한 소스·SHA와 검증 범위.
-- `evidence/source-records.json`: 원래 arena 체크아웃에 보관된 근거 49개 파일의 주소·해시. 원시 API/Lean 실행 로그 전체를 포함하는 것은 아니다.
+- `evidence/source-records.json`: 원래 arena 체크아웃에 보관된 근거63개 파일의 주소·해시. 최종 구조 연구 보고서·비교·제어기와 국소 변경 근거를 포함하며, 원시 API/Lean 실행 로그 전체를 포함하는 것은 아니다.
+- `evidence/structural-review.md`: P15와 최종 비교 산출물까지 완료한 독립 오프라인 검토 원문.
 
 `tools/verify.py`는 위 JSON과 증명 해시, raw sample 중앙값, 기준 main의 파일·반영 여부, Markdown 링크를 오프라인으로 확인한다. Lean을 다시 컴파일하거나 유료 모델을 호출하지 않는다.
 

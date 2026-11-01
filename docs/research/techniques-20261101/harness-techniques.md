@@ -94,6 +94,8 @@ P11 실제 유료 시행에서 `retrieve`·`type_search`는 각각 1회 사용�
 
 후속 `competitive-structure-20261101`은 기존 best를 제공한 **incumbent-seeded continuation**이다. 독립 원본 출발 연구로 합산하거나, 새 구조를 전부 독립 재발견한 것으로 세지 않는다.
 
+이 후속 연구는160회·유효120개·독립 final4개와 전체 오프라인 감사를 완료했다. [7가지 설계 인사이트](structural-insights.md)에 공개 분모와 경쟁 anchor의 분리, 문제별 교환비·손익분기점, API에 맞춘 중간 표현, 문맥 가정 비용, 비승리 구조 보존, 기존 구조 진단, 정체 시 재검색을 정리했다. 현재 packet에 이미 있는 Pareto·전체 이력·최근8개 통계·교환비와, 아직 일반 정책으로 구현하지 않은 구조 아카이브·자동 재검색은 구분한다.
+
 ## 9. 작은 머신의 빌드 재사용과 저장 정책
 
 `experiments/cached-verification/worker.py`는 기존 고정 compiler/library를 등록하고, 매 후보를 원본 파일 한 곳에 교체한 전체 모듈로 새 프로세스에서 검사한다. 새 Mathlib 복사본 대신 이미 있는 빌드를 연결한다. `#print axioms`로 허용 공리도 확인하지만 이 worker 경로 자체는 HB/공식 점수를 계산하지 않는다.

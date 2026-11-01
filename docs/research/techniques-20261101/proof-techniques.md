@@ -128,7 +128,9 @@ one-level lemma는 그 유료 시행에서 새 `retrieve` 호출보다 먼저 �
 | P14 | 여집합 짝 중 정확히 하나를 세어 절반 | `Set.Intersecting.is_max_iff_card_eq`에 연결하고 자연수 곱/거듭제곱 bridge만 처리 | [31 T / 969,083 raw HB](evidence/proofs/p14-structural.lean) |
 | P15 | 두 입력에 대한 자릿수 교체 합 항등식, 합산 불변식, Bézout 약분 | 관계에서 나눗셈 식까지 하나의 보조정리로 통합; `sum_erase_eq_sub`; 약분을 먼저 적용; certificate를 `rfl`로 닫음 | [181 T / 1,171,287 raw HB](evidence/proofs/p15-structural.lean) |
 
-이 3개 후속 후보는 **축소된 supplied Mathlib 문맥의 4.26.0**에서 검증됐다. 전체 benchmark header와 다른 지정 버전은 미검증이다. 4개 case의 final이 존재하지만, 캡처 당시 구조 탐색의 전체 독립 최종 감사는 아직 없었다. 그 이전 3개 case precheck만 완료됐다는 사실을 유지한다.
+이 3개 후속 후보는 **축소된 supplied Mathlib 문맥의 4.26.0**에서 검증됐다. 전체 benchmark header와 다른 지정 버전은 미검증이다. 이후 P15까지 독립 검토가 완료돼, 구조 후속 연구의160회·유효120개·4개 final과 비교 산출물 전체가 감사에 통과했다. [확정된 설계 인사이트](structural-insights.md)에 완료 근거와7가지 원칙을 추가했다.
+
+P13은 귀납 내부의 불필요한 순서 가정 한 줄 제거로277,280 raw HB를 줄였다. P14의 직접 최대 교차집합 정리 경로는 후속 연구의55토큰 incumbent에 이미 있었으며,31토큰 최종 후보는 그 연결·정규화를 압축한 결과다. P15는32번에 `sum_erase_eq_sub`에 맞게 중간 표현을 다시 설계했고, 앞서 비용상 졌던 분리 구조도 후속 탐색에 활용했다.
 
 fresh40과 구조 후속 시행은 같은 실험도 아니다. 예를 들어 fresh40 P13은 235토큰 / 3,012,079 HB, P15는 244토큰 / 1,366,707 HB다. 후속 시행의 더 짧은 표현을 fresh40의 독립 발견으로 소급하지 않는다.
 

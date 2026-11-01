@@ -54,6 +54,15 @@ def main():
         facts['manual_P11_' + version]['rows'] = [{k: x[k] for k in
             ('label', 'valid', 'axioms', 'tokens', 'proof_sha256')} for x in r['rows']]
     metric_keys = ('valid', 'tokens', 'raw_hb', 'raw_samples', 'verified_versions')
+    completion = read('results/competitive-structure-20261101/comparison.json')
+    assert completion['all_complete'] and completion['candidate_evaluations'] == 160
+    assert completion['valid'] == 120 and completion['invalid'] == 40
+    assert completion['independent_finals'] == 4
+    assert len(completion['audits']) == 4 and all(row['audit_passed'] for row in completion['audits'])
+    facts['structural_completion'] = completion
+    review = read('results/competitive-structure-20261101/review.md')
+    assert review.startswith('# Independent review — complete')
+    (out / 'structural-review.md').write_text(review)
     groups = [('portfolio40', 'competitive-search40-20261031/portfolio', ('P01', 'P02', 'P03')),
               ('fresh40', 'competitive-search40-extra-20261101/portfolio', ('P06', 'P13', 'P14', 'P15')),
               ('structural', 'competitive-structure-20261101', ('P06', 'P13', 'P14', 'P15'))]
@@ -66,7 +75,7 @@ def main():
             assert v['valid']
             scope = ('Exact supplied local primary context only; no extra-version claim. '
                      'Putnam examples have narrowed imports, not their full benchmark header. '
-                     + ('Incumbent-seeded continuation; aggregate independent review pending at capture.'
+                     + ('Incumbent-seeded continuation; all four offline case audits and final comparison review passed.'
                         if label == 'structural' else 'Original-start independent portfolio.'))
             row = copy_proof(prefix + 'final.lean', case.lower() + '-' + label + '.lean', case,
                              {k: v.get(k) for k in metric_keys}, scope)
@@ -74,6 +83,18 @@ def main():
             facts[label + '_' + case] = {'attempts': len(state['attempts']),
                 'inflight': bool(state['inflight']), 'winner': final['candidate'],
                 'final': row['metrics'], 'normalizers': state['normalizers']}
+            if label == 'structural' and case in ('P13', 'P15'):
+                chosen = (28, 36) if case == 'P13' else (3, 32, 34, 39)
+                events = []
+                for number in chosen:
+                    attempt = state['attempts'][number - 1]
+                    path = prefix + f'attempt-{number:02}.lean'
+                    code = read(path)
+                    assert hashlib.sha256(code.encode()).hexdigest() == attempt['sha256']
+                    events.append({'attempt': number, 'metadata': attempt['metadata'],
+                        'source': path, 'sha256': attempt['sha256'],
+                        'metrics': {k: attempt['result'].get(k) for k in metric_keys}})
+                facts.setdefault('structural_learning_events', {})[case] = events
     copy_proof('runs/retrieval-v11-p11-20261101/P11/golf-best.lean', 'p11-retrieval.lean', 'P11',
         {'valid': True, 'tokens': 368, 'raw_hb': 9067259, 'raw_samples': [9067259, 9067201, 9067288],
          'verified_versions': ['v4.31.0']},
@@ -105,6 +126,13 @@ def main():
                  'runs/research-v9-threecase-20261031/comparison.md',
                  'runs/postprocess-88-20261028-204910/review.md',
                  'results/competitive-structure-20261101/review.md',
+                 'results/competitive-structure-20261101/analysis.md',
+                 'results/competitive-structure-20261101/comparison.md',
+                 'results/competitive-structure-20261101/report.json',
+                 'experiments/competitive-structure-20261101/controller.py',
+                 'experiments/competitive-structure-20261101/instructions.txt',
+                 'runs/competitive-structure-20261101/P13/solver-report.md',
+                 'runs/competitive-structure-20261101/P15/solver-report.md',
                  'experiments/retrieval-harness-20261101/README.md'):
         read(name)
     sys.path.insert(0, str(src / 'src'))

@@ -137,6 +137,749 @@
       }
     ]
   },
+  "structural_completion": {
+    "version": "competitive-structure-20261101-v1",
+    "all_complete": true,
+    "formula_source": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/blob/88057731673d44e231788e3e87a9c797d585042a/leaderboard.py",
+    "formula_observed_page": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/blob/main/leaderboard.py",
+    "formula_observed_last_file_commit": "88057731673d44e231788e3e87a9c797d585042a",
+    "formula": "cost=T/T0+floor(rawHB/1000)/published_H0; score(C=100)=100-100*cost/3",
+    "score_precision": "Exact unrounded objective and conditional score for search/comparison. Secondary display rounds each axis with Python round to 2 decimals, then rounds the problem mean to 2. Overall leaderboard averages rounded axes before its final 2-decimal rounding.",
+    "scope": "Incumbent-seeded continuation, 40 new candidates per case. Exact supplied primary local environments only; Putnam narrowed imports. Full official headers and additional versions unverified.",
+    "score_assumption": "Compatibility unchanged and other 11 tasks unchanged. These are conditional score deltas, not a measured full submission score.",
+    "final_metric_policy": "Fresh independent final raw-HB median is authoritative; search selection measurement is retained separately.",
+    "candidate_evaluations": 160,
+    "valid": 120,
+    "invalid": 40,
+    "fresh_baselines": 4,
+    "independent_finals": 4,
+    "delta_15_task_mean_vs_incumbents": {
+      "fraction": "9805564097886353299751377/52870303815874621806277179",
+      "decimal": "0.1854644931119570115484405550626371208180",
+      "approx": 0.185464493111957
+    },
+    "delta_15_task_mean_vs_88": {
+      "fraction": "48647005439401247552494025/158610911447623865418831537",
+      "decimal": "0.3067065499807391945491158262279795132254",
+      "approx": 0.3067065499807392
+    },
+    "rounded_axis_delta_15_task_mean_vs_incumbents_before_final_rounding": {
+      "fraction": "167/900",
+      "decimal": "0.1855555555555555555555555555555555555556",
+      "approx": 0.18555555555555556
+    },
+    "rounded_axis_delta_15_task_mean_vs_88_before_final_rounding": {
+      "fraction": "23/75",
+      "decimal": "0.3066666666666666666666666666666666666667",
+      "approx": 0.30666666666666664
+    },
+    "displayed_total_delta_limitation": "A change in the final rounded full-submission display also depends on the unchanged other 11 tasks; no exact displayed total or measured leaderboard score is asserted.",
+    "cases": [
+      {
+        "problem": "P06",
+        "normalizers": {
+          "tokens": 1217,
+          "hb_scaled": 42225
+        },
+        "candidate_evaluations": 40,
+        "valid": 23,
+        "invalid": 17,
+        "incumbent_seed": "reference88",
+        "incumbent": {
+          "tokens": 422,
+          "raw_hb": 11133579,
+          "hb_scaled": 11133,
+          "raw_samples": [
+            11133554,
+            11133981,
+            11133579
+          ],
+          "official_cost": {
+            "fraction": "10455937/17129275",
+            "decimal": "0.6104132836912245264320877561951687972783",
+            "approx": 0.6104132836912245
+          },
+          "conditional_score": {
+            "fraction": "163727552/2055513",
+            "decimal": "79.65289054362584911893040812682770675739",
+            "approx": 79.65289054362584
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 65.32,
+            "heartbeat_reduction_pct": 73.63,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 79.65
+          }
+        },
+        "reference_88": {
+          "tokens": 422,
+          "raw_hb": 11133579,
+          "hb_scaled": 11133,
+          "raw_samples": [
+            11133554,
+            11133981,
+            11133579
+          ],
+          "official_cost": {
+            "fraction": "10455937/17129275",
+            "decimal": "0.6104132836912245264320877561951687972783",
+            "approx": 0.6104132836912245
+          },
+          "conditional_score": {
+            "fraction": "163727552/2055513",
+            "decimal": "79.65289054362584911893040812682770675739",
+            "approx": 79.65289054362584
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 65.32,
+            "heartbeat_reduction_pct": 73.63,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 79.65
+          }
+        },
+        "reference_88_sha256": "07163bcdf011341d0a6364f0cadc80389366b248bc15eb99a773e64d7c582a46",
+        "final": {
+          "tokens": 409,
+          "raw_hb": 11003038,
+          "hb_scaled": 11003,
+          "raw_samples": [
+            11003016,
+            11003471,
+            11003038
+          ],
+          "official_cost": {
+            "fraction": "30660676/51387825",
+            "decimal": "0.5966525339416486298067684320167276976599",
+            "approx": 0.5966525339416486
+          },
+          "conditional_score": {
+            "fraction": "494011196/6166539",
+            "decimal": "80.11158220194504567310771893277574341134",
+            "approx": 80.11158220194504
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 66.39,
+            "heartbeat_reduction_pct": 73.94,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 80.11
+          }
+        },
+        "final_sha256": "4782ed218974a22e5b02a10920406b2d4144f8b1d130b1089b7fec2cf5df28b3",
+        "final_source": "runs/competitive-structure-20261101/P06/final.lean",
+        "selected_attempt": "attempt-25",
+        "selected_metadata": {
+          "route": "constructor-scoped-inferred-witnesses",
+          "hypothesis": "Combine constructor-scoped proof elaboration with the successful shared list normalization and test whether ordinary placeholders now remain constrained until the inner tactic finishes.",
+          "parent": "attempt-21 + attempt-19; attempt-14 diagnostics",
+          "expected_tradeoff": "Retain the two-token scheduling saving from attempt21 and remove separate existential witness goals if elaboration defers them correctly."
+        },
+        "selected_search_measurement": {
+          "tokens": 409,
+          "raw_hb": 11003038,
+          "hb_scaled": 11003,
+          "raw_samples": [
+            11003016,
+            11003471,
+            11003038
+          ],
+          "official_cost": {
+            "fraction": "30660676/51387825",
+            "decimal": "0.5966525339416486298067684320167276976599",
+            "approx": 0.5966525339416486
+          },
+          "conditional_score": {
+            "fraction": "494011196/6166539",
+            "decimal": "80.11158220194504567310771893277574341134",
+            "approx": 80.11158220194504
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 66.39,
+            "heartbeat_reduction_pct": 73.94,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 80.11
+          }
+        },
+        "independent_final_evidence": "final-independent-1",
+        "cost_reduction_pct_vs_incumbent": {
+          "fraction": "70713500/31367811",
+          "decimal": "2.254333271773411284580871773296517248207",
+          "approx": 2.2543332717734113
+        },
+        "delta_problem_score_vs_incumbent": {
+          "fraction": "2828540/6166539",
+          "decimal": "0.4586916583191965541773108059480366539480",
+          "approx": 0.45869165831919656
+        },
+        "delta_problem_score_vs_88": {
+          "fraction": "2828540/6166539",
+          "decimal": "0.4586916583191965541773108059480366539480",
+          "approx": 0.45869165831919656
+        },
+        "delta_15_task_mean_vs_incumbent": {
+          "fraction": "565708/18499617",
+          "decimal": "0.03057944388794643694515405372986911026320",
+          "approx": 0.030579443887946436
+        },
+        "delta_15_task_mean_vs_88": {
+          "fraction": "565708/18499617",
+          "decimal": "0.03057944388794643694515405372986911026320",
+          "approx": 0.030579443887946436
+        },
+        "rounded_axis_delta_15_task_mean_vs_incumbent": {
+          "fraction": "23/750",
+          "decimal": "0.03066666666666666666666666666666666666667",
+          "approx": 0.030666666666666665
+        },
+        "rounded_axis_delta_15_task_mean_vs_88": {
+          "fraction": "23/750",
+          "decimal": "0.03066666666666666666666666666666666666667",
+          "approx": 0.030666666666666665
+        },
+        "verified_versions": [
+          "v4.32.0"
+        ]
+      },
+      {
+        "problem": "P13",
+        "normalizers": {
+          "tokens": 1769,
+          "hb_scaled": 111476
+        },
+        "candidate_evaluations": 40,
+        "valid": 35,
+        "invalid": 5,
+        "incumbent_seed": "fresh40-attempt-39",
+        "incumbent": {
+          "tokens": 211,
+          "raw_hb": 4156941,
+          "hb_scaled": 4156,
+          "raw_samples": [
+            4156867,
+            4157310,
+            4156941
+          ],
+          "official_cost": {
+            "fraction": "266150/1700009",
+            "decimal": "0.1565579946929692725156160937971504856739",
+            "approx": 0.15655799469296927
+          },
+          "conditional_score": {
+            "fraction": "483387700/5100027",
+            "decimal": "94.78140017690102424947946354009498381087",
+            "approx": 94.78140017690103
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 88.07,
+            "heartbeat_reduction_pct": 96.27,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 94.78
+          }
+        },
+        "reference_88": {
+          "tokens": 259,
+          "raw_hb": 2606427,
+          "hb_scaled": 2606,
+          "raw_samples": [
+            2606314,
+            2606427,
+            2606593
+          ],
+          "official_cost": {
+            "fraction": "577281/3400018",
+            "decimal": "0.1697876305360736325513570810507473783962",
+            "approx": 0.16978763053607362
+          },
+          "conditional_score": {
+            "fraction": "160379550/1700009",
+            "decimal": "94.34041231546421224828809729830842072013",
+            "approx": 94.3404123154642
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 85.36,
+            "heartbeat_reduction_pct": 97.66,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 94.34
+          }
+        },
+        "reference_88_sha256": "956fd2d9d51127c890711c4c14e4aadf8798e73c78029cd6920b9489dbde6d4f",
+        "final": {
+          "tokens": 187,
+          "raw_hb": 2559918,
+          "hb_scaled": 2559,
+          "raw_samples": [
+            2559918,
+            2560101,
+            2559913
+          ],
+          "official_cost": {
+            "fraction": "874927/6800036",
+            "decimal": "0.1286650541261840378492113865279536755394",
+            "approx": 0.12866505412618404
+          },
+          "conditional_score": {
+            "fraction": "488129525/5100027",
+            "decimal": "95.71116486246053207169295378240154414869",
+            "approx": 95.71116486246054
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 89.43,
+            "heartbeat_reduction_pct": 97.7,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 95.71
+          }
+        },
+        "final_sha256": "a01f4c4a1ade6b77816049c63501b22d88746cff692288dbd3b7e286d97ab9aa",
+        "final_source": "runs/competitive-structure-20261101/P13/final.lean",
+        "selected_attempt": "attempt-40",
+        "selected_metadata": {
+          "route": "final-merged-ordered-scalar",
+          "hypothesis": "Combine measured ordering-pruning277kHB gain with constructor-injection1T and exact-positivity159kHB improvements",
+          "parent": "c36+c37+c32+c30",
+          "expected_tradeoff": "Keep compact dependent-if scalar proof while deleting unnecessary arithmetic coupling and positivity automation"
+        },
+        "selected_search_measurement": {
+          "tokens": 187,
+          "raw_hb": 2559919,
+          "hb_scaled": 2559,
+          "raw_samples": [
+            2559919,
+            2560101,
+            2559913
+          ],
+          "official_cost": {
+            "fraction": "874927/6800036",
+            "decimal": "0.1286650541261840378492113865279536755394",
+            "approx": 0.12866505412618404
+          },
+          "conditional_score": {
+            "fraction": "488129525/5100027",
+            "decimal": "95.71116486246053207169295378240154414869",
+            "approx": 95.71116486246054
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 89.43,
+            "heartbeat_reduction_pct": 97.7,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 95.71
+          }
+        },
+        "independent_final_evidence": "final-independent-1",
+        "cost_reduction_pct_vs_incumbent": {
+          "fraction": "189673/10646",
+          "decimal": "17.81636295322186736802554950216043584445",
+          "approx": 17.816362953221866
+        },
+        "delta_problem_score_vs_incumbent": {
+          "fraction": "4741825/5100027",
+          "decimal": "0.9297646855595078222134902423065603378178",
+          "approx": 0.9297646855595079
+        },
+        "delta_problem_score_vs_88": {
+          "fraction": "6990875/5100027",
+          "decimal": "1.370752546996319823404856484093123428562",
+          "approx": 1.3707525469963198
+        },
+        "delta_15_task_mean_vs_incumbent": {
+          "fraction": "948365/15300081",
+          "decimal": "0.06198431237063385481423268282043735585452",
+          "approx": 0.06198431237063386
+        },
+        "delta_15_task_mean_vs_88": {
+          "fraction": "1398175/15300081",
+          "decimal": "0.09138350313308798822699043227287489523748",
+          "approx": 0.09138350313308799
+        },
+        "rounded_axis_delta_15_task_mean_vs_incumbent": {
+          "fraction": "31/500",
+          "decimal": "0.062",
+          "approx": 0.062
+        },
+        "rounded_axis_delta_15_task_mean_vs_88": {
+          "fraction": "137/1500",
+          "decimal": "0.09133333333333333333333333333333333333333",
+          "approx": 0.09133333333333334
+        },
+        "verified_versions": [
+          "v4.26.0"
+        ]
+      },
+      {
+        "problem": "P14",
+        "normalizers": {
+          "tokens": 1754,
+          "hb_scaled": 134499
+        },
+        "candidate_evaluations": 40,
+        "valid": 29,
+        "invalid": 11,
+        "incumbent_seed": "reference88",
+        "incumbent": {
+          "tokens": 55,
+          "raw_hb": 821229,
+          "hb_scaled": 821,
+          "raw_samples": [
+            821251,
+            821229,
+            821184
+          ],
+          "official_cost": {
+            "fraction": "8837479/235911246",
+            "decimal": "0.03746103312090513904538489021417825922551",
+            "approx": 0.03746103312090514
+          },
+          "conditional_score": {
+            "fraction": "34944812950/353866869",
+            "decimal": "98.75129889596982869848717032619405802582",
+            "approx": 98.75129889596982
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 96.86,
+            "heartbeat_reduction_pct": 99.39,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 98.75
+          }
+        },
+        "reference_88": {
+          "tokens": 55,
+          "raw_hb": 821228,
+          "hb_scaled": 821,
+          "raw_samples": [
+            821239,
+            821142,
+            821228
+          ],
+          "official_cost": {
+            "fraction": "8837479/235911246",
+            "decimal": "0.03746103312090513904538489021417825922551",
+            "approx": 0.03746103312090514
+          },
+          "conditional_score": {
+            "fraction": "34944812950/353866869",
+            "decimal": "98.75129889596982869848717032619405802582",
+            "approx": 98.75129889596982
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 96.86,
+            "heartbeat_reduction_pct": 99.39,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 98.75
+          }
+        },
+        "reference_88_sha256": "a10d02bb75d48da51f9b0edda5b7312b1c4a4c02971d9bafdb4f77c9c8a44b32",
+        "final": {
+          "tokens": 31,
+          "raw_hb": 969083,
+          "hb_scaled": 969,
+          "raw_samples": [
+            969069,
+            969087,
+            969083
+          ],
+          "official_cost": {
+            "fraction": "1956365/78637082",
+            "decimal": "0.02487840278712274700121756806795043590249",
+            "approx": 0.024878402787122746
+          },
+          "conditional_score": {
+            "fraction": "11697744050/117955623",
+            "decimal": "99.17071990709590843329274773106831880325",
+            "approx": 99.17071990709591
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 98.23,
+            "heartbeat_reduction_pct": 99.28,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 99.17
+          }
+        },
+        "final_sha256": "4104260103b5b83b65a34d7aa9a0f919eef5c6ed36536684f1f287033379a64b",
+        "final_source": "runs/competitive-structure-20261101/P14/final.lean",
+        "selected_attempt": "attempt-30",
+        "selected_metadata": {
+          "route": "C-left-power-recurrence",
+          "hypothesis": "Source-backed mul_pow_sub_one matches the cardinal theorem left multiplier directly; use Nat.mul_left_cancel and remove commutation.",
+          "parent": "attempt-18",
+          "expected_tradeoff": "Target remaining arithmetic commutation or repeated quantified adapter work; all sources represent concrete changes to the obligation graph or search premises."
+        },
+        "selected_search_measurement": {
+          "tokens": 31,
+          "raw_hb": 969137,
+          "hb_scaled": 969,
+          "raw_samples": [
+            968985,
+            969137,
+            969161
+          ],
+          "official_cost": {
+            "fraction": "1956365/78637082",
+            "decimal": "0.02487840278712274700121756806795043590249",
+            "approx": 0.024878402787122746
+          },
+          "conditional_score": {
+            "fraction": "11697744050/117955623",
+            "decimal": "99.17071990709590843329274773106831880325",
+            "approx": 99.17071990709591
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 98.23,
+            "heartbeat_reduction_pct": 99.28,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 99.17
+          }
+        },
+        "independent_final_evidence": "final-independent-1",
+        "cost_reduction_pct_vs_incumbent": {
+          "fraction": "296838400/8837479",
+          "decimal": "33.58858335052337889572354287914008055917",
+          "approx": 33.58858335052338
+        },
+        "delta_problem_score_vs_incumbent": {
+          "fraction": "148419200/353866869",
+          "decimal": "0.4194210111260797348055774048742607774338",
+          "approx": 0.4194210111260797
+        },
+        "delta_problem_score_vs_88": {
+          "fraction": "148419200/353866869",
+          "decimal": "0.4194210111260797348055774048742607774338",
+          "approx": 0.4194210111260797
+        },
+        "delta_15_task_mean_vs_incumbent": {
+          "fraction": "29683840/1061600607",
+          "decimal": "0.02796140074173864898703849365828405182892",
+          "approx": 0.02796140074173865
+        },
+        "delta_15_task_mean_vs_88": {
+          "fraction": "29683840/1061600607",
+          "decimal": "0.02796140074173864898703849365828405182892",
+          "approx": 0.02796140074173865
+        },
+        "rounded_axis_delta_15_task_mean_vs_incumbent": {
+          "fraction": "7/250",
+          "decimal": "0.028",
+          "approx": 0.028
+        },
+        "rounded_axis_delta_15_task_mean_vs_88": {
+          "fraction": "7/250",
+          "decimal": "0.028",
+          "approx": 0.028
+        },
+        "verified_versions": [
+          "v4.26.0"
+        ]
+      },
+      {
+        "problem": "P15",
+        "normalizers": {
+          "tokens": 4085,
+          "hb_scaled": 14130
+        },
+        "candidate_evaluations": 40,
+        "valid": 33,
+        "invalid": 7,
+        "incumbent_seed": "fresh40-final",
+        "incumbent": {
+          "tokens": 244,
+          "raw_hb": 1366707,
+          "hb_scaled": 1366,
+          "raw_samples": [
+            1366707,
+            1366666,
+            1366727
+          ],
+          "official_cost": {
+            "fraction": "902783/5772105",
+            "decimal": "0.1564044659617245355030790326925792236974",
+            "approx": 0.15640446596172453
+          },
+          "conditional_score": {
+            "fraction": "328270640/3463263",
+            "decimal": "94.78651780127584881656403224358069254342",
+            "approx": 94.78651780127585
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 94.03,
+            "heartbeat_reduction_pct": 90.33,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 94.79
+          }
+        },
+        "reference_88": {
+          "tokens": 281,
+          "raw_hb": 1822909,
+          "hb_scaled": 1822,
+          "raw_samples": [
+            1822925,
+            1822909,
+            1822886
+          ],
+          "official_cost": {
+            "fraction": "228268/1154421",
+            "decimal": "0.1977337557095721578176419174633864075584",
+            "approx": 0.19773375570957216
+          },
+          "conditional_score": {
+            "fraction": "323499500/3463263",
+            "decimal": "93.40887480968092807274526941788711974805",
+            "approx": 93.40887480968092
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 93.12,
+            "heartbeat_reduction_pct": 87.11,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 93.41
+          }
+        },
+        "reference_88_sha256": "fc7adf74804c25305b855198829de9da382edcbfff7626c24a4ccfa0c180efdc",
+        "final": {
+          "tokens": 181,
+          "raw_hb": 1171287,
+          "hb_scaled": 1171,
+          "raw_samples": [
+            1171287,
+            1171281,
+            1171308
+          ],
+          "official_cost": {
+            "fraction": "1468213/11544210",
+            "decimal": "0.1271817647114874036421721365082582524053",
+            "approx": 0.1271817647114874
+          },
+          "conditional_score": {
+            "fraction": "331644170/3463263",
+            "decimal": "95.76060784295041987859426211639139158649",
+            "approx": 95.76060784295042
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 95.57,
+            "heartbeat_reduction_pct": 91.71,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 95.76
+          }
+        },
+        "final_sha256": "ac5b1fadac0923a96cbce17eefa0d38625f3b35490b190e27821d7ec27277325",
+        "final_source": "runs/competitive-structure-20261101/P15/final.lean",
+        "selected_attempt": "attempt-39",
+        "selected_metadata": {
+          "route": "inferred-power-exponent",
+          "hypothesis": "Allow final certificate unification to infer the coprime power exponent from repeated weighted atoms instead of restating i.val.",
+          "parent": "34",
+          "expected_tradeoff": "Remove exponent tokens; a delayed metavariable may increase HB or require an explicit binder."
+        },
+        "selected_search_measurement": {
+          "tokens": 181,
+          "raw_hb": 1171287,
+          "hb_scaled": 1171,
+          "raw_samples": [
+            1171287,
+            1171281,
+            1171308
+          ],
+          "official_cost": {
+            "fraction": "1468213/11544210",
+            "decimal": "0.1271817647114874036421721365082582524053",
+            "approx": 0.1271817647114874
+          },
+          "conditional_score": {
+            "fraction": "331644170/3463263",
+            "decimal": "95.76060784295041987859426211639139158649",
+            "approx": 95.76060784295042
+          },
+          "leaderboard_display": {
+            "length_reduction_pct": 95.57,
+            "heartbeat_reduction_pct": 91.71,
+            "compatibility_pct_assumed": 100.0,
+            "conditional_problem_score_rounded": 95.76
+          }
+        },
+        "independent_final_evidence": "final-independent-1",
+        "cost_reduction_pct_vs_incumbent": {
+          "fraction": "16867650/902783",
+          "decimal": "18.68405807375637334774801918068904709105",
+          "approx": 18.684058073756372
+        },
+        "delta_problem_score_vs_incumbent": {
+          "fraction": "1124510/1154421",
+          "decimal": "0.9740900416745710620302298728106990430701",
+          "approx": 0.974090041674571
+        },
+        "delta_problem_score_vs_88": {
+          "fraction": "2714890/1154421",
+          "decimal": "2.351733033269491805848992698504271838437",
+          "approx": 2.351733033269492
+        },
+        "delta_15_task_mean_vs_incumbent": {
+          "fraction": "224902/3463263",
+          "decimal": "0.06493933611163807080201532485404660287134",
+          "approx": 0.06493933611163807
+        },
+        "delta_15_task_mean_vs_88": {
+          "fraction": "542978/3463263",
+          "decimal": "0.1567822022179661203899328465669514558958",
+          "approx": 0.15678220221796613
+        },
+        "rounded_axis_delta_15_task_mean_vs_incumbent": {
+          "fraction": "73/1125",
+          "decimal": "0.06488888888888888888888888888888888888889",
+          "approx": 0.06488888888888888
+        },
+        "rounded_axis_delta_15_task_mean_vs_88": {
+          "fraction": "47/300",
+          "decimal": "0.1566666666666666666666666666666666666667",
+          "approx": 0.15666666666666668
+        },
+        "verified_versions": [
+          "v4.26.0"
+        ]
+      }
+    ],
+    "audits": [
+      {
+        "problem": "P06",
+        "audit_passed": true,
+        "complete": true,
+        "reserved": 40,
+        "evaluated": 40,
+        "pending": null,
+        "winner": "attempt-25",
+        "chain_head": "09e686179c9c6f5093fca8d645e7295f7dc2bf4ee140bdb30a7d3274813b4585",
+        "native_called": false
+      },
+      {
+        "problem": "P13",
+        "audit_passed": true,
+        "complete": true,
+        "reserved": 40,
+        "evaluated": 40,
+        "pending": null,
+        "winner": "attempt-40",
+        "chain_head": "f5c872fdea31caf71d195a8edba7664c95eb53de05f09cecde7552cc6b3a7f46",
+        "native_called": false
+      },
+      {
+        "problem": "P14",
+        "audit_passed": true,
+        "complete": true,
+        "reserved": 40,
+        "evaluated": 40,
+        "pending": null,
+        "winner": "attempt-30",
+        "chain_head": "70c3c657b42fcf10a57f91120549124f10d952f64074a774a9833d007b789267",
+        "native_called": false
+      },
+      {
+        "problem": "P15",
+        "audit_passed": true,
+        "complete": true,
+        "reserved": 40,
+        "evaluated": 40,
+        "pending": null,
+        "winner": "attempt-39",
+        "chain_head": "dd7ee631bb0081f8083ce5df3188d6819126c90ca3055a242e256a28a687efdb",
+        "native_called": false
+      }
+    ],
+    "native_called": false
+  },
   "portfolio40_P01": {
     "attempts": 40,
     "inflight": false,
@@ -334,6 +1077,156 @@
       "tokens": 1769,
       "hb_scaled": 111476
     }
+  },
+  "structural_learning_events": {
+    "P13": [
+      {
+        "attempt": 28,
+        "metadata": {
+          "route": "combined-term-recursor-collision",
+          "hypothesis": "Combine independently winning membership witness and dependent-if recursor contractions",
+          "parent": "c26+c19",
+          "expected_tradeoff": "Additive token gain expected with nearly unchanged HB"
+        },
+        "source": "runs/competitive-structure-20261101/P13/attempt-28.lean",
+        "sha256": "7dfc80978168e26ec9421b6c60c205933ff84720b7450c3f296e97d219a71c2c",
+        "metrics": {
+          "valid": true,
+          "tokens": 186,
+          "raw_hb": 2994238,
+          "raw_samples": [
+            2994238,
+            2994438,
+            2994233
+          ],
+          "verified_versions": [
+            "v4.26.0"
+          ]
+        }
+      },
+      {
+        "attempt": 36,
+        "metadata": {
+          "route": "ordering-context-isolation",
+          "hypothesis": "Full pruning saved314k versus25k removing bound/state alone; isolate hij which couples two arithmetic offsets unnecessarily",
+          "parent": "c28+c07+c13",
+          "expected_tradeoff": "Only2extraT may recover most314kHB reduction"
+        },
+        "source": "runs/competitive-structure-20261101/P13/attempt-36.lean",
+        "sha256": "240a8a1093abc4e021b382ce713023d4414a315ff1692e94d95d1aa9ad2a8f14",
+        "metrics": {
+          "valid": true,
+          "tokens": 188,
+          "raw_hb": 2716958,
+          "raw_samples": [
+            2716958,
+            2717155,
+            2716953
+          ],
+          "verified_versions": [
+            "v4.26.0"
+          ]
+        }
+      }
+    ],
+    "P15": [
+      {
+        "attempt": 3,
+        "metadata": {
+          "route": "filter-erase",
+          "hypothesis": "Split the replacement sum into singleton and erased complement, eliminating manual pointwise sum congruence.",
+          "parent": "baseline",
+          "expected_tradeoff": "Larger API spelling may buy smaller sum proof HB."
+        },
+        "source": "runs/competitive-structure-20261101/P15/attempt-03.lean",
+        "sha256": "07df9ca67f4fed865056d94add771614c2ed3bcdc4e4579036d60710c97eba1f",
+        "metrics": {
+          "valid": true,
+          "tokens": 213,
+          "raw_hb": 1540787,
+          "raw_samples": [
+            1540787,
+            1540780,
+            1540830
+          ],
+          "verified_versions": [
+            "v4.26.0"
+          ]
+        }
+      },
+      {
+        "attempt": 32,
+        "metadata": {
+          "route": "erase-as-total-minus-coordinate",
+          "hypothesis": "Source-discovered sum_erase_eq_sub directly converts the complement sum to D-a_iw. Match the row representation to that output and obtain q by one simpa with no additive proof.",
+          "parent": "29",
+          "expected_tradeoff": "Delete convert, erase-add rewrite and abel; one stronger library identity should save both T and HB."
+        },
+        "source": "runs/competitive-structure-20261101/P15/attempt-32.lean",
+        "sha256": "6fb54971b095ff301ffa449c1e88ed23c782302943115c0fc1c478b3039dbd06",
+        "metrics": {
+          "valid": true,
+          "tokens": 190,
+          "raw_hb": 1193199,
+          "raw_samples": [
+            1193199,
+            1193191,
+            1193226
+          ],
+          "verified_versions": [
+            "v4.26.0"
+          ]
+        }
+      },
+      {
+        "attempt": 34,
+        "metadata": {
+          "route": "conditional-erase-rule",
+          "hypothesis": "Let the simplifier discharge the erase-membership side condition from its existing mem_univ rule, removing explicit index membership instantiation.",
+          "parent": "32",
+          "expected_tradeoff": "Remove elaboration or polynomial-normalization work; compare HB savings with any token change."
+        },
+        "source": "runs/competitive-structure-20261101/P15/attempt-34.lean",
+        "sha256": "d582a5ddce7e4cce99a8475f26f95718859f7a898b435e64101851380f6575a6",
+        "metrics": {
+          "valid": true,
+          "tokens": 186,
+          "raw_hb": 1164239,
+          "raw_samples": [
+            1164239,
+            1164233,
+            1164261
+          ],
+          "verified_versions": [
+            "v4.26.0"
+          ]
+        }
+      },
+      {
+        "attempt": 39,
+        "metadata": {
+          "route": "inferred-power-exponent",
+          "hypothesis": "Allow final certificate unification to infer the coprime power exponent from repeated weighted atoms instead of restating i.val.",
+          "parent": "34",
+          "expected_tradeoff": "Remove exponent tokens; a delayed metavariable may increase HB or require an explicit binder."
+        },
+        "source": "runs/competitive-structure-20261101/P15/attempt-39.lean",
+        "sha256": "ac5b1fadac0923a96cbce17eefa0d38625f3b35490b190e27821d7ec27277325",
+        "metrics": {
+          "valid": true,
+          "tokens": 181,
+          "raw_hb": 1171287,
+          "raw_samples": [
+            1171287,
+            1171281,
+            1171308
+          ],
+          "verified_versions": [
+            "v4.26.0"
+          ]
+        }
+      }
+    ]
   },
   "structural_P14": {
     "attempts": 40,
