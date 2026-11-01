@@ -1,5 +1,0 @@
-REFACTOR_EVAL b6f3639034e44b199121444727ec4e14 {"axioms":["propext","Quot.sound","Classical.choice"],"raw":198473,"scaled":198,"target":"Core.InitsUpdatesComm"}
-/Users/somi/leanagent/rewrite/P03/verify_best/v4.26.0/measure-3.lean:2011:8: warning: declaration uses 'sorry'
-/Users/somi/leanagent/rewrite/P03/verify_best/v4.26.0/measure-3.lean:2022:8: warning: declaration uses 'sorry'
-/Users/somi/leanagent/rewrite/P03/verify_best/v4.26.0/measure-3.lean:2036:8: warning: declaration uses 'sorry'
-/Users/somi/leanagent/rewrite/P03/verify_best/v4.26.0/measure-3.lean:2081:8: warning: declaration uses 'sorry'

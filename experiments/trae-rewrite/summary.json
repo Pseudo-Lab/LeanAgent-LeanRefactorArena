@@ -1,0 +1,2077 @@
+{
+  "schema_version": 1,
+  "captured_at": "2026-11-01T19:10:27.455460+09:00",
+  "kind": "development_experiment; historical Lean verification, no new model benchmark",
+  "base_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+  "score_formula": "(length_reduction_pct + heartbeat_reduction_pct + configured_compat_pct) / 3",
+  "historical_score_note": "Historical summaries retain their original denominators. P10/P11/P12 used H0=15643000/45269000/9199000. The normalized field uses the archived benchmark references and does not assert missing-version compatibility.",
+  "eligibility_note": "No paid API calls in this collection or deterministic continuation. Earlier interactive model costs are not recorded; competition API/budget eligibility is not assessed.",
+  "authorship_note": "Baseline proofs were supplied by the team before this additional editing. This record credits only the additional Trae-assisted development edits, not authorship of entire proofs. Baseline bytes and SHA-256 are retained for attribution follow-up.",
+  "problems": [
+    {
+      "id": "P01",
+      "name": "CallElimCorrect.substOldPostSubset",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P01.lean",
+      "candidate_sha256": "5222bb930b4a42362e36ba40029fba4f3cede317e4610158c86221f3bf31e953",
+      "baseline_tokens": 32,
+      "candidate_tokens": 31,
+      "local_submission_tokens": 31,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 313,
+        "raw_heartbeats": 5175000,
+        "required_versions": [
+          "v4.26.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 32,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 1320,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 88.09
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 31,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 797,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 91.56
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 31,
+          "versions": {
+            "v4.26.0": {
+              "valid": true,
+              "hb_k": 797,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 91.56
+        }
+      ],
+      "passed_versions": [
+        "v4.26.0"
+      ],
+      "all_designated_versions_verified": true,
+      "score_with_official_denominators_configured_versions_only": 91.56,
+      "official_score": null
+    },
+    {
+      "id": "P02",
+      "name": "CallElimCorrect.extractedOldExprInVars",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P02.lean",
+      "candidate_sha256": "ff2f0c371899a4e55c26343a32e6a5bffd2265e3e5a3a4f23d2db1f3cf0971d7",
+      "baseline_tokens": 19,
+      "candidate_tokens": 20,
+      "local_submission_tokens": 20,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 222,
+        "raw_heartbeats": 2696000,
+        "required_versions": [
+          "v4.26.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 19,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 326,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 93.12
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 20,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 249,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 93.92
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 20,
+          "versions": {
+            "v4.26.0": {
+              "valid": true,
+              "hb_k": 249,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 93.92
+        }
+      ],
+      "passed_versions": [
+        "v4.26.0"
+      ],
+      "all_designated_versions_verified": true,
+      "score_with_official_denominators_configured_versions_only": 93.92,
+      "official_score": null
+    },
+    {
+      "id": "P03",
+      "name": "Core.InitsUpdatesComm",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P03.lean",
+      "candidate_sha256": "2dc636f8114523c1738245954662f259b39841c55dae6f9c7d6a9ac4e5682288",
+      "baseline_tokens": 78,
+      "candidate_tokens": 75,
+      "local_submission_tokens": 75,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 224,
+        "raw_heartbeats": 4251000,
+        "required_versions": [
+          "v4.29.1",
+          "v4.27.0",
+          "v4.26.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 78,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 230,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 86.59
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 75,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 198,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 87.29
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 75,
+          "versions": {
+            "v4.26.0": {
+              "valid": true,
+              "hb_k": 198,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 87.29
+        }
+      ],
+      "passed_versions": [
+        "v4.26.0"
+      ],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": 87.29,
+      "official_score": null
+    },
+    {
+      "id": "P04",
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P04.lean",
+      "candidate_sha256": "17b3e0a269da7737deb8b05c73a5001a4b774cbcffa147da7f7fca11421f768e",
+      "baseline_tokens": 123,
+      "candidate_tokens": 114,
+      "local_submission_tokens": 114,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 851,
+        "raw_heartbeats": 11947000,
+        "required_versions": [
+          "v4.32.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 123,
+        "versions": {
+          "v4.32.0": {
+            "valid": true,
+            "hb_k": 1406,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 91.26
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 114,
+        "versions": {
+          "v4.32.0": {
+            "valid": true,
+            "hb_k": 1399,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 91.63
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 114,
+          "versions": {
+            "v4.32.0": {
+              "valid": true,
+              "hb_k": 1399,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 91.63
+        }
+      ],
+      "passed_versions": [
+        "v4.32.0"
+      ],
+      "all_designated_versions_verified": true,
+      "score_with_official_denominators_configured_versions_only": 91.63,
+      "official_score": null
+    },
+    {
+      "id": "P05",
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P05.lean",
+      "candidate_sha256": "8966d3ce867dc8340dfaf6de0b7bad5d646c19e50cb378cc795da0b3c1480026",
+      "baseline_tokens": 427,
+      "candidate_tokens": 356,
+      "local_submission_tokens": 356,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 1372,
+        "raw_heartbeats": 26970000,
+        "required_versions": [
+          "v4.32.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 427,
+        "versions": {
+          "v4.32.0": {
+            "valid": true,
+            "hb_k": 5484,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 82.85
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P05/verify2/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 356,
+        "versions": {
+          "v4.32.0": {
+            "valid": true,
+            "hb_k": 5046,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 85.11
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P05/verify2/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 356,
+          "versions": {
+            "v4.32.0": {
+              "valid": true,
+              "hb_k": 5046,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 85.11
+        },
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P05/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": false,
+          "tokens": 356,
+          "versions": {
+            "v4.32.0": {
+              "valid": false,
+              "hb_k": null,
+              "error": "timeout"
+            }
+          },
+          "compat_pct": 0.0
+        }
+      ],
+      "passed_versions": [
+        "v4.32.0"
+      ],
+      "all_designated_versions_verified": true,
+      "score_with_official_denominators_configured_versions_only": 85.11,
+      "official_score": null
+    },
+    {
+      "id": "P06",
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P06.lean",
+      "candidate_sha256": "22be09d777c0a7884e3a52e95d1972a1db3d72e049efa9d0469f5bb61d632824",
+      "baseline_tokens": 422,
+      "candidate_tokens": 351,
+      "local_submission_tokens": 351,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 1217,
+        "raw_heartbeats": 42225000,
+        "required_versions": [
+          "v4.32.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 422,
+        "versions": {
+          "v4.32.0": {
+            "valid": true,
+            "hb_k": 11133,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 79.65
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P06/verify2/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 351,
+        "versions": {
+          "v4.32.0": {
+            "valid": true,
+            "hb_k": 9250,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 83.08
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P06/verify2/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 351,
+          "versions": {
+            "v4.32.0": {
+              "valid": true,
+              "hb_k": 9250,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 83.08
+        }
+      ],
+      "passed_versions": [
+        "v4.32.0"
+      ],
+      "all_designated_versions_verified": true,
+      "score_with_official_denominators_configured_versions_only": 83.08,
+      "official_score": null
+    },
+    {
+      "id": "P07",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P07.lean",
+      "candidate_sha256": "9093549561ee6ca6e80c9f472797b6a3c919d8fba888e310b709a7f4e305b7d3",
+      "baseline_tokens": 101,
+      "candidate_tokens": 88,
+      "local_submission_tokens": 88,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 408,
+        "raw_heartbeats": 59830000,
+        "required_versions": [
+          "v4.33.0-rc2",
+          "v4.32.0",
+          "v4.31.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 101,
+        "versions": {
+          "v4.33.0-rc2": {
+            "valid": true,
+            "hb_k": 7896,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 87.35
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 88,
+        "versions": {
+          "v4.33.0-rc2": {
+            "valid": true,
+            "hb_k": 8233,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 88.22
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 88,
+          "versions": {
+            "v4.33.0-rc2": {
+              "valid": true,
+              "hb_k": 8233,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 88.22
+        }
+      ],
+      "passed_versions": [
+        "v4.33.0-rc2"
+      ],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": 88.22,
+      "official_score": null
+    },
+    {
+      "id": "P08",
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P08.lean",
+      "candidate_sha256": "6a886dbfd8a09b7e272da9e9e8098e0fc50309e0412cf52fcc832b8e35784846",
+      "baseline_tokens": 185,
+      "candidate_tokens": 158,
+      "local_submission_tokens": 158,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 407,
+        "raw_heartbeats": 1383000,
+        "required_versions": [
+          "v4.33.0-rc2",
+          "v4.32.0",
+          "v4.31.0",
+          "v4.30.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 185,
+        "versions": {
+          "v4.33.0-rc2": {
+            "valid": true,
+            "hb_k": 383,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 75.62
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 158,
+        "versions": {
+          "v4.33.0-rc2": {
+            "valid": true,
+            "hb_k": 359,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 78.41
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 158,
+          "versions": {
+            "v4.33.0-rc2": {
+              "valid": true,
+              "hb_k": 359,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 78.41
+        }
+      ],
+      "passed_versions": [
+        "v4.33.0-rc2"
+      ],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": 78.41,
+      "official_score": null
+    },
+    {
+      "id": "P09",
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P09.lean",
+      "candidate_sha256": "2cf9af7f41510a0284d13f635177a51489f5c2d993936958d7d57879283eaa14",
+      "baseline_tokens": 79,
+      "candidate_tokens": 80,
+      "local_submission_tokens": 80,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 251,
+        "raw_heartbeats": 3858000,
+        "required_versions": [
+          "v4.33.0-rc2",
+          "v4.32.0",
+          "v4.31.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 79,
+        "versions": {
+          "v4.33.0-rc2": {
+            "valid": true,
+            "hb_k": 507,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 85.13
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 80,
+        "versions": {
+          "v4.33.0-rc2": {
+            "valid": true,
+            "hb_k": 376,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 86.13
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 80,
+          "versions": {
+            "v4.33.0-rc2": {
+              "valid": true,
+              "hb_k": 376,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 86.13
+        }
+      ],
+      "passed_versions": [
+        "v4.33.0-rc2"
+      ],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": 86.13,
+      "official_score": null
+    },
+    {
+      "id": "P10",
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "state": "original_seed_trial_not_selected",
+      "candidate": "experiments/trae-rewrite/candidates/P10.lean",
+      "candidate_sha256": "baffcfcb46082c96fca92cc22db000c676efb2da696379e70e9b9d3e2f6e4b28",
+      "baseline_tokens": 257,
+      "candidate_tokens": 1457,
+      "local_submission_tokens": 257,
+      "matches_local_submission": false,
+      "official_reference": {
+        "tokens": 1463,
+        "raw_heartbeats": 15645000,
+        "required_versions": [
+          "v4.31.0",
+          "v4.30.0",
+          "v4.29.0",
+          "v4.28.0"
+        ]
+      },
+      "before_verification": null,
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 1457,
+        "versions": {
+          "v4.31.0": {
+            "valid": true,
+            "hb_k": 15636,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 33.48
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 1457,
+          "versions": {
+            "v4.31.0": {
+              "valid": true,
+              "hb_k": 15636,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 33.48
+        }
+      ],
+      "passed_versions": [
+        "v4.31.0"
+      ],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": 33.49,
+      "official_score": null
+    },
+    {
+      "id": "P11",
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "state": "original_seed_trial_not_selected",
+      "candidate": "experiments/trae-rewrite/candidates/P11.lean",
+      "candidate_sha256": "7e688d00aab7dfb0d34a70af145e79129518bcefa986deb8808bb68742bedc03",
+      "baseline_tokens": 248,
+      "candidate_tokens": 1905,
+      "local_submission_tokens": 248,
+      "matches_local_submission": false,
+      "official_reference": {
+        "tokens": 1906,
+        "raw_heartbeats": 45273000,
+        "required_versions": [
+          "v4.31.0",
+          "v4.30.0",
+          "v4.29.0"
+        ]
+      },
+      "before_verification": null,
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 1905,
+        "versions": {
+          "v4.31.0": {
+            "valid": true,
+            "hb_k": 45271,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 33.35
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 1905,
+          "versions": {
+            "v4.31.0": {
+              "valid": true,
+              "hb_k": 45271,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 33.35
+        },
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 1905,
+          "versions": {
+            "v4.31.0": {
+              "valid": true,
+              "hb_k": 45271,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 33.35
+        }
+      ],
+      "passed_versions": [
+        "v4.31.0"
+      ],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": 33.35,
+      "official_score": null
+    },
+    {
+      "id": "P12",
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "state": "measurement_running",
+      "candidate": "experiments/trae-rewrite/candidates/P12.lean",
+      "candidate_sha256": "4dd17de4e654f21a3fdc18c6eaca7320b5d86b00baa707a7441da52711b2559e",
+      "baseline_tokens": 156,
+      "candidate_tokens": 1336,
+      "local_submission_tokens": 156,
+      "matches_local_submission": false,
+      "official_reference": {
+        "tokens": 1353,
+        "raw_heartbeats": 9198000,
+        "required_versions": [
+          "v4.31.0",
+          "v4.30.0",
+          "v4.29.0"
+        ]
+      },
+      "before_verification": null,
+      "candidate_verification": null,
+      "historical_verifications": [],
+      "passed_versions": [],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": null,
+      "official_score": null
+    },
+    {
+      "id": "P13",
+      "name": "putnam_1964_a4",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P13.lean",
+      "candidate_sha256": "49112a7a0ee6efaed1e65282e5bc7ee3c398f77c24b2853c5d71e25765f4f030",
+      "baseline_tokens": 259,
+      "candidate_tokens": 244,
+      "local_submission_tokens": 244,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 1769,
+        "raw_heartbeats": 111476000,
+        "required_versions": [
+          "v4.25.0",
+          "v4.26.0",
+          "v4.27.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 259,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 2814,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 94.31
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 244,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 2850,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 94.58
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 244,
+          "versions": {
+            "v4.26.0": {
+              "valid": true,
+              "hb_k": 2850,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 94.58
+        }
+      ],
+      "passed_versions": [
+        "v4.26.0"
+      ],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": 94.55,
+      "official_score": null
+    },
+    {
+      "id": "P14",
+      "name": "putnam_1964_b2",
+      "state": "screened_no_final_verify",
+      "candidate": "experiments/trae-rewrite/candidates/P14.lean",
+      "candidate_sha256": "de323a148fa4975a752e3dc8a052819cfc36bd2a9be78390285b8e8ace0e8015",
+      "baseline_tokens": 55,
+      "candidate_tokens": 54,
+      "local_submission_tokens": 54,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 1754,
+        "raw_heartbeats": 134499000,
+        "required_versions": [
+          "v4.25.0",
+          "v4.26.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 55,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 885,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 98.74
+      },
+      "candidate_verification": null,
+      "historical_verifications": [],
+      "passed_versions": [],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": null,
+      "official_score": null,
+      "source_candidate_sha256": "edf8897417850f1365ea3f7ed780157d2d2ba2531edd49694dc089bc44634384",
+      "snapshot_normalization": "Trailing blank line removed for publication; proof tokens unchanged. P14 has no final verification."
+    },
+    {
+      "id": "P15",
+      "name": "putnam_1995_a3",
+      "state": "completed",
+      "candidate": "experiments/trae-rewrite/candidates/P15.lean",
+      "candidate_sha256": "c77ec3791c76a884be0c36daf994636ac34a54aa71d4c54e504a60d528e97123",
+      "baseline_tokens": 281,
+      "candidate_tokens": 122,
+      "local_submission_tokens": 122,
+      "matches_local_submission": true,
+      "official_reference": {
+        "tokens": 4085,
+        "raw_heartbeats": 14130000,
+        "required_versions": [
+          "v4.25.0",
+          "v4.26.0",
+          "v4.27.0"
+        ]
+      },
+      "before_verification": {
+        "valid": true,
+        "tokens": 281,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 2000,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 93.05
+      },
+      "candidate_verification": {
+        "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/summary.json",
+        "candidate_matches_checked_source": true,
+        "valid": true,
+        "tokens": 122,
+        "versions": {
+          "v4.26.0": {
+            "valid": true,
+            "hb_k": 1082,
+            "error": null
+          }
+        },
+        "compat_pct": 100.0,
+        "local_problem_score": 96.48
+      },
+      "historical_verifications": [
+        {
+          "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/summary.json",
+          "candidate_matches_checked_source": true,
+          "valid": true,
+          "tokens": 122,
+          "versions": {
+            "v4.26.0": {
+              "valid": true,
+              "hb_k": 1082,
+              "error": null
+            }
+          },
+          "compat_pct": 100.0,
+          "local_problem_score": 96.48
+        }
+      ],
+      "passed_versions": [
+        "v4.26.0"
+      ],
+      "all_designated_versions_verified": false,
+      "score_with_official_denominators_configured_versions_only": 96.45,
+      "official_score": null
+    }
+  ],
+  "files": [
+    {
+      "path": "runs/trae-rewrite-20261031/submission.before_rewrite.jsonl",
+      "sha256": "6ac28ac0292fd20a522bffb51734c74c30a6b7163f97c3f6955fe59fd6efa212",
+      "bytes": 21686
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/submission.jsonl",
+      "sha256": "d9961c38230402dce35d868189e3d605f8ca297bc31016cf0c94aba0c0c19474",
+      "bytes": 20007
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/source/auto_rewrite.py",
+      "sha256": "a2d17a46224784e7684493b3fd4907569c0863f964103e355501ec9f042d5213",
+      "bytes": 22071
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/source/local-harness.patch",
+      "sha256": "ac271d6cedb1d1a06dae712b54e4092aa366b8d9531c75722668cb07322a80e6",
+      "bytes": 3192
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P01.lean",
+      "sha256": "5222bb930b4a42362e36ba40029fba4f3cede317e4610158c86221f3bf31e953",
+      "bytes": 490
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P01.lean",
+      "sha256": "954dee0cdde6bebb35e0bd0cb8b2d691526facc46d4b5ab7b7d7ee3fb6e9b5f5",
+      "bytes": 486
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P01.txt",
+      "sha256": "0d86d6b96d17cad9255bfdbfbc5ca1f61ff72f1e40a024ac6394e9d8fa30e34a",
+      "bytes": 225
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P01.json",
+      "sha256": "832d76fb0869394c0b5de2663c2aaa032840a9e567a2d2744112b1dbc83a795a",
+      "bytes": 658
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/summary.json",
+      "sha256": "486c382b1d580db609e5ead53fba4ad1c434d1ed66c797efd5b3f59ccbd9b5bf",
+      "bytes": 175
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/v4.26.0/check.log",
+      "sha256": "8e7101824a89e79969e6ac2c2e1666252a1a71eb0700bb412b4835f4b6839c48",
+      "bytes": 213
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/v4.26.0/measure-3.log",
+      "sha256": "3727780b508ee2337490d1eb3ae5900e2a21058eda050602ea4a838e1a258973",
+      "bytes": 395
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/v4.26.0/measure-2.log",
+      "sha256": "45ccb10d25038e3bd98b81d580a439e9e2ac70a5a249c2ee93059f2609150da0",
+      "bytes": 395
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/v4.26.0/measure-1.log",
+      "sha256": "f677975fa86cefd893403833daf71d90383355329b2edea0f4271d06ca930a90",
+      "bytes": 395
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/before/summary.json",
+      "sha256": "f1cba3232af9c046cd5d8c728a7e47184ea803ce4c730ebc1b3513dc101154d2",
+      "bytes": 176
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P01.md",
+      "sha256": "eeeba73c6295baf7296c2f296b444e28e44e56abc9826e20d5fa9bc56af90cca",
+      "bytes": 1834
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P02.lean",
+      "sha256": "ff2f0c371899a4e55c26343a32e6a5bffd2265e3e5a3a4f23d2db1f3cf0971d7",
+      "bytes": 356
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P02.lean",
+      "sha256": "9c73432c2f05c8ca0408716ae9bd45374ed724bd982ed43ffc34afd49ba5ce9d",
+      "bytes": 331
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P02.txt",
+      "sha256": "bd683e2b359daf5817c12baf76b26aa21a4f26bc13eecde182364d1aa49fbdfd",
+      "bytes": 159
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P02.json",
+      "sha256": "48cbc4c200bdfb5ec8d69a2483633201daea8c2483964ac35773c9f147daa483",
+      "bytes": 666
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/summary.json",
+      "sha256": "9260bee97da35d8c056459b428110f6fc91bc9e7b45956717b6ce19297d3372b",
+      "bytes": 175
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/v4.26.0/check.log",
+      "sha256": "8dba48b2498f9328940f663827be53f2d54f56fb9727a37966a5dbcbeb6ba32e",
+      "bytes": 213
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/v4.26.0/measure-3.log",
+      "sha256": "bb99eea667e001f08d9e071214b6d160aa99b28c6f521f06090f722d0ad165a0",
+      "bytes": 380
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/v4.26.0/measure-2.log",
+      "sha256": "638540dbde945a79afaf9661f027557984489dd8f203c0d44f4c61b5e26cccc6",
+      "bytes": 380
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/v4.26.0/measure-1.log",
+      "sha256": "8ae229b6d28e99da63499c5f9904f8b3d1e2cf0405a1a15fb0da5f424e5f82a6",
+      "bytes": 380
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/before/summary.json",
+      "sha256": "b9c340b072ee496bfaea384ba084b890fd90e7db3577c78f80e835876368a776",
+      "bytes": 175
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P02.md",
+      "sha256": "317d12a9d3329c39859eda1d8ee05f0cbc30657fd5dc34362356b01bcbb4d62e",
+      "bytes": 1655
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P03.lean",
+      "sha256": "2dc636f8114523c1738245954662f259b39841c55dae6f9c7d6a9ac4e5682288",
+      "bytes": 870
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P03.lean",
+      "sha256": "4422a08306c406fbf1cc8f63ea6aac6cb615f540e9d92fab67cd8cc1787cf2b3",
+      "bytes": 867
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P03.txt",
+      "sha256": "41a26124e76466c175b98877cc661020bca7fa7ea1d9119e2100ea067f14a6ce",
+      "bytes": 316
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P03.json",
+      "sha256": "7590ed2c40163663e0f6bc1cecf7336aa138ef80bb88a7e6fc2bee371e7b511c",
+      "bytes": 666
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/summary.json",
+      "sha256": "5bb1e5d9bf9fee6dc88f6a94362e0de5ce039a2e514c35b622dcd46323fe2ca5",
+      "bytes": 175
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/v4.26.0/check.log",
+      "sha256": "f1001c684d591ccdc87d7a44280fc2a25fe805059dadb8ed0c1def95cff744df",
+      "bytes": 428
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/v4.26.0/measure-3.log",
+      "sha256": "221bf523490fff215ff914b36bb0a66a93a7a4d9204f726660a21feb1b4a46e8",
+      "bytes": 605
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/v4.26.0/measure-2.log",
+      "sha256": "6aca167c057d7d6733099661bf2cc4b91956eb05f4247e8cb2e8f571fe3eef27",
+      "bytes": 605
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/v4.26.0/measure-1.log",
+      "sha256": "0f7a9d1b87b577621e9fac35522555ab12975dcfe42819d5c2448a5de0cf670c",
+      "bytes": 605
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/before/summary.json",
+      "sha256": "8f5006520844231f4dc84af1e533fda0f781a2db0f4b27198fbb25a73791f37e",
+      "bytes": 175
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P03.md",
+      "sha256": "afb4a8e31ca15853f1fa67da853ca4c553a84d78e4967e07d7d42e9b7015493d",
+      "bytes": 1594
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P04.lean",
+      "sha256": "17b3e0a269da7737deb8b05c73a5001a4b774cbcffa147da7f7fca11421f768e",
+      "bytes": 976
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P04.lean",
+      "sha256": "534b3f8929bc01e93d50fe36133ffc14ac729ff0eee74cacbc8cb03fe5ac0eb8",
+      "bytes": 1018
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P04.txt",
+      "sha256": "851df2b7bf3a5d24535c37b94bcd12339ae43438267de736e793664214c500b6",
+      "bytes": 274
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P04.json",
+      "sha256": "625eaf187edac24b150a54440141ab7e357dd01e6f6d2fadf332abd9f70b5f2c",
+      "bytes": 1429
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/summary.json",
+      "sha256": "50ab685ae12bd31fda18831dbc8db91999ab9abfade10b17aee3a88dfb1cc515",
+      "bytes": 177
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/v4.32.0/check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/v4.32.0/measure-3.log",
+      "sha256": "c80405b536c2a636ce6392d444b68e960f8db5bbee57d2ab04e9cb705665687c",
+      "bytes": 186
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/v4.32.0/measure-2.log",
+      "sha256": "9d24d087891cc0fbd06687c916e3f6f412d593ea00c126f3d2e9d5719129973b",
+      "bytes": 186
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/v4.32.0/measure-1.log",
+      "sha256": "d4e102dcfb0b2f6ed08257882800337070c7d75e1d9f33717c7237648b802e76",
+      "bytes": 186
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/before/summary.json",
+      "sha256": "bbbe77acdd10d8f4b6425959e89b772b3549fad78fcaccddea8fa4c1829bf5f2",
+      "bytes": 177
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P04.md",
+      "sha256": "c541fd156e229be339223394904aa94e12649540d57d5e492994b9aefabb6a50",
+      "bytes": 2063
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P05.lean",
+      "sha256": "8966d3ce867dc8340dfaf6de0b7bad5d646c19e50cb378cc795da0b3c1480026",
+      "bytes": 2549
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P05.lean",
+      "sha256": "9aabe6f4d7499ed974d0eb341ec6c0ecc1b727edb79f203343d272719f98b4fa",
+      "bytes": 2789
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P05.txt",
+      "sha256": "d38791803eb224e92cf358ff6c2966e75bcc09137c7cf10bfc8e6baa12b0c0ae",
+      "bytes": 551
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P05.json",
+      "sha256": "3df3898c3bb35ebbb672001f785c340ac5d56689663c67fd74e1ba3a27760557",
+      "bytes": 1429
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/summary.json",
+      "sha256": "2257d9ab164625512b8998cc8cb784e7af21ad7e2c86d9cd496a52fe4162f6a9",
+      "bytes": 177
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/v4.32.0/check.log",
+      "sha256": "6031d57386b8e9d1ff2e82419dedbc92dff90a0dbef860b635c4e56172164da1",
+      "bytes": 925
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/v4.32.0/measure-3.log",
+      "sha256": "fe06e9a2a3d306c3e682eb5995ef1a8a6a92cedc65e25c19d563893ab3afa9b9",
+      "bytes": 1169
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/v4.32.0/measure-2.log",
+      "sha256": "1d14d0f8441a5365ab92948c93395aa8d3c9a4e36dbd49ec6380cd552bf7ac6b",
+      "bytes": 1169
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/v4.32.0/measure-1.log",
+      "sha256": "a3fe6ffdd7b223faad383c9da1b16c6caae1ca7f94f96f797651fa4cd469f4be",
+      "bytes": 1169
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify_best/summary.json",
+      "sha256": "a1f241545f5c9c3deffe78868fa8b319ab0781b7940cd317e28db28497dc10e7",
+      "bytes": 151
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify_best/v4.32.0/check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/before/summary.json",
+      "sha256": "38043de5959fc6c8f25e5f420e12004f71bf60ca4da5c3e90bc80e160d9166ec",
+      "bytes": 177
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P06.lean",
+      "sha256": "22be09d777c0a7884e3a52e95d1972a1db3d72e049efa9d0469f5bb61d632824",
+      "bytes": 2180
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P06.lean",
+      "sha256": "07163bcdf011341d0a6364f0cadc80389366b248bc15eb99a773e64d7c582a46",
+      "bytes": 2467
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P06.txt",
+      "sha256": "ca5fa592c760062fc6b01bd72f19580be9e0776cac504b534069bb2a93c79298",
+      "bytes": 290
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P06.json",
+      "sha256": "35aa52b273abb75fb1b5aad2b7b9cc507cb42a418482f223d55938502a788a2f",
+      "bytes": 1429
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/summary.json",
+      "sha256": "b24efaccfb32b753dca1b5bf3153a7854990d354ef0a39c9a75a98027368d29e",
+      "bytes": 177
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/v4.32.0/check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/v4.32.0/measure-3.log",
+      "sha256": "19faca47367a0925a78bdfebe7bc6c7ee6b3bc48a9b36b617fcd7ec4f3b38ec0",
+      "bytes": 208
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/v4.32.0/measure-2.log",
+      "sha256": "4dcd74101bd1ddb14eb1910c8307bcdacb79503656573b6f3c2332522170a00a",
+      "bytes": 208
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/v4.32.0/measure-1.log",
+      "sha256": "6a36ee7c61680ee585e3bb5c6d0b05e65631609313cacc12285de6ec9cd58068",
+      "bytes": 208
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/before/summary.json",
+      "sha256": "3d08b69a46af48d3570de758791903a5cdbe8563eefd477cfa39005d1a5b5aec",
+      "bytes": 178
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P07.lean",
+      "sha256": "9093549561ee6ca6e80c9f472797b6a3c919d8fba888e310b709a7f4e305b7d3",
+      "bytes": 544
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P07.lean",
+      "sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+      "bytes": 617
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P07.txt",
+      "sha256": "6cdeb5edd2f98ceb080c58f55f7135047c08871f17d66b4a03a0a8508f2b123e",
+      "bytes": 80
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P07.json",
+      "sha256": "c11777edecdca53bdba22bf8d0998c2b1cb149b9e303f6c1cef98d3efea5e65e",
+      "bytes": 1425
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/summary.json",
+      "sha256": "d483f065da790b277f9e26940df05d814af4bf285a72778959acdd3e49d06f9e",
+      "bytes": 180
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/v4.33.0-rc2/check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/v4.33.0-rc2/measure-3.log",
+      "sha256": "b59c256ca2cb79b047b485b64ec4507bbe44377d0df7f4751045fe09ef199e99",
+      "bytes": 199
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/v4.33.0-rc2/measure-2.log",
+      "sha256": "8383dbc7163ae462a8c20a928ac668acef1783ce4127195aaab31828271eac07",
+      "bytes": 199
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/v4.33.0-rc2/measure-1.log",
+      "sha256": "6385c171460fc449a3559fa30307b09c2cdfaac912cbab2f39ac47dc76bb091b",
+      "bytes": 199
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/before/summary.json",
+      "sha256": "ef33d540f39a3c3ff938b50f53c461112352068a38a107488898c6d0588b342d",
+      "bytes": 181
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P07.md",
+      "sha256": "0e1ee67c16ff1fb7e98b6e186eef6b7fc71819a68d6fdf85f34b207faf44421d",
+      "bytes": 1301
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P08.lean",
+      "sha256": "6a886dbfd8a09b7e272da9e9e8098e0fc50309e0412cf52fcc832b8e35784846",
+      "bytes": 1089
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P08.lean",
+      "sha256": "8b15f299a78a2444df2d0f92648f0562c38dabdedfd5a51c27e6a86bf0ad2b10",
+      "bytes": 1133
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P08.txt",
+      "sha256": "9cb4dc36d6c498241273c239a94dea74e5458b82269929233367800b0725b588",
+      "bytes": 61
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P08.json",
+      "sha256": "88197c5f0b2237f5e732bbdb66d12dd4af94e75deb18b7af3e90226d2d64656c",
+      "bytes": 1425
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/summary.json",
+      "sha256": "0ed1e6c8819cf9ae0e6a39dadde4fec0684e75596fff756f8167bc08beba2631",
+      "bytes": 180
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/v4.33.0-rc2/check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/v4.33.0-rc2/measure-3.log",
+      "sha256": "baa89fc575d1d28ff9c56c927cf1544ec2740f923e1f60de5c648a95df2bf825",
+      "bytes": 134
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/v4.33.0-rc2/measure-2.log",
+      "sha256": "4e0f0f67ad0d509e00918650c86d5d45053c6d3989b5fdab4fcb8b8c83235f36",
+      "bytes": 134
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/v4.33.0-rc2/measure-1.log",
+      "sha256": "51ed17462e3a565e472de905622e708c2d5e0e71a6990e186fe45d5420231a51",
+      "bytes": 134
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/before/summary.json",
+      "sha256": "681de679139a6d6dea74ba43db174781bd2de7ad0fbf9502ffcc6200633f7b6c",
+      "bytes": 180
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P09.lean",
+      "sha256": "2cf9af7f41510a0284d13f635177a51489f5c2d993936958d7d57879283eaa14",
+      "bytes": 487
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P09.lean",
+      "sha256": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
+      "bytes": 498
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P09.txt",
+      "sha256": "d22365e14ae095e15e8706b4c0e7a3f37de57a00d5eda6fa2a40580c8a60650b",
+      "bytes": 119
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P09.json",
+      "sha256": "ef4495b4df4a123d78bbc0229bf58247786e3948f6a70be9008c4589c605ec67",
+      "bytes": 1425
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/summary.json",
+      "sha256": "a9350262daba9dfabe6c7e77f9253c23947e1c316d0f075d9d36662fbc3cc277",
+      "bytes": 179
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/v4.33.0-rc2/check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/v4.33.0-rc2/measure-3.log",
+      "sha256": "faa70ca052e7b13b38ed7fa6ff517f919ad66d395f2c0914e549d8191666b964",
+      "bytes": 175
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/v4.33.0-rc2/measure-2.log",
+      "sha256": "9f4a75f687ff5535884c03c39f3f5b4fd3435fc38a3f8b063e56296124b2a23c",
+      "bytes": 175
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/v4.33.0-rc2/measure-1.log",
+      "sha256": "c804e69f28c868a00358e957fe27f519e99872b33633e2bee24553757b6ded0e",
+      "bytes": 175
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/before/summary.json",
+      "sha256": "c483324b45fc441d50e8c8e218d8b92383d4cd6f789f4652fcec4091da5e81ab",
+      "bytes": 179
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P09.md",
+      "sha256": "6841c4d038aa0590e3eb60014ba88e0f3d5b5f39dda38ae5b39c629392ce0a08",
+      "bytes": 1493
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P10.lean",
+      "sha256": "baffcfcb46082c96fca92cc22db000c676efb2da696379e70e9b9d3e2f6e4b28",
+      "bytes": 11956
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P10.lean",
+      "sha256": "c617f04451b737b39bcaa00366e92ba1b969bca536a3477ccb563f179c2eb5f4",
+      "bytes": 1824
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P10.txt",
+      "sha256": "88119a0eafcfa81dc315b5a0c042e135f473795b2dedf88296fae3cef8dfb3ef",
+      "bytes": 477
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P10.json",
+      "sha256": "8bef6f97aecd030dd435356ebc613041e904a516825f804583ed12baaa7c7636",
+      "bytes": 1576
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/summary.json",
+      "sha256": "367fa554ef206c3f9a5237e07e7aa8e411a94d90ce86ac0adeab4a239ddb7496",
+      "bytes": 179
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/v4.31.0/check.log",
+      "sha256": "df6f31b4c1c9c57c1cc1b49423eb332fea8cae6f65b2e0638734fc166accb02d",
+      "bytes": 3249
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/v4.31.0/measure-3.log",
+      "sha256": "88ad47ea6c5171dcbae653f911fd9f6c767f04a1d51b90e898cb097dd5fe8483",
+      "bytes": 3519
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/v4.31.0/measure-2.log",
+      "sha256": "0a9cd02e5d94d614eaf5075bcd6047eab14016179c16872039b9ac9535e8062f",
+      "bytes": 3519
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/v4.31.0/measure-1.log",
+      "sha256": "0aac0821537663c63e1da3293673c21b723b958ad7d4d107885d472372ed01e9",
+      "bytes": 3519
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P10.md",
+      "sha256": "ef1cb6a374b1b29189a368044014f7b83c5741cb777076c48785d30405a70b88",
+      "bytes": 1911
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P11.lean",
+      "sha256": "7e688d00aab7dfb0d34a70af145e79129518bcefa986deb8808bb68742bedc03",
+      "bytes": 10368
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P11.lean",
+      "sha256": "c7968b607b27165f48d1a8f9ab79a672348f7390c6403e4630cca09d0cc626d7",
+      "bytes": 2877
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P11.txt",
+      "sha256": "6dda39aa2f444a80a0cb7e89ddef7e06938f863b7e9eff67b80b4cedf033fe57",
+      "bytes": 1310
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P11.json",
+      "sha256": "bfeaafd41557c17e096db10888c4ab8f8fc25752e0d736626641d86264e8e576",
+      "bytes": 1576
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/summary.json",
+      "sha256": "09d6190c393ed5a6c258f07163f95ddaee4a9f9ae189a082e9a02f6c91bec6de",
+      "bytes": 179
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/v4.31.0/check.log",
+      "sha256": "bd28d6491fcea938d1e624ece60f4a2e3f7ae2f115a783e322b8755ddf7f0084",
+      "bytes": 3249
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/v4.31.0/measure-3.log",
+      "sha256": "b40911285900c4c45a933e4370ce81f75500ea20b617fd52b1121a7a049e3b41",
+      "bytes": 3496
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/v4.31.0/measure-2.log",
+      "sha256": "7f37a53a0ae7523da60ad8ff8d4eaa64dd657a980cfeee3a3285caa3751e39e5",
+      "bytes": 3496
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/v4.31.0/measure-1.log",
+      "sha256": "b971456f98c982d8cb07df7f8f07df686271165bc4dfeb30a717766e55fc45f0",
+      "bytes": 3496
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/summary.json",
+      "sha256": "09d6190c393ed5a6c258f07163f95ddaee4a9f9ae189a082e9a02f6c91bec6de",
+      "bytes": 179
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/v4.31.0/check.log",
+      "sha256": "2071b966f93e1913969a54751753541a6c5f0c2f8b72cad24200d5c718e76d3f",
+      "bytes": 3392
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/v4.31.0/measure-3.log",
+      "sha256": "b61bf5099def3cf3b3679319cd2770a6cfac0c65400b53b279cc92866475caa5",
+      "bytes": 3639
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/v4.31.0/measure-2.log",
+      "sha256": "a2aa92c258835b0d50ea10ba454bbb6afc9ce11ec89d39fbb5c425e54e8717fe",
+      "bytes": 3639
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/v4.31.0/measure-1.log",
+      "sha256": "49249ca4332bdbdd6f73718b9c8919c3fb07aa2e35fcd8026a818219990c4c14",
+      "bytes": 3639
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P11.md",
+      "sha256": "fd67d901abba53e1452e307967171c114f83d6027298b763a9239da0b7360cc4",
+      "bytes": 1415
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P12.lean",
+      "sha256": "4dd17de4e654f21a3fdc18c6eaca7320b5d86b00baa707a7441da52711b2559e",
+      "bytes": 10626
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P12.lean",
+      "sha256": "1e3abf1f63b8b83265cc0e92fbd041997489be9855b84af4447b75a1b3809208",
+      "bytes": 1461
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P12.txt",
+      "sha256": "a5fa44f5255cfd05d237fcee036ff87fa7f71b4a2a875ff514d48290bc3047fe",
+      "bytes": 539
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P12.json",
+      "sha256": "c3927d5b4ffb428939a3daa9d5bfeb2868c74cf326dea6cfd03a1510650edb6a",
+      "bytes": 1577
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P13.lean",
+      "sha256": "49112a7a0ee6efaed1e65282e5bc7ee3c398f77c24b2853c5d71e25765f4f030",
+      "bytes": 1185
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P13.lean",
+      "sha256": "956fd2d9d51127c890711c4c14e4aadf8798e73c78029cd6920b9489dbde6d4f",
+      "bytes": 1267
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P13.txt",
+      "sha256": "5442bd74af96c3d4168989c8bb594450efbd900f8972cea98386c602dc69eff5",
+      "bytes": 353
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P13.json",
+      "sha256": "7631be32a0911a9b4970c88f760dca0661c5d89d6a4c989ca5dc07f007bb1b49",
+      "bytes": 1190
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/summary.json",
+      "sha256": "04d155efd20682bdd9d27f9d0a28ea33afdfdbefba40c87f967d27e204d631c4",
+      "bytes": 177
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/v4.26.0/check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/v4.26.0/measure-3.log",
+      "sha256": "a7429df71de439d580a907d43ddd5dd1fe6005e97ccaabde454e6d73ec969753",
+      "bytes": 156
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/v4.26.0/measure-2.log",
+      "sha256": "554f956903f67e5f734fa1409312d524113127d7f3e2c8754a3fe010899d6eb3",
+      "bytes": 156
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/v4.26.0/measure-1.log",
+      "sha256": "4e85a057ac724b76892fdae4f06e46c61f7c0fddfc980612513c2802159fd979",
+      "bytes": 156
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/before/summary.json",
+      "sha256": "38f42c2b2b485db9f25953755b3fae5d01c8bc0dea7c9581211c13fd6c5a0f41",
+      "bytes": 177
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P14.lean",
+      "sha256": "de323a148fa4975a752e3dc8a052819cfc36bd2a9be78390285b8e8ace0e8015",
+      "bytes": 673
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P14.lean",
+      "sha256": "a10d02bb75d48da51f9b0edda5b7312b1c4a4c02971d9bafdb4f77c9c8a44b32",
+      "bytes": 678
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P14.txt",
+      "sha256": "0381f251cce9fb3152ff0ab1de4076977b31c29ee29d66c82778086046ae9b2b",
+      "bytes": 236
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P14.json",
+      "sha256": "aec51de552de772724914dd1c734bcc7f6efbbb2575eb4c2fa24132b157eb796",
+      "bytes": 1190
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P14/before/summary.json",
+      "sha256": "14df74abbbb976a83704c9e0cb375c1f4d3ccc6110ee56dec39fad4a535e0ca4",
+      "bytes": 175
+    },
+    {
+      "path": "experiments/trae-rewrite/candidates/P15.lean",
+      "sha256": "c77ec3791c76a884be0c36daf994636ac34a54aa71d4c54e504a60d528e97123",
+      "bytes": 1118
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/baseline/P15.lean",
+      "sha256": "fc7adf74804c25305b855198829de9da382edcbfff7626c24a4ccfa0c180efdc",
+      "bytes": 1989
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/statements/P15.txt",
+      "sha256": "8f4f5a301da40d280f1ed5199c0a556f57dde7aeca8402fdf2867bcbf4648cc0",
+      "bytes": 518
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/environments/P15.json",
+      "sha256": "f721c4bee2faa915a5d0a46f4226b99a2c974ef024d8f5fa5eb1639c1bd93865",
+      "bytes": 1190
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/summary.json",
+      "sha256": "74075964ebd2623842c20e44ee66bd0a9f6bb921d1e06b5a0c530b02d5f571ee",
+      "bytes": 177
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/v4.26.0/check.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/v4.26.0/measure-3.log",
+      "sha256": "7425dcd6c8949bcb1ad77106b53e27eef7ceee1601748ea2b58fab237e4c90b0",
+      "bytes": 156
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/v4.26.0/measure-2.log",
+      "sha256": "cca12afed2a03361996887f6e12939eb25a299aba8e2eb2347d84ce55abb1554",
+      "bytes": 156
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/v4.26.0/measure-1.log",
+      "sha256": "3c1af3aef2f8ecc71f514dff70c978b3932046b097e898f14ed771090c63d0fc",
+      "bytes": 156
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/before/summary.json",
+      "sha256": "fa71037f86765420da04ccb6cf818170c5403d9392ae72ccf8dead3f4ace06f3",
+      "bytes": 177
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/lessons/P15.md",
+      "sha256": "c258d0f9ab86ee24d98a0c20fd94d4afbb1bc7888efdf274a0de09b5a28a8a41",
+      "bytes": 6404
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/P12-resume-context.json",
+      "sha256": "c68ff3ffcb04b691def404f008f8372dec13cdd0e508ba54ca0906f25208ea18",
+      "bytes": 498
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/v4.26.0/check.lean",
+      "bytes": 177619,
+      "sha256": "6617751aabefcc3694198c70a56402acb03cdaf2deaf19e97f96e51ebeda2833"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/v4.26.0/measure-1.lean",
+      "bytes": 178575,
+      "sha256": "c7a7329a8721aa4b8b0a83f2790c369d45c93e7d10985be341e8ef7cce685450"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/v4.26.0/measure-3.lean",
+      "bytes": 178575,
+      "sha256": "b6e385219b864e298ab84af5cc704b168a79d8d918f9f44ed3731c569307906e"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P01/verify_best/v4.26.0/measure-2.lean",
+      "bytes": 178575,
+      "sha256": "0692c920ecd7ee55337610b803ac6f753aaaab5bebe635cb3288f29b7196df6d"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/v4.26.0/check.lean",
+      "bytes": 178169,
+      "sha256": "975bf32d02039e09a51276c316c8bfa8c22ae2bf2eb24ad4c421e004d807c71e"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/v4.26.0/measure-1.lean",
+      "bytes": 179129,
+      "sha256": "0419a1baaf0bf937476a1af211969fbbfafd1c081fce960770efd4dc3a6a1f0b"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/v4.26.0/measure-3.lean",
+      "bytes": 179129,
+      "sha256": "0703802c3db499d38fbf1ba197bd5d714106e5dcab75e06249e828ebde1f4254"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P02/verify_best/v4.26.0/measure-2.lean",
+      "bytes": 179129,
+      "sha256": "bd2c2c204d10eb6000420c8f552db5340a3d019c28cc7bdb46834dd2c541fe9a"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/v4.26.0/check.lean",
+      "bytes": 57206,
+      "sha256": "31d4c386ab8f74d3e7e78d50bc53afc84194832cea481f5e32ea93827a117a96"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/v4.26.0/measure-1.lean",
+      "bytes": 58149,
+      "sha256": "bc5a18f83ab6f1e8aacfc53ae16bd9b9b9165ba02a34d0de21be8b69e14e8f8e"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/v4.26.0/measure-3.lean",
+      "bytes": 58149,
+      "sha256": "7294926210012f774a14c325883488e893c9d2f4e189bf2deb831af249f6f82f"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P03/verify_best/v4.26.0/measure-2.lean",
+      "bytes": 58149,
+      "sha256": "20ed4d9db454724f511d59ef8deb2166c967858046180aa67ce5d651f71ac8ec"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/v4.32.0/check.lean",
+      "bytes": 5054,
+      "sha256": "2a056096ac0ddfe8197fa39355bf9fc053036eac60f5e8b755e0f6071bb9bb84"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/v4.32.0/measure-1.lean",
+      "bytes": 6027,
+      "sha256": "b18863a0b87cc59f7dbd57d1232225d3f5fc063e4420ee684d04500a1c98ff6e"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/v4.32.0/measure-3.lean",
+      "bytes": 6027,
+      "sha256": "c54252dc663f1721fa835b2972691b58d0b2829879b291bc78196a79fedefc72"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P04/verify_best/v4.32.0/measure-2.lean",
+      "bytes": 6027,
+      "sha256": "827a91896607fa67318756741d12b04e5ea06968fb79a292150c544e3edf615b"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/v4.32.0/check.lean",
+      "bytes": 16551,
+      "sha256": "c3714d55a69ac13500a300943ffd96e27a4867f229d46129926fe5ee61a1f787"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/v4.32.0/measure-1.lean",
+      "bytes": 17570,
+      "sha256": "956675d83958ace51759856822a27fb6af59f3b58327a7d7f9205fd897dc9cc5"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/v4.32.0/measure-3.lean",
+      "bytes": 17570,
+      "sha256": "ca889178407733bd3ea1419cb4e052e1fd472af51e14cf5e5fae995708e06169"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify2/v4.32.0/measure-2.lean",
+      "bytes": 17570,
+      "sha256": "9fa26a614e9b0498afbd1e0f114f635805e2ffb47f38bc7fb90d9406b4c658f9"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P05/verify_best/v4.32.0/check.lean",
+      "bytes": 16551,
+      "sha256": "c3714d55a69ac13500a300943ffd96e27a4867f229d46129926fe5ee61a1f787"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/v4.32.0/check.lean",
+      "bytes": 19228,
+      "sha256": "ef2d9dfe5d28d79d9763f03562ab279e76bef9b9ff74d4bc4222e65570c65832"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/v4.32.0/measure-1.lean",
+      "bytes": 20223,
+      "sha256": "bbed64c8c69a70223729001571b853fe0fd8a5cfe9af2a292087dd33500d5203"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/v4.32.0/measure-3.lean",
+      "bytes": 20223,
+      "sha256": "cb75ad1346819cde727d6b78ed62d2873a18d2b6ead3b402e7bf7710af403aa8"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P06/verify2/v4.32.0/measure-2.lean",
+      "bytes": 20223,
+      "sha256": "8821cd25f1a2909a357572478a4d5586f01e92efb829d4a884fd5c271cc6b427"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/v4.33.0-rc2/check.lean",
+      "bytes": 3244,
+      "sha256": "d76f764604d74df43eaa6db396c548f4b4326e8fa1523313c518029bd4fbd2eb"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/v4.33.0-rc2/measure-1.lean",
+      "bytes": 4230,
+      "sha256": "09348ff7e7364d4f4686933976ca012647b6d0a86a15e261646a0c9754515eab"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/v4.33.0-rc2/measure-3.lean",
+      "bytes": 4230,
+      "sha256": "cf75c1a667b6aa4a2af39af641c0b4c5bd9e39107c38011d087e025eb8dc7561"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P07/verify_best/v4.33.0-rc2/measure-2.lean",
+      "bytes": 4230,
+      "sha256": "43a0541e0bcdb7b754ea03cee63508c62bdc7d6ccc5709b31648b33d00f512cb"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/v4.33.0-rc2/check.lean",
+      "bytes": 6673,
+      "sha256": "899a5ed946d0b58187869aed24355bfe8eeaa029a8cbe9cefb8212bf814666a0"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/v4.33.0-rc2/measure-1.lean",
+      "bytes": 7637,
+      "sha256": "f8ca313d88c8ebf0f0af7bff73a43566cbb2a5ee329c52b86b1f33e91349ee09"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/v4.33.0-rc2/measure-3.lean",
+      "bytes": 7637,
+      "sha256": "ce9f720bebd3ee3bce71c55477ef5386d33929d5b37c81680e3a65d72f424dcc"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P08/verify_best/v4.33.0-rc2/measure-2.lean",
+      "bytes": 7637,
+      "sha256": "8f8177c83527b462a8846e7514071265bbb8caba3d36214024e5194d4c352c66"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/v4.33.0-rc2/check.lean",
+      "bytes": 12179,
+      "sha256": "9acf2722e5c9a046f06521f9d04a585152b870e03b853412bac1f29b593d5695"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/v4.33.0-rc2/measure-1.lean",
+      "bytes": 13143,
+      "sha256": "cdcd53ca50484a6d9ec00ebb2223522822a085a807e5f5ca1c36f6e94823c8f4"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/v4.33.0-rc2/measure-3.lean",
+      "bytes": 13143,
+      "sha256": "66e3177c1d5ca65e70233d59f42c85081642d42a049a87728face97716923833"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P09/verify_best/v4.33.0-rc2/measure-2.lean",
+      "bytes": 13143,
+      "sha256": "d22ba0df279c3fa5da9a14e60447081cca70bccc8649e93198b07d18ed8c3c3c"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/v4.31.0/check.lean",
+      "bytes": 87671,
+      "sha256": "390f1a4e328ad3221a6d8ce5819c8d54cae2c366e46716f60bfcbf135e653a4b"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/v4.31.0/measure-1.lean",
+      "bytes": 88667,
+      "sha256": "9c78df4e1460caaa76e8eafc5a33cbf7e9cc07a795bc4c5dd0b684a25ea61de9"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/v4.31.0/measure-3.lean",
+      "bytes": 88667,
+      "sha256": "60448a95e4fb6a7920f4cc7686f23cb862f5c21dc9c35bd8f7abbd89ebe2a57d"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P10/verify_best/v4.31.0/measure-2.lean",
+      "bytes": 88667,
+      "sha256": "e92d2cd3cd397ef42b1011a7328002f0c5221452ab2a30e292f60b1e9fdeefbf"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/v4.31.0/check.lean",
+      "bytes": 87629,
+      "sha256": "7a218aacb5e18d5dc76b9dbf9af1df765004ce6c45f5c7f393bbdca4a38bae58"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/v4.31.0/measure-1.lean",
+      "bytes": 88602,
+      "sha256": "0724bc78ff7792bb262126d804df65445323245c0a9f8e16872461838ae0f4ac"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/v4.31.0/measure-3.lean",
+      "bytes": 88602,
+      "sha256": "c72e314b0811d552e3a5ecd5ba59dd0c728c3fd1afc1c74d44853fc6f3cc6c7c"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best_1793518556/v4.31.0/measure-2.lean",
+      "bytes": 88602,
+      "sha256": "176fe6ae471c3ac9b3177fa09e7138b053f8b0d4c9bb1ec1504d76ddcd5c23e8"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/v4.31.0/check.lean",
+      "bytes": 87629,
+      "sha256": "7a218aacb5e18d5dc76b9dbf9af1df765004ce6c45f5c7f393bbdca4a38bae58"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/v4.31.0/measure-1.lean",
+      "bytes": 88602,
+      "sha256": "e6f1b68df41d2e59c91130baca3e7bdf3405b6632f01322cef224188c08ed2bb"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/v4.31.0/measure-3.lean",
+      "bytes": 88602,
+      "sha256": "6c28e94cb15e03f7e4d530364e910d4a48f2e18d6f66ebb472641905115b567a"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P11/verify_best/v4.31.0/measure-2.lean",
+      "bytes": 88602,
+      "sha256": "54ba87d0f7b63ec972ea5e5560c7ea02751ac0d8b18f30ddf7c5f151d1e65925"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/v4.26.0/check.lean",
+      "bytes": 1265,
+      "sha256": "88905d887580c8944e295455a98b58951b14d3c0aea2a1ee6a0f93d2a88c9614"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/v4.26.0/measure-1.lean",
+      "bytes": 2201,
+      "sha256": "33ae8d15ebb9152d3f72cbc853c764249277732023006b641fcb86d9ac00da18"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/v4.26.0/measure-3.lean",
+      "bytes": 2201,
+      "sha256": "98bd6bfda86a8291128293c14ab470d2fae22b3fb690bb75b0970e7b425ab911"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P13/verify_best/v4.26.0/measure-2.lean",
+      "bytes": 2201,
+      "sha256": "4ab4bbd79c61d2b98abc45ecbc2ec206d7bda89b887744d2c916fd38d180146f"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/v4.26.0/check.lean",
+      "bytes": 1206,
+      "sha256": "3031c8b67f855cc936bbc5b7b380a3aceca45297ceb82e0b99dc57aa3ab4ba64"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/v4.26.0/measure-1.lean",
+      "bytes": 2142,
+      "sha256": "16a2c016ac69e2678175b15a26131181d1628fd6b8aafe08aee32d17e6af200e"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/v4.26.0/measure-3.lean",
+      "bytes": 2142,
+      "sha256": "5f8e9abaac6a7948e76cbd52bb3fb1ce6e401b84b767499f091c8be6e60430b3"
+    },
+    {
+      "path": "runs/trae-rewrite-20261031/verification/P15/verify_best/v4.26.0/measure-2.lean",
+      "bytes": 2142,
+      "sha256": "cf1016da3c0ad96bebb945f329e2b3d2da68d99ad6cff93012bee14a8fdd69c0"
+    }
+  ],
+  "evidence_archive_commit": "50a01f060e446cf66c521513a806ac25b21cdda2"
+}

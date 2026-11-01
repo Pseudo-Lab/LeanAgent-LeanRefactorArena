@@ -1,3 +1,0 @@
-/Users/somi/leanagent/rewrite/P02/verify_best/v4.26.0/measure-2.lean:193:8: warning: declaration uses 'sorry'
-REFACTOR_EVAL de32ad268a59435f92c9e97f7e97efbe {"axioms":["propext","Quot.sound"],"raw":249956,"scaled":249,"target":"CallElimCorrect.extractedOldExprInVars"}
-/Users/somi/leanagent/rewrite/P02/verify_best/v4.26.0/measure-2.lean:3236:8: warning: declaration uses 'sorry'

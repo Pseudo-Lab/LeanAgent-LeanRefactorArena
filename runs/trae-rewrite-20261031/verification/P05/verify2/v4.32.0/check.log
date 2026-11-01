@@ -1,9 +1,0 @@
-/Users/somi/leanagent/rewrite/P05/verify2/v4.32.0/check.lean:411:13: warning: `ContinuousLinearMap.sub_apply` has been deprecated: Use `_root_.sub_apply` instead
-
-Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.sub_apply` to `_root_.sub_apply x`).
-/Users/somi/leanagent/rewrite/P05/verify2/v4.32.0/check.lean:411:44: warning: `ContinuousLinearMap.smul_apply` has been deprecated: Use `_root_.smul_apply` instead
-
-Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.smul_apply` to `_root_.smul_apply x`).
-/Users/somi/leanagent/rewrite/P05/verify2/v4.32.0/check.lean:411:76: warning: `ContinuousLinearMap.sum_apply` has been deprecated: Use `_root_.sum_apply` instead
-
-Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.sum_apply` to `_root_.sum_apply x`).
