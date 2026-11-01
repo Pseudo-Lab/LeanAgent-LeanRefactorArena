@@ -15,6 +15,8 @@ on:
       - 'tests/test_usage_*.py'
       - 'experiments/api-comparison/**'
       - 'experiments/usage-cost/**'
+      - 'experiments/openrouter-budget-trial/**'
+      - 'experiments/verification-repair-policy/**'
       - 'pyproject.toml'
       - '.github/workflows/harness-ci.yml'
   push:
@@ -31,6 +33,8 @@ on:
       - 'tests/test_usage_*.py'
       - 'experiments/api-comparison/**'
       - 'experiments/usage-cost/**'
+      - 'experiments/openrouter-budget-trial/**'
+      - 'experiments/verification-repair-policy/**'
       - 'pyproject.toml'
       - '.github/workflows/harness-ci.yml'
   workflow_dispatch:
@@ -73,3 +77,9 @@ jobs:
         run: |
           python -m unittest discover -s experiments/api-comparison -p 'test_*.py' -v
           python -m unittest discover -s experiments/usage-cost -p 'test_*.py' -v
+      - name: Test repair policies and budget adapter without Lean or API calls
+        env:
+          PROJECT_CACHE_DIR: ${{ runner.temp }}
+        run: |
+          python -m unittest discover -s experiments/openrouter-budget-trial -p 'test_*.py' -v
+          python -m unittest discover -s experiments/verification-repair-policy -p 'test_*.py' -v

@@ -1,6 +1,7 @@
 # 검증·수리 정책 비교 — PR A: 실험 설계
 
-상태: **설계 제안. 정책 코드와 새 모델 실험 결과는 아직 없다.**
+상태: **PR A의 설계. PR B에서 정책 코드와 무과금 검증을 추가했다. 새 모델 성능 실험 결과는 없다.**
+구현 범위·명령·검사 한계는 [PR B 구현 안내](IMPLEMENTATION.md)를 참고한다.
 
 설계 기준은 `main` 커밋 `7f9508a85d44c5369f9461222f9904d6a9c01486`이다.
 최초 작성일은 2026-10-30, 저장소·PR 상태 확인일은 **2026-11-01(KST)**이다.
@@ -178,7 +179,7 @@ InfoTree 수집을 추가한다면 두 조건에 같은 수집기·정보·실�
 따라서 `type-hard-route`, `pattern`, `route_cue`, 3회 정체 전환, 여러 프롬프트 중 최선 선택은 첫 비교에서 사용하지 않는다.
 그 조합은 수리 정책 효과를 확인한 뒤 별도 실험으로 다룬다. 여러 실행 중 최선 선택의 비용도 별도로 합산해야 한다.
 
-공통 프롬프트는 main의 [v4 파일](../prompt-design/p01-p05-reasoning-prompts.v4.en.json)을 출발점으로 PR B에서 `repair-policy-common-v1`을 만든다.
+공통 프롬프트는 main의 [v4 파일](../prompt-design/p01-p05-reasoning-prompts.v4.en.json)을 출발점으로 PR B에서 만든 `repair-policy-common-v1`이다.
 출발 파일의 SHA-256은 `e1fbd28df503d894f3cf90e30818dea9ccb046553243b5ac21b8510c69c9d27c`이다.
 v4에도 독립적인 행동 지시가 있으므로 원문을 그대로 쓰지 않는다. 두 조건에 같은 다음 편집을 적용한다.
 
@@ -192,7 +193,7 @@ v4에도 독립적인 행동 지시가 있으므로 원문을 그대로 쓰지 �
 
 안전한 수락·예산·종료 조건을 먼저 적용하고, 그다음 해당 요청의 `action`과 `base_candidate_sha256`을 따른다고 두 조건에 명시한다.
 일반 수정 지침은 이 행동을 대체하거나 다른 후보로 복귀시키지 않는다. 모델의 실제 준수 여부는 후보 차이와 함께 관찰한다.
-PR B에서 편집 전후 diff, 공통 프롬프트, 행동별 지시문, 최종 요청의 해시를 고정한다. 이 문서는 아직 생성하지 않은 프롬프트의 해시를 주장하지 않는다.
+PR B의 [prompt 폴더](prompt/)에 편집 diff, 공통 프롬프트, 행동별 지시문과 해시를 고정했다. 최종 요청의 해시는 각 실행의 결정 기록에 저장한다.
 입력 묶음의 문제별 힌트와 runner가 덧붙이는 지시도 확인한다. `case_prompts`만 비우고 다른 위치의 힌트를 남기지 않는다.
 공통 프롬프트 변경은 두 조건에 동일하게 적용하며, 이 비교를 기존 v4와의 성능 비교로 해석하지 않는다.
 
@@ -200,7 +201,7 @@ PR B에서 편집 전후 diff, 공통 프롬프트, 행동별 지시문, 최종 
 
 PR B의 첫 구현은 이 폴더의 정책·정규화 모듈과 하나의 실험 adapter에 둔다.
 공통 evaluator와 모델·비용 adapter는 재사용한다. 별도 비용 계산기나 평가기를 만들지 않는다.
-실험 코드 경로와 실행 명령은 PR B에서 확정한다. 이 PR에는 아직 없는 CLI를 실행 예제로 적지 않는다.
+실험 코드 경로와 무과금 실행 명령은 [PR B 구현 안내](IMPLEMENTATION.md)에 정리했다.
 
 결정은 모델 요청 전에 저장한다. 최소 기록은 다음과 같다.
 
@@ -325,7 +326,7 @@ best나 원본을 그대로 반환한 경우는 복구 성과로 세지 않고 �
 - 첫 요청이 조건 간 같은 바이트인지 확인한다. 같은 상태 snapshot에서는 허용한 행동·기준 후보·행동 지시 외의 차이를 거부한다.
 - v4의 공통 편집 diff와 모든 입력 경로를 검사해 문제별 힌트, 경로 메뉴, 별도 정체 전환이 남지 않았는지 확인한다.
 - PR 상태표 이후의 변경을 확인하고 실행 코드·프롬프트·입력·환경 기준을 두 조건에서 함께 고정한다.
-- 입력·코드·정책·가격 snapshot과 실행 명령을 보관한 뒤 유료 실행 준비를 완료한다.
+- 입력·코드·정책·모의 가격 snapshot과 무과금 실행 명령을 보관한다. 유료 실행의 모델·가격·규모는 후속 검토에서 확정한다.
 
 ### PR C: 결과를 해석한 뒤
 
@@ -344,7 +345,7 @@ best나 원본을 그대로 반환한 경우는 복구 성과로 세지 않고 �
 - **실행 기준:** [main 7f9508a](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/tree/7f9508a85d44c5369f9461222f9904d6a9c01486), [공통 하네스](../../docs/first-harness.md), [비용 기록](../../docs/usage-cost.md).
 
 과거 리포트의 fixture, 원시 로그, 정상 정답 proof를 새 풀이 모델의 입력으로 제공하지 않는다.
-PR A에는 설계 문서만 추가한다. 새 후보·점수·API 비용이나 실험 성능을 보고하지 않는다.
+PR A의 범위는 설계 문서다. PR B는 고정 응답으로 구현을 검사하며, 새 모델 실험 성능을 보고하지 않는다.
 
 [report]: https://github.com/Pseudo-Lab/LeanAgent/blob/e302e89eadf2c7eb2b65f0035f7dbba0b8e09130/docs/research/verification-repair/%EC%86%90%EC%A7%80%EC%97%B0/experiment(week4)/report.md
 [feedback-study]: https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/blob/93cc6bb28da1616d75286ce2ea992fdc38efacf2/experiments/first-harness-jwkweon/feedback-ablation-v1/README.md

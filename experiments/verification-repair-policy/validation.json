@@ -1,0 +1,186 @@
+{
+  "date": "2026-11-01T05:49:15.999702+00:00",
+  "python": "3.12.13",
+  "lean_toolchain": "leanprover/lean4:v4.26.0",
+  "scope": "offline implementation checks, not model performance",
+  "source_base_commit": "9aeb0fbd5e4ffe0c84f10c7d799079c52cde07c2",
+  "tests": [
+    {
+      "suite": "policy-offline",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/verification-repair-policy",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 29,
+      "skipped": 2,
+      "seconds": 2.167,
+      "log": "runs/manual/repair-policy-pr-b-validation-final-20261101/policy-offline.log",
+      "environment": {
+        "PYTHONPATH": "src",
+        "PROJECT_CACHE_DIR": "a writable temporary directory"
+      }
+    },
+    {
+      "suite": "existing-harness",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_harness.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 22,
+      "skipped": 0,
+      "seconds": 1.287,
+      "log": "runs/manual/repair-policy-pr-b-validation-20261101/existing-harness.log",
+      "environment": {
+        "PYTHONPATH": "src",
+        "PROJECT_CACHE_DIR": "a writable temporary directory"
+      }
+    },
+    {
+      "suite": "existing-budget",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/openrouter-budget-trial",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 24,
+      "skipped": 0,
+      "seconds": 0.134,
+      "log": "runs/manual/repair-policy-pr-b-validation-20261101/existing-budget.log",
+      "environment": {
+        "PYTHONPATH": "src",
+        "PROJECT_CACHE_DIR": "a writable temporary directory"
+      }
+    },
+    {
+      "suite": "policy-real-lean",
+      "command": [
+        "python3",
+        "-B",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/verification-repair-policy",
+        "-p",
+        "test_lean.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 2,
+      "skipped": 0,
+      "seconds": 19.481,
+      "log": "runs/manual/repair-policy-pr-b-validation-final-20261101/policy-real-lean.log",
+      "environment": {
+        "PYTHONPATH": "src",
+        "PROJECT_CACHE_DIR": "a writable temporary directory",
+        "REPAIR_POLICY_LEAN_TESTS": "1"
+      }
+    }
+  ],
+  "executed_tests": 75,
+  "actual_api_calls": 0,
+  "actual_api_cost_usd": "0",
+  "real_lean_runs": [
+    {
+      "policy_id": "uniform-repair-v1",
+      "fixture_calls": 5,
+      "actual_api_calls": 0,
+      "actual_api_cost_usd": "0",
+      "final_valid": true,
+      "selected_origin": "generated",
+      "observations": [
+        "incomplete",
+        "proof_error",
+        "valid",
+        "response_rejected",
+        "valid"
+      ],
+      "actions": [
+        "optimize_best",
+        "repair_current",
+        "repair_current",
+        "optimize_best",
+        "optimize_best"
+      ],
+      "replay": {
+        "record_replay_passed": true,
+        "model_called": false,
+        "lean_called": false,
+        "decisions": 5,
+        "final_valid": true,
+        "policy_id": "uniform-repair-v1"
+      },
+      "artifacts_sha256": "be737933654951f6e2a37588f1e8330852e405cf9d0527a65feb6c06587f82cc",
+      "evidence": "runs/manual/repair-policy-pr-b-validation-final-20261101/lean-evidence/test_both_policy_loops_validate_and_replay_with_actual_lean/uniform-repair-v1"
+    },
+    {
+      "policy_id": "state-aware-v1",
+      "fixture_calls": 5,
+      "actual_api_calls": 0,
+      "actual_api_cost_usd": "0",
+      "final_valid": true,
+      "selected_origin": "generated",
+      "observations": [
+        "incomplete",
+        "proof_error",
+        "valid",
+        "response_rejected",
+        "valid"
+      ],
+      "actions": [
+        "optimize_best",
+        "replan_from_best",
+        "repair_current",
+        "optimize_best",
+        "optimize_best"
+      ],
+      "replay": {
+        "record_replay_passed": true,
+        "model_called": false,
+        "lean_called": false,
+        "decisions": 5,
+        "final_valid": true,
+        "policy_id": "state-aware-v1"
+      },
+      "artifacts_sha256": "47e4d197284da97146193093e32dd5dabb64fd52837255483110160194d5e69e",
+      "evidence": "runs/manual/repair-policy-pr-b-validation-final-20261101/lean-evidence/test_both_policy_loops_validate_and_replay_with_actual_lean/state-aware-v1"
+    }
+  ],
+  "implementation_sha256": {
+    "experiments/verification-repair-policy/adapter.py": "6fb49b710e47bdd7717f6ebbacedea1b6b64ad1046e82c501e5423390b4c0c02",
+    "experiments/verification-repair-policy/policy.py": "b674861098ab9d0743f2edaf7fb19414535af6372c3ed5a079b4ccca48604167",
+    "experiments/verification-repair-policy/prompts.py": "95e4d26054ed349221842831d131ab779b8fc9d489a356915ade187c391ffc89",
+    "experiments/verification-repair-policy/run.py": "88238d7fcd4f3cd851e899dcf3aeee257822f6e5ee2581303b8d0e6ef9963edf",
+    "experiments/verification-repair-policy/test_adapter.py": "0e009f862ce8e4cc2b8b0724b46a28adc0d0917705af8d60485adac3e728a341",
+    "experiments/verification-repair-policy/test_lean.py": "dd127a5205dbe6f1c7e335819151aa7c7427cfb8f33084cee0d934ad8354d9c7",
+    "experiments/verification-repair-policy/test_policy.py": "4a74ce2db648dc454cc662e0a50526fcbc7a251ab56fe955924dc8b0ec8226a1",
+    "experiments/openrouter-budget-trial/run.py": "9b72128baa7fd49bdfba3da6a945f59bf0a51012e4b276556003573f05ec3cf7"
+  },
+  "prompt_manifest_sha256": "392da5a8d6ac36c191ddbdf863439d8cccabfcdee13172fb33a2ca94ce588e34"
+}

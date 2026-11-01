@@ -110,7 +110,7 @@ def build_instructions(draft,pid,cap):
         'Any explanatory text or comments you add must be in English. Preserve Lean identifiers and notation exactly when needed.')
 
 
-def prepare():
+def prepare(instructions_builder=None):
     if (ROOT/'protocol.json').exists():
         raise ValueError('Run already prepared')
     packets={}
@@ -143,7 +143,7 @@ def prepare():
     for pid in PROBLEMS:
         folder=ROOT/pid; folder.mkdir(exist_ok=True)
         packet=packets[pid]
-        prompt=build_instructions(draft,pid,CAP)
+        prompt=(instructions_builder or build_instructions)(draft,pid,CAP)
         inp={'instructions':prompt,'problem':packet['problem'],'context':packet['context']}
         save(folder/'input.json',inp)
         shutil.copy2(SOURCE/pid/'environment.json',folder/'environment.json')
@@ -219,33 +219,43 @@ def spent(ledger,pid):
     return sum((Decimal(x['cost_usd']) for x in entries),Decimal(0))
 
 
-def run_problem(pid):
+def run_problem(pid, experiment=None):
     folder=ROOT/pid; inp=read(folder/'input.json'); env=read(folder/'environment.json')
     if sha((folder/'input.json').read_bytes())!=read(ROOT/'protocol.json')['input_sha256'][pid]:
         raise ValueError('Frozen input changed')
     if (folder/'baseline-feedback.json').exists():
         raise ValueError('Problem already started: do not repeat paid runs')
     problem={**inp['problem'],'id':pid,'reference':inp['problem']['original']}
-    base=evaluate(folder,'baseline',problem['original'],problem,env)
+    evaluate_candidate=experiment.evaluate if experiment else evaluate
+    base=evaluate_candidate(folder,'baseline',problem['original'],problem,env)
+    if experiment and (not base['valid'] or not base['raw_hb']):
+        return experiment.baseline_failed(base)
     if not base['valid']: raise ValueError('Original baseline failed')
     best={**base,'code':problem['original']}; latest=None; history=[]; profiles=[]; codes={}
+    if experiment:experiment.start(base,problem,env)
     def objective(f): return f['tokens']/base['tokens']+f['raw_hb']/base['raw_hb'] if f['valid'] else None
     stop='safety_fuse'
-    for step in range(1,101):
+    for step in range(1,experiment.max_calls+2 if experiment else 101):
         if (ROOT/'STOP').exists():stop='stop_requested';break
         ledger=read(ROOT/'budget.json'); total=spent(ledger,pid)
+        if experiment:
+            decision=experiment.decide(step,best,total,ledger)
+            if decision['action']=='stop':stop=decision['reason'];break
         packet={'problem':inp['problem'],'context':inp['context'],'step':step,
                 'budget':{'cap_usd':str(CAP),'spent_usd':str(total),'remaining_usd':str(CAP-total)},
                 'baseline':base,'best':best,'latest':latest,'history':history,
                 'recent_candidates':[{ 'label':k,'code':v} for k,v in list(codes.items())[-3:]],
                 'profiles':profiles}
+        if experiment:packet=experiment.packet(packet,decision,codes)
         user=canonical(packet)
         if PACKET_LAYOUT=='static_first':
             # Fixed problem/context first, so provider prompt caching covers them across steps.
             static={k:packet.pop(k) for k in ('problem','context')}
             user='Fixed problem and context:\n'+canonical(static)+'Current state:\n'+canonical(packet)
         messages=[{'role':'system','content':inp['instructions']},{'role':'user','content':user}]
-        if BACKEND=='openai':
+        if experiment:
+            endpoint_data,endpoint=experiment.endpoint()
+        elif BACKEND=='openai':
             endpoint_data=read(ROOT/'pricing.json')
             if sha(canonical(endpoint_data))!=read(ROOT/'protocol.json')['pricing_sha256']:raise ValueError('Frozen pricing changed')
             endpoint=endpoint_data
@@ -255,8 +265,13 @@ def run_problem(pid):
         global_used=sum((Decimal(v['cost_usd']) if v['status']=='settled' else Decimal(v['reserved_usd']) for v in ledger['attempts'].values()),Decimal(0))
         try: planned=plan_request(messages,min(CAP-total,TOTAL_CAP-global_used),endpoint)
         except ValueError as exc:
-            stop=str(exc);break
-        if planned is None: stop='remaining_budget_below_safe_request_bound';break
+            stop=str(exc)
+            if experiment:experiment.stop_before_dispatch(stop)
+            break
+        if planned is None:
+            stop='remaining_budget_below_safe_request_bound'
+            if experiment:experiment.stop_before_dispatch(stop)
+            break
         body,reserved,n=planned; label=f'attempt-{step:03}'; callid=pid+'/'+label
         if callid in ledger['attempts']:raise ValueError('Do not retry an existing call')
         # Global guard includes outstanding reservations from all problems.
@@ -264,18 +279,24 @@ def run_problem(pid):
         assert global_total+reserved <= TOTAL_CAP and total+reserved<=CAP
         save(folder/(label+'-request.json'),body)
         save(folder/(label+'-endpoint.json'),endpoint_data)
+        if experiment:experiment.before_dispatch(label,body,decision,reserved,n)
         ledger['attempts'][callid]={'status':'reserved','reserved_usd':str(reserved),'cost_usd':None,'input_token_bound':n,'max_output_tokens':body.get('max_tokens',body.get('max_output_tokens'))}
         save(ROOT/'budget.json',ledger)
         print(canonical({'event':'dispatch','problem':pid,'step':step,'spent':str(total),'reserved':str(reserved),'max_tokens':body.get('max_tokens',body.get('max_output_tokens'))}),flush=True)
         start=time.monotonic()
-        raw=(openai_direct.query(body,endpoint) if BACKEND=='openai' else models.query(body,{'backend':'openrouter','timeout_seconds':600},step))
+        raw=(experiment.query(body,step) if experiment else
+             openai_direct.query(body,endpoint) if BACKEND=='openai' else models.query(body,{'backend':'openrouter','timeout_seconds':600},step))
         save(folder/(label+'-response.json'),raw)
         bill=models.receipt(raw); cost=bill['cost_usd']; entry=ledger['attempts'][callid]
         entry.update(cost_usd=cost,status='uncertain' if cost is None else 'settled',api_seconds=round(time.monotonic()-start,2),generation_id=bill['id'],cost_basis=raw.get('cost_basis','provider_reported'))
         if cost is not None and Decimal(cost)>reserved:entry['status']='bound_violated'
         save(ROOT/'budget.json',ledger)
+        if experiment:experiment.received(label,entry)
         if entry['status']!='settled':
             save(folder/'stopped.json',{'reason':entry['status'],'call':callid})
+            if experiment:
+                experiment.observe(label,raw,None,None,best,'Unsettled receipt')
+                stop=entry['status'];break
             raise ValueError('Uncertain or excessive receipt; no further paid calls')
         rejected=None
         try:
@@ -288,7 +309,7 @@ def run_problem(pid):
             fb={'label':label,'valid':False,'tokens':None,'hb_k':None,'raw_hb':None,'errors':[rejected],'lean_compiles':0,'seconds':0}
             save(folder/(label+'-feedback.json'),fb)
         else:
-            fb=evaluate(folder,label,code,problem,env);codes[label]=code
+            fb=evaluate_candidate(folder,label,code,problem,env);codes[label]=code
         improved=fb['valid'] and objective(fb)<objective(best)
         if improved:
             best={**fb,'code':code};(folder/'best.lean').write_text(code)
@@ -296,15 +317,19 @@ def run_problem(pid):
         history.append({'label':label,'valid':fb['valid'],'tokens':fb['tokens'],'hb_k':fb['hb_k'],
                         'objective':objective(fb),'cost_usd':cost,'improved':improved,
                         'proof_sha256':sha(code) if not rejected else None})
+        if experiment:experiment.observe(label,raw,None if rejected else code,fb,best,rejected)
         should_profile=(fb['valid'] and len(profiles)<2 and fb['raw_hb']>base['raw_hb']*.5
             and ((not profiles and ((improved and fb['tokens']<=base['tokens']*.8) or step>=3))
                  or (profiles and improved and step-int(profiles[-1]['candidate'].split('-')[-1])>=3)))
-        if should_profile:
+        if should_profile and (experiment is None or experiment.profiling_enabled):
             p=profile(folder,label,problem,env); profiles.append(p);save(folder/'profiles.json',profiles)
         summary={'problem':pid,'model':MODEL,'backend':BACKEND,'cost_basis':'usage_estimate' if BACKEND=='openai' else 'provider_reported','baseline':base,'best':best,'history':history,'profiles':profiles,
                  'cost_usd':str(spent(ledger,pid)),'cap_usd':str(CAP),'objective_best':objective(best),'status':'running'}
+        if experiment:summary.update(backend='fixture',cost_basis='simulated_fixture',actual_api_calls=0,actual_api_cost_usd='0')
         save(folder/'summary.json',summary)
         print(canonical({'event':'evaluated','problem':pid,**history[-1],'spent_usd':summary['cost_usd'],'best_tokens':best['tokens'],'best_hb_k':best['hb_k']}),flush=True)
+    if experiment:
+        return experiment.finish(best,history,stop)
     (folder/'best.lean').write_text(best['code'])
     save(folder/'summary.json',{'problem':pid,'model':MODEL,'backend':BACKEND,'cost_basis':'usage_estimate' if BACKEND=='openai' else 'provider_reported','baseline':base,'best':best,'history':history,'profiles':profiles,
         'cost_usd':str(spent(read(ROOT/'budget.json'),pid)),'cap_usd':str(CAP),'objective_best':objective(best),'status':'complete','stop_reason':stop})
