@@ -3,7 +3,8 @@
 상태: **설계 제안. 정책 코드와 새 모델 실험 결과는 아직 없다.**
 
 설계 기준은 `main` 커밋 `7f9508a85d44c5369f9461222f9904d6a9c01486`이다.
-작성일은 2026-10-30이다. 이후 실행에서는 실제 코드·입력·정책 revision을 다시 고정한다.
+최초 작성일은 2026-10-30, 저장소·PR 상태 확인일은 **2026-11-01(KST)**이다.
+확인 시점의 GitHub main도 같은 커밋이다. 이후 실행에서는 실제 코드·입력·정책 revision을 다시 고정한다.
 
 ## 1. 연구 질문
 
@@ -42,6 +43,18 @@ B1/B2는 진단 표현, 상태별 지침, 이어진 이력, 입력 비용이 함
 당시 토큰·복구율을 새 API 실행의 동일 비용 기준선으로 쓰지 않는다.
 당시 proof token은 Lean lexer 기준이다. 현재 평가기의 `lean-source-anchored-v1`과 직접 합산하지 않는다.
 
+### 같은 저장소의 선행 피드백 실험: PR #15
+
+열린 [PR #15의 오류 피드백 실험][feedback-study]도 선행 근거다.
+P01·P13에서 같은 naive 프롬프트와 1,600자 상한을 사용해 기존 피드백 L과 구조화 피드백 S를 비교했다.
+문제·조건별 2회, 실행당 10개 후보로 총 8개 실행·80개 후보를 평가했다.
+10회차 평균 목적값은 S가 L보다 P01에서 14.23% 낮고 P13에서 17.41% 높았다. 일관된 향상은 확인하지 못했다.
+#15에서 사용한 목적값은 `0.5 × (T/T0 + H/H0)`이며 API 달러 비용이 아니다. 이번 Q와는 상수 배율이 다르다.
+
+#15는 첫 오류·목표·주변 가정의 **선택과 표현**을 함께 바꿨다. 이번 실험은 같은 진단 사실을 주고 **다음 행동과 수정 기준 후보**를 바꾼다.
+두 실험의 변경 축을 합치지 않는다. #15의 형식 검사와 원문 보존 방법은 참고할 수 있지만, 미머지 구현을 실행 의존성으로 추가하지 않는다.
+초기 오류 노출이 달랐고 조건당 2회였으므로 #15의 수치를 정책 효과나 새 실험의 기준값으로 사용하지 않는다.
+
 ## 3. 현재 코드와 추가할 책임
 
 | 위치 | 기준 커밋에서 확인한 동작 | PR B의 연결 방향 |
@@ -57,6 +70,27 @@ B1/B2는 진단 표현, 상태별 지침, 이어진 이력, 입력 비용이 함
 과거 구현을 복사하면 이 정보가 자동으로 확보된다고 가정하지 않는다.
 현재 실행기의 비용·프로파일·최종 결과와 공통 하네스의 기록 형식도 동일하지 않다.
 PR B는 선택한 실행 경로의 새 결정 기록과 최종 검증을 검사해야 한다.
+
+### 관련 PR 상태와 의존 관계
+
+아래는 2026-11-01 조회한 상태다. 열린 PR은 main의 기능으로 취급하지 않는다.
+
+| PR | 상태·확인 revision | 이번 설계와의 관계 |
+| --- | --- | --- |
+| [#3](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/3), [#31](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/31), [#34](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/34) | 머지됨 | 환경·오류·상태·사용량의 공통 구현을 재사용한다. |
+| [#35](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/35) | 머지됨, main `7f9508a` | 예산 제한 실행기, 입력 묶음, 프로파일과 검증 도구의 현재 기준이다. |
+| [#25](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/25) | 머지됨, `09ea3c4` | 정적 분석과 규칙 계획이다. 이번 실패 상태 정책과는 다른 단계다. |
+| [#30](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/30) | 열림, `5266d4941e256dd001cf0157b11e47da4a368386` | 동일 예산·반복·비용 곡선의 설계를 참고한다. 구현 의존성은 없다. |
+| [#36](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/36) | 열림, `a7a82b38e29444146be7d9c423c2a03e1a877efe` | `type-hard-route`와 평가값 정체 시 경로 전환이 추가됐다. 첫 비교에서는 사용하지 않는다. |
+| [#38](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/38) | 열림, `15817d1267ca5ad7be7930bfcfa905e096cc5587` | 패턴 힌트이며 코드상 #36의 `route_cue`에 의존한다. 첫 비교에서는 사용하지 않는다. |
+| [#15](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/15) | 열림, `93cc6bb28da1616d75286ce2ea992fdc38efacf2` | 위 선행 피드백 실험이다. 전체 브랜치를 통합하지 않는다. |
+| [#23](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/23) | 열림, `b2b4a848b82a72e9e7e08440fff5c8d84de17a05` | 웜업 지정 환경·평가기 패치·게시 경로의 확장이다. 그 검증 범위가 main에 있다고 가정하지 않는다. |
+| [#17](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/17) | 초안, `b7cd72d0863d9c0bcd0b2cc56a9a8b48aef8536e` | 웜업 개선 후보·조사 기록이다. 새 풀이의 입력이나 실행 의존성으로 쓰지 않는다. |
+
+P01–P05 입력 파일의 존재와 각 기계의 지정 Lean 환경 준비 완료는 다르다. 실행 전에 원본·문맥을 실제 검증한다.
+#23의 전체 웜업 CI 연결이나 고정 평가기 패치를 재사용하려면 별도 revision과 검사 범위를 기록한다.
+첫 비교는 현재 main에 있는 코드에서 시작하며 #15·#23·#30·#36·#38의 머지를 기다리지 않는다.
+관련 PR이 머지돼도 새 설정을 자동 채택하지 않는다. 실행기·평가기·기본 프롬프트 차이를 확인하고 두 조건의 기준을 함께 고정한다.
 
 ## 4. 비교 조건: 한 행만 바꾼다
 
@@ -125,6 +159,41 @@ InfoTree 수집을 추가한다면 두 조건에 같은 수집기·정보·실�
 행동 전환을 요청했다는 사실과 모델이 실제 증명 구조를 바꿨다는 사실은 구분해 보고한다.
 점수 숨기기, 유형별 진단 요약, 문맥 삭제, 이름 검색, 로컬 golf는 이번 비교에서 추가하지 않는다.
 
+### 경로 전환 프롬프트와의 분리
+
+[#36의 최신 설계][route-study]는 경로 메뉴를 주고 연속 3회 평가값이 개선되지 않으면 다음 경로로 이동하도록 지시한다.
+[#38의 패턴 조건][pattern-study]도 패턴 순서와 같은 정체 기반 전환을 지시한다.
+이들은 프롬프트에서 모델에 전환을 요청하는 조건이다. 이번 정책은 검증 결과를 읽고 다음 요청의 행동과 기준 후보를 하네스가 지정한다.
+
+| 구분 | #36 / #38 | 이번 첫 비교 |
+| --- | --- | --- |
+| 전환 근거 | 원본의 구조·패턴, 평가값 정체 | proof_error와 incomplete의 구분 |
+| 제어 위치 | 프롬프트 지시 | 모델 요청 전 정책 결정 |
+| 전환 대상 | 제시한 경로 또는 패턴 | 현재 실패 후보 수리 또는 best에서 재탐색 |
+| 첫 비교 사용 | 제외 | 두 수리 정책만 비교 |
+
+같은 경로 전환 프롬프트를 두 조건에 주더라도 그 전환이 수리 정책의 효과를 가릴 수 있다.
+따라서 `type-hard-route`, `pattern`, `route_cue`, 3회 정체 전환, 여러 프롬프트 중 최선 선택은 첫 비교에서 사용하지 않는다.
+그 조합은 수리 정책 효과를 확인한 뒤 별도 실험으로 다룬다. 여러 실행 중 최선 선택의 비용도 별도로 합산해야 한다.
+
+공통 프롬프트는 main의 [v4 파일](../prompt-design/p01-p05-reasoning-prompts.v4.en.json)을 출발점으로 PR B에서 `repair-policy-common-v1`을 만든다.
+출발 파일의 SHA-256은 `e1fbd28df503d894f3cf90e30818dea9ccb046553243b5ac21b8510c69c9d27c`이다.
+v4에도 독립적인 행동 지시가 있으므로 원문을 그대로 쓰지 않는다. 두 조건에 같은 다음 편집을 적용한다.
+
+| v4 요소 | 공통 편집 계획 |
+| --- | --- |
+| 목적값·토큰 정의·HB 손익·검증 규칙·개별 수정 방법 | 유지한다. 각 방법은 정책이 지정한 기준 후보에 적용한다. |
+| `case_prompts` | 모든 문제에서 비운다. 기존 문제별 수동 힌트를 가져오지 않는다. |
+| `The original proof is already a valid starting point.`로 시작하는 문단 | 제거한다. 첫 3개 후보에서 두 경로를 의무적으로 시험하는 규칙을 없앤다. |
+| `Distinguish a missing mathematical premise`로 시작하는 문단 | 오류 수리 시 타입·가정·인자·등식 방향을 확인하는 일반 지침으로 대체한다. 실패 횟수에 따른 별도 제어는 넣지 않는다. |
+| `When few attempts remain`으로 시작하는 문단 | best 보존과 출력 계약 안내로 대체한다. 잔여 횟수에 따른 별도 경로 선택은 넣지 않는다. |
+
+안전한 수락·예산·종료 조건을 먼저 적용하고, 그다음 해당 요청의 `action`과 `base_candidate_sha256`을 따른다고 두 조건에 명시한다.
+일반 수정 지침은 이 행동을 대체하거나 다른 후보로 복귀시키지 않는다. 모델의 실제 준수 여부는 후보 차이와 함께 관찰한다.
+PR B에서 편집 전후 diff, 공통 프롬프트, 행동별 지시문, 최종 요청의 해시를 고정한다. 이 문서는 아직 생성하지 않은 프롬프트의 해시를 주장하지 않는다.
+입력 묶음의 문제별 힌트와 runner가 덧붙이는 지시도 확인한다. `case_prompts`만 비우고 다른 위치의 힌트를 남기지 않는다.
+공통 프롬프트 변경은 두 조건에 동일하게 적용하며, 이 비교를 기존 v4와의 성능 비교로 해석하지 않는다.
+
 ## 5. 실행과 기록 계약
 
 PR B의 첫 구현은 이 폴더의 정책·정규화 모듈과 하나의 실험 adapter에 둔다.
@@ -136,6 +205,7 @@ PR B의 첫 구현은 이 폴더의 정책·정규화 모듈과 하나의 실험
 | 구분 | 필드 |
 | --- | --- |
 | 식별 | run/problem/attempt ID, policy ID·revision, classifier revision |
+| 프롬프트 | 원본 v4 파일 해시, 공통 편집 diff·해시, 행동 지시 해시, 문제별 힌트 비활성화 및 요청 조립 설정 |
 | 관측 | 원래 verification 결과, policy_state, 오류 위치·원문 근거 해시, goals/local_context의 수집 여부 |
 | 이력 | repair_chain_id, repair_calls_used, latest/best/proposed-base 해시, 이미 제출한 후보 해시 |
 | 결정 | action, base_candidate_sha256, reason, repair_chain_stop_reason |
@@ -166,6 +236,9 @@ heartbeat는 같은 고정 환경에서 새 Lean 프로세스로 3회 측정한 
 ## 6. 데이터와 실행 규모
 
 과거 Week 4 실험과 현재 입력 준비에 웜업 문제가 사용됐다. 웜업 일부를 새로 나눠도 깨끗한 미관측 평가 집합은 아니다.
+#36은 P01·P02·P03의 관찰을 경로 설계에 사용했고, #38은 웜업 최종 증명에서 패턴을 추출했다.
+이 자료를 검토했다는 노출도 기록한다. 아래 고정 후 확인은 **이번 수리 정책을 추가 조정하지 않는 확인**이며 팀 전체의 미관측 문제라는 뜻이 아니다.
+공식 평가에 포함되는지와 연구상 미관측인지도 별개다. 새 평가 목록은 당시 공식 snapshot과 실제 노출 이력을 확인한 뒤 문제 ID로 고정한다.
 
 | 단계 | 제안 범위 | 역할 |
 | --- | --- | --- |
@@ -242,6 +315,9 @@ best나 원본을 그대로 반환한 경우는 복구 성과로 세지 않고 �
 - 저장된 요청의 실제 base와 decision 해시가 일치하는지 확인한다. 기록 재생에는 모델·Lean 호출을 하지 않는다.
 - 각 상태의 작은 실제 Lean 사례를 확인한다. 모의 compiler 검사와 실제 검증을 구분해 보고한다.
 - 두 조건 모두 같은 진단 사실·점수·프로파일 설정을 받는지 확인한다.
+- 첫 요청이 조건 간 같은 바이트인지 확인한다. 같은 상태 snapshot에서는 허용한 행동·기준 후보·행동 지시 외의 차이를 거부한다.
+- v4의 공통 편집 diff와 모든 입력 경로를 검사해 문제별 힌트, 경로 메뉴, 별도 정체 전환이 남지 않았는지 확인한다.
+- PR 상태표 이후의 변경을 확인하고 실행 코드·프롬프트·입력·환경 기준을 두 조건에서 함께 고정한다.
 - 입력·코드·정책·가격 snapshot과 실행 명령을 보관한 뒤 유료 실행 준비를 완료한다.
 
 ### PR C: 결과를 해석한 뒤
@@ -256,10 +332,14 @@ best나 원본을 그대로 반환한 경우는 복구 성과로 세지 않고 �
 
 - **Week 4 리포트:** [고정 revision의 원문][report]. 원격 사본과 제공된 로컬 사본의 SHA-256이 같음을 확인했다: `ff1ca4c8ebfe51cf9d020303b6dde5eab5c4152527d4ae4f8712d54826c7d1a4`.
 - **제공 문서 `DESIGN (1).md`:** SHA-256 `22606e0ec7c1a645ac99880b405de0c8316db84cca5c1e38d9d86c8042432540`. P/V 과제 구분, 수락·종료 분리, best 보존, 비용·재현성 구분을 참고했다. 개인 제공 문서이므로 이 PR에 원문을 복사하지 않았다. 이번 설계에 필요한 조건은 본문에 명시했다.
-- **PR 구성 참고:** [#25](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/25), [#30](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/30), [#36](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/36). 분석 도구 → 비교 설계 → 조건 구현의 흐름을 참고했다. 해당 PR의 실측을 이 정책의 결과로 사용하지 않는다.
+- **선행·인접 실험:** [#15 피드백 실험][feedback-study], [#36 경로 힌트][route-study], [#38 패턴 힌트][pattern-study]. 조회한 head revision으로 링크를 고정했다. 조건별 소규모 실험, 서로 다른 모델·호출 경로, 웜업 노출을 새 실험과 구분한다.
+- **PR 구성 참고:** [#25](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/25), [#30](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/30). 분석 도구 → 비교 설계 → 조건 구현의 흐름을 참고했다. 해당 PR의 실측을 이 정책의 결과로 사용하지 않는다.
 - **실행 기준:** [main 7f9508a](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/tree/7f9508a85d44c5369f9461222f9904d6a9c01486), [공통 하네스](../../docs/first-harness.md), [비용 기록](../../docs/usage-cost.md).
 
 과거 리포트의 fixture, 원시 로그, 정상 정답 proof를 새 풀이 모델의 입력으로 제공하지 않는다.
 PR A에는 설계 문서만 추가한다. 새 후보·점수·API 비용이나 실험 성능을 보고하지 않는다.
 
 [report]: https://github.com/Pseudo-Lab/LeanAgent/blob/e302e89eadf2c7eb2b65f0035f7dbba0b8e09130/docs/research/verification-repair/%EC%86%90%EC%A7%80%EC%97%B0/experiment(week4)/report.md
+[feedback-study]: https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/blob/93cc6bb28da1616d75286ce2ea992fdc38efacf2/experiments/first-harness-jwkweon/feedback-ablation-v1/README.md
+[route-study]: https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/blob/a7a82b38e29444146be7d9c423c2a03e1a877efe/experiments/analyze-prompts/README.md
+[pattern-study]: https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/blob/15817d1267ca5ad7be7930bfcfa905e096cc5587/experiments/pattern-prompts/README.md
