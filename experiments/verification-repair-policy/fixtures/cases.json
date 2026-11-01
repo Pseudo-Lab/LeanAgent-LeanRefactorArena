@@ -1,0 +1,136 @@
+[
+  {
+    "id": "F01",
+    "problem": {
+      "name": "fixture_valid",
+      "statement": "theorem fixture_valid (n : Nat) : n + 0 = n",
+      "reference": "theorem fixture_valid (n : Nat) : n + 0 = n := by\n  have h : n + 0 = n := Nat.add_zero n\n  exact h\n"
+    },
+    "candidate": "by rfl"
+  },
+  {
+    "id": "F02",
+    "problem": {
+      "name": "fixture_auto",
+      "statement": "theorem fixture_auto (P : Prop) (h : P) : P",
+      "reference": "theorem fixture_auto (P : Prop) (h : P) : P := by exact h\n"
+    },
+    "candidate": "by skip"
+  },
+  {
+    "id": "F03",
+    "problem": {
+      "name": "fixture_recursive",
+      "statement": "theorem fixture_recursive : ∃ f : Nat → Nat, ∀ n, f n = n + 17",
+      "reference": "theorem fixture_recursive : ∃ f : Nat → Nat, ∀ n, f n = n + 17 := by\n  have h : ∀ n : Nat, (fun x => x + 17) n = n + 17 := by\n    intro n\n    rfl\n  exact ⟨fun x => x + 17, h⟩\n"
+    },
+    "candidate": "by skip",
+    "responses": [
+      {
+        "target_contains": "∃",
+        "proof": "by\n  refine ⟨fun n => n + 17, ?_⟩\n  intro n\n  rfl"
+      }
+    ]
+  },
+  {
+    "id": "F04",
+    "problem": {
+      "name": "fixture_recursive",
+      "statement": "theorem fixture_recursive : ∃ f : Nat → Nat, ∀ n, f n = n + 17",
+      "reference": "theorem fixture_recursive : ∃ f : Nat → Nat, ∀ n, f n = n + 17 := by\n  have h : ∀ n : Nat, (fun x => x + 17) n = n + 17 := by\n    intro n\n    rfl\n  exact ⟨fun x => x + 17, h⟩\n"
+    },
+    "candidate": "by skip",
+    "responses": [
+      {
+        "target_contains": "∃",
+        "proof": "by\n  refine ⟨fun n => n + 17, ?_⟩\n  skip"
+      }
+    ]
+  },
+  {
+    "id": "F05",
+    "problem": {
+      "name": "fixture_multiple",
+      "statement": "theorem fixture_multiple (P Q : Prop) (h : P) (hq : Q) : P ∧ Q",
+      "reference": "theorem fixture_multiple (P Q : Prop) (h : P) (hq : Q) : P ∧ Q := by exact ⟨h, hq⟩\n"
+    },
+    "candidate": "by\n  constructor"
+  },
+  {
+    "id": "F06",
+    "problem": {
+      "name": "fixture_cycle",
+      "statement": "theorem fixture_cycle : True ∨ False",
+      "reference": "theorem fixture_cycle : True ∨ False := by exact Or.inl True.intro\n"
+    },
+    "candidate": "by\n  apply Or.inr",
+    "responses": [
+      {
+        "target_contains": "False",
+        "proof": "by skip"
+      }
+    ]
+  },
+  {
+    "id": "F07",
+    "problem": {
+      "name": "fixture_syntax",
+      "statement": "theorem fixture_syntax : True",
+      "reference": "theorem fixture_syntax : True := by trivial\n"
+    },
+    "candidate": "by\n  exact ("
+  },
+  {
+    "id": "F08",
+    "problem": {
+      "name": "fixture_missing",
+      "statement": "theorem fixture_missing : True",
+      "reference": "theorem fixture_missing : True := by trivial\n"
+    },
+    "candidate": "by no_such_tactic"
+  },
+  {
+    "id": "F09",
+    "problem": {
+      "name": "fixture_recursive",
+      "statement": "theorem fixture_recursive : ∃ f : Nat → Nat, ∀ n, f n = n + 17",
+      "reference": "theorem fixture_recursive : ∃ f : Nat → Nat, ∀ n, f n = n + 17 := by\n  have h : ∀ n : Nat, (fun x => x + 17) n = n + 17 := by\n    intro n\n    rfl\n  exact ⟨fun x => x + 17, h⟩\n"
+    },
+    "candidate": "by skip",
+    "responses": [
+      {
+        "target_contains": "∃",
+        "proof": "by\n  refine ⟨fun n => n + 17, ?_⟩\n  skip"
+      }
+    ]
+  },
+  {
+    "id": "F10",
+    "problem": {
+      "name": "fixture_sorry",
+      "statement": "theorem fixture_sorry : True",
+      "reference": "theorem fixture_sorry : True := by trivial\n"
+    },
+    "candidate": "by sorry"
+  },
+  {
+    "id": "F10-indirect",
+    "problem": {
+      "name": "fixture_indirect",
+      "statement": "theorem fixture_indirect : True",
+      "reference": "theorem fixture_indirect : True := by trivial\n"
+    },
+    "candidate": "by exact hidden_bad",
+    "context_source": "axiom hidden_bad : True"
+  },
+  {
+    "id": "F12",
+    "problem": {
+      "name": "fixture_unknown_cost",
+      "statement": "theorem fixture_unknown_cost : True",
+      "reference": "theorem fixture_unknown_cost : True := by trivial\n"
+    },
+    "candidate": "by skip",
+    "root_cost": null
+  }
+]

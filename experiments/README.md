@@ -14,8 +14,9 @@
 [#37](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/37)의 Controller·Planner·Worker 위에
 자동 전술과 재귀적 하위 목표 수리를 연결하는 하네스를 설계합니다.
 기준·자동 수리·재귀 수리 조건으로 복구율과 최종 token·heartbeat 개선을 구분합니다.
-현재 PR A는 설계 단계입니다. PR B는 API 예산 USD 0의 실제 Lean·고정 응답 검증,
-PR C는 효과 평가를 담당합니다. #37의 공개 구현에 대한 실제 통합은 별도 확인이 필요합니다.
+PR A는 설계, PR B는 native 목표 수집·재귀 수리 구현과 API 예산 USD 0의 실제 Lean·고정 응답 검증,
+PR C는 효과 평가를 담당합니다. [PR B 실행 안내](verification-repair-policy/IMPLEMENTATION.md)를 참고하세요.
+#37의 공개 구현에 대한 실제 통합은 별도 확인이 필요합니다.
 
 ## 팀원 웜업 결과 재검증
 
