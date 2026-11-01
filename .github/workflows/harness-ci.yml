@@ -89,9 +89,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
-      ELAN_HOME: ${{ runner.temp }}/repair-elan
       REPAIR_RUN_LEAN_TESTS: '1'
-      REPAIR_EVIDENCE_DIR: ${{ runner.temp }}/recursive-repair-evidence
     steps:
       - name: Check out source
         uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
@@ -103,12 +101,16 @@ jobs:
           python-version: '3.12'
       - name: Install pinned Elan and Lean for CI fixtures
         run: |
+          export ELAN_HOME="$RUNNER_TEMP/repair-elan"
+          echo "ELAN_HOME=$ELAN_HOME" >> "$GITHUB_ENV"
           curl --fail --location --retry 3 https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz -o "$RUNNER_TEMP/repair-elan.tar.gz"
           tar xzf "$RUNNER_TEMP/repair-elan.tar.gz" -C "$RUNNER_TEMP"
           "$RUNNER_TEMP/elan-init" -y --no-modify-path --default-toolchain none
           "$ELAN_HOME/bin/elan" toolchain install leanprover/lean4:v4.26.0
           echo "$ELAN_HOME/bin" >> "$GITHUB_PATH"
       - name: Verify native goals, recursive repair and replay without model APIs
+        env:
+          REPAIR_EVIDENCE_DIR: ${{ runner.temp }}/recursive-repair-evidence
         run: python -m unittest discover -s experiments/verification-repair-policy -p 'test_recursive_lean.py' -v
       - name: Preserve native verification evidence
         if: always()
