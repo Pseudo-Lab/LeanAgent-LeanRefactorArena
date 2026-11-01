@@ -3,12 +3,20 @@ from decimal import Decimal
 import re
 
 from common import canonical, inventory, read, sha, shared
-from lean_agent import accounting, harness, recorded_usage, status
+from lean_agent import accounting, harness, openai_direct, recorded_usage, status
 
 
 def price_card(protocol):
     if protocol['backend'] == 'fixture':
         return accounting.NO_PRICES
+    if protocol['backend'] == 'openai':
+        prices = protocol['pricing']
+        if prices != openai_direct.PRICING:
+            raise ValueError('Unrecognized direct-API price snapshot')
+        rates = {key: prices[key] for key in ('input_per_million', 'output_per_million',
+                                            'cached_input_per_million', 'cache_write_per_million')}
+        return {'schema_version': 1, 'currency': 'USD', 'rate_card_id': sha(canonical(prices)),
+                'source': prices['source'], 'as_of': prices['as_of'], 'models': {prices['model']: rates}}
     endpoint = protocol['endpoint']
     prices = endpoint['pricing']
     rates = {dest: str(Decimal(prices[src])*1000000) for src, dest in

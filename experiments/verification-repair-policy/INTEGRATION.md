@@ -2,7 +2,8 @@
 
 실제 모델을 호출할 수 있는 Planner·Worker transport와 반복 생성 Controller를 구현했다.
 현재 요청은 P02에서 수리 모듈을 켠 생성 루프 한 회차의 token·HB·지정 버전 호환성을 확인하는 것이다.
-API 상한 USD 2.50 전체를 이 한 회차에 배정한다. 호출 경로는 OpenRouter다.
+API 상한 USD 2.50 전체를 이 한 회차에 배정한다. 현재 개인 실험은 main의 OpenAI 직접 호출 방식을 사용한다.
+대회 API 경로인 OpenRouter도 별도 backend로 유지한다. 직접 호출 결과는 대회 규정을 충족한 실행으로 보고하지 않는다.
 이전 네 실행 비교 계획과 그 무과금 증거는 과거 revision으로 보존한다.
 현재 검증은 고정 응답과 실제 Lean을 사용한다. **유료 API 호출·비용은 0이다.**
 이 단계는 구조의 동작을 확인한다. P02의 최종 token/HB 개선을 입증하지 않는다.
@@ -15,6 +16,15 @@ Controller만 있는 단일 에이전트와 Planner의 비교는 #37 자체의 �
 이번 단일 실행에는 Planner·Worker·Auto Solver·Recursive Repair를 모두 사용한다.
 
 ## 실행 흐름
+
+현재 호출 기준은 main `7f9508a`의 `experiments/openrouter-budget-trial --backend openai`다.
+공통 `src/lean_agent/openai_direct.py`의 모델·단가·응답 정규화를 재사용한다.
+기존 `query()`의 HTTP 부분을 `request_once()`로 분리하여 기존 실험과 이번 역할별 호출이 함께 사용한다.
+두 경로 모두 Responses API, `gpt-6.1-sol`, reasoning `high`, Standard tier,
+도구 없음, 자동 재시도 없음이다. 기존 main 실험의 키 로딩 방식은 유지한다.
+이번 생성 루프는 키를 터미널에서 받아 메모리 인자로 넘긴다.
+Planner는 경로 JSON, Worker는 proof JSON을 요구하며 고정 문맥 뒤에 명시적 캐시 경계를 둔다.
+역할별 지침·입력·JSON schema는 생성·수리 목적에 맞춘 것이므로 기존 실험과 프롬프트가 같다는 뜻은 아니다.
 
 1. 원본 전체 파일과 고정 환경을 확인한다. 원본 검증 실패 시 모든 조건을 중단한다.
 2. Planner가 경로와 교훈을 반환한다. Controller가 경로별 시도 수를 기준으로 후보 생성을 배정한다.
@@ -88,7 +98,7 @@ HB는 목표 선언 elaboration의 raw heartbeat를 새 프로세스 3회로 측
 | --- | --- | ---: | ---: |
 | `repair-r1` | Planner + Worker + Auto Solver → Recursive Repair | 1 | USD 2.50 |
 
-정상 원본, 문맥, OpenRouter 모델 `openai/gpt-6.1-sol`와 표준 `openai` provider, high reasoning,
+정상 원본, 문맥, OpenAI 직접 API 모델 `gpt-6.1-sol`, Standard tier, high reasoning,
 역할별 지침, 공통 평가기, 경로 배정, 중복 차단을 사용한다.
 과거 최선·제출 proof, 별도 전략 prompt와 다른 실행의 이력은 모델 입력에 넣지 않는다.
 경로·best·중복 집합은 새로 시작한다. 실행 직전에 다시 검증·측정한 정상 원본을 T0/H0로 쓴다.
@@ -99,10 +109,16 @@ Planner·생성 Worker·수리 Worker는 한 회차의 USD 2.50 장부를 함께
 reasoning도 output 비용에 포함한다. cache hit을 가정하지 않은 최대 비용을 요청 전에 예약한다.
 잔액이 적으면 output 한도를 줄이고, 최소 출력 여유도 없으면 호출하지 않는다.
 예약과 요청을 먼저 디스크에 기록한다. receipt가 없거나 예약 상한을 넘으면 모든 후속 호출을 막는다.
-자동 재시도와 provider fallback은 없다. 실제 비용은 OpenRouter의 `usage.cost`를 보존한다.
-대회 정가 기준을 위해 사용량과 고정 공개 단가로 계산한 금액도 별도로 남긴다.
-예산 차감에는 두 금액 중 큰 값을 쓴다. 비용이나 필수 사용량이 없으면 suite를 중단한다.
-`prepare`는 공개 endpoint metadata를 동결하고, 유료 `run` 직전에 가격 변경 여부를 확인한다.
+자동 재시도와 provider fallback은 없다.
+OpenAI 직접 호출은 main의 `openai_direct.PRICING`과 원본 Responses `usage`를 사용한다.
+일반 입력·캐시 읽기·캐시 쓰기·reasoning을 포함한 출력 사용량으로 추정 비용을 계산하고 예산에서 차감한다.
+이 값은 `estimated_api_cost_usd`이며 청구 영수증이 아니다. 호출 후 `actual_api_cost_usd`는 `null`로 둔다.
+필수 사용량·모델·tier가 확인되지 않으면 비용 미확정으로 후속 호출을 중단한다.
+main 단가표의 기준일은 2026-10-29이며, 2026-11-01에 [공식 모델 문서](https://developers.openai.com/api/docs/models/gpt-6.1-sol)와
+[캐시 과금 문서](https://developers.openai.com/api/docs/guides/prompt-caching)를 확인했다.
+직접 호출의 가격은 동결 단가표를 사용하며 실행 직전 자동 가격 조회는 하지 않는다.
+별도 OpenRouter 모드에서는 `usage.cost`와 공개 정가 계산액 중 큰 값을 차감하고,
+공개 endpoint metadata를 동결한 뒤 유료 `run` 직전에 가격 변경 여부를 확인한다.
 
 실행은 최종 T/H/Q, 원본 대비 절대·백분율 변화, 선택 source, 원본 복귀, 수리 노출·복구,
 역할별 호출·비용, 전체 Lean 호출·경과 시간과 중단 이유를 기록한다.
@@ -113,7 +129,7 @@ record replay는 저장된 관측으로 Controller 결정을 재생한다.
 
 ## 공통 하네스의 완료·비용·선택 규약
 
-현재 revision은 `single-repair-4-official-compatibility`다.
+현재 revision은 `single-repair-5-openai-personal`이다.
 생성 실행과 재생은 `generation.py`가 담당하며, 공통 하네스의 상태·비용 조회와 선택 함수를 연결한다.
 기존 `lean-agent run/replay` 명령으로 생성 실험을 직접 실행하는 것은 별도 범위다.
 
@@ -124,7 +140,7 @@ record replay는 저장된 관측으로 Controller 결정을 재생한다.
   중단·replay 실패는 성공으로 봉인하지 않는다. 비용 미확정 실행은 `stopped`로 남는다.
 - `calls/`에는 역할·예약액·요청과 원본 응답을 보존한다. `recorded_usage.py`는 이를 공통
   `accounting.py`로 집계한다. `usage-cost.json`은 실행별·전체·역할별 비용을 제공한다.
-  OpenRouter 청구액, 공개 정가 계산액, 예산 차감액과 예약액은 별도 값이다.
+  OpenRouter 청구액, OpenAI 사용량 기반 추정액, 예산 차감액과 예약액은 별도 값이다.
   호출마다 장부와 대조하고 replay에서도 다시 계산한다. fixture의 실제 비용은 0으로 표시한다.
 - 선택 순서는 `(T × H0 + H × T0, T, 선언 SHA256)`이다. 정수 비교로 미세한 차이와 동점을 처리한다.
   경로별 best와 전체 best에 같은 함수를 쓴다. Q 동점의 후보 교체는 정체를 해소한 것으로 세지 않는다.
@@ -143,8 +159,9 @@ lean-agent usage-cost --mode api --format recorded-run --input /path/to/suite
 | 파일 | 역할 |
 | --- | --- |
 | `controller.py` | 경로·반복 실패·정체·best 관리, PR B 호출, 최종 검증 |
-| `generation_transport.py` | Planner/Worker JSON 계약, 과거 direct transport, 고정 응답 transport |
-| `openrouter_transport.py` | 현재 유료 호출의 유일한 경로, 공개 가격 검증, 정가/청구액 기록 |
+| `generation_transport.py` | Planner/Worker JSON 계약, 공통 OpenAI 호출 연결, 고정 응답 transport |
+| `openrouter_transport.py` | 별도 OpenRouter 경로, 공개 가격 검증, 정가/청구액 기록, backend별 숨김 입력 |
+| `src/lean_agent/openai_direct.py` | main 실험과 공유하는 Responses HTTP 호출·단가·사용량 정규화 |
 | `generation_runtime.py` | 역할 공통 장부, 실행 시간, 중복 집합, 결정 기록 |
 | `generation.py` | 단일 생성 실행의 준비·입력/코드 보존·결과 집계·replay·status |
 | `competition.py` | 공식 원본과 지정 버전 고정, 최종 검증에 근거한 호환성 보고 |
@@ -157,14 +174,17 @@ python3 experiments/verification-repair-policy/calibrate.py \
   --project /path/to/pinned/Strata --lean /path/to/lean-4.26.0/bin/lean \
   --output /path/to/new-calibration
 python3 experiments/verification-repair-policy/generation.py prepare \
-  --calibration /path/to/new-calibration --output /path/to/new-suite
+  --backend openai --calibration /path/to/new-calibration --output /path/to/new-suite
 python3 /path/to/new-suite/code/repo/experiments/verification-repair-policy/generation.py \
   check --output /path/to/new-suite
 ```
 
 prepare/check/replay/status는 API를 호출하지 않는다.
-유료 `run`은 명시적인 `--allow-paid`가 있어야 한다. 가격과 라이브러리를 확인한 뒤
-터미널에서 `OpenRouter API key (hidden input):`을 표시한다. 사용자가 키를 입력하고 Enter를 누른다.
+`--backend openai`는 개인 실험이며 `--backend openrouter`는 대회 API 호출 경로다.
+backend는 준비할 때 동결한다. 실행 때 다른 backend로 바꾸는 옵션은 거절한다.
+유료 `run`은 명시적인 `--allow-paid`가 있어야 한다. 동결 설정과 라이브러리를 확인한 뒤
+터미널에서 `OpenAI API key (hidden input):`을 표시한다. 사용자가 `sk-proj-…` 키를 입력하고 Enter를 누른다.
+OpenRouter 모드에서는 `OpenRouter API key (hidden input):`이 표시된다. 서로 다른 provider 키는 거절한다.
 입력 내용은 화면에 표시하지 않는다. 키는 프로세스 메모리에서만 사용한다.
 파일·환경 변수·명령 인자로 키를 받지 않으며 `--dotenv` 옵션도 없다.
 숨김 입력을 지원하지 않는 비대화형 터미널에서는 호출 전에 중단한다.
@@ -174,8 +194,7 @@ prepare/check/replay/status는 API를 호출하지 않는다.
 python3 /path/to/suite/code/repo/experiments/verification-repair-policy/generation.py \
   run --output /path/to/suite --allow-paid
 ```
-OpenRouter에서도 이번 실험 전용 key의 총 credit limit을 USD 2.50, 주기적 reset 없음을 권장한다.
-하네스의 사전 비용 예약과 provider의 key 한도는 별도 장치다.
+USD 2.50은 하네스의 사용량 기반 사전 예약 한도이며 provider 계정의 지출 한도를 설정하는 기능은 아니다.
 이번 준비에서는 유료 run을 실행하지 않았다. 중단한 suite를 이어서 실행하거나 같은 ID로 재호출하지 않는다.
 계측 코드가 바뀌면 calibration을 다시 수행한다. 실행 코드가 바뀌면 새 suite를 준비한다.
 이전 기록은 보존된 코드로 replay한다.
@@ -184,7 +203,8 @@ OpenRouter에서도 이번 실험 전용 key의 총 credit limit을 USD 2.50, �
 OpenRouter·USD 2.50 변경의 검사, 입력 동결, 공개 가격 출처는
 [OpenRouter 전환 당시 기록](integration/openrouter-readiness.json)에 별도로 보존한다.
 완료·비용·선택 규약과 터미널 입력 변경은 [이전 준비 기록](integration/shared-records-readiness.json)에 보존한다.
-단일 회차와 지정 환경 계약은 [현재 준비 기록](integration/single-run-readiness.json)에 보존한다.
+단일 회차와 지정 환경 계약의 OpenRouter 계획은 [이전 준비 기록](integration/single-run-readiness.json)에 보존한다.
+main 호출 경로를 공유하는 OpenAI 개인 실험은 [현재 준비 기록](integration/direct-readiness.json)에 보존한다.
 
 ## 지정 버전 호환성 출력
 
@@ -201,7 +221,9 @@ OpenRouter·USD 2.50 변경의 검사, 입력 동결, 공개 가격 출처는
 
 2026-11-01 [공식 규칙](https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/blob/main/app.py)은
 폐쇄형 모델 호출 전부를 OpenRouter로 보내고, 문제당 USD 3 안에서 재시도·폐기 후보까지 합산하도록 요구한다.
-이번 한 실행의 Planner·생성·수리 비용을 하나의 P02 장부로 합산한다.
+현재 OpenAI 직접 호출 계획은 이 API 경로 요건을 충족하지 않는 개인 실험이다.
+Lean 지정 환경 통과 여부와 대회 API 경로 준수 여부는 별개의 항목이다.
+어느 backend에서도 Planner·생성·수리 비용을 하나의 P02 장부로 합산한다.
 기존 공통 guard로 명제 변경·sorry/admit·공리 추가·금지 메타프로그램·HB 조작을 거절한다.
 진단/계측용 wrapper는 하네스 내부 코드다. 최종 proof 산출물에는 이를 넣지 않는다.
 

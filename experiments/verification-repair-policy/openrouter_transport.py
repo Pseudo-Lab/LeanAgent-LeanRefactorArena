@@ -135,17 +135,21 @@ def normalize(raw, endpoint):
                 'provider_reported_usd': reported, 'list_price_usd': list_cost, 'budget_debit_usd': debit}}
 
 
-def terminal_key():
+def terminal_key(backend='openrouter'):
+    if backend not in ('openrouter', 'openai'):
+        raise ValueError('Unsupported credential backend')
+    label = 'OpenRouter' if backend == 'openrouter' else 'OpenAI'
     if not sys.stdin.isatty():
         raise ValueError('Run in an interactive terminal to enter the API key securely')
     with warnings.catch_warnings():
         warnings.simplefilter('error', getpass.GetPassWarning)
         try:
-            key = getpass.getpass('OpenRouter API key (hidden input): ')
+            key = getpass.getpass(label+' API key (hidden input): ').strip()
         except (getpass.GetPassWarning, EOFError) as exc:
             raise ValueError('Hidden terminal input is unavailable') from exc
-    if not key.startswith('sk-or-'):
-        raise ValueError('Expected a regular OpenRouter inference key')
+    valid = key.startswith('sk-or-') if backend == 'openrouter' else key.startswith('sk-') and not key.startswith('sk-or-')
+    if not valid or any(c.isspace() for c in key):
+        raise ValueError('Expected an '+label+' API key value without quotes or variable assignment')
     return key
 
 

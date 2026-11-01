@@ -9,6 +9,7 @@ from openrouter_transport import plan_request as router_plan
 from runtime import Runtime
 from generation_records import reconcile, record, usage_inputs
 from openrouter_transport import normalize
+from lean_agent import openai_direct
 
 
 class GenerationRuntime(Runtime):
@@ -119,6 +120,8 @@ class GenerationRuntime(Runtime):
                              lambda: self.worker(packet, planned, timeout))
         if self.protocol['backend'] == 'openrouter' and normalize(raw.get('openrouter_response'), self.protocol['endpoint']) != raw:
             raise ValueError('Normalized response differs from original provider receipt')
+        if self.protocol['backend'] == 'openai' and openai_direct.normalize(raw.get('openai_response'), self.protocol['pricing']) != raw:
+            raise ValueError('Normalized response differs from original provider receipt')
         record(self.root, folder+'/response.json', raw, self.tape.replay)
         settlement = shared.settle(self.ledger, call_id, raw)
         if self.protocol['backend'] == 'openrouter':
@@ -144,7 +147,8 @@ class GenerationRuntime(Runtime):
                     for e in entries), Decimal(0)))) if router else cost
         return {**super().cost_summary(), 'dispatches': len(entries),
                 'actual_api_calls': len(entries) if live else 0,
-                'actual_api_cost_usd': charged if live else '0',
+                'actual_api_cost_usd': charged if router else None if live and entries else '0',
+                'estimated_api_cost_usd': cost if live and not router else None,
                 'budget_debit_usd': cost,
                 'simulated_cost_usd': None if live else cost,
                 'simulated_known_subtotal_usd': None if live else str(self.cost(entries)),

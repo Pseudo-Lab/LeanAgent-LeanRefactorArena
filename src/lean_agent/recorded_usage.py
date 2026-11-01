@@ -5,6 +5,7 @@ reservation debits stay separate. An absent response is an incomplete request.
 """
 from copy import deepcopy
 from decimal import Decimal
+import re
 
 from . import accounting as a, models
 from .artifacts import read, sha
@@ -26,7 +27,7 @@ def report(root, *, max_calls=None):
     if source.get('schema_version') != 1 or source.get('layout') not in ('role-calls-v1', 'role-suite-v1'):
         raise ValueError('Unsupported usage source')
     backend = source['backend']
-    if backend not in ('openrouter', 'fixture'):
+    if backend not in ('openrouter', 'openai', 'fixture'):
         raise ValueError('Unsupported role usage backend')
     prices = read(safe(root, 'input/usage-prices.json'))
     a.validate_prices(prices)
@@ -68,9 +69,14 @@ def report(root, *, max_calls=None):
             response = read(response_path) if response_path.exists() else None
             if response is not None:
                 evidence(response_path)
-            original = response.get('openrouter_response', {}) if backend == 'openrouter' and response is not None else response
+            original = (response.get('openrouter_response' if backend == 'openrouter' else 'openai_response', {})
+                        if backend != 'fixture' and response is not None else response)
             original = original if isinstance(original, dict) else {}
             actual = deepcopy(original)
+            if backend == 'openai' and re.fullmatch(r'gpt-6\.1-sol(?:-\d{4}-\d{2}-\d{2})?', str(actual.get('model', ''))):
+                # Same model-family price policy as main's direct adapter. Keep
+                # the provider's exact snapshot below and in the raw receipt.
+                actual['model'] = 'gpt-6.1-sol'
             if backend == 'fixture':
                 # Scripted costs exercise the budget but are never API charges.
                 actual = {**actual, 'usage': {'cost': '0'}, 'model': 'fixture-v1'}
@@ -79,6 +85,8 @@ def report(root, *, max_calls=None):
                      'status': 'incomplete' if response is None else 'failed' if original.get('error') or original.get('transport_error') else 'completed',
                      'response': actual}
             receipt = a.make_receipt(event, 'api', prices)
+            if backend == 'openai':
+                receipt['provider_model'] = original.get('model')
             receipts.append(receipt)
             if backend == 'fixture':
                 debit = models.receipt(response)['cost_usd']
@@ -87,8 +95,9 @@ def report(root, *, max_calls=None):
                 complete = usage is not None and all(usage[k] is not None for k in
                     ('input_tokens', 'output_tokens', 'cached_input_tokens', 'cache_write_tokens', 'reasoning_tokens'))
                 billed, estimated = receipt['reported_cost_usd'], receipt['estimated_token_cost_usd']
-                debit = (str(max(a.money(billed), a.money(estimated))) if complete and billed is not None
-                         and estimated is not None and not response.get('accounting_error') else None)
+                priced = complete and estimated is not None and response is not None and not response.get('accounting_error')
+                debit = (estimated if priced else None) if backend == 'openai' else (
+                    str(max(a.money(billed), a.money(estimated))) if priced and billed is not None else None)
                 if response is not None and models.receipt(response)['cost_usd'] != debit:
                     # Decimal strings may have different trailing zeroes.
                     saved = models.receipt(response)['cost_usd']
@@ -102,8 +111,9 @@ def report(root, *, max_calls=None):
     debits = [row['cost_usd'] for row in guards]
     unsettled = sum(row['status'] != 'settled' for row in guards)
     known = str(sum((a.money(v) for v in debits if v is not None), Decimal(0)))
-    summary.update(actual_api_calls=len(receipts) if backend == 'openrouter' else 0,
-                   actual_api_cost_usd=summary['reported_cost_usd'] if backend == 'openrouter' else '0',
+    summary.update(actual_api_calls=len(receipts) if backend != 'fixture' else 0,
+                   actual_api_cost_usd=summary['reported_cost_usd'] if backend == 'openrouter' else None if backend == 'openai' and receipts else '0',
+                   estimated_api_cost_usd=total(debits) if backend == 'openai' else None,
                    budget_debit_usd=total(debits), budget_known_subtotal_usd=known,
                    reserved_usd=total([row['reserved_usd'] for row in guards]), unsettled_calls=unsettled,
                    budget_limit_usd=source['budget_usd'],

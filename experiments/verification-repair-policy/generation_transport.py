@@ -1,7 +1,6 @@
 """Role-specific real API transport and an explicit, network-free fixture transport."""
 from decimal import Decimal, ROUND_FLOOR
 import json
-from urllib import request, error
 
 from common import canonical
 from lean_agent import openai_direct, models
@@ -110,8 +109,8 @@ def plan_request(protocol, packet, remaining):
 
 
 class OpenAITransport:
-    def __init__(self, protocol, *, enabled=False, dotenv=None):
-        self.protocol, self.enabled, self.dotenv = protocol, enabled, dotenv
+    def __init__(self, protocol, *, enabled=False, key=None):
+        self.protocol, self.enabled, self._key = protocol, enabled, key
 
     def __call__(self, packet, planned, timeout):
         if not self.enabled:
@@ -119,16 +118,10 @@ class OpenAITransport:
         body = planned['body']
         if body != payload(self.protocol, packet, body['max_output_tokens']):
             raise ValueError('Unexpected API payload')
-        key = openai_direct.load_key(self.dotenv)
-        call = request.Request(openai_direct.ENDPOINT, data=canonical(body).encode(),
-                               headers={'Authorization': 'Bearer '+key, 'Content-Type': 'application/json'})
-        try:
-            with request.build_opener(openai_direct.NoRedirect).open(call, timeout=timeout) as stream:
-                raw = json.loads(stream.read())
-        except (error.URLError, TimeoutError, OSError, ValueError) as exc:
-            # A missing response can still be billed. The ledger will block the suite.
-            raw = {'transport_error': type(exc).__name__, 'http_status': getattr(exc, 'code', None)}
-        return openai_direct.normalize(raw, self.protocol['pricing'])
+        key = self._key
+        if not key or not key.startswith('sk-') or key.startswith('sk-or-') or any(c.isspace() for c in key):
+            raise ValueError('Provide an OpenAI API key through hidden terminal input')
+        return openai_direct.request_once(body, self.protocol['pricing'], key=key, timeout=timeout)
 
 
 class ScriptedTransport:

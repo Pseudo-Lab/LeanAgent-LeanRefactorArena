@@ -51,7 +51,7 @@ class GenerationTests(unittest.TestCase):
                 parse_plan({'choices': [{'message': {'content': content}}]})
 
     def test_paid_transport_default_blocks_before_credentials_or_http(self):
-        with patch.object(openai_direct, 'load_key') as key, patch('generation_transport.request.build_opener') as http:
+        with patch.object(openai_direct, 'load_key') as key, patch.object(openai_direct.request, 'build_opener') as http:
             with self.assertRaisesRegex(RuntimeError, 'disabled'):
                 OpenAITransport(settings())({}, {}, 1)
             key.assert_not_called()

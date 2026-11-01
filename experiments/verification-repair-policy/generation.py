@@ -12,13 +12,13 @@ from calibrate import p02_limits
 from controller import generation_loop
 from corpus import reference_workflow
 from generation_runtime import GenerationRuntime
-from generation_transport import ScriptedTransport
+from generation_transport import OpenAITransport, ScriptedTransport
 from openrouter_transport import OpenRouterTransport, fetch_endpoint, validate_endpoint, terminal_key
 from generation_records import (record, usage_inputs, save_execution, verify_execution,
                                 seal_execution, verify_seal)
-from lean_agent import accounting, harness, prepared, status
+from lean_agent import accounting, harness, openai_direct, prepared, status
 
-REVISION = 'single-repair-4-official-compatibility'
+REVISION = 'single-repair-5-openai-personal'
 RUN_BUDGET, SUITE_BUDGET = '2.50', '2.50'
 ORDER = [('repair-r1', 'recursive-repair-v1')]
 FOUR_RUN_FIXTURE = [('baseline-r1', 'planner-worker-v1'), ('repair-r1', 'recursive-repair-v1'),
@@ -39,7 +39,15 @@ def snapshot(root):
                 shutil.copy2(path, dest/path.name)
 
 
-def prepare(root, calibration=None, *, fixture=None, endpoint=None):
+def execution_scope(backend):
+    return {'openai': 'personal-experiment', 'openrouter': 'competition-api-route', 'fixture': 'fixture-only'}[backend]
+
+
+def prepare(root, calibration=None, *, fixture=None, endpoint=None, backend='openrouter'):
+    if backend not in ('openrouter', 'openai'):
+        raise ValueError('Unsupported API backend')
+    if backend == 'openai' and endpoint is not None:
+        raise ValueError('OpenRouter endpoint metadata cannot configure direct OpenAI calls')
     root = Path(root).resolve()
     if root.exists():
         raise ValueError('Use a new suite directory; never overwrite or resume')
@@ -60,8 +68,9 @@ def prepare(root, calibration=None, *, fixture=None, endpoint=None):
         if packet['problem']['original'].rstrip() != problem['reference'].rstrip():
             raise ValueError('Agent input is not the calibrated original')
         context = packet['context']  # No strategy prompt or prior optimized proof.
-        endpoint = validate_endpoint(endpoint or fetch_endpoint())
-        backend, control = 'openrouter', dict(CONTROL)
+        if backend == 'openrouter':
+            endpoint = validate_endpoint(endpoint or fetch_endpoint())
+        control = dict(CONTROL)
         benchmark = (REPO/competition.SNAPSHOT/'benchmark_data_warmup.jsonl').read_bytes()
         snapshot_meta = read(REPO/competition.SNAPSHOT/'snapshot.json')
         compatibility = competition.contract(benchmark, snapshot_meta, ready)
@@ -77,11 +86,13 @@ def prepare(root, calibration=None, *, fixture=None, endpoint=None):
     run_budget = str(Decimal(SUITE_BUDGET)/len(order))
     root.mkdir(parents=True)
     protocol = {'revision': REVISION, 'backend': backend, 'problem': problem, 'context': context,
+                'execution_scope': execution_scope(backend),
                 'integration': 'issue-37-based-local-implementation', 'condition_order': order,
                 'environment': environment, 'environment_sha256': sha(canonical(environment)),
                 'limits': limits, 'controller': control, 'tactics': list(TACTICS),
                 'run_budget_usd': run_budget, 'suite_budget_usd': SUITE_BUDGET,
                 'endpoint': endpoint if backend == 'openrouter' else None,
+                'pricing': dict(openai_direct.PRICING) if backend == 'openai' else None,
                 'simulated_reservation_usd': '0.02', 'simulated_budget_usd': run_budget,
                 'paid_enabled_by_default': False, 'profile_enabled': False,
                 'credential_input': 'hidden-terminal-only', 'selection': harness.SELECTION,
@@ -110,8 +121,9 @@ def check(root):
     protocol = read(root/'protocol.json')
     expected_order = read(root/'fixture.json').get('condition_order', ORDER) if protocol['backend'] == 'fixture' else ORDER
     expected_order = [list(row) for row in expected_order]
-    if (protocol['revision'] != REVISION or protocol['backend'] not in ('fixture', 'openrouter')
+    if (protocol['revision'] != REVISION or protocol['backend'] not in ('fixture', 'openrouter', 'openai')
         or protocol['paid_enabled_by_default']
+        or protocol['execution_scope'] != execution_scope(protocol['backend'])
         or protocol['credential_input'] != 'hidden-terminal-only' or protocol['selection'] != harness.SELECTION
         or protocol['condition_order'] != expected_order
         or protocol['run_budget_usd'] != str(Decimal(SUITE_BUDGET)/len(expected_order)) or protocol['suite_budget_usd'] != SUITE_BUDGET
@@ -119,6 +131,11 @@ def check(root):
         raise ValueError('Unsupported or changed protocol')
     if protocol['backend'] == 'openrouter':
         validate_endpoint(protocol['endpoint'])
+        if protocol['pricing'] is not None:
+            raise ValueError('Direct pricing cannot configure OpenRouter calls')
+    if protocol['backend'] == 'openai' and (protocol['pricing'] != openai_direct.PRICING or protocol['endpoint'] is not None):
+        raise ValueError('Unsupported direct OpenAI configuration')
+    if protocol['backend'] != 'fixture':
         expected = competition.contract((root/'competition/benchmark.jsonl').read_bytes(),
                    read(root/'competition/snapshot.json'), read(root/'calibration/result.json'))
         if protocol['compatibility'] != expected:
@@ -147,7 +164,7 @@ def summarize(rows, backend, reference, protocol):
                      'verified_repairs': sum(bool(a['repair'] and a['repair']['status'] == 'verified')
                                              for row in selected for a in row['attempts'])}
     unknown = any(row['unknown_cost'] for row in rows)
-    actual = None if unknown and backend != 'fixture' else str(sum(
+    actual = None if backend != 'fixture' and (unknown or any(row['actual_api_cost_usd'] is None for row in rows)) else str(sum(
         (Decimal(row['actual_api_cost_usd'] or '0') for row in rows), Decimal(0)))
     original = harness.metrics(reference['baseline']) if reference['status'] == 'completed' else None
     final = rows[0].get('final_metrics') if len(rows) == 1 and rows[0]['final_valid'] else None
@@ -155,7 +172,8 @@ def summarize(rows, backend, reference, protocol):
         key: {'before': original[key], 'after': final[key], 'delta': final[key]-original[key],
               'reduction_percent': 100*(original[key]-final[key])/original[key]}
         for key in ('tokens', 'raw_heartbeats')}
-    return {'backend': backend, 'experiment': 'single_repair_optimization' if backend != 'fixture' else 'fixture_contract',
+    return {'backend': backend, 'execution_scope': execution_scope(backend),
+            'experiment': 'single_repair_optimization' if backend != 'fixture' else 'fixture_contract',
             **({'arms': arms} if backend == 'fixture' else {}), 'original': original, 'final': final, 'change': change,
             'status': 'completed' if reference['status'] == 'completed' and len(rows) == len(protocol['condition_order'])
                       and all(row['status'] == 'completed' for row in rows) else 'stopped',
@@ -168,6 +186,9 @@ def summarize(rows, backend, reference, protocol):
             'compatibility': competition.report(protocol, reference, rows),
             'actual_api_calls': sum(row['actual_api_calls'] for row in rows),
             'actual_api_cost_usd': actual, 'unknown_cost': unknown,
+            'estimated_api_cost_usd': None if unknown or backend != 'openai' else str(sum(
+                (Decimal(row['estimated_api_cost_usd']) for row in rows), Decimal(0))),
+            'cost_basis': 'usage_estimate_not_invoice' if backend == 'openai' else 'provider_reported' if backend == 'openrouter' else 'simulated_fixture',
             'budget_debit_usd': None if unknown else str(sum((Decimal(row['budget_debit_usd']) for row in rows), Decimal(0))),
             'evidence_kind': 'fixture_contract_only' if backend == 'fixture' else 'generation_sample',
             'run_ids': [row['run_id'] for row in rows]}
@@ -184,13 +205,14 @@ def process(root, *, allow_paid=False, replay=False):
     if not replay and (root/'reference').exists():
         raise ValueError('Suite already started; replay or prepare a new directory')
     libraries, key = None, None
-    if protocol['backend'] == 'openrouter' and not replay:
-        fresh = fetch_endpoint()
-        if fresh['pricing'] != protocol['endpoint']['pricing']:
-            raise ValueError('Endpoint pricing changed; prepare a new suite before spending')
+    if protocol['backend'] != 'fixture' and not replay:
+        if protocol['backend'] == 'openrouter':
+            fresh = fetch_endpoint()
+            if fresh['pricing'] != protocol['endpoint']['pricing']:
+                raise ValueError('Endpoint pricing changed; prepare a new suite before spending')
         libraries = prepared.PreparedLeanEvaluator(root/'calibration/libraries.json')
         libraries.verify()
-        key = terminal_key()
+        key = terminal_key(protocol['backend'])
     summary, runs = replay_records(root, protocol, replay=replay, key=key, libraries=libraries)
     if replay:
         for rt, result in runs:
@@ -223,7 +245,7 @@ def replay_records(root, protocol, *, replay=False, key=None, libraries=None):
     reference_root = root/'reference'
     reference_rt = make_runtime(reference_root, 'reference', 'planner-worker-v1')
     reference = reference_workflow(reference_rt)
-    if protocol['backend'] == 'openrouter':
+    if protocol['backend'] != 'fixture':
         ready = read(root/'calibration/result.json')
         if reference.get('fingerprint') != ready['fingerprint']:
             reference.update(status='stopped', reason='calibration_environment_changed')
@@ -246,8 +268,9 @@ def replay_records(root, protocol, *, replay=False, key=None, libraries=None):
             # One unknown charge blocks every later arm, not just this run.
             if any(row['status'] != 'settled' for row in ledger['attempts'].values()):
                 break
+            provider = OpenAITransport if protocol['backend'] == 'openai' else OpenRouterTransport
             transport = None if replay else (ScriptedTransport(fixture['responses'][run_id]) if fixture else
-                                             OpenRouterTransport(protocol, enabled=True, key=key))
+                                             provider(protocol, enabled=True, key=key))
             path = root/'runs'/run_id
             rt = make_runtime(path, run_id, condition, transport)
             if not replay:
@@ -289,10 +312,14 @@ def main():
     parser.add_argument('--fixture', type=Path)
     parser.add_argument('--endpoint', type=Path, help='Frozen public OpenRouter endpoint metadata; never credentials')
     parser.add_argument('--allow-paid', action='store_true')
+    parser.add_argument('--backend', choices=['openrouter', 'openai'],
+                        help='prepare only: openai is a personal experiment, not the competition API route')
     args = parser.parse_args()
+    if args.action != 'prepare' and args.backend is not None:
+        parser.error('--backend is prepare-only; run uses its frozen protocol')
     if args.action == 'prepare':
         result = prepare(args.output, args.calibration, fixture=read(args.fixture) if args.fixture else None,
-                         endpoint=read(args.endpoint) if args.endpoint else None)
+                         endpoint=read(args.endpoint) if args.endpoint else None, backend=args.backend or 'openrouter')
     elif args.action == 'check':
         check(args.output)
         result = {'frozen_inputs_valid': True, 'model_called': False}
