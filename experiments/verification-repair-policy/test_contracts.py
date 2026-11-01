@@ -94,6 +94,10 @@ class Contracts(unittest.TestCase):
             with self.assertRaisesRegex(Stop, 'repair_time_limit'):
                 rt.inspect('unused')
             inspect.assert_not_called()
+        with patch.object(rt, 'now', return_value=121), patch.object(rt.native, 'evaluate') as evaluate:
+            with self.assertRaisesRegex(Stop, 'repair_time_limit'):
+                rt.evaluate('unused', 'reassembled', repair=True)
+            evaluate.assert_not_called()
         with patch.object(rt, 'now', return_value=600):
             with self.assertRaisesRegex(Stop, 'run_time_limit'):
                 rt.dispatch('root', {})
@@ -105,6 +109,18 @@ class Contracts(unittest.TestCase):
             with self.assertRaisesRegex(Stop, 'lean_call_limit'):
                 rt.inspect('unused')
             inspect.assert_not_called()
+        rt.repair_lean_calls = rt.limits.lean_calls - 3
+        with patch.object(rt.native, 'evaluate') as evaluate:
+            with self.assertRaisesRegex(Stop, 'lean_call_limit'):
+                rt.evaluate('unused', 'reassembled', repair=True)
+            evaluate.assert_not_called()
+        rt.repair_lean_calls = rt.limits.lean_calls - 4
+        measured = evaluation()
+        measured['environments']['fixed']['runs'] *= 4
+        with patch.object(rt.native, 'evaluate', return_value=measured):
+            rt.evaluate('unused', 'reassembled', repair=True)
+        self.assertEqual(rt.repair_lean_calls, rt.limits.lean_calls)
+        self.assertEqual(rt.cost_summary()['repair_lean_calls'], 4)
 
     def test_replay_does_not_execute_and_rejects_changed_decisions(self):
         tape = Tape(self.root)

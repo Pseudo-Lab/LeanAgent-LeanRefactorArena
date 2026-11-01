@@ -117,6 +117,7 @@ class Runtime:
         self.repair_serial = 0
         self.total_repair_calls = 0
         self.total_inspections = 0
+        self.total_repair_evaluations = 0
         self._repair_operation = False
         self.preflight_commands = 0
         self.preflight_compilations = 0
@@ -174,12 +175,20 @@ class Runtime:
             raise Stop('lean_timeout')
         return report
 
-    def evaluate(self, code, label):
-        self.check_time()
-        self._repair_operation = False
-        result = self.tape.call('evaluate', {'code': code, 'label': label},
+    def evaluate(self, code, label, repair=False):
+        self.check_time(repair=repair)
+        # Reserve enough room for the complete shared evaluation before starting
+        # it; failed checks can use fewer processes, never more than this bound.
+        if repair and self.repair_lean_calls + NativeLean.evaluation_processes > self.limits.lean_calls:
+            raise Stop('lean_call_limit')
+        self._repair_operation = repair
+        result = self.tape.call('evaluate', {'code': code, 'label': label, 'repair': repair},
                                 lambda: self.native.evaluate(code, label, self.limits.lean_seconds, self.limits.memory_mib))
-        self.lean_calls += sum(len(e['runs']) for e in result['environments'].values())
+        calls = sum(len(e['runs']) for e in result['environments'].values())
+        self.lean_calls += calls
+        if repair:
+            self.repair_lean_calls += calls
+            self.total_repair_evaluations += calls
         return result
 
     def dispatch(self, role, request):
@@ -223,5 +232,6 @@ class Runtime:
         return {'actual_api_calls': 0, 'actual_api_cost_usd': '0', 'cost_basis': 'simulated_fixture',
                 'simulated_cost_usd': None if unknown else str(known), 'simulated_known_subtotal_usd': str(known),
                 'unknown_cost': unknown, 'dispatches': len(entries), 'repair_dispatches': self.total_repair_calls,
-                'lean_calls': self.lean_calls, 'repair_lean_calls': self.total_inspections,
+                'lean_calls': self.lean_calls,
+                'repair_lean_calls': self.total_inspections + self.total_repair_evaluations,
                 'compiler_commands': self.lean_calls + self.preflight_commands - self.preflight_compilations}

@@ -109,6 +109,9 @@ def local_closed(report, region):
 
 
 class NativeLean:
+    # One compilation check followed by three heartbeat/axiom measurements.
+    evaluation_processes = 4
+
     def __init__(self, environment, problem, folder, invoke=execute):
         self.environment, self.problem, self.folder = environment, problem, Path(folder)
         self.invoke = invoke
@@ -168,6 +171,7 @@ class NativeLean:
     def evaluate(self, code, label, timeout, memory):
         env = {**self.environment, 'timeout_seconds': timeout}
         env['command'] = [a for a in env['command'] if not a.startswith('-M')] + [f'-M{memory}']
-        result = LeanEvaluator(executor=self.invoke).evaluate(code, self.problem, [env], self.folder/label, runs=3)
+        result = LeanEvaluator(executor=self.invoke).evaluate(
+            code, self.problem, [env], self.folder/label, runs=self.evaluation_processes-1)
         # Results contain no output-directory-dependent strings; raw logs stay in native/.
         return result

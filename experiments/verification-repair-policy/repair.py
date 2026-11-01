@@ -43,7 +43,7 @@ class RepairEngine:
                     raise Stop('extraction_unavailable')
                 code, report = self._node(code, site, 1, 'root', [])
                 self.latest_code = code
-            result = rt.evaluate(code, self.prefix+'-repaired')
+            result = rt.evaluate(code, self.prefix+'-repaired', repair=True)
             if result['valid']:
                 return self._result('verified', code=code, evaluation=result)
             return self._result('residual', reason='full_verification_failed', evaluation=result)

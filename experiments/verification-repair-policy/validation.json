@@ -5,7 +5,7 @@
   "source": {
     "base_pr": 39,
     "base_commit": "6453a1936d1f79e5ce927b3be840bfba608de3ce",
-    "tested_parent_commit": "27ed0508c3095699e94fcb2172d9d40fffb8df44",
+    "tested_parent_commit": "c2be085db631329103137b81c0d331d38cc8a043",
     "tested_tree_dirty": true,
     "note": "Tests used the uncommitted implementation; exact Python/Lean bytes were archived and matched against the files in this change.",
     "sha256": {
@@ -13,11 +13,11 @@
       "experiments/verification-repair-policy/adapter.py": "f66f1964f62bb681cd43f82e3d1cdde31ef808cc08c54547300ee1e3c1e4d0af",
       "experiments/verification-repair-policy/common.py": "249469a2b1436cc550ffdf89b37fa4cd76150b301965581f3cae6d6bae7f4afe",
       "experiments/verification-repair-policy/fixtures/cases.json": "83e9d339d88cb401b372fe19549c2f040d48771f08b37bb8db067f314e888b03",
-      "experiments/verification-repair-policy/native.py": "4478e479397c19b939d2139c9cef20b4916bd45a43cce8c483afbcc5e412e581",
-      "experiments/verification-repair-policy/repair.py": "fe4bbdfbc0b2770337c84e989eaba5ee1032e49bddf1cdec5c51f109d60eee4d",
+      "experiments/verification-repair-policy/native.py": "417f3f36d5d9328ca88eb46c4290ff225d912d12a619914601d1a68dcf711c3b",
+      "experiments/verification-repair-policy/repair.py": "4bef246b604b55c5ab3768bc9cc6af8ae12f73061d5b7063ead8e183e0c5d3e5",
       "experiments/verification-repair-policy/run.py": "3185a7a1480c455a275ab14e88130f9143decc0896f5b29233d1f1693b283a99",
-      "experiments/verification-repair-policy/runtime.py": "7ed1f5e32f59e40040ae26c3801d1933ef2a63a1dd6ff664e37a86de16b2f9d8",
-      "experiments/verification-repair-policy/test_contracts.py": "4490f25e33493b1cf61b2e264ab0005fea490babbdea553f1d943e2f023827ae",
+      "experiments/verification-repair-policy/runtime.py": "6557b2e57532f6c28d38d5fd8800af50f57c67227e575f45af4f312efd233aa9",
+      "experiments/verification-repair-policy/test_contracts.py": "69a648e344d7490630d224c8e9b45fad6ff9b7a3ba6d760e4667b941feef0743",
       "experiments/verification-repair-policy/test_recursive_lean.py": "59e10c3b505c53bd1cf9dcd22dc93c201d8297d4209598d9103fd2b103feb62d"
     }
   },
@@ -239,7 +239,7 @@
       "log": "recursive-contracts.log",
       "skipped": 7,
       "executed": 13,
-      "log_sha256": "6fe2eae10b742926956519e859084424af5f3a4ca6c8d6c87a39a1a98b82b596"
+      "log_sha256": "8cbcf54ea994dc6444331530da39d6e0be395fbf730f58660d8e174cb48bdef7"
     }
   ],
   "actual_lean": {
@@ -256,11 +256,11 @@
     ],
     "environment": {
       "REPAIR_RUN_LEAN_TESTS": "1",
-      "REPAIR_EVIDENCE_DIR": "runs/manual/recursive-repair-validation-20261101/actual-lean-final"
+      "REPAIR_EVIDENCE_DIR": "runs/manual/recursive-repair-validation-20261101/actual-lean-bounded"
     },
     "exit_code": 0,
-    "log": "lean-tests-final.log",
-    "log_sha256": "67e9fb5760b038d49bf0cf51e04d289af21a7d9ebb0143107a9f501ad1244114",
+    "log": "lean-tests-bounded.log",
+    "log_sha256": "a8f5815bdc0f8518277f9805ac27f6a99350d088d0801fe15f78fa029b562491",
     "runs": [
       {
         "run": "test_all_three_conditions_and_recursive_grandchild-F04-auto-solver-v1",
@@ -277,6 +277,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 18,
+        "repair_lean_calls": 7,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -286,7 +288,7 @@
           "operations": 47,
           "record_replay_passed": true
         },
-        "result_sha256": "bc4e8d0f47ddf3aa5646dc2f1ef2ed449534b93c03f7591f6699fff56bcc089d"
+        "result_sha256": "eb250cf19e3a6de73d662c3a22821c8da4c3a6245ad022b9eef2a96b6ec1deb4"
       },
       {
         "run": "test_all_three_conditions_and_recursive_grandchild-F04-planner-worker-v1",
@@ -301,6 +303,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 11,
+        "repair_lean_calls": 0,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -310,7 +314,7 @@
           "operations": 17,
           "record_replay_passed": true
         },
-        "result_sha256": "07f02a7fc3e8e26c8ac438f2b747fe72da403ce8382e60da886d353a866e9278"
+        "result_sha256": "ee66ac4dccf2f0856f35dada00ffacebfaeee90f081a21e1d850c7aa54488daa"
       },
       {
         "run": "test_all_three_conditions_and_recursive_grandchild-F04-recursive-repair-v1",
@@ -328,6 +332,8 @@
         "final_valid": true,
         "dispatches": 2,
         "repair_dispatches": 1,
+        "lean_calls": 27,
+        "repair_lean_calls": 16,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -337,7 +343,7 @@
           "operations": 76,
           "record_replay_passed": true
         },
-        "result_sha256": "cd2070095743e9f9fcc83f51a5478cf79701481b4962a5c45c83cc33c4d48d79"
+        "result_sha256": "f73a8eda8faf609e9224b1e0a1dca747c87c931dca24d9fc1e5791e5b9ecc528"
       },
       {
         "run": "test_cycle_and_depth_limit_preserve_best-F06-recursive-repair-v1",
@@ -354,6 +360,8 @@
         "final_valid": true,
         "dispatches": 2,
         "repair_dispatches": 1,
+        "lean_calls": 19,
+        "repair_lean_calls": 8,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -363,7 +371,7 @@
           "operations": 56,
           "record_replay_passed": true
         },
-        "result_sha256": "0cf3d24183ada49b1beb720066785d72f90ae01b08f171a63588fc8f1015981e"
+        "result_sha256": "98561baddb3149b11094fbe6a2f0013d0b6e14002755863873962489bcf1e641"
       },
       {
         "run": "test_cycle_and_depth_limit_preserve_best-F09-recursive-repair-v1",
@@ -380,6 +388,8 @@
         "final_valid": true,
         "dispatches": 2,
         "repair_dispatches": 1,
+        "lean_calls": 19,
+        "repair_lean_calls": 8,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -389,7 +399,7 @@
           "operations": 55,
           "record_replay_passed": true
         },
-        "result_sha256": "f756c139634218ac254514f158bb9cbf514ab85bb134cebc0c52217c50e1d629"
+        "result_sha256": "b4f2e139236b7bf75897a302ced0092f1f42ae9a323e46eba639a93987d2a1f5"
       },
       {
         "run": "test_last_allowed_worker_call_is_verified_and_selected-F03-recursive-repair-v1",
@@ -406,6 +416,8 @@
         "final_valid": true,
         "dispatches": 3,
         "repair_dispatches": 2,
+        "lean_calls": 23,
+        "repair_lean_calls": 12,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -415,7 +427,7 @@
           "operations": 62,
           "record_replay_passed": true
         },
-        "result_sha256": "4df61e685b47d4852bebea42873b46936d75a2035f435c98211931ac16d4a90d"
+        "result_sha256": "12e5500b2c8ebccb9ea3a22d3f782652bb2220ffbe418b0d76af79078df3b255"
       },
       {
         "run": "test_nested_have_unicode_and_incorrect_tactic-F05-recursive-repair-v1-nested",
@@ -432,6 +444,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 18,
+        "repair_lean_calls": 7,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -441,7 +455,7 @@
           "operations": 34,
           "record_replay_passed": true
         },
-        "result_sha256": "6239f48dd693bc99b883e5f4360eee5ca3639c9897bd8429f151a0b5cee8af5f"
+        "result_sha256": "aae0122a037b96b118f3f1daff14ce27206c82fa86016942462d6311ac6ee6b9"
       },
       {
         "run": "test_syntax_sorry_and_uncertain_receipt-F07-recursive-repair-v1",
@@ -456,6 +470,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 12,
+        "repair_lean_calls": 1,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -465,7 +481,7 @@
           "operations": 21,
           "record_replay_passed": true
         },
-        "result_sha256": "ad2abfc42c75994c9c63d08bc486462b9393904ffd2a48172ca797f54fdab349"
+        "result_sha256": "d6b1e4aaacee5d35d2feddf9629638c04608533390a70d92b27ca8fd36f8c86c"
       },
       {
         "run": "test_syntax_sorry_and_uncertain_receipt-F08-recursive-repair-v1",
@@ -480,6 +496,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 12,
+        "repair_lean_calls": 1,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -489,7 +507,7 @@
           "operations": 21,
           "record_replay_passed": true
         },
-        "result_sha256": "d07f438040b6564e3335097b2c391067a32792461eb5a3a90260b06c43d63ff3"
+        "result_sha256": "e56be43a3653a8d1c89fc030e9d65b7aba47ac2d53617136b90a099f85b3f40a"
       },
       {
         "run": "test_syntax_sorry_and_uncertain_receipt-F10-indirect-recursive-repair-v1",
@@ -504,6 +522,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 15,
+        "repair_lean_calls": 3,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -513,7 +533,7 @@
           "operations": 23,
           "record_replay_passed": true
         },
-        "result_sha256": "4d6be2e05fc96b10ff4667107f57f45b48a2737b45a6be6516ab055cb30a37c3"
+        "result_sha256": "0f62239160c4ce1e99bb0ce5600b041c6822ddb20c52aa0e329f0bac7725b8f5"
       },
       {
         "run": "test_syntax_sorry_and_uncertain_receipt-F10-recursive-repair-v1",
@@ -528,6 +548,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 10,
+        "repair_lean_calls": 0,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -537,7 +559,7 @@
           "operations": 14,
           "record_replay_passed": true
         },
-        "result_sha256": "9a4d612554c4afcc117747f66320af6d911fa89a5c4a84db4608bafa739d9732"
+        "result_sha256": "e90d86a400f5e3c1daabfa431b7c60bf60a5d474e85b248075af28168609ec60"
       },
       {
         "run": "test_syntax_sorry_and_uncertain_receipt-F12-recursive-repair-v1",
@@ -552,6 +574,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 10,
+        "repair_lean_calls": 0,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -561,7 +585,7 @@
           "operations": 13,
           "record_replay_passed": true
         },
-        "result_sha256": "41041f1093f5c21d0c51706f1d9ec1221f168107ed25958fd6edc117a3b61ba9"
+        "result_sha256": "3fefb258905818156812e31a54c761626661c207c1dda6b69efb391aa9ca8a24"
       },
       {
         "run": "test_valid_candidate_and_auto_only_repair-F01-recursive-repair-v1",
@@ -576,6 +600,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 14,
+        "repair_lean_calls": 0,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -585,7 +611,7 @@
           "operations": 17,
           "record_replay_passed": true
         },
-        "result_sha256": "3c2138310789349120017824b5f52845ece8438ac2dba75a0b2aa26c5e6038e8"
+        "result_sha256": "812137831762691afdd87682c79841188d09189214a06fee8a86f425e7a6a456"
       },
       {
         "run": "test_valid_candidate_and_auto_only_repair-F02-recursive-repair-v1",
@@ -602,6 +628,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 18,
+        "repair_lean_calls": 7,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -611,7 +639,7 @@
           "operations": 34,
           "record_replay_passed": true
         },
-        "result_sha256": "1ba12a1a47ac6e708655223b72d8d83e51c407d80804dcdb7cc63e3ca099aa4c"
+        "result_sha256": "9a1e2f0c3d05ff4ee192e066a86832984beecfda40cb4b280b6870a8615470c1"
       },
       {
         "run": "test_worker_direct_completion_and_multiple_goals-F03-recursive-repair-v1",
@@ -628,6 +656,8 @@
         "final_valid": true,
         "dispatches": 2,
         "repair_dispatches": 1,
+        "lean_calls": 23,
+        "repair_lean_calls": 12,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -637,7 +667,7 @@
           "operations": 57,
           "record_replay_passed": true
         },
-        "result_sha256": "7de5355eeb4b8b36af3f27345faeaeca1b54d95885b8b196320d8762c8d920bb"
+        "result_sha256": "c490e570ed8416e55758e78493afd3e1e4f85acae4743b5c94ff1d8a2a0ff61c"
       },
       {
         "run": "test_worker_direct_completion_and_multiple_goals-F05-recursive-repair-v1",
@@ -655,6 +685,8 @@
         "final_valid": true,
         "dispatches": 1,
         "repair_dispatches": 0,
+        "lean_calls": 20,
+        "repair_lean_calls": 9,
         "actual_api_calls": 0,
         "actual_api_cost_usd": "0",
         "replay": {
@@ -664,7 +696,7 @@
           "operations": 45,
           "record_replay_passed": true
         },
-        "result_sha256": "51b7532484387ad76d0c2c44716101176c5b603e10a6969d5e5e57037107a9bb"
+        "result_sha256": "d2edad9aff557bd3a327cfdcd341d92c74ae022758fe9d1b430fae4301cf468a"
       }
     ]
   },
