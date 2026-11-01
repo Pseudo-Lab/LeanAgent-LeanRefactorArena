@@ -28,41 +28,62 @@ def splice(code, start, end, replacement):
 
 def select_site(report, code, region=None):
     """Use native message positions and tactic states, never printed goal parsing."""
-    errors = report.get('errors') or []
+    errors = [e for e in report.get('errors', [])
+              if region is None or region[0] <= e['position'] < region[1]]
     if not errors:
         return None
     error = errors[0]
     pos = error['position']
-    if region is not None and not region[0] <= pos < region[1]:
-        return None
     states = [s for s in report.get('tactics', []) if 'start' in s and 'end' in s
               and 0 <= s['start'] < s['end'] <= len(code.encode())]
+    # Raw syntax retains nested `have ... := by` blocks even when elaboration
+    # expands them into `case`/`by` tactics instead of a Term.byTactic Info node.
+    scopes = [s for s in [*report.get('blocks', []),
+                         *(s for s in states if s['syntax_kind'] in SCOPES)]
+              if 'start' in s and 'end' in s and 0 <= s['start'] <= pos < s['end'] <= len(code.encode())]
+    if not scopes:
+        return None
+    scope = min(scopes, key=lambda s: s['end'] - s['start'])
+    owned = [s for s in states if scope['start'] <= s['start'] and s['end'] <= scope['end']]
     if error['message'].startswith('unsolved goals'):
-        scopes = [s for s in states if s['syntax_kind'] in SCOPES and s['start'] <= pos < s['end']]
-        if not scopes:
-            return None
-        scope = min(scopes, key=lambda s: s['end'] - s['start'])
-        sequences = [s for s in states if s['syntax_kind'] in SEQUENCES and s['after']
-                     and scope['start'] <= s['start'] and s['end'] <= scope['end']]
+        sequences = [s for s in owned if s['syntax_kind'] in SEQUENCES
+                     and s['end'] == scope['end']]
+        if not sequences:
+            # A one-tactic `have` may emit only the terminal tactic's InfoTree
+            # node (no body tacticSeq). It still must end at this raw block end.
+            sequences = [s for s in owned if s['syntax_kind'].startswith('Lean.Parser.Tactic.')
+                         and s['syntax_kind'] not in SCOPES and s['end'] == scope['end']]
         if not sequences:
             return None
-        # The outer residual sequence is the current scope, not an arbitrary
-        # earlier nested block that happened to have intermediate open goals.
-        seq = max(sequences, key=lambda s: (s['end'], s['end']-s['start']))
+        # Use the complete sequence's outermost observation, including an empty
+        # after-state. Macro-generated intermediate goals are not residual goals.
+        start = min(s['start'] for s in sequences)
+        sequences = [s for s in sequences if s['start'] == start]
+        depth = min(s['depth'] for s in sequences)
+        sequences = [s for s in sequences if s['depth'] == depth]
+        if len({canonical(s['after']) for s in sequences}) != 1:
+            return None
+        seq = sequences[0]
         goals, start, end, append = seq['after'], seq['end'], seq['end'], True
         indent_at = seq['start']
     else:
-        candidates = [s for s in states if s['before'] and s['start'] <= pos < s['end']
+        candidates = [s for s in owned if s['before'] and s['start'] <= pos < s['end']
                       and s['syntax_kind'] not in SEQUENCES | SCOPES | {'by', 'Lean.cdotTk'}]
         if not candidates:
             return None
         tactic = min(candidates, key=lambda s: (s['end']-s['start'], -s['depth']))
-        sequences = [s for s in states if s['syntax_kind'] in SEQUENCES
+        sequences = [s for s in owned if s['syntax_kind'] in SEQUENCES
                      and s['start'] <= tactic['start'] and tactic['end'] <= s['end']]
         if not sequences:
-            return None
-        seq = min(sequences, key=lambda s: s['end']-s['start'])
-        goals, start, end, append = tactic['before'], tactic['start'], seq['end'], False
+            # The same one-tactic `have` expansion can omit its body sequence
+            # on a concrete error. Replace only the terminal tactic, never an
+            # outer sequence that crosses this syntax block's boundary.
+            if tactic['end'] != scope['end']:
+                return None
+            end = tactic['end']
+        else:
+            end = min(sequences, key=lambda s: s['end']-s['start'])['end']
+        goals, start, append = tactic['before'], tactic['start'], False
         indent_at = tactic['start']
     if not goals or not all(isinstance(g.get('local_context'), list) and g.get('target') for g in goals):
         return None

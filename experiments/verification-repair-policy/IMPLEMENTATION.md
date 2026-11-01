@@ -1,8 +1,10 @@
 # PR B: Auto Solver → Recursive Repair
 
 [PR A의 설계](README.md)와 [이슈 #40](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/40)를 구현한다.
-현재 실행기는 **고정 응답을 사용하는 fixture Controller**다. 실제 LLM 호출은 없고 API 비용은 USD 0이다.
-#37의 Planner나 경로 탐색을 구현했다고 주장하지 않는다. 실제 #37 연결은 공개 구현 revision을 확보한 뒤 확인한다.
+이 문서는 PR B의 **고정 응답을 사용하는 fixture Controller**를 설명한다.
+후속으로 [#37 설계 기반 Planner/Worker 생성 루프](INTEGRATION.md)를 별도 추가했다.
+새 루프의 실제 Lean 검사는 고정 응답으로 실행하며, 실제 LLM 실험은 아직 실행하지 않았다.
+#37 작성자의 미공유 구현을 통합했다고 주장하지 않는다.
 
 ## 구현 구조
 
