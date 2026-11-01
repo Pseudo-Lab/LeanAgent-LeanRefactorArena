@@ -136,6 +136,7 @@ Python CI job에서는 Lean 검사를 건너뛰고 계약·무과금 검사만 �
 별도 `Recursive repair (Lean 4.26.0)` job은 고정 Elan·Lean을 설치하고 실제 Lean 검사를 수행하며 원시 기록을 artifact로 보존한다.
 CI의 toolchain 설치와 달리 로컬 실행 CLI는 준비되지 않은 toolchain을 자동 설치하지 않는다.
 정확한 실행 명령·버전·검증 결과는 `validation.json`에 남긴다.
+이 파일은 PR B 당시 revision의 검증 기록이다. PR C에서 추가한 고정 실패 corpus 평가와 명시적 `lean_path` 연결의 검증은 [evaluation/README.md](evaluation/README.md)에서 별도로 관리한다.
 
 InfoTree 순회는 [Week 4 Support.lean의 고정 revision](https://github.com/Pseudo-Lab/LeanAgent/blob/e302e89eadf2c7eb2b65f0035f7dbba0b8e09130/docs/research/verification-repair/%EC%86%90%EC%A7%80%EC%97%B0/experiment%28week4%29/evidence/implementation/verification-repair/lean_repair/Support.lean)을 참고했다.
 여기에 구조화된 native 지역 문맥, source 대응과 재귀 조립을 추가했다.

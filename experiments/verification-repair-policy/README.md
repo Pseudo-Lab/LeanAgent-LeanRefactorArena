@@ -3,6 +3,7 @@
 상태: **[이슈 #40][experiment-issue]의 설계와 PR B 구현.**
 native 목표 수집과 Auto Solver → Recursive Repair를 fixture Controller에 연결했다.
 구현 범위·실행법·검증은 [IMPLEMENTATION.md](IMPLEMENTATION.md)에 정리했다.
+[PR C의 고정 실패 후보 평가](evaluation/README.md)는 실제 생성 이력의 재현·자동 수리·미확정 범위를 별도로 보고한다.
 #37의 실제 통합과 실제 LLM 성능 비교는 아직 완료되지 않았다.
 
 설계 기준은 `main` 커밋 `7f9508a85d44c5369f9461222f9904d6a9c01486`이다.
