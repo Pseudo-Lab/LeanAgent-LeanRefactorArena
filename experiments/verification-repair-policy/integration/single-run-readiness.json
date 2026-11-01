@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-11-01",
+  "base_commit": "8aadc36c81debe7299909b15dbc8f341693fcbc0",
+  "execution_tree_dirty": true,
+  "revision": "single-repair-4-official-compatibility",
+  "scope": "One repair-enabled P02 optimization run; original-to-final proof tokens/HB and the exact official warm-up environment",
+  "source_files": {
+    "experiments/verification-repair-policy/generation.py": "1a57f96237e21e85f924843359bd78f614741198a684f348c6d6e451460d2195",
+    "experiments/verification-repair-policy/competition.py": "ff728eac1ca6d62200bb8925b6677c32fce6907dc313100eb741e2151c869691",
+    "experiments/verification-repair-policy/controller.py": "30d51dc3cd8a7c4efdb82989a93227f4d88506a69728bc26efb348c3ad7ae735",
+    "experiments/verification-repair-policy/generation_runtime.py": "1b026d94e158721f05ca9cb2017489616753ad7d40fa983655a3221ac2988de1",
+    "experiments/verification-repair-policy/generation_records.py": "b62fc7204918252f9063f86d4f7313a9d378642e407b330507c3eb7b05378837",
+    "experiments/verification-repair-policy/openrouter_transport.py": "df890550db63a4768adbe9d39e7c2e4ce23a5518b4cab3969df59d231ed32e5b",
+    "experiments/verification-repair-policy/test_competition.py": "c34d38511089fa69a3087cfdd4adcbc58ee7b1443510fee748ea4ea9f53f47a7",
+    "experiments/verification-repair-policy/test_generation_lean.py": "48450cd09d782d336159f379c2adc637332165193511e50a06ff5cc55134dcde",
+    "experiments/verification-repair-policy/test_generation_records.py": "0e3e5b060d5ad5d5b9543c736a8df3096364d812ebefd4b9cf29a175e4c44c22",
+    "experiments/verification-repair-policy/test_openrouter_generation.py": "be9173641af2dfedf99857feb83c041be8ddf5a609dcc3cf76428d4750599d14"
+  },
+  "tests": {
+    "repair_offline": {
+      "discovered": 68,
+      "passed": 57,
+      "skipped": 11,
+      "log_sha256": "049b7ea4b5dc1072860039ccb7afc654f5343bb489240a6812bdc2d9eba1f057"
+    },
+    "native_generation": {
+      "discovered": 2,
+      "passed": 2,
+      "skipped": 0,
+      "log_sha256": "8230fc1e9203b89395d5be7cc76d4c280c55fcf6e420f7ca06e97e17919c7991"
+    }
+  },
+  "passed_distinct_tests_this_revision": 59,
+  "commands": {
+    "repair_offline": "python3 -m unittest discover -s experiments/verification-repair-policy -v",
+    "native_generation": "REPAIR_RUN_LEAN_TESTS=1 REPAIR_EVIDENCE_DIR=/path/to/new-evidence python3 -m unittest discover -s experiments/verification-repair-policy -p 'test_generation_lean.py' -v"
+  },
+  "unchanged_shared_code_validation": "shared-records-readiness.json; historical evidence, not rerun in this revision",
+  "prepared_suite": {
+    "path": "/Users/hellokitsch/Desktop/스터디/leanAgent스터디/LeanAgent-LeanRefactorArena/runs/manual/p02-repair-single-250-20261101",
+    "revision": "single-repair-4-official-compatibility",
+    "condition_order": [
+      [
+        "repair-r1",
+        "recursive-repair-v1"
+      ]
+    ],
+    "run_budget_usd": "2.50",
+    "suite_budget_usd": "2.50",
+    "planner_budget_usd": "0.50",
+    "credential_input": "hidden-terminal-only",
+    "compatibility": {
+      "benchmark_profile": "warmup",
+      "benchmark_revision": "56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c",
+      "benchmark_sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
+      "source_url": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/resolve/56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c/benchmark_data_warmup.jsonl",
+      "problem_name": "CallElimCorrect.extractedOldExprInVars",
+      "source_file": "Strata/Transform/CallElimCorrect.lean",
+      "library_url": "https://github.com/strata-org/Strata",
+      "required_environments": [
+        {
+          "lean_version": "v4.26.0",
+          "library_revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+          "environment_id": "strata-v4.26.0"
+        }
+      ],
+      "candidate_policy": "same selected declaration; no per-version edits",
+      "official_evaluation": false
+    },
+    "frozen_inputs_sha256": "619c5d7df624656f3f2f5cd16cb665909542de6d4b2948025a00a902a35d9044",
+    "check_passed": true,
+    "paid_gate_passed": true,
+    "already_started": false,
+    "actual_api_calls": 0
+  },
+  "calibration": {
+    "reused": true,
+    "measurement_sources_verified_unchanged": true,
+    "measurement_sources": {
+      "experiments/verification-repair-policy/Support.lean": "824c547a3de68a916f06cdb916dcd0616a9d56c03f4d81a827a6f7e91b1a47b3",
+      "experiments/verification-repair-policy/native.py": "34434a8c303b47a91f47b04e11f3f27282877115b397cf4a46fab8d7fd9c4a16",
+      "src/lean_agent/evaluator/lean.py": "b4fa9f8b1a3b61365a6c1b65c732355a150e0cbc1af6299b2721a6253eb76a42"
+    },
+    "artifact_manifest_sha256": "1eefcda16579aa7a1de557e6a0d5fbcc55e2a564b7e95fc71925406c2f9c53f5",
+    "baseline_policy": "Fresh run reference is T0/H0; calibration checks environment and stability only"
+  },
+  "native_single_fixture": {
+    "actual_api_calls": 0,
+    "actual_api_cost_usd": "0",
+    "arms": {
+      "planner-worker-v1": {
+        "completed": 0,
+        "distinct_selected_sources": 0,
+        "final_q": [],
+        "final_verified": 0,
+        "original_returns": 0,
+        "proof_tokens": [],
+        "raw_heartbeats": [],
+        "repair_entries": 0,
+        "runs": 0,
+        "verified_repairs": 0
+      },
+      "recursive-repair-v1": {
+        "completed": 1,
+        "distinct_selected_sources": 1,
+        "final_q": [
+          1.2672351656773264
+        ],
+        "final_verified": 1,
+        "original_returns": 0,
+        "proof_tokens": [
+          23
+        ],
+        "raw_heartbeats": [
+          52736
+        ],
+        "repair_entries": 1,
+        "runs": 1,
+        "verified_repairs": 1
+      }
+    },
+    "backend": "fixture",
+    "budget_debit_usd": "0.04",
+    "change": {
+      "raw_heartbeats": {
+        "after": 52736,
+        "before": 79665,
+        "delta": -26929,
+        "reduction_percent": 33.80279922174104
+      },
+      "tokens": {
+        "after": 23,
+        "before": 38,
+        "delta": -15,
+        "reduction_percent": 39.473684210526315
+      }
+    },
+    "compatibility": {
+      "official_evaluation": false,
+      "status": "fixture_only"
+    },
+    "evidence_kind": "fixture_contract_only",
+    "experiment": "fixture_contract",
+    "final": {
+      "raw_heartbeats": 52736,
+      "raw_samples": [
+        52743,
+        52736,
+        52736
+      ],
+      "tokens": 23
+    },
+    "final_q": 1.2672351656773264,
+    "original": {
+      "raw_heartbeats": 79665,
+      "raw_samples": [
+        79673,
+        79664,
+        79665
+      ],
+      "tokens": 38
+    },
+    "reference_reason": null,
+    "reference_status": "completed",
+    "repair_activity": {
+      "entered_candidates": 1,
+      "selected_from_repair": true,
+      "verified_candidates": 1
+    },
+    "run_ids": [
+      "repair-r1"
+    ],
+    "selected_origin": "repaired",
+    "status": "completed",
+    "stop_reason": "step_limit",
+    "unknown_cost": false
+  },
+  "relocated_archive_checks": {
+    "record_replay_passed": true,
+    "common_status_completed_and_sealed": true,
+    "common_cost_actual_api_calls": 0,
+    "common_cost_actual_usd": "0"
+  },
+  "archive": {
+    "path": "single-run-evidence.tar.gz",
+    "bytes": 498164,
+    "sha256": "4a33b3fdba8b7c6510889e098b83287583e32d38272fab8c6ee512c3b1a6c419"
+  },
+  "actual_api_calls": 0,
+  "actual_api_cost_usd": "0",
+  "limitations": [
+    "No live P02 generation or provider acceptance test has run.",
+    "Fixture improvements do not demonstrate P02 or model performance.",
+    "A single run measures reached quality; it does not isolate repair effectiveness or establish independent-run repeatability.",
+    "Compatibility covers the one exact official warm-up P02 environment; this is not an official server evaluation.",
+    "Four-run fixtures remain free regression checks only. Prior paid plans and readiness archives are historical.",
+    "Execution and replay still use generation.py; shared status and cost CLI support the resulting records."
+  ]
+}

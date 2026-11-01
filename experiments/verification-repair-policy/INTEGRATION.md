@@ -1,8 +1,9 @@
 # #37 설계 기반 생성 루프와 수리 연결
 
 실제 모델을 호출할 수 있는 Planner·Worker transport와 반복 생성 Controller를 구현했다.
-사용자 요청으로 새 실행의 상한을 USD 2.50으로 낮추고, 대회용 호출 경로를 OpenRouter로 변경했다.
-이전 USD 2.80/OpenAI 직접 호출 계획과 그 무과금 증거는 과거 revision으로 보존한다.
+현재 요청은 P02에서 수리 모듈을 켠 생성 루프 한 회차의 token·HB·지정 버전 호환성을 확인하는 것이다.
+API 상한 USD 2.50 전체를 이 한 회차에 배정한다. 호출 경로는 OpenRouter다.
+이전 네 실행 비교 계획과 그 무과금 증거는 과거 revision으로 보존한다.
 현재 검증은 고정 응답과 실제 Lean을 사용한다. **유료 API 호출·비용은 0이다.**
 이 단계는 구조의 동작을 확인한다. P02의 최종 token/HB 개선을 입증하지 않는다.
 
@@ -11,7 +12,7 @@ Planner/Worker가 아직 구현 전이고 선행 수정도 미공유라고 되�
 따라서 여기의 코드는 `issue-37-based-local-implementation`이다.
 #37의 비공개 코드와 호환성을 검증하거나 그 이슈를 완료 처리하지 않는다.
 Controller만 있는 단일 에이전트와 Planner의 비교는 #37 자체의 별도 질문이다.
-이번 비교에서는 Planner를 양쪽에 공통으로 둔다.
+이번 단일 실행에는 Planner·Worker·Auto Solver·Recursive Repair를 모두 사용한다.
 
 ## 실행 흐름
 
@@ -25,7 +26,8 @@ Controller만 있는 단일 에이전트와 Planner의 비교는 #37 자체의 �
 8. 정체 3회 또는 같은 실패 종류 2회면 Planner를 다시 호출한다.
 9. 종료 후 선택 proof를 새 Lean 프로세스로 검증한다. 이 단계에는 모델 호출이 없다.
 
-Planner는 시작·정체·반복 실패에서만 호출한다. 최대 3회, 회당 실행의 누적 예산 USD 0.125다.
+Planner는 시작·정체·반복 실패에서만 호출한다. 최대 3회, 한 회차의 누적 예산 USD 0.50다.
+Planner 상한은 전체 USD 2.50에 포함한다.
 경로표에는 경로별 시도 수·최선 proof/T/H/Q·실패 종류·마지막 결과가 있다.
 Planner가 예산·호출 한도에 도달하면 기존 경로를 사용한다.
 Planner의 JSON이 잘못됐고 기존 경로도 없으면 원본 기반 경로로 계속한다.
@@ -82,20 +84,18 @@ HB는 목표 선언 elaboration의 raw heartbeat를 새 프로세스 3회로 측
 
 ## 실행 전 동결하는 USD 2.50 계획
 
-| 순서 | 조건 | 독립 반복 | 전체 API 상한 |
+| 실행 | 구성 | 회차 | 전체 API 상한 |
 | --- | --- | ---: | ---: |
-| 1 | Planner + Worker | 1 | USD 0.625 |
-| 2 | Planner + Worker + Auto Solver → Recursive Repair | 1 | USD 0.625 |
-| 3 | Planner + Worker + Auto Solver → Recursive Repair | 2 | USD 0.625 |
-| 4 | Planner + Worker | 2 | USD 0.625 |
+| `repair-r1` | Planner + Worker + Auto Solver → Recursive Repair | 1 | USD 2.50 |
 
-두 조건에 같은 정상 원본, 문맥, OpenRouter 모델 `openai/gpt-6.1-sol`와 표준 `openai` provider, high reasoning,
-역할별 지침, 평가기, 경로 배정, 중복 차단을 적용한다.
+정상 원본, 문맥, OpenRouter 모델 `openai/gpt-6.1-sol`와 표준 `openai` provider, high reasoning,
+역할별 지침, 공통 평가기, 경로 배정, 중복 차단을 사용한다.
 과거 최선·제출 proof, 별도 전략 prompt와 다른 실행의 이력은 모델 입력에 넣지 않는다.
-각 반복의 경로·best·중복 집합은 새로 시작한다. 원본 T0/H0만 공통으로 사용한다.
+경로·best·중복 집합은 새로 시작한다. 실행 직전에 다시 검증·측정한 정상 원본을 T0/H0로 쓴다.
+과거 보정 결과는 환경과 계측 안정성을 확인하는 기준이며 새 원본 측정값을 덮어쓰지 않는다.
 실행 ID는 내부 기록에만 쓰고 모델 입력에서는 제거한다.
 
-Planner·생성 Worker·수리 Worker는 회당 USD 0.625와 전체 USD 2.50 장부를 함께 사용한다.
+Planner·생성 Worker·수리 Worker는 한 회차의 USD 2.50 장부를 함께 사용한다.
 reasoning도 output 비용에 포함한다. cache hit을 가정하지 않은 최대 비용을 요청 전에 예약한다.
 잔액이 적으면 output 한도를 줄이고, 최소 출력 여유도 없으면 호출하지 않는다.
 예약과 요청을 먼저 디스크에 기록한다. receipt가 없거나 예약 상한을 넘으면 모든 후속 호출을 막는다.
@@ -104,16 +104,16 @@ reasoning도 output 비용에 포함한다. cache hit을 가정하지 않은 최
 예산 차감에는 두 금액 중 큰 값을 쓴다. 비용이나 필수 사용량이 없으면 suite를 중단한다.
 `prepare`는 공개 endpoint metadata를 동결하고, 유료 `run` 직전에 가격 변경 여부를 확인한다.
 
-각 실행은 최종 T/H/Q, 선택 source, 원본 복귀, 수리 노출·복구,
+실행은 최종 T/H/Q, 원본 대비 절대·백분율 변화, 선택 source, 원본 복귀, 수리 노출·복구,
 역할별 호출·비용, 전체 Lean 호출·경과 시간과 중단 이유를 기록한다.
 Q = T/T0 + H/H0이며 원본 복귀는 Q=2다.
-두 반복의 값과 선택 source 차이는 탐색 변동을 보여 준다. 통계적 우월성을 입증하지 않는다.
+한 회차에서 도달한 품질을 기록한다. 이번 실행에는 수리 없는 조건 비교나 독립 반복이 없다.
 record replay는 저장된 관측으로 Controller 결정을 재생한다.
 새 모델 호출의 재현성이나 새 Lean 실행 성공을 의미하지 않는다.
 
 ## 공통 하네스의 완료·비용·선택 규약
 
-현재 revision은 `planner-worker-repair-3-shared-records`다.
+현재 revision은 `single-repair-4-official-compatibility`다.
 생성 실행과 재생은 `generation.py`가 담당하며, 공통 하네스의 상태·비용 조회와 선택 함수를 연결한다.
 기존 `lean-agent run/replay` 명령으로 생성 실험을 직접 실행하는 것은 별도 범위다.
 
@@ -132,7 +132,7 @@ record replay는 저장된 관측으로 Controller 결정을 재생한다.
 이 브랜치의 공통 CLI 또는 동결한 코드의 `lean_agent` 모듈로 조회할 수 있다.
 
 ```bash
-lean-agent status /path/to/suite/runs/baseline-r1 --json
+lean-agent status /path/to/suite/runs/repair-r1 --json
 lean-agent usage-cost --mode api --format recorded-run --input /path/to/suite
 ```
 
@@ -146,7 +146,8 @@ lean-agent usage-cost --mode api --format recorded-run --input /path/to/suite
 | `generation_transport.py` | Planner/Worker JSON 계약, 과거 direct transport, 고정 응답 transport |
 | `openrouter_transport.py` | 현재 유료 호출의 유일한 경로, 공개 가격 검증, 정가/청구액 기록 |
 | `generation_runtime.py` | 역할 공통 장부, 실행 시간, 중복 집합, 결정 기록 |
-| `generation.py` | 네 실행의 준비·입력/코드 보존·직렬 실행·결과 집계·replay·status |
+| `generation.py` | 단일 생성 실행의 준비·입력/코드 보존·결과 집계·replay·status |
+| `competition.py` | 공식 원본과 지정 버전 고정, 최종 검증에 근거한 호환성 보고 |
 | `generation_records.py` | 공통 기록 연결, 비용 대조, replay 검증 후 완료 처리 |
 | `src/lean_agent/recorded_usage.py` | 역할별 요청·원본 영수증을 읽는 공통 비용 조회 adapter |
 | `calibrate.py` | 유료 호출 없는 P02 정상 원본·환경·시간 검사 |
@@ -182,17 +183,29 @@ OpenRouter에서도 이번 실험 전용 key의 총 credit limit을 USD 2.50, �
 이전 revision의 검사와 증거는 [검증 기록](integration/validation.json)에 보존한다.
 OpenRouter·USD 2.50 변경의 검사, 입력 동결, 공개 가격 출처는
 [OpenRouter 전환 당시 기록](integration/openrouter-readiness.json)에 별도로 보존한다.
-완료·비용·선택 규약과 터미널 입력 변경은 [현재 준비 기록](integration/shared-records-readiness.json)에 보존한다.
+완료·비용·선택 규약과 터미널 입력 변경은 [이전 준비 기록](integration/shared-records-readiness.json)에 보존한다.
+단일 회차와 지정 환경 계약은 [현재 준비 기록](integration/single-run-readiness.json)에 보존한다.
+
+## 지정 버전 호환성 출력
+
+고정한 warm-up P02의 공식 `version_info`에는 Lean `v4.26.0`과 Strata
+`451e5f047bafa010d178856db76c00029bfa4d7f` 한 조합이 있다.
+공식 benchmark 파일의 SHA-256과 원본 선언을 대조하고 지정 버전 목록을 입력에 고정한다.
+생성 전 환경 fingerprint를 확인하고, 최종 선택 소스를 수정 없이 같은 전체 파일 문맥에서 검증한다.
+이 최종 평가를 근거로 `compatibility.json`에 `passed_versions: 1`, `required_versions: 1` 또는
+`not_confirmed`를 기록한다. 원본으로 복귀한 경우에도 원본의 호환성을 기록한다.
+이 P02에 지정되지 않은 다른 Lean 버전의 통과나 공식 서버 평가 통과를 주장하지 않는다.
+필수 버전 목록이 늘어나면 일부 버전만 검사하는 대신 준비 단계에서 중단한다.
 
 ## 대회 규칙과 이번 실행의 범위
 
 2026-11-01 [공식 규칙](https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/blob/main/app.py)은
 폐쇄형 모델 호출 전부를 OpenRouter로 보내고, 문제당 USD 3 안에서 재시도·폐기 후보까지 합산하도록 요구한다.
-이번 네 실행의 전체 비용을 하나의 P02 장부로 합산한다. 각 실행을 별도 문제로 계산하지 않는다.
+이번 한 실행의 Planner·생성·수리 비용을 하나의 P02 장부로 합산한다.
 기존 공통 guard로 명제 변경·sorry/admit·공리 추가·금지 메타프로그램·HB 조작을 거절한다.
 진단/계측용 wrapper는 하네스 내부 코드다. 최종 proof 산출물에는 이를 넣지 않는다.
 
-이번 대상은 이전부터 선택한 warm-up P02의 로컬 비교 실험이다.
+이번 대상은 이전부터 선택한 warm-up P02의 로컬 단일 실행이다.
 최종 대회 데이터셋 제출이나 공식 점수 측정은 수행하지 않는다.
 공식 제출 시에는 해당 benchmark ID와 지정 버전, 변경 없는 proof의 버전 호환성,
 JSONL·재현 코드·기술 보고서 요구 사항도 별도로 확인한다.

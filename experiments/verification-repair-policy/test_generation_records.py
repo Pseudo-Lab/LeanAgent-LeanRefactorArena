@@ -10,7 +10,7 @@ from unittest.mock import Mock, patch
 
 from common import inventory, read, shared
 from controller import generation_loop
-from generation import ORDER, prepare, process
+from generation import FOUR_RUN_FIXTURE as ORDER, prepare, process
 from generation_records import reconcile
 from generation_runtime import GenerationRuntime
 from generation_transport import ScriptedTransport
@@ -34,7 +34,7 @@ class GenerationRecords(unittest.TestCase):
         if unknown:
             rows[ORDER[0][0]][1] = {'role': 'root', 'raw': {'usage': {}, 'choices': []}}
         fixture = {'problem': p['problem'], 'environment': p['environment'], 'limits': p['limits'],
-                   'controller': {'max_steps': 1}, 'responses': rows}
+                   'controller': {'max_steps': 1}, 'responses': rows, 'condition_order': ORDER}
         path = self.root/'suite'
         prepare(path, fixture=fixture)
         with patch('generation.reference_workflow', return_value=self.reference), \

@@ -5,7 +5,7 @@ from decimal import Decimal
 import json
 from pathlib import Path
 import shutil
-import statistics
+import competition
 
 from common import HERE, REPO, TACTICS, canonical, inventory, read, safe_path, sha, shared
 from calibrate import p02_limits
@@ -18,11 +18,12 @@ from generation_records import (record, usage_inputs, save_execution, verify_exe
                                 seal_execution, verify_seal)
 from lean_agent import accounting, harness, prepared, status
 
-REVISION = 'planner-worker-repair-3-shared-records'
-RUN_BUDGET, SUITE_BUDGET = '0.625', '2.50'
-ORDER = [('baseline-r1', 'planner-worker-v1'), ('repair-r1', 'recursive-repair-v1'),
-         ('repair-r2', 'recursive-repair-v1'), ('baseline-r2', 'planner-worker-v1')]
-CONTROL = {'max_steps': 100, 'planner_max_calls': 3, 'planner_budget_usd': '0.125',
+REVISION = 'single-repair-4-official-compatibility'
+RUN_BUDGET, SUITE_BUDGET = '2.50', '2.50'
+ORDER = [('repair-r1', 'recursive-repair-v1')]
+FOUR_RUN_FIXTURE = [('baseline-r1', 'planner-worker-v1'), ('repair-r1', 'recursive-repair-v1'),
+                    ('repair-r2', 'recursive-repair-v1'), ('baseline-r2', 'planner-worker-v1')]
+CONTROL = {'max_steps': 100, 'planner_max_calls': 3, 'planner_budget_usd': '0.50',
            'stagnation_steps': 3, 'repeated_failure': 2, 'api_timeout_seconds': 300,
            'max_proof_characters': 60000}
 
@@ -61,23 +62,36 @@ def prepare(root, calibration=None, *, fixture=None, endpoint=None):
         context = packet['context']  # No strategy prompt or prior optimized proof.
         endpoint = validate_endpoint(endpoint or fetch_endpoint())
         backend, control = 'openrouter', dict(CONTROL)
+        benchmark = (REPO/competition.SNAPSHOT/'benchmark_data_warmup.jsonl').read_bytes()
+        snapshot_meta = read(REPO/competition.SNAPSHOT/'snapshot.json')
+        compatibility = competition.contract(benchmark, snapshot_meta, ready)
+        order = ORDER
     else:
         problem, environment, limits = fixture['problem'], fixture['environment'], fixture['limits']
         context, backend = fixture.get('context', {}), 'fixture'
         control = {**CONTROL, **fixture.get('controller', {})}
+        compatibility = None
+        order = fixture.get('condition_order', ORDER)
+    if not order or len({row[0] for row in order}) != len(order):
+        raise ValueError('Expected distinct execution IDs')
+    run_budget = str(Decimal(SUITE_BUDGET)/len(order))
     root.mkdir(parents=True)
     protocol = {'revision': REVISION, 'backend': backend, 'problem': problem, 'context': context,
-                'integration': 'issue-37-based-local-implementation', 'condition_order': ORDER,
+                'integration': 'issue-37-based-local-implementation', 'condition_order': order,
                 'environment': environment, 'environment_sha256': sha(canonical(environment)),
                 'limits': limits, 'controller': control, 'tactics': list(TACTICS),
-                'run_budget_usd': RUN_BUDGET, 'suite_budget_usd': SUITE_BUDGET,
+                'run_budget_usd': run_budget, 'suite_budget_usd': SUITE_BUDGET,
                 'endpoint': endpoint if backend == 'openrouter' else None,
-                'simulated_reservation_usd': '0.02', 'simulated_budget_usd': RUN_BUDGET,
+                'simulated_reservation_usd': '0.02', 'simulated_budget_usd': run_budget,
                 'paid_enabled_by_default': False, 'profile_enabled': False,
                 'credential_input': 'hidden-terminal-only', 'selection': harness.SELECTION,
-                'interpretation': 'two independent runs per arm; exploratory, no statistical generalization'}
+                'compatibility': compatibility,
+                'interpretation': 'one repair-enabled optimization run; compare final proof with its original; no ablation or repeatability claim'}
     if fixture is None:
         shutil.copytree(calibration, root/'calibration')
+        (root/'competition').mkdir()
+        (root/'competition/benchmark.jsonl').write_bytes(benchmark)
+        shared.atomic(root/'competition/snapshot.json', snapshot_meta)
     else:
         shared.atomic(root/'fixture.json', fixture)
     shared.atomic(root/'protocol.json', protocol)
@@ -94,15 +108,21 @@ def check(root):
         if sha(safe_path(root, relative).read_bytes()) != digest:
             raise ValueError('Frozen input changed: '+relative)
     protocol = read(root/'protocol.json')
+    expected_order = read(root/'fixture.json').get('condition_order', ORDER) if protocol['backend'] == 'fixture' else ORDER
+    expected_order = [list(row) for row in expected_order]
     if (protocol['revision'] != REVISION or protocol['backend'] not in ('fixture', 'openrouter')
         or protocol['paid_enabled_by_default']
         or protocol['credential_input'] != 'hidden-terminal-only' or protocol['selection'] != harness.SELECTION
-        or protocol['condition_order'] != [list(row) for row in ORDER]
-        or protocol['run_budget_usd'] != RUN_BUDGET or protocol['suite_budget_usd'] != SUITE_BUDGET
+        or protocol['condition_order'] != expected_order
+        or protocol['run_budget_usd'] != str(Decimal(SUITE_BUDGET)/len(expected_order)) or protocol['suite_budget_usd'] != SUITE_BUDGET
         or protocol['environment_sha256'] != sha(canonical(protocol['environment']))):
         raise ValueError('Unsupported or changed protocol')
     if protocol['backend'] == 'openrouter':
         validate_endpoint(protocol['endpoint'])
+        expected = competition.contract((root/'competition/benchmark.jsonl').read_bytes(),
+                   read(root/'competition/snapshot.json'), read(root/'calibration/result.json'))
+        if protocol['compatibility'] != expected:
+            raise ValueError('Official compatibility contract changed')
     for path in (root/'code/repo').rglob('*'):
         if path.is_file() and path.suffix in ('.py', '.lean'):
             active = REPO/path.relative_to(root/'code/repo')
@@ -111,7 +131,7 @@ def check(root):
     return protocol
 
 
-def summarize(rows, backend):
+def summarize(rows, backend, reference, protocol):
     arms = {}
     for arm in ('planner-worker-v1', 'recursive-repair-v1'):
         selected = [row for row in rows if row['condition'] == arm]
@@ -126,16 +146,28 @@ def summarize(rows, backend):
                      'repair_entries': sum(bool(a['repair']) for row in selected for a in row['attempts']),
                      'verified_repairs': sum(bool(a['repair'] and a['repair']['status'] == 'verified')
                                              for row in selected for a in row['attempts'])}
-    def mean(arm):
-        values = arms[arm]['final_q']
-        return statistics.mean(values) if len(values) == 2 and arms[arm]['completed'] == 2 else None
-    baseline, repair = mean('planner-worker-v1'), mean('recursive-repair-v1')
     unknown = any(row['unknown_cost'] for row in rows)
     actual = None if unknown and backend != 'fixture' else str(sum(
         (Decimal(row['actual_api_cost_usd'] or '0') for row in rows), Decimal(0)))
-    return {'backend': backend, 'arms': arms, 'actual_api_calls': sum(row['actual_api_calls'] for row in rows),
+    original = harness.metrics(reference['baseline']) if reference['status'] == 'completed' else None
+    final = rows[0].get('final_metrics') if len(rows) == 1 and rows[0]['final_valid'] else None
+    change = None if not original or not final else {
+        key: {'before': original[key], 'after': final[key], 'delta': final[key]-original[key],
+              'reduction_percent': 100*(original[key]-final[key])/original[key]}
+        for key in ('tokens', 'raw_heartbeats')}
+    return {'backend': backend, 'experiment': 'single_repair_optimization' if backend != 'fixture' else 'fixture_contract',
+            **({'arms': arms} if backend == 'fixture' else {}), 'original': original, 'final': final, 'change': change,
+            'status': 'completed' if reference['status'] == 'completed' and len(rows) == len(protocol['condition_order'])
+                      and all(row['status'] == 'completed' for row in rows) else 'stopped',
+            'final_q': rows[0]['final_q'] if len(rows) == 1 else None,
+            'selected_origin': rows[0]['selected_origin'] if len(rows) == 1 else None,
+            'repair_activity': {'entered_candidates': sum(bool(a['repair']) for row in rows for a in row['attempts']),
+                'verified_candidates': sum(bool(a['repair'] and a['repair']['status'] == 'verified') for row in rows for a in row['attempts']),
+                'selected_from_repair': rows[0]['selected_origin'] == 'repaired' if len(rows) == 1 else None},
+            'stop_reason': rows[0]['stop_reason'] if len(rows) == 1 else reference['reason'],
+            'compatibility': competition.report(protocol, reference, rows),
+            'actual_api_calls': sum(row['actual_api_calls'] for row in rows),
             'actual_api_cost_usd': actual, 'unknown_cost': unknown,
-            'mean_q_repair_minus_baseline': repair-baseline if repair is not None and baseline is not None else None,
             'budget_debit_usd': None if unknown else str(sum((Decimal(row['budget_debit_usd']) for row in rows), Decimal(0))),
             'evidence_kind': 'fixture_contract_only' if backend == 'fixture' else 'generation_sample',
             'run_ids': [row['run_id'] for row in rows]}
@@ -178,7 +210,8 @@ def process(root, *, allow_paid=False, replay=False):
 
 def replay_records(root, protocol, *, replay=False, key=None, libraries=None):
     """Execute or reconstruct decisions; lifecycle records are sealed separately."""
-    ledger = {'per_trial_usd': RUN_BUDGET, 'total_usd': SUITE_BUDGET, 'max_trials': 400, 'attempts': {}}
+    ledger = {'per_trial_usd': protocol['run_budget_usd'], 'total_usd': protocol['suite_budget_usd'],
+              'max_trials': len(protocol['condition_order'])*protocol['limits']['run_calls'], 'attempts': {}}
     completed = []
     fixture = read(root/'fixture.json') if protocol['backend'] == 'fixture' else None
     def make_runtime(path, run_id, condition, transport=None):
@@ -200,8 +233,7 @@ def replay_records(root, protocol, *, replay=False, key=None, libraries=None):
             if current['tokens'] != frozen['tokens'] or abs(current['raw_heartbeats']/frozen['raw_heartbeats']-1) > .01:
                 reference.update(status='stopped', reason='calibration_metrics_changed')
             else:
-                reference['fresh_baseline'] = reference['baseline']
-                reference['baseline'] = ready['baseline']
+                reference['calibration_baseline'] = ready['baseline']
     reference_rt.tape.event('common_reference', reference=reference)
     if replay:
         verify_execution(reference_rt, reference)
@@ -232,17 +264,20 @@ def replay_records(root, protocol, *, replay=False, key=None, libraries=None):
                 print(run_id, result['stop_reason'], result['final_q'], flush=True)
             completed.append((rt, result))
             rows.append(result)
-    summary = {**summarize(rows, protocol['backend']), 'reference_status': reference['status'],
+    summary = {**summarize(rows, protocol['backend'], reference, protocol), 'reference_status': reference['status'],
                'reference_reason': reference['reason']}
     if replay:
         if summary != read(root/'summary.json') or ledger != read(root/'budget.json'):
             raise ValueError('Summary or ledger replay differs')
         if accounting.native_report(root) != read(root/'usage-cost.json'):
             raise ValueError('Suite usage/cost report differs from original receipts')
+        if summary['compatibility'] != read(root/'compatibility.json'):
+            raise ValueError('Compatibility report differs from final verification')
     else:
         shared.atomic(root/'budget.json', ledger)
         shared.atomic(root/'summary.json', summary)
         shared.atomic(root/'usage-cost.json', accounting.native_report(root))
+        shared.atomic(root/'compatibility.json', summary['compatibility'])
     return summary, completed
 
 

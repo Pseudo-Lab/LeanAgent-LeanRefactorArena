@@ -134,13 +134,14 @@ class OpenRouterGeneration(unittest.TestCase):
             self.assertEqual(Decimal(summary['budget_debit_usd']), Decimal('.00253'))
             self.assertEqual(summary['actual_api_calls'], 1)
 
-    def test_suite_freezes_four_equal_caps_and_rejects_over_budget_edits(self):
+    def test_suite_freezes_one_repair_run_and_rejects_over_budget_edits(self):
         with tempfile.TemporaryDirectory() as d:
             p = settings()
             fixture = {'problem': p['problem'], 'environment': p['environment'], 'limits': p['limits'], 'responses': {}}
             root = Path(d)/'suite'
             saved = prepare(root, fixture=fixture)
-            self.assertEqual(Decimal(saved['run_budget_usd'])*4, Decimal('2.50'))
+            self.assertEqual(saved['condition_order'], [('repair-r1', 'recursive-repair-v1')])
+            self.assertEqual(Decimal(saved['run_budget_usd']), Decimal('2.50'))
             self.assertEqual(saved['suite_budget_usd'], SUITE_BUDGET)
             check(root)
             value = read(root/'protocol.json')
