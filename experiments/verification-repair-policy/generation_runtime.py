@@ -7,6 +7,8 @@ from common import Stop, canonical, shared, sha
 from generation_transport import plan_request
 from openrouter_transport import plan_request as router_plan
 from runtime import Runtime
+from generation_records import reconcile, record, usage_inputs
+from openrouter_transport import normalize
 
 
 class GenerationRuntime(Runtime):
@@ -16,6 +18,8 @@ class GenerationRuntime(Runtime):
         self.ledger = deepcopy(ledger)
         self.budget_path, self.libraries = budget_path, libraries
         self.finalizing = False
+        for relative, value in usage_inputs(self.root, protocol).items():
+            record(self.root, relative, value, replay)
         self.seen = {self.candidate_key(self.problem['reference'])}
         self.final_reserve = 8 * self.limits.lean_seconds
         if self.limits.run_seconds <= self.final_reserve:
@@ -107,8 +111,15 @@ class GenerationRuntime(Runtime):
         self.tape.event('reserved', call_id=call_id, ledger=self.ledger)
         if not self.tape.replay:
             shared.atomic(self.budget_path or self.root/'budget.json', self.ledger)
+        folder = f'calls/{len(own)+1:04d}'
+        record(self.root, folder+'/request.json', {'call_id': call_id, 'role': role,
+               'model': planned['body']['model'] if planned['body'] else 'fixture-v1',
+               'reserved_usd': planned['reserved_usd'], 'body': planned['body']}, self.tape.replay)
         raw = self.tape.call('worker', {'packet': packet, 'planned': planned, 'timeout': timeout},
                              lambda: self.worker(packet, planned, timeout))
+        if self.protocol['backend'] == 'openrouter' and normalize(raw.get('openrouter_response'), self.protocol['endpoint']) != raw:
+            raise ValueError('Normalized response differs from original provider receipt')
+        record(self.root, folder+'/response.json', raw, self.tape.replay)
         settlement = shared.settle(self.ledger, call_id, raw)
         if self.protocol['backend'] == 'openrouter':
             self.ledger['attempts'][call_id]['accounting'] = raw.get('openrouter_accounting', {})
@@ -117,6 +128,10 @@ class GenerationRuntime(Runtime):
             shared.atomic(self.budget_path or self.root/'budget.json', self.ledger)
         if settlement != 'settled':
             raise Stop('unsettled_receipt')
+        try:
+            reconcile(self, prefix=True)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            raise Stop('usage_cost_mismatch') from exc
         return raw
 
     def cost_summary(self):

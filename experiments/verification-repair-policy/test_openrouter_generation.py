@@ -11,7 +11,7 @@ from unittest.mock import patch, Mock
 from common import HERE, Stop, read
 from generation import RUN_BUDGET, SUITE_BUDGET, prepare, check
 from generation_runtime import GenerationRuntime
-from openrouter_transport import OpenRouterTransport, normalize, payload, plan_request, validate_endpoint
+from openrouter_transport import OpenRouterTransport, normalize, payload, plan_request, validate_endpoint, terminal_key
 from test_generation import settings, ledger
 
 
@@ -77,13 +77,12 @@ class OpenRouterGeneration(unittest.TestCase):
         planned = plan_request(p, packet, Decimal(RUN_BUDGET))
         with patch('openrouter_transport.models.load_key') as key:
             with self.assertRaisesRegex(RuntimeError, 'disabled'):
-                OpenRouterTransport(p, dotenv=Path('unused'))(packet, planned, 1)
+                OpenRouterTransport(p)(packet, planned, 1)
             key.assert_not_called()
         opener = Mock()
         opener.open.return_value = io.BytesIO(json.dumps(receipt()).encode())
-        with patch('openrouter_transport.models.load_key', return_value='sk-or-local-test-placeholder'), \
-             patch('openrouter_transport.request.build_opener', return_value=opener):
-            raw = OpenRouterTransport(p, enabled=True, dotenv=Path('unused'))(packet, planned, 1)
+        with patch('openrouter_transport.request.build_opener', return_value=opener):
+            raw = OpenRouterTransport(p, enabled=True, key='sk-or-local-test-placeholder')(packet, planned, 1)
         self.assertEqual(opener.open.call_count, 1)
         self.assertEqual(opener.open.call_args.args[0].full_url, 'https://openrouter.ai/api/v1/chat/completions')
         self.assertEqual(raw['cost_basis'], 'max_provider_reported_and_list_price')
@@ -109,6 +108,22 @@ class OpenRouterGeneration(unittest.TestCase):
                 rt.dispatch('repair', {})
             self.assertEqual(transport.call_count, 1)
             self.assertTrue(rt.cost_summary()['unknown_cost'])
+
+    def test_terminal_key_requires_hidden_interactive_input_and_never_reads_files(self):
+        with patch('openrouter_transport.sys.stdin.isatty', return_value=False), \
+             patch('openrouter_transport.getpass.getpass') as prompt:
+            with self.assertRaisesRegex(ValueError, 'interactive terminal'):
+                terminal_key()
+            prompt.assert_not_called()
+        with patch('openrouter_transport.sys.stdin.isatty', return_value=True), \
+             patch('openrouter_transport.getpass.getpass', return_value='sk-or-test-only') as prompt, \
+             patch('openrouter_transport.models.load_key', side_effect=AssertionError('file key access')):
+            self.assertEqual(terminal_key(), 'sk-or-test-only')
+            prompt.assert_called_once()
+        with patch('openrouter_transport.sys.stdin.isatty', return_value=True), \
+             patch('openrouter_transport.getpass.getpass', side_effect=__import__('getpass').GetPassWarning):
+            with self.assertRaisesRegex(ValueError, 'Hidden terminal'):
+                terminal_key()
 
     def test_provider_charge_and_guard_debit_remain_distinct(self):
         with tempfile.TemporaryDirectory() as d:

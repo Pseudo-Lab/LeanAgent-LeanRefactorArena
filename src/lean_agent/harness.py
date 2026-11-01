@@ -21,7 +21,7 @@ from .evaluator.tokens import TOKENIZER_ID, proof_body
 
 BASE = Path(__file__).resolve().parent
 CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
-              "artifacts.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py",
+              "artifacts.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "recorded_usage.py", "prepared.py", "usage_cost.py",
               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
 SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
 

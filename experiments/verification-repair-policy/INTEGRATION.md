@@ -21,7 +21,7 @@ Controller만 있는 단일 에이전트와 Planner의 비교는 #37 자체의 �
 4. 같은 후보이면 Lean 평가를 생략하고 중복 사실을 이력에 남긴다.
 5. 공통 평가기로 명제·공리·proof token·HB를 검사한다.
 6. 수리 조건은 실패 후보에 PR B의 Auto Solver → Recursive Repair를 적용한다.
-7. 전체 검증을 통과하고 Q가 개선된 후보만 best로 선택한다.
+7. 전체 검증을 통과한 후보를 main의 `harness.candidate()`·`harness.ranking()`으로 비교한다.
 8. 정체 3회 또는 같은 실패 종류 2회면 Planner를 다시 호출한다.
 9. 종료 후 선택 proof를 새 Lean 프로세스로 검증한다. 이 단계에는 모델 호출이 없다.
 
@@ -111,6 +111,33 @@ Q = T/T0 + H/H0이며 원본 복귀는 Q=2다.
 record replay는 저장된 관측으로 Controller 결정을 재생한다.
 새 모델 호출의 재현성이나 새 Lean 실행 성공을 의미하지 않는다.
 
+## 공통 하네스의 완료·비용·선택 규약
+
+현재 revision은 `planner-worker-repair-3-shared-records`다.
+생성 실행과 재생은 `generation.py`가 담당하며, 공통 하네스의 상태·비용 조회와 선택 함수를 연결한다.
+기존 `lean-agent run/replay` 명령으로 생성 실험을 직접 실행하는 것은 별도 범위다.
+
+- 각 실행의 계산 결과는 `summary.json`에 보존한다. 전체 suite의 기록 replay와 비용 재계산이
+  통과한 뒤에만 `result.json`에 replay 확인을 넣고 journal을 종료한다.
+  개별 실행의 `artifacts.json`을 먼저 만들고 마지막에 suite 해시 목록을 만든다.
+  공통 `status.py`는 이 기록과 최종 소스 해시를 확인해 완료를 표시한다.
+  중단·replay 실패는 성공으로 봉인하지 않는다. 비용 미확정 실행은 `stopped`로 남는다.
+- `calls/`에는 역할·예약액·요청과 원본 응답을 보존한다. `recorded_usage.py`는 이를 공통
+  `accounting.py`로 집계한다. `usage-cost.json`은 실행별·전체·역할별 비용을 제공한다.
+  OpenRouter 청구액, 공개 정가 계산액, 예산 차감액과 예약액은 별도 값이다.
+  호출마다 장부와 대조하고 replay에서도 다시 계산한다. fixture의 실제 비용은 0으로 표시한다.
+- 선택 순서는 `(T × H0 + H × T0, T, 선언 SHA256)`이다. 정수 비교로 미세한 차이와 동점을 처리한다.
+  경로별 best와 전체 best에 같은 함수를 쓴다. Q 동점의 후보 교체는 정체를 해소한 것으로 세지 않는다.
+
+이 브랜치의 공통 CLI 또는 동결한 코드의 `lean_agent` 모듈로 조회할 수 있다.
+
+```bash
+lean-agent status /path/to/suite/runs/baseline-r1 --json
+lean-agent usage-cost --mode api --format recorded-run --input /path/to/suite
+```
+
+상태 조회는 각 실행 폴더를 사용한다. 비용 조회는 개별 실행과 전체 suite 모두 지원한다.
+
 ## 파일과 명령
 
 | 파일 | 역할 |
@@ -120,6 +147,8 @@ record replay는 저장된 관측으로 Controller 결정을 재생한다.
 | `openrouter_transport.py` | 현재 유료 호출의 유일한 경로, 공개 가격 검증, 정가/청구액 기록 |
 | `generation_runtime.py` | 역할 공통 장부, 실행 시간, 중복 집합, 결정 기록 |
 | `generation.py` | 네 실행의 준비·입력/코드 보존·직렬 실행·결과 집계·replay·status |
+| `generation_records.py` | 공통 기록 연결, 비용 대조, replay 검증 후 완료 처리 |
+| `src/lean_agent/recorded_usage.py` | 역할별 요청·원본 영수증을 읽는 공통 비용 조회 adapter |
 | `calibrate.py` | 유료 호출 없는 P02 정상 원본·환경·시간 검사 |
 
 ```bash
@@ -133,9 +162,17 @@ python3 /path/to/new-suite/code/repo/experiments/verification-repair-policy/gene
 ```
 
 prepare/check/replay/status는 API를 호출하지 않는다.
-유료 `run`은 명시적인 `--allow-paid`가 있어야 하며, 그때만 `OPENROUTER_API_KEY` 또는 지정 dotenv를 읽는다.
-사용자는 레포 루트의 Git 제외 파일 `.env.repair-openrouter`에 `OPENROUTER_API_KEY=…`를 입력한다.
-키 파일을 증거·입력·코드 snapshot에 복사하지 않는다. 일반 inference key를 쓰고, 관리용 key는 요구하지 않는다.
+유료 `run`은 명시적인 `--allow-paid`가 있어야 한다. 가격과 라이브러리를 확인한 뒤
+터미널에서 `OpenRouter API key (hidden input):`을 표시한다. 사용자가 키를 입력하고 Enter를 누른다.
+입력 내용은 화면에 표시하지 않는다. 키는 프로세스 메모리에서만 사용한다.
+파일·환경 변수·명령 인자로 키를 받지 않으며 `--dotenv` 옵션도 없다.
+숨김 입력을 지원하지 않는 비대화형 터미널에서는 호출 전에 중단한다.
+일반 inference key를 사용하며, 관리용 key는 요구하지 않는다.
+
+```bash
+python3 /path/to/suite/code/repo/experiments/verification-repair-policy/generation.py \
+  run --output /path/to/suite --allow-paid
+```
 OpenRouter에서도 이번 실험 전용 key의 총 credit limit을 USD 2.50, 주기적 reset 없음을 권장한다.
 하네스의 사전 비용 예약과 provider의 key 한도는 별도 장치다.
 이번 준비에서는 유료 run을 실행하지 않았다. 중단한 suite를 이어서 실행하거나 같은 ID로 재호출하지 않는다.
@@ -144,7 +181,8 @@ OpenRouter에서도 이번 실험 전용 key의 총 credit limit을 USD 2.50, �
 
 이전 revision의 검사와 증거는 [검증 기록](integration/validation.json)에 보존한다.
 OpenRouter·USD 2.50 변경의 검사, 입력 동결, 공개 가격 출처는
-[새 준비 기록](integration/openrouter-readiness.json)에 별도로 보존한다.
+[OpenRouter 전환 당시 기록](integration/openrouter-readiness.json)에 별도로 보존한다.
+완료·비용·선택 규약과 터미널 입력 변경은 [현재 준비 기록](integration/shared-records-readiness.json)에 보존한다.
 
 ## 대회 규칙과 이번 실행의 범위
 

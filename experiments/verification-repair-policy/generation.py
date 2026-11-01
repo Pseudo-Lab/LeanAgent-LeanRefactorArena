@@ -10,13 +10,15 @@ import statistics
 from common import HERE, REPO, TACTICS, canonical, inventory, read, safe_path, sha, shared
 from calibrate import p02_limits
 from controller import generation_loop
-from corpus import finish, reference_workflow
+from corpus import reference_workflow
 from generation_runtime import GenerationRuntime
 from generation_transport import ScriptedTransport
-from openrouter_transport import OpenRouterTransport, fetch_endpoint, validate_endpoint
-from lean_agent import harness, prepared, status
+from openrouter_transport import OpenRouterTransport, fetch_endpoint, validate_endpoint, terminal_key
+from generation_records import (record, usage_inputs, save_execution, verify_execution,
+                                seal_execution, verify_seal)
+from lean_agent import accounting, harness, prepared, status
 
-REVISION = 'planner-worker-repair-2-openrouter'
+REVISION = 'planner-worker-repair-3-shared-records'
 RUN_BUDGET, SUITE_BUDGET = '0.625', '2.50'
 ORDER = [('baseline-r1', 'planner-worker-v1'), ('repair-r1', 'recursive-repair-v1'),
          ('repair-r2', 'recursive-repair-v1'), ('baseline-r2', 'planner-worker-v1')]
@@ -72,12 +74,15 @@ def prepare(root, calibration=None, *, fixture=None, endpoint=None):
                 'endpoint': endpoint if backend == 'openrouter' else None,
                 'simulated_reservation_usd': '0.02', 'simulated_budget_usd': RUN_BUDGET,
                 'paid_enabled_by_default': False, 'profile_enabled': False,
+                'credential_input': 'hidden-terminal-only', 'selection': harness.SELECTION,
                 'interpretation': 'two independent runs per arm; exploratory, no statistical generalization'}
     if fixture is None:
         shutil.copytree(calibration, root/'calibration')
     else:
         shared.atomic(root/'fixture.json', fixture)
     shared.atomic(root/'protocol.json', protocol)
+    for relative, value in usage_inputs(root, protocol, suite=True).items():
+        record(root, relative, value)
     snapshot(root)
     shared.atomic(root/'frozen-inputs.json', inventory(root))
     return protocol
@@ -91,6 +96,7 @@ def check(root):
     protocol = read(root/'protocol.json')
     if (protocol['revision'] != REVISION or protocol['backend'] not in ('fixture', 'openrouter')
         or protocol['paid_enabled_by_default']
+        or protocol['credential_input'] != 'hidden-terminal-only' or protocol['selection'] != harness.SELECTION
         or protocol['condition_order'] != [list(row) for row in ORDER]
         or protocol['run_budget_usd'] != RUN_BUDGET or protocol['suite_budget_usd'] != SUITE_BUDGET
         or protocol['environment_sha256'] != sha(canonical(protocol['environment']))):
@@ -135,7 +141,7 @@ def summarize(rows, backend):
             'run_ids': [row['run_id'] for row in rows]}
 
 
-def process(root, *, allow_paid=False, dotenv=None, replay=False):
+def process(root, *, allow_paid=False, replay=False):
     root = Path(root).resolve()
     protocol = check(root)
     if replay and inventory(root) != read(root/'artifacts.json'):
@@ -145,15 +151,35 @@ def process(root, *, allow_paid=False, dotenv=None, replay=False):
         raise ValueError('Paid execution disabled: --allow-paid is required')
     if not replay and (root/'reference').exists():
         raise ValueError('Suite already started; replay or prepare a new directory')
-    ledger = {'per_trial_usd': RUN_BUDGET, 'total_usd': SUITE_BUDGET, 'max_trials': 400, 'attempts': {}}
-    libraries = None
+    libraries, key = None, None
     if protocol['backend'] == 'openrouter' and not replay:
         fresh = fetch_endpoint()
         if fresh['pricing'] != protocol['endpoint']['pricing']:
             raise ValueError('Endpoint pricing changed; prepare a new suite before spending')
-        OpenRouterTransport(protocol, enabled=allow_paid, dotenv=dotenv).credentials()
         libraries = prepared.PreparedLeanEvaluator(root/'calibration/libraries.json')
         libraries.verify()
+        key = terminal_key()
+    summary, runs = replay_records(root, protocol, replay=replay, key=key, libraries=libraries)
+    if replay:
+        for rt, result in runs:
+            verify_seal(rt, result)
+    else:
+        if libraries:
+            libraries.verify()
+        # Replay the complete shared ledger chain before claiming any run is final.
+        verified, _ = replay_records(root, protocol, replay=True)
+        if verified != summary:
+            raise ValueError('Suite replay differs')
+        for rt, result in runs:
+            seal_execution(rt, result)
+        shared.atomic(root/'artifacts.json', inventory(root))
+    return summary
+
+
+def replay_records(root, protocol, *, replay=False, key=None, libraries=None):
+    """Execute or reconstruct decisions; lifecycle records are sealed separately."""
+    ledger = {'per_trial_usd': RUN_BUDGET, 'total_usd': SUITE_BUDGET, 'max_trials': 400, 'attempts': {}}
+    completed = []
     fixture = read(root/'fixture.json') if protocol['backend'] == 'fixture' else None
     def make_runtime(path, run_id, condition, transport=None):
         if not replay:
@@ -178,11 +204,10 @@ def process(root, *, allow_paid=False, dotenv=None, replay=False):
                 reference['baseline'] = ready['baseline']
     reference_rt.tape.event('common_reference', reference=reference)
     if replay:
-        reference_rt.tape.assert_complete()
-        if reference != read(reference_root/'result.json'):
-            raise ValueError('Reference replay differs')
+        verify_execution(reference_rt, reference)
     else:
-        finish(reference_root, reference, reference_rt)
+        save_execution(reference_rt, reference)
+    completed.append((reference_rt, reference))
     rows = []
     if reference['status'] == 'completed':
         for run_id, condition in protocol['condition_order']:
@@ -190,7 +215,7 @@ def process(root, *, allow_paid=False, dotenv=None, replay=False):
             if any(row['status'] != 'settled' for row in ledger['attempts'].values()):
                 break
             transport = None if replay else (ScriptedTransport(fixture['responses'][run_id]) if fixture else
-                                             OpenRouterTransport(protocol, enabled=allow_paid, dotenv=dotenv))
+                                             OpenRouterTransport(protocol, enabled=True, key=key))
             path = root/'runs'/run_id
             rt = make_runtime(path, run_id, condition, transport)
             if not replay:
@@ -201,25 +226,24 @@ def process(root, *, allow_paid=False, dotenv=None, replay=False):
             result['run_id'] = run_id
             ledger = rt.ledger
             if replay:
-                rt.tape.assert_complete()
-                if result != read(path/'result.json'):
-                    raise ValueError('Run replay differs: '+run_id)
+                verify_execution(rt, result)
             else:
-                finish(path, result, rt)
+                save_execution(rt, result)
                 print(run_id, result['stop_reason'], result['final_q'], flush=True)
+            completed.append((rt, result))
             rows.append(result)
     summary = {**summarize(rows, protocol['backend']), 'reference_status': reference['status'],
                'reference_reason': reference['reason']}
     if replay:
         if summary != read(root/'summary.json') or ledger != read(root/'budget.json'):
             raise ValueError('Summary or ledger replay differs')
+        if accounting.native_report(root) != read(root/'usage-cost.json'):
+            raise ValueError('Suite usage/cost report differs from original receipts')
     else:
-        if libraries:
-            libraries.verify()
         shared.atomic(root/'budget.json', ledger)
         shared.atomic(root/'summary.json', summary)
-        shared.atomic(root/'artifacts.json', inventory(root))
-    return summary
+        shared.atomic(root/'usage-cost.json', accounting.native_report(root))
+    return summary, completed
 
 
 def main():
@@ -230,7 +254,6 @@ def main():
     parser.add_argument('--fixture', type=Path)
     parser.add_argument('--endpoint', type=Path, help='Frozen public OpenRouter endpoint metadata; never credentials')
     parser.add_argument('--allow-paid', action='store_true')
-    parser.add_argument('--dotenv', type=Path)
     args = parser.parse_args()
     if args.action == 'prepare':
         result = prepare(args.output, args.calibration, fixture=read(args.fixture) if args.fixture else None,
@@ -244,7 +267,7 @@ def main():
         result = process(args.output, replay=True)
     else:
         with shared.locked(args.output):
-            result = process(args.output, allow_paid=args.allow_paid, dotenv=args.dotenv)
+            result = process(args.output, allow_paid=args.allow_paid)
     print(json.dumps(result, ensure_ascii=False, indent=2))
 
 

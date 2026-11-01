@@ -1,0 +1,282 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-11-01",
+  "base_commit": "95cf07820b4c4615ff27dea57e49f4c911185fd6",
+  "execution_tree_dirty": true,
+  "revision": "planner-worker-repair-3-shared-records",
+  "scope": "Shared completion/status, role-based usage reports, exact selection, hidden terminal credentials; fixture validation only",
+  "source_files": {
+    "src/lean_agent/accounting.py": "a4fe3ce618378c258235fdddc4f07c678a917da7d1742aa0fa7f645d79c1b5df",
+    "src/lean_agent/harness.py": "b44921fae9e13b69a09199e02295d918c72995c28e43f1747664b3248dde060b",
+    "src/lean_agent/recorded_usage.py": "7b1f124d7fba9ad3dadebfc993f01b4f8a1f776817e25a6165a044cce5521900",
+    "experiments/verification-repair-policy/controller.py": "30d51dc3cd8a7c4efdb82989a93227f4d88506a69728bc26efb348c3ad7ae735",
+    "experiments/verification-repair-policy/generation.py": "667e4e49d20ee290258675949b82dfc19c4f7b661c0976284dc77a64e8e9af00",
+    "experiments/verification-repair-policy/generation_runtime.py": "1b026d94e158721f05ca9cb2017489616753ad7d40fa983655a3221ac2988de1",
+    "experiments/verification-repair-policy/generation_records.py": "b62fc7204918252f9063f86d4f7313a9d378642e407b330507c3eb7b05378837",
+    "experiments/verification-repair-policy/openrouter_transport.py": "df890550db63a4768adbe9d39e7c2e4ce23a5518b4cab3969df59d231ed32e5b",
+    "experiments/verification-repair-policy/test_generation_records.py": "0b43129f84e9505a1b53787864547ed222a6126a092c5171c09ec5a8c967277e",
+    "experiments/verification-repair-policy/test_generation_lean.py": "ddb2892fc4e7e26fcaea8e702a43869c9284f4cf73e87817b8fbc42b4c614502",
+    "experiments/verification-repair-policy/test_openrouter_generation.py": "7fd829ff5b0977eb06709098eff395f13bb94c81373e03fbc33c7b88b4077302"
+  },
+  "tests": {
+    "main": {
+      "discovered": 144,
+      "passed": 140,
+      "skipped": 4,
+      "log_sha256": "d22c34535c42df260d190c61b9e6c8d26d33df5f57b5f9a87a2e945ced3b3621"
+    },
+    "api_comparison": {
+      "discovered": 13,
+      "passed": 13,
+      "skipped": 0,
+      "log_sha256": "3a802612b7a1639a797f755816ea7ef03c925cf8b7a290cce3a574b71983620f"
+    },
+    "usage_cost": {
+      "discovered": 19,
+      "passed": 19,
+      "skipped": 0,
+      "log_sha256": "2e34b76930eee6f7a3f4e34eb8666fd2e902f2965e6581d0cbe232a622b2c38d"
+    },
+    "budget_trial": {
+      "discovered": 24,
+      "passed": 24,
+      "skipped": 0,
+      "log_sha256": "e6a00a5637c72314bf7afbb1d5c4e399f238212b72ed8d5d225a5024b5ef97a2"
+    },
+    "repair_offline": {
+      "discovered": 64,
+      "passed": 54,
+      "skipped": 10,
+      "log_sha256": "7bfbfdd443df81ec6bd58821d7f10baa8167d892cfab0e6dc05bcfe0226e8f00"
+    },
+    "native_generation": {
+      "discovered": 1,
+      "passed": 1,
+      "skipped": 0,
+      "log_sha256": "e2e3b41cc2d85b6c1a21f941ca0d079e2a167732a013816201e21da7beeadcc7"
+    }
+  },
+  "passed_distinct_tests": 251,
+  "commands": {
+    "repository": "PYTHONPATH=src PROJECT_CACHE_DIR=/private/tmp TMPDIR=/private/tmp python3 -m unittest discover -s tests -v",
+    "repair": "python3 -m unittest discover -s experiments/verification-repair-policy -v",
+    "native": "REPAIR_RUN_LEAN_TESTS=1 REPAIR_EVIDENCE_DIR=/path/to/new-evidence python3 -m unittest discover -s experiments/verification-repair-policy -p 'test_generation_lean.py' -v",
+    "budget_trial": "PROJECT_CACHE_DIR=/private/tmp python3 -m unittest discover -s experiments/openrouter-budget-trial -v"
+  },
+  "prepared_suite": {
+    "path": "/Users/hellokitsch/Desktop/스터디/leanAgent스터디/LeanAgent-LeanRefactorArena/runs/manual/p02-repair-openrouter-250-20261101-v3",
+    "frozen_inputs_sha256": "2774cb3ccfa232ccc20fb26d4695760721be3ee4d7588b0331be229d3f1c2046",
+    "protocol_sha256": "9598e371eb54ac46d8af7f49e00691fec65ec952de3505d3369b0d221af39a4f",
+    "check_passed": true,
+    "paid_gate_passed": true,
+    "started": false,
+    "credential_input": "hidden-terminal-only",
+    "suite_budget_usd": "2.50",
+    "run_budget_usd": "0.625",
+    "condition_order": [
+      [
+        "baseline-r1",
+        "planner-worker-v1"
+      ],
+      [
+        "repair-r1",
+        "recursive-repair-v1"
+      ],
+      [
+        "repair-r2",
+        "recursive-repair-v1"
+      ],
+      [
+        "baseline-r2",
+        "planner-worker-v1"
+      ]
+    ],
+    "selection": "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
+  },
+  "calibration": {
+    "reused": true,
+    "measurement_sources_unchanged": true,
+    "result_sha256": "70cba3718a1589b993f176eb140a3391351e2ed513282baa36e8722c428fbda7"
+  },
+  "endpoint": {
+    "url": "https://openrouter.ai/api/v1/models/openai/gpt-6.1-sol/endpoints",
+    "snapshot": "shared-records-endpoint.json",
+    "sha256": "373155864a0755bbc579aefecdf252939d6a59353d08cb0e655839c6196294a8"
+  },
+  "native_fixture": {
+    "summary": {
+      "actual_api_calls": 0,
+      "actual_api_cost_usd": "0",
+      "arms": {
+        "planner-worker-v1": {
+          "completed": 2,
+          "distinct_selected_sources": 1,
+          "final_q": [
+            2,
+            2
+          ],
+          "final_verified": 2,
+          "original_returns": 2,
+          "proof_tokens": [
+            38,
+            38
+          ],
+          "raw_heartbeats": [
+            79665,
+            79665
+          ],
+          "repair_entries": 0,
+          "runs": 2,
+          "verified_repairs": 0
+        },
+        "recursive-repair-v1": {
+          "completed": 2,
+          "distinct_selected_sources": 1,
+          "final_q": [
+            1.2672351656773264,
+            1.2672351656773264
+          ],
+          "final_verified": 2,
+          "original_returns": 0,
+          "proof_tokens": [
+            23,
+            23
+          ],
+          "raw_heartbeats": [
+            52736,
+            52736
+          ],
+          "repair_entries": 2,
+          "runs": 2,
+          "verified_repairs": 2
+        }
+      },
+      "backend": "fixture",
+      "budget_debit_usd": "0.14",
+      "evidence_kind": "fixture_contract_only",
+      "mean_q_repair_minus_baseline": -0.7327648343226736,
+      "reference_reason": null,
+      "reference_status": "completed",
+      "run_ids": [
+        "baseline-r1",
+        "repair-r1",
+        "repair-r2",
+        "baseline-r2"
+      ],
+      "unknown_cost": false
+    },
+    "common_status": {
+      "baseline-r1": {
+        "status": "completed",
+        "sealed": true,
+        "record_error": null,
+        "final_result": {
+          "sha256": "50d91b1a306a95fe97e8b53d7aab4bfc5544f0f681310c98057dc589abd5dd0c",
+          "source": "candidates/50d91b1a306a95fe97e8b53d7aab4bfc5544f0f681310c98057dc589abd5dd0c.lean"
+        }
+      },
+      "repair-r1": {
+        "status": "completed",
+        "sealed": true,
+        "record_error": null,
+        "final_result": {
+          "sha256": "5a722579d6adcde8f0cda65c94a08939d444047be2d850608cfb26ba20b1d9bb",
+          "source": "candidates/5a722579d6adcde8f0cda65c94a08939d444047be2d850608cfb26ba20b1d9bb.lean"
+        }
+      },
+      "repair-r2": {
+        "status": "completed",
+        "sealed": true,
+        "record_error": null,
+        "final_result": {
+          "sha256": "5a722579d6adcde8f0cda65c94a08939d444047be2d850608cfb26ba20b1d9bb",
+          "source": "candidates/5a722579d6adcde8f0cda65c94a08939d444047be2d850608cfb26ba20b1d9bb.lean"
+        }
+      },
+      "baseline-r2": {
+        "status": "completed",
+        "sealed": true,
+        "record_error": null,
+        "final_result": {
+          "sha256": "50d91b1a306a95fe97e8b53d7aab4bfc5544f0f681310c98057dc589abd5dd0c",
+          "source": "candidates/50d91b1a306a95fe97e8b53d7aab4bfc5544f0f681310c98057dc589abd5dd0c.lean"
+        }
+      }
+    },
+    "usage_summary": {
+      "entries": 14,
+      "mode": "api",
+      "unknown_cost_entries": 0,
+      "estimated_entries": 0,
+      "reported_cost_usd": "0",
+      "reported_cost_known_subtotal_usd": "0",
+      "estimated_token_cost_usd": null,
+      "estimated_token_cost_known_subtotal_usd": "0",
+      "accounted_cost_usd": "0",
+      "accounted_cost_known_subtotal_usd": "0",
+      "tokens": {
+        "input_tokens": {
+          "total": null,
+          "known_subtotal": 0,
+          "unknown_entries": 14
+        },
+        "output_tokens": {
+          "total": null,
+          "known_subtotal": 0,
+          "unknown_entries": 14
+        },
+        "cached_input_tokens": {
+          "total": null,
+          "known_subtotal": 0,
+          "unknown_entries": 14
+        },
+        "cache_write_tokens": {
+          "total": null,
+          "known_subtotal": 0,
+          "unknown_entries": 14
+        },
+        "reasoning_tokens": {
+          "total": null,
+          "known_subtotal": 0,
+          "unknown_entries": 14
+        }
+      },
+      "budget_usd": null,
+      "budget_status": "not_configured",
+      "remaining_accounted_usd": null,
+      "budget_scope": "observed_records_only; not a reservation or a hard cap on the next call",
+      "actual_api_calls": 0,
+      "actual_api_cost_usd": "0",
+      "budget_debit_usd": "0.14",
+      "budget_known_subtotal_usd": "0.14",
+      "reserved_usd": "0.28",
+      "unsettled_calls": 0,
+      "budget_limit_usd": "2.50",
+      "remaining_guard_usd": "2.36",
+      "simulated_cost_usd": "0.14"
+    }
+  },
+  "archive_replay_passed": true,
+  "archived_common_cli_checks": {
+    "status": true,
+    "cost": true
+  },
+  "terminal_input": {
+    "pty_checked_with_dummy_key": true,
+    "echo_disabled": true,
+    "file_or_environment_key_loading": false
+  },
+  "actual_api_calls": 0,
+  "actual_api_cost_usd": "0",
+  "archive": {
+    "path": "shared-records-evidence.tar.gz",
+    "bytes": 301264,
+    "sha256": "5e2363b53e0b224fc6d01ec02c3dad844e6dd5c7c7a6fccf44e6909d310738cf"
+  },
+  "limitations": [
+    "No paid model request or provider acceptance test.",
+    "Fixture performance is not live model performance.",
+    "The experiment still uses generation.py for execution/replay; the main run/replay CLI is not a replacement.",
+    "Prior readiness records and evidence archives describe their own historical revisions."
+  ]
+}

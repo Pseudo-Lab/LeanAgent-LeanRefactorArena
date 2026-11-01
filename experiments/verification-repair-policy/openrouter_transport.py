@@ -2,8 +2,10 @@
 from copy import deepcopy
 from decimal import Decimal, ROUND_FLOOR
 import json
-import os
+import getpass
 import re
+import sys
+import warnings
 from urllib import request, error
 
 from common import canonical, shared
@@ -133,16 +135,30 @@ def normalize(raw, endpoint):
                 'provider_reported_usd': reported, 'list_price_usd': list_cost, 'budget_debit_usd': debit}}
 
 
+def terminal_key():
+    if not sys.stdin.isatty():
+        raise ValueError('Run in an interactive terminal to enter the API key securely')
+    with warnings.catch_warnings():
+        warnings.simplefilter('error', getpass.GetPassWarning)
+        try:
+            key = getpass.getpass('OpenRouter API key (hidden input): ')
+        except (getpass.GetPassWarning, EOFError) as exc:
+            raise ValueError('Hidden terminal input is unavailable') from exc
+    if not key.startswith('sk-or-'):
+        raise ValueError('Expected a regular OpenRouter inference key')
+    return key
+
+
 class OpenRouterTransport:
-    def __init__(self, protocol, *, enabled=False, dotenv=None):
-        self.protocol, self.enabled, self.dotenv = protocol, enabled, dotenv
+    def __init__(self, protocol, *, enabled=False, key=None):
+        self.protocol, self.enabled, self._key = protocol, enabled, key
 
     def credentials(self):
         if not self.enabled:
             raise RuntimeError('Paid execution is disabled; --allow-paid is required')
-        key = models.load_key(self.dotenv) if self.dotenv else os.environ.get('OPENROUTER_API_KEY')
+        key = self._key
         if not key or not key.startswith('sk-or-'):
-            raise ValueError('Provide a regular OpenRouter inference key through --dotenv or OPENROUTER_API_KEY')
+            raise ValueError('Provide a regular OpenRouter inference key through hidden terminal input')
         return key
 
     def __call__(self, packet, planned, timeout):

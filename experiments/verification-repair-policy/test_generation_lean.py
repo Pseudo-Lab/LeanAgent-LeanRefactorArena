@@ -10,7 +10,7 @@ from unittest.mock import patch
 
 from common import HERE, REPO, Limits, read, shared
 from generation import ORDER, prepare, process
-from lean_agent import preflight
+from lean_agent import accounting, preflight, status
 from test_generation import response
 
 
@@ -50,12 +50,22 @@ class GenerationLean(unittest.TestCase):
         first = []
         for run_id, arm in ORDER:
             result = read(root/'runs'/run_id/'result.json')
+            view = status.inspect(root/'runs'/run_id)
+            self.assertEqual(view['status'], 'completed')
+            self.assertTrue(view['sealed'])
+            self.assertEqual(view['final_result']['sha256'], result['selected_sha256'])
+            self.assertEqual(view['usage_cost']['actual_api_cost_usd'], '0')
+            self.assertTrue(result['replay']['record_replay_passed'])
             self.assertTrue(result['attempts'][1]['duplicate'])
             self.assertTrue(result['final_valid'])
             requests = [read(p)['input']['packet'] for p in sorted((root/'runs'/run_id/'tape').glob('*-request.json'))
                         if read(p)['kind'] == 'worker' and read(p)['input']['packet']['role'] == 'root']
             first.append({k: v for k, v in requests[0].items() if k != 'call_id'})
         self.assertTrue(all(row == first[0] for row in first))
+        costs = accounting.native_report(root)
+        self.assertEqual(costs, read(root/'usage-cost.json'))
+        self.assertEqual(costs['summary']['actual_api_calls'], 0)
+        self.assertEqual(costs['summary']['entries'], 14)
         with patch('subprocess.Popen', side_effect=AssertionError('Replay tried a subprocess')), \
              patch('generation_transport.OpenAITransport.__call__', side_effect=AssertionError('Replay tried direct API')), \
              patch('openrouter_transport.OpenRouterTransport.__call__', side_effect=AssertionError('Replay tried OpenRouter')):

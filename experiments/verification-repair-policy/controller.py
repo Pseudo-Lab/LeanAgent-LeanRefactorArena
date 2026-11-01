@@ -28,7 +28,7 @@ def generation_loop(rt, reference=None):
     result = {'status': 'stopped', 'stop_reason': None, 'condition': rt.protocol['condition'],
               'integration': 'issue-37-based-local-implementation', 'attempts': [], 'plans': [],
               'final_valid': None, 'final_q': None, 'selected_origin': None, 'selected_sha256': None}
-    best, best_code, best_origin = None, original, 'original'
+    best, best_code, best_origin, best_ranked = None, original, 'original', None
     routes, active, lessons, history = {}, [], [], []
     stale = 0
     failures = {}
@@ -42,6 +42,7 @@ def generation_loop(rt, reference=None):
             raise Stop(reference['reason'] or 'baseline_unverified')
         baseline = reference['baseline']
         best = baseline
+        best_ranked = harness.candidate(original, baseline, harness.metrics(baseline))
         result['baseline'] = baseline
         for step in range(1, control['max_steps']+1):
             rt.check_time()
@@ -56,7 +57,7 @@ def generation_loop(rt, reference=None):
                     for route in plan['routes']:
                         key = sha(canonical(route))[:16]
                         routes.setdefault(key, {**route, 'key': key, 'attempts': 0, 'best_q': None,
-                                                'best': None, 'failures': {}, 'last': None})
+                                                'best': None, 'best_ranked': None, 'failures': {}, 'last': None})
                         active.append(key)
                     lessons = plan['lessons']
                     result['plans'].append({'step': step, 'trigger': pending, 'plan': plan})
@@ -70,7 +71,7 @@ def generation_loop(rt, reference=None):
                     key = 'original-route'
                     routes.setdefault(key, {'id': key, 'strategy': 'Refactor the supplied original proof.',
                                             'key': key, 'attempts': 0, 'best_q': None, 'best': None,
-                                            'failures': {}, 'last': None})
+                                            'best_ranked': None, 'failures': {}, 'last': None})
                     active = [key]
                 pending, stale, failures = None, 0, {}
             # Explore each assigned route; do not let the first success monopolize calls.
@@ -116,14 +117,19 @@ def generation_loop(rt, reference=None):
                     if evaluation['valid']:
                         goals = None
                         q = score(evaluation, baseline)
+                        ranked = harness.candidate(code, evaluation, harness.metrics(baseline))
                         attempt.update(valid=True, q=q, tokens=evaluation['tokens'], metrics=harness.metrics(evaluation))
-                        if route['best_q'] is None or q < route['best_q']:
+                        if route['best_ranked'] is None or harness.ranking(ranked) < harness.ranking(route['best_ranked']):
                             route['best_q'] = q
+                            route['best_ranked'] = ranked
                             route['best'] = {'code': code, 'q': q, 'metrics': harness.metrics(evaluation)}
-                        if q < score(best, baseline):
+                        if harness.ranking(ranked) < harness.ranking(best_ranked):
+                            # A token/hash tie-break may select another source without Q progress.
+                            attempt['improved'] = ranked['rank_numerator'] < best_ranked['rank_numerator']
+                            attempt['selection_changed'] = True
+                            best_ranked = ranked
                             best, best_code = evaluation, code
                             best_origin = 'repaired' if attempt['repair'] else 'generated'
-                            attempt['improved'] = True
             except ValueError as exc:
                 attempt['failure'] = {'kind': 'response', 'first_error': str(exc)[:2500]}
             stale = 0 if attempt['improved'] else stale+1

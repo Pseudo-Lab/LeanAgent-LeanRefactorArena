@@ -400,6 +400,9 @@ def native_report(root):
     recorded dispatch yet. External empty exports remain invalid/unknown.
     No process-liveness or provider-invoice completeness claim is made.
     """
+    if (root / "usage-source.json").exists():
+        from .recorded_usage import report
+        return report(root)
     prices = read_json((root / "input/usage-prices.json").read_text(encoding="utf-8"))
     validate_prices(prices)
     config = read_json((root / "input/config.json").read_text(encoding="utf-8"))
@@ -421,9 +424,9 @@ def native_report(root):
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--mode", choices=["api", "subagent"], required=True)
-    ap.add_argument("--format", choices=["records", "codex-jsonl", "harness-run"], default="records")
+    ap.add_argument("--format", choices=["records", "codex-jsonl", "harness-run", "recorded-run"], default="records")
     ap.add_argument("--input", type=Path, required=True)
-    ap.add_argument("--prices", type=Path, required=True)
+    ap.add_argument("--prices", type=Path)
     ap.add_argument("--output", type=Path)
     ap.add_argument("--budget-usd")
     ap.add_argument("--run-id")
@@ -431,6 +434,18 @@ def main(argv=None):
     ap.add_argument("--model")
     args = ap.parse_args(argv)
     try:
+        if args.format == "recorded-run":
+            if args.mode != "api" or args.prices is not None or args.budget_usd is not None:
+                raise ValueError('recorded-run uses its frozen API prices and recorded budget')
+            output = json.dumps(native_report(args.input), ensure_ascii=False, indent=2, allow_nan=False)+'\n'
+            if args.output:
+                with args.output.open('x', encoding='utf-8') as stream:
+                    stream.write(output)
+            else:
+                print(output, end='')
+            return 0
+        if args.prices is None:
+            raise ValueError('--prices is required for imported records')
         prices = read_json(args.prices.read_text(encoding="utf-8"))
         validate_prices(prices)
         sources = None
