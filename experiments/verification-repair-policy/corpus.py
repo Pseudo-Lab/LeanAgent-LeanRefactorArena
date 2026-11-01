@@ -30,11 +30,12 @@ def make_environment(item, project, lean, limits):
     lines = source.replace(declaration, '{{DECLARATION}}', 1).splitlines(keepends=True)
     last = max(i for i,line in enumerate(lines) if line.startswith('import '))
     lines.insert(last+1, '{{HARNESS_COMMANDS}}\n')
+    libraries=[project/'.lake/build/lib/lean',*sorted((project/'.lake/packages').glob('*/.lake/build/lib/lean'))]
     return {'id':'strata-v4.26.0', 'project':str(project), 'toolchain':'leanprover/lean4:v4.26.0',
             'command':preflight.resolve_command([lean,'-j1','-T20000'], 'leanprover/lean4:v4.26.0', project),
             'timeout_seconds':limits.lean_seconds, 'template':'{{HARNESS_IMPORT}}\n'+''.join(lines),
             'fingerprint_files':[item['source_file']],
-            'lean_path':os.pathsep.join(str(project/p) for p in ('.lake/build/lib/lean','.lake/packages/plausible/.lake/build/lib/lean'))}
+            'lean_path':os.pathsep.join(map(str,libraries))}
 
 
 def prepare(root, corpus_path, project, lean):
