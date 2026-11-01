@@ -12,13 +12,15 @@ from calibrate import p02_limits
 from controller import generation_loop
 from corpus import finish, reference_workflow
 from generation_runtime import GenerationRuntime
-from generation_transport import OpenAITransport, ScriptedTransport
-from lean_agent import harness, openai_direct, prepared, status
+from generation_transport import ScriptedTransport
+from openrouter_transport import OpenRouterTransport, fetch_endpoint, validate_endpoint
+from lean_agent import harness, prepared, status
 
-REVISION = 'planner-worker-repair-1'
+REVISION = 'planner-worker-repair-2-openrouter'
+RUN_BUDGET, SUITE_BUDGET = '0.625', '2.50'
 ORDER = [('baseline-r1', 'planner-worker-v1'), ('repair-r1', 'recursive-repair-v1'),
          ('repair-r2', 'recursive-repair-v1'), ('baseline-r2', 'planner-worker-v1')]
-CONTROL = {'max_steps': 100, 'planner_max_calls': 3, 'planner_budget_usd': '0.14',
+CONTROL = {'max_steps': 100, 'planner_max_calls': 3, 'planner_budget_usd': '0.125',
            'stagnation_steps': 3, 'repeated_failure': 2, 'api_timeout_seconds': 300,
            'max_proof_characters': 60000}
 
@@ -34,7 +36,7 @@ def snapshot(root):
                 shutil.copy2(path, dest/path.name)
 
 
-def prepare(root, calibration=None, *, fixture=None):
+def prepare(root, calibration=None, *, fixture=None, endpoint=None):
     root = Path(root).resolve()
     if root.exists():
         raise ValueError('Use a new suite directory; never overwrite or resume')
@@ -55,7 +57,8 @@ def prepare(root, calibration=None, *, fixture=None):
         if packet['problem']['original'].rstrip() != problem['reference'].rstrip():
             raise ValueError('Agent input is not the calibrated original')
         context = packet['context']  # No strategy prompt or prior optimized proof.
-        backend, control = 'openai', dict(CONTROL)
+        endpoint = validate_endpoint(endpoint or fetch_endpoint())
+        backend, control = 'openrouter', dict(CONTROL)
     else:
         problem, environment, limits = fixture['problem'], fixture['environment'], fixture['limits']
         context, backend = fixture.get('context', {}), 'fixture'
@@ -65,8 +68,9 @@ def prepare(root, calibration=None, *, fixture=None):
                 'integration': 'issue-37-based-local-implementation', 'condition_order': ORDER,
                 'environment': environment, 'environment_sha256': sha(canonical(environment)),
                 'limits': limits, 'controller': control, 'tactics': list(TACTICS),
-                'run_budget_usd': '0.70', 'suite_budget_usd': '2.80', 'pricing': openai_direct.PRICING,
-                'simulated_reservation_usd': '0.02', 'simulated_budget_usd': '0.70',
+                'run_budget_usd': RUN_BUDGET, 'suite_budget_usd': SUITE_BUDGET,
+                'endpoint': endpoint if backend == 'openrouter' else None,
+                'simulated_reservation_usd': '0.02', 'simulated_budget_usd': RUN_BUDGET,
                 'paid_enabled_by_default': False, 'profile_enabled': False,
                 'interpretation': 'two independent runs per arm; exploratory, no statistical generalization'}
     if fixture is None:
@@ -85,12 +89,14 @@ def check(root):
         if sha(safe_path(root, relative).read_bytes()) != digest:
             raise ValueError('Frozen input changed: '+relative)
     protocol = read(root/'protocol.json')
-    if (protocol['revision'] != REVISION or protocol['backend'] not in ('fixture', 'openai')
-        or protocol['paid_enabled_by_default'] or protocol['pricing'] != openai_direct.PRICING
+    if (protocol['revision'] != REVISION or protocol['backend'] not in ('fixture', 'openrouter')
+        or protocol['paid_enabled_by_default']
         or protocol['condition_order'] != [list(row) for row in ORDER]
-        or protocol['run_budget_usd'] != '0.70' or protocol['suite_budget_usd'] != '2.80'
+        or protocol['run_budget_usd'] != RUN_BUDGET or protocol['suite_budget_usd'] != SUITE_BUDGET
         or protocol['environment_sha256'] != sha(canonical(protocol['environment']))):
         raise ValueError('Unsupported or changed protocol')
+    if protocol['backend'] == 'openrouter':
+        validate_endpoint(protocol['endpoint'])
     for path in (root/'code/repo').rglob('*'):
         if path.is_file() and path.suffix in ('.py', '.lean'):
             active = REPO/path.relative_to(root/'code/repo')
@@ -119,12 +125,13 @@ def summarize(rows, backend):
         return statistics.mean(values) if len(values) == 2 and arms[arm]['completed'] == 2 else None
     baseline, repair = mean('planner-worker-v1'), mean('recursive-repair-v1')
     unknown = any(row['unknown_cost'] for row in rows)
-    actual = None if unknown and backend == 'openai' else str(sum(
+    actual = None if unknown and backend != 'fixture' else str(sum(
         (Decimal(row['actual_api_cost_usd'] or '0') for row in rows), Decimal(0)))
     return {'backend': backend, 'arms': arms, 'actual_api_calls': sum(row['actual_api_calls'] for row in rows),
             'actual_api_cost_usd': actual, 'unknown_cost': unknown,
             'mean_q_repair_minus_baseline': repair-baseline if repair is not None and baseline is not None else None,
-            'evidence_kind': 'generation_sample' if backend == 'openai' else 'fixture_contract_only',
+            'budget_debit_usd': None if unknown else str(sum((Decimal(row['budget_debit_usd']) for row in rows), Decimal(0))),
+            'evidence_kind': 'fixture_contract_only' if backend == 'fixture' else 'generation_sample',
             'run_ids': [row['run_id'] for row in rows]}
 
 
@@ -134,13 +141,17 @@ def process(root, *, allow_paid=False, dotenv=None, replay=False):
     if replay and inventory(root) != read(root/'artifacts.json'):
         raise ValueError('Recorded artifacts changed')
     # Gate before key access, native work or budget reservation.
-    if protocol['backend'] == 'openai' and not replay and not allow_paid:
+    if protocol['backend'] != 'fixture' and not replay and not allow_paid:
         raise ValueError('Paid execution disabled: --allow-paid is required')
     if not replay and (root/'reference').exists():
         raise ValueError('Suite already started; replay or prepare a new directory')
-    ledger = {'per_trial_usd': '0.70', 'total_usd': '2.80', 'max_trials': 400, 'attempts': {}}
+    ledger = {'per_trial_usd': RUN_BUDGET, 'total_usd': SUITE_BUDGET, 'max_trials': 400, 'attempts': {}}
     libraries = None
-    if protocol['backend'] == 'openai' and not replay:
+    if protocol['backend'] == 'openrouter' and not replay:
+        fresh = fetch_endpoint()
+        if fresh['pricing'] != protocol['endpoint']['pricing']:
+            raise ValueError('Endpoint pricing changed; prepare a new suite before spending')
+        OpenRouterTransport(protocol, enabled=allow_paid, dotenv=dotenv).credentials()
         libraries = prepared.PreparedLeanEvaluator(root/'calibration/libraries.json')
         libraries.verify()
     fixture = read(root/'fixture.json') if protocol['backend'] == 'fixture' else None
@@ -153,7 +164,7 @@ def process(root, *, allow_paid=False, dotenv=None, replay=False):
     reference_root = root/'reference'
     reference_rt = make_runtime(reference_root, 'reference', 'planner-worker-v1')
     reference = reference_workflow(reference_rt)
-    if protocol['backend'] == 'openai':
+    if protocol['backend'] == 'openrouter':
         ready = read(root/'calibration/result.json')
         if reference.get('fingerprint') != ready['fingerprint']:
             reference.update(status='stopped', reason='calibration_environment_changed')
@@ -179,7 +190,7 @@ def process(root, *, allow_paid=False, dotenv=None, replay=False):
             if any(row['status'] != 'settled' for row in ledger['attempts'].values()):
                 break
             transport = None if replay else (ScriptedTransport(fixture['responses'][run_id]) if fixture else
-                                             OpenAITransport(protocol, enabled=allow_paid, dotenv=dotenv))
+                                             OpenRouterTransport(protocol, enabled=allow_paid, dotenv=dotenv))
             path = root/'runs'/run_id
             rt = make_runtime(path, run_id, condition, transport)
             if not replay:
@@ -217,11 +228,13 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--calibration', type=Path)
     parser.add_argument('--fixture', type=Path)
+    parser.add_argument('--endpoint', type=Path, help='Frozen public OpenRouter endpoint metadata; never credentials')
     parser.add_argument('--allow-paid', action='store_true')
     parser.add_argument('--dotenv', type=Path)
     args = parser.parse_args()
     if args.action == 'prepare':
-        result = prepare(args.output, args.calibration, fixture=read(args.fixture) if args.fixture else None)
+        result = prepare(args.output, args.calibration, fixture=read(args.fixture) if args.fixture else None,
+                         endpoint=read(args.endpoint) if args.endpoint else None)
     elif args.action == 'check':
         check(args.output)
         result = {'frozen_inputs_valid': True, 'model_called': False}

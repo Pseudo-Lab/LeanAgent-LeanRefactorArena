@@ -5,6 +5,7 @@ import time
 
 from common import Stop, canonical, shared, sha
 from generation_transport import plan_request
+from openrouter_transport import plan_request as router_plan
 from runtime import Runtime
 
 
@@ -87,7 +88,8 @@ class GenerationRuntime(Runtime):
             if Decimal(planned['reserved_usd']) > remaining:
                 planned = None
         else:
-            planned = plan_request(self.protocol, packet, remaining)
+            planner = router_plan if self.protocol['backend'] == 'openrouter' else plan_request
+            planned = planner(self.protocol, packet, remaining)
         if planned is None:
             self.tape.event('dispatch_blocked', role=role, remaining_usd=str(remaining))
             raise Stop('planner_budget_limit' if role == 'planner' else 'budget_limit')
@@ -108,6 +110,8 @@ class GenerationRuntime(Runtime):
         raw = self.tape.call('worker', {'packet': packet, 'planned': planned, 'timeout': timeout},
                              lambda: self.worker(packet, planned, timeout))
         settlement = shared.settle(self.ledger, call_id, raw)
+        if self.protocol['backend'] == 'openrouter':
+            self.ledger['attempts'][call_id]['accounting'] = raw.get('openrouter_accounting', {})
         self.tape.event('settled', call_id=call_id, ledger=self.ledger)
         if not self.tape.replay:
             shared.atomic(self.budget_path or self.root/'budget.json', self.ledger)
@@ -119,13 +123,17 @@ class GenerationRuntime(Runtime):
         entries = self.own_entries()
         unknown = any(e['status'] != 'settled' for e in entries)
         cost = None if unknown else str(self.cost(entries))
-        live = self.protocol['backend'] == 'openai'
+        live = self.protocol['backend'] != 'fixture'
+        router = self.protocol['backend'] == 'openrouter'
+        charged = (None if unknown else str(sum((Decimal(e['accounting']['provider_reported_usd'])
+                    for e in entries), Decimal(0)))) if router else cost
         return {**super().cost_summary(), 'dispatches': len(entries),
                 'actual_api_calls': len(entries) if live else 0,
-                'actual_api_cost_usd': cost if live else '0',
+                'actual_api_cost_usd': charged if live else '0',
+                'budget_debit_usd': cost,
                 'simulated_cost_usd': None if live else cost,
                 'simulated_known_subtotal_usd': None if live else str(self.cost(entries)),
-                'cost_basis': 'usage_estimate' if live else 'simulated_fixture',
+                'cost_basis': 'provider_reported_with_list_price_budget_guard' if router else 'usage_estimate' if live else 'simulated_fixture',
                 'unknown_cost': unknown, 'known_cost_usd': str(self.cost(entries)),
                 'role_cost_usd': {role: str(self.cost(self.own_entries(role))) for role in ('planner', 'root', 'repair')},
                 'role_calls': {role: len(self.own_entries(role)) for role in ('planner', 'root', 'repair')}}

@@ -57,7 +57,8 @@ class GenerationLean(unittest.TestCase):
             first.append({k: v for k, v in requests[0].items() if k != 'call_id'})
         self.assertTrue(all(row == first[0] for row in first))
         with patch('subprocess.Popen', side_effect=AssertionError('Replay tried a subprocess')), \
-             patch('generation_transport.OpenAITransport.__call__', side_effect=AssertionError('Replay tried API')):
+             patch('generation_transport.OpenAITransport.__call__', side_effect=AssertionError('Replay tried direct API')), \
+             patch('openrouter_transport.OpenRouterTransport.__call__', side_effect=AssertionError('Replay tried OpenRouter')):
             self.assertEqual(process(root, replay=True), summary)
         shared.atomic(root.parent/'generation-suite.replay.json', {'record_replay_passed': True, 'actual_api_calls': 0})
 
