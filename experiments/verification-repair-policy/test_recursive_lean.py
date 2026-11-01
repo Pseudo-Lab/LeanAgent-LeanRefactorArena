@@ -143,6 +143,18 @@ class RealLean(unittest.TestCase):
             with self.assertRaises(ValueError):
                 run.replay(copy)
 
+    def test_nested_have_unsolved_after_outer_goal_closes(self):
+        statement='theorem fixture_unsolved (α β : Prop) (hα : α) (hβ : β) : α ∧ β'
+        case={'id':'nested-unsolved','problem':{'name':'fixture_unsolved','statement':statement,
+              'reference':statement+' := by exact ⟨hα, hβ⟩\n'},
+              'candidate':'by\n  have h : β := by\n    skip\n  exact ⟨hα, h⟩'}
+        result,_=self.execute('F05',case=case)
+        self.assertEqual(result['repair']['status'],'verified')
+        site=result['repair']['nodes'][0]['site']
+        self.assertEqual(site['goal']['target'],'β')
+        self.assertEqual(site['indent'],4)
+        self.assertIn('exact ⟨hα, h⟩',result['repair']['code'])
+
 
 if __name__=='__main__':
     unittest.main()

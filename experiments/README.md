@@ -16,6 +16,7 @@
 기준·자동 수리·재귀 수리 조건으로 복구율과 최종 token·heartbeat 개선을 구분합니다.
 PR A는 설계, PR B는 native 목표 수집·재귀 수리 구현과 API 예산 USD 0의 실제 Lean·고정 응답 검증,
 PR C는 효과 평가를 담당합니다. [PR B 실행 안내](verification-repair-policy/IMPLEMENTATION.md)를 참고하세요.
+[PR C 무과금 평가](verification-repair-policy/evaluation/README.md)는 고정 실패 후보의 재현·자동 수리와 미측정 범위를 보고합니다.
 #37의 공개 구현에 대한 실제 통합은 별도 확인이 필요합니다.
 
 ## 팀원 웜업 결과 재검증

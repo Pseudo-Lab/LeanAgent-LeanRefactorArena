@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-11-01",
+  "scope": "offline historical-corpus evaluation; no #37 integration or live recursive-worker comparison",
+  "preregistration_commit": "6f4b0b4",
+  "execution_commit": "c60b6b6d7ea111d3451e14af52c994cd1cc71f8a",
+  "execution_tree_dirty": false,
+  "source_files": {
+    "experiments/verification-repair-policy/adapter.py": "f66f1964f62bb681cd43f82e3d1cdde31ef808cc08c54547300ee1e3c1e4d0af",
+    "experiments/verification-repair-policy/common.py": "249469a2b1436cc550ffdf89b37fa4cd76150b301965581f3cae6d6bae7f4afe",
+    "experiments/verification-repair-policy/corpus.py": "1204efd0beb5124db7f776a74572d267d04e39fde2505fa7c8d42ba8a10ecc7e",
+    "experiments/verification-repair-policy/corpus_import.py": "d959ef88c6791ec7456e2e7be316cb9081ba55f227b3bc37c17416ae63328e99",
+    "experiments/verification-repair-policy/native.py": "417f3f36d5d9328ca88eb46c4290ff225d912d12a619914601d1a68dcf711c3b",
+    "experiments/verification-repair-policy/repair.py": "4bef246b604b55c5ab3768bc9cc6af8ae12f73061d5b7063ead8e183e0c5d3e5",
+    "experiments/verification-repair-policy/run.py": "3185a7a1480c455a275ab14e88130f9143decc0896f5b29233d1f1693b283a99",
+    "experiments/verification-repair-policy/runtime.py": "9531991b07ba7a17db10ca7dde7e080d6468062b7cca47bd5e690d1a736b9bff",
+    "experiments/verification-repair-policy/test_contracts.py": "69a648e344d7490630d224c8e9b45fad6ff9b7a3ba6d760e4667b941feef0743",
+    "experiments/verification-repair-policy/test_corpus.py": "38c53fd3b72dee9da0aa228a787e90aa044f6c90de13fb839383b5530b65cc8c",
+    "experiments/verification-repair-policy/test_corpus_lean.py": "ee739deb75be5653741db851104baa52a40afe6cbf392510e97004fb895369a9",
+    "experiments/verification-repair-policy/test_recursive_lean.py": "59e10c3b505c53bd1cf9dcd22dc93c201d8297d4209598d9103fd2b103feb62d"
+  },
+  "python": "3.12.13",
+  "lean": "leanprover/lean4:v4.26.0",
+  "platform": "Darwin arm64",
+  "commands": {
+    "prepare": "python3 experiments/verification-repair-policy/corpus.py prepare --project /path/to/pinned/Strata --lean /path/to/lean-4.26.0/bin/lean --output runs/manual/repair-c-20261101-v1",
+    "execute": "python3 runs/manual/repair-c-20261101-v1/code/repo/experiments/verification-repair-policy/corpus.py run --output runs/manual/repair-c-20261101-v1",
+    "replay": "python3 runs/manual/repair-c-20261101-v1/code/repo/experiments/verification-repair-policy/corpus.py replay --output runs/manual/repair-c-20261101-v1",
+    "export": "python3 experiments/verification-repair-policy/corpus_report.py --run runs/manual/repair-c-20261101-v1 --output experiments/verification-repair-policy/evaluation"
+  },
+  "observations": {
+    "reference_problems": 3,
+    "candidate_records": 49,
+    "initial_unmeasured": 43,
+    "historical_failure_not_reproduced": 2,
+    "recovery_measured": 4,
+    "recovered": 0,
+    "actual_api_calls": 0,
+    "actual_api_cost_usd": "0"
+  },
+  "record_replay": {
+    "references": 3,
+    "cases": 49,
+    "subprocess_popen_blocked": true,
+    "passed": true,
+    "portable_extracted_archive_replay_passed": true
+  },
+  "local_tests": {
+    "offline_executed_passed": 22,
+    "actual_lean_adapter_executed_passed": 1,
+    "native_suite_skipped_in_offline_mode": 8,
+    "note": "The additional published-evidence test verifies the archive hashes and recalculates denominators; the full regression/native suites run in CI."
+  },
+  "evidence": {
+    "path": "evidence.tar.gz",
+    "sha256": "e163f479b4c051a40d59f84e27229d9e7eda7d9b270af198d6b1a9bcde434bd4",
+    "bytes": 1810631,
+    "inventory_sha256": "430b3b11049d792ae5ed48486b50d886adc455b6efdb46b2c992c22fd713859e"
+  },
+  "analysis_code": {
+    "corpus_report.py": "4851ec9963b8cd7c92f3c8f718a64b8bd8bbb945f67479a9664d2e07eac48d12"
+  },
+  "source_audit_sha256": "19150fe850299ecbd88359f8edb57a41d384c813c4c6dadb6707601f992491bf",
+  "corpus_sha256": "94cc70a11a223911d279ce1086980eeeb81aff7094502a14e451bbea88183890",
+  "limits": [
+    "P01/P02 baseline timed out; their 43 candidates remain unmeasured, not repair failures.",
+    "Two historical invalid_candidate results passed the current verifier before repair.",
+    "Measured repair count is 4, not 49.",
+    "All recursive-model and generation-loop efficacy metrics remain null."
+  ],
+  "offline_validation_python_versions": [
+    "3.9.6",
+    "3.12.13"
+  ]
+}
