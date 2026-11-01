@@ -96,6 +96,20 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 </div>
 </div>
 
+<h2>golf 후</h2>
+<div class="card">
+<div class="tbl"><table>
+<thead><tr><th>조건</th><th>golf 전</th><th>golf 후</th><th>평가값 ↓</th><th>로컬 점수 추정</th></tr></thead>
+<tbody>
+<tr><td>v4</td><td>35 / 1,653k</td><td>29 / 1,551k</td><td>0.392</td><td>86.9</td></tr>
+<tr class="me"><td>type-hard-route</td><td>36 / 1,807k</td><td>27 / 1,663k</td><td>0.408</td><td>86.4</td></tr>
+<tr><td>common</td><td>82 / 1,335k</td><td>변화 없음</td><td>0.520</td><td>82.7</td></tr>
+<tr><td>type-hard</td><td>101 / 1,021k</td><td>변화 없음</td><td>0.520</td><td>82.7</td></tr>
+</tbody>
+</table></div>
+<p class="note">golf는 API 없이 증명의 불필요한 부분을 지우는 로컬 후처리(<code>experiments/proof-golf/golf.py</code>). type-hard-route는 6라운드 동안 <code>simp only</code> 목록에서 쓰이지 않는 항목을 지워 36→27토큰이 됐고, 첫 라운드에서 HB도 1,807k→1,657k로 줄었음. v4 golf 결과는 proof-golf README 값.</p>
+</div>
+
 <h2>해석</h2>
 <div class="card">
 <ul>
@@ -118,7 +132,7 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:
 <ul>
 <li>조건마다 한 번씩이고, 주원님 실행과 날짜가 다름.</li>
 <li>P01의 경로 단서는 v4 결과를 보고 만든 것이라 P01은 유리한 문제임. 효과는 본 대회 문제에서 확인해야 함.</li>
-<li>golf 전 결과임. type-hard-route 최선 증명에 golf를 돌리는 중.</li>
+<li>golf는 v4와 type-hard-route에서만 줄었고, pattern에는 돌리지 않음.</li>
 </ul>
 </div>
 
