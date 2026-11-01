@@ -1,0 +1,198 @@
+{
+  "runs/oai-techniques-p06-p11-20261101/P06/report.json": {
+    "sha256": "f3077c8e44a93a446d03b2cc3d4574b960e3cff97d5dceb408860cb3962d0097",
+    "bytes": 4743
+  },
+  "runs/oai-techniques-p06-p11-20261101/P06/session/selections/final-001/selected.lean": {
+    "sha256": "c6bbcb57ed4ab4af9a162c2c0396fd5721f7d5ade611378111c309fdeb4c5cf9",
+    "bytes": 2891
+  },
+  "runs/oai-techniques-p06-p11-20261101/P11/report-v4.31.0.json": {
+    "sha256": "3f801a62729e981c23345edc69e2a6d84bb45194c454ac6040939ddb5599dd0a",
+    "bytes": 7175
+  },
+  "runs/oai-techniques-p06-p11-20261101/P11/v4.31.0/session/selections/final-001/selected.lean": {
+    "sha256": "fc81d460acb99c8f311df977dcd07252efa018588dfce977cbe7504796cb6b58",
+    "bytes": 7192
+  },
+  "runs/oai-techniques-p06-p11-20261101/P11/v4.29.0/compatibility/report.json": {
+    "sha256": "1cff237ae92d405cc9b18b7bd1940875ef156c400df566c1fbb883bfc552ff47",
+    "bytes": 2549
+  },
+  "runs/oai-techniques-p06-p11-20261101/P11/v4.30.0/compatibility/report.json": {
+    "sha256": "3191c97c0b41dc3be3e04fe3cc2d55f4b6c180a73b57b0b6ffd75b3e72725dda",
+    "bytes": 2549
+  },
+  "runs/competitive-search40-20261031/portfolio/P01/state.json": {
+    "sha256": "9a010113b378a169974d812bbc241ca2a8d9879c528131673e135e5eb6bbbb7a",
+    "bytes": 286744
+  },
+  "runs/competitive-search40-20261031/portfolio/P01/final.lean": {
+    "sha256": "047a5251bb689e6a7548091470f44bb443e77c2f4739ed67d1d69328e66874e1",
+    "bytes": 443
+  },
+  "runs/competitive-search40-20261031/portfolio/P02/state.json": {
+    "sha256": "d855b69cafae07e6118797259d4aa5653694a2077f6c931f4e1c3a9e52a7acc1",
+    "bytes": 264990
+  },
+  "runs/competitive-search40-20261031/portfolio/P02/final.lean": {
+    "sha256": "d40658c0ffcb7574772cd00307da69b70fe269ade4f208fb7acebc3c60088465",
+    "bytes": 385
+  },
+  "runs/competitive-search40-20261031/portfolio/P03/state.json": {
+    "sha256": "7111e162b2fb5f70e33ca79bfb241247521d13d29e79667b3003592031ca40b1",
+    "bytes": 233427
+  },
+  "runs/competitive-search40-20261031/portfolio/P03/final.lean": {
+    "sha256": "b43a2ec85a4dd5eaaa55fe9dc5de228e5fe7f6f6f926a2cb400e5b94848aed02",
+    "bytes": 854
+  },
+  "runs/competitive-search40-extra-20261101/portfolio/P06/state.json": {
+    "sha256": "ec20295090542ed7d383f13b453507255dfcef23a481e027e4930869b745df4f",
+    "bytes": 284749
+  },
+  "runs/competitive-search40-extra-20261101/portfolio/P06/final.lean": {
+    "sha256": "c43cdf05f5549ddef8873a56dc813e907bee55b70233e813469485099fcddefa",
+    "bytes": 2860
+  },
+  "runs/competitive-search40-extra-20261101/portfolio/P13/state.json": {
+    "sha256": "5eb99e2675c99af7af6bab5ac803c56d96d5d0f4547765103346849f3dd11aa7",
+    "bytes": 236734
+  },
+  "runs/competitive-search40-extra-20261101/portfolio/P13/final.lean": {
+    "sha256": "6ca7d656ef901f4987803c697edfa1320afe1c6bccb1e3f7920611a2f25ada3e",
+    "bytes": 1140
+  },
+  "runs/competitive-search40-extra-20261101/portfolio/P14/state.json": {
+    "sha256": "65215e37b682b5fae461dd204ef4084594447a1f118fe350ae478415bc03100f",
+    "bytes": 237351
+  },
+  "runs/competitive-search40-extra-20261101/portfolio/P14/final.lean": {
+    "sha256": "cbdcace59e1c755981bf209058afe38e9e677e304d7a00f7f16532ab61b97fe8",
+    "bytes": 995
+  },
+  "runs/competitive-search40-extra-20261101/portfolio/P15/state.json": {
+    "sha256": "d1f976a2073797d337fde4889f3ea6bdc703c995639f6ed4358029deba4c2919",
+    "bytes": 240213
+  },
+  "runs/competitive-search40-extra-20261101/portfolio/P15/final.lean": {
+    "sha256": "48c3caa3bd5db16f582317cf324285eac29a3945683b6458101f14f4ad4788fd",
+    "bytes": 1578
+  },
+  "runs/competitive-structure-20261101/P06/state.json": {
+    "sha256": "48e48ff902fd466bfdc4275d0bf40a3fcac22d6a5c044122dab1a65ef14afdf2",
+    "bytes": 382361
+  },
+  "runs/competitive-structure-20261101/P06/final.lean": {
+    "sha256": "4782ed218974a22e5b02a10920406b2d4144f8b1d130b1089b7fec2cf5df28b3",
+    "bytes": 2369
+  },
+  "runs/competitive-structure-20261101/P13/state.json": {
+    "sha256": "ea12269dc40865958da46d3a082b76a1b7c7d5cd258ff8cde854972bb64b5ca1",
+    "bytes": 318756
+  },
+  "runs/competitive-structure-20261101/P13/final.lean": {
+    "sha256": "a01f4c4a1ade6b77816049c63501b22d88746cff692288dbd3b7e286d97ab9aa",
+    "bytes": 989
+  },
+  "runs/competitive-structure-20261101/P14/state.json": {
+    "sha256": "0fb88a9237316d25e41ad1c1a721bd5249323fbda88a63fb10eac9f51c32725a",
+    "bytes": 350901
+  },
+  "runs/competitive-structure-20261101/P14/final.lean": {
+    "sha256": "4104260103b5b83b65a34d7aa9a0f919eef5c6ed36536684f1f287033379a64b",
+    "bytes": 510
+  },
+  "runs/competitive-structure-20261101/P15/state.json": {
+    "sha256": "a720a2999ec0cf3d412ffd9cbb4fbd57511b6d1e25aee76d756b841662add987",
+    "bytes": 331856
+  },
+  "runs/competitive-structure-20261101/P15/final.lean": {
+    "sha256": "ac5b1fadac0923a96cbce17eefa0d38625f3b35490b190e27821d7ec27277325",
+    "bytes": 1352
+  },
+  "runs/retrieval-v11-p11-20261101/P11/golf-best.lean": {
+    "sha256": "57414d45ed50620f02d61f277c9ee1b82dd11c1236d1370038a6968e9d49085f",
+    "bytes": 3375
+  },
+  "runs/structured-v6-analysis-20261031/ablation-results.designer-only.json": {
+    "sha256": "a6f73f5568bbb26f0208bb00bf80824ca79546fb48331f161d34f20ac1308eca",
+    "bytes": 7938
+  },
+  "runs/structured-v6-analysis-20261031/order-control-results.designer-only.json": {
+    "sha256": "a4570389b0fe90adf204e2a5198927472157dc6a9f4b6a78e0d616719bba5324",
+    "bytes": 698
+  },
+  "runs/common-v5-local-agent-r2-isolated-20261030/results-at-40.designer-only.json": {
+    "sha256": "88df487938a58910b68116620a71e5e41500ccb88ed92195fe32d499dd6c6660",
+    "bytes": 68504
+  },
+  "runs/common-v5-study-20261030/study-manifest.json": {
+    "sha256": "c5cdf0f7bf3207ab462ebf4ecead017f00603e1dfd808339d1e1a7c664f1378e",
+    "bytes": 1405
+  },
+  "runs/incremental-v10-threecase-20261031/comparison.json": {
+    "sha256": "6b2a76b1525fc56c202e0688648e212c08a046e4767922fa91be0ec14b723edf",
+    "bytes": 8658
+  },
+  "runs/incremental-v10-fresh-parallel-validation-20261031/summary.json": {
+    "sha256": "5f68d4c34297ebf7befdf3982fa1ed848043794aecc69273e3fd0ab38804949d",
+    "bytes": 12888
+  },
+  "runs/theorem-retrieval-20261101/report.json": {
+    "sha256": "d99803dc588f123505f41a9225068d6af1b3d825978214584f17a9aa8c0a89ae",
+    "bytes": 127658
+  },
+  "runs/retrieval-v11-p11-20261101/comparison.json": {
+    "sha256": "5cbd8824fc9506bf810396e07ab843b9b506b7097396db35785be1383ce8f63b",
+    "bytes": 10370
+  },
+  "runs/competitive-search-20261031/results.json": {
+    "sha256": "84dff978d1b1e70b3028cd928332676b3bfa9493ccf4415ec4c6cb76f937e35c",
+    "bytes": 22964
+  },
+  "runs/competitive-search40-20261031/results.json": {
+    "sha256": "e396c80a25d2271dc2d0ff34097cb63a8dfaf0631550fb005bcbb30e13e061af",
+    "bytes": 13775
+  },
+  "runs/competitive-search40-extra-20261101/results.json": {
+    "sha256": "6ba36b877264b77c390ca86b546e4c8091bc5892eb540fe427567dbb8edc5459",
+    "bytes": 17607
+  },
+  "runs/structured-v6-analysis-20261031/analysis.md": {
+    "sha256": "c3ebe8903cbacb5f78f8de2cd49defc0319c78e5d604107cd794d8e96c9a28c1",
+    "bytes": 16917
+  },
+  "runs/structured-openai-20261031/report.md": {
+    "sha256": "6ac94a946c1c32d8e36ea325f7a186e81541c2550093eb6b919599b47b3e9d84",
+    "bytes": 7103
+  },
+  "runs/fast-p10-timing-20261031/comparison.md": {
+    "sha256": "7179d444a60b53884379c19d1b84358f858cba818eca0e6e1744b5c318dfc4bb",
+    "bytes": 1275
+  },
+  "runs/research-v9-threecase-20261031/comparison.md": {
+    "sha256": "57010a72a96de303366b494a654874e758847445683adb5b82a5e0ae1ca1b991",
+    "bytes": 900
+  },
+  "runs/postprocess-88-20261028-204910/review.md": {
+    "sha256": "1071f1a61c727dda89a13c0524244b473124af217e875d1d78bf932c3e5f0bdd",
+    "bytes": 5546
+  },
+  "results/competitive-structure-20261101/review.md": {
+    "sha256": "0d4e94cfa6515b68f7df78c1bd5818dd860f956dc47442d08683d68c973ae40f",
+    "bytes": 5141
+  },
+  "experiments/retrieval-harness-20261101/README.md": {
+    "sha256": "1ef18ebc4ec5a5e62a72fc43c41e2bf2b363a6c150c8f568cc379e7c88e676c9",
+    "bytes": 7598
+  },
+  "submissions/warmup/verification-inputs.json": {
+    "sha256": "18ad35592a96bc026d90660d53849aacaca089218ba96bbd745f3d22decef0e0",
+    "bytes": 61972
+  },
+  "runs/oai-techniques-p06-p11-20261101/P06/inputs/metadata.json": {
+    "sha256": "87a0360dabf2506768b4628ca52f49230f3833bc327aadb08ebb253a58d0ec49",
+    "bytes": 7869
+  }
+}

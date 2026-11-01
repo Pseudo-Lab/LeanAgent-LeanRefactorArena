@@ -1,0 +1,298 @@
+[
+  {
+    "file": "proofs/p06-manual.lean",
+    "problem": "P06",
+    "source": "runs/oai-techniques-p06-p11-20261101/P06/session/selections/final-001/selected.lean",
+    "sha256": "c6bbcb57ed4ab4af9a162c2c0396fd5721f7d5ade611378111c309fdeb4c5cf9",
+    "metrics": {
+      "id": "candidate-0003",
+      "note": "Fix algebra-hom map_mul selection before basis extensionality",
+      "sha256": "c6bbcb57ed4ab4af9a162c2c0396fd5721f7d5ade611378111c309fdeb4c5cf9",
+      "valid": true,
+      "tokens": 528,
+      "scaled_heartbeats": 10849,
+      "raw_samples": [
+        10849422,
+        10849397,
+        10849416
+      ],
+      "error": null
+    },
+    "scope": "Full original module, allowed axioms and three fresh primary measurements.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p11-manual.lean",
+    "problem": "P11",
+    "source": "runs/oai-techniques-p06-p11-20261101/P11/v4.31.0/session/selections/final-001/selected.lean",
+    "sha256": "fc81d460acb99c8f311df977dcd07252efa018588dfce977cbe7504796cb6b58",
+    "metrics": {
+      "id": "candidate-0002",
+      "note": "Correct subtype equality orientation in universal fiber evaluation",
+      "valid": true,
+      "tokens": 1120,
+      "scaled_heartbeats": 33354,
+      "raw_samples": [
+        33353206,
+        33354912,
+        33354508
+      ],
+      "sha256": "fc81d460acb99c8f311df977dcd07252efa018588dfce977cbe7504796cb6b58",
+      "error": null
+    },
+    "scope": "Full original module, allowed axioms and three fresh primary measurements.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p01-portfolio40.lean",
+    "problem": "P01",
+    "source": "runs/competitive-search40-20261031/portfolio/P01/final.lean",
+    "sha256": "047a5251bb689e6a7548091470f44bb443e77c2f4739ed67d1d69328e66874e1",
+    "metrics": {
+      "valid": true,
+      "tokens": 29,
+      "raw_hb": 1741204,
+      "raw_samples": [
+        1741244,
+        1741204,
+        1741172
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Original-start independent portfolio.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p02-portfolio40.lean",
+    "problem": "P02",
+    "source": "runs/competitive-search40-20261031/portfolio/P02/final.lean",
+    "sha256": "d40658c0ffcb7574772cd00307da69b70fe269ade4f208fb7acebc3c60088465",
+    "metrics": {
+      "valid": true,
+      "tokens": 22,
+      "raw_hb": 301702,
+      "raw_samples": [
+        301702,
+        301710,
+        301697
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Original-start independent portfolio.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p03-portfolio40.lean",
+    "problem": "P03",
+    "source": "runs/competitive-search40-20261031/portfolio/P03/final.lean",
+    "sha256": "b43a2ec85a4dd5eaaa55fe9dc5de228e5fe7f6f6f926a2cb400e5b94848aed02",
+    "metrics": {
+      "valid": true,
+      "tokens": 81,
+      "raw_hb": 238714,
+      "raw_samples": [
+        238715,
+        238714,
+        238714
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Original-start independent portfolio.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p06-fresh40.lean",
+    "problem": "P06",
+    "source": "runs/competitive-search40-extra-20261101/portfolio/P06/final.lean",
+    "sha256": "c43cdf05f5549ddef8873a56dc813e907bee55b70233e813469485099fcddefa",
+    "metrics": {
+      "valid": true,
+      "tokens": 418,
+      "raw_hb": 22877043,
+      "raw_samples": [
+        22874730,
+        22877056,
+        22877043
+      ],
+      "verified_versions": [
+        "v4.32.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Original-start independent portfolio.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p13-fresh40.lean",
+    "problem": "P13",
+    "source": "runs/competitive-search40-extra-20261101/portfolio/P13/final.lean",
+    "sha256": "6ca7d656ef901f4987803c697edfa1320afe1c6bccb1e3f7920611a2f25ada3e",
+    "metrics": {
+      "valid": true,
+      "tokens": 235,
+      "raw_hb": 3012079,
+      "raw_samples": [
+        3012322,
+        3012079,
+        3011979
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Original-start independent portfolio.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p14-fresh40.lean",
+    "problem": "P14",
+    "source": "runs/competitive-search40-extra-20261101/portfolio/P14/final.lean",
+    "sha256": "cbdcace59e1c755981bf209058afe38e9e677e304d7a00f7f16532ab61b97fe8",
+    "metrics": {
+      "valid": true,
+      "tokens": 126,
+      "raw_hb": 1071111,
+      "raw_samples": [
+        1071116,
+        1071111,
+        1071111
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Original-start independent portfolio.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p15-fresh40.lean",
+    "problem": "P15",
+    "source": "runs/competitive-search40-extra-20261101/portfolio/P15/final.lean",
+    "sha256": "48c3caa3bd5db16f582317cf324285eac29a3945683b6458101f14f4ad4788fd",
+    "metrics": {
+      "valid": true,
+      "tokens": 244,
+      "raw_hb": 1366707,
+      "raw_samples": [
+        1366707,
+        1366666,
+        1366726
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Original-start independent portfolio.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p06-structural.lean",
+    "problem": "P06",
+    "source": "runs/competitive-structure-20261101/P06/final.lean",
+    "sha256": "4782ed218974a22e5b02a10920406b2d4144f8b1d130b1089b7fec2cf5df28b3",
+    "metrics": {
+      "valid": true,
+      "tokens": 409,
+      "raw_hb": 11003038,
+      "raw_samples": [
+        11003016,
+        11003471,
+        11003038
+      ],
+      "verified_versions": [
+        "v4.32.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; aggregate independent review pending at capture.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p13-structural.lean",
+    "problem": "P13",
+    "source": "runs/competitive-structure-20261101/P13/final.lean",
+    "sha256": "a01f4c4a1ade6b77816049c63501b22d88746cff692288dbd3b7e286d97ab9aa",
+    "metrics": {
+      "valid": true,
+      "tokens": 187,
+      "raw_hb": 2559918,
+      "raw_samples": [
+        2559918,
+        2560101,
+        2559913
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; aggregate independent review pending at capture.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p14-structural.lean",
+    "problem": "P14",
+    "source": "runs/competitive-structure-20261101/P14/final.lean",
+    "sha256": "4104260103b5b83b65a34d7aa9a0f919eef5c6ed36536684f1f287033379a64b",
+    "metrics": {
+      "valid": true,
+      "tokens": 31,
+      "raw_hb": 969083,
+      "raw_samples": [
+        969069,
+        969087,
+        969083
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; aggregate independent review pending at capture.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p15-structural.lean",
+    "problem": "P15",
+    "source": "runs/competitive-structure-20261101/P15/final.lean",
+    "sha256": "ac5b1fadac0923a96cbce17eefa0d38625f3b35490b190e27821d7ec27277325",
+    "metrics": {
+      "valid": true,
+      "tokens": 181,
+      "raw_hb": 1171287,
+      "raw_samples": [
+        1171287,
+        1171281,
+        1171308
+      ],
+      "verified_versions": [
+        "v4.26.0"
+      ]
+    },
+    "scope": "Exact supplied local primary context only; no extra-version claim. Putnam examples have narrowed imports, not their full benchmark header. Incumbent-seeded continuation; aggregate independent review pending at capture.",
+    "identical_bytes_to_main_submission": false
+  },
+  {
+    "file": "proofs/p11-retrieval.lean",
+    "problem": "P11",
+    "source": "runs/retrieval-v11-p11-20261101/P11/golf-best.lean",
+    "sha256": "57414d45ed50620f02d61f277c9ee1b82dd11c1236d1370038a6968e9d49085f",
+    "metrics": {
+      "valid": true,
+      "tokens": 368,
+      "raw_hb": 9067259,
+      "raw_samples": [
+        9067259,
+        9067201,
+        9067288
+      ],
+      "verified_versions": [
+        "v4.31.0"
+      ]
+    },
+    "scope": "Full primary context only. One-level fiber lemma was used before retrieve; discovery is not attributed to retrieval.",
+    "identical_bytes_to_main_submission": false
+  }
+]

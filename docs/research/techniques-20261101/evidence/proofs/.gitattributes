@@ -1,0 +1,2 @@
+# Measured source snapshots: preserve original bytes, including trailing spaces.
+*.lean -text -whitespace

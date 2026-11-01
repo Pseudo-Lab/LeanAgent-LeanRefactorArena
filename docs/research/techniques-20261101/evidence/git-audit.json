@@ -1,0 +1,2532 @@
+{
+  "captured_at_utc": "2026-11-01T08:09:11.289513+00:00",
+  "source_checkout": "LeanAgent-LeanRefactorArena",
+  "source_head": "9323abd13b2a741d48939a1bf4af3a0010b0773c",
+  "main_ref": "origin/main",
+  "main_sha": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+  "branch_heads": {
+    "codex/api-comparison-main-loop": "9323abd13b2a741d48939a1bf4af3a0010b0773c",
+    "codex/arena-repository-design": "0ed5a024f5849c43dd2cd21abf1be0fe3e04533d",
+    "codex/astra-warmup-93": "456dbc4823dd5dbbdb86b173beaee6f7949167be",
+    "codex/cache-prepared-environment": "45f9410774b58d0735c162db0818a0840eb0e171",
+    "codex/first-harness-baseline": "843f036dcce5b96a28c3b95e3fd207ee6dd1be32",
+    "codex/research-techniques-20261101": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+    "codex/usage-cost-accounting": "b54afd4b48de419051f6ceb641513cb73136b7f2",
+    "codex/usage-cost-main-integration": "f05c6d6c3759ea7d357bcee99addaa0f3afbcd3e",
+    "codex/warmup-environment-repair": "2e00c3fbb1d2b4c8dabcd399f184d7e79f1e9bc1",
+    "codex/warmup-team-results": "602d32664e195da20fd05175217cfbe0bda6ebd5",
+    "feat/team-score-dashboard": "e8048b40390cd156a5fba6aeddc1346c0ecd826e",
+    "jwkweon/agent-kit": "cf465294396e19049a2866eb958f6b8dc8cc8c4d",
+    "jwkweon/failure-repair": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+    "main": "d741d00beef9e99d59958f9b80d95351fcb52db0",
+    "proposal/problem-environment-lock": "8524e07dbe48976b0bd520908f393e152d4665c5",
+    "origin": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+    "origin/chaewon/analyze-prompts": "394ed9dfc58d6278a946517f96b504907eee0296",
+    "origin/chaewon/harness-design": "5266d4941e256dd001cf0157b11e47da4a368386",
+    "origin/chaewon/pattern-prompts": "4c08a0a8763e29d84511fb671faec350477f5378",
+    "origin/chaewon/problem-routing": "74f88dc00a5befed4e36723cf4544f0dd1a6c63c",
+    "origin/codex/cache-prepared-environment": "45f9410774b58d0735c162db0818a0840eb0e171",
+    "origin/codex/p07-p12-resubmit": "b2b4a848b82a72e9e7e08440fff5c8d84de17a05",
+    "origin/codex/p12-evaluation": "f680466a27578877816ab9e26f23b7ad4ce4b4dd",
+    "origin/codex/revert-pr-18": "942ad24243e2e31ab91a329f4412ecc5f5a73f09",
+    "origin/codex/team-pr-research": "027e51ee92bdde4de354c7e207fb62b48394400d",
+    "origin/codex/usage-cost-accounting": "b54afd4b48de419051f6ceb641513cb73136b7f2",
+    "origin/codex/usage-cost-main-integration": "f05c6d6c3759ea7d357bcee99addaa0f3afbcd3e",
+    "origin/codex/verification-repair-design": "6453a1936d1f79e5ce927b3be840bfba608de3ce",
+    "origin/codex/verification-repair-evaluation": "cea09fbcfd62fa80f5883494eb7edd8ddf5762d5",
+    "origin/codex/verification-repair-policy": "14968c23f32ea64666851348b6955dc53c0ec769",
+    "origin/codex/warmup-method-expansion": "b7cd72d0863d9c0bcd0b2cc56a9a8b48aef8536e",
+    "origin/exp/feedback-followup-20261025": "93cc6bb28da1616d75286ce2ea992fdc38efacf2",
+    "origin/feat/team-score-dashboard": "81fb9944da7f02cea23d0333478b066c077d4c28",
+    "origin/jwkweon/agent-kit": "cf465294396e19049a2866eb958f6b8dc8cc8c4d",
+    "origin/main": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+    "origin/pr-36": "21d63e52262bde5af6a3cdce3b619a08f195114e",
+    "origin/revert-18-codex/p12-evaluation": "18d97c41c69464df8bb60458dc0ccd75fb5c5cf7"
+  },
+  "groups": {
+    ".": {
+      "different_from_main": 2
+    },
+    "docs": {
+      "different_from_main": 1,
+      "absent_from_main": 1
+    },
+    "experiments/api-comparison": {
+      "absent_from_main": 1,
+      "different_from_main": 3
+    },
+    "experiments/cached-verification": {
+      "absent_from_main": 5
+    },
+    "experiments/common-v5-study-20261030": {
+      "absent_from_main": 14
+    },
+    "experiments/competitive-search-20261031": {
+      "absent_from_main": 23
+    },
+    "experiments/competitive-search40-20261031": {
+      "absent_from_main": 11
+    },
+    "experiments/competitive-search40-extra-20261101": {
+      "absent_from_main": 12
+    },
+    "experiments/competitive-structure-20261101": {
+      "absent_from_main": 9
+    },
+    "experiments/fast-harness-20261031": {
+      "absent_from_main": 8
+    },
+    "experiments/hb-profile": {
+      "different_from_main": 1,
+      "absent_from_main": 5,
+      "identical_to_main": 4
+    },
+    "experiments/incremental-harness-20261031": {
+      "absent_from_main": 35
+    },
+    "experiments/oai-techniques-p06-p11-20261101": {
+      "absent_from_main": 4
+    },
+    "experiments/openrouter-budget-trial": {
+      "absent_from_main": 2,
+      "identical_to_main": 1,
+      "different_from_main": 3
+    },
+    "experiments/prompt-design": {
+      "absent_from_main": 16,
+      "identical_to_main": 1
+    },
+    "experiments/proof-golf": {
+      "identical_to_main": 3,
+      "different_from_main": 1,
+      "absent_from_main": 1
+    },
+    "experiments/research-harness-20261031": {
+      "absent_from_main": 16
+    },
+    "experiments/research-trial-20261031": {
+      "absent_from_main": 4
+    },
+    "experiments/retrieval-harness-20261101": {
+      "absent_from_main": 11
+    },
+    "experiments/stateful-harness-20261031": {
+      "absent_from_main": 4
+    },
+    "experiments/structured-openai-20261031": {
+      "absent_from_main": 11
+    },
+    "experiments/structured-openai-analysis-20261031": {
+      "absent_from_main": 1
+    },
+    "experiments/structured-reasoning-20261030": {
+      "absent_from_main": 9
+    },
+    "experiments/structured-reasoning-analysis-20261031": {
+      "absent_from_main": 4
+    },
+    "experiments/theorem-retrieval-20261101": {
+      "absent_from_main": 4
+    },
+    "runs": {
+      "different_from_main": 1
+    },
+    "src/lean_agent": {
+      "different_from_main": 2,
+      "identical_to_main": 1,
+      "absent_from_main": 2
+    },
+    "tests": {
+      "absent_from_main": 1,
+      "different_from_main": 1
+    }
+  },
+  "counts": {
+    "different_from_main": 15,
+    "absent_from_main": 214,
+    "identical_to_main": 10
+  },
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 927,
+      "sha256": "1e6b5f2febfe869626746e33f874915c34b945d8c7173623047a8ddbfc522b89",
+      "git_blob": "7256a96ae1bc3ff8ea18daa14ea5bb4717cbf7f5",
+      "main_blob": "b9b37014dd1b6fa3dac7435d148d1564b1aeeb61",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7c5054f515cbbe341a711d47bb038fd7c6432d7e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 10536,
+      "sha256": "0d0e484af0ab7f0df1709a282b2be95fc972935dc3dd1ef0eb2a4c9cca7de9c7",
+      "git_blob": "40ab597f14cee8e6a983fe82501fbc5a29d6ba9c",
+      "main_blob": "f89b9a3bc1bb1aa0aa500c07b8c05330adbf4400",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "docs/api-integration.md",
+      "bytes": 10392,
+      "sha256": "3b6132bb89001ff563a360ee5618c6df80458d066bddf0fe0d91497c42dc0043",
+      "git_blob": "cd49c5e13487ad13d4691e080b365c40fa1e72eb",
+      "main_blob": "70c370a24d0d1dd3f53dc4176ddce21d65e579b0",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "ba3de4f11be1d965e62c0781a7c8cc4074f2b2e5"
+    },
+    {
+      "path": "docs/experiment-log-2026-10-28-29.md",
+      "bytes": 7845,
+      "sha256": "d24114d357129275c8827ce4d522ce02f57dae26126b32215a8a2bd4ca23fa5d",
+      "git_blob": "b13b72234cd96d882f2e6ca454066768369dfc37",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/api-comparison/failure_examples.py",
+      "bytes": 4754,
+      "sha256": "b891c873a0de1de951cb49d43787cf2bfc182c1877180a2c7cce181a7c86e6e3",
+      "git_blob": "867635f3111424e4ce7f9b129183be9563ee7946",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/api-comparison/render_html.py",
+      "bytes": 7276,
+      "sha256": "06deadec69f0d99a4816357afaef6afc4adea38bd0e9490d407a12cf507b66d0",
+      "git_blob": "32bb4ddaae0e9af389d68f00d701638c12600d26",
+      "main_blob": "e8760864ea212ea3f1adf4133d9544674d1dfbec",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "84412c8576a58110abeeaf9ec4a74a0055db554b"
+    },
+    {
+      "path": "experiments/api-comparison/report-template.html",
+      "bytes": 24242,
+      "sha256": "72e4de912a2ff093a452a88f95828cb442b5f78940b92ca4055f1bcb6d54dfdf",
+      "git_blob": "430c7babfe0a5d6575ad2734ea273e499cab510b",
+      "main_blob": "558a0f258cf196354a0025c961e8ab35e1c63a97",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "84412c8576a58110abeeaf9ec4a74a0055db554b"
+    },
+    {
+      "path": "experiments/api-comparison/trajectory.py",
+      "bytes": 11417,
+      "sha256": "5c12791e96c050fd0e54776f6e19814fcae893121adf5d88908ef93bdd495d75",
+      "git_blob": "9debe54f7cee93edebe2df56a4b6c3229b54c1d9",
+      "main_blob": "edfb528388161f25d18301e0bfc0dea26d40466b",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "84412c8576a58110abeeaf9ec4a74a0055db554b"
+    },
+    {
+      "path": "experiments/cached-verification/README.md",
+      "bytes": 9128,
+      "sha256": "c28dcdf3098e6d378761f300eed6efe38ef0210d80e902363ef838e7804884da",
+      "git_blob": "372f93e9675d1ee342cbe73654d61afe67ccc243",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/cached-verification/benchmark.py",
+      "bytes": 5891,
+      "sha256": "84b7a3f37e600de0e72dd49b2bc1dc5b1bd3556f95dc503c1dcc4f3a06727dfb",
+      "git_blob": "bc81678f5d8067d794f09a48d93def20df8acb95",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/cached-verification/local-results.json",
+      "bytes": 5073,
+      "sha256": "4978c3d379c90567db7e3b485a6585b67ede12767a1e932259152944bb35b6e8",
+      "git_blob": "e2cabcf0b61f1b462dc34d1b3191bba1dfc2d5f9",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/cached-verification/spec.example.json",
+      "bytes": 1027,
+      "sha256": "3e52f80f65f08035b4a174f27203c60abad2b523695974d4caa5d2a2f987218f",
+      "git_blob": "7fec698116ad32f240c67a928db62efbb301db5d",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/cached-verification/worker.py",
+      "bytes": 13268,
+      "sha256": "396ee72821ade3abb33b9ddae25cd72415d5f3ea89007282983cd8b8ab9fb666",
+      "git_blob": "a5c22518ce3e96f1c73ac80ba4644aefb7bbd556",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/RUNBOOK.txt",
+      "bytes": 3661,
+      "sha256": "f01265a5dc400052cacc031f021b36ed0a0bad6b7296a0539daa8d83b0d257a6",
+      "git_blob": "4dfe7d0af466fa9659546dded4ab554daf75bc27",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/fixtures/openrouter-endpoints.json",
+      "bytes": 16322,
+      "sha256": "838f282303ff4e499bb8c7401f5d50143436d03bb986634723e1a654ff69aa1e",
+      "git_blob": "b24c8b975a25f6bf0a7568a8c8bc93e05594b28a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/local_evaluate.py",
+      "bytes": 3083,
+      "sha256": "20c3eb0f07517f1966fd297388812edecbb7209048078f45aebfa7c87c170033",
+      "git_blob": "86cf1c73c8412aeac7667192b89b30046385708b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/profile.py",
+      "bytes": 11140,
+      "sha256": "648e88a00cdba5e02c3f34620370027dbfb6eafed1637cc9c4fb4006ff2aa6ae",
+      "git_blob": "7ac3465a82b9b952feacf72707ec948e7dfb584e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/profile_env.py",
+      "bytes": 993,
+      "sha256": "001870b81be9d8d173ed53b7f735cb4ec428f1336c7c816d63b5a4b990730553",
+      "git_blob": "f44c1cd6f6e9c3202f7907ad8d2703a32c2ab70e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/progress.py",
+      "bytes": 1707,
+      "sha256": "928bf01c13c5c02eb8f02ee6da32536c27b3b8501d7296c22bbf8469f4389284",
+      "git_blob": "f5a679d92d4e0fc672bba7a04a39900bfc856752",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/run.py",
+      "bytes": 26516,
+      "sha256": "ea1ffe6e20da7bc533bf5eb976b66c0ec2b1c135635972a9fedf5b04d7bbe816",
+      "git_blob": "e354372cfa175db4c536330e216747b143edf39e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/test_budget.py",
+      "bytes": 7034,
+      "sha256": "3045c4a6d11478b86a12a850cbf865b61b3ce1ba55d717d90b29e472c71670ad",
+      "git_blob": "6b5410964c4ee5ee3557814e5339f155474cd712",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/test_diagnostics.py",
+      "bytes": 1607,
+      "sha256": "be3595065c57d9813bd525460e7058c7a41524e8c0870376016af647a71b7b21",
+      "git_blob": "4ae7c68ea960f22f3b5cae041f533eee0c7ba442",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/test_isolation.py",
+      "bytes": 7738,
+      "sha256": "7f9f7748d58dab0d3116b2636c6840dd40d181f268492ea0a296376945a5c3d9",
+      "git_blob": "6057dbcd17df4aa7f5f324ba7b9544585b26b1ad",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/test_openai_direct.py",
+      "bytes": 12445,
+      "sha256": "493c09165eac30cb248b834b5cc4476303ad4175622ca59e1c49370781e6cd36",
+      "git_blob": "b92871e457664c6833c43626491f9a5e92e869c0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/upstream-provenance.json",
+      "bytes": 6231,
+      "sha256": "abc976d74d71c8254bcd3b08c00c666515edbd5433fdbee535d9b04cc4b129fe",
+      "git_blob": "17489966b3a44d51fc75c5aefda1cf300c84c3da",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/v5_diagnostics.py",
+      "bytes": 1899,
+      "sha256": "1315360773962f3ed0eb0dba9fe653a364c880fbbebdfd5d4427fae87267d14e",
+      "git_blob": "acdd42b7d30bd1d4369181b0ea16dd9cc5d3d443",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/common-v5-study-20261030/v5_openai_direct.py",
+      "bytes": 8778,
+      "sha256": "1a09f3d892e41d97ccec14a231c1c0841924f4dedf07a4cd4f99f1f00337a853",
+      "git_blob": "e648f41239c1bcd3bdbe87975f8f13c0bac31e6a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/README.md",
+      "bytes": 4132,
+      "sha256": "a7999be30c95d390a093da50de4284f380418497b9536e50d7257eca67773ec6",
+      "git_blob": "061cbf96f9eaa16e09300698683cdc243c5ec8cd",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/arms/backward.txt",
+      "bytes": 2200,
+      "sha256": "2ec782f600b4c6c2d307912ba8d63f278aa749816fcb11e343bbc5db2ecc20d2",
+      "git_blob": "394f84880a2f9b2cfd74b33cd6483a490c2b131e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/arms/control.txt",
+      "bytes": 306,
+      "sha256": "1da144c0dfcffef94f59e4c1f119eb981f1f3fed7066f72148674d090f1d0008",
+      "git_blob": "d240ab959f59495e22ceaecd6bbf2a67dc945add",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/arms/distill.txt",
+      "bytes": 2635,
+      "sha256": "1361adea384c243d372945f734fcfab98c496489f9257e768a811467ac358b07",
+      "git_blob": "7f5004e947d693392aa8430327a0e12989c2d966",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/arms/portfolio.txt",
+      "bytes": 3109,
+      "sha256": "39649d460a93f58237a585703d833eec8fcb34753c02e2f1611f1c73015a9fb8",
+      "git_blob": "656c06884cb7d041a0157d116f160be10fe733de",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/arms/reencode.txt",
+      "bytes": 2483,
+      "sha256": "f2071cd0538fd3a2906448fc115971de50bb0929f24df9f266f4400f69fa2b4f",
+      "git_blob": "c8c8114a1f48e66a37c618048e52319eafa1b0fd",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/arms/replace-block.txt",
+      "bytes": 2318,
+      "sha256": "ecc63cc90d0f79fb964c77247f1efba080bf2a15a4138c902200583034ba955e",
+      "git_blob": "3a1c14504dbe199d761e66d7b3de3475b9524413",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/audit.py",
+      "bytes": 3736,
+      "sha256": "6e8e92cda1668b52180e917aac03aeb627d382d87d80433e3f98a112e52e4c8d",
+      "git_blob": "7097310b05ba4c3f6dcbc09bdb38c34e0fb01db3",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/common.txt",
+      "bytes": 3648,
+      "sha256": "2aab7904740c15974c89e216a48551ed6e81306e756c8ccd2894145991fee718",
+      "git_blob": "3043921da70881a4cb70d81bddc32179097c4960",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/controller.py",
+      "bytes": 29946,
+      "sha256": "c16b98327377bf0e8c444642907fda33d93b335123e83314ae5a03d5e7da8ddd",
+      "git_blob": "bb783496a43097035e6c53ef03323b42d576e013",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/design-broad.md",
+      "bytes": 11119,
+      "sha256": "7211f0a2da9a7e54f126b38cf3027db9103ff7411a94986ae146e85e1f7ef859",
+      "git_blob": "d7ec3f1ff70d96b1493238007439b613b6f0e437",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/design-transforms.md",
+      "bytes": 13094,
+      "sha256": "42d224dba6bd72a000679ca63421664d4acf77445f62e1cf146c7fcbd6e19ede",
+      "git_blob": "a280296abb4341feb37fe7cd51b89460b6354299",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/instructions/backward.txt",
+      "bytes": 5850,
+      "sha256": "6b58757334e4f766ad07ed5c88c31bc82640d19e6a1466df3db7428e497fcf7d",
+      "git_blob": "76a5d6ec3e5aa8d8ec96a6da54473d17c792e38a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/instructions/control.txt",
+      "bytes": 3956,
+      "sha256": "aeb4ae683427afa486b089e03e61e821529c464eeb6ac65856d69eb5049fc3da",
+      "git_blob": "d83f08b41423cf3b9a64d8e61ba70f4cd8135dda",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/instructions/distill.txt",
+      "bytes": 6285,
+      "sha256": "9e1ea8d6514ed5e1ce53d950c975f7f9dfd978dbfd3a2dc9781d3bbe4cf638e6",
+      "git_blob": "e033feab39a75965dc55637a75374417628a1cac",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/instructions/portfolio.txt",
+      "bytes": 6759,
+      "sha256": "aa2fc7ab6fe973c5138b776ad1c6fe34aa093524cb52084df73b145989442e35",
+      "git_blob": "bdb4e4a90d5653ed8d56149bdcb5d9636f1487d4",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/instructions/reencode.txt",
+      "bytes": 6133,
+      "sha256": "d9ea43de439271eb5304e475abcdd84ff71241905fd2cc1b7096b0d212f3dfb4",
+      "git_blob": "29f294bb44efb7b3f15e0bd3b8a4ea1a5b3eebbf",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/instructions/replace-block.txt",
+      "bytes": 5968,
+      "sha256": "383597b2bfba7e359485179537878b8426809f7afa28acf39bb49fca66311ee4",
+      "git_blob": "0ee122b2c37f3dc59efa6b4739d10c129ac48fad",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/plot.py",
+      "bytes": 1891,
+      "sha256": "48c7ba1ecde78376560d9fc8726f8bff79b00cd97adf3bb44c442be80ef822eb",
+      "git_blob": "8245c02e024ac42802e0b99ed83db5c1fc70eb78",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/protocol.json",
+      "bytes": 1777,
+      "sha256": "3a3cb9f14f9608553bdb392b5e0ee885486f2ab0211bce8241fee65152054878",
+      "git_blob": "0e501d79f732097491725f0068edf4297a02283a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/report.py",
+      "bytes": 5837,
+      "sha256": "d8886b5a7fa23b9263550f7fab83137cf7dcda5a44edb3683363bf7d06b70862",
+      "git_blob": "f87c6441ff1bd887bde7700680a5561e95faa9a0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/resource-policy.json",
+      "bytes": 2350,
+      "sha256": "3f7db65a5ae08cc261513382ede28ac85a8806b609dbe741f5d7f0934a76797e",
+      "git_blob": "bb40cf821428b30c9c1f57c9bc29aea4dcaf2968",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search-20261031/test_controller.py",
+      "bytes": 12305,
+      "sha256": "87f3d308f715c52b3e5162731f17719a305b333229e76a8e3c312cbd9208574d",
+      "git_blob": "6a6ed045ab58684ee06a9c2abf471db4839842bd",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/README.md",
+      "bytes": 6678,
+      "sha256": "9394d8e2f58fab35eb62f3a7bb05c9b50d33c44696cffefea1fc0724b10bf8cb",
+      "git_blob": "e45d5b9e176eee332fb11d2cc632bd22c869cee3",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/arms/portfolio.txt",
+      "bytes": 3673,
+      "sha256": "98934bfb60021c8e191536160cd6ca1b2e25e03a606c164d72c676c9a80d253c",
+      "git_blob": "aa112537d6e8268a1e7371e4ccd4c171bf37470a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/audit.py",
+      "bytes": 11274,
+      "sha256": "a32508c65200d02ebbe889ec882d4847bb83bf0ae5ac9f2b7ba3dcbec56cc118",
+      "git_blob": "8cea39d3cb8fe7ed9a3baf48c98d0955e2d372fa",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/common.txt",
+      "bytes": 5594,
+      "sha256": "c8967ac0242626f4f48a2b812fd6e699982924fb1bce2bac7c2799ff08efb594",
+      "git_blob": "f8f02bcdb6ff3505ccc4096c977b307b87075a85",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/controller.py",
+      "bytes": 32692,
+      "sha256": "2f5e345929641dcde28d0efa33086bd332e05138979318525b41564ba95fa310",
+      "git_blob": "caafe105ec0af069c5e492edd394f186de10e54e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/instructions/portfolio.txt",
+      "bytes": 9268,
+      "sha256": "e24b612394f2a2f06b6944a5f7be66c34e18dc0462c6f806689726b2ffe41b04",
+      "git_blob": "6715d2f47543b33132161596ff757f11a61fae5e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/plot.py",
+      "bytes": 5376,
+      "sha256": "367548f549845e7f478a38a1eabcc65bdd11320ab62c0e3386fb0659c30419b8",
+      "git_blob": "ddaa0d17b7afc168ab0d9a5b3a9c8c0c0f85894a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/protocol.json",
+      "bytes": 3606,
+      "sha256": "3999dcab96138591de4f404501dec8f2f8d72835529a933c53dc4553c543255f",
+      "git_blob": "d8220699ce569d0e31bbcb85f6d55228d2cbd0a0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/report.py",
+      "bytes": 12481,
+      "sha256": "021c43eb8d3beedc8054385143de508bef6b1945f73010b011dd1da09c776fb5",
+      "git_blob": "9d0531d02c92a26b4039314200bc391cd93a7cc6",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/resource-policy.json",
+      "bytes": 617,
+      "sha256": "73a78a675e145897912de3507f7443782ec9a5fe8369f9bb6fcafc85e554e482",
+      "git_blob": "be1577aabe2adbeab0e5ea9dbd8fc01a86918233",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-20261031/test_controller.py",
+      "bytes": 22840,
+      "sha256": "6f2e2a1dca4a0ee73048c041d3b5377b6445ba90d9e3d37fd97db82d41cefea3",
+      "git_blob": "cc59f3133c1dc4f6f56ece12f1b03b8c2a7f1bcd",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/README.md",
+      "bytes": 7058,
+      "sha256": "3f593bd0fd5bc22f08c3db70dffc3ce48bb2e86655a3cd29a6681fcd4eb78334",
+      "git_blob": "e97f913169fea165569d675a1b7271634f56562b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/arms/portfolio.txt",
+      "bytes": 3672,
+      "sha256": "9d75cff33f98e51d12d871b225ca394f0907d153a6d72c047a4a9b2b2e1f77d5",
+      "git_blob": "a5739719da9bdce739de42891aa73c85bd8b5166",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/audit.py",
+      "bytes": 13189,
+      "sha256": "e0bd019413f34d086265b7b010153d17fd7a2199f9ebabec3f91080e73f60093",
+      "git_blob": "1370147c57e894d2899fda5cc730be5a3addc7a7",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/common.txt",
+      "bytes": 5700,
+      "sha256": "ff819b390dc8c9667db5901b5a1688d1e8396d91691446158c4a2d4aa795b7e3",
+      "git_blob": "f47ebd4447c01a5023838d3758562c9516002648",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/compare_88.py",
+      "bytes": 15879,
+      "sha256": "de9bcaef828a28b980bbfba8c340a3a039dc0dfe52045a6f1a7be102cd09cfbe",
+      "git_blob": "a6d3e2b55836bd75e749a36e47e8d93d84f739d9",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/controller.py",
+      "bytes": 36782,
+      "sha256": "641b051f621fe69468704f9062d329b46c6913888e846845df8b9c58df845904",
+      "git_blob": "c83f12e1d81fed8a03bd86a20f1a7471c43fd848",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/instructions/portfolio.txt",
+      "bytes": 9373,
+      "sha256": "86ee4dd2000bb13fe4c43efba70f76c1ab07988ce7a11b94219750547b3858ba",
+      "git_blob": "8590a4a119a16af7667740007b4d8d23446eff57",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/plot.py",
+      "bytes": 5329,
+      "sha256": "1ec5e8ead9e9fc29457240a093e8940a7ba33adba8bb6f3149e0fd48e9d6d1c9",
+      "git_blob": "36daff799a1784e0a640cd3bfac54884b31ccf8a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/protocol.json",
+      "bytes": 14454,
+      "sha256": "5da98de29eb9ac15e932fbc61703ef742700f99a0b3cf3072d381c6df282b286",
+      "git_blob": "007837228c771bebc997a0373ce184fef29f4227",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/report.py",
+      "bytes": 12743,
+      "sha256": "d55a9989377a5190475cead7fb541f5b845aedcb2ef4c06c54b0e923b81fe5be",
+      "git_blob": "daa972609932eb41c0301cac72ff59f800b12189",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/resource-policy.json",
+      "bytes": 621,
+      "sha256": "6f255f1e0eceecb4a5341c7d248f0b77089f862a304b55ca99767cf111a67888",
+      "git_blob": "d71ebe11c11b83e74f3a75c6d41b06f0010acc49",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-search40-extra-20261101/test_controller.py",
+      "bytes": 30588,
+      "sha256": "08ac4abdd8723598e8940cbffc00b2b7aa95fe3883947be5bb21de9142f798b3",
+      "git_blob": "2c64884987d2dbfd1aba88df8b5c4234d7a9dd43",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/README.md",
+      "bytes": 2074,
+      "sha256": "1ed5211745a3bc7f78a3f598ddf709eb8c357942bac1afe23c74efc36b7f696b",
+      "git_blob": "99666fac0999b6c2996d472681954eab2f440465",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/audit.py",
+      "bytes": 8137,
+      "sha256": "a6715de16e8c347e6362482db13007b82dba3f29bf5ceba477273b214a728050",
+      "git_blob": "171fd32da65a6bee239672ac939c87fd7653f254",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/compare_results.py",
+      "bytes": 9051,
+      "sha256": "01bd3b73a7a5b3351fe1d350bd7a1957fa60b509fa16b20d4331271d362d44fd",
+      "git_blob": "53e4fd2009769c72aaab281e79354bfc9c470c70",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/controller.py",
+      "bytes": 32574,
+      "sha256": "d2f3896198ac06cb22fdbf7ba0850f3d98dd0a5108224dfbfb9729fbe1d17580",
+      "git_blob": "15fe487c6a213b988f660c943466d455187f92dc",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/instructions.txt",
+      "bytes": 5335,
+      "sha256": "a5b488f764e4e70aa27666ec57f01686129dbd9e358a074245c1b4761b06ed36",
+      "git_blob": "4397f670b1f4eb0fc16b643b2b548bc062766cce",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/protocol.json",
+      "bytes": 1812,
+      "sha256": "80975a4034187753069f6e5aa43fec5fe8c8aa06a53ce2435764056c98af2681",
+      "git_blob": "a950f89049720138dc518ba03370c0bac403780e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/report.py",
+      "bytes": 2796,
+      "sha256": "bc2cebcc9767ebd60d7b38e04e06cca474075de471759d3c566a7c14a3a4c8ef",
+      "git_blob": "06260f14798aafd500f78ca92cadf2b29c2b830f",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/structure-design.md",
+      "bytes": 30418,
+      "sha256": "5a95741bf930edadefd773b90b0e14d45802d86cd4076acec537cadf95cbecaf",
+      "git_blob": "e2c4fd8336cd99be5068a06ffddc559af404690c",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/competitive-structure-20261101/test_controller.py",
+      "bytes": 14029,
+      "sha256": "cf6eca284bcba7889ed69f9c8779b929b0e92f6c095745fde8b033cbdbc06da0",
+      "git_blob": "503457bd10859162ed0d3e6e82299c3644bd3197",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/fast-harness-20261031/README.md",
+      "bytes": 7115,
+      "sha256": "b60d0335093a11a54589b202b4e783e19fcaa441374ea78e9cf6a2c39edd3054",
+      "git_blob": "a69e24ec29c1c9668b013311446127ec386e1bf6",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/fast-harness-20261031/bounded_golf.py",
+      "bytes": 6036,
+      "sha256": "2d7a246a7f4929a39535b4c3824bf5b59e1cd85498e99f6de5bf2fb017b37925",
+      "git_blob": "1ae584bb961d685a259793c3b34ce0174d4ec555",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/fast-harness-20261031/compare_one_case.py",
+      "bytes": 10400,
+      "sha256": "f3b9547dbc0796c9af829f560bee7dd1bb139ac083d815f57b64e086c6df4ba8",
+      "git_blob": "f55317132e1ed8663dc8334fc06eef9dd3877235",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/fast-harness-20261031/native_probe.py",
+      "bytes": 1830,
+      "sha256": "ceaff29e93ee6a02d5d8e94eaf6af8dc2d8762fef304361e370a5d489ba63ecc",
+      "git_blob": "0a0238fedca065853559c9c4774adb38fd185eaf",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/fast-harness-20261031/one_case_trial.py",
+      "bytes": 3972,
+      "sha256": "cfe1d279ebc011224743edb4887047746e501536461c80c46a88bef536afe05f",
+      "git_blob": "e154b89cd55880a54828543934b4b87890047c7f",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/fast-harness-20261031/profile_run.py",
+      "bytes": 4070,
+      "sha256": "8cd87157d64abec97f013428ddb2f0056f2c137a9a9ec30f7a1ae5d7ebad64d9",
+      "git_blob": "b703d8e44b86ae26cdde5842185771c5eee616d4",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/fast-harness-20261031/runner.py",
+      "bytes": 13153,
+      "sha256": "54e948f8f0c10aa1a6c0884e80bd9ff8d95dbaa1040da9aa38b6f2dedbafb138",
+      "git_blob": "dae166ce271e6766a06c32c51fe69d900070e13d",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/fast-harness-20261031/test_fast.py",
+      "bytes": 8845,
+      "sha256": "f0a9f666a2c73b6a9d1974f4f8f9cc9ad93f720539669eff59d327766205b6a9",
+      "git_blob": "ebfc7c7223b8559a22184c82c58adf9b3656c18e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/hb-profile/README.md",
+      "bytes": 4586,
+      "sha256": "01e6f04b0bc569948dea576a43060aad866ed7ace88ac276be45941dc0f7ff9f",
+      "git_blob": "30abc28f2986ece388bbdb31c59b6dc7bf6d6c9d",
+      "main_blob": "a7c257d4199d82fb0364988e32cd891b9ae0e751",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/hb-profile/extend_88.py",
+      "bytes": 5412,
+      "sha256": "1b911f9f13cb4f607d70196d01e47e703f5a272e55e0c923033f521eabd4f39f",
+      "git_blob": "8f140a0357c5e8ac92353b8fffb3b2d2beeb3c6a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/hb-profile/finalize_88.py",
+      "bytes": 10972,
+      "sha256": "e3153ff6aea02b32dba73dc9abf1d3f4f05535e5677225c54c4b3bdcaf45f307",
+      "git_blob": "20ec9a947e5390fd8c95d8a39de9e370a8471bf7",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/hb-profile/improve_88.py",
+      "bytes": 10939,
+      "sha256": "9c878d4e593702fedd7c33bf80de822226c784e7577d0aff239eee8a26b3423a",
+      "git_blob": "497d499cb5b4597fed01343039db368d668930cc",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/hb-profile/minimize.py",
+      "bytes": 19238,
+      "sha256": "a388ff3f84b97bd7d69b8370a46d25bf77ee47b52aa184847c5d136d0be9261f",
+      "git_blob": "27d99bf856d0e1d7eb8f12daabb70ee45dd28432",
+      "main_blob": "27d99bf856d0e1d7eb8f12daabb70ee45dd28432",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/hb-profile/prepare_ark88.py",
+      "bytes": 5082,
+      "sha256": "83e78233d9d30dfa01bfcd8446687fbc937587b5e85dd9e307721695115d0a33",
+      "git_blob": "c0984878ec4dd0c13dc137ea60e6fc1e01abeae7",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/hb-profile/profile.py",
+      "bytes": 11140,
+      "sha256": "648e88a00cdba5e02c3f34620370027dbfb6eafed1637cc9c4fb4006ff2aa6ae",
+      "git_blob": "7ac3465a82b9b952feacf72707ec948e7dfb584e",
+      "main_blob": "7ac3465a82b9b952feacf72707ec948e7dfb584e",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/hb-profile/profile_88.py",
+      "bytes": 977,
+      "sha256": "dcda9ae774a496db48808fb130f6e65a84bca0322240ede6b076fb7262055ce2",
+      "git_blob": "8f0f8a73784a75781943ffb63e993c5c0c9d03a4",
+      "main_blob": "8f0f8a73784a75781943ffb63e993c5c0c9d03a4",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/hb-profile/run_all.py",
+      "bytes": 5000,
+      "sha256": "52f0acf2603a9224fbabc929f9b718e2fad65c294d66eece47623977f0fea104",
+      "git_blob": "3fcf4265fa61e74413eb4b7e4bc882927d1674eb",
+      "main_blob": "3fcf4265fa61e74413eb4b7e4bc882927d1674eb",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/hb-profile/suggest_88.py",
+      "bytes": 2991,
+      "sha256": "1dd2ce1b3329192fe30e5d04cecd3c33e99ea68efddb06283922f731118c7494",
+      "git_blob": "70295d166cebf2d755241db0e97b5fd00a700212",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/README.md",
+      "bytes": 5102,
+      "sha256": "c1535aa79edaa473308a5eac7e87e3b1b7ba83ab29a61539d85a8c237ba6fade",
+      "git_blob": "df373900bd4267c102ab4b21ca8864ace8a689f7",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/analyze.py",
+      "bytes": 9836,
+      "sha256": "ec6ca327b70d78135f62e6a47cacf49fc7ce07ae32522bca43c59ac26a183b9a",
+      "git_blob": "6ff20fff6d57bfaa117547e93b02a6e2cfe79d9a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/audit.py",
+      "bytes": 11171,
+      "sha256": "9802a971472d749fb8aba80b965873360dd493579af691480308b73860c0e6c5",
+      "git_blob": "11134fedb0a5ac17a9b70702a44fd20477dfc083",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/fast_runner.py",
+      "bytes": 2252,
+      "sha256": "3b4b6dcf5ac7f3842e98ea9755eacb5a5d2b0c6007d42cb69a2386eccec158dc",
+      "git_blob": "9b02b25964b758738674e5f9ded6ddfbcbc1a11d",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/instructions.txt",
+      "bytes": 4508,
+      "sha256": "16c7f4a1745d0e35a5957bc3b9cdd236c648380a45876e4d3005ec4b1fb53f86",
+      "git_blob": "618eaab52c59ed33ade9011e4455c7f84185829e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/measurement_replay.py",
+      "bytes": 5496,
+      "sha256": "ee2730fc7500e9e13a59790afa7258686b23912877bf2716631d3f802c67b44b",
+      "git_blob": "39e7446e1766496aea8d5aed7d9b6631c0c9e6ca",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/native.lean",
+      "bytes": 4119,
+      "sha256": "f3cda9158a2a72c1b48b1ed12bb68aa897bbd175462747f610217f76934f3c6d",
+      "git_blob": "4e0a7bb441dd8ea817483bc2f1a8f0cfda0cd9a8",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/parallel_evaluator.py",
+      "bytes": 4963,
+      "sha256": "0155acfd21f52dfdec8ce692458adb78d300d383ae844ce5e21b4d089f4ca715",
+      "git_blob": "8d4fd39fa445435630d12b6fa7a7069604e4d9eb",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_fast_runner.py",
+      "bytes": 2692,
+      "sha256": "3719de8b43e44eed6a67fd396398a9df90e55f8f0f5a92384c121e644a6d5520",
+      "git_blob": "615c51add8cacc7b229ee69fbf0bd4e35e48ff32",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_golf.py",
+      "bytes": 8493,
+      "sha256": "f299b8f8ee5cee2c6b76cb2962863a936f7b56ddfe848de6b9a19720d14b0f76",
+      "git_blob": "91e11d61ec36795742ea707ac7e959fbb9de7d16",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_memory.py",
+      "bytes": 7547,
+      "sha256": "f38b739ccba97c2c3508c3d5082367e40120fa7b772e74cdc33798c11a2ce2ee",
+      "git_blob": "43bf5e708f53f9955ac91846dfbe06bec45da7ca",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_parallel_evaluator.py",
+      "bytes": 9312,
+      "sha256": "b17f811b77b2bb76d7c75bfcfef51c7b0aca636c38b8adf78698fe9d7b1b7532",
+      "git_blob": "e23a2aebb2d236b1986f0eb63e1c7e614f79a1a5",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_queue.py",
+      "bytes": 5381,
+      "sha256": "13c45695820d7b17ecd5cce17edb7827bb092039d3d9bedd12159a2738f42c61",
+      "git_blob": "3024e619afa5214d714c5386989b406b4f8a7682",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_screen.py",
+      "bytes": 2754,
+      "sha256": "0364edbf477012c1266c0e8479fc5edcdec729fa784fc0484b9062de846be3d8",
+      "git_blob": "300e201e9816eb53c9c810dd29004d736aa29f34",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_v10_controller.py",
+      "bytes": 11046,
+      "sha256": "3cf1403425724b8867dbea22bbe1b2157d89babf5f55e40cec94a352b64a3abb",
+      "git_blob": "5c7799175381040c2a154a96f64804bb8edcfac5",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_v10_experience.py",
+      "bytes": 5273,
+      "sha256": "53122aee0a8df6efde98fd491de21afa60a7fcb137a40183208686543ed50c25",
+      "git_blob": "8565a42678a8e25980d7c03072442d08c7914c35",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_v10_transactions.py",
+      "bytes": 22382,
+      "sha256": "fb44a4306c6d800a63bfeb0abab2ad602aed63c7ba81d5a9729a71895f5f52f8",
+      "git_blob": "2e062e2b7a4d2d63650ef190b93da6caa713d33a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/test_worker.py",
+      "bytes": 6468,
+      "sha256": "f42d4557c75cfd17f28d849bb4d0c3cc4372bf31a36dcd738dda239698ea9603",
+      "git_blob": "9f198e6ccb4253ed6c6b2f94873b1a2ec765e439",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_adapter.py",
+      "bytes": 7151,
+      "sha256": "d6b1b4258dc2970d2e075176a81a145f05999831de9c24732ce3a452c7b5406c",
+      "git_blob": "5f8dcb4c5ec6a117726a0af5ef6e5f0cae17098f",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_controller.py",
+      "bytes": 24069,
+      "sha256": "2badf0b3e736d394c5094ba09d97a486c2bd195d96b3bea5dfe711e9ac23da20",
+      "git_blob": "70801f1374936c9e04738baef8d274242d8f6bb8",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_golf.py",
+      "bytes": 20354,
+      "sha256": "ab5ded87c065d8a4a0a66f5da55753f0991e773c192378b27361c01402a2d380",
+      "git_blob": "218a3645da4e5bb4a12417250ca1ab6188da2e3b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_golf_resume.py",
+      "bytes": 8392,
+      "sha256": "63912c4ddb5d05e2766e00e980289c3dc16f0d9883cb8c79fad9bb33f9f44de6",
+      "git_blob": "9c55215f2f620aff2fb0a489c1ca636f534e8ce8",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_inputs.py",
+      "bytes": 3946,
+      "sha256": "3f838b35bd9dba2d2a68fdb404bbe607f9e988e19b58a6a834975e5bf72e66fc",
+      "git_blob": "7f360f389d2790a9364fcbf7abf0df723911cd7c",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_lean_worker.py",
+      "bytes": 13773,
+      "sha256": "b804d298094f1ceba584d6631787c869619f778b84afba6b23bd74c561699a22",
+      "git_blob": "528f1ea90e902f53776fa1007e36402c8ee09024",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_memory.py",
+      "bytes": 7078,
+      "sha256": "431cf00563b03d9bb3d4e56c1d4c457c92dd0f7ab3f3d0e28041a2681ec21c5f",
+      "git_blob": "b60fc2b64349a8b98c91239705f8bcc26c94eb6d",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_native.py",
+      "bytes": 8402,
+      "sha256": "ed8126ca93b05d272934b3aebd0c3de717f24a50dab27179bbe9d00e3a6157db",
+      "git_blob": "ffd52abc3303bcde548852d46ee0d4de3fbb9c19",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_pipeline.py",
+      "bytes": 12832,
+      "sha256": "8622b5f2ee689fc066656eee424aca71fd9ab52c17b5c1562b89f959a931327f",
+      "git_blob": "0ad5c2de4f98b832d053b5910e5475fb4c047059",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_queue.py",
+      "bytes": 6547,
+      "sha256": "f03b303571fa8fc9bd70f9dfc3c0e77e62b88d8d6780a64b978070161c531813",
+      "git_blob": "34af88f6b10275cde8dd18824e501292c11e82ed",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_runner.py",
+      "bytes": 20659,
+      "sha256": "52774eea403cc621033f6b046fb54e67de36238cbbff161631cc059bdde897c6",
+      "git_blob": "0ac1503a78a708cd814f396851cd1320546a88b2",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_screen.py",
+      "bytes": 3002,
+      "sha256": "3781feb4c884b7aa31c397ff4f76e178e79cfab52b07ae310da244a97408ac28",
+      "git_blob": "4082e1f9bad72b835d4912f1d74ac4e9446cd44b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_trial.py",
+      "bytes": 4239,
+      "sha256": "216244223e7d26770c1d8b13c2d78d429c9424cf055c61c57b8f60e7619e73e2",
+      "git_blob": "e4a6d7d2ab14ae53aad9dd0648f73f5bc584585e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_validate.py",
+      "bytes": 2574,
+      "sha256": "b41c9a4b1df78d76b1a5eefe7fd7aea0ca4ca9844c5b1a0bc22c447b6924c63a",
+      "git_blob": "14b506404bf46fbf168357321bb3fe6eb09b0caa",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/v10_workflow.py",
+      "bytes": 23665,
+      "sha256": "b6967b4956728b3703b8f70d7805d36e1467b03b29d31c536080644c66e6ed59",
+      "git_blob": "d77c337e93ce402abf1784ed9878296bb9072657",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/worker_benchmark.py",
+      "bytes": 5404,
+      "sha256": "0843567d8d895335fd976c30fd48b660d087d5d45f003ee723ba220b814b696a",
+      "git_blob": "425c5f72e6f4418439c31cc29b3e27d9a7d1d389",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/incremental-harness-20261031/worker_reuse_witness.py",
+      "bytes": 2473,
+      "sha256": "dbbe832227084061e84b976464cb3199514e503d17a7246aad25eff8bd7130f2",
+      "git_blob": "d19d31ac3f01b6e46c0b769998b0609e7d3eb6b0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/oai-techniques-p06-p11-20261101/evaluate.py",
+      "bytes": 4174,
+      "sha256": "f2a0241cfdffba1a548781992f60491d7395a637721137be3c7677ec0b1ff603",
+      "git_blob": "a789c3d4669278fa2460d84f18a7e42dbeabf754",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/oai-techniques-p06-p11-20261101/local_p11.py",
+      "bytes": 32561,
+      "sha256": "508249df528fd7ed8400b21405e3e241d17eeca7f76c5977a8d23a6aeb5a2f88",
+      "git_blob": "797f675cd16f59504e915b9f5afdc0a99002e04b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/oai-techniques-p06-p11-20261101/reproduce.py",
+      "bytes": 3279,
+      "sha256": "49bb37328f1d2d1523ba7afdeb153578111702e62a8f93b7443d1becfc328ddc",
+      "git_blob": "a00680007f6fc43015b2689b1157266430bbd114",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/oai-techniques-p06-p11-20261101/summarize.py",
+      "bytes": 4713,
+      "sha256": "9694367529a9692c8b6a82b21a63cc36a2473f8af46bb05de4795ef91083467b",
+      "git_blob": "c9c1bb834b6b8e76d2ad90d6abaf21f199a844e9",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/openrouter-budget-trial/OPENAI-USAGE.txt",
+      "bytes": 6799,
+      "sha256": "7275aee2e8227000d4f9713514f7bfe5ca1eff425085cd7aaef74423bbae1142",
+      "git_blob": "77a2b2f4ad12c37eb3eeabc7cb7c721dbf19ef41",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/openrouter-budget-trial/USAGE.txt",
+      "bytes": 6921,
+      "sha256": "201371de057976c8e13f14111b6d4986f9e72c443ec2fda35a5ffdd0a515d658",
+      "git_blob": "d604c47b7143e9c186055905a7ef2d1827cff37f",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/openrouter-budget-trial/report.py",
+      "bytes": 6266,
+      "sha256": "313a7a6d8479706407470b30f4d888d09df357453b683f26f0fd2b178e326ff8",
+      "git_blob": "35bc32e05c56e1769802bb2aceafc9787a506049",
+      "main_blob": "35bc32e05c56e1769802bb2aceafc9787a506049",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/openrouter-budget-trial/run.py",
+      "bytes": 24122,
+      "sha256": "7b6df06b9ce67347c29c42a0cd8b0112d9a0b8739d9e034caa58414f769af404",
+      "git_blob": "4f942a0ceb5bd0fed50a6701d02ee6ac1da3d44e",
+      "main_blob": "cceecd228ec4e6a712d12e5852b39ca9f789a908",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/openrouter-budget-trial/test_budget.py",
+      "bytes": 6989,
+      "sha256": "c524c6f522b98ce013581a6884ab1c007091673a50bdacf2472f6fd652634047",
+      "git_blob": "c2868098fbe1ff3eb0f0dc86c02e6b2e0c2fd935",
+      "main_blob": "6b5410964c4ee5ee3557814e5339f155474cd712",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/openrouter-budget-trial/test_openai_direct.py",
+      "bytes": 15591,
+      "sha256": "946f7636a48c8aed0609f808e7454a80c58c49629c7bd8ea83e6597d89287b1e",
+      "git_blob": "8909bba4c252e2c6d47929cc49d165f3ca7245e3",
+      "main_blob": "8c663120f250198431fd9f65a4b16c324066b30c",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/prompt-design/common-transfer-20261030/prompts-common-obligations.v1.en.json",
+      "bytes": 3122,
+      "sha256": "80b5e8fc62d762a5e38f4ef461beef848cf92cccbe0a216b93eea32dbdb91162",
+      "git_blob": "df449cbcce1dd2424bba891b703ddd5adcaca8f2",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-transfer-20261030/prompts-common-v4.en.json",
+      "bytes": 5653,
+      "sha256": "17edc947b9611532b4f73be9e8bdd3c8078131025e469e1bbafef7ae8cb090ce",
+      "git_blob": "3a3e623411af25cf3424217dd1339cb3d3e21376",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-transfer-20261030/study.designer-only.json",
+      "bytes": 32222,
+      "sha256": "3a4b8d0f76dc62731f0b0d8eaeae211b1140a2e9822019243a713a1e9931a01d",
+      "git_blob": "40cc5321fb4ee76a22ae2b7dfb21f9576bb4a557",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/candidate-proposal.json",
+      "bytes": 9488,
+      "sha256": "ac009f059e3d4c58e0b30a5c77ee7c16390c00ba844c1df044da9b85b91e9208",
+      "git_blob": "b3398c3dfd271294758745a0eb889ee77690fb80",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/candidate-route-gate.v2.json",
+      "bytes": 10545,
+      "sha256": "153f94e1ba5160afc9d4d95b2f4fd4fdbadb3eed7dec1e2fffa13e459dc08d86",
+      "git_blob": "3decc59262c62aec315946b56361bcf92669e962",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/control-v4-common-case.en.json",
+      "bytes": 11880,
+      "sha256": "753edc9be24d6fdac7074c18183edf017497fc12a987f83561a84a668d051796",
+      "git_blob": "2b462c5616492a315a1c8040149adcae431c96d2",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/control-v4-common-only.en.json",
+      "bytes": 8792,
+      "sha256": "14e3b61bbdb9652264341dd9db4b10183db9b723bc7510a4c4aac85f0ef7c4af",
+      "git_blob": "7b561b3402396531d70d67c736377ae57e3d00ac",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/evaluation-plan.designer-only.json",
+      "bytes": 24335,
+      "sha256": "4da103b5a8b6ae9c99cc3cb5382aa490120bbd24da04cc58d99346d0494463c3",
+      "git_blob": "98a236fbfec756b4e6b27457a079678fd555925b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/forty-attempt-audit.designer-only.json",
+      "bytes": 113023,
+      "sha256": "4af1c4e5dbd7b07ab8ed80d717c3ad15c55dd1b4038b5cc1009e6f14bdcd0dd2",
+      "git_blob": "d3b264c3686d0bd33eb1af80da6974f952bcdee9",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/post-pilot-review.designer-only.json",
+      "bytes": 9918,
+      "sha256": "bf3f5719aa3b97ea2a867107ffc26aaefd18dcd0ba2e5e1b5e14d3449b342631",
+      "git_blob": "6333ea2f94a870b3ff8b80875f9cd16912c9f0fa",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/subagent-results-at-06.designer-only.json",
+      "bytes": 4527,
+      "sha256": "26d1f5b8ae2647680d9e3d80e9a6dd5f392070a6740496c7d1e382c2b6d10b6c",
+      "git_blob": "71e75f82665fcac5a4a3f47646de7d46a495f82e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/common-v5-study-20261030/subagent-results.designer-only.json",
+      "bytes": 9023,
+      "sha256": "43450f054111d40842feed9484b8be02efcd830796fafa2d5af5dbcba0bc1bca",
+      "git_blob": "f9ad9525b036e7e35fd95be91ed92b1ce38e4093",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/p01-p05-reasoning-prompts.v1.json",
+      "bytes": 15076,
+      "sha256": "056c91b7c5f08d4c7f1722b1b15078cab109c66d7a5647f4440fcd7094a7e60c",
+      "git_blob": "6cb60c18aad254727552a2ab752e7a3a329e6e81",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/p01-p05-reasoning-prompts.v2.json",
+      "bytes": 5760,
+      "sha256": "2471995080c249bcc5a671ca8dbf3bf49495b6ee57ec3100160ad5821c3a1d89",
+      "git_blob": "32dae0fac407272c4782195caec3ed45d7d0c5fd",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/p01-p05-reasoning-prompts.v3.en.json",
+      "bytes": 8860,
+      "sha256": "d3f7c75890de2ef8225c7a7592606f908e5f96e1d97b5a8211ed213c453a5513",
+      "git_blob": "475345255506f5efecffb1376f2ee57bc549cb4e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/prompt-design/p01-p05-reasoning-prompts.v4.en.json",
+      "bytes": 11795,
+      "sha256": "e1fbd28df503d894f3cf90e30818dea9ccb046553243b5ac21b8510c69c9d27c",
+      "git_blob": "f690ed8357d3514c5176307853b876b13813b21e",
+      "main_blob": "f690ed8357d3514c5176307853b876b13813b21e",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/prompt-design/p02-p04-p05-reasoning-prompts.v3.json",
+      "bytes": 7755,
+      "sha256": "5cc46a1f39e68393dff8094ce439c5cd0649f96ded7a750f2d9495ea2c526f37",
+      "git_blob": "d4802db2912b3694851561ecfd03f77d9bae5ab6",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/proof-golf/floor.py",
+      "bytes": 7054,
+      "sha256": "743b26c844b294f96dab52144a5072fd63c7c37656a8fe3a34cc41c59ef0e7b7",
+      "git_blob": "d520f09ac7317617b96acece4982c32a00deb5c7",
+      "main_blob": "d520f09ac7317617b96acece4982c32a00deb5c7",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/proof-golf/goals.py",
+      "bytes": 2446,
+      "sha256": "a3ec92f3fa9d4cdd4b8903340809403ecdb04cef61f943714ce6a915099e97eb",
+      "git_blob": "d0d4e5de48159ac132b9a183a5df9b17e615cf3e",
+      "main_blob": "d0d4e5de48159ac132b9a183a5df9b17e615cf3e",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/proof-golf/golf.py",
+      "bytes": 14395,
+      "sha256": "132a92f6713843972813e4092caffe6878cb33d137acf3d2f51fafae83d480bd",
+      "git_blob": "a910d62882216e92dc16dab54b520250b09bf0a6",
+      "main_blob": "b5a731c5d95412a29394c617192d554b1e4a6441",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/proof-golf/repair_template.py",
+      "bytes": 2975,
+      "sha256": "40878b61016ca49c4b8fae2c073d7836173aefc4055c72430615bc70ee798e67",
+      "git_blob": "616fdaf53ff01f3e07cb19701edebd50455fc312",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/proof-golf/trial.py",
+      "bytes": 2473,
+      "sha256": "04d4d02a2814f970a92339bea558b0923940753af8e3b6d3438a67d9bf936316",
+      "git_blob": "dd2e8a18071156f4e029512865ba7db4aa7763ce",
+      "main_blob": "dd2e8a18071156f4e029512865ba7db4aa7763ce",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/research-techniques-20261101",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "experiments/research-harness-20261031/README.md",
+      "bytes": 8003,
+      "sha256": "53b1c997ab722d8ca27bb93039fc19b497818f2a259f2f697bd2ae843069452e",
+      "git_blob": "c85002b726006ad2e0c2425b268e7e41b8db35f0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/instructions.txt",
+      "bytes": 3918,
+      "sha256": "a20496063049ddd5fcc9cf2e27721a7bde278950436ba3c98bd50df56361e66d",
+      "git_blob": "3fcd60b38d8d07169ee5148f4b38181e035851c3",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/native.lean",
+      "bytes": 4119,
+      "sha256": "f3cda9158a2a72c1b48b1ed12bb68aa897bbd175462747f610217f76934f3c6d",
+      "git_blob": "4e0a7bb441dd8ea817483bc2f1a8f0cfda0cd9a8",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/native.py",
+      "bytes": 7755,
+      "sha256": "99953c1e9726a99f3d2d025b17d8b56a34bd3b67fdff0cb29ba0b16cea32175b",
+      "git_blob": "0ea5517ebfee2491d132b3e83fb6d374409e17d2",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/native_smoke.py",
+      "bytes": 4796,
+      "sha256": "fea5a225b6098ba9e8fcae8280dce5896e62e56700c5766ed8dc87c54c75c58e",
+      "git_blob": "0143c9ae562dcd2877dbb5445fa54fd4ad82bb2d",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/research_adapter.py",
+      "bytes": 7150,
+      "sha256": "692edf0fb40a94e84bc33cc77051146ba680cc5de98d759908c356aaae58e846",
+      "git_blob": "e44843800c610243144b5eb78fda5699eeb577c0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/research_controller.py",
+      "bytes": 24261,
+      "sha256": "e0a50a24e5736ada20b3f2ff343b24e99fff7955acc95b63b678eabf8bd3e030",
+      "git_blob": "3b95bb7901f160b21ddf32bbedb3962c7d18d376",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/research_golf.py",
+      "bytes": 7239,
+      "sha256": "00e88730856e78e1bf7f018e80be2a9895fb7cd5223d66c83d0a2a890914f478",
+      "git_blob": "af3051baf4b35e0298b02b49e23bf7a3e547f2e8",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/research_inputs.py",
+      "bytes": 2735,
+      "sha256": "b796a01b7281decbd07040e1c668ac8e1cfb1a12b0cd775b5c48e6f053a83f6e",
+      "git_blob": "5f6c7dd85c5ccf7dafb1360ba94909b758d43701",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/research_pipeline.py",
+      "bytes": 11930,
+      "sha256": "3aff32a51d795a6cf4c8f7f9c186787e50003d422ace5edf37dabae64b1d8257",
+      "git_blob": "879b1b1cb7dc7e77c78440fc29b676735b9ee784",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/research_workflow.py",
+      "bytes": 23556,
+      "sha256": "1e2e75b68d4d9f7773a539bfd84ce965e553bc36bc6098b5f339c390fd2af031",
+      "git_blob": "c3568650320a2fbe1b9e708502b234244cca34ed",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/runner.py",
+      "bytes": 20363,
+      "sha256": "834087cca3b2c45537cb0c547a8a8ce67146c32d448c1660a951895501a96a58",
+      "git_blob": "3664ae25b3188fd95773f9a0fe48adc720baee3d",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/test_controller.py",
+      "bytes": 10897,
+      "sha256": "cd5535a0b9560654e4af33367c80b45dfaaf34e656838ea5f812dc4c13daaa4a",
+      "git_blob": "17b1bc45e6b28f07f9991796abdfd2be4ff0688d",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/test_experience.py",
+      "bytes": 5259,
+      "sha256": "2e97e1cc2a5e2be2daf41a5576b02580f53750f53e73795f776e448c4ecae0e4",
+      "git_blob": "f614a2febf304681cee61913287714127fe553f2",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/test_transactions.py",
+      "bytes": 22383,
+      "sha256": "e83188fed6156d04b092c3cf76aea95174e0feb7344b049e70932b0029d82372",
+      "git_blob": "36e83873f287386492f534967d1000267f69ba6a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-harness-20261031/validate.py",
+      "bytes": 4234,
+      "sha256": "1b003cc710d12715934a2d2dba15dc5e7f8b3c8dcc4f5fc5ef39db40cd21c3f3",
+      "git_blob": "d4b582765314555fc8ead213fcc112ffd9b2aaa0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-trial-20261031/README.md",
+      "bytes": 3834,
+      "sha256": "a0c37308e072d5af7d6f8d42b91119de957e16a5aeab484ee592bcc35ee37488",
+      "git_blob": "cec430c911b8a44049b8aa1e9fa4c727edf5ad14",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-trial-20261031/analyze.py",
+      "bytes": 12014,
+      "sha256": "67c06286a30689793c4914205bba980767e44952d40c4e3ffc7616d42eb7df51",
+      "git_blob": "575659b30da8a1239215331322f4f433565336e5",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-trial-20261031/audit_financial.py",
+      "bytes": 13312,
+      "sha256": "b8c2a042a9138ab213a73eb37942ab9b7363d7e6587ed8cd5daface3d900b4d5",
+      "git_blob": "559ff918b269d7dd0fa8fb6ceba0ee145f71d4b0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/research-trial-20261031/case_worker.py",
+      "bytes": 4974,
+      "sha256": "248cff7132ec8f0a297500393e8feae59e8fba002978d2d0b16bf270e69c293f",
+      "git_blob": "5a53d59d0a6481b2ec5c6efbf47f20fc96ef3704",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/README.md",
+      "bytes": 7598,
+      "sha256": "1ef18ebc4ec5a5e62a72fc43c41e2bf2b363a6c150c8f568cc379e7c88e676c9",
+      "git_blob": "b7f64ddd4b5083fa727460c2427c4e2b7929f9f1",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/analyze.py",
+      "bytes": 5100,
+      "sha256": "667bb91597b1719a826ac54fc08dfb6148373656192c56286f46defb3f31afd0",
+      "git_blob": "deb9287cac1b5a119508102d3a55fab7e28931c8",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/audit_retrieval.py",
+      "bytes": 19597,
+      "sha256": "d8a53a9190073db85bd5d58c7da44db754c71a1384934ad87419c67fef36befb",
+      "git_blob": "b2c1387730d68e21183bd03f9395fda1c5a1ea7a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/instructions.txt",
+      "bytes": 7505,
+      "sha256": "f2914b8645ca790d3cab77b0e036f51610d38c738f15c81a4a91befbc7cef9df",
+      "git_blob": "c0e77c7767005ac010a3bf9b698132e7df34e1b0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/native_type_search.lean",
+      "bytes": 3446,
+      "sha256": "fabf907a3d307d0365a672bcc88e5012211f359d857804b2657a6ee8e9503c37",
+      "git_blob": "7c01bcc187d2966161bc5dd5e0d93959bf24b5d6",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/retrieval_backend.py",
+      "bytes": 22488,
+      "sha256": "321ab64101b3c8f9db4eda9daf5deb92a0d68096a8d082e1640c74faeedbb4e6",
+      "git_blob": "7b381e6479a82263baaaa212aaa9e79756721caf",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/retrieval_runner.py",
+      "bytes": 1510,
+      "sha256": "fe7d762ce396324b55d6c24e50e408d4c676948e172fe6a7c32577e220c0c18e",
+      "git_blob": "0b141e8566abaffbb008192af33ace2fe07a074d",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/test_retrieval_integration.py",
+      "bytes": 15632,
+      "sha256": "403b308ee3655bbb509d3452a3cd0920d026574fa63e302239234bfb468dc679",
+      "git_blob": "aa798042d0c0bc87564fcf2a41a3490168fda96f",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/test_type_search.py",
+      "bytes": 7825,
+      "sha256": "f607339c289f44f7b493e0464964b4366b7497e8b7ade7ec3e4671980bae4593",
+      "git_blob": "616f3ef2c415494108aa9b9742669c954713c780",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/trial.py",
+      "bytes": 4034,
+      "sha256": "af26f388189dc6629c08293d08d6dbdb60cb83f2d877506fd0f321a8ad39dbb9",
+      "git_blob": "449c5ab624761da1fd4e7e53b9ec09c641ed67de",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/retrieval-harness-20261101/type_search.py",
+      "bytes": 18239,
+      "sha256": "0f16fffe8f1a137eaf2854613bf10f272ddf5553a203f0e22b7141c24a938a8b",
+      "git_blob": "33bc576c2a43787c076628d045777f0ed89a32e9",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/stateful-harness-20261031/README.md",
+      "bytes": 7422,
+      "sha256": "5549203f25fd1cea572f7f2c8f14fe99a74ab2322ed4b330a92376ad6a9b0a5a",
+      "git_blob": "aef347029a4c8aa76ba146d29d0efbcdeff0e9fb",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/stateful-harness-20261031/replay.py",
+      "bytes": 2702,
+      "sha256": "16cec761704b03a378b7c63e3248bb8b0a15f84155f69753e2060faf9c2bbcb7",
+      "git_blob": "caa2a53fc2687bc235fcd3b82978b2a7cd18dfdf",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/stateful-harness-20261031/runner.py",
+      "bytes": 20454,
+      "sha256": "532659f21c338b5e6c6c2e5cabd1adf777da98f059e8239fa85cd4bbda00d539",
+      "git_blob": "4daa80f360cfe92537c7a17bb0b642bc892b6502",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/stateful-harness-20261031/test_workflow.py",
+      "bytes": 21093,
+      "sha256": "01834122fc2cf4cc7e2757c1ad87ccb5f4ba26c9177aa5f0b477e9defe8668b2",
+      "git_blob": "7b89eaa511bd6098bf20b64bc45b32854eed7a8b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/README.md",
+      "bytes": 6242,
+      "sha256": "5a20e57162df373555ebe9051f3a204d20dccc2e97051c85b6834584bcc9ae6d",
+      "git_blob": "c1f3d1cefa4ebb6eb82e98afb3a379aba236c1a7",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/adapter.py",
+      "bytes": 6697,
+      "sha256": "1c186fb987f6fd87d282b9574a9ca6eeefe6c3f0274bc8c3ef26d4f78001431d",
+      "git_blob": "b837b9551a8fe17959c0d48b70b0d4a9134d3af6",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/compare_88.py",
+      "bytes": 5997,
+      "sha256": "df2ee518827712ac77a95e93b4a85e9364e479238ebf169288eb486fc3a05f29",
+      "git_blob": "4756e22bb61daf105be6734dd943607c1929b1e0",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/inputs.py",
+      "bytes": 4200,
+      "sha256": "00a522700a7f03b4fa7d9ee74f30d9a77e49a41b09cb1fb6171f388451ca5dc2",
+      "git_blob": "3b358d1b34427e3d9cbc91398f92b5994540a222",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/pipeline.py",
+      "bytes": 20811,
+      "sha256": "cfd879bf85ea91088b4d51e50e294a708dcc95630f52059ef37b3dfc5303d037",
+      "git_blob": "19071ac28686728f93eba96ef9bd30bfe87f7c88",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/progress.py",
+      "bytes": 556,
+      "sha256": "b1e6551e90f9c738398802943aa0ea04ee8c5d6014d7c925e583dbcf49865f75",
+      "git_blob": "cfa0d689b55ec6f0a8ac768dbca2eb0e1a626b75",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/repair_additional.py",
+      "bytes": 2881,
+      "sha256": "e389389cae289b007c2b06fd7c606a7df8e6832db8e9a8ce74499affd9d1a4f7",
+      "git_blob": "2e8404c7a11692c81b1b88f6c58c03eff69764eb",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/report.py",
+      "bytes": 14767,
+      "sha256": "ecb6dfe06d0fad1524d0b841a3143060490c43d8c3b1942119386936320ffb29",
+      "git_blob": "542a0613c1d244bc9d92644727542764f3ad142e",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/resume_golf.py",
+      "bytes": 7230,
+      "sha256": "47bc6461f47d0370ec2e1ea4700d926a1c67d57a66bed4dacca9cbe217fb60fb",
+      "git_blob": "ff16bb1d43e6312272bc4ce5d721fb3c2e0d0c7f",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/test_adapter.py",
+      "bytes": 3954,
+      "sha256": "a9611cae73e061b526e6f11e4d29e6ef53bfbc697032bfc5c92c758ab5bb34f5",
+      "git_blob": "1a6c0172f9efaf5ea83d6260c24b4d50b9203c22",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-20261031/verify_versions.py",
+      "bytes": 4549,
+      "sha256": "ce552e11b733e41f4db62ad4ea9b7e6f2c92612f3d5c55b6362fe1b09ca00eb6",
+      "git_blob": "428e4df89b100103d329dfd3540e1361951a8ff6",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-openai-analysis-20261031/analyze.py",
+      "bytes": 8127,
+      "sha256": "9fccc7d14982a55de06a42ab2dec14a6c5542b4300c3cbcd42364fccfa05a93a",
+      "git_blob": "e5f744239d9833e44ef3b9a467b7cbdb4efc1f2c",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/README.md",
+      "bytes": 8015,
+      "sha256": "cf7f5debb02132ac4db5eb387161ed313400c9b94159978ad7047da0974bdc28",
+      "git_blob": "509e7bf017f2af08851523a05e3499c97bb8483b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/audit.py",
+      "bytes": 13500,
+      "sha256": "0d0c968431a5d63c8d75f3f734c3132abe8a48b141168ccb12896ad5389c1902",
+      "git_blob": "0fbcdcaa0a6c87a6899954249946d2d77ba69bd4",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/common-instructions.txt",
+      "bytes": 5616,
+      "sha256": "c3ae236ece5e6300382a173c9cbaff4578fdcfe00a2f7679a0bd34e35c9eb882",
+      "git_blob": "2f3b75fcb4991aef7ec5ee967ebc60ef068c1ca3",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/controller.py",
+      "bytes": 23738,
+      "sha256": "de36fb076d30f9ab2f6ba81f2e098087898b44fa7b102d1b5b1c781bbd69f62b",
+      "git_blob": "d3dfc5d13c4b407f7b14a2c6650beaf330e4eb74",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/postprocess.py",
+      "bytes": 5323,
+      "sha256": "660ad85d4e08565322190564a42de5f231fa0d8c6bb5a9d37987d3a208fdcf47",
+      "git_blob": "7781172b80edfef1ff81d5e3b7666fa3f4821f16",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/progress.py",
+      "bytes": 854,
+      "sha256": "6634a3d21c2d931f785691d22544416bc83be5bb51a988c92a916df99a2bc194",
+      "git_blob": "aac7f6c35a44fadc309507c2d9f0b4afe242247a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/report.py",
+      "bytes": 7742,
+      "sha256": "9aad5fb8ef5afd8ced51efaadaff93702070d81bff680c3827e876ea70a860e3",
+      "git_blob": "1c66bc98464ec4dbed65436e3e08278d932348c5",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/test_audit.py",
+      "bytes": 1093,
+      "sha256": "3bf2973268d1d5193d5e76cf49e49bfbd4f3d8d69906d21839be4272e2eda392",
+      "git_blob": "aeb70cab6ca1efaeede7a17237a301844f5ba431",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-20261030/test_controller.py",
+      "bytes": 10249,
+      "sha256": "9ad79e038a0b589df147261ff599ae79bb578ea134a0c47ebadb096c05d43264",
+      "git_blob": "b47d71316f43a427746af5ad484203a711eb35a7",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-analysis-20261031/README.md",
+      "bytes": 1839,
+      "sha256": "285e7fa760cbec7a3708d1a3ede66577b0f8d75c034bd492d3333245f6e6a471",
+      "git_blob": "9208bd1b188b67401bdd82cc9217894b20e6424a",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-analysis-20261031/analyze.py",
+      "bytes": 8217,
+      "sha256": "acbae7cffe6144b6581ea6c1d4ee1dcf9efce460a2269ccd18c43dc667239207",
+      "git_blob": "78a3f0eb18a76022a7ee88130f9810035e2d13d7",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-analysis-20261031/followup.py",
+      "bytes": 1954,
+      "sha256": "4433f1c4c0d0ae55f6673caf127b75b764b2c5bdb43f1a0b20e4864317f12040",
+      "git_blob": "1da1e5820cb7a29112e66dde229d60bd07085157",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/structured-reasoning-analysis-20261031/verify.py",
+      "bytes": 5651,
+      "sha256": "d99b8b7ca4743646e238f4f3c4701ba7276d869730a19b43fa0b5156f1bf7bfd",
+      "git_blob": "6c0a427f4a3405e0ec22c9cde307d1975cca1539",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/theorem-retrieval-20261101/README.md",
+      "bytes": 6104,
+      "sha256": "1bedc430981bac9173397e5873e6ea2d94f0b038d4cb3863d0c98d94056d6802",
+      "git_blob": "098180b3db3ae307f959c7d4cbba71f7f31ac86b",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/theorem-retrieval-20261101/evaluate.py",
+      "bytes": 5150,
+      "sha256": "d8e324cd2e28988dc2f6dc2ec822bf2a61b8851da4f9995099036eb53b4c73dd",
+      "git_blob": "409b3c48f3dcbfc4c56e7d347de89b7449966be4",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/theorem-retrieval-20261101/retrieval.py",
+      "bytes": 12696,
+      "sha256": "3909dc73b59d31f854a9577c900dfc11b8a67d6d7269d11f2ea7a479244618f7",
+      "git_blob": "779d634522800b9759be676167448c897a73e419",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "experiments/theorem-retrieval-20261101/test_retrieval.py",
+      "bytes": 3676,
+      "sha256": "b39cfe8e7b295abb755093ed15864c3abb13cb4b36f8d256e140f691a53ac211",
+      "git_blob": "9b76b0838e534745bc6c370277280036be3b6ebb",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "runs/README.md",
+      "bytes": 4197,
+      "sha256": "363c4d1c11db028eaa50bc62edd43b3b5dab5f5c8032b36aa22e4aa1ad65b6a5",
+      "git_blob": "27e753ada91257bfe05a1954f92e265b8fb7e331",
+      "main_blob": "7db9ebd35a3a7e8fc7a1b89e68b032c3417b3b54",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "a71bcb44ddaf8017e61120162a1220c1f7cd42fd"
+    },
+    {
+      "path": "src/lean_agent/harness.py",
+      "bytes": 31627,
+      "sha256": "c138756d01723b78d6ff5fb68820a7708da80e34cb1dc0ea85619facddbb4e1c",
+      "git_blob": "0463e494cf62eb23d2c9662bfe8cb8e6a902e02c",
+      "main_blob": "467802457c87cc9f3c74549f749c96f8431ebedf",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [
+        "codex/cache-prepared-environment",
+        "origin/codex/cache-prepared-environment"
+      ],
+      "main_last_path_commit": "ba3de4f11be1d965e62c0781a7c8cc4074f2b2e5"
+    },
+    {
+      "path": "src/lean_agent/openai_direct.py",
+      "bytes": 8297,
+      "sha256": "6a5ca1fdd1fb3a8cb01cadf48388e6d875065045f161915ad668a4293eef3bee",
+      "git_blob": "f1f62422eadb4bb7204b709b86c3dcf4d203994e",
+      "main_blob": "9b384ce9d4b5574a0f509ca6e3149dfe9b362f10",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7f9508a85d44c5369f9461222f9904d6a9c01486"
+    },
+    {
+      "path": "src/lean_agent/prepared.py",
+      "bytes": 6274,
+      "sha256": "e93053f8769d0a1d118bb0a6f607dddfaeeab4b1bc94952d9958a0c2c00f027f",
+      "git_blob": "dac373cd070583ef998ce41c5bfd9b8b3d7af606",
+      "main_blob": "dac373cd070583ef998ce41c5bfd9b8b3d7af606",
+      "main_status": "identical_to_main",
+      "exact_path_and_content_on_refs": [
+        "codex/cache-prepared-environment",
+        "codex/research-techniques-20261101",
+        "codex/usage-cost-main-integration",
+        "jwkweon/agent-kit",
+        "jwkweon/failure-repair",
+        "origin",
+        "origin/chaewon/analyze-prompts",
+        "origin/chaewon/pattern-prompts",
+        "origin/codex/cache-prepared-environment",
+        "origin/codex/usage-cost-main-integration",
+        "origin/codex/verification-repair-design",
+        "origin/codex/verification-repair-evaluation",
+        "origin/codex/verification-repair-policy",
+        "origin/jwkweon/agent-kit",
+        "origin/main",
+        "origin/pr-36"
+      ],
+      "main_last_path_commit": "7c5054f515cbbe341a711d47bb038fd7c6432d7e"
+    },
+    {
+      "path": "src/lean_agent/proof_experience.py",
+      "bytes": 9090,
+      "sha256": "e4303ea79de6b1c40836663b8ddbee332865dd7512eac887986715c49707445f",
+      "git_blob": "243e55ff1435b815934f7ae72062e98736ddcb06",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "src/lean_agent/workflow.py",
+      "bytes": 23517,
+      "sha256": "01f768b247c4e800c05742d42241331d4e4435f0613036b152437230312595ce",
+      "git_blob": "ea24437acc30011dc5c7a315afe81e6b75a870df",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "tests/test_cached_worker.py",
+      "bytes": 6337,
+      "sha256": "a5a17462158a87d8501294c45446e1803168e07d434c15d578711c6c4630644a",
+      "git_blob": "d2260198f24a49efbb4209f4e534c5c5414ea171",
+      "main_blob": null,
+      "main_status": "absent_from_main",
+      "exact_path_and_content_on_refs": []
+    },
+    {
+      "path": "tests/test_prepared_cache.py",
+      "bytes": 6195,
+      "sha256": "2c16237722b4c32e58b1bb2366d12e3e8763b096398f9153d06798fcab0b926a",
+      "git_blob": "215e7bf1465b9591d926de395122f063fbcb965d",
+      "main_blob": "eec14f8b2a27d2e2a42c6dbaf1ea9182c263c1d4",
+      "main_status": "different_from_main",
+      "exact_path_and_content_on_refs": [],
+      "main_last_path_commit": "7c5054f515cbbe341a711d47bb038fd7c6432d7e"
+    }
+  ],
+  "historical_commit_checks": [
+    {
+      "historical_document_commit": "7d624d3",
+      "object_exists": true,
+      "sha": "7d624d3e63fe703a67353fb813e622003eabdc13",
+      "ancestor_of_main": false,
+      "containing_refs": []
+    },
+    {
+      "historical_document_commit": "03036e5",
+      "object_exists": true,
+      "sha": "03036e543c7565e5b627be61ad365246a4e747af",
+      "ancestor_of_main": false,
+      "containing_refs": []
+    },
+    {
+      "historical_document_commit": "2f7e0c6",
+      "object_exists": true,
+      "sha": "2f7e0c6a5ee6430a2054d1f757336759d0715b13",
+      "ancestor_of_main": false,
+      "containing_refs": []
+    },
+    {
+      "historical_document_commit": "5339cd8",
+      "object_exists": true,
+      "sha": "5339cd86921c0f4b73137211432c8ade1b4332a9",
+      "ancestor_of_main": false,
+      "containing_refs": []
+    },
+    {
+      "historical_document_commit": "89b133a",
+      "object_exists": true,
+      "sha": "89b133a8414131e90dbd10592b08db78ec765953",
+      "ancestor_of_main": false,
+      "containing_refs": []
+    },
+    {
+      "historical_document_commit": "762c912",
+      "object_exists": true,
+      "sha": "762c91264397c73102d40565b4f90e6b02e37b08",
+      "ancestor_of_main": false,
+      "containing_refs": []
+    },
+    {
+      "historical_document_commit": "cbc56b6",
+      "object_exists": true,
+      "sha": "cbc56b6e40f2db45e38f7eddd192a43d3e13e535",
+      "ancestor_of_main": false,
+      "containing_refs": []
+    },
+    {
+      "historical_document_commit": "76483ac",
+      "object_exists": true,
+      "sha": "76483ac8c307485747646a475ec54fc86ce8ace7",
+      "ancestor_of_main": false,
+      "containing_refs": []
+    }
+  ],
+  "specific_main_checks": {
+    "harness_exposes_stat_cache": true,
+    "common_wrapper_uses_qualified_Lean_Name": false
+  },
+  "limits": [
+    "Exact path/blob equality is byte-level evidence, not a semantic-equivalence proof.",
+    "A file in an experiment is not automatically in the default harness.",
+    "Untracked raw runs and credentials are excluded; curated run evidence is audited separately.",
+    "Branch presence and merger status are separate; snapshot does not update itself."
+  ]
+}
