@@ -1,0 +1,18 @@
+[
+  {
+    "id": "v4.26.0",
+    "project": "/private/tmp/la_work/strata/projects/Strata/451e5f047baf",
+    "toolchain": "leanprover/lean4:v4.26.0",
+    "command": [
+      "/usr/bin/env",
+      "LEAN_PATH=/private/tmp/la_work/strata/projects/Strata/451e5f047baf/.lake/build/lib/lean:/Users/somi/.elan/toolchains/leanprover--lean4---v4.26.0/lib/lean",
+      "/Users/somi/.elan/toolchains/leanprover--lean4---v4.26.0/bin/lean",
+      "-j1",
+      "-M2048",
+      "-T200000"
+    ],
+    "timeout_seconds": 90,
+    "sourceRevision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+    "template_sha256": "a7b103d38417713fd6168dd03b3be00ea68ee31c251b253ed57c354f036d353d"
+  }
+]

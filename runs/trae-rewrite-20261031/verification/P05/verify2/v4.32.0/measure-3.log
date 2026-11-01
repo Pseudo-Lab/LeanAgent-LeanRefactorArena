@@ -1,0 +1,10 @@
+/Users/somi/leanagent/rewrite/P05/verify2/v4.32.0/measure-3.lean:433:13: warning: `ContinuousLinearMap.sub_apply` has been deprecated: Use `_root_.sub_apply` instead
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.sub_apply` to `_root_.sub_apply x`).
+/Users/somi/leanagent/rewrite/P05/verify2/v4.32.0/measure-3.lean:433:44: warning: `ContinuousLinearMap.smul_apply` has been deprecated: Use `_root_.smul_apply` instead
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.smul_apply` to `_root_.smul_apply x`).
+/Users/somi/leanagent/rewrite/P05/verify2/v4.32.0/measure-3.lean:433:76: warning: `ContinuousLinearMap.sum_apply` has been deprecated: Use `_root_.sum_apply` instead
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.sum_apply` to `_root_.sum_apply x`).
+REFACTOR_EVAL 9528e42bde5b4fc5b4480ebe29efd442 {"axioms":["propext","Classical.choice","Quot.sound"],"raw":5046849,"scaled":5046,"target":"Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema"}

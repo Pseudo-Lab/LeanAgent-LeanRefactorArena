@@ -1,0 +1,18 @@
+[
+  {
+    "id": "v4.31.0",
+    "project": "/private/tmp/la_work/projects/arklib/a431",
+    "toolchain": "leanprover/lean4:v4.31.0",
+    "command": [
+      "/usr/bin/env",
+      "LEAN_PATH=/tmp/la_work/projects/arklib/a431/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/aesop/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/batteries/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/CompPoly/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/importGraph/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/loom2/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/mathlib/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/plausible/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/PolyFun/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/proofwidgets/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/Qq/.lake/build/lib/lean:/tmp/la_work/projects/arklib/a431/.lake/packages/VCVio/.lake/build/lib/lean:/Users/somi/.elan/toolchains/leanprover--lean4---v4.31.0/lib/lean",
+      "/Users/somi/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+      "-j1",
+      "-M8192",
+      "-T200000"
+    ],
+    "timeout_seconds": 90,
+    "sourceRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+    "template_sha256": "6078002dcbfc4145f6c58cdfae73fd75f3d1399413c3b966acca997566898422"
+  }
+]

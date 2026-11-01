@@ -1,0 +1,18 @@
+[
+  {
+    "id": "v4.33.0-rc2",
+    "project": "/private/tmp/la_work/projects/cslib/3aa9d4416c18",
+    "toolchain": "leanprover/lean4:v4.33.0-rc2",
+    "command": [
+      "/usr/bin/env",
+      "LEAN_PATH=/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/build/lib/lean:/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/packages/Qq/.lake/build/lib/lean:/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/packages/aesop/.lake/build/lib/lean:/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/packages/batteries/.lake/build/lib/lean:/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/packages/importGraph/.lake/build/lib/lean:/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/packages/mathlib/.lake/build/lib/lean:/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/packages/plausible/.lake/build/lib/lean:/private/tmp/la_work/projects/cslib/3aa9d4416c18/.lake/packages/proofwidgets/.lake/build/lib/lean:/Users/somi/.elan/toolchains/leanprover--lean4---v4.33.0-rc2/lib/lean",
+      "/Users/somi/.elan/toolchains/leanprover--lean4---v4.33.0-rc2/bin/lean",
+      "-j1",
+      "-M2048",
+      "-T200000"
+    ],
+    "timeout_seconds": 90,
+    "sourceRevision": "3aa9d4416c185e0b9faeb72bbd65abe85b95dbcc",
+    "template_sha256": "30eea00dddbec33860b080adc2aa1f753e9299cbfa003b09c42514476ecf464d"
+  }
+]

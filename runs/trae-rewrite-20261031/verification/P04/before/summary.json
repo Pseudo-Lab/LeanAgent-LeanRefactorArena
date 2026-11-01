@@ -1,0 +1,13 @@
+{
+ "valid": true,
+ "tokens": 123,
+ "versions": {
+  "v4.32.0": {
+   "valid": true,
+   "hb_k": 1406,
+   "error": null
+  }
+ },
+ "compat_pct": 100.0,
+ "local_problem_score": 91.26
+}
