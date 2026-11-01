@@ -818,7 +818,7 @@
       "name": "putnam_1964_a4",
       "state": "completed",
       "candidate": "experiments/trae-rewrite/candidates/P13.lean",
-      "candidate_sha256": "49112a7a0ee6efaed1e65282e5bc7ee3c398f77c24b2853c5d71e25765f4f030",
+      "candidate_sha256": "6a2b3c5759a8e23b1e4c86956a9795db16ad1c747667cac0f17f06b789107c9d",
       "baseline_tokens": 259,
       "candidate_tokens": 244,
       "local_submission_tokens": 244,
@@ -882,7 +882,9 @@
       ],
       "all_designated_versions_verified": false,
       "score_with_official_denominators_configured_versions_only": 94.55,
-      "official_score": null
+      "official_score": null,
+      "source_candidate_sha256": "49112a7a0ee6efaed1e65282e5bc7ee3c398f77c24b2853c5d71e25765f4f030",
+      "snapshot_normalization": "Trailing blank lines removed for publication; proof tokens unchanged. Verification sources retain the measured bytes."
     },
     {
       "id": "P14",
@@ -1654,8 +1656,8 @@
     },
     {
       "path": "experiments/trae-rewrite/candidates/P13.lean",
-      "sha256": "49112a7a0ee6efaed1e65282e5bc7ee3c398f77c24b2853c5d71e25765f4f030",
-      "bytes": 1185
+      "sha256": "6a2b3c5759a8e23b1e4c86956a9795db16ad1c747667cac0f17f06b789107c9d",
+      "bytes": 1184
     },
     {
       "path": "runs/trae-rewrite-20261031/baseline/P13.lean",

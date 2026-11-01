@@ -13,4 +13,3 @@ theorem putnam_1964_a4
       · have hprev k (hk : 0 < k ∧ k ≤ m) : u (i + m - k) = u (j + m - k) := by simpa only [Nat.add_sub_assoc hk.2] using ih _ $ Nat.sub_lt (by omega) hk.1
         exact Int.cast_injective $ by rw [(hu (i + m) $ by omega).1, (hu (j + m) $ by omega).1, hprev 1, hprev 2, hprev 3, hprev 4] <;> omega
   exact ⟨i, j - i, by omega, fun n hn => by convert (hp (n - i)).symm using 1 <;> congr 1 <;> omega⟩
-
