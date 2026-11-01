@@ -1,6 +1,9 @@
 # Auto Solver → Recursive Repair — PR A: 실험 설계
 
-상태: **[이슈 #40][experiment-issue]의 설계 제안. 새 하네스의 구현·통합·성능 검증은 아직 완료되지 않았다.**
+상태: **[이슈 #40][experiment-issue]의 설계와 PR B 구현.**
+native 목표 수집과 Auto Solver → Recursive Repair를 fixture Controller에 연결했다.
+구현 범위·실행법·검증은 [IMPLEMENTATION.md](IMPLEMENTATION.md)에 정리했다.
+#37의 실제 통합과 실제 LLM 성능 비교는 아직 완료되지 않았다.
 
 설계 기준은 `main` 커밋 `7f9508a85d44c5369f9461222f9904d6a9c01486`이다.
 2026-11-01(KST)에 원격 main도 같은 커밋임을 확인했다.
@@ -288,9 +291,9 @@ T는 같은 `lean-source-anchored-v1` token 계산, H는 같은 환경의 새 Le
 - PR C: 전체 분모·실패·비용·최종 품질과 미측정 범위를 공개한다. 효과가 없거나 손해여도 결과를 보존한다.
 
 기존 `uniform-repair-v1` / `state-aware-v1` 비교는 이 설계의 실험 조건에서 제외한다.
-미게시 로컬 PR B 초안의 기록·예약·replay·최종 검증 기반은 재사용할 수 있다.
-그 초안은 native 목표·지역 문맥과 재귀 흐름을 구현하지 않았으므로 새 설계의 PR B 완료로 취급하지 않는다.
-기존 테스트 수나 단순 fixture 성공을 새 하네스의 검증 결과로 인용하지 않는다.
+PR B는 기존 초안의 이분법 정책을 native 목표 수집·재귀 수리로 교체했다.
+공통 기록·예약·최종 검증을 재사용하고, 새 재귀 흐름의 검증을 별도로 수행한다.
+이전 초안의 테스트 수나 단순 fixture 성공을 새 하네스의 검증 결과로 인용하지 않는다.
 
 ## 11. 출처
 

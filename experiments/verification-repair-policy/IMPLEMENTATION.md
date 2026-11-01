@@ -1,133 +1,140 @@
-# PR B: 수리 정책 구현과 무과금 검증
+# PR B: Auto Solver → Recursive Repair
 
-이 구현은 [PR A의 설계](README.md)를 고정 응답으로 검사한다. 모델 API 호출은 0회다.
-모델의 전략 선택 능력이나 두 정책의 성능 우열을 측정하지 않는다.
+[PR A의 설계](README.md)와 [이슈 #40](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/40)를 구현한다.
+현재 실행기는 **고정 응답을 사용하는 fixture Controller**다. 실제 LLM 호출은 없고 API 비용은 USD 0이다.
+#37의 Planner나 경로 탐색을 구현했다고 주장하지 않는다. 실제 #37 연결은 공개 구현 revision을 확보한 뒤 확인한다.
 
-## 구현 범위
+## 구현 구조
 
 | 파일 | 책임 |
 | --- | --- |
-| [policy.py](policy.py) | 진단을 분류하고 다음 행동을 선택한다. 수리 이력과 중복 후보를 추적한다. |
-| [prompts.py](prompts.py), [prompt/](prompt/) | v4의 공통 편집, 행동 지시, 변경 diff와 해시를 고정한다. |
-| [adapter.py](adapter.py) | 기존 예산 실행기에 정책을 연결한다. 결정·관측 기록, 최종 검증, 기록 재생을 수행한다. |
-| [run.py](run.py) | fixture 전용 prepare/check/run/replay/status 명령을 제공한다. |
-| [fixtures/responses.json](fixtures/responses.json) | 미완성 → 타입 오류 → 유효 후보 → 응답 거절 → 유효 후보의 고정 응답이다. |
+| `Support.lean` | native InfoTree에서 전술 전후 목표, 지역 가정·정의·binder 정보, UTF-8 source 범위와 오류 코드·위치 수집 |
+| `native.py` | 고정 문맥에 진단 도구 삽입, native 상태와 수정 위치 대응, 하위 증명 삽입, 공통 평가기 호출 |
+| `repair.py` | 자동 전술 → 미해결 목표의 Worker 요청 → 자식 수리 → 부모 재조립, 깊이·순환·호출 제한 |
+| `runtime.py` | 루트 실행 소유의 예산·시계·중복 집합, 고정 응답 transport, 요청 전 기록, 관측 기록과 재생 |
+| `adapter.py` | 제안하는 `repair_candidate` 연결점, 한 후보를 처리하는 fixture Controller, best 선택과 최종 검증 |
+| `common.py` | 고정 한도와 공통 도구. 기존 `api-comparison/compare.py`의 예약·정산·원자적 저장 재사용 |
+| `run.py` | prepare/check/run/replay/status, 입력·실행 코드 보존, API 호출 차단 |
 
-기존 `experiments/openrouter-budget-trial/run.py`에 선택적인 실험 인자를 추가했다.
-후보 생성 루프, `LeanEvaluator`, proof 파서, 비용 영수증 파서와 호출 전 예약 계산을 재사용한다.
-실험 인자를 주지 않는 기존 실행 경로는 유지한다. `src/`의 공통 정책이나 `status.py`는 변경하지 않는다.
+기존 이분법 정책과 전용 프롬프트·테스트는 교체했다. 이전 budget runner에 추가했던 정책 hook도 제거했다.
+공통 `src/` 평가·수락 규칙은 유지한다. 모델 응답 파싱, 비용 영수증, 예산 예약·정산, 상태 기록을 재사용한다.
+실행 코드가 `experiments/openrouter-budget-trial/run.py`를 import하지 않으므로 #37의 runner 이름 변경에 직접 묶이지 않는다.
 
-## 상태와 행동
+## 실제 수리 범위
 
-| 관측 | uniform-repair-v1 | state-aware-v1 |
-| --- | --- | --- |
-| 유효 후보 | best 갱신 후 개선 계속 | 동일 |
-| 구체적인 Lean 오류 | 현재 실패 후보 수리 | 동일 |
-| 명시적인 unsolved-goals 진단만 있음 | 현재 실패 후보 수리 | best에서 재탐색 |
-| 응답 형식 거절 | best에서 출력 계약을 지켜 다시 요청 | 동일 |
-| 중복 실패 후보 또는 후속 수리 2회 소진 | best에서 재탐색 | 동일 |
-| 환경·계측·timeout·API·원인 불명 | 추가 요청 중단 | 동일 |
+전체 `by` proof와 native 위치·문맥을 확보할 수 있는 중첩 `have ... := by ...`, bullet의 전술 구간을 다룬다.
+구체적 오류에는 실패 전술부터 해당 전술 sequence 끝까지를 수정한다.
+미해결 목표에는 해당 sequence 끝에 증명을 추가한다. 문자열에서 목표를 추측하지 않는다.
 
-실제 우선순위는 [설계의 행동 표](README.md#행동과-우선순위)를 따른다.
-검증기의 원래 결과를 보존하고 전체 진단에서 정책 상태를 계산한다. 모델에 보낼 진단의 길이는 그다음에 제한한다.
-구체적인 오류와 남은 목표가 함께 있으면 `proof_error`다. native goals/local context는 수집하지 않으므로 null이다.
-중복 판정은 공통 proof 파서가 조립한 동일 선언의 바이트 해시를 사용한다. 추가 평가 캐시는 없다.
+각 목표에 `exact (by ...)`를 삽입해 하나의 하위 증명 범위를 만든다.
+Worker가 만든 이 범위 안에 새 미해결 목표가 생기면 자식 노드로 내려간다.
+범위 밖에 남은 목표는 같은 루트의 다음 목표로 처리한다. source 이동량을 반영해 부모 범위를 갱신한다.
+하위 증명 완료는 native 상태와 해당 범위의 오류 부재로 확인하며, 루트 전체의 수락은 별도 공통 평가기가 맡는다.
 
-첫 실패를 만든 생성 호출은 수리 횟수에서 제외한다. `repair_current` 이후의 호출은 응답 거절도 수리 횟수에 포함한다.
-완료된 유효 후보를 먼저 best에 반영하고 다음 호출의 예산·상한을 확인한다.
-최종 선택은 새 Lean 프로세스로 재검증한다. 구체적인 증명/계약 실패이면 원본을 다시 검증한다.
-원본 복귀의 개선량은 0이다. 최종 timeout·환경·계측 오류 또는 원본 재검증 실패는 미확정(null)으로 남긴다.
+기본 전술 순서는 `rfl`, `assumption`, `trivial`, `simp`, `omega`, `grind`다.
+고정 환경에서 native parser로 가용성을 먼저 확인한다. 파싱 가능과 목표 해결은 다르다.
+해당 목표를 닫지 못한 자동 전술 시도는 되돌린다. 자동 전술 조합의 무제한 탐색은 하지 않는다.
+진단 도구가 추가로 import한 Lean 기능 때문에 통과한 경우라도, 최종 증명은 원래 문맥에서 재검증해야 한다.
 
-## 준비 환경
+이 버전은 임시 `sorry`를 source에 추가하지 않고 실패 구간을 직접 교체한다.
+직접·간접 sorry, 명제 변경, 금지 명령은 공통 guard·공리 검사에서 거절한다.
+Lean이 오류 복구 중 내부적으로 만든 미완성 항을 유효한 증명으로 인정하지 않는다.
+지역 문맥의 `implementation_detail` 항목은 compiler metadata로 구분해 Worker에 전달한다.
 
-- Python 3.10 이상. 하네스 실행에 외부 Python 패키지는 필요하지 않다.
-- 실제 Lean 검사에는 미리 설치된 `leanprover/lean4:v4.26.0`과 PATH의 `lean`이 필요하다.
-- 기본 문제는 `n + 0 = n`이다. GPU나 Mathlib 다운로드가 필요하지 않다.
-- 누락된 toolchain을 자동 설치하지 않는다. 문제별 라이브러리가 필요한 입력은 사용자가 준비한 환경으로 한정한다.
+구문을 읽지 못하거나 범위를 안정적으로 대응시킬 수 없는 경우는 추출 불가다.
+모든 `induction` 경우 누락·macro·custom syntax를 지원하지 않는다. 실패를 기록하고 검증된 best를 보존한다.
+현재 실제 검증 대상은 설치된 Lean **4.26.0**이다. 다른 버전의 InfoTree API 호환성은 별도 검사 대상이다.
 
-일반 단위 검사는 Lean 없이 실행한다. 실제 Lean 검사는 별도로 선택한다.
-현재 로컬 검증은 Python 3.12.13으로 수행했다. 실행할 Python의 버전은 `python3 --version`으로 확인한다.
+## #37 연결 계약
+
+현재 연결점은 `adapter.repair_candidate(runtime, code, route_id, arm, tactics)`다.
+호출자는 원래 명제·환경과 공유 예산·Worker·기록·중복 집합을 가진 runtime을 전달한다.
+중복이 아니며 검증에 실패한 후보만 이 연결점으로 넘긴다.
+반환값에는 상태, 수리 후보 또는 미완성 코드, 부모·자식 노드, native 목표·문맥, 원시 검증 근거와 반환 사유가 포함된다.
+`remaining_goals`는 반환 코드와 해시가 일치하는 마지막 native 관측에서 얻는다.
+첫 미해결 상태의 목표만 포함하며 모든 독립 블록의 목표를 완전히 열거했다는 뜻은 아니다. 미수집은 null이다.
+전체 경로 변경은 이 함수가 결정하지 않는다.
+
+fixture CLI는 루트 Worker 1회와 필요한 하위 Worker 호출을 같은 원장으로 처리한다.
+별도 Planner 호출이나 반복적인 경로 탐색을 흉내 내지 않는다.
+추후 #37의 Controller가 이미 소유한 자원과 이 인터페이스를 연결하고, Planner 비용까지 같은 원장에 들어가는지 통합 검사해야 한다.
+현재 공개되지 않은 #37 API와 동등하다고 간주하지 않는다.
 
 ## 실행
 
-저장소 루트에서 실행한다. 모든 실행은 새 출력 폴더를 사용한다. 재개와 자동 재시도는 지원하지 않는다.
+Python 3.10 이상과 미리 설치한 `leanprover/lean4:v4.26.0`이 필요하다.
+toolchain을 자동 다운로드하지 않는다. 기본 fixture에는 Mathlib나 GPU가 필요하지 않다.
 
 ```sh
 python3 experiments/verification-repair-policy/run.py prepare \
-  --output runs/manual/repair-uniform-01 --policy uniform-repair-v1
+  --output runs/manual/recursive-F04 \
+  --case F04 --condition recursive-repair-v1
 python3 experiments/verification-repair-policy/run.py check \
-  --output runs/manual/repair-uniform-01
+  --output runs/manual/recursive-F04
 python3 experiments/verification-repair-policy/run.py run \
-  --output runs/manual/repair-uniform-01
+  --output runs/manual/recursive-F04
 python3 experiments/verification-repair-policy/run.py status \
-  --output runs/manual/repair-uniform-01
+  --output runs/manual/recursive-F04
 python3 experiments/verification-repair-policy/run.py replay \
-  --output runs/manual/repair-uniform-01
+  --output runs/manual/recursive-F04
 ```
 
-두 번째 조건은 새 폴더와 `--policy state-aware-v1`로 prepare한 뒤 실행한다.
-`check`는 고정 입력·코드 해시를 확인한다. `run`은 실제 Lean 사전 점검, 원본 검증, 고정 응답 루프를 수행한다.
-`replay`는 저장된 관측으로 결정·요청·모의 비용·종료·선택을 다시 계산한다. 모델과 Lean을 호출하지 않는다.
+`--condition`은 `planner-worker-v1`, `auto-solver-v1`, `recursive-repair-v1` 중 하나다.
+조건마다 새 실행 폴더를 사용한다. 기준 조건도 실제 Planner를 사용한 성능 결과가 아닌 연결 검사다.
+`--cases`로 고정 입력 JSON, `--environment`로 준비된 단일 환경 JSON을 지정할 수 있다.
+환경 JSON은 공통 평가기의 `id/project/toolchain/command/timeout_seconds/template` 계약을 따른다.
+외부 환경·문맥은 신뢰하는 프로젝트만 사용한다. 모델이 환경이나 명제를 변경할 수 없다.
 
-기본 fixture의 `usage.cost`는 호출당 `0.01`인 **모의 값**이다. `--simulated-budget-usd`도 예약기 검사에만 쓰는 가상 금액이다.
-프로토콜과 최종 결과는 실제 API 비용 0과 모의 비용을 구분한다. 가격 snapshot은 과거 공개 응답이며 현재 요금표가 아니다.
-이 CLI는 유료 backend, API key, dotenv 인자를 제공하지 않는다. 실행 중 기존 API·endpoint 조회 함수가 호출되면 검사를 실패시킨다.
+F04는 자동 전술이 풀지 못한 함수 존재 목표를 Worker의 고정 응답이 분해하고,
+그 하위 목표를 Auto Solver가 해결하는 루트 → 자식 → 손자 사례다.
+F09는 같은 사례에 깊이 1 한도를 적용하는 테스트에서 사용한다.
+F11의 최종 재검증 실패·원본 복귀는 실패를 주입한 계약 테스트로 검사한다.
 
-기존 문제 입력을 확인하려면 prepare에 `--input-root 경로 --problem P01`을 지정할 수 있다.
-각 문제 폴더에는 `agent-input.json`, `original.lean`, 기계별 `environment.json`이 있어야 한다.
-한 개의 고정 Lean 환경을 지원한다. 최상위 `strategy_prompt`, `instructions`, `attempt_cap`, `output_protocol`은 모델 입력에서 제외한다.
-`problem`의 name/statement/original과 `context`만 유지한다. context 내부의 설명까지 자동으로 전략 문장과 구별하지는 않으므로 실제 문제 비교 전에는 문맥 내용을 검토해야 한다.
+`--simulated-budget-usd`와 고정 응답의 비용은 예약·미정산 동작 검사용 모의 금액이다.
+실제 API 비용과 합산하지 않는다. 실제 backend·API key·자동 재시도 옵션은 없다.
+하위 목표마다 원장을 초기화하지 않는다. 미정산·예약액 초과 응답은 다음 dispatch를 막는다.
 
-## 산출물과 재현
+## 기록과 재생
 
 | 경로 | 내용 |
 | --- | --- |
-| `protocol.json`, `frozen-inputs.json` | 정책·분류기 버전, 입력·코드 해시, 호출 한도, 모의 예산, 실행 기준 |
-| `common-prompt.txt`, `common-prompt.diff`, `actions.json`, `prompt-manifest.json` | 검토한 공통 프롬프트와 편집·행동 지시 해시 |
-| `문제/attempt-NNN-decision.json` | 호출 전 상태, 행동, 기준 후보·요청 해시, 예약액, 수리 묶음·종료 이유 |
-| `문제/attempt-NNN-observation.json` | 정책 상태, 원래 진단과 근거 해시, 후보 코드, goal 수집 여부 |
-| `문제/attempt-NNN-{request,response,result}.json` | 실제 fixture 요청·응답과 평가 결과 |
-| `문제/stop-decision.json` | 마지막 상태와 추가 호출을 하지 않은 이유 |
-| `문제/summary.json`, `문제/result.json` | 최종 검증, 선택 출처, 모의/실제 비용 구분, replay 결과 |
-| `문제/events.jsonl`, `문제/artifacts.json` | 기존 상태 조회기가 읽는 단계 이력과 완료 기록 |
-| `code/repo/`, `artifacts.json` | 보관 실행 코드와 전체 산출물 해시 |
+| `protocol.json`, `fixture.json`, `frozen-inputs.json` | 조건, 명제·환경·응답·코드 해시, 모든 한도 |
+| `code/repo/` | 실행에 사용한 Python·Lean 코드와 공통 도구의 보존 사본 |
+| `preflight/` | 실제 compiler pin·환경 fingerprint와 문맥 검사 |
+| `native/` | 전술 가용성, native 진단 source·로그, baseline/후보/재조립/최종 평가 원문 |
+| `tape/` | 각 결정·요청·관측. 모델 요청과 예약은 dispatch 전에 원자적으로 저장 |
+| `budget.json` | 같은 실행의 루트·하위 Worker 모의 예약과 정산 |
+| `events.jsonl` | 공통 `status.py`가 읽는 단계 기록 |
+| `result.json`, `selected.lean`, `artifacts.json` | 수리 트리, 비용·호출, 최종 선택·품질, 파일 무결성 목록 |
 
-결정 기록은 기존 atomic 저장 함수를 통해 fsync한 뒤 fixture를 읽는다.
-소스가 바뀌면 새 실행을 준비한다. 이전 기록은 보관 코드를 사용한다.
+replay는 저장된 관측을 입력으로 수리 로직·source 변환·요청·예산·선택을 다시 실행한다.
+외부 호출 callback은 실행하지 않는다. 입력·결정·최종 결과가 달라지거나 기록이 남으면 실패한다.
+원시 파일을 변경한 경우 무결성 검사도 실패한다. 실행 재개 기능은 없다.
+코드가 바뀌었다면 보존한 코드로 재생한다.
 
 ```sh
-python3 -B runs/manual/repair-uniform-01/code/repo/experiments/verification-repair-policy/run.py \
-  replay --output runs/manual/repair-uniform-01
+python3 runs/manual/recursive-F04/code/repo/experiments/verification-repair-policy/run.py \
+  replay --output runs/manual/recursive-F04
 ```
 
-산출물 폴더를 이동해도 재생할 수 있다. 재생은 기록 무결성 검사이며 증명을 새로 검증하는 작업은 아니다.
-이 fixture 실행에서 `selected_origin=generated`는 고정 응답의 후보를 선택했다는 뜻이다. 실제 모델을 호출했다는 뜻이 아니다.
+수리 성공과 최종 best 개선은 별도 필드다. `repair.status=verified`여도 best가 원본일 수 있다.
+최종 proof 오류이면 원본을 다시 검사한다. timeout·환경·계측 때문에 확정하지 못하면 null로 남긴다.
+무과금 fixture의 결과는 실제 LLM 성능이나 동일 API 예산 비교가 아니다.
 
-## 검증 명령
+## 검증
 
 ```sh
-PYTHONPATH=src python3 -m unittest discover \
+python3 -m unittest discover \
   -s experiments/verification-repair-policy -p 'test_*.py' -v
-PYTHONPATH=src REPAIR_POLICY_LEAN_TESTS=1 python3 -m unittest discover \
-  -s experiments/verification-repair-policy -p 'test_lean.py' -v
+REPAIR_RUN_LEAN_TESTS=1 python3 -m unittest discover \
+  -s experiments/verification-repair-policy -p 'test_recursive_lean.py' -v
 ```
 
-단위 검사에서는 컴파일러 결과를 모의한다. 분기·수리 0/1/2회·중복·마지막 개선·예산 부족·미확정 영수증·최종 원본 복귀·미확정 결과를 확인한다.
-입력 힌트 제거, 같은 상태에서의 첫 요청 동일성, 변조 탐지, 폴더 이동 후 보관 코드 재생도 검사한다.
-실제 Lean 검사에서는 두 정책의 5회 루프, 미완성/타입 오류/혼합 오류/금지 공리 판정, 최종 선택과 상태 조회를 확인한다.
-CI에는 무과금 단위 검사만 추가했다. CI가 Lean을 자동 설치하거나 모델 API를 호출하지 않는다.
+`REPAIR_EVIDENCE_DIR`에 새 경로를 지정하면 실제 Lean 검사의 모든 실행 기록을 보존한다.
+Python CI job에서는 Lean 검사를 건너뛰고 계약·무과금 검사만 실행한다.
+별도 `Recursive repair (Lean 4.26.0)` job은 고정 Elan·Lean을 설치하고 실제 Lean 검사를 수행하며 원시 기록을 artifact로 보존한다.
+CI의 toolchain 설치와 달리 로컬 실행 CLI는 준비되지 않은 toolchain을 자동 설치하지 않는다.
+정확한 실행 명령·버전·검증 결과는 `validation.json`에 남긴다.
 
-2026-11-01 로컬 검증에서 새 단위 검사 27개, 실제 Lean 검사 2개, 기존 하네스 22개, 기존 예산·API 어댑터 24개로 **총 75개가 통과**했다.
-기본 단위 검사 명령에서는 실제 Lean 검사 2개를 건너뛰며, 별도 명령으로 해당 검사를 실행했다.
-[검증 기록](validation.json)에 실행 명령·환경·소스 해시·실제 Lean 관측과 로컬 증거 경로를 보관했다.
-전체 로그는 `runs/manual/` 아래에 있으며 Git에 포함하지 않는다. 실제 API 호출과 비용은 0이다.
-
-## 해석과 후속 작업
-
-고정 응답은 정책의 요청 내용을 보고 생성되지 않는다. 따라서 이 결과로 수리·재탐색의 우열이나 모델의 지시 준수를 주장할 수 없다.
-동일한 baseline·상태를 넣은 요청의 동일성은 검사했지만, 독립된 실제 Lean 실행은 heartbeat와 실행 시간 측정값이 달라질 수 있다.
-유료 비교를 설계할 때는 공통 baseline snapshot과 모델 입력에 포함할 측정값을 함께 고정해야 한다.
-fixture 검사에서는 두 조건 모두 HB profiler를 끈다. 실제 비교에서 profiler를 사용할지는 같은 설정으로 다시 고정한다.
-
-P01–P05의 전체 실행 환경 준비, 현재 모델·가격 확인, 실제 API dispatch 연결 및 성능 비교는 보류한다.
-유료 실행을 검토할 때는 현재 main·관련 PR 변경도 다시 확인한다. PR B는 무과금 구현 검증으로 완료한다.
+InfoTree 순회는 [Week 4 Support.lean의 고정 revision](https://github.com/Pseudo-Lab/LeanAgent/blob/e302e89eadf2c7eb2b65f0035f7dbba0b8e09130/docs/research/verification-repair/%EC%86%90%EC%A7%80%EC%97%B0/experiment%28week4%29/evidence/implementation/verification-repair/lean_repair/Support.lean)을 참고했다.
+여기에 구조화된 native 지역 문맥, source 대응과 재귀 조립을 추가했다.
