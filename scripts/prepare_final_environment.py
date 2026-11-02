@@ -15,6 +15,7 @@ import subprocess
 import sys
 import time
 import uuid
+from final_cache_traces import HASH_CHECKER, invalidate_bad_traces, normalize_cache_traces, trace_outputs
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(REPO / "src"), str(REPO / "experiments/final-environment"),
@@ -35,6 +36,7 @@ GIB = 1024 ** 3
 INCREMENTAL_BUDGET = None
 INITIAL_FREE = None
 NAMESPACE = None
+DEFER_STANDALONE_PROOFS = False
 original_checkout_path = bootstrap.checkout_path
 original_widget_tags = bootstrap.fetch_widget_tags
 
@@ -189,7 +191,7 @@ def central_process_env(version):
     temporary.mkdir(parents=True, exist_ok=True)
     (SHARED / "mathlib").mkdir(parents=True, exist_ok=True)
     child.update(TMPDIR=str(temporary), XDG_CACHE_HOME=str(CACHE / "xdg"),
-                 MATHLIB_CACHE_DIR=str(SHARED / "mathlib"), LEAN_NUM_THREADS="1",
+                 MATHLIB_CACHE_DIR=str(SHARED / "mathlib"), LEAN_NUM_THREADS="1", RAYON_NUM_THREADS="1",
                  LAKE_ARTIFACT_CACHE="false")
     # The parent PATH includes the available zstd tool and account-managed Git.
     child["PATH"] += ":" + os.environ["PATH"]
@@ -272,7 +274,37 @@ def prepare_one(env, registry, lock):
         bootstrap.write(source_lock, {"schema_version": 1, "dataset_sha256": lock["dataset_sha256"],
                                       "checkouts": list(combined.values())})
     rows = bootstrap.dataset()
-    state = prepare.prepare_one(env, rows)
+    # leantar 0.1.16 requires a log field when reading v3 traces, although its
+    # writer omits empty logs. Normalize generated metadata before resuming an
+    # unsealed legacy Mathlib cache so completed outputs remain reusable.
+    cache_io = REPO / env['project'] / 'Cache/IO.lean'
+    if NAMESPACE and cache_io.exists() and re.search(r'LEANTARVERSION\s*:=\s*"0\.1\.16"', cache_io.read_text()):
+        build_roots = sorted((CACHE / 'lean-build' / NAMESPACE / env['version']).iterdir())
+        outputs = trace_outputs(build_roots)
+        invalidated = []
+        if outputs:
+            checker = state_path.parent / 'CacheOutputHashes.lean'
+            checker.write_text(HASH_CHECKER)
+            inputs = state_path.parent / 'cache-output-hashes.tsv'
+            inputs.write_text(''.join(r['path'] + '\t' + r['expected'] + '\n' for r in outputs))
+            log = state_path.parent / 'cache-output-verification.log'
+            bounded_invoke([bootstrap.ROOT / 'toolchains' / env['version'] / 'bin/lean',
+                            '-j1', '-M4096', '--run', checker.resolve(), inputs.resolve()],
+                           REPO / env['project'], central_process_env(env['version']), log, timeout=600)
+            lines = log.read_text().splitlines()
+            if not lines or not lines[-1].startswith('CHECKED\t' + str(len(outputs)) + '\tBAD\t'):
+                raise ValueError('Cache output hash audit did not complete')
+            bad_paths = {line.split('\t')[1] for line in lines if line.startswith('BAD\t')}
+            invalidated = invalidate_bad_traces(outputs, bad_paths, state_path.parent / 'legacy-trace-originals')
+        normalized = normalize_cache_traces(build_roots, state_path.parent / 'legacy-trace-originals')
+        bootstrap.write(state_path.parent / f'cache-trace-normalization-{time.time_ns()}.json', {
+            'reason': 'leantar 0.1.16 omitted-empty-log compatibility; compiler outputs unchanged',
+            'checked_outputs': len(outputs), 'invalidated_incomplete_traces': invalidated, 'modified': normalized})
+        print('LEGACY CACHE OUTPUTS', len(outputs), 'REPAIR TRACES', len(invalidated),
+              'NORMALIZED', len(normalized), flush=True)
+        if invalidated:
+            (state_path.parent / 'cache.receipt.json').unlink(missing_ok=True)
+    state = prepare.prepare_one(env, rows, standalone_proofs=not DEFER_STANDALONE_PROOFS)
     if NAMESPACE:
         # Cached setup files contain absolute paths. Ask Lake for the relocated
         # setup after building dependencies rather than reusing seed paths.
@@ -332,14 +364,17 @@ def prepare_one(env, registry, lock):
 
 
 def main():
-    global INCREMENTAL_BUDGET, NAMESPACE
+    global INCREMENTAL_BUDGET, NAMESPACE, DEFER_STANDALONE_PROOFS
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--environment", action="append", required=True)
     parser.add_argument("--compiler-lock", type=Path, required=True)
     parser.add_argument("--incremental-budget-gib", type=float,
                         help="Use an already installed compiler; bound new disk growth and retain 5 GiB free")
     parser.add_argument('--namespace', help='Fork matching pinned seeds before extending their sealed dependency builds')
+    parser.add_argument('--defer-standalone-proofs', action='store_true',
+                        help='Verify cached libraries/headers now; leave standalone proof and axiom checks to the evaluator')
     args = parser.parse_args()
+    DEFER_STANDALONE_PROOFS = args.defer_standalone_proofs
     if args.incremental_budget_gib is not None:
         if not 0 < args.incremental_budget_gib <= 8:
             parser.error('Incremental budget must be greater than 0 and at most 8 GiB')

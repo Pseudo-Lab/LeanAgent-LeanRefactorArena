@@ -18,6 +18,14 @@ import uuid
 CACHE = Path(os.environ["PROJECT_CACHE_DIR"])
 ALLOWED = [CACHE, Path(os.environ["PROJECT_ENV_DIR"]) / "toolchains",
            Path("/Users/jwkweon/00_work/00_project/cache/05_pseudolab/LeanAgent-LeanRefactorArena")]
+REPO = Path(__file__).resolve().parents[1]
+# Existing compilers used by the fixed Final lock can be shared with another
+# worktree. Only their exact library subtree is eligible; paths stay unchanged.
+_lock = json.loads((REPO / 'configs/final-environments.lock.json').read_text())
+for _version in _lock['toolchain_versions']:
+    _compiler = REPO / 'sources/final/toolchains' / _version
+    if (_compiler / 'bin/lean').is_file() and (_compiler / 'lib').is_dir():
+        ALLOWED.append((_compiler / 'lib').resolve())
 
 
 def inventory(root):
@@ -59,16 +67,23 @@ def compress(root):
     process = subprocess.Popen(["/usr/bin/ditto", "--hfsCompression", str(root), str(staging)],
                                start_new_session=True)
     try:
-        while process.poll() is None:
-            if shutil.disk_usage(CACHE).free < 3 * 1024**3:
-                raise RuntimeError("Compression staging reached the 3 GiB disk reserve")
-            time.sleep(1)
-    finally:
-        if process.poll() is None:
-            os.killpg(process.pid, signal.SIGTERM)
-            process.wait()
-    if process.returncode or inventory(staging) != before:
-        raise ValueError("Compression copy failed verification; original retained")
+        try:
+            while process.poll() is None:
+                if shutil.disk_usage(CACHE).free < 3 * 1024**3:
+                    raise RuntimeError("Compression staging reached the 3 GiB disk reserve")
+                time.sleep(1)
+        finally:
+            if process.poll() is None:
+                os.killpg(process.pid, signal.SIGTERM)
+                process.wait()
+        if process.returncode or inventory(staging) != before:
+            raise ValueError("Compression copy failed verification; original retained")
+    except BaseException:
+        # The original has not been renamed yet. Remove only our failed copy
+        # after the copier exits so a stopped job does not consume the reserve.
+        if staging.exists():
+            shutil.rmtree(staging)
+        raise
     new_bytes = allocated(staging)
     if new_bytes >= old_bytes:
         shutil.rmtree(staging)

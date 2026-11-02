@@ -51,7 +51,7 @@ npm run build
 
 Cloudflare Pages의 Direct Upload 프로젝트 `lean-arena-dashboard`를 사용합니다. GitHub Actions 저장소 변수 `DASHBOARD_URL`에도 이 주소를 설정합니다.
 
-`.github/workflows/dashboard-ci.yml`이 main의 `dashboard/**` 또는 해당 워크플로 변경을 처리합니다. PR에서는 테스트·데이터 검사·빌드만 실행하며, main에서는 검사 성공 후 **같은 실행에서 검증한 `dist/` artifact**를 Cloudflare Pages로 배포합니다. Actions의 수동 실행도 main에서만 운영 배포합니다. Cloudflare의 별도 Git 연결이나 팀원별 유료 좌석은 필요하지 않습니다.
+`.github/workflows/dashboard-ci.yml`이 main의 `dashboard/**`, Final 측정 JSON, 환경 lock 또는 해당 워크플로 변경을 처리합니다. PR에서는 테스트·데이터 검사·빌드만 실행하며, main에서는 검사 성공 후 **같은 실행에서 검증한 `dist/` artifact**를 Cloudflare Pages로 배포합니다. Actions의 수동 실행도 main에서만 운영 배포합니다. Cloudflare의 별도 Git 연결이나 팀원별 유료 좌석은 필요하지 않습니다.
 
 ### 최초 연결
 

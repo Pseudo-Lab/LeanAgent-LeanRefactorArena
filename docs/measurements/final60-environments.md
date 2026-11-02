@@ -1,6 +1,6 @@
 # Final 환경 준비 현황
 
-갱신: 2026-11-02 (환경 추가 준비 중)
+갱신: 2026-11-02 (17개 환경 빌드·봉인 완료)
 
 환경은 출처·revision·Lean 버전 조합 17개, compiler 버전 8개다. 문제·버전 조합은 127개다. 버전이 다른 빌드 산출물은 공유하지 않는다.
 
@@ -8,29 +8,29 @@ Strata 4.31·4.27은 기존 소스와 빌드의 APFS copy-on-write 복제본에�
 
 | 환경 | 전체 대상 문제 수 | 봉인된 문제 수 | 상태 |
 | --- | ---: | ---: | --- |
-| arklib-v4.30.0 | 10 | 0 | 준비 대기 |
-| arklib-v4.31.0 | 10 | 0 | 준비 대기 |
+| arklib-v4.30.0 | 10 | 10 | 준비됨 |
+| arklib-v4.31.0 | 10 | 10 | 준비됨 |
 | arklib-v4.33.1 | 3 | 3 | 준비됨 |
 | arklib-v4.34.0 | 2 | 2 | 준비됨 |
 | cslib-v4.30.0 | 1 | 1 | 준비됨 |
 | cslib-v4.31.0 | 3 | 3 | 준비됨 |
 | cslib-v4.33.1 | 10 | 10 | 준비됨 |
 | cslib-v4.34.1 | 8 | 8 | 준비됨 |
-| leanpool-v4.34.0 | 10 | 0 | 준비 대기 |
-| leanpool-v4.35.0-rc3 | 10 | 0 | 준비 대기 |
+| leanpool-v4.34.0 | 10 | 10 | 준비됨 |
+| leanpool-v4.35.0-rc3 | 10 | 10 | 준비됨 |
 | physlib-v4.34.0 | 10 | 10 | 준비됨 |
 | physlib-v4.34.1 | 10 | 10 | 준비됨 |
-| putnambench-v4.26.0 | 10 | 0 | 준비 대기 |
-| putnambench-v4.27.0 | 9 | 0 | 준비 대기 |
+| putnambench-v4.26.0 | 10 | 10 | 준비됨 |
+| putnambench-v4.27.0 | 9 | 9 | 준비됨 |
 | strata-v4.26.0 | 1 | 1 | 준비됨 |
 | strata-v4.27.0 | 10 | 10 | 준비됨 |
 | strata-v4.31.0 | 10 | 10 | 준비됨 |
 
 ## 저장과 자원 제한
 
-- 소스 snapshot은 `sources/final-expanded/checkouts/`에 두고, `.lake/build`는 이 워크트리의 중앙 `$PROJECT_CACHE_DIR/lean-build/`를 가리킨다.
+- Strata 확장 snapshot은 `sources/final-expanded/checkouts/`, 이후 출처별 snapshot은 `sources/final/isolated-checkouts/<출처>/<버전>/`에 둔다. `.lake/build`는 이 워크트리의 중앙 `$PROJECT_CACHE_DIR/lean-build/`를 가리킨다.
 - 기존 소스의 compiler·라이브러리 bytes를 변경하지 않는다. 소스 revision·manifest·추적 파일 무변경을 확인하고 `prepared-expanded.json`으로 봉인한다.
-- 이번 로컬 증분 경로는 compiler 설치·다운로드 없이 기존 캐시만 사용한다. 처음 4 GiB 이상, 실행 중 3 GiB 여유와 최대 2 GiB 추가 사용 제한을 적용한다. 전체 17환경 신규 설치기의 15 GiB 기준은 변경하지 않았다.
+- 초기 Strata 전용 `prepare_final_cached.py`는 compiler 설치·다운로드 없이 기존 캐시를 사용한다. 이 경로는 처음 4 GiB 이상, 실행 중 3 GiB 여유와 최대 2 GiB 추가 사용 제한을 적용했다. 이후 일반 준비기는 아래의 5 GiB 여유·명시적 증분 예산을 적용한다. 기본 신규 설치기의 15 GiB 기준은 유지한다.
 - 빌드와 측정은 같은 compiler lock을 사용한다. 측정은 원문 컴파일·공리 확인 후 버전별 fresh HB 1회다.
 - F001의 과거 세 표본과 그 중앙값은 원래 환경 기준의 역사적 증거로 표시한다. 새 확장 환경에서 다시 측정한 것처럼 취급하지 않는다.
 - PhysLib 4.34.1의 전체 10문제 문맥도 빌드·봉인했다. 4.34.0의 전체 10문제 문맥도 빌드·봉인했으며, F011 이후 두 버전의 HB를 한 문제씩 순서대로 측정한다.
@@ -63,7 +63,7 @@ BASELINE_PYTHON=/Users/jwkweon/00_work/00_project/env/05_pseudolab/LeanAgent-Lea
   --compiler-lock /Users/jwkweon/00_work/00_project/05_pseudolab/.worktrees/arena-final-f001-20/runs/manual/final-f001-subagent-20/compiler.lock
 ```
 
-실행 중인 protocol과 구현은 변경하지 않는다. 동일 소스·환경·구현의 완료 결과만 유지하고 다음 문제로 넘어간다. 환경이 없으면 exit 2, 실제 측정이 실패하면 exit 1로 상태를 저장한다. 모델 API는 호출하지 않는다.
+실행 중인 측정 protocol과 구현은 변경하지 않는다. 동일 소스·환경·구현의 완료 결과만 유지하고 다음 문제로 넘어간다. 기본 실행은 환경이 없으면 exit 2로 종료하며, 위 명령의 `--wait-for-environments`는 봉인이 끝날 때까지 기다린다. 실제 측정 실패는 exit 1로 저장한다. 모델 API는 호출하지 않는다.
 
 ## PhysLib 이후 환경과 캐시
 
@@ -96,3 +96,20 @@ F021 이후 새 실행기는 `reference_single_pass`를 사용한다. 기존 HB 
 초기 Strata 확장 캐시의 setup 일부는 복제 전 seed의 절대 경로를 유지했다. 실제 참조한 4.31 파일 261개·4.27 파일 249개를 복제본의 봉인 해시와 대조했으며 불일치·누락이 없었다. 모든 파일의 ctime도 F002 측정 시작 이전이어서 측정 구간 중 원본 파일 변경이 없음을 확인했다. 따라서 기존 HB 표본은 추가 계측 없이 유지한다.
 
 원래 setup 파일은 SHA256별로 보존했고, 현재 복제본의 setup은 Lake로 다시 생성해 실제 참조 파일이 복제본 manifest에 들어 있음을 확인했다. 원본 라이브러리와 기존 측정 로그는 유지한다. 감사와 경로 재생성 증거는 `runs/manual/final60-strata-import-audit-20261102/receipt.json`, `relocated-setups.json`, `legacy-setups/`에 있다. 이후 평가기는 compiler setup이 봉인하지 않은 파일을 참조하면 실행·캐시 재사용을 거부한다.
+
+## Putnam 준비와 구형 캐시 재개
+
+Putnam은 `import Mathlib` 전체가 필요하다. 환경 준비에서 같은 원본 증명을 미리 실행하는 중복을 줄이기 위해 `--defer-standalone-proofs`를 사용했다. import를 공유하고 각 헤더의 `open`·옵션 문맥을 별도 section에 넣은 한 번의 검사로 라이브러리를 확인한다. 상태의 `validation_scope`와 `standalone_header_imports`는 이 제한된 범위를 명시한다. 각 원본의 실제 컴파일·공리 검사는 이후 HB 평가기가 원래 헤더·원본 bytes로 수행하며, 이 검사가 끝나기 전에는 원본 측정 완료로 게시하지 않는다. 기본 준비 모드는 기존 전체 원본 검사다.
+
+```sh
+"$BASELINE_PYTHON" -B scripts/prepare_final_environment.py --namespace putnambench \
+  --environment putnambench-v4.26.0 --environment putnambench-v4.27.0 \
+  --defer-standalone-proofs --incremental-budget-gib 2 \
+  --compiler-lock /Users/jwkweon/00_work/00_project/05_pseudolab/.worktrees/arena-final-f001-20/runs/manual/final-f001-subagent-20/compiler.lock
+```
+
+`leantar 0.1.16`은 빈 `log`를 생략해서 쓴 v3 trace를 다시 읽을 때 유효한 trace로 인식하지 못해 재추출한다. [공식 구현](https://github.com/digama0/leangz/blob/v0.1.16/src/ltar.rs)의 직렬화·역직렬화 조건을 확인하고 실제 archive로 재현했다. 봉인 전 준비 캐시에만 빈 `log: []`를 명시하며, 원래 메타데이터와 전후 해시는 보존한다. 이 보정은 compiler 출력 bytes를 변경하지 않는다.
+
+용량 한도에서 압축 해제가 중단되면 trace가 먼저 기록되고 출력 일부가 불완전하게 남을 수 있다. 재개 전 해당 Lean 버전의 `Lake.computeFileHash`로 trace에 기록된 출력 해시를 확인한다. 불일치 모듈의 생성 trace만 백업·무효화해 공식 캐시에서 출력을 다시 복구한다. 4.26에서는 출력 46,377개를 검사해 모듈 7개를 복구했고 재검사 불일치는 0개였다. 준비 중단은 봉인 완료로 취급하지 않는다.
+
+캐시 압축은 작은 디렉터리 단위로 수행하며, 복사 중 3 GiB 여유를 침범하면 복사 프로세스를 종료한 뒤 자기 임시 복사본만 제거한다. 원본 캐시는 유지한다. 준비가 끝난 환경의 다운로드 압축본은 compiler lock·열린 파일 없음·고정 라이브러리 경로와 분리를 확인한 뒤 정리했다. 현재 준비 중인 버전의 다운로드와 고정 빌드 산출물은 유지한다. 다운로드 정리·압축·복구 증거는 `runs/manual/final60-environment-prep-20261102/`에 보존한다.

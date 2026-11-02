@@ -98,7 +98,32 @@ def cache_imports(project, locations, rows):
             "unresolved_source_imports": sorted(unresolved)}
 
 
-def prepare_one(env, rows):
+def standalone_check(row, *, proofs=True):
+    if proofs:
+        return ('canonical_standalone', row['header'] + row['src'] + '\n#print axioms ' + row['name'] + '\n')
+    return ('standalone_header_imports', row['header'] + '\n')
+
+
+def combined_standalone_headers(rows):
+    imports, bodies = [], []
+    for row in rows:
+        body = []
+        for line in row['header'].splitlines():
+            stripped = line.strip()
+            if not stripped:
+                continue
+            if stripped.startswith('import '):
+                if stripped not in imports:
+                    imports.append(stripped)
+            elif (stripped.startswith('open ') or stripped.startswith('set_option ')) and not stripped.endswith(' in'):
+                body.append(line)
+            else:
+                return None
+        bodies.append('section\n' + '\n'.join(body) + '\nend\n')
+    return '\n'.join(imports) + '\n\n' + '\n'.join(bodies)
+
+
+def prepare_one(env, rows, *, standalone_proofs=True):
     project = REPO / env["project"]
     version = env["version"]
     compiler = ROOT / "toolchains" / version
@@ -157,17 +182,35 @@ def prepare_one(env, rows):
     references = []
     state["stage"] = "reference-checks"
     write(state_path, state)
-    if env["source"] == "putnambench":
+    combined = (combined_standalone_headers([rows[loc['row']-1] for loc in locations])
+                if env['source'] == 'putnambench' and not standalone_proofs else None)
+    if combined is not None:
+        state['stage'] = 'standalone-header-imports'
+        write(state_path, state)
+        source = checks / 'Headers.lean'
+        source.write_text(combined)
+        rec = invoke([lake, 'lean', source, '--', '-j1', '-M4096'], project, child,
+                     state_dir / 'headers.log', timeout=600)
+        references = [{'row': loc['row'], 'name': loc['name'], 'kind': 'standalone_header_imports',
+                       'compile': rec, 'reused_header_check': i > 0} for i, loc in enumerate(locations)]
+    elif env["source"] == "putnambench":
+        checked_headers = {}
         for location in locations:
             index = location["row"]
             row = rows[index-1]
             state["stage"] = f"reference-F{index:03d}"
             write(state_path, state)
-            source = checks / (f"Reference{index:03d}.lean")
-            source.write_text(row["header"] + row["src"] + "\n#print axioms " + row["name"] + "\n")
-            log = state_dir / (f"reference-{index:03d}.log")
-            rec = invoke([lake, "lean", source, "--", "-j1", "-M4096"], project, child, log, timeout=600)
-            references.append({"row": index, "name": row["name"], "kind": "canonical_standalone", "compile": rec})
+            kind, content = standalone_check(row, proofs=standalone_proofs)
+            label = 'reference' if standalone_proofs else 'header'
+            source = checks / (f"{'Reference' if standalone_proofs else 'Header'}{index:03d}.lean")
+            source.write_text(content)
+            log = state_dir / (f"{label}-{index:03d}.log")
+            reused = not standalone_proofs and content in checked_headers
+            rec = checked_headers[content] if reused else invoke(
+                [lake, "lean", source, "--", "-j1", "-M4096"], project, child, log, timeout=600)
+            checked_headers[content] = rec
+            references.append({"row": index, "name": row["name"], "kind": kind,
+                               "compile": rec, "reused_header_check": reused})
     else:
         source = checks / "Imports.lean"
         source.write_text(("module\n" if private_imports else "") + "import Lean\n" +
@@ -180,7 +223,9 @@ def prepare_one(env, rows):
     if command(["git", "-C", project, "diff", "--name-only", "HEAD", "--"]).strip():
         raise ValueError("Build changed tracked source")
     state.update(status="ready", stage="complete", references=references,
-                 validation_scope="Pinned source module build plus target type/import check; no heartbeat measurement or complete axiom-policy audit.",
+                 validation_scope=("Pinned libraries and exact standalone headers verified; target proof compilation and axiom checks deferred to evaluator. No heartbeat measurement."
+                                   if env['source'] == 'putnambench' and not standalone_proofs else
+                                   "Pinned source module build plus target type/import check; no heartbeat measurement or complete axiom-policy audit."),
                  lean_path=command([lake, "env", "printenv", "LEAN_PATH"], cwd=project, env=child).strip(),
                  model_api_calls=0)
     write(state_path, state)
