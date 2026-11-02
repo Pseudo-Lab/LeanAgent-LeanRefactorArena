@@ -3,7 +3,6 @@
   "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
   "scope": "Local original-reference measurements; not official worker scores",
   "tokenizer": "lean-source-anchored-v1",
-  "hb_repetitions": 3,
   "total_problems": 60,
   "measured_problems": 1,
   "next_problem": "F002",
@@ -26,7 +25,8 @@
             4182543
           ],
           "median_raw_heartbeats": 4182543,
-          "median_heartbeats": 4182
+          "median_heartbeats": 4182,
+          "measurement_count": 3
         },
         "strata-v4.27.0": {
           "valid": true,
@@ -36,7 +36,8 @@
             4699579
           ],
           "median_raw_heartbeats": 4699579,
-          "median_heartbeats": 4699
+          "median_heartbeats": 4699,
+          "measurement_count": 3
         },
         "strata-v4.26.0": {
           "valid": true,
@@ -46,7 +47,8 @@
             4683842
           ],
           "median_raw_heartbeats": 4683842,
-          "median_heartbeats": 4683
+          "median_heartbeats": 4683,
+          "measurement_count": 3
         }
       },
       "primary_environment": "strata-v4.31.0",
@@ -649,5 +651,7 @@
       "status": "pending_environment",
       "environments": {}
     }
-  ]
+  ],
+  "default_hb_repetitions": 1,
+  "measurement_policy": "One fresh HB sample per environment for new measurements; F001 retains its three historical samples."
 }

@@ -49,11 +49,13 @@ def implementations():
 def report(root, markdown):
     records = [json.loads(p.read_text()) for p in sorted(root.glob("F*/record.json"))]
     progress = json.loads((root / "progress.json").read_text())
+    repetitions = json.loads((root / "protocol.json").read_text())["repetitions"]
     text = ["# Final 60문제 원본 Length·HB 측정", "",
             f"갱신: {now()}", "",
             f"원본 dataset SHA256: `{DATASET_SHA}`. 모델 API 호출 0회.", "",
             "문제를 F001부터 순서대로 처리한다. 각 지정 버전에서 원문 컴파일·공리 확인 후 "
-            "새 Lean 프로세스 3회로 HB를 측정한다. 버전별 중앙값을 따로 보존하고, "
+            f"새 Lean 프로세스 {repetitions}회로 HB를 측정한다. 이미 완료한 복수 표본은 "
+            "실제 횟수와 중앙값을 그대로 보존한다. 버전별 결과를 따로 보존하고, "
             "대표 HB는 dataset의 첫 번째 지정 버전 값을 사용한다. 공식 worker 점수는 아니다.", "",
             "Length는 제공 기준값과 로컬 tokenizer 결과를 구분한다. "
             "raw HB와 환산 HB(raw // 1000)도 분리하며 미측정 값을 0으로 채우지 않는다.", "",
@@ -61,7 +63,7 @@ def report(root, markdown):
             f"현재 상태: `{progress['status']}`.", ""]
     if progress.get("reason"):
         text += ["현재 사유: " + progress["reason"], ""]
-    text += ["| 문제 | 정리 | 제공 Length | 로컬 Length | 버전 | raw HB 중앙값 | 환산 HB | 새 표본 수 |",
+    text += ["| 문제 | 정리 | 제공 Length | 로컬 Length | 버전 | raw HB | 환산 HB | 실제 표본 수 |",
              "| --- | --- | ---: | ---: | --- | ---: | ---: | ---: |"]
     for record in records:
         for env, value in record.get("environments", {}).items():
@@ -69,7 +71,9 @@ def report(root, markdown):
                         f"{record['local_length']} | {env} | {value['median_raw_heartbeats']:,} | "
                         f"{value['median_heartbeats']:,} | {len(value['raw_samples'])} |")
     text += ["", "원시 소스·컴파일 로그·측정 표본·결과 해시는 다음 로컬 실행 폴더에 보관한다.", "",
-             f"`{root}`", "", "환경 빌드 산출물은 재사용하되 이 실행의 HB 표본은 캐시에서 가져오지 않는다.", ""]
+             f"`{root}`", "", "새 문제의 HB는 fresh 측정한다. 이전 완료 결과는 아래 원본 증거를 검증해 유지한다.", ""]
+    for source in sorted({r["evidence_root"] for r in records if "evidence_root" in r}):
+        text += [f"- 기존 증거: `{source}`", ""]
     markdown.parent.mkdir(parents=True, exist_ok=True)
     markdown.write_text("\n".join(text))
 
@@ -80,9 +84,14 @@ def main():
     parser.add_argument("--compiler-lock", type=Path, required=True)
     parser.add_argument("--markdown", type=Path, default=REPO / "docs/measurements/final60-baselines.md")
     parser.add_argument("--limit", type=int, default=60)
+    parser.add_argument("--repetitions", type=int, default=1)
+    parser.add_argument("--carry-forward", type=Path,
+                        help="Retain verified completed evidence from an older frozen run")
     args = parser.parse_args()
     if not 1 <= args.limit <= 60:
         parser.error("--limit must be within 1..60")
+    if args.repetitions < 1:
+        parser.error("--repetitions must be positive")
     root = args.output.resolve()
     root.mkdir(parents=True, exist_ok=True)
     data = REPO / "benchmarks/arena/final-d53690b057f9/benchmark_data_final.jsonl"
@@ -91,9 +100,23 @@ def main():
     assert len(rows) == 60
     registry = json.loads((REPO / "configs/final-environments.local.json").read_text())
     protocol = {"schema_version": 1, "dataset_sha256": DATASET_SHA,
-                "repetitions": 3, "all_versions": True, "fresh": True,
+                "repetitions": args.repetitions, "all_versions": True, "fresh": True,
                 "ordering": "F001..F060, one problem at a time",
                 "implementation_sha256": implementations(), "model_api_calls": 0}
+    if args.carry_forward:
+        previous_root = args.carry_forward.resolve()
+        if previous_root == root:
+            raise ValueError("Carry-forward requires a separate, immutable previous run")
+        previous_protocol = json.loads((previous_root / "protocol.json").read_text())
+        if (previous_protocol["dataset_sha256"] != DATASET_SHA
+                or not previous_protocol["all_versions"]
+                or previous_protocol["repetitions"] < args.repetitions):
+            raise ValueError("Previous evidence does not meet the requested measurement scope")
+        for name, digest in protocol["implementation_sha256"].items():
+            if name != "scripts/measure_final_baselines.py" and previous_protocol["implementation_sha256"].get(name) != digest:
+                raise ValueError("Previous evaluator implementation differs: " + name)
+        protocol["carry_forward"] = {"root": str(previous_root),
+                                     "protocol_sha256": sha((previous_root / "protocol.json").read_bytes())}
     protocol_path = root / "protocol.json"
     if protocol_path.exists() and json.loads(protocol_path.read_text()) != protocol:
         raise ValueError("Frozen measurement protocol changed; use a new output root")
@@ -127,12 +150,30 @@ def main():
         fingerprints = {env: sha((REPO / "sources/final/environments" / env /
                                   "environment.json").read_bytes()) for env in problem["environments"]}
         record_path = root / item["id"] / "record.json"
+        if not record_path.exists() and args.carry_forward:
+            previous = previous_root / item["id"] / "record.json"
+            if previous.exists():
+                carried = json.loads(previous.read_text())
+                carried["evidence_root"] = carried.get("evidence_root", str(previous.parent))
+                # Validate before publishing a copied record or treating it as completed.
+                if (carried["reference_sha256"] != item["reference_sha256"]
+                        or carried["environment_state_sha256"] != fingerprints
+                        or carried["status"] != "measured"):
+                    raise ValueError("Previous source/environment differs")
+                evidence = Path(carried["evidence_root"]) / "evaluation/result.json"
+                if sha(evidence.read_bytes()) != carried["result_sha256"]:
+                    raise ValueError("Previous measurement evidence changed")
+                if set(carried["environments"]) != set(problem["environments"]):
+                    raise ValueError("Previous environment coverage differs")
+                if any(len(v["raw_samples"]) < args.repetitions for v in carried["environments"].values()):
+                    raise ValueError("Previous sample count is insufficient")
+                write(record_path, carried)
         if record_path.exists():
             record = json.loads(record_path.read_text())
             if (record["reference_sha256"] != item["reference_sha256"] or
                     record["environment_state_sha256"] != fingerprints or record["status"] != "measured"):
                 raise ValueError("Stored measurement does not match frozen source/environment")
-            result_file = record_path.parent / "evaluation/result.json"
+            result_file = Path(record.get("evidence_root", str(record_path.parent))) / "evaluation/result.json"
             if sha(result_file.read_bytes()) != record["result_sha256"]:
                 raise ValueError("Stored measurement evidence changed")
             print("RETAIN", item["id"], flush=True)
@@ -141,7 +182,7 @@ def main():
         started = time.monotonic()
         initial = evaluator.verify_environments(problem, full=True)
         result = evaluator.evaluate(row["src"], problem, record_path.parent / "evaluation",
-                                    repetitions=3, all_versions=True, trusted_reference=True, fresh=True)
+                                    repetitions=args.repetitions, all_versions=True, trusted_reference=True, fresh=True)
         final = evaluator.verify_environments(problem, full=True)
         assert initial == final, "Prepared environment changed during measurement"
         if not result["valid"]:
@@ -153,7 +194,7 @@ def main():
         environments = {}
         for env, value in result["environments"].items():
             samples = [r["measurement"]["raw"] for r in value["runs"] if "measurement" in r]
-            assert len(samples) == 3 and statistics.median(samples) == value["median_raw_heartbeats"]
+            assert len(samples) == args.repetitions and statistics.median(samples) == value["median_raw_heartbeats"]
             environments[env] = {"valid": True, "raw_samples": samples,
                                  "median_raw_heartbeats": value["median_raw_heartbeats"],
                                  "median_heartbeats": value["median_heartbeats"]}
