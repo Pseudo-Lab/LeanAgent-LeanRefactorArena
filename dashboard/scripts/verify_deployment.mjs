@@ -9,7 +9,7 @@ if (!Array.isArray(files) || !files.length || files.some(f => !/^[a-z0-9-]+\.jso
   throw new Error('Invalid local snapshot index');
 }
 const expected = new Map([['index.json', index]]);
-for (const file of files) {
+for (const file of [...files, 'final-baselines.json']) {
   expected.set(file, await readFile(new URL(`../public/data/${file}`, import.meta.url), 'utf8'));
 }
 
@@ -22,7 +22,7 @@ for (let attempt = 1; attempt <= 12; attempt++) {
       if (!response.ok) throw new Error(`${file}: HTTP ${response.status}`);
       if ((await response.text()) !== body) throw new Error(`${file}: production differs from the tested source`);
     }
-    console.log(`Production data matches ${files.length} tested snapshot(s): ${base}`);
+    console.log(`Production data matches ${files.length} team snapshot(s) and final baselines: ${base}`);
     break;
   } catch (error) {
     if (attempt === 12) throw error;

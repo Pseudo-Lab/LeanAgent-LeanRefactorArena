@@ -1,6 +1,7 @@
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { parseSnapshot } from '../src/lib/model.ts';
+import { parseFinalBaselines } from '../src/lib/final-baselines.ts';
 
 const root = new URL('../public/data/', import.meta.url);
 const files: unknown = JSON.parse(readFileSync(new URL('index.json', root), 'utf8'));
@@ -25,3 +26,5 @@ for (const file of files) {
   console.log(`Validated ${file}: ${snapshot.problems.length} problems`);
 }
 if (files.length === 0) console.log('No published results.');
+const final = parseFinalBaselines(JSON.parse(readFileSync(new URL('final-baselines.json', root), 'utf8')));
+console.log(`Validated final-baselines.json: ${final.problems.length} problems, ${final.problems.filter(p => p.local !== null).length} measured baselines`);

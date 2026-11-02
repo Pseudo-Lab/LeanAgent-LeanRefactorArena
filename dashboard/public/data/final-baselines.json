@@ -1,0 +1,3881 @@
+{
+  "schemaVersion": 1,
+  "dataset": "final-baselines",
+  "datasetSha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "generatedAt": "2026-11-02T14:08:09.702534+00:00",
+  "runId": "20261101-final60-usd1-r1",
+  "measurementPolicy": "primary-pin-local-samples",
+  "problems": [
+    {
+      "id": "F001",
+      "row": 1,
+      "name": "Core.InitsUpdatesComm",
+      "source": "strata",
+      "providedLength": 224,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 224,
+        "rawHeartbeats": 4182543,
+        "scaledHeartbeats": 4182,
+        "rawSamples": [
+          4182543,
+          4182543,
+          4182543
+        ],
+        "measuredAt": "2026-11-01T10:48:34.907730+00:00",
+        "evidence": [
+          {
+            "path": "problems/F001/input/problem.json",
+            "sha256": "9f47962ea46392c6d16410617561731e730a4c444ca24a6d3e67f4e3c1f022c7"
+          },
+          {
+            "path": "problems/F001/baseline/result.json",
+            "sha256": "61d087936b29257a5b3399ccdf060663c20390b808d3296db6c747722ba4c873"
+          },
+          {
+            "path": "problems/F001/baseline/strata-v4.31.0/check.lean",
+            "sha256": "227aa501dd72743ad8710489b0bb1ed25eeacd4aa2afceded1434854a731043e"
+          },
+          {
+            "path": "problems/F001/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F001/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "94a5bc28d0af57db61088ba93f424d3b33d079c0d4e823519de8a95a67bc12e5"
+          },
+          {
+            "path": "problems/F001/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "d0c51b3ea1b05cb95c14fde08921bd1f217b81410c50b17fca42e4aa05908559"
+          },
+          {
+            "path": "problems/F001/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "7789db56ffdb07776dc00cf3758b17e78dfd01aff64077518b68673bfec77a45"
+          },
+          {
+            "path": "problems/F001/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "37216e8a0ab3709d84c35c8b29f38646327028145fd629bc183fef3072e8b521"
+          },
+          {
+            "path": "problems/F001/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "d2cfa6e28a4aea58a0bff7a40df9b17f8cabf076bed5cfe27164dfe684fe46f0"
+          },
+          {
+            "path": "problems/F001/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "bb622021372cb676578cf993df8558f26e2efaad37f4f2c84f4a0bbb88662f1b"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F002",
+      "row": 2,
+      "name": "Lambda.denote_suffix_irrel",
+      "source": "strata",
+      "providedLength": 904,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 904,
+        "rawHeartbeats": 4367942,
+        "scaledHeartbeats": 4367,
+        "rawSamples": [
+          4367942,
+          4367942,
+          4367943
+        ],
+        "measuredAt": "2026-11-01T14:40:15.815930+00:00",
+        "evidence": [
+          {
+            "path": "problems/F002/input/problem.json",
+            "sha256": "3bcee4af603677b1a3fb3be06908a6a7221cf9152b3e3ad48d8c78a41962a51c"
+          },
+          {
+            "path": "problems/F002/baseline/result.json",
+            "sha256": "12286f070afa650b729dd4133514a291269c1f6bdb227f3a32150429ea86898a"
+          },
+          {
+            "path": "problems/F002/baseline/strata-v4.31.0/check.lean",
+            "sha256": "c1bac979b72ab54eeabec9a95ed5e2002c3768900104aceb811af2385498a756"
+          },
+          {
+            "path": "problems/F002/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F002/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "40011225576ed2ec2245485d7653f9c7ec404ab550736ee3ef7be2ade63f0b2e"
+          },
+          {
+            "path": "problems/F002/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "5fc58a886cb4675ab745b1e0391548cf7fad51d88fb1b9fd5a3ea7fe18c52c66"
+          },
+          {
+            "path": "problems/F002/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "f68399681ebf2d167c56569808afd85e387f96b51171f3d84a8072e4199db46f"
+          },
+          {
+            "path": "problems/F002/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "d611fdb1832e20f7bf653a6a849e4950b025f764944a8a9676b7486a2546a4c6"
+          },
+          {
+            "path": "problems/F002/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "72a0085e81ce59bfdb0d7435f579a299d4c9dc158070c5f54a5a2b6a2e9eb0dc"
+          },
+          {
+            "path": "problems/F002/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "f79ff6d6343279562d59d1fbf18196e7704e30e65804ebc4f12ae8e6a05a1da6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F003",
+      "row": 3,
+      "name": "Lambda.denote_Denotes",
+      "source": "strata",
+      "providedLength": 931,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 931,
+        "rawHeartbeats": 10924741,
+        "scaledHeartbeats": 10924,
+        "rawSamples": [
+          10924756,
+          10924741,
+          10924570
+        ],
+        "measuredAt": "2026-11-01T15:16:56.489985+00:00",
+        "evidence": [
+          {
+            "path": "problems/F003/input/problem.json",
+            "sha256": "88b0d603122da3ff7955f43927e81edece049ef28ce57950e5d3942319004498"
+          },
+          {
+            "path": "problems/F003/baseline/result.json",
+            "sha256": "27da3e4e5fc9cffa8047415216b17f2f4fe840caddd3d2c06c2dd72ae31b8a76"
+          },
+          {
+            "path": "problems/F003/baseline/strata-v4.31.0/check.lean",
+            "sha256": "241ba6f776504d40147f11d53452e60d3c41bf60cd8e1b52bf841ce33ae2c60f"
+          },
+          {
+            "path": "problems/F003/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F003/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "1d833d2ef05aff17eb3520603f038c6f20c173d9a81f557a1a36626fdcf62535"
+          },
+          {
+            "path": "problems/F003/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "2718b8110a922ea81de1f20871cdef59a0e230f8975d3feeb675364e1c14bbaf"
+          },
+          {
+            "path": "problems/F003/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "5f7581b55c54fa60bcc53636c9ffa41c86c019819017d26eaffaaccfe0e4fb67"
+          },
+          {
+            "path": "problems/F003/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "334550c526c0b18a4366b452147c562fca529c198dbd9e8cd2245411941588b5"
+          },
+          {
+            "path": "problems/F003/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "53a5e9f935e4cb8092dad224f0ae4329fb7f0753417e98b724fbe834e5bf43ee"
+          },
+          {
+            "path": "problems/F003/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "71ef843dd5272b49492650e5883c5afdfd4be8dab229dcbd41fd0059d23ad925"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F004",
+      "row": 4,
+      "name": "Lambda.callOfLFunc_eraseMetadata_congr",
+      "source": "strata",
+      "providedLength": 291,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 291,
+        "rawHeartbeats": 21349352,
+        "scaledHeartbeats": 21349,
+        "rawSamples": [
+          21349352,
+          21349352,
+          21349354
+        ],
+        "measuredAt": "2026-11-01T14:20:52.265414+00:00",
+        "evidence": [
+          {
+            "path": "problems/F004/input/problem.json",
+            "sha256": "51942c436a11e5bb19213d45f671596583ebaa60d46e0cdcf8c8806bbae2d09f"
+          },
+          {
+            "path": "problems/F004/baseline/result.json",
+            "sha256": "44dca1d81c33fd4627af15a9ca441fa6872f673a6036b18099cb8ffe13bab385"
+          },
+          {
+            "path": "problems/F004/baseline/strata-v4.31.0/check.lean",
+            "sha256": "e9a145c34fada4d1154d3679a0352831516455af39c1ca4b4c8e045c47bb1f5d"
+          },
+          {
+            "path": "problems/F004/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F004/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "fdfd4d0020edc20753ee6931c9eb3b3d2c64584c374a4e5931635e772c1223cd"
+          },
+          {
+            "path": "problems/F004/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "cd7f5b69359d80f6519714c381c05531275898e5e84b298f31a18b6594f2d371"
+          },
+          {
+            "path": "problems/F004/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "6bebe2ba9b742a258cbc6e6ecdc693fa48e40bfd7e1adec37ee926d19b875d90"
+          },
+          {
+            "path": "problems/F004/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "e582122da9a1f390ab86c8087ce84e5db70abde44af435309fd77dc11890095b"
+          },
+          {
+            "path": "problems/F004/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "4696e4b0f9513e898f99063f2edcfbd9742ccf00ff29f6d8460e24e6fb73cb7d"
+          },
+          {
+            "path": "problems/F004/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "4b662ff7d243db6907f686d7d0dc2b2355357cede489fe2e6e58992d36726e36"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F005",
+      "row": 5,
+      "name": "Lambda.liftBVars_typeCheck",
+      "source": "strata",
+      "providedLength": 209,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 209,
+        "rawHeartbeats": 17630418,
+        "scaledHeartbeats": 17630,
+        "rawSamples": [
+          17630223,
+          17631453,
+          17630418
+        ],
+        "measuredAt": "2026-11-01T18:05:59.345685+00:00",
+        "evidence": [
+          {
+            "path": "problems/F005/input/problem.json",
+            "sha256": "bc2dadcb2aa090e081e3c4bf3cfb8052cadb69535d6840c82c389476bd211939"
+          },
+          {
+            "path": "problems/F005/baseline/result.json",
+            "sha256": "1104b23201959765e78dab6171ed599ec1ff47a508c936f21329ac9f05f05979"
+          },
+          {
+            "path": "problems/F005/baseline/strata-v4.31.0/check.lean",
+            "sha256": "fe6e8e46ddf7b3c72219d3ba88d9023e4a7866b18d5ce44cf26a8dc36332be3e"
+          },
+          {
+            "path": "problems/F005/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F005/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "cf336b1322df6571ba92c4639a91ae75390703697cdefefb32daa7219662a252"
+          },
+          {
+            "path": "problems/F005/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "1a1c3081c1e920bd4a74f45b96752d34c1434d068965b83ad129d49b992cd35f"
+          },
+          {
+            "path": "problems/F005/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "d57b8fa2dcb88e6c185482ea132b79b654be35b856da036cd5904b300af454ba"
+          },
+          {
+            "path": "problems/F005/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "ab355bbac69cc03737964bb1d5015ee0047686ce9d68e5e7959105ec087c4c20"
+          },
+          {
+            "path": "problems/F005/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "f4c502292d30fdb45a7ad89ccf57c91c4001066e9b73da989e8f0bf7029c3a09"
+          },
+          {
+            "path": "problems/F005/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "de083d36d4f1b2b90066017dc1e65cc48616335f13abcec8a5dcefaf59dc6526"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F006",
+      "row": 6,
+      "name": "Lambda.liftBVars_denote",
+      "source": "strata",
+      "providedLength": 972,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 972,
+        "rawHeartbeats": 8898103,
+        "scaledHeartbeats": 8898,
+        "rawSamples": [
+          8898103,
+          8898371,
+          8897735
+        ],
+        "measuredAt": "2026-11-01T19:07:18.997825+00:00",
+        "evidence": [
+          {
+            "path": "problems/F006/input/problem.json",
+            "sha256": "6051dd29507829c67ef27a117c1a3b1cd64fd8f66826ed80d540691e1f0f70d1"
+          },
+          {
+            "path": "problems/F006/baseline/result.json",
+            "sha256": "cc5a653a14828bb8d0f3d5757f39c2d4a52060c97b73cedf5b9030cfa27ccf54"
+          },
+          {
+            "path": "problems/F006/baseline/strata-v4.31.0/check.lean",
+            "sha256": "fe6e8e46ddf7b3c72219d3ba88d9023e4a7866b18d5ce44cf26a8dc36332be3e"
+          },
+          {
+            "path": "problems/F006/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F006/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "29fa12529ad938c7b9da15c8ed5d3287d54b1ec055bb555d9ab1dd653c056f05"
+          },
+          {
+            "path": "problems/F006/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "1d68bd6955247ed091ac9eec90982c75e4a138596e30bf2fb87b6636ba0f6a96"
+          },
+          {
+            "path": "problems/F006/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "f966ceb23e60ef0c860ebc201301acae5ee501e468cb15829b99f5d45702bdd7"
+          },
+          {
+            "path": "problems/F006/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "86c0b8c741d539f79872eb53eb9cdfffc4f81d940cb12ff61e0ea518da1fd2a9"
+          },
+          {
+            "path": "problems/F006/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "1ddfd284a68cb3b401f070bd740c08b737fee97420a74e600904d540680d9b02"
+          },
+          {
+            "path": "problems/F006/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "4985edf6edb41b553c680370c4da6dc8be1bcc09d3c54b44f940b4fa3617d34f"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F007",
+      "row": 7,
+      "name": "Lambda.LExpr.typeCheck_to_HasTypeA",
+      "source": "strata",
+      "providedLength": 429,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 429,
+        "rawHeartbeats": 7093908,
+        "scaledHeartbeats": 7093,
+        "rawSamples": [
+          7093907,
+          7093908,
+          7093908
+        ],
+        "measuredAt": "2026-11-01T19:40:03.624595+00:00",
+        "evidence": [
+          {
+            "path": "problems/F007/input/problem.json",
+            "sha256": "7ee581c053ef6d0524159789dbc354d21291ef3c7219078f503e04e2a92b6253"
+          },
+          {
+            "path": "problems/F007/baseline/result.json",
+            "sha256": "40a3e45b868e2ba0d7d48c8eab3bd90354d259712c8211b6289e7622e80e5bc9"
+          },
+          {
+            "path": "problems/F007/baseline/strata-v4.31.0/check.lean",
+            "sha256": "dba2ade07e916fd06afafcecc2ef093f7617fd469efa26f207639a50ae80378c"
+          },
+          {
+            "path": "problems/F007/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F007/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "4f9c4a7395ada9802871fd287dad52058fa4c54d0f914044848bc0ff69bf4201"
+          },
+          {
+            "path": "problems/F007/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "4c68331fb329e018273f0cf089c14b21aef46fba61f6ead6023ddca7ec6445a5"
+          },
+          {
+            "path": "problems/F007/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "ab0bbf09ec0f1b2be0de4c7b4581ca63eba58c2f6d21f1031cdef788841fa27d"
+          },
+          {
+            "path": "problems/F007/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "ce8064cb67d336c90c2ab3b5250b0f1d9a274ff458d075fc95788e977f6e55dc"
+          },
+          {
+            "path": "problems/F007/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "fe6122c7f9c63373d09512cf214e8dd151b5d55bb037f42cd0aa282c2b336693"
+          },
+          {
+            "path": "problems/F007/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "54ab9691cc1a00cb536755e651111f948540646b0c95953c383de6542875eed9"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F008",
+      "row": 8,
+      "name": "Lambda.callOfLFunc_constr_disjoint_denote",
+      "source": "strata",
+      "providedLength": 968,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 968,
+        "rawHeartbeats": 7351678,
+        "scaledHeartbeats": 7351,
+        "rawSamples": [
+          7351859,
+          7351678,
+          7351589
+        ],
+        "measuredAt": "2026-11-01T20:23:04.515378+00:00",
+        "evidence": [
+          {
+            "path": "problems/F008/input/problem.json",
+            "sha256": "00b5531d7f555138236eac3537b599cf139960143abed4cbe44523e42d5ba72b"
+          },
+          {
+            "path": "problems/F008/baseline/result.json",
+            "sha256": "7d41181c1e2938b7ccab7afb4446bcfe467654deffae660b3c8b559399f789c3"
+          },
+          {
+            "path": "problems/F008/baseline/strata-v4.31.0/check.lean",
+            "sha256": "2f78df4c9cc04ca25ef4c53afce120921d1abf946f142b1eb471507b8bf9c173"
+          },
+          {
+            "path": "problems/F008/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F008/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "f18ecdcb874353964d7c17e33f0ddd578a5a7d8e8b83a4e52cd20edd3c0f3cdf"
+          },
+          {
+            "path": "problems/F008/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "e7725d55102e8732dee39e98da5cca2b0db87e13f6624fb0be4c90332a8dfa4a"
+          },
+          {
+            "path": "problems/F008/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "2a10921cd0cf3ec657b114adf2476c636504fbd2132763ce6839a76c429d97d0"
+          },
+          {
+            "path": "problems/F008/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "7f4868f0625c60591fb0985f5d87b750d48724814411df5ccc7bef89046a317d"
+          },
+          {
+            "path": "problems/F008/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "10b7162c7285c2af33910afb4482f6afc0efa12fdfa0c1cf844593b50ccd83a3"
+          },
+          {
+            "path": "problems/F008/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "76f42a7f34ea70e9fb3636834def90129ea85d732e542a3259e1de631dddb429"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F009",
+      "row": 9,
+      "name": "Lambda.denote_replaceMetadata",
+      "source": "strata",
+      "providedLength": 938,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 938,
+        "rawHeartbeats": 7275281,
+        "scaledHeartbeats": 7275,
+        "rawSamples": [
+          7275281,
+          7275281,
+          7275282
+        ],
+        "measuredAt": "2026-11-01T20:35:23.854760+00:00",
+        "evidence": [
+          {
+            "path": "problems/F009/input/problem.json",
+            "sha256": "c0a8d26eb04cc4a7299ee894ee8450614b4347df1c108227d24283184b4ec08f"
+          },
+          {
+            "path": "problems/F009/baseline/result.json",
+            "sha256": "b156de0ef872f1a528fa7fccd35f2155d50ae751113ebb19d4ad86815e1de203"
+          },
+          {
+            "path": "problems/F009/baseline/strata-v4.31.0/check.lean",
+            "sha256": "c1bac979b72ab54eeabec9a95ed5e2002c3768900104aceb811af2385498a756"
+          },
+          {
+            "path": "problems/F009/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F009/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "0e477024c9512cc577c2297d447006510b736f8743394a3df781386072e062a6"
+          },
+          {
+            "path": "problems/F009/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "5209de113aff0f83d514f901e81b6460894a725a604d155ad2e3944c18b607a2"
+          },
+          {
+            "path": "problems/F009/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "7083bafbb2fd2a16fcc0bff91cdd262d0563c2c600542f0c93fbb4f19263aa75"
+          },
+          {
+            "path": "problems/F009/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "79c5da3b842c51e6b667e549dd095a4b7085e5261a475866401754ee31bc297e"
+          },
+          {
+            "path": "problems/F009/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "438ecdcfa09b1e951214218d148e86e0dbe2fcbfe0c18e445318a428d7bcf3e2"
+          },
+          {
+            "path": "problems/F009/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "4b0e0877eff1659d55a572ed29345a7006bce63777ff1c01440e3c41a4d7ce23"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F010",
+      "row": 10,
+      "name": "Lambda.denote_ext",
+      "source": "strata",
+      "providedLength": 1200,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1200,
+        "rawHeartbeats": 4667076,
+        "scaledHeartbeats": 4667,
+        "rawSamples": [
+          4667075,
+          4667076,
+          4667076
+        ],
+        "measuredAt": "2026-11-01T21:13:42.967519+00:00",
+        "evidence": [
+          {
+            "path": "problems/F010/input/problem.json",
+            "sha256": "d1c2f7f0a6507beaf29f7dd038e1925172f5431241d4c2ba089250e753ac596b"
+          },
+          {
+            "path": "problems/F010/baseline/result.json",
+            "sha256": "7db26616ec6f4765f83cb8a09d7d7492391296ef914d3e4186817b592ead3b2c"
+          },
+          {
+            "path": "problems/F010/baseline/strata-v4.31.0/check.lean",
+            "sha256": "c1bac979b72ab54eeabec9a95ed5e2002c3768900104aceb811af2385498a756"
+          },
+          {
+            "path": "problems/F010/baseline/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F010/baseline/strata-v4.31.0/measure-1.lean",
+            "sha256": "451205a744f31cf5d63f0b3ffbbbd4418988aa73b947ac42d5f33c35e9fc924c"
+          },
+          {
+            "path": "problems/F010/baseline/strata-v4.31.0/measure-1.log",
+            "sha256": "64a14edddef2aed8e7d44027370e7ebca99404dcabc16fc8d6856e5d02dd2184"
+          },
+          {
+            "path": "problems/F010/baseline/strata-v4.31.0/measure-2.lean",
+            "sha256": "ef45d5d002c37929fdd8adba3dad74dc7b19ad8f6de5477c036125c6e3afa46e"
+          },
+          {
+            "path": "problems/F010/baseline/strata-v4.31.0/measure-2.log",
+            "sha256": "a9687e154d1660089a3787aec12950fc68836dc9e0c45a9f7a795e9f9d530710"
+          },
+          {
+            "path": "problems/F010/baseline/strata-v4.31.0/measure-3.lean",
+            "sha256": "1428fba38352f72ed80fc0c476b352db71e350f795a1fa71b8c945fe4aac3e8c"
+          },
+          {
+            "path": "problems/F010/baseline/strata-v4.31.0/measure-3.log",
+            "sha256": "e04a298683a2e1f510cd18ba16216b5df41e5fb9731e999d089cb292d0868fce"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F011",
+      "row": 11,
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "source": "physlib",
+      "providedLength": 4,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 4,
+        "rawHeartbeats": 64051730,
+        "scaledHeartbeats": 64051,
+        "rawSamples": [
+          64051730,
+          64051730,
+          64051730
+        ],
+        "measuredAt": "2026-11-01T11:30:40.399326+00:00",
+        "evidence": [
+          {
+            "path": "problems/F011/input/problem.json",
+            "sha256": "88e4eecd59b8f4972ad65feb2a3817a0a69c06fe73adc4593bd70fe8aff3f22a"
+          },
+          {
+            "path": "problems/F011/baseline/result.json",
+            "sha256": "d22fce3321559069b70ad3d34ce0ea9e225f6aec8a2b2add0cf92ea9a9b363b8"
+          },
+          {
+            "path": "problems/F011/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "79e8d4c6dcc17799909619a41338997e717263b5d2f0ad7eb4e39e99eeddb413"
+          },
+          {
+            "path": "problems/F011/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F011/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "6ae9e3cc281cdc7bd2d2aaf355868a3b3a95d19d87136d74ca1123ecfd7bf29f"
+          },
+          {
+            "path": "problems/F011/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "20f10e1e36b66ad01da50fc98651b5f4cd4fe46fc99790cfaae695527b65f024"
+          },
+          {
+            "path": "problems/F011/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "814d238916c95d9f0cd1c15054780bbc58daabe38e7f88aa65f48e1c2931eaf3"
+          },
+          {
+            "path": "problems/F011/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "28b15192359187517dadcdf7faa507bf24e1820a3f561992f992100cf56a0ea6"
+          },
+          {
+            "path": "problems/F011/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "8aaa0091a4d9be41b7a89eb079248738ba38fe4299e9fd1377b527bc730138b7"
+          },
+          {
+            "path": "problems/F011/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "68b207b153b4e4f366ff1eebe6f504a3ce63fa9645b546421462b4e59d44fc55"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F012",
+      "row": 12,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "source": "physlib",
+      "providedLength": 12,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 12,
+        "rawHeartbeats": 74041515,
+        "scaledHeartbeats": 74041,
+        "rawSamples": [
+          74041515,
+          74041515,
+          74041515
+        ],
+        "measuredAt": "2026-11-01T21:31:26.376041+00:00",
+        "evidence": [
+          {
+            "path": "problems/F012/input/problem.json",
+            "sha256": "64fa8315b50e780be47fe801158468d47cff6627a174b09cf73515bf8b0fd791"
+          },
+          {
+            "path": "problems/F012/baseline/result.json",
+            "sha256": "3fa94cc5464f11788c7be7ffe0e6d671b15a3351c3f00496f36ef3b5942318ba"
+          },
+          {
+            "path": "problems/F012/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "79e8d4c6dcc17799909619a41338997e717263b5d2f0ad7eb4e39e99eeddb413"
+          },
+          {
+            "path": "problems/F012/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F012/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "6a3cee11e27d6792e37103eb11fe6f6b3e2cfe325695f5f6ab5b13cd56c7a115"
+          },
+          {
+            "path": "problems/F012/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "37f1cf96fb2b0af508c8be407d6428ffecc58333118787561c4362fdb8046b09"
+          },
+          {
+            "path": "problems/F012/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "efe04527e60055da74dfeb94ad16e2ce45e6a6fa5cf4eac921e36a03d3942c05"
+          },
+          {
+            "path": "problems/F012/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "ceed0b0621dd1e15ab7b2b9ed412e26f3c84591c9e59065313197808a1e29c03"
+          },
+          {
+            "path": "problems/F012/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "d4d0efe514b052144344d1b7348e69ad8af8118df958ae16a874c569cdc266d5"
+          },
+          {
+            "path": "problems/F012/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "2bd74690f686ca5cc2974c7d1859528152e27f50de27be9bcbfaea92a44987fe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F013",
+      "row": 13,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "source": "physlib",
+      "providedLength": 12,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 12,
+        "rawHeartbeats": 79108905,
+        "scaledHeartbeats": 79108,
+        "rawSamples": [
+          79108905,
+          79108905,
+          79108905
+        ],
+        "measuredAt": "2026-11-01T22:53:23.167751+00:00",
+        "evidence": [
+          {
+            "path": "problems/F013/input/problem.json",
+            "sha256": "2442c75cd1a4b68d0c75a38bea33aed54f2262de3b4624f80f101e9509c17950"
+          },
+          {
+            "path": "problems/F013/baseline/result.json",
+            "sha256": "414aebbd1e56850e8130e335d223775bf4b6c04fca03faef41dac1d5dd4fb886"
+          },
+          {
+            "path": "problems/F013/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "79e8d4c6dcc17799909619a41338997e717263b5d2f0ad7eb4e39e99eeddb413"
+          },
+          {
+            "path": "problems/F013/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F013/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "96892eebacaab57afc9b54a86b5167e5e676dfa2d4c4d9415d64bc863db83e89"
+          },
+          {
+            "path": "problems/F013/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "46ce0f7d634344287915e775fc2368b1ae02748f9caae1e9f4d995ac46adab9b"
+          },
+          {
+            "path": "problems/F013/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "b5e1d0dae7441edd883dfe542911f71255156f8e2390b59dda04ba9c7167316a"
+          },
+          {
+            "path": "problems/F013/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "03b10fdc8f492e5d58ad44a6d4704839ae84a028dc156fed26bbbdc48d3f9cf4"
+          },
+          {
+            "path": "problems/F013/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "b922011f1a1fddaa684f358ceb25aa6f6fb631c010a4b339fdb67dd6779ba2ad"
+          },
+          {
+            "path": "problems/F013/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "cfc7b9944cea9a00f1998f6cc9fc185477340d3b07934abedb4b133d4feb44b1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F014",
+      "row": 14,
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "source": "physlib",
+      "providedLength": 181,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 181,
+        "rawHeartbeats": 212379390,
+        "scaledHeartbeats": 212379,
+        "rawSamples": [
+          212379390,
+          212379390,
+          212379390
+        ],
+        "measuredAt": "2026-11-02T00:42:40.898497+00:00",
+        "evidence": [
+          {
+            "path": "problems/F014/input/problem.json",
+            "sha256": "1d5833ddbc8c7b98b104edf2ca0944b94645b7712e50da48b4dab594e567244b"
+          },
+          {
+            "path": "problems/F014/baseline/result.json",
+            "sha256": "f077c5acbfacaa48b56981452658700686d8981e13b02f2e3d20b02c4dff06ba"
+          },
+          {
+            "path": "problems/F014/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "d3f10434c2aee7707b3fa39bafdf67096f13b3931618973c2d09cbe89a42b5c1"
+          },
+          {
+            "path": "problems/F014/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F014/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "8d847c747035b86a550fa044ea2419a588b1799a04d6edb7cc6895ad8df1f8c5"
+          },
+          {
+            "path": "problems/F014/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "bc79a132477576da86baefe1b96549a09444834e69f54ec4b6aeced23c60da33"
+          },
+          {
+            "path": "problems/F014/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "c1ccbaa709910d9bd6e8adf2fa1fe3a0df10065d9a25bbfec92fa0b1ba5d231a"
+          },
+          {
+            "path": "problems/F014/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "8cfefee7647cb6b0a38b6803d030160737c1b159d2c498d4616dc2173ffd9584"
+          },
+          {
+            "path": "problems/F014/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "6d337f19404fa6e43735349d57f99c2a5f0cdb6bd7aa8fb31eb3939367858b1f"
+          },
+          {
+            "path": "problems/F014/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "e5053b2d2af37c8f2a2f930fe2aca4e56305ec0ff239104ffc41fe48f188e325"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F015",
+      "row": 15,
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "source": "physlib",
+      "providedLength": 183,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 183,
+        "rawHeartbeats": 136539444,
+        "scaledHeartbeats": 136539,
+        "rawSamples": [
+          136539444,
+          136539444,
+          136539444
+        ],
+        "measuredAt": "2026-11-02T02:03:07.484051+00:00",
+        "evidence": [
+          {
+            "path": "problems/F015/input/problem.json",
+            "sha256": "a52d1b88a5ccf8e0a5a49b526b3719887d1049dc8fec5134e340130a6120dcf3"
+          },
+          {
+            "path": "problems/F015/baseline/result.json",
+            "sha256": "b3a7ab6dae0e8d314d4c628863e95b93a5f13e7d58d89b100111a4e466ee9f5e"
+          },
+          {
+            "path": "problems/F015/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "d3f10434c2aee7707b3fa39bafdf67096f13b3931618973c2d09cbe89a42b5c1"
+          },
+          {
+            "path": "problems/F015/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F015/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "a8f737db27de4f33c508567558963a7ed1fa224eed60678971db85294ea3ec1c"
+          },
+          {
+            "path": "problems/F015/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "043c21529573f3c9cdd180040e525602ce450add0247f25dfceffdb3fb4ffd6a"
+          },
+          {
+            "path": "problems/F015/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "a107da0a919ae2e6baee8dbce693262fcbe51e267d490e4defa4a457f35b540c"
+          },
+          {
+            "path": "problems/F015/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "bad45a0c8117d099d5f87ca10e3d6a5ead90aebe0b9fd225dafbfd229aed0c17"
+          },
+          {
+            "path": "problems/F015/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "bedab5db55d15b60290137bc5647825fe38f17aaa5713d3a5921e1e5a593bf84"
+          },
+          {
+            "path": "problems/F015/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "6fe06275099374363adeaf68e27f8dd6b4b9f8c483a5ed6052475075221def4d"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F016",
+      "row": 16,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "source": "physlib",
+      "providedLength": 1372,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1372,
+        "rawHeartbeats": 23941357,
+        "scaledHeartbeats": 23941,
+        "rawSamples": [
+          23941358,
+          23941357,
+          23941357
+        ],
+        "measuredAt": "2026-11-02T11:42:32.515559+00:00",
+        "evidence": [
+          {
+            "path": "problems/F016/input/problem.json",
+            "sha256": "288b395b4f8109ca7a5fc0afebc9f33855ad11015835b24f7e9c611273ed5d8f"
+          },
+          {
+            "path": "problems/F016/baseline/result.json",
+            "sha256": "8b96bb2cbba7d135645c02a81965af404634e1dd1e6abe67affee447eaa8d126"
+          },
+          {
+            "path": "problems/F016/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "34cd164a78e93f5774ddd13c8415f7018d661a5d360766ea0966d43b9a33b55c"
+          },
+          {
+            "path": "problems/F016/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F016/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "13940176037c425e6df8d8cf58b9702400642ab2819a19dc950ac511293dd5ef"
+          },
+          {
+            "path": "problems/F016/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "77260fe099dbc33a69aff6755c0c76eecaae70b3a4a100b75006217d54b41427"
+          },
+          {
+            "path": "problems/F016/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "0d84db484a6cf10fc5b57352a09ac106890caa152a442de1a33129dd11e483d7"
+          },
+          {
+            "path": "problems/F016/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "803e31262ce06d0a972fbfce6ad3567767c0bd7d57cf2dc123c1c03646061e87"
+          },
+          {
+            "path": "problems/F016/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "c4170e867011edb0134d7b58341b57b1f7ff4358ec257cc88ebfb2c0d33240f9"
+          },
+          {
+            "path": "problems/F016/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "71a388bf03fa024d1ea5f307325e08c2e39e4326d3d8c51e70427ce1bf3dee07"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F017",
+      "row": 17,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "source": "physlib",
+      "providedLength": 1217,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1217,
+        "rawHeartbeats": 35774564,
+        "scaledHeartbeats": 35774,
+        "rawSamples": [
+          35774591,
+          35774552,
+          35774564
+        ],
+        "measuredAt": "2026-11-02T12:12:16.046877+00:00",
+        "evidence": [
+          {
+            "path": "problems/F017/input/problem.json",
+            "sha256": "df18bb2b0338b846a288b5c04d7c842ca7e43cb969cc3d4b8497199c4aefa2c0"
+          },
+          {
+            "path": "problems/F017/baseline/result.json",
+            "sha256": "32881aa0922bc6b3dcf735784a76091901e4f664d09b1ba1f6726fe081c33bb9"
+          },
+          {
+            "path": "problems/F017/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "2ab44deadd39542905d5dfd1b1f705f8c9e183f48e7d43c47205bcabd946bcc4"
+          },
+          {
+            "path": "problems/F017/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F017/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "f88e4dcd4bcec5271a38bf5118d468de6289e0afcef03ec27287877def3c6d37"
+          },
+          {
+            "path": "problems/F017/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "17bdc2450a0580ac01ba6a27b1df9e58a18172e7010cd7ea4ab839c6a8ed1400"
+          },
+          {
+            "path": "problems/F017/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "d3bf39f12e8717e1795140fca409761774a8cbb09d2a31deaf1ba964525df8ed"
+          },
+          {
+            "path": "problems/F017/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "41ebb2c2d3211c99c52767de18036b31a4036f35b87df3664470d676baff14f7"
+          },
+          {
+            "path": "problems/F017/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "a22b97476fb8dbb30c22d38fec2148158f7707950d53056ff597a49933fda78c"
+          },
+          {
+            "path": "problems/F017/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "28943e645a0bb5bf442675e4ee8beb21c1d44c691fa3159f067cd02bf6ab48d2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F018",
+      "row": 18,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "source": "physlib",
+      "providedLength": 851,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 851,
+        "rawHeartbeats": 10202612,
+        "scaledHeartbeats": 10202,
+        "rawSamples": [
+          10202612,
+          10202612,
+          10202612
+        ],
+        "measuredAt": "2026-11-02T13:16:33.582396+00:00",
+        "evidence": [
+          {
+            "path": "problems/F018/input/problem.json",
+            "sha256": "a877f6c302d061074e7b29d67759829b4412856696c2951541fc539c17075a89"
+          },
+          {
+            "path": "problems/F018/baseline/result.json",
+            "sha256": "5d00d27109e88d915476f304d72bec3134924db170077870699300b47331f69c"
+          },
+          {
+            "path": "problems/F018/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "687377588878d425fe9f34b3991e28a29223052a2dc137b529ca333d7c4b3300"
+          },
+          {
+            "path": "problems/F018/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F018/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "98478c2ff0206d5895da3848d1fe45e25b9954e0385683d7b9149f482bdc161a"
+          },
+          {
+            "path": "problems/F018/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "21cd27fd27574e8fb277ba7b172f1e2824354163918a9d2a861221c7dbf4db06"
+          },
+          {
+            "path": "problems/F018/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "e9b2858e9972863d12334cf6236fdb55efec396beeb5d6068cf3ec2308e4e557"
+          },
+          {
+            "path": "problems/F018/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "d9e0087c9e1d5daaa799809c81b0e699f2d1c210d7f2400651572d2f3718e704"
+          },
+          {
+            "path": "problems/F018/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "538954b699b101ba74985a29b0a707ffc346d5b7fc307929bd63c04bd8838cc7"
+          },
+          {
+            "path": "problems/F018/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "93923c33d6526bcc212f45dc5401bb8638dfe93352aae612e452117b2a537140"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F019",
+      "row": 19,
+      "name": "HermitianMat.inv_convex",
+      "source": "physlib",
+      "providedLength": 1025,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 1025,
+        "rawHeartbeats": 211678398,
+        "scaledHeartbeats": 211678,
+        "rawSamples": [
+          211678406,
+          211678398,
+          211678388
+        ],
+        "measuredAt": "2026-11-02T13:18:16.677772+00:00",
+        "evidence": [
+          {
+            "path": "problems/F019/input/problem.json",
+            "sha256": "1aaba3f20a5fce0bd76171f4f6b9c20121d9aabd0d63abb7984040b77fa97235"
+          },
+          {
+            "path": "problems/F019/baseline/result.json",
+            "sha256": "6121c4084ee1683265b14892fea674fae87e9ea8d50178bf1c74665fe883b615"
+          },
+          {
+            "path": "problems/F019/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "b9d1f7aa3b3b4542615b9268ecfd02da633c58bf2dd921af23d5e1038711d146"
+          },
+          {
+            "path": "problems/F019/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F019/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "344b87dee089f083bbe264379ed440497a4d6aadfd1342b083c28162403481df"
+          },
+          {
+            "path": "problems/F019/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "0520e4f1ae8247d9c88bd142c66ff1fd7ce9da884f6b3f040dc7271c4599afda"
+          },
+          {
+            "path": "problems/F019/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "37051b34d817fae59ae89f23802e9768c75ea8f1bad0d4579a927586238b2f74"
+          },
+          {
+            "path": "problems/F019/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "e7d22cfb6c592ea79fc7b1bafa54ef90bbeb26c0bc841b8bb7eea34f0ac62aa6"
+          },
+          {
+            "path": "problems/F019/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "a902c9fa5f0dca327da607fddc80f8b09aee3732309d6f48c5bc09d03022aa7e"
+          },
+          {
+            "path": "problems/F019/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "ded4ba86d1a597f3f76ba186d37981534c3b357ce145eae216494b603f3320ea"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F020",
+      "row": 20,
+      "name": "cauchyBinet",
+      "source": "physlib",
+      "providedLength": 1200,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 1200,
+        "rawHeartbeats": 143389348,
+        "scaledHeartbeats": 143389,
+        "rawSamples": [
+          143389366,
+          143389180,
+          143389348
+        ],
+        "measuredAt": "2026-11-02T13:20:41.296056+00:00",
+        "evidence": [
+          {
+            "path": "problems/F020/input/problem.json",
+            "sha256": "ec4be54ca20379b80dd8d7fb72c8d87571612c016bec077bb31dd5f65aaea6b3"
+          },
+          {
+            "path": "problems/F020/baseline/result.json",
+            "sha256": "b94d0792f757f756fd17652ed924af746e087b1aad4a7ccb2105558017fe01c7"
+          },
+          {
+            "path": "problems/F020/baseline/physlib-v4.34.1/check.lean",
+            "sha256": "5807bc2794c074ce46b16a249371a20e1e03c9d23aa25c78a3e21b764c2e98f8"
+          },
+          {
+            "path": "problems/F020/baseline/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F020/baseline/physlib-v4.34.1/measure-1.lean",
+            "sha256": "efb7cd080e820f8777b68935810c5b7d950f4409978a833d0efbdcc28ce2fd89"
+          },
+          {
+            "path": "problems/F020/baseline/physlib-v4.34.1/measure-1.log",
+            "sha256": "3ba3af4350991095027e260024b2b771f36baf3c3238f1931dd2c54e1f566551"
+          },
+          {
+            "path": "problems/F020/baseline/physlib-v4.34.1/measure-2.lean",
+            "sha256": "5c94ec2e0b44e9fc426249f3fdf73824de9269cfbc4dcad909747ffa1abe303c"
+          },
+          {
+            "path": "problems/F020/baseline/physlib-v4.34.1/measure-2.log",
+            "sha256": "096cccb3886242b16df250bccbf24b640fb0dae45eb3b22cd6c90edaf952ee99"
+          },
+          {
+            "path": "problems/F020/baseline/physlib-v4.34.1/measure-3.lean",
+            "sha256": "3815eb38683bb8b3ec812f5c7beba2d11accc79cbeca3dc21f8d7c48fff5cc47"
+          },
+          {
+            "path": "problems/F020/baseline/physlib-v4.34.1/measure-3.log",
+            "sha256": "b068545b051b2338b442d3e849a067201073dcffc3cee199c66ae8b96d5eece3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F021",
+      "row": 21,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "source": "cslib",
+      "providedLength": 408,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 408,
+        "rawHeartbeats": 59934118,
+        "scaledHeartbeats": 59934,
+        "rawSamples": [
+          59933596,
+          59934118,
+          59935579
+        ],
+        "measuredAt": "2026-11-01T11:17:25.334871+00:00",
+        "evidence": [
+          {
+            "path": "problems/F021/input/problem.json",
+            "sha256": "9edea28451ce9ec5d71442457b887b932ab5bd206b8d3035052b01061400eb3b"
+          },
+          {
+            "path": "problems/F021/baseline/result.json",
+            "sha256": "9fb446cecfe2e9baa45687f0ef69fd8be01f155c454ba94820ff67afc5997998"
+          },
+          {
+            "path": "problems/F021/baseline/cslib-v4.34.1/check.lean",
+            "sha256": "84599a77c2cabc8cf698ee2749dec333ac08ace7ded115f20ff775a1c6c72233"
+          },
+          {
+            "path": "problems/F021/baseline/cslib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F021/baseline/cslib-v4.34.1/measure-1.lean",
+            "sha256": "18e3c8897a3fc0b6938966b3ff464c7e996d51484ac2acf1277342fd766cfcdc"
+          },
+          {
+            "path": "problems/F021/baseline/cslib-v4.34.1/measure-1.log",
+            "sha256": "2faaae73f3c961c495431deb5061a0ccf09f49e973d60821489856ebe0ed1307"
+          },
+          {
+            "path": "problems/F021/baseline/cslib-v4.34.1/measure-2.lean",
+            "sha256": "befadd8fc7548214080162679b4b40d846a57be9858bf1303785dc0626ca3f52"
+          },
+          {
+            "path": "problems/F021/baseline/cslib-v4.34.1/measure-2.log",
+            "sha256": "ffa47a488a2ac7f7435a1d6859ca40d880853603f4c1ae5416acbeac29061a22"
+          },
+          {
+            "path": "problems/F021/baseline/cslib-v4.34.1/measure-3.lean",
+            "sha256": "2305d157679ebc01c82ae473ecbff1361cf2766ce56200b6864414119aebe8ab"
+          },
+          {
+            "path": "problems/F021/baseline/cslib-v4.34.1/measure-3.log",
+            "sha256": "fbfd3aec6df7bdab2cab1d8a381cfffda3d51eac219f935237136cd234aa10a0"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F022",
+      "row": 22,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "source": "cslib",
+      "providedLength": 407,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "local": {
+        "runId": "20261102-speed-pilot",
+        "sampleCount": 3,
+        "tokens": 407,
+        "rawHeartbeats": 1500504,
+        "scaledHeartbeats": 1500,
+        "rawSamples": [
+          1500508,
+          1500504,
+          1500499
+        ],
+        "measuredAt": "2026-11-02T13:13:37.292986+00:00",
+        "evidence": [
+          {
+            "path": "problems/F022/input/problem.json",
+            "sha256": "ec0c65ba5ac9aaa8896e35ee0f63e8df43717e8ce9aa54a672c47cdb80898a72"
+          },
+          {
+            "path": "problems/F022/baseline/result.json",
+            "sha256": "108d6bc2bfea41966ea7948d5cdf7594780eab7ff7f884e28550ef17a4e29aee"
+          },
+          {
+            "path": "problems/F022/baseline/cslib-v4.34.1/check.lean",
+            "sha256": "18ea33a6c525af6134ffae130e9b7fc99c8fe182855b82033033237e72a74251"
+          },
+          {
+            "path": "problems/F022/baseline/cslib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F022/baseline/cslib-v4.34.1/measure-1.lean",
+            "sha256": "bff607d1be0a78f33fe497e5ad56b7c7db8e688bb655f384355d348c4fb96cf6"
+          },
+          {
+            "path": "problems/F022/baseline/cslib-v4.34.1/measure-1.log",
+            "sha256": "f47903ce362b25e0f5d672e3dae9d66c527c973250605f7403928b65fc802c2e"
+          },
+          {
+            "path": "problems/F022/baseline/cslib-v4.34.1/measure-2.lean",
+            "sha256": "25cecd6fee5d8da21834c3c5759dbfb23e52f50149b558fc13771c6fee53a063"
+          },
+          {
+            "path": "problems/F022/baseline/cslib-v4.34.1/measure-2.log",
+            "sha256": "de4dbb75b97bc84e882772edb0f8d1096f7ca02fca31a901da28e8eb198ef84a"
+          },
+          {
+            "path": "problems/F022/baseline/cslib-v4.34.1/measure-3.lean",
+            "sha256": "cd712da1a0f3dbdb86a3cd939f75d2dec645f1160d954aa166c9edce8b3ef908"
+          },
+          {
+            "path": "problems/F022/baseline/cslib-v4.34.1/measure-3.log",
+            "sha256": "cf3e0868dc6c4c0705a4614bee8e30fd21a6e29991031b9ff7821f856ce7a656"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F023",
+      "row": 23,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "source": "cslib",
+      "providedLength": 251,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1",
+        "v4.31.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 251,
+        "rawHeartbeats": 3940866,
+        "scaledHeartbeats": 3940,
+        "rawSamples": [
+          3940866
+        ],
+        "measuredAt": "2026-11-02T13:33:56.937526+00:00",
+        "evidence": [
+          {
+            "path": "problems/F023/input/problem.json",
+            "sha256": "1f987d739a0c165053cf3ae1aad4584631b98bb348c794b76e6938c3dce2e9f5"
+          },
+          {
+            "path": "problems/F023/baseline/result.json",
+            "sha256": "66e0d54812ac6eac3f10d2c7be8549f22651eec3244d309a612ecac07c1dbccf"
+          },
+          {
+            "path": "problems/F023/baseline/cslib-v4.34.1/check.lean",
+            "sha256": "c9c8c0e98681f5a4e98b5d581f95c5f04c254b9aab97e7e81f1c17ffc5b4fdae"
+          },
+          {
+            "path": "problems/F023/baseline/cslib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F023/baseline/cslib-v4.34.1/measure-1.lean",
+            "sha256": "eebb8996a491cb7fc3c4856cf2e1d361422b519081222eec16ab753ea99f0ab9"
+          },
+          {
+            "path": "problems/F023/baseline/cslib-v4.34.1/measure-1.log",
+            "sha256": "201d223b3cedd05e30532f4e3fbeed8127dc3e5bbbfa7068bacd34c6a640c513"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F024",
+      "row": 24,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "source": "cslib",
+      "providedLength": 391,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 391,
+        "rawHeartbeats": 38109474,
+        "scaledHeartbeats": 38109,
+        "rawSamples": [
+          38112576,
+          38107647,
+          38109474
+        ],
+        "measuredAt": "2026-11-02T13:23:44.338229+00:00",
+        "evidence": [
+          {
+            "path": "problems/F024/input/problem.json",
+            "sha256": "e21068bc54e21b9d1ce8bdbc38016a00b6fc93af0fe7bd28124f3feaaebb12f6"
+          },
+          {
+            "path": "problems/F024/baseline/result.json",
+            "sha256": "f23a2b495b50b16b08d2a5c1de8cdd48fb1dd85616f776a3ace1b81f457e94f2"
+          },
+          {
+            "path": "problems/F024/baseline/cslib-v4.34.1/check.lean",
+            "sha256": "84599a77c2cabc8cf698ee2749dec333ac08ace7ded115f20ff775a1c6c72233"
+          },
+          {
+            "path": "problems/F024/baseline/cslib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F024/baseline/cslib-v4.34.1/measure-1.lean",
+            "sha256": "3067410cbc10be53ab02358910c1af0c1f5b179e268e406ea36f0e32a7f3b883"
+          },
+          {
+            "path": "problems/F024/baseline/cslib-v4.34.1/measure-1.log",
+            "sha256": "c53d174ac94cbf3ea7faf3d73591df665585e5a8835b29b9b2bbd52f578ab828"
+          },
+          {
+            "path": "problems/F024/baseline/cslib-v4.34.1/measure-2.lean",
+            "sha256": "11cfb225aa0be17813754582c98ecfc5c45de18e9cd90503ca9ac12827fc0061"
+          },
+          {
+            "path": "problems/F024/baseline/cslib-v4.34.1/measure-2.log",
+            "sha256": "9226855e1f090306c88c62b97ca09b31c8cc5305803f4080a8e095c746b112f5"
+          },
+          {
+            "path": "problems/F024/baseline/cslib-v4.34.1/measure-3.lean",
+            "sha256": "131a810e1f5adb80d925a8b981158a1f03b9dea7e26ca643c913e4fbf37af511"
+          },
+          {
+            "path": "problems/F024/baseline/cslib-v4.34.1/measure-3.log",
+            "sha256": "653391892248faa18ce911269c7639ffb8e64f78d471ecd96188d73ed712d6d1"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F025",
+      "row": 25,
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "source": "cslib",
+      "providedLength": 433,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 433,
+        "rawHeartbeats": 11623316,
+        "scaledHeartbeats": 11623,
+        "rawSamples": [
+          11622480,
+          11623587,
+          11623316
+        ],
+        "measuredAt": "2026-11-02T13:24:04.323011+00:00",
+        "evidence": [
+          {
+            "path": "problems/F025/input/problem.json",
+            "sha256": "100d063c6e724c9c8d9d9e81586055c3c664eb34fc879a37cf8ea8acf181c7d8"
+          },
+          {
+            "path": "problems/F025/baseline/result.json",
+            "sha256": "47ccd3cc229341cbb6ae84bb261d15046c3f1f7d37a8057e597cb1f4193a1d84"
+          },
+          {
+            "path": "problems/F025/baseline/cslib-v4.34.1/check.lean",
+            "sha256": "28b6e99f3eefb7d77afc6e0aef9a84c81be4cc38ec3df3895c4f14a8febcceb2"
+          },
+          {
+            "path": "problems/F025/baseline/cslib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F025/baseline/cslib-v4.34.1/measure-1.lean",
+            "sha256": "573ad386796e05674422daa1fb439f1dc846e16a52e3d930f58f320f7aff7600"
+          },
+          {
+            "path": "problems/F025/baseline/cslib-v4.34.1/measure-1.log",
+            "sha256": "9fc942325dbda52c61fe444a6950b8511af1707b40a3d1b515a71a540c659f22"
+          },
+          {
+            "path": "problems/F025/baseline/cslib-v4.34.1/measure-2.lean",
+            "sha256": "70e1ff891f661ab3272b4751d03bcf477d2a414314327da2aa3e590a82fa88ef"
+          },
+          {
+            "path": "problems/F025/baseline/cslib-v4.34.1/measure-2.log",
+            "sha256": "6d3e576df37cc1bde78abdeba5a55f2af8e1f2ea55b054f36065c09386843ff9"
+          },
+          {
+            "path": "problems/F025/baseline/cslib-v4.34.1/measure-3.lean",
+            "sha256": "1b5f4edafb94e880f6dbf7ad06a04e25519ba4a8d08a5204d691be7353ddba49"
+          },
+          {
+            "path": "problems/F025/baseline/cslib-v4.34.1/measure-3.log",
+            "sha256": "b8169075f1dc47e87d4608698eecf3b53c34930af578ac628d52029caf4e02f4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F026",
+      "row": 26,
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "source": "cslib",
+      "providedLength": 623,
+      "primaryVersion": "v4.33.1",
+      "primaryRevision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+      "requiredVersions": [
+        "v4.33.1",
+        "v4.31.0"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 623,
+        "rawHeartbeats": 56937148,
+        "scaledHeartbeats": 56937,
+        "rawSamples": [
+          56936849,
+          56938419,
+          56937148
+        ],
+        "measuredAt": "2026-11-02T13:27:29.132117+00:00",
+        "evidence": [
+          {
+            "path": "problems/F026/input/problem.json",
+            "sha256": "c42ccd34ee8a5484bc54f1bd26c94df1ab133ccda58878bbf9aadcef6ce0dc43"
+          },
+          {
+            "path": "problems/F026/baseline/result.json",
+            "sha256": "085cccdf4435493941fee2d8794f24837f880f07560e8c89319f0ca24feb1957"
+          },
+          {
+            "path": "problems/F026/baseline/cslib-v4.33.1/check.lean",
+            "sha256": "fc19cec9811fb87a5d5b0fe9dfb1327c39f0c1131bcf818221b046f01b726d0e"
+          },
+          {
+            "path": "problems/F026/baseline/cslib-v4.33.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F026/baseline/cslib-v4.33.1/measure-1.lean",
+            "sha256": "86e90401e9f1d0e2949a7b53425cab39652cc4437ccc4c3e98163dc3affe9626"
+          },
+          {
+            "path": "problems/F026/baseline/cslib-v4.33.1/measure-1.log",
+            "sha256": "09651374bcd1fb29e8a4a2f749f0eeb34c422e440485188ddfcf02b8b0590ea9"
+          },
+          {
+            "path": "problems/F026/baseline/cslib-v4.33.1/measure-2.lean",
+            "sha256": "6192168fe2f380693f07a75c25a280ac4a84b0ae6d3df4dab68426dedcc834c3"
+          },
+          {
+            "path": "problems/F026/baseline/cslib-v4.33.1/measure-2.log",
+            "sha256": "9bbd0d8c83456a5dbbf0ac8b9f0aece4732482f9e28ebd01870739f41a0dfa51"
+          },
+          {
+            "path": "problems/F026/baseline/cslib-v4.33.1/measure-3.lean",
+            "sha256": "9d85f6132eee602b5e2d3a73e4c3c1ce9ad9c94a442d21621553cbdd3b0e7574"
+          },
+          {
+            "path": "problems/F026/baseline/cslib-v4.33.1/measure-3.log",
+            "sha256": "8c22545ccdfb59b64d9f64e50b7b8a0061e8ecbb00a65e604ae425c4c8c61791"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F027",
+      "row": 27,
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "source": "cslib",
+      "providedLength": 368,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 368,
+        "rawHeartbeats": 39338816,
+        "scaledHeartbeats": 39338,
+        "rawSamples": [
+          39338665,
+          39338973,
+          39338816
+        ],
+        "measuredAt": "2026-11-02T13:24:31.948830+00:00",
+        "evidence": [
+          {
+            "path": "problems/F027/input/problem.json",
+            "sha256": "d66097c5486eeb303943c49fa35e34e764970304e4a490ef653fe3fefd05d614"
+          },
+          {
+            "path": "problems/F027/baseline/result.json",
+            "sha256": "d671a26bf446d15bd4a2da5c4c3cd0cb0549c604ae4578fba5181b4b9e12d65c"
+          },
+          {
+            "path": "problems/F027/baseline/cslib-v4.34.1/check.lean",
+            "sha256": "0eed5e4746fb98d56a1411a5fdb507aea4d0041c8941142549fd0377806a8d48"
+          },
+          {
+            "path": "problems/F027/baseline/cslib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F027/baseline/cslib-v4.34.1/measure-1.lean",
+            "sha256": "d103b1ab1811904e4e801c69fd187334648e692e700f622296a759528a330d90"
+          },
+          {
+            "path": "problems/F027/baseline/cslib-v4.34.1/measure-1.log",
+            "sha256": "dd3bdeb0d97761f2c946594f85d384b1bc0b270c0ff508bcf9b1a0826aaa0e07"
+          },
+          {
+            "path": "problems/F027/baseline/cslib-v4.34.1/measure-2.lean",
+            "sha256": "14fd5797649f7727fb529958d05e44fe0a2b46492a48f598d112700fc09790d7"
+          },
+          {
+            "path": "problems/F027/baseline/cslib-v4.34.1/measure-2.log",
+            "sha256": "7611fd981a52942953a79beecf19322a0ddf048e4ae82f833188e4cf8878c6c2"
+          },
+          {
+            "path": "problems/F027/baseline/cslib-v4.34.1/measure-3.lean",
+            "sha256": "735ca7973c22466f6e0cc5a42ce3271b786388fec3625b8a3228fa8cb0070b1a"
+          },
+          {
+            "path": "problems/F027/baseline/cslib-v4.34.1/measure-3.log",
+            "sha256": "ee660bb6fcf0dce46e23147f5b45d35fedec6b8edc1fdc991071b76139683fdc"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F028",
+      "row": 28,
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "source": "cslib",
+      "providedLength": 312,
+      "primaryVersion": "v4.33.1",
+      "primaryRevision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+      "requiredVersions": [
+        "v4.33.1",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 312,
+        "rawHeartbeats": 27606221,
+        "scaledHeartbeats": 27606,
+        "rawSamples": [
+          27606529,
+          27606221,
+          27604930
+        ],
+        "measuredAt": "2026-11-02T13:27:51.253133+00:00",
+        "evidence": [
+          {
+            "path": "problems/F028/input/problem.json",
+            "sha256": "d5a3b9269f5fe5fe8966376bdce22ae35959636631b56e68231f166d80f41d69"
+          },
+          {
+            "path": "problems/F028/baseline/result.json",
+            "sha256": "a155a7f3fefa5e66b818821ac4a8059a9299ba21cf0cae63925d419017bc4040"
+          },
+          {
+            "path": "problems/F028/baseline/cslib-v4.33.1/check.lean",
+            "sha256": "e1151f9e85e74ad5445be752764c1bc3cd88a8b87516a9bcdf2a0970dc4072b3"
+          },
+          {
+            "path": "problems/F028/baseline/cslib-v4.33.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F028/baseline/cslib-v4.33.1/measure-1.lean",
+            "sha256": "74ff8268679f5c8dbc1cf2f9157d8ee780dab29f7115d7fff1ee789a7c84739a"
+          },
+          {
+            "path": "problems/F028/baseline/cslib-v4.33.1/measure-1.log",
+            "sha256": "e70290732636e155c2176fc8ea6f8c7dc4482d9c68c7cedea2266204913611d7"
+          },
+          {
+            "path": "problems/F028/baseline/cslib-v4.33.1/measure-2.lean",
+            "sha256": "2281065ae792aa559a41cfffa58bc66babc1e226aab6a5c49e0c8cf052cca5c4"
+          },
+          {
+            "path": "problems/F028/baseline/cslib-v4.33.1/measure-2.log",
+            "sha256": "e360cba72144034f4ac4eb079155c634509708541bb96f50c1ccf71e25afe2cc"
+          },
+          {
+            "path": "problems/F028/baseline/cslib-v4.33.1/measure-3.lean",
+            "sha256": "57c8fa55473736732b279ab868c262477f5cd2ec10b94917eee72ff2e7d8dfef"
+          },
+          {
+            "path": "problems/F028/baseline/cslib-v4.33.1/measure-3.log",
+            "sha256": "c8f67e666db38f4bd3dc97dbf81b179f0b7373704030c28d2e50b78839f7e2aa"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F029",
+      "row": 29,
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "source": "cslib",
+      "providedLength": 364,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 364,
+        "rawHeartbeats": 33198680,
+        "scaledHeartbeats": 33198,
+        "rawSamples": [
+          33198680,
+          33198746,
+          33198603
+        ],
+        "measuredAt": "2026-11-02T13:25:16.668813+00:00",
+        "evidence": [
+          {
+            "path": "problems/F029/input/problem.json",
+            "sha256": "84b0c1e0d1d360f86d67c85c2952d1d9fbc74f3682aeb73aa34302e11d6172a9"
+          },
+          {
+            "path": "problems/F029/baseline/result.json",
+            "sha256": "57e70a30af189d73aa29281cc525fddcd7d0cbefa46dbecee19f639e9deba142"
+          },
+          {
+            "path": "problems/F029/baseline/cslib-v4.34.1/check.lean",
+            "sha256": "fa2dd70dc6a3f1b25a0bbae52aef6658594d137353364712f8a0138cb117b25f"
+          },
+          {
+            "path": "problems/F029/baseline/cslib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F029/baseline/cslib-v4.34.1/measure-1.lean",
+            "sha256": "6bf6346fe23bbdb214450a3bef22086e0c2491b652d4910551b7c62a192c6415"
+          },
+          {
+            "path": "problems/F029/baseline/cslib-v4.34.1/measure-1.log",
+            "sha256": "e2c82b910d994d7d1b7cde6ba52de3c17b2dd6b9cd20d8f6cd0ffd80702270ea"
+          },
+          {
+            "path": "problems/F029/baseline/cslib-v4.34.1/measure-2.lean",
+            "sha256": "2cbed9cac64b0613e7174b860190d88bf25bae8672de84aac746ebe53c1c4ca1"
+          },
+          {
+            "path": "problems/F029/baseline/cslib-v4.34.1/measure-2.log",
+            "sha256": "dba328b875fad19b4606e01b2b3b9429efa7d227b4fd0348207af3b66d35dae5"
+          },
+          {
+            "path": "problems/F029/baseline/cslib-v4.34.1/measure-3.lean",
+            "sha256": "12a04d79b995f1c6955d4eee6c77fae7815ac6fb60115353365b5461d74fd373"
+          },
+          {
+            "path": "problems/F029/baseline/cslib-v4.34.1/measure-3.log",
+            "sha256": "c84a8120eb21bf8ef00cfcc4ec94ffbb3b2afc543c1c62c058779748de489cfb"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F030",
+      "row": 30,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "source": "cslib",
+      "providedLength": 519,
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "local": {
+        "runId": "20261102-remaining22",
+        "sampleCount": 3,
+        "tokens": 519,
+        "rawHeartbeats": 8589146,
+        "scaledHeartbeats": 8589,
+        "rawSamples": [
+          8589236,
+          8589146,
+          8588795
+        ],
+        "measuredAt": "2026-11-02T13:25:41.908411+00:00",
+        "evidence": [
+          {
+            "path": "problems/F030/input/problem.json",
+            "sha256": "760e6a8715f6fb038134924849fe91de1cc4ff232c0e7cc7384b14b05deebd5d"
+          },
+          {
+            "path": "problems/F030/baseline/result.json",
+            "sha256": "b7984bb88d9f4055c1bb9c9b17519a37a9621fe88f6e2600c1f7477391dea851"
+          },
+          {
+            "path": "problems/F030/baseline/cslib-v4.34.1/check.lean",
+            "sha256": "2b2d2197753a52c17dd6de0f6ed58de9fe9987440544028a9fad5362c4d4d953"
+          },
+          {
+            "path": "problems/F030/baseline/cslib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F030/baseline/cslib-v4.34.1/measure-1.lean",
+            "sha256": "bfba63f6c381fffed391b2c72047a9119be1951eb58a3fe561db73af1081edf0"
+          },
+          {
+            "path": "problems/F030/baseline/cslib-v4.34.1/measure-1.log",
+            "sha256": "8e48b82e008bcba7591a52591d925d7d7cc4dbc7597994ef844734d19a8c563d"
+          },
+          {
+            "path": "problems/F030/baseline/cslib-v4.34.1/measure-2.lean",
+            "sha256": "6d2164a7556f490fcc539331aa32041a5032ce42c5fd9228e376f31ec135b99d"
+          },
+          {
+            "path": "problems/F030/baseline/cslib-v4.34.1/measure-2.log",
+            "sha256": "a6ffd59e5167977c4696156ecbef02d8aecef61d0357dc0d9c63a4bd6cfc098a"
+          },
+          {
+            "path": "problems/F030/baseline/cslib-v4.34.1/measure-3.lean",
+            "sha256": "3f55ab534d08c9eb8c589273c362d7b35a3cb2cdffdbf161479dd2d93e9a0660"
+          },
+          {
+            "path": "problems/F030/baseline/cslib-v4.34.1/measure-3.log",
+            "sha256": "51d00f319f0c80c2d06f32b8e6f7453483eca1fb13e56185a655b28397902947"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F031",
+      "row": 31,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "providedLength": 1353,
+      "primaryVersion": "v4.34.0",
+      "primaryRevision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+      "requiredVersions": [
+        "v4.34.0",
+        "v4.33.1",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1353,
+        "rawHeartbeats": 7774574,
+        "scaledHeartbeats": 7774,
+        "rawSamples": [
+          7774574,
+          7774574,
+          7774574
+        ],
+        "measuredAt": "2026-11-01T10:53:57.366797+00:00",
+        "evidence": [
+          {
+            "path": "problems/F031/input/problem.json",
+            "sha256": "374719e8957e935d1a7a71a192eb40aef632e7681ffb6a7ff21a2a64e3ddff2c"
+          },
+          {
+            "path": "problems/F031/baseline/result.json",
+            "sha256": "155ab87b80a47ecc64ce1875f2576955faeb3e7afa135dab93d8fe6e4aa5fcf9"
+          },
+          {
+            "path": "problems/F031/baseline/arklib-v4.34.0/check.lean",
+            "sha256": "aaa75d2cb7ec433fc2f069f3eeb4b852767c928c0eb5e1b7133ebb6f2aae3ae4"
+          },
+          {
+            "path": "problems/F031/baseline/arklib-v4.34.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F031/baseline/arklib-v4.34.0/measure-1.lean",
+            "sha256": "356366d088e29098d7a318641029cc77836a1cb49a4a1b8fb17be858c6aaf337"
+          },
+          {
+            "path": "problems/F031/baseline/arklib-v4.34.0/measure-1.log",
+            "sha256": "53f719636cef7e0bb71e51826254d28b2249d3e80064343187e0f3f00d2c6eae"
+          },
+          {
+            "path": "problems/F031/baseline/arklib-v4.34.0/measure-2.lean",
+            "sha256": "43ecff9b7f58480e34b461c15d8223a0d599dc7fddad84f19c5ade347349671e"
+          },
+          {
+            "path": "problems/F031/baseline/arklib-v4.34.0/measure-2.log",
+            "sha256": "15fdc5d3c86b105c5825b9d11f5b0e91886594416c7195b164a66ca02ee53636"
+          },
+          {
+            "path": "problems/F031/baseline/arklib-v4.34.0/measure-3.lean",
+            "sha256": "cd385b1986cf43572f103927ca69ea68d3605f412f60c11b856ca607fff432bf"
+          },
+          {
+            "path": "problems/F031/baseline/arklib-v4.34.0/measure-3.log",
+            "sha256": "21d5fa058b7fea7d0f15e85312a6c8d649bb7a4b879bdaf22e208930f8c77241"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F032",
+      "row": 32,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "providedLength": 1906,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1906,
+        "rawHeartbeats": 47701818,
+        "scaledHeartbeats": 47701,
+        "rawSamples": [
+          47701818,
+          47701818,
+          47701818
+        ],
+        "measuredAt": "2026-11-01T11:11:19.554738+00:00",
+        "evidence": [
+          {
+            "path": "problems/F032/input/problem.json",
+            "sha256": "eb8071c2219acf50a3a26712cb412e9f3c0f00d22f5d379c11ccb9e85765ed8c"
+          },
+          {
+            "path": "problems/F032/baseline/result.json",
+            "sha256": "f78892665e8cf93ec03d56e725fcacdcead3e81ab8d681359fce66ea7c0b6ed9"
+          },
+          {
+            "path": "problems/F032/baseline/arklib-v4.31.0/check.lean",
+            "sha256": "7b6cd84808024e67fa8aadde67e7953e67ed5f5e4ecd69ac0c061143f69cffac"
+          },
+          {
+            "path": "problems/F032/baseline/arklib-v4.31.0/check.log",
+            "sha256": "a082f94082e00622ed4f984dc6fc24332e882d403f79c9c501cfd313e2f42aa8"
+          },
+          {
+            "path": "problems/F032/baseline/arklib-v4.31.0/measure-1.lean",
+            "sha256": "9ccda8a2170507edde56a9ff7438fad12db3050f92893d0792645ba41ab4ad88"
+          },
+          {
+            "path": "problems/F032/baseline/arklib-v4.31.0/measure-1.log",
+            "sha256": "152440c5a9b61e53cdb21754c9d040a1f78e30f8c13317e715f159d6aaea120c"
+          },
+          {
+            "path": "problems/F032/baseline/arklib-v4.31.0/measure-2.lean",
+            "sha256": "2c57658a9a2419c46da1cc9fa9ad9d29d8b55aa6f664195ab20dd174e6a2d099"
+          },
+          {
+            "path": "problems/F032/baseline/arklib-v4.31.0/measure-2.log",
+            "sha256": "c242c9a46b6a0e147e3281d6a9db1d6dfcecb4db8d7043cf1103653e252994a7"
+          },
+          {
+            "path": "problems/F032/baseline/arklib-v4.31.0/measure-3.lean",
+            "sha256": "e926393d8d804eb85367585d37ec0aa02b7e56d2dee8ba5b1b0927cb2490efc0"
+          },
+          {
+            "path": "problems/F032/baseline/arklib-v4.31.0/measure-3.log",
+            "sha256": "4a8d618cce234fbbe662cc8617445270964eb91287fc34f2d41d28ea2eedaa79"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F033",
+      "row": 33,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "providedLength": 1463,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1463,
+        "rawHeartbeats": 16839601,
+        "scaledHeartbeats": 16839,
+        "rawSamples": [
+          16839601,
+          16839608,
+          16839600
+        ],
+        "measuredAt": "2026-11-01T16:15:29.665092+00:00",
+        "evidence": [
+          {
+            "path": "problems/F033/input/problem.json",
+            "sha256": "4acd8638558e5ea08c8f31d87ec51cc9febf7d8254d340ebb99cf1c0682c61c4"
+          },
+          {
+            "path": "problems/F033/baseline/result.json",
+            "sha256": "6fd89ff7de501fecd8645cb1449bc3ae4f83d67d0f0875de70001e2427fcd2eb"
+          },
+          {
+            "path": "problems/F033/baseline/arklib-v4.31.0/check.lean",
+            "sha256": "7b6cd84808024e67fa8aadde67e7953e67ed5f5e4ecd69ac0c061143f69cffac"
+          },
+          {
+            "path": "problems/F033/baseline/arklib-v4.31.0/check.log",
+            "sha256": "fb1776f5958c726f8afe143a5d5f97be8a7bf822924ecd5c91bdd958c22b1bd9"
+          },
+          {
+            "path": "problems/F033/baseline/arklib-v4.31.0/measure-1.lean",
+            "sha256": "951e83cdd837ba7862c29b511937786eedcb2093706a46ed63912813a2de1018"
+          },
+          {
+            "path": "problems/F033/baseline/arklib-v4.31.0/measure-1.log",
+            "sha256": "841364072e338666cbbbf4bf3e169c2569e97e6aaf655abb14fe7c2442c05506"
+          },
+          {
+            "path": "problems/F033/baseline/arklib-v4.31.0/measure-2.lean",
+            "sha256": "4feff83512fa26c92b2158220985c8d25ec4063eac71ef4783210cb3c6a162fc"
+          },
+          {
+            "path": "problems/F033/baseline/arklib-v4.31.0/measure-2.log",
+            "sha256": "1bb0b1bf0b4b9b741f2845b2ad883edeb152c748b9e37216182c801318cea736"
+          },
+          {
+            "path": "problems/F033/baseline/arklib-v4.31.0/measure-3.lean",
+            "sha256": "a96f5ffc059b19fc16efc145853463d7023cb255581d0d31484a0bb576d9a2f4"
+          },
+          {
+            "path": "problems/F033/baseline/arklib-v4.31.0/measure-3.log",
+            "sha256": "d875690c8a0a3eaaf9961886291d0fcfd5cb1c2d7f197be33a353b4dff6add2b"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F034",
+      "row": 34,
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "providedLength": 546,
+      "primaryVersion": "v4.33.1",
+      "primaryRevision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+      "requiredVersions": [
+        "v4.33.1",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 546,
+        "rawHeartbeats": 190043621,
+        "scaledHeartbeats": 190043,
+        "rawSamples": [
+          190043621,
+          190043627,
+          190043620
+        ],
+        "measuredAt": "2026-11-01T17:10:31.549734+00:00",
+        "evidence": [
+          {
+            "path": "problems/F034/input/problem.json",
+            "sha256": "a905b35f2c13585e2851ef7283ae3cb3afe5e7b217c5a56f246406999d198c57"
+          },
+          {
+            "path": "problems/F034/baseline/result.json",
+            "sha256": "6212f54825d7313fe795eeb0bf767bde07bb2d7fa2bff06f1342f7addb5c8c2a"
+          },
+          {
+            "path": "problems/F034/baseline/arklib-v4.33.1/check.lean",
+            "sha256": "51b53fbf9e73ab9ac488bd33089e0e0afb951eb40a5664d521e62a7cdcc9284f"
+          },
+          {
+            "path": "problems/F034/baseline/arklib-v4.33.1/check.log",
+            "sha256": "9046b50a512a0eec62135a80b2345292737148aa4710466f1e11fc9ed6ed8792"
+          },
+          {
+            "path": "problems/F034/baseline/arklib-v4.33.1/measure-1.lean",
+            "sha256": "4aacb299dbc04cbb4b7ed54f0daa633fe8407a400b86c6e45f046cf88c3654ce"
+          },
+          {
+            "path": "problems/F034/baseline/arklib-v4.33.1/measure-1.log",
+            "sha256": "3982b4724348f7f55e478b81ab3e1061870e1e77fcb315445844760094172fb1"
+          },
+          {
+            "path": "problems/F034/baseline/arklib-v4.33.1/measure-2.lean",
+            "sha256": "f59ea4a6497cbb7e64b57be179681b7e56d9ab198fc5a5ba9be0e691bfdd851b"
+          },
+          {
+            "path": "problems/F034/baseline/arklib-v4.33.1/measure-2.log",
+            "sha256": "740e6c6321b797ccb962bd7555d58dd3ddd0442006312bddf73c3209daf7a75e"
+          },
+          {
+            "path": "problems/F034/baseline/arklib-v4.33.1/measure-3.lean",
+            "sha256": "8e14da51f893e963acbb7862649cb55182a5f424615ba5e69d1fa55666b811bc"
+          },
+          {
+            "path": "problems/F034/baseline/arklib-v4.33.1/measure-3.log",
+            "sha256": "45d72d72516fec3167bffe9542e0af082d306b35d892d85fc77dbc1148790866"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F035",
+      "row": 35,
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "providedLength": 2440,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 2440,
+        "rawHeartbeats": 84743551,
+        "scaledHeartbeats": 84743,
+        "rawSamples": [
+          84743551,
+          84743493,
+          84743686
+        ],
+        "measuredAt": "2026-11-01T18:50:17.925231+00:00",
+        "evidence": [
+          {
+            "path": "problems/F035/input/problem.json",
+            "sha256": "67f2a86cce8f27e81952957887e7eafb3243bc2badf94178e83e1388d33792ad"
+          },
+          {
+            "path": "problems/F035/baseline/result.json",
+            "sha256": "f01683e8cde964429b3c4546966c8ac02cf5c48ac28c16917eaa234bd62ea7ce"
+          },
+          {
+            "path": "problems/F035/baseline/arklib-v4.31.0/check.lean",
+            "sha256": "c8192f2d21fb8018c020d67e251c54e8944f61aebb12985624bfe35022480978"
+          },
+          {
+            "path": "problems/F035/baseline/arklib-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F035/baseline/arklib-v4.31.0/measure-1.lean",
+            "sha256": "d97fc4b26a99487cade1548eacfba6d805de3f6dca262fc7a5901c9e21c623fa"
+          },
+          {
+            "path": "problems/F035/baseline/arklib-v4.31.0/measure-1.log",
+            "sha256": "a0cea999924f8be2e70e7d517161e283cef1f8e47c63de26d5b6a894956c68fe"
+          },
+          {
+            "path": "problems/F035/baseline/arklib-v4.31.0/measure-2.lean",
+            "sha256": "3a8b013e25aaf8a7588d05f5cc7a31ec295b045e8958fe29eb98a3cf2ea29f60"
+          },
+          {
+            "path": "problems/F035/baseline/arklib-v4.31.0/measure-2.log",
+            "sha256": "f400e511abfd00ad5d31109e4d2c46ee894f50d15ec47bdb2e821a47a5bab696"
+          },
+          {
+            "path": "problems/F035/baseline/arklib-v4.31.0/measure-3.lean",
+            "sha256": "178a3717ff716c3ff74ef287580fdf3490bff9e23fac1344c2036e95ca2ee8ac"
+          },
+          {
+            "path": "problems/F035/baseline/arklib-v4.31.0/measure-3.log",
+            "sha256": "83d5b85aa1f679f013cd137904fbd6dcd1eacd5aa2cf56e00d9f5b9a53eaef73"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F036",
+      "row": 36,
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "providedLength": 5128,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 5128,
+        "rawHeartbeats": 106464364,
+        "scaledHeartbeats": 106464,
+        "rawSamples": [
+          106464364,
+          106464364,
+          106464364
+        ],
+        "measuredAt": "2026-11-01T19:15:29.950638+00:00",
+        "evidence": [
+          {
+            "path": "problems/F036/input/problem.json",
+            "sha256": "e5e74495287abec4e365ca8f8eb7f40f97ef1826daa9d4582090854a4cb3458d"
+          },
+          {
+            "path": "problems/F036/baseline/result.json",
+            "sha256": "4254c92924f2f077d6b30c5f04440dec867e6d6abbf84c7b68f3d749ffe79838"
+          },
+          {
+            "path": "problems/F036/baseline/arklib-v4.31.0/check.lean",
+            "sha256": "85f56fb863eb3b06f69b7c0f69c74ed6fa92fabdae601461a0e71f6280b4954d"
+          },
+          {
+            "path": "problems/F036/baseline/arklib-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F036/baseline/arklib-v4.31.0/measure-1.lean",
+            "sha256": "25f6061f9ac12f6362a77e1f610998211c920a1249635eebbb1823e0bed31d83"
+          },
+          {
+            "path": "problems/F036/baseline/arklib-v4.31.0/measure-1.log",
+            "sha256": "e5e3030c53139d5575d685f1fe64462189f96f71336e24569fdded46137070c0"
+          },
+          {
+            "path": "problems/F036/baseline/arklib-v4.31.0/measure-2.lean",
+            "sha256": "b5c356eb8ca0337aaff75306847128f5268aefb034fead64ced1b5aa5328ae57"
+          },
+          {
+            "path": "problems/F036/baseline/arklib-v4.31.0/measure-2.log",
+            "sha256": "2c3b8161379c3b27a74a6820daf5e0b5cb991cc7e6a602e9e93fa56dd6f49cd1"
+          },
+          {
+            "path": "problems/F036/baseline/arklib-v4.31.0/measure-3.lean",
+            "sha256": "32feb3a0a9782b30e5f59f64739d340f3928bc94e541a06d7c522392131c9521"
+          },
+          {
+            "path": "problems/F036/baseline/arklib-v4.31.0/measure-3.log",
+            "sha256": "e943c7bc5339ae80274b7313587340bdbdb9c28f7523258ef68e3e58dd7c8fec"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F037",
+      "row": 37,
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "providedLength": 2122,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 2122,
+        "rawHeartbeats": 163948549,
+        "scaledHeartbeats": 163948,
+        "rawSamples": [
+          163948549,
+          163948549,
+          163948549
+        ],
+        "measuredAt": "2026-11-01T19:36:20.882167+00:00",
+        "evidence": [
+          {
+            "path": "problems/F037/input/problem.json",
+            "sha256": "4d1079769c3d9c27814a7d1dc4d29747303be0bf281875b9ed07509a24ff5018"
+          },
+          {
+            "path": "problems/F037/baseline/result.json",
+            "sha256": "5b99e4ff09cc51a8f9476005d3881fd27b48bf29ed37c5bc63534a44625fd9f3"
+          },
+          {
+            "path": "problems/F037/baseline/arklib-v4.31.0/check.lean",
+            "sha256": "f21200a2c0a81c0c49bc2597c7b9d4b2a7dc9606848ae36f7931c884de8a128a"
+          },
+          {
+            "path": "problems/F037/baseline/arklib-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F037/baseline/arklib-v4.31.0/measure-1.lean",
+            "sha256": "8f2f78748590943d849aa20347b12de79d4e60cdaeeea4fe5686cd3b60312e87"
+          },
+          {
+            "path": "problems/F037/baseline/arklib-v4.31.0/measure-1.log",
+            "sha256": "22dc31a3827a1dc9c3e6e96a6e48d391d30089fb9a7094b52f8069ad2960b2a1"
+          },
+          {
+            "path": "problems/F037/baseline/arklib-v4.31.0/measure-2.lean",
+            "sha256": "a02f216ba8a8f8d77a0d38d2227d2311e59d4308bc11b7231d1659a0943f9087"
+          },
+          {
+            "path": "problems/F037/baseline/arklib-v4.31.0/measure-2.log",
+            "sha256": "b0ec9ec7d716cc6cd3f9418a65f23b99276aff1e591149bb2e64c7a51ee673f2"
+          },
+          {
+            "path": "problems/F037/baseline/arklib-v4.31.0/measure-3.lean",
+            "sha256": "b818aa01848db037ecbc446c8ed90622bea6f5db769966730f5b8f4cd16f2f1b"
+          },
+          {
+            "path": "problems/F037/baseline/arklib-v4.31.0/measure-3.log",
+            "sha256": "cc3ffe49adf2a0426433db909511f64e4ebd110a71c3c342412625c7ceed47d2"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F038",
+      "row": 38,
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "providedLength": 5538,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 5538,
+        "rawHeartbeats": 62515167,
+        "scaledHeartbeats": 62515,
+        "rawSamples": [
+          62515167,
+          62515167,
+          62515167
+        ],
+        "measuredAt": "2026-11-01T20:08:05.840667+00:00",
+        "evidence": [
+          {
+            "path": "problems/F038/input/problem.json",
+            "sha256": "4a3dcd298ff6f69670208b21d76e083f1e143da43cfa503309b3e62f565b4d0a"
+          },
+          {
+            "path": "problems/F038/baseline/result.json",
+            "sha256": "2493929d6243bb0d665285547fa8a22399cccbc2bbdb03866c9a596b9579015d"
+          },
+          {
+            "path": "problems/F038/baseline/arklib-v4.31.0/check.lean",
+            "sha256": "932c80d6a069be3f150c359906b72c2c758a23109e74ca330aca983d7b8dc6c6"
+          },
+          {
+            "path": "problems/F038/baseline/arklib-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F038/baseline/arklib-v4.31.0/measure-1.lean",
+            "sha256": "e3700bc5f496fea5d3767fde92e213b260f644ea0e64e76394a2c8895a3d0bcb"
+          },
+          {
+            "path": "problems/F038/baseline/arklib-v4.31.0/measure-1.log",
+            "sha256": "0536d9ebabac2164a6aa8141061e11dd5121504f6b7a34dfa420aec043200dc6"
+          },
+          {
+            "path": "problems/F038/baseline/arklib-v4.31.0/measure-2.lean",
+            "sha256": "3cddc6ab68075b5bb9cd538de58cfb80060ca45e74130a95c522471c7152e0ab"
+          },
+          {
+            "path": "problems/F038/baseline/arklib-v4.31.0/measure-2.log",
+            "sha256": "63b265790152bb82fbfa707d6b96c0189586e3d65b76ac6a419f85f4bf03df1a"
+          },
+          {
+            "path": "problems/F038/baseline/arklib-v4.31.0/measure-3.lean",
+            "sha256": "fc5bfd8b88f9cf00d269334d557e28b9368604fb9ebaa7db0d34d647f280b75c"
+          },
+          {
+            "path": "problems/F038/baseline/arklib-v4.31.0/measure-3.log",
+            "sha256": "6026dbed1a007e0986ea73dd2d662420217c7e34ac1e72e1bff430ab85dc3009"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F039",
+      "row": 39,
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "providedLength": 1426,
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1426,
+        "rawHeartbeats": 44522173,
+        "scaledHeartbeats": 44522,
+        "rawSamples": [
+          44522173,
+          44522173,
+          44522173
+        ],
+        "measuredAt": "2026-11-01T20:22:49.763228+00:00",
+        "evidence": [
+          {
+            "path": "problems/F039/input/problem.json",
+            "sha256": "6535774be9eea889f4f685c4ef43ae541ea47fb37f291789029f639e70e027ae"
+          },
+          {
+            "path": "problems/F039/baseline/result.json",
+            "sha256": "43baad09cb07bb6376c8755a26170be7f9273fd66117c5ee3fd9090cd3f0f573"
+          },
+          {
+            "path": "problems/F039/baseline/arklib-v4.31.0/check.lean",
+            "sha256": "90a33f6ad3933f2afd0d8d814fa6a2149f97c215f7494f09f99b7b27241f49a6"
+          },
+          {
+            "path": "problems/F039/baseline/arklib-v4.31.0/check.log",
+            "sha256": "a5ccb869bee313734e9c64f0ada0957885a582b28d5f0c268d24c0cfa6fba759"
+          },
+          {
+            "path": "problems/F039/baseline/arklib-v4.31.0/measure-1.lean",
+            "sha256": "810a865677a9ca1e4d261c988359c3209eccc35f027a782f4096935cab39ce89"
+          },
+          {
+            "path": "problems/F039/baseline/arklib-v4.31.0/measure-1.log",
+            "sha256": "f1a9a99de5ed06950dc50d25fe1a210865f2bdaf497f8db03c9784aabb9c0f8f"
+          },
+          {
+            "path": "problems/F039/baseline/arklib-v4.31.0/measure-2.lean",
+            "sha256": "b31632d6bb98812b79514db2c0a01b53fe1f2eba64edb535c7750ab9ea559ad8"
+          },
+          {
+            "path": "problems/F039/baseline/arklib-v4.31.0/measure-2.log",
+            "sha256": "8726c64d8fe2337890276811ef40ad37e04956b5d1a41932e51c798623d2a2a1"
+          },
+          {
+            "path": "problems/F039/baseline/arklib-v4.31.0/measure-3.lean",
+            "sha256": "11523164a897b0eeb72fbd705d9cc47661a609abb9f678ba50ccdf1c3e31b7d7"
+          },
+          {
+            "path": "problems/F039/baseline/arklib-v4.31.0/measure-3.log",
+            "sha256": "6d364a069134fc1063fe875a4e2030ae9a9f4dedc04f5e6e41b04c4aea3aec62"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F040",
+      "row": 40,
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "providedLength": 1105,
+      "primaryVersion": "v4.34.0",
+      "primaryRevision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+      "requiredVersions": [
+        "v4.34.0",
+        "v4.33.1",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1105,
+        "rawHeartbeats": 38031288,
+        "scaledHeartbeats": 38031,
+        "rawSamples": [
+          38031288,
+          38031287,
+          38031288
+        ],
+        "measuredAt": "2026-11-01T20:51:03.540086+00:00",
+        "evidence": [
+          {
+            "path": "problems/F040/input/problem.json",
+            "sha256": "4b59fde728d6bfc1b9a7070501b402bb2f31dd6dda5345281c6c4d9fa0242b6a"
+          },
+          {
+            "path": "problems/F040/baseline/result.json",
+            "sha256": "832a29c7a767d2224175271a2beb9676d2ab5051c66450e3201c53c5e459c059"
+          },
+          {
+            "path": "problems/F040/baseline/arklib-v4.34.0/check.lean",
+            "sha256": "7553123a7b41c8d9ae8a73eaa525f4cc4bc16ce454df1818638bbae1d7738db7"
+          },
+          {
+            "path": "problems/F040/baseline/arklib-v4.34.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F040/baseline/arklib-v4.34.0/measure-1.lean",
+            "sha256": "36731dc42931ed57554b6fb1f9f8eeafe5eabeecda08acf04c2f905bd16e878c"
+          },
+          {
+            "path": "problems/F040/baseline/arklib-v4.34.0/measure-1.log",
+            "sha256": "e8719dfa459300d3857e86a78ec626c788951acf4765d01c7a70d8db58cb9230"
+          },
+          {
+            "path": "problems/F040/baseline/arklib-v4.34.0/measure-2.lean",
+            "sha256": "31b9ae0524598373dd50e9a9429fc81f060f2c34a1c6aa59e882d868e80d2e36"
+          },
+          {
+            "path": "problems/F040/baseline/arklib-v4.34.0/measure-2.log",
+            "sha256": "f2852ee79f4ea450e7b9b67e4e9fd324ab9230198fbaa7c0b12c957b10c7d514"
+          },
+          {
+            "path": "problems/F040/baseline/arklib-v4.34.0/measure-3.lean",
+            "sha256": "554e0ed37f9a735a5e0520de564ca0cdddfd5d4d9529c12283e745942041d888"
+          },
+          {
+            "path": "problems/F040/baseline/arklib-v4.34.0/measure-3.log",
+            "sha256": "b6edb306aa82025425358300eba335fa642bb22edbdb7c85d4b87cfbb6d578e7"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F041",
+      "row": 41,
+      "name": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+      "source": "leanpool",
+      "providedLength": 2030,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 2030,
+        "rawHeartbeats": 49681455,
+        "scaledHeartbeats": 49681,
+        "rawSamples": [
+          49681455,
+          49681455,
+          49681455
+        ],
+        "measuredAt": "2026-11-01T11:13:10.138926+00:00",
+        "evidence": [
+          {
+            "path": "problems/F041/input/problem.json",
+            "sha256": "1a936867037c00e26c9b129355097f665b8430add6f3028588fe15e3c7d2d1e8"
+          },
+          {
+            "path": "problems/F041/baseline/result.json",
+            "sha256": "16dfee1fec0a8803ea1a4b01e0c16729f959cdd820d801530ea845708de88582"
+          },
+          {
+            "path": "problems/F041/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "386fa02b3fb4f2769faf8b2b6a9aae2f958688e61fdb9c0049c1e00da560ebcb"
+          },
+          {
+            "path": "problems/F041/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F041/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "ce1f10aa49eb29aa675617497a574cf010b64395d363ed720ffd44d2016c0767"
+          },
+          {
+            "path": "problems/F041/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "a807e50cb6a5ac5253181021e2444503f911e450da2a94799ccd13ffed5a991e"
+          },
+          {
+            "path": "problems/F041/baseline/leanpool-v4.35.0-rc3/measure-2.lean",
+            "sha256": "960fa08d0fdc42ef85f9839cecd03f675c2bf6b2f8b7ec55db7df2c905557cf8"
+          },
+          {
+            "path": "problems/F041/baseline/leanpool-v4.35.0-rc3/measure-2.log",
+            "sha256": "9ce1bb9ecd11a4d8c622ff71e0f98f88dedd8f6e029ec37245644a45f68abf50"
+          },
+          {
+            "path": "problems/F041/baseline/leanpool-v4.35.0-rc3/measure-3.lean",
+            "sha256": "306eec41a5f49ffac6095e455bbdff7c0419b4cab925f930a6fa6ab6337ba898"
+          },
+          {
+            "path": "problems/F041/baseline/leanpool-v4.35.0-rc3/measure-3.log",
+            "sha256": "2cdb889bdb822b4c1c1cc064d2487a3b42cccbb6b33db726f74c11cc83dd150d"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F042",
+      "row": 42,
+      "name": "CoxeterSystem.matsumoto_reduced_aux",
+      "source": "leanpool",
+      "providedLength": 1699,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1699,
+        "rawHeartbeats": 3091286,
+        "scaledHeartbeats": 3091,
+        "rawSamples": [
+          3091286,
+          3091286,
+          3091286
+        ],
+        "measuredAt": "2026-11-01T21:48:58.163116+00:00",
+        "evidence": [
+          {
+            "path": "problems/F042/input/problem.json",
+            "sha256": "a1152b8a39224f2aba1e7eb7f0d4836561e85945f50054402aa6d3c75e7db3d9"
+          },
+          {
+            "path": "problems/F042/baseline/result.json",
+            "sha256": "641e9297b819a1757113e9f00e77e28eeac93e87db910d803f2833508a27acb4"
+          },
+          {
+            "path": "problems/F042/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "c27f437602aba96d3b815c10cf6d3f5304bac5116f5806492ad7c38e5bf8e538"
+          },
+          {
+            "path": "problems/F042/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F042/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "5bde247b895804bd6391050ae28db59c9aa79c2ba61267175ae88032442b7887"
+          },
+          {
+            "path": "problems/F042/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "82c35d052ef9e8318e6990de96b878b2118ed47d33bed8bf9cee2e3888c44ce0"
+          },
+          {
+            "path": "problems/F042/baseline/leanpool-v4.35.0-rc3/measure-2.lean",
+            "sha256": "2ac0b09f762703c25a7a35a863f7b4e0dbd8bd338927657c9e9753df4a7c6d8d"
+          },
+          {
+            "path": "problems/F042/baseline/leanpool-v4.35.0-rc3/measure-2.log",
+            "sha256": "ee95d5f1c3f6463ca0b654a44facdb93b02c89ffe57f10e0ce428f9e0e924a08"
+          },
+          {
+            "path": "problems/F042/baseline/leanpool-v4.35.0-rc3/measure-3.lean",
+            "sha256": "d01c7b096c1af2d41493f42ed5f2837b1b9a5b3c48678464450ede992cd0729d"
+          },
+          {
+            "path": "problems/F042/baseline/leanpool-v4.35.0-rc3/measure-3.log",
+            "sha256": "e08f599fe9da26e01177224af8b43cab56dfee0e4b35ea3ef1b9e38984a28e91"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F043",
+      "row": 43,
+      "name": "Vlasov.transportedIntegral_continuousOn",
+      "source": "leanpool",
+      "providedLength": 2413,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 2413,
+        "rawHeartbeats": 9943703,
+        "scaledHeartbeats": 9943,
+        "rawSamples": [
+          9943703,
+          9943703,
+          9943703
+        ],
+        "measuredAt": "2026-11-01T22:47:19.145836+00:00",
+        "evidence": [
+          {
+            "path": "problems/F043/input/problem.json",
+            "sha256": "ff377095af9cc7c3d771b0ed5a188016019cc66d7f90ba5aa5cad5931746771a"
+          },
+          {
+            "path": "problems/F043/baseline/result.json",
+            "sha256": "dd0f2407f22113a356f464bd47c9dcd0ebabf788f2ee0e0b5c0f5bd087555743"
+          },
+          {
+            "path": "problems/F043/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "4e21d7243fff0eea181ade75d3081d69cab65cef2460bd396dc54b38c7e52335"
+          },
+          {
+            "path": "problems/F043/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F043/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "8537fcf0fe673d9f90a35839e3429c9e5de19a7911a56ac4be142c4c7af744d5"
+          },
+          {
+            "path": "problems/F043/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "c6fd1ef3a1c96b7625a23660ed07a5989af1a21d388fb0da224edf50c945e2cf"
+          },
+          {
+            "path": "problems/F043/baseline/leanpool-v4.35.0-rc3/measure-2.lean",
+            "sha256": "ee9862a749c1fb1867f7d0b4230bf445023c53491726b0a763cc4182c31e2cfa"
+          },
+          {
+            "path": "problems/F043/baseline/leanpool-v4.35.0-rc3/measure-2.log",
+            "sha256": "58da0a324f00019690c1f98065219b09459246f74e1e0fdce940ff76fc24f19d"
+          },
+          {
+            "path": "problems/F043/baseline/leanpool-v4.35.0-rc3/measure-3.lean",
+            "sha256": "9480318033538b2b2534f9b37374a2cc98735ca77187fcdd64c80d11fd6816c5"
+          },
+          {
+            "path": "problems/F043/baseline/leanpool-v4.35.0-rc3/measure-3.log",
+            "sha256": "144dfcc85d9b71e4193aaa2acd4fa0b5425f2d756291541540abb4cc8bf0d2dc"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F044",
+      "row": 44,
+      "name": "ZetaZeros.step1_double",
+      "source": "leanpool",
+      "providedLength": 2315,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 2315,
+        "rawHeartbeats": 13000252,
+        "scaledHeartbeats": 13000,
+        "rawSamples": [
+          13000252,
+          13000252,
+          13000252
+        ],
+        "measuredAt": "2026-11-02T00:27:06.603327+00:00",
+        "evidence": [
+          {
+            "path": "problems/F044/input/problem.json",
+            "sha256": "d80132003661124b48b51ce9dea82fc30c87dac8c91d5a6f2cf9c8c96f625068"
+          },
+          {
+            "path": "problems/F044/baseline/result.json",
+            "sha256": "af48f3f5ccc94525d1a9c936030c540e7749647dd33b53e65da0e4152f6d2cb1"
+          },
+          {
+            "path": "problems/F044/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "0efc0ad075e0dba388acb5808713b46f4f441c9f1729f37cbedd04a7eb148c50"
+          },
+          {
+            "path": "problems/F044/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F044/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "997959bd99a5f88e5bbbfcf5779b302c8699f8e554d1ea89e741d08082abbc5f"
+          },
+          {
+            "path": "problems/F044/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "0bd05cdc30325087c617fdbc5cea45d6debd9ff59062409221bcddb3140c13ef"
+          },
+          {
+            "path": "problems/F044/baseline/leanpool-v4.35.0-rc3/measure-2.lean",
+            "sha256": "ae8f2b9711aa38eec60f39b93cdbcf989746864245686b3cd28550e9e3d33bbd"
+          },
+          {
+            "path": "problems/F044/baseline/leanpool-v4.35.0-rc3/measure-2.log",
+            "sha256": "4c5e8dc004c7bbfd6e76cf30f08d02c8622e562f149984bca60c02b83f716cbf"
+          },
+          {
+            "path": "problems/F044/baseline/leanpool-v4.35.0-rc3/measure-3.lean",
+            "sha256": "163548d639d0be242e1cab765551c7f3fdca253ecd42d0c2ea4d96b6995f0360"
+          },
+          {
+            "path": "problems/F044/baseline/leanpool-v4.35.0-rc3/measure-3.log",
+            "sha256": "5db110215d07ee5ee8631d0c88602405a46cae4da9616dcc0607639e7801e0a8"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F045",
+      "row": 45,
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "source": "leanpool",
+      "providedLength": 1756,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1756,
+        "rawHeartbeats": 53089872,
+        "scaledHeartbeats": 53089,
+        "rawSamples": [
+          53089872,
+          53089872,
+          53089872
+        ],
+        "measuredAt": "2026-11-02T01:23:19.169902+00:00",
+        "evidence": [
+          {
+            "path": "problems/F045/input/problem.json",
+            "sha256": "16e5ebe3469811634b5b7e63033205a9799daa7c50ced9da14d23a6ef31bd71b"
+          },
+          {
+            "path": "problems/F045/baseline/result.json",
+            "sha256": "92d5dd4da8c4595fbc0d87f42958f50055b5fdef09de245e7015278b86cce5ff"
+          },
+          {
+            "path": "problems/F045/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "721f05684a7eb9b1be7b0f8731f728b7d4e94ccfd79c547106e27a1fe57b4c32"
+          },
+          {
+            "path": "problems/F045/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F045/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "208be1b0ddcceb9b85177ffd1f225ac00f3e9cc8007966c41cb123c2bad72fa8"
+          },
+          {
+            "path": "problems/F045/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "c2b9b0a2803ddeeb28a65cdd269be0b627596238d6d8f28928c9413309b0dc6f"
+          },
+          {
+            "path": "problems/F045/baseline/leanpool-v4.35.0-rc3/measure-2.lean",
+            "sha256": "a49361780dbb8e584231afc2dbd1d66ac73dc7889df842a61d9ddcc6e8011ac5"
+          },
+          {
+            "path": "problems/F045/baseline/leanpool-v4.35.0-rc3/measure-2.log",
+            "sha256": "0937f3daf2d3b4dfd98347cd9e641b2fa2d1fd6e9118abdb2a4c7d8000c7e98f"
+          },
+          {
+            "path": "problems/F045/baseline/leanpool-v4.35.0-rc3/measure-3.lean",
+            "sha256": "e6295b535c9882a45821c4a2051872d64c80553428bde832e91ef28521f5adb7"
+          },
+          {
+            "path": "problems/F045/baseline/leanpool-v4.35.0-rc3/measure-3.log",
+            "sha256": "2059842dc9a9d84bd171ad2496d6e95caedb0a8b52cf096a05226169973fb5a9"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F046",
+      "row": 46,
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+      "source": "leanpool",
+      "providedLength": 1645,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1645,
+        "rawHeartbeats": 11484649,
+        "scaledHeartbeats": 11484,
+        "rawSamples": [
+          11484649,
+          11484649,
+          11484649
+        ],
+        "measuredAt": "2026-11-02T02:18:07.375692+00:00",
+        "evidence": [
+          {
+            "path": "problems/F046/input/problem.json",
+            "sha256": "6f50e2ef4ef33143e9e88ecadbdb2708f66b44c25d87a586a4fcbcf3ba83f135"
+          },
+          {
+            "path": "problems/F046/baseline/result.json",
+            "sha256": "98636bf1e1791b3ecedbcf30fd4b2caec3c1a70eab54458fbad8a245b5654830"
+          },
+          {
+            "path": "problems/F046/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "9bf1ce41fe4559bd77e644264ad49893cadcd706245df4028e1118ef515a963d"
+          },
+          {
+            "path": "problems/F046/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F046/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "b84cfe076cbb0b277fb694d289529c6a92dae1ad6c7205d24d9a881591697e41"
+          },
+          {
+            "path": "problems/F046/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "fbc7da83520e7cae1b3810bc51c64e2b9aa4a69fc58696727c476e08a92ddaf7"
+          },
+          {
+            "path": "problems/F046/baseline/leanpool-v4.35.0-rc3/measure-2.lean",
+            "sha256": "9c5b1cf8d833f7ac82819a11da8dbfdaec254b1edd888fe3e2efcda249ebad67"
+          },
+          {
+            "path": "problems/F046/baseline/leanpool-v4.35.0-rc3/measure-2.log",
+            "sha256": "c46ff42641f9a2de3d37a016c7d653ff169be4b28233770f2b67967f740da251"
+          },
+          {
+            "path": "problems/F046/baseline/leanpool-v4.35.0-rc3/measure-3.lean",
+            "sha256": "e6eb5965ef47025f4717a4e38b1cf8d0a2e75fbdc16b8c12685f1028776440d0"
+          },
+          {
+            "path": "problems/F046/baseline/leanpool-v4.35.0-rc3/measure-3.log",
+            "sha256": "f7e29e26f0a31a99eabfe90dd315a34caa03f23d6b142049fa24d3597dfed72e"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F047",
+      "row": 47,
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+      "source": "leanpool",
+      "providedLength": 1509,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1509,
+        "rawHeartbeats": 6122522,
+        "scaledHeartbeats": 6122,
+        "rawSamples": [
+          6122522,
+          6122522,
+          6122522
+        ],
+        "measuredAt": "2026-11-02T11:15:31.926410+00:00",
+        "evidence": [
+          {
+            "path": "problems/F047/input/problem.json",
+            "sha256": "ddc208ecb0d357ed46f2a78051c1a226d9687f1b719be3c34aaf3e1bcf679ace"
+          },
+          {
+            "path": "problems/F047/baseline/result.json",
+            "sha256": "c35efaabc3a9b877e899c2c19cc973649f393c5aa2f01de00d03b979427dce97"
+          },
+          {
+            "path": "problems/F047/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "58921c56a079bf8b77dd6931e142673388706e679a271eb8792b4edacf39a989"
+          },
+          {
+            "path": "problems/F047/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "118b1fccf9171c8356300ad136d9e9983cd060ae909eb107a6b3463fd38bf2e4"
+          },
+          {
+            "path": "problems/F047/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "cb817ae4d6624c2f02f0fcf221e7630a0416f80351c96fbeb16050f054107d66"
+          },
+          {
+            "path": "problems/F047/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "43efd5581087e965f22853d3b1a5e6a03630bab2568a9b34ce6925133f6cbaeb"
+          },
+          {
+            "path": "problems/F047/baseline/leanpool-v4.35.0-rc3/measure-2.lean",
+            "sha256": "f73ebc8ec9b9ea52341b46c52882e6a6e81607d4f3683c50a04939e349590b29"
+          },
+          {
+            "path": "problems/F047/baseline/leanpool-v4.35.0-rc3/measure-2.log",
+            "sha256": "cab599c693e1176a7981a3e3207557c76e4d600dbeb54f12b5b7fdb34d00a809"
+          },
+          {
+            "path": "problems/F047/baseline/leanpool-v4.35.0-rc3/measure-3.lean",
+            "sha256": "7f61759582b787006ce3f54c2e96a267e59fbebf0e56754d9f4644a6078e4a56"
+          },
+          {
+            "path": "problems/F047/baseline/leanpool-v4.35.0-rc3/measure-3.log",
+            "sha256": "bdc6ae79f76004d8e83e0455f10388896d50cc925e4a884eb878d21181c0d649"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F048",
+      "row": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "source": "leanpool",
+      "providedLength": 2879,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 2879,
+        "rawHeartbeats": 4193446,
+        "scaledHeartbeats": 4193,
+        "rawSamples": [
+          4193446,
+          4193446,
+          4193446
+        ],
+        "measuredAt": "2026-11-02T12:34:16.980732+00:00",
+        "evidence": [
+          {
+            "path": "problems/F048/input/problem.json",
+            "sha256": "381851558a08b942df643d704ca42c8617d3369d51230e92f8b8a3bd28585ea0"
+          },
+          {
+            "path": "problems/F048/baseline/result.json",
+            "sha256": "2cc7d76dc6846cb9c11766a350c3432d63c81e9d1dfd980ca0086b2d21182a79"
+          },
+          {
+            "path": "problems/F048/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "ac9db91824b3a41070dc46bf78a42d2e0d720108ba0fb24a8c97f35393e432e0"
+          },
+          {
+            "path": "problems/F048/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F048/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "8bff8807c65aa09892713a87c2d47720e1b1d7d783a8f262efe3060509de4a71"
+          },
+          {
+            "path": "problems/F048/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "704935a5e9d6bedf4d4b99a431aa488a7042bb184913a205ef123df6aa60a05f"
+          },
+          {
+            "path": "problems/F048/baseline/leanpool-v4.35.0-rc3/measure-2.lean",
+            "sha256": "d9d4d08a8b8f6ad6f53cae139d448846f6920845f15866faf593f1636d3d3474"
+          },
+          {
+            "path": "problems/F048/baseline/leanpool-v4.35.0-rc3/measure-2.log",
+            "sha256": "8c5821e09d389daa7db23440bd3662ea8a9b4b9d64f575f1d1b827221cb87cc7"
+          },
+          {
+            "path": "problems/F048/baseline/leanpool-v4.35.0-rc3/measure-3.lean",
+            "sha256": "20b223fae8be373072490883e2ddbb4c5f4205ab2e8aa0739b52094581d1ec3d"
+          },
+          {
+            "path": "problems/F048/baseline/leanpool-v4.35.0-rc3/measure-3.log",
+            "sha256": "b830ee6e302e41dd13da9d74c6b4d6b1e49cab319d09a7db7c9a344b49bced4e"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F049",
+      "row": 49,
+      "name": "FirstOrder.Language.schemaTruthStage_imp",
+      "source": "leanpool",
+      "providedLength": 746,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 746,
+        "rawHeartbeats": 194028210,
+        "scaledHeartbeats": 194028,
+        "rawSamples": [
+          194028210
+        ],
+        "measuredAt": "2026-11-02T13:38:02.570450+00:00",
+        "evidence": [
+          {
+            "path": "problems/F049/input/problem.json",
+            "sha256": "83cf6dc3353cf9f9bc2ab39adb47f37868793c3d9c9949b8e816836666f182f2"
+          },
+          {
+            "path": "problems/F049/baseline/result.json",
+            "sha256": "61b817c026764d6f6808830008eaecf3356d7eca1bce8837857d3afbad654fb5"
+          },
+          {
+            "path": "problems/F049/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "4a7d14dd2642292fc3e72f65e9799caefe1c292b2ccaef9a6919cb470e922e8d"
+          },
+          {
+            "path": "problems/F049/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F049/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "fda116984363230b5ffbd0172f77d4e76de1d4b86e7c0a29f7f55665cd97ec0c"
+          },
+          {
+            "path": "problems/F049/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "e7a3c26555cafa936dfdf600ca85b7adb3dfedb5ac6b5d580378bf7ceebfd082"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F050",
+      "row": 50,
+      "name": "RS.cechCount",
+      "source": "leanpool",
+      "providedLength": 911,
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 911,
+        "rawHeartbeats": 157420890,
+        "scaledHeartbeats": 157420,
+        "rawSamples": [
+          157420890
+        ],
+        "measuredAt": "2026-11-02T13:38:17.426194+00:00",
+        "evidence": [
+          {
+            "path": "problems/F050/input/problem.json",
+            "sha256": "a8bd9dbedd9ad3eda142cc399beccfa9cad17fe1e55e55a8b835eb7d96943ca6"
+          },
+          {
+            "path": "problems/F050/baseline/result.json",
+            "sha256": "88fe96aceb14cd4adcd30f37951677cea16bb92fdadcc141d547ea1506ada95e"
+          },
+          {
+            "path": "problems/F050/baseline/leanpool-v4.35.0-rc3/check.lean",
+            "sha256": "5c8bad85f15e63fdc3452a90ef27c3a5e93db9faeab18accc725a2b01ca0d58e"
+          },
+          {
+            "path": "problems/F050/baseline/leanpool-v4.35.0-rc3/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "problems/F050/baseline/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "fa59da49e4f2e0fb05e8b08bae4982397d1fbe941e49028888504238c8b13ddd"
+          },
+          {
+            "path": "problems/F050/baseline/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "e22be9ca1f4c829e55da841bc5f30cc0ce0b941f919226aff1ea075e36b8f64b"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F051",
+      "row": 51,
+      "name": "putnam_1964_a4",
+      "source": "putnambench",
+      "providedLength": 1769,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261101-final60-usd1-r1",
+        "sampleCount": 3,
+        "tokens": 1769,
+        "rawHeartbeats": 111470986,
+        "scaledHeartbeats": 111470,
+        "rawSamples": [
+          111470976,
+          111470986,
+          111470990
+        ],
+        "measuredAt": "2026-11-01T11:39:41.997619+00:00",
+        "evidence": [
+          {
+            "path": "problems/F051/input/problem.json",
+            "sha256": "0aacc77fe5a649fe239a4514e5964654ccd10d7ce7779e97a9cdfba42d9929dc"
+          },
+          {
+            "path": "problems/F051/baseline/result.json",
+            "sha256": "e2e3a0ea64315f60aff48c74d580945ad8c08c0e6b7282eb4577c4013ca16acd"
+          },
+          {
+            "path": "problems/F051/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "cbcfdae9d6970b58b6ca516e99a719657bd98fbc346b67f483e662db77f48d71"
+          },
+          {
+            "path": "problems/F051/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "aa7fcbfcbcad6d04edb44a6fcc874eaf6d4a37f769f805e3667428cb0e6bb5c1"
+          },
+          {
+            "path": "problems/F051/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "e3158750f36d55dfca58818708392063653ca92c0949d6bf73c45107ef6c4a66"
+          },
+          {
+            "path": "problems/F051/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "3e6eebaf622e3052956189bb73e0812ea2755cb5959e6c1702613b0e0d760457"
+          },
+          {
+            "path": "problems/F051/baseline/putnambench-v4.27.0/measure-2.lean",
+            "sha256": "f532d7d4b49a7daa4ba79b41c3e46d2219e0b91f7c212e6d5c9e87a252f99d4e"
+          },
+          {
+            "path": "problems/F051/baseline/putnambench-v4.27.0/measure-2.log",
+            "sha256": "8901b66e6d4c6eeff20db6511e438bfb54d26172dca547a4c1d5ad7e3feba3df"
+          },
+          {
+            "path": "problems/F051/baseline/putnambench-v4.27.0/measure-3.lean",
+            "sha256": "92cfe64e3f68e7671da6627ed59345b0082b17e95c0372b285c0852e7eb6d7bf"
+          },
+          {
+            "path": "problems/F051/baseline/putnambench-v4.27.0/measure-3.log",
+            "sha256": "e5c8ac5c14856c2705d697090d110ac2fc2e60237e339bc1ac32ed028ba25bfe"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F052",
+      "row": 52,
+      "name": "putnam_1995_a3",
+      "source": "putnambench",
+      "providedLength": 4085,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 4085,
+        "rawHeartbeats": 14127586,
+        "scaledHeartbeats": 14127,
+        "rawSamples": [
+          14127586
+        ],
+        "measuredAt": "2026-11-02T13:40:21.668407+00:00",
+        "evidence": [
+          {
+            "path": "problems/F052/input/problem.json",
+            "sha256": "4586dfbab2238cc1d77b2bc678652b5b27f9de6be0b2a37862281c0a106d65ac"
+          },
+          {
+            "path": "problems/F052/baseline/result.json",
+            "sha256": "a23146ea427dae1aa21d5e31c289fb4016073b94728425e2dc8d3b1af1c9a606"
+          },
+          {
+            "path": "problems/F052/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "8990616bd1a03f510a10a7b6a6f18ae295557cfc5874ef0991fc62c0a73e2904"
+          },
+          {
+            "path": "problems/F052/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "4061a977c3b93fc362f6b9781beb31d8808255934f6eb80b5b737913bb9c4bcf"
+          },
+          {
+            "path": "problems/F052/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "d563e78f3677142d32a26f3cf0a61fa4d990069fff22b0996beac2764b8d814d"
+          },
+          {
+            "path": "problems/F052/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "242e8fae79bca15106ab3f05291ee176aa28319afa999dd7bb3c3df30b63ca41"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F053",
+      "row": 53,
+      "name": "putnam_1988_a2",
+      "source": "putnambench",
+      "providedLength": 2162,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 2162,
+        "rawHeartbeats": 58090725,
+        "scaledHeartbeats": 58090,
+        "rawSamples": [
+          58090725
+        ],
+        "measuredAt": "2026-11-02T13:42:26.258602+00:00",
+        "evidence": [
+          {
+            "path": "problems/F053/input/problem.json",
+            "sha256": "f5b9501fb84a7b79b9ff85a7d38aa3bb952afe6b0093fa78768c65874950b9d5"
+          },
+          {
+            "path": "problems/F053/baseline/result.json",
+            "sha256": "098650ff9314efeb241e25c21a83330193d051610ade0bc4cd1ce441a89efc53"
+          },
+          {
+            "path": "problems/F053/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "7c8a5ff1507ff0f8d6299407a076f341ab5132a2d0fe1e75428649605458f992"
+          },
+          {
+            "path": "problems/F053/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "bfd2de11f52d9ae126a85216b3eac55545dba60ac9e204927d72b13dce3a7ef4"
+          },
+          {
+            "path": "problems/F053/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "a4f0e94ea63d975e1a2c7c4561398ca8b3bd0a6a703c2eb2754d9d2414da0ebf"
+          },
+          {
+            "path": "problems/F053/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "c31cd69cd2f3684319413efaa489b4a3bfab1cd4485dc3165de161495ab2b034"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F054",
+      "row": 54,
+      "name": "putnam_2001_b1",
+      "source": "putnambench",
+      "providedLength": 3178,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 3178,
+        "rawHeartbeats": 50251248,
+        "scaledHeartbeats": 50251,
+        "rawSamples": [
+          50251248
+        ],
+        "measuredAt": "2026-11-02T13:44:34.501709+00:00",
+        "evidence": [
+          {
+            "path": "problems/F054/input/problem.json",
+            "sha256": "e9b05f3f1a7591100855d0c2e5688fab1690c99996afeec88beae16fe05e3928"
+          },
+          {
+            "path": "problems/F054/baseline/result.json",
+            "sha256": "6c3a3af385b538dc136c643415e03ea0053e138ced92479b7071a6663eb766ca"
+          },
+          {
+            "path": "problems/F054/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "881cc4093f3f17492763e6b1867c3305ad0a60a8008b4d83f250b8f5a68a2b8f"
+          },
+          {
+            "path": "problems/F054/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "ef6668add1a293622dc94afa04b141795f80c2221d36310784e2044d35b8e053"
+          },
+          {
+            "path": "problems/F054/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "0f990c3b80ad525a4a13b00cbd9df0d267216987ca04791d1af8bed50ec69937"
+          },
+          {
+            "path": "problems/F054/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "a6fd0fffa2f2ada26b80c9a603453bb46ecd85138ab968411c7c2aa2bbeb6b73"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F055",
+      "row": 55,
+      "name": "putnam_1964_b2",
+      "source": "putnambench",
+      "providedLength": 1754,
+      "primaryVersion": "v4.26.0",
+      "primaryRevision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+      "requiredVersions": [
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 1754,
+        "rawHeartbeats": 134489542,
+        "scaledHeartbeats": 134489,
+        "rawSamples": [
+          134489542
+        ],
+        "measuredAt": "2026-11-02T14:07:32.403209+00:00",
+        "evidence": [
+          {
+            "path": "problems/F055/input/problem.json",
+            "sha256": "c356c31d6b0680a0261b40ced877186b9e00530da556079cdc3843f29e43b375"
+          },
+          {
+            "path": "problems/F055/baseline/result.json",
+            "sha256": "eddc3764fef12113e3d8fc4d04b986b929ff7cd636363e528446a3fd6d5b0228"
+          },
+          {
+            "path": "problems/F055/baseline/putnambench-v4.26.0/check.lean",
+            "sha256": "80be2be1669027c4347fd910e5e8c1e8ead9ae33ec3b43c2e24a16d824391d36"
+          },
+          {
+            "path": "problems/F055/baseline/putnambench-v4.26.0/check.log",
+            "sha256": "372c813728453aeff30fbcd6f5a309f32b483451465897199998d634f0f38e77"
+          },
+          {
+            "path": "problems/F055/baseline/putnambench-v4.26.0/measure-1.lean",
+            "sha256": "f3d19a877661cae3f4feba52e6739a37359250f312044900cd3ebab5382e6d81"
+          },
+          {
+            "path": "problems/F055/baseline/putnambench-v4.26.0/measure-1.log",
+            "sha256": "e19193af846a6fcab144db85d2ac7e4cb8b194ffd62c35bb0993dcd4cac4d7d8"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F056",
+      "row": 56,
+      "name": "putnam_2007_a1",
+      "source": "putnambench",
+      "providedLength": 5464,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 5464,
+        "rawHeartbeats": 528106378,
+        "scaledHeartbeats": 528106,
+        "rawSamples": [
+          528106378
+        ],
+        "measuredAt": "2026-11-02T13:47:17.879793+00:00",
+        "evidence": [
+          {
+            "path": "problems/F056/input/problem.json",
+            "sha256": "3d14a47707a6cccfbfcdba02326c92de2734f8d46863c2b5e15a5ccb513709b9"
+          },
+          {
+            "path": "problems/F056/baseline/result.json",
+            "sha256": "74b03ba9fcd76dc1cf556e6ff6e549d887fc4eee2c24666787ec31bf41fad933"
+          },
+          {
+            "path": "problems/F056/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "d3d647289a9aa6dd96e0af04c080e4000efe30353c289203d5f7beeafe035084"
+          },
+          {
+            "path": "problems/F056/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "650b7de297d8ac8ca68270de097a24e92bb1848de584d762756fc1a5fca187c6"
+          },
+          {
+            "path": "problems/F056/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "62a8ac3b5c041041e6040c5a068ff1ce5583a1963aaec49fb611185500ff5a40"
+          },
+          {
+            "path": "problems/F056/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "471fc4fb4ff2d02c055ab4d0453b70b5a5606faa9bd86c55893fd582241091cc"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F057",
+      "row": 57,
+      "name": "putnam_1970_b5",
+      "source": "putnambench",
+      "providedLength": 2134,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 2134,
+        "rawHeartbeats": 288824887,
+        "scaledHeartbeats": 288824,
+        "rawSamples": [
+          288824887
+        ],
+        "measuredAt": "2026-11-02T13:49:32.534582+00:00",
+        "evidence": [
+          {
+            "path": "problems/F057/input/problem.json",
+            "sha256": "8dc9228fe1befb68c7a80f3c07326d682c6e85a2143855e6e9ed6ba09e5ffdc6"
+          },
+          {
+            "path": "problems/F057/baseline/result.json",
+            "sha256": "94f8caff10a8873bbdd6355a66d554bc94d32c571021568467f086ec8c9c5c8f"
+          },
+          {
+            "path": "problems/F057/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "f5208e0fa5cb289b84ac5bc1989f21c3d975240aa5de88f8e35b57dafcbc313e"
+          },
+          {
+            "path": "problems/F057/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "3586cc98a6512b72dfee75e0671fd2ac89b92703fa9f4d15a2c200ca863397b5"
+          },
+          {
+            "path": "problems/F057/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "2bf539dc35460228ebfb0604b2185a8b81d70f72b68151d49017db0d5789682c"
+          },
+          {
+            "path": "problems/F057/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "be9e34015e9bf8c8d5fb37d7e08404300870cdfbacf7dbc2f10659959af50911"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F058",
+      "row": 58,
+      "name": "putnam_1968_a1",
+      "source": "putnambench",
+      "providedLength": 1084,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 1084,
+        "rawHeartbeats": 60254800,
+        "scaledHeartbeats": 60254,
+        "rawSamples": [
+          60254800
+        ],
+        "measuredAt": "2026-11-02T13:51:30.417341+00:00",
+        "evidence": [
+          {
+            "path": "problems/F058/input/problem.json",
+            "sha256": "8a1cba576a71c80949670695306a84148c0073f2056ddfbe523393fb35ba9536"
+          },
+          {
+            "path": "problems/F058/baseline/result.json",
+            "sha256": "b20d5096dfa0b6b9ed7479f81fcd2861a64b6ccf42eb6dcf4d697767ce35499a"
+          },
+          {
+            "path": "problems/F058/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "27b26336b8dcfe98016c5e480f0362dd5eefdd4a6b43e71d23fad697987109fb"
+          },
+          {
+            "path": "problems/F058/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "585f27859f94bb17a63295bf1dba4b5db5f22435726362b7677a2d1584b698f1"
+          },
+          {
+            "path": "problems/F058/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "683d41b1289c0b71bd99fdc7687194326fad72f8b1c6dd3cde71d73a97df73f2"
+          },
+          {
+            "path": "problems/F058/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "e1d7ad21d727b52e7bbf6f9dc59b1814636380c5751ad7cb390db6d6e3de85b9"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F059",
+      "row": 59,
+      "name": "putnam_1991_b1",
+      "source": "putnambench",
+      "providedLength": 3313,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 3313,
+        "rawHeartbeats": 342798487,
+        "scaledHeartbeats": 342798,
+        "rawSamples": [
+          342798487
+        ],
+        "measuredAt": "2026-11-02T13:55:27.732631+00:00",
+        "evidence": [
+          {
+            "path": "problems/F059/input/problem.json",
+            "sha256": "e54b229e0eb22e3e9629fcb5b8e98d6ab1dc041f863cb51cb1e467b0cf1b019b"
+          },
+          {
+            "path": "problems/F059/baseline/result.json",
+            "sha256": "ad4638cf9a46e1beac49722b380ced1da7e14984ba954181b43b259d1142235c"
+          },
+          {
+            "path": "problems/F059/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "61dbe4b36bb2cba081327e185a2472e3abf906b09930bfd9e82fd16b48f5c0aa"
+          },
+          {
+            "path": "problems/F059/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "ba9d19b4411fe9f05a2624889849005b3f1a991f42ea366592b99e08df5448d5"
+          },
+          {
+            "path": "problems/F059/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "fa020184dab6ad81429401044de7609115b2b7acb222d6db5dd043ea1ec712dc"
+          },
+          {
+            "path": "problems/F059/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "347e1654602eb836ec6b8c1300efe0b3887161bf29901ed68d67a8987125edde"
+          }
+        ]
+      }
+    },
+    {
+      "id": "F060",
+      "row": 60,
+      "name": "putnam_2019_a1",
+      "source": "putnambench",
+      "providedLength": 2381,
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "local": {
+        "runId": "20261102-provisional12",
+        "sampleCount": 1,
+        "tokens": 2381,
+        "rawHeartbeats": 3223874343,
+        "scaledHeartbeats": 3223874,
+        "rawSamples": [
+          3223874343
+        ],
+        "measuredAt": "2026-11-02T14:02:17.013147+00:00",
+        "evidence": [
+          {
+            "path": "problems/F060/input/problem.json",
+            "sha256": "5fdbd2c2c5aed032044fedb66959bd5aa09d2eedae9730b9f310005ec351a3f4"
+          },
+          {
+            "path": "problems/F060/baseline/result.json",
+            "sha256": "b01fe396c8250199cb1c88f97bc037d492d5d27ecfe63b88cef26edf3d2ee80e"
+          },
+          {
+            "path": "problems/F060/baseline/putnambench-v4.27.0/check.lean",
+            "sha256": "4778925420d5338abb593e2848ab8fd3b73a0fa6e5d7c3b94d0beec60d5421e8"
+          },
+          {
+            "path": "problems/F060/baseline/putnambench-v4.27.0/check.log",
+            "sha256": "641b973d5d9877f17dd44d72aa1cb899abe24559cecbc9d812f2cf8c2f7f42b0"
+          },
+          {
+            "path": "problems/F060/baseline/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "975db02a6cae54776435c678046d1e4d91a77075fdb0e410ca641147ecdb2d06"
+          },
+          {
+            "path": "problems/F060/baseline/putnambench-v4.27.0/measure-1.log",
+            "sha256": "725657b1d9673f326b18ff427896d2d992dde6fa28ec05c432078b1b737ac4ab"
+          }
+        ]
+      }
+    }
+  ]
+}

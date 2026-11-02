@@ -6,10 +6,26 @@ import { ScoringGuide } from './components/ScoringGuide';
 import { SummaryCards } from './components/SummaryCards';
 import { TeamActivity } from './components/TeamActivity';
 import { ProofResearch } from './components/ProofResearch';
+import { FinalBaselines } from './components/FinalBaselines';
 import { parseSnapshot, valueOf } from './lib/model';
 import type { Metric, Problem, Snapshot } from './lib/model';
 
 export default function App() {
+  const [view, setView] = useState(() => window.location.hash === '#warmup' ? 'warmup' : 'final');
+  useEffect(() => {
+    const update = () => { if (['#warmup', '#final'].includes(window.location.hash)) setView(window.location.hash === '#warmup' ? 'warmup' : 'final'); };
+    window.addEventListener('hashchange', update);
+    return () => window.removeEventListener('hashchange', update);
+  }, []);
+  return <>
+    <a href="#main" className="skip-link">본문으로 바로가기</a>
+    <header className="site-header"><div className="header-inner"><div className="brand"><Brackets size={29} strokeWidth={3}/><span>LeanArena</span><small>팀 스코어보드</small></div><span className="measurement-status"><i/>로컬 측정</span></div></header>
+    <nav className="dashboard-views" aria-label="대시보드 선택"><button className={view === 'final' ? 'active' : ''} aria-pressed={view === 'final'} onClick={() => { setView('final'); window.history.replaceState(null, '', '#final'); }}>최종 60문제 원본</button><button className={view === 'warmup' ? 'active' : ''} aria-pressed={view === 'warmup'} onClick={() => { setView('warmup'); window.history.replaceState(null, '', '#warmup'); }}>웜업 15문제 · 팀 결과</button></nav>
+    {view === 'final' ? <FinalBaselines/> : <WarmupDashboard/>}
+  </>;
+}
+
+function WarmupDashboard() {
   const [snapshots, setSnapshots] = useState<Snapshot[]>([]);
   const [snapshotId, setSnapshotId] = useState('');
   const [error, setError] = useState('');
@@ -73,8 +89,6 @@ export default function App() {
   const selected = visible.find(p => p.id === selectedId) ?? visible[0] ?? null;
 
   return <>
-    <a href="#main" className="skip-link">본문으로 바로가기</a>
-    <header className="site-header"><div className="header-inner"><div className="brand"><Brackets size={29} strokeWidth={3}/><span>LeanArena</span><small>팀 스코어보드</small></div><span className="measurement-status"><i/>로컬 측정</span></div></header>
     <main id="main">
       <div className="page-heading"><div><h1>{snapshot?.dataset === 'warmup' ? '웜업 15문제 · 팀 실험 결과' : '더 짧은 증명, 더 나은 점수.'}</h1><p>팀원이 공유한 후보와 공통 환경에서 재검증한 결과를 확인하세요.</p></div><div className="file-actions"><input ref={input} type="file" accept=".json,application/json" className="sr-only" tabIndex={-1} aria-label="JSON 파일 선택" onChange={e => void importFile(e.target.files?.[0])}/><button className="button import-button" onClick={() => input.current?.click()}><Upload size={16}/>JSON 불러오기</button><button className="button icon-button" onClick={exportSnapshot} disabled={!snapshot} aria-label="현재 스냅샷 JSON 내보내기" title="현재 스냅샷 JSON 내보내기"><Download size={17}/></button></div></div>
       {error ? <div role="alert" className="notification error"><Info size={17}/><span>{error}</span><button aria-label="오류 닫기" onClick={() => setError('')}><X size={16}/></button></div> : null}
