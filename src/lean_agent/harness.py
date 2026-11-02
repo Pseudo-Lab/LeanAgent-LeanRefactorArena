@@ -14,14 +14,14 @@ import statistics
 import subprocess
 import sys
 
-from . import accounting, actions, budgeting, diagnostics, models, prepared, status
+from . import accounting, actions, budgeting, diagnostics, models, portfolio, prepared, search_policy, status
 from .artifacts import canonical, inventory, read, sha as digest, write
 from .evaluator.lean import LeanEvaluator, validate_template
 from .evaluator.tokens import TOKENIZER_ID, proof_body
 
 BASE = Path(__file__).resolve().parent
 CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
-              "artifacts.py", "actions.py", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py",
+              "artifacts.py", "actions.py", "portfolio.py", "search_policy.py", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py",
               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
 SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
 
@@ -114,6 +114,9 @@ def load_config(path):
         if not isinstance(problem[key], str) or not problem[key]:
             raise ValueError("Missing problem field: " + key)
     proof_body(problem["reference"], problem["statement"])
+    if portfolio.enabled(config):
+        portfolio.validate_shared_inputs(config, problem["reference"], paths["prompt"].read_text(),
+                                         read(paths["action_corpus"]))
     if (paths["project"] / "lake-manifest.json").exists():
         if read(paths["project"] / "lake-manifest.json").get("packages") and "prepared_environment" not in paths:
             raise ValueError("External dependencies require a prepared_environment manifest")
@@ -208,10 +211,19 @@ def initial_state(problem, result, config=None):
             "best": candidate(problem["reference"], result, baseline), "latest": None}
     if actions.enabled(config or {}):
         actions.initialize(state)
+        portfolio.initialize(state, config)
     return state
 
 
 def make_request(state, problem, config, prompt):
+    whole_state = state
+    if portfolio.enabled(config):
+        state = portfolio.scoped_state(state, config)
+    hidden = portfolio.hidden_original(state, config)
+    reference = problem["reference"]
+    problem = dict(problem)
+    if hidden:
+        problem.pop("reference", None)
     latest = json.loads(canonical(state["latest"]))
     if latest and latest["feedback"].get("metrics"):
         latest["feedback"]["metrics"].pop("raw_samples", None)
@@ -227,9 +239,17 @@ def make_request(state, problem, config, prompt):
                                 "feedback_ref": "exploration.repair_context.feedback"}
         elif latest:
             packet["latest"]["feedback"] = actions.compact_feedback(latest["feedback"])
-        if packet["best"]["code"] == problem["reference"]:
+        if packet["best"]["code"] == reference:
             packet["best"].pop("code")
-            packet["best"]["code_ref"] = "problem.reference"
+            packet["best"]["code_ref"] = "hidden original" if hidden else "problem.reference"
+        if hidden:
+            packet["exploration"]["notes"] += " The original proof is hidden. read_candidate/analyze may only read your own candidates."
+    context = portfolio.packet(whole_state, config) if portfolio.enabled(config) else None
+    if context:
+        packet["portfolio"] = context
+    if search_policy.enabled(config):
+        packet["approach_policy"] = search_policy.packet(state, config, context)
+        prompt += "\n" + search_policy.GUIDANCE
     threshold = config["limits"].get("cost_stop_usd")
     if threshold is not None:
         spent = Decimal(state["cost_usd"])
@@ -289,11 +309,16 @@ def prepare_response(raw, state, problem, config, output):
     action, code, observation, rejection = None, None, None, None
     try:
         if actions.enabled(config):
-            action, code, observation = actions.prepare(raw, state, problem, config,
+            visible = portfolio.scoped_state(state, config)
+            action, code, observation = actions.prepare(raw, visible, problem, config,
                 read(output / "input/action-corpus.json"), parse_proof)
+            if portfolio.enabled(config) and code is not None and any(
+                    digest(code) == row["sha256"] for row in visible["exploration"]["candidates"].values()):
+                raise ValueError("Duplicate candidate in this context; propose a new source")
         else:
             code = parse_proof(raw, problem, config["limits"]["max_proof_characters"])
     except (ValueError, TypeError) as exc:
+        code, observation = None, None
         rejection = str(exc)
     return action, code, observation, rejection
 
@@ -334,6 +359,7 @@ def advance(state, raw, code, result, rejection, baseline, config, run_directory
     state["latest"] = {"code": code, "feedback": response_feedback}
     if actions.enabled(config):
         actions.advance(state, action, code, proposal, rejection, observation)
+        portfolio.advance(state, config, code, result, ranking)
     return state
 
 
@@ -346,6 +372,8 @@ def stopping_reason(state, problem, config, prompt, output=None):
         return "unknown_cost"
     if state["latest"] and state["latest"]["feedback"]["status"] == "environment_failed":
         return "environment_failed"
+    if portfolio.finished(state):
+        return "portfolio_complete"
     if actions.finished(state):
         return "agent_finished"
     if cost_threshold_reached(state, config):
@@ -371,13 +399,18 @@ def cost_threshold_reached(state, config):
 
 def summarize(state, baseline, final, config, stop):
     measured = metrics(final)
-    return {"status": "completed" if final["valid"] and stop in ("call_limit", "context_limit", "cost_limit", "agent_finished", "budget_reservation") else "stopped",
+    result = {"status": "completed" if final["valid"] and stop in ("call_limit", "context_limit", "cost_limit", "agent_finished", "budget_reservation", "portfolio_complete") else "stopped",
             "stop_reason": stop, "backend": config["model"]["backend"],
             "state": state, "baseline": baseline, "final": measured,
             "final_valid": final["valid"], "official_evaluation": False,
             "final_median_matches_selection": measured is not None and all(
                 measured[k] == state["best"][k] for k in ("tokens", "raw_heartbeats")),
             "final_samples_match_selection": measured is not None and measured["raw_samples"] == state["best"]["raw_samples"]}
+    if portfolio.enabled(config):
+        result["portfolio"] = portfolio.summary(state, config)
+        if not result["portfolio"]["complete"]:
+            result["status"] = "stopped"
+    return result
 
 
 def run(config_path, output, evaluator=None, *, check_only=False, query=None, dotenv=None):
@@ -456,6 +489,9 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
         stop = "call_limit"
         usage_records = []
         for step in count(1):
+            if portfolio.finished(state):
+                stop = "portfolio_complete"
+                break
             if cost_threshold_reached(state, config):
                 stop = "cost_limit"
                 break
@@ -502,6 +538,9 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
                 break
             if result and environment_failed(result):
                 stop = "environment_failed"
+                break
+            if portfolio.finished(state):
+                stop = "portfolio_complete"
                 break
             if actions.finished(state):
                 stop = "agent_finished"
@@ -602,7 +641,7 @@ def replay_records(output):
     steps = sorted((output / "steps").iterdir(), key=lambda p: int(p.name)) if (output / "steps").exists() else []
     usage_records = []
     for index, folder in enumerate(steps, 1):
-        if (folder.name != f"{index:03}" or state["unknown_cost"] or actions.finished(state) or cost_threshold_reached(state, config)
+        if (folder.name != f"{index:03}" or state["unknown_cost"] or actions.finished(state) or portfolio.finished(state) or cost_threshold_reached(state, config)
                 or config["limits"]["max_calls"] is not None and index > config["limits"]["max_calls"]
                 or state["latest"] and state["latest"]["feedback"]["status"] == "environment_failed"):
             raise ValueError("Invalid step sequence")
