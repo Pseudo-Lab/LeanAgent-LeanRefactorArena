@@ -16,7 +16,7 @@ SPEC.loader.exec_module(runner)
 
 class BoundaryTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(dir=os.environ["PROJECT_CACHE_DIR"])
+        self.temp = tempfile.TemporaryDirectory(dir=os.environ.get("PROJECT_CACHE_DIR"))
         self.addCleanup(self.temp.cleanup)
         self.repo = Path(self.temp.name)
         self.output = self.repo / "output"

@@ -2,6 +2,12 @@ export type Metric = 'improvement' | 'tokens' | 'heartbeats' | 'compatibility' |
 export type ProblemStatus = 'measured' | 'pending' | 'unreleased' | 'failed' | 'unsubmitted' | 'missing' | 'blocked' | 'unsupported' | 'partial' | 'proof_failed';
 export type VersionCheck = { version: string; revision: string; status: 'pass' | 'fail' | 'pending' };
 export type Measurement = { tokens: number; heartbeats: number };
+export type OriginalReference = {
+  benchmarkId: string; sha256: string; providedTokens: number; localTokens: number;
+  primaryEnvironment: string;
+  versions: (VersionCheck & { environment: string; rawHeartbeats: number | null;
+    heartbeats: number | null; rawSamples: number[] })[];
+};
 export type Problem = {
   id: number;
   name: string;
@@ -18,6 +24,7 @@ export type Problem = {
   selectedCandidateId?: string;
   selectionReason?: string;
   teamResults?: TeamResult[];
+  original?: OriginalReference;
 };
 export type TeamResult = {
   id: string; author: string; proof: string; sourcePath: string; sourceCommit: string; sourceState: string;
@@ -28,7 +35,8 @@ export type Snapshot = {
   schemaVersion: 1;
   id: string;
   label: string;
-  dataset: 'competition' | 'warmup';
+  dataset: 'competition' | 'warmup' | 'final';
+  datasetSha256?: string;
   measuredAt: string;
   releaseDate: string | null;
   provenance: string;
@@ -47,6 +55,7 @@ export const sourceName = (source: string) => SOURCES[source] ?? source;
 export const format = (n: number | null, digits = 2): string => n === null ? '—' : n.toLocaleString('ko-KR', { minimumFractionDigits: digits, maximumFractionDigits: digits });
 export const signed = (n: number) => `${n > 0 ? '+' : ''}${format(n)}`;
 export const shortName = (name: string) => name.split('.').at(-1) || name;
+export const problemLabel = (snapshot: Snapshot, id: number) => snapshot.dataset === 'final' ? `F${String(id).padStart(3, '0')}` : `P${String(id).padStart(2, '0')}`;
 
 // A zero baseline has no defined percentage reduction. Never turn missing data into zero.
 export function reduction(before: number, after: number): number | null {
@@ -123,14 +132,18 @@ function validateProblem(p: unknown, count: number, ids: Set<number>) {
 // Imported JSON is data only. Reject inconsistent records before replacing the visible snapshot.
 export function parseSnapshot(input: unknown): Snapshot {
   if (!isRecord(input) || input.schemaVersion !== 1) throw new Error('schemaVersion: 1 형식의 스냅샷이 필요합니다.');
-  if (!['competition', 'warmup'].includes(String(input.dataset))) throw new Error('dataset은 competition 또는 warmup이어야 합니다.');
+  if (!['competition', 'warmup', 'final'].includes(String(input.dataset))) throw new Error('dataset은 final, competition 또는 warmup이어야 합니다.');
   for (const k of ['id', 'label', 'measuredAt', 'provenance']) requireText(input[k], k);
   if (!input.id || !input.label || !Number.isFinite(Date.parse(String(input.measuredAt)))) throw new Error('ID, 이름 또는 측정 시각이 올바르지 않습니다.');
   if (input.releaseDate !== null && (typeof input.releaseDate !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(input.releaseDate))) throw new Error('releaseDate는 YYYY-MM-DD 또는 null이어야 합니다.');
-  const count = input.dataset === 'warmup' ? 15 : 50;
+  const count = input.dataset === 'warmup' ? 15 : input.dataset === 'final' ? 60 : 50;
   if (!Array.isArray(input.problems) || input.problems.length !== count) throw new Error(`${input.dataset} 스냅샷에는 정확히 ${count}문제가 필요합니다.`);
   const ids = new Set<number>();
   for (const p of input.problems) validateProblem(p, count, ids);
+  if (input.dataset === 'final') {
+    if (input.datasetSha256 !== 'd53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682') throw new Error('Final dataset SHA256이 다릅니다.');
+    for (const p of input.problems) validateOriginal(p);
+  }
   if (input.dataset === 'warmup') {
     for (const p of input.problems) {
       if (['unreleased', 'unsubmitted', 'failed'].includes(p.status)) throw new Error('웜업 실험에서는 미확보·증명 실패를 제출 점수 0으로 처리하지 않습니다.');
@@ -170,12 +183,14 @@ export function parseSnapshot(input: unknown): Snapshot {
   return {
     schemaVersion: 1, id: input.id as string, label: input.label as string, dataset: input.dataset as Snapshot['dataset'],
     measuredAt: input.measuredAt as string, releaseDate: input.releaseDate as string | null, provenance: input.provenance as string,
+    ...(input.dataset === 'final' ? { datasetSha256: input.datasetSha256 as string } : {}),
     problems: input.problems.map(p => ({ id: p.id, name: p.name, source: p.source, status: p.status,
       baseline: p.baseline && { tokens: p.baseline.tokens, heartbeats: p.baseline.heartbeats },
       candidate: p.candidate && { tokens: p.candidate.tokens, heartbeats: p.candidate.heartbeats },
       baselineCompatibility: p.baselineCompatibility,
       versions: p.versions.map((v: VersionCheck) => ({ version: v.version, revision: v.revision, status: v.status })),
       environment: p.environment, candidateHash: p.candidateHash, evidence: [...p.evidence], note: p.note,
+      ...(input.dataset === 'final' ? { original: copyOriginal(p.original) } : {}),
       ...(input.dataset === 'warmup' ? { selectedCandidateId:p.selectedCandidateId, selectionReason:p.selectionReason,
         teamResults:p.teamResults.map((c: TeamResult) => ({id:c.id,author:c.author,proof:c.proof,sourcePath:c.sourcePath,
           sourceCommit:c.sourceCommit,sourceState:c.sourceState,status:c.status,candidateHash:c.candidateHash,note:c.note,
@@ -184,4 +199,37 @@ export function parseSnapshot(input: unknown): Snapshot {
           versions:c.versions.map(v => ({version:v.version,revision:v.revision,status:v.status}))}))} : {}),
     })),
   };
+}
+
+function copyOriginal(v: OriginalReference): OriginalReference {
+  return { benchmarkId: v.benchmarkId, sha256: v.sha256, providedTokens: v.providedTokens,
+    localTokens: v.localTokens, primaryEnvironment: v.primaryEnvironment,
+    versions: v.versions.map(x => ({ version: x.version, revision: x.revision, status: x.status,
+      environment: x.environment, rawHeartbeats: x.rawHeartbeats, heartbeats: x.heartbeats,
+      rawSamples: [...x.rawSamples] })) };
+}
+
+function validateOriginal(p: Record<string, any>) {
+  const v = p.original;
+  if (!isRecord(v) || v.benchmarkId !== `F${String(p.id).padStart(3, '0')}` ||
+      typeof v.sha256 !== 'string' || !/^[a-f0-9]{64}$/.test(v.sha256) ||
+      ![v.providedTokens, v.localTokens].every(n => Number.isSafeInteger(n) && Number(n) >= 0) ||
+      !Array.isArray(v.versions) || !v.versions.length || v.versions.length !== p.versions.length) throw new Error('Final 원본 식별자·길이·버전 정보가 올바르지 않습니다.');
+  for (let i = 0; i < v.versions.length; i++) {
+    const check = v.versions[i], pin = p.versions[i];
+    if (!isRecord(check) || check.version !== pin.version || check.revision !== pin.revision ||
+        check.environment !== `${p.source}-${pin.version}` || !['pass', 'pending'].includes(String(check.status)) ||
+        !Array.isArray(check.rawSamples) || !check.rawSamples.every(n => Number.isSafeInteger(n) && n >= 0)) throw new Error('Final 원본 버전·표본이 다릅니다.');
+    const samples = [...check.rawSamples].sort((a, b) => a - b);
+    const median = samples.length ? (samples[Math.floor((samples.length - 1) / 2)] + samples[Math.floor(samples.length / 2)]) / 2 : null;
+    const scaled = samples.map(n => Math.floor(n / 1000));
+    const medianScaled = samples.length ? (scaled[Math.floor((samples.length - 1) / 2)] + scaled[Math.floor(samples.length / 2)]) / 2 : null;
+    if (check.rawHeartbeats !== median || check.heartbeats !== medianScaled || (check.status === 'pass') !== Boolean(samples.length)) throw new Error('Final 원본 HB 중앙값·환산값·상태가 표본과 다릅니다.');
+  }
+  const primary = v.versions[0];
+  if (v.primaryEnvironment !== primary.environment || (primary.status === 'pass'
+      ? !p.baseline || p.baseline.tokens !== v.localTokens || p.baseline.heartbeats !== primary.heartbeats
+      : p.baseline !== null)) throw new Error('Final 대표 원본 측정값이 다릅니다.');
+  const compatibility = v.versions.every(x => x.status === 'pass') ? 100 : null;
+  if (p.baselineCompatibility !== compatibility) throw new Error('Final 원본 호환성 범위가 다릅니다.');
 }

@@ -155,13 +155,13 @@ select { border: 1px solid var(--border); border-radius: 6px; padding: 9px 29px 
 .text-button { background: none; border: 0; color: var(--green); padding: 8px; font-size: 11px; }
 .competition-layout { grid-template-columns: minmax(0, 1fr) 350px; gap: 18px; }
 .competition-layout .grid-panel { padding: 20px 16px; }
-.fifty-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
-.fifty-grid .problem-tile { min-height: 100px; padding: 10px 9px 8px; }
-.fifty-grid .tile-value { font-size: 21px; }
-.fifty-grid .tile-name { font-size: 8px; margin-top: 4px; }
-.fifty-grid .is-locked { min-height: 74px; }
-.fifty-grid .is-locked .tile-value { display: none; }
-.fifty-grid .is-locked .tile-delta { margin-top: 7px; font-size: 9px; }
+.large-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.large-grid .problem-tile { min-height: 100px; padding: 10px 9px 8px; }
+.large-grid .tile-value { font-size: 21px; }
+.large-grid .tile-name { font-size: 8px; margin-top: 4px; }
+.large-grid .is-locked { min-height: 74px; }
+.large-grid .is-locked .tile-value { display: none; }
+.large-grid .is-locked .tile-delta { margin-top: 7px; font-size: 9px; }
 .scoring-guide { padding: 20px 22px; }
 .scoring-guide .panel-title { margin-bottom: 18px; }
 .scoring-guide h2 { font-size: 15px; }
@@ -183,19 +183,19 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
 .loading-state { display: flex; justify-content: center; align-items: center; min-height: 350px; color: #7b8a9b; font-size: 14px; }
 @media (min-width: 1200px) {
   .competition-layout { grid-template-columns: minmax(0, 1fr) 370px; }
-  .fifty-grid { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
-  .fifty-grid .problem-tile { min-height: 84px; padding: 9px 7px; }
-  .fifty-grid .tile-top { flex-wrap: wrap; }
-  .fifty-grid .tile-top > span { display: block; font-size: 9px; max-width: 100%; }
-  .fifty-grid .tile-name { display: none; }
-  .fifty-grid .tile-value { font-size: 21px; overflow-wrap: anywhere; }
-  .fifty-grid .tile-delta { font-size: 10px; flex-wrap: wrap; }
-  .fifty-grid .tile-delta svg { width: 11px; }
-  .fifty-grid .is-locked { min-height: 84px; }
-  .fifty-grid .is-locked .tile-value { display: block; }
+  .large-grid { grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; }
+  .large-grid .problem-tile { min-height: 84px; padding: 9px 7px; }
+  .large-grid .tile-top { flex-wrap: wrap; }
+  .large-grid .tile-top > span { display: block; font-size: 9px; max-width: 100%; }
+  .large-grid .tile-name { display: none; }
+  .large-grid .tile-value { font-size: 21px; overflow-wrap: anywhere; }
+  .large-grid .tile-delta { font-size: 10px; flex-wrap: wrap; }
+  .large-grid .tile-delta svg { width: 11px; }
+  .large-grid .is-locked { min-height: 84px; }
+  .large-grid .is-locked .tile-value { display: block; }
 }
 @media (min-width: 1440px) {
-  .fifty-grid { grid-template-columns: repeat(10, minmax(0, 1fr)); }
+  .large-grid { grid-template-columns: repeat(10, minmax(0, 1fr)); }
   .competition-layout .grid-toolbar { float: right; margin: -37px 0 10px; width: 43%; }
   .competition-layout .grid-toolbar .search-field { min-width: 92px; }
   .competition-layout .metric-context { clear: both; padding-top: 5px; }
@@ -216,11 +216,11 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
 }
 @media (max-width: 959px) {
   .workbench, .competition-layout { grid-template-columns: 1fr; }
-  .fifty-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  .fifty-grid .problem-tile { min-height: 99px; padding: 8px 5px; }
-  .fifty-grid .tile-value { font-size: 17px; }
-  .fifty-grid .is-locked { min-height: 82px; }
-  .fifty-grid .tile-name { font-size: 7px; }
+  .large-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  .large-grid .problem-tile { min-height: 99px; padding: 8px 5px; }
+  .large-grid .tile-value { font-size: 17px; }
+  .large-grid .is-locked { min-height: 82px; }
+  .large-grid .tile-name { font-size: 7px; }
   .snapshot-picker { gap: 8px; }
   .snapshot-picker > span { display: none; }
   .release-schedule { font-size: 10px; }
@@ -277,12 +277,12 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
   .metric-context { font-size: 9px; }
   .measurement-key { font-size: 9px; }
   .measurement-key span { display: block; margin-left: 0; }
-  .problem-grid, .fifty-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
-  .problem-tile, .fifty-grid .problem-tile { padding: 11px 9px; min-height: 114px; }
-  .tile-value, .fifty-grid .tile-value { font-size: 23px; }
-  .tile-delta, .fifty-grid .tile-delta { font-size: 10px; }
-  .tile-name, .fifty-grid .tile-name { font-size: 8px; }
-  .fifty-grid .is-locked { min-height: 83px; }
+  .problem-grid, .large-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+  .problem-tile, .large-grid .problem-tile { padding: 11px 9px; min-height: 114px; }
+  .tile-value, .large-grid .tile-value { font-size: 23px; }
+  .tile-delta, .large-grid .tile-delta { font-size: 10px; }
+  .tile-name, .large-grid .tile-name { font-size: 8px; }
+  .large-grid .is-locked { min-height: 83px; }
   .legend { gap: 10px 12px; font-size: 9px; }
   .detail-panel { padding: 20px 16px; }
   .theorem-name { font-size: 18px; }
@@ -298,7 +298,7 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
   footer { align-items: flex-start; font-size: 8px; }
   .notification { font-size: 11px; }
 }
-@media (max-width: 359px) { .problem-grid, .fifty-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .release-schedule { flex-basis: 100%; } }
+@media (max-width: 359px) { .problem-grid, .large-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .release-schedule { flex-basis: 100%; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
 
 /* Team result provenance and read-only proof review. */
@@ -391,3 +391,7 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
   .research-table th, .research-table td { padding: 10px 7px; }
   .activity-panel .panel-title { align-items: flex-start; }
 }
+
+.reference-table-wrap { overflow-x: auto; }
+.reference-table-wrap .metrics-table { font-size: 11px; white-space: nowrap; }
+.reference-table-wrap .metrics-table th, .reference-table-wrap .metrics-table td { padding: 9px 5px; }

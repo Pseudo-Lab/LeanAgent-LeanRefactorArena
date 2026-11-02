@@ -1,6 +1,6 @@
 # 팀 대시보드
 
-웜업 P01–P15의 팀원 후보와 공통 환경에서 재검증한 결과를 보여줍니다.
+Final F001–F060의 원본 Length·HB와 후보 검증 진행을 기본으로 보여줍니다. 실험 기록 선택기에서 웜업 P01–P15를 따로 확인할 수 있습니다.
 공식 제출 성적이 아니며 자료 미확보·환경 준비 실패·검증기 지원 대기·증명 실패를 구분합니다.
 일부 버전만 통과한 후보는 대표 환경의 측정값과 미완료 호환성을 구분해 표시합니다.
 
@@ -25,7 +25,7 @@ npm run dev
 ## 데이터
 
 결과 JSON은 `public/data/`에 두고 `index.json`에 파일 이름을 적습니다.
-파일 형식은 `src/lib/model.ts`에 있습니다. `warmup`은 15문제, `competition`은 50문제를 받습니다.
+파일 형식은 `src/lib/model.ts`에 있습니다. `final`은 60문제, `warmup`은 15문제, 기존 `competition` 기록은 50문제를 받습니다. Final ID는 F001–F060이며 웜업과 같은 번호로 연결하지 않습니다.
 P10·P11·P13·P14·P15의 웜업 JSON은 `scripts/publish_warmup_verification.py`로 검증 artifact에서 갱신하며 점수를 직접 편집하지 않습니다. 나머지 문제는 기존 측정 결과를 유지합니다. 확인하지 않은 결과는 대기로 표시합니다.
 JSON 불러오기는 현재 화면에서만 적용됩니다.
 
@@ -81,3 +81,19 @@ DASHBOARD_URL=https://lean-arena-dashboard.pages.dev npm run deploy:check
 재배포는 GitHub Actions의 **Dashboard CI and Production → Run workflow → main**에서 실행합니다. `check` 성공만으로 운영 배포가 끝난 것은 아니며, `deploy`의 데이터 확인까지 성공했는지 확인합니다. PR·다른 브랜치에서 수동 실행하면 검증만 수행합니다.
 
 Cloudflare에서 운영 확인을 마친 후 기존 Vercel 자동 배포용 Secret과 변수를 정리할 수 있습니다. 이전 Vercel 프로젝트는 전환 확인 전까지 복구용으로 유지합니다.
+
+## Final 원본 데이터 갱신
+
+고정 dataset SHA256은 `d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682`입니다. 60문제의 127개 지정 버전 조합을 검증하며, 원본과 후보의 검증 목록은 별도로 보존합니다. 대표 원본 HB는 dataset 첫 번째 지정 버전이고, 상세 화면에서 모든 버전의 raw HB·환산 HB·실제 표본 수를 확인할 수 있습니다. 환산 HB는 각 raw 표본의 `raw // 1000` 중앙값입니다.
+
+원본 기준은 `../docs/measurements/final60-baselines.json`에서 내보냅니다. 신규 HB는 버전별 1회이며, F001의 기존 3회 표본은 그대로 유지합니다. 원본 측정만 완료된 문제의 후보는 미실행 상태로 남고 개선 점수·호환성·전체 종합에 0 또는 통과로 집계하지 않습니다. F053·F056은 제공 Length와 로컬 tokenizer 결과가 1토큰 달라 두 값을 모두 표시합니다.
+
+저장소 루트에서 다음 명령을 실행합니다. 원본 JSONL은 `benchmarks/arena/final-d53690b057f9/`에 고정한 로컬 원본을 사용합니다.
+
+```sh
+python3 -B dashboard/scripts/publish_final_baselines.py
+```
+
+전체 60문제와 환경 종료 bytes 검사가 통과한 경우에만 게시 파일을 생성합니다. `--allow-incomplete`는 로컬 화면 확인에만 사용하며, 미완료 파일은 `npm run data:check`와 PR CI에서 거부합니다. 데이터 검사는 공개 JSON의 정리명·원본 해시·Length·필수 버전/revision·HB 표본을 측정 문서와 환경 lock에 대조합니다. JSON 가져오기·내보내기에서도 원본 값과 후보 값을 분리합니다.
+
+PR의 테스트·데이터 검사·빌드 통과 후 main에 병합하면 기존 Cloudflare Pages 배포가 실행됩니다. PR 생성은 운영 배포 완료를 뜻하지 않습니다. 배포 후 `deploy:check`가 Final과 웜업 공개 JSON을 모두 대조합니다.
