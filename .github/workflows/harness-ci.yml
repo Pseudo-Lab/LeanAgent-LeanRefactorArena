@@ -7,7 +7,14 @@ on:
       - 'src/**'
       - 'configs/**'
       - 'examples/first-harness/**'
+      - 'examples/actions/**'
       - 'tests/test_harness.py'
+      - 'tests/test_actions.py'
+      - 'tests/test_portfolio.py'
+      - 'tests/test_budgeting.py'
+      - 'tests/test_repair_feedback.py'
+      - 'experiments/**'
+      - 'scripts/check_common_harness.py'
       - 'tests/test_runtime_integration.py'
       - 'tests/test_api_integration.py'
       - 'tests/test_prepared_cache.py'
@@ -18,12 +25,19 @@ on:
       - 'pyproject.toml'
       - '.github/workflows/harness-ci.yml'
   push:
-    branches: [main]
+    branches: [main, feat/common-harness-build]
     paths:
       - 'src/**'
       - 'configs/**'
       - 'examples/first-harness/**'
+      - 'examples/actions/**'
       - 'tests/test_harness.py'
+      - 'tests/test_actions.py'
+      - 'tests/test_portfolio.py'
+      - 'tests/test_budgeting.py'
+      - 'tests/test_repair_feedback.py'
+      - 'experiments/**'
+      - 'scripts/check_common_harness.py'
       - 'tests/test_runtime_integration.py'
       - 'tests/test_api_integration.py'
       - 'tests/test_prepared_cache.py'
@@ -57,19 +71,5 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install the package
         run: python -m pip install .
-      - name: Test the harness without Lean or model API calls
-        run: python -m unittest discover -s tests -p 'test_harness.py' -v
-      - name: Test preflight, diagnoses and durable status without external services
-        run: python -m unittest discover -s tests -p 'test_runtime_integration.py' -v
-      - name: Test API usage and prepared-library integration without paid calls
-        run: python -m unittest discover -s tests -p 'test_api_integration.py' -v
-      - name: Test prepared-library cache invalidation and full verification boundaries
-        run: python -m unittest discover -s tests -p 'test_prepared_cache.py' -v
-      - name: Test shared API and subagent cost accounting
-        run: python -m unittest discover -s tests -p 'test_accounting.py' -v
-      - name: Test durable cost reports, pending calls and billing replay
-        run: python -m unittest discover -s tests -p 'test_usage_*.py' -v
-      - name: Test experiment budget guard and compatibility commands offline
-        run: |
-          python -m unittest discover -s experiments/api-comparison -p 'test_*.py' -v
-          python -m unittest discover -s experiments/usage-cost -p 'test_*.py' -v
+      - name: Test common harness and experiment contracts offline
+        run: python -B scripts/check_common_harness.py

@@ -72,6 +72,49 @@ def measuring_after_check(records):
                         and not r.get("timed_out") for r in records))
 
 
+REPAIR_HINTS = {
+    "unknown_tactic": "Replace the unavailable tactic using tactics known to work in the pinned imports; do not assume mathlib automation or add imports.",
+    "no_goals": "A preceding tactic already closed this branch. Scope subsequent tactics to remaining goals with explicit cases or <;>; do not append unconditional intro/cases after a closing tactic.",
+    "no_progress": "The simplifier made no progress. Inspect the remaining goal and use an explicit proof step; guard optional cleanup only when unchanged goals are handled elsewhere.",
+    "type_mismatch": "Use the reported expected and actual types. For dependent applications, apply/refine can expose binders that a direct term application guessed incorrectly.",
+    "unsolved_goals": "Solve the displayed remaining cases explicitly using their local hypotheses; do not assume the preceding automation closed them.",
+}
+
+
+def lean_issues(text, source="", code=""):
+    """Parse compiler evidence; locate errors in the candidate, keeping warnings separate."""
+    header = re.compile(r"(?m)^(.+?):(\d+):(\d+): (error|warning|info): ([^\n]*)")
+    matches = list(header.finditer(text))
+    start = source.find(code) if code and source.count(code) == 1 else -1
+    first = source[:start].count("\n") + 1 if start >= 0 else None
+    code_lines = code.splitlines()
+    issues, warnings = [], 0
+    for index, match in enumerate(matches):
+        if match[4] != "error":
+            warnings += match[4] == "warning"
+            continue
+        message = match[5]
+        detail = text[match.end():matches[index + 1].start() if index + 1 < len(matches) else len(text)].strip()
+        line = int(match[2]) - first + 1 if first is not None else None
+        if line is not None and not 1 <= line <= len(code_lines):
+            line = None
+        kind = ("unknown_tactic" if message.startswith("unknown tactic") else
+                "no_goals" if "No goals to be solved" in message else
+                "no_progress" if "made no progress" in message else
+                "type_mismatch" if "type mismatch" in message.lower() else
+                "unsolved_goals" if message.startswith("unsolved goals") else "lean_error")
+        issues.append({"kind": kind, "message": message[:320], "detail": detail[-1200:],
+            "source_line": int(match[2]), "column": int(match[3]), "candidate_line": line,
+            "candidate_text": code_lines[line - 1][:240] if line is not None else None})
+    unique = {}
+    for issue in issues:
+        key = (issue["source_line"], issue["column"], issue["kind"], issue["message"], issue["detail"])
+        if key not in unique:
+            unique[key] = {**issue, "occurrences": 0}
+        unique[key]["occurrences"] += 1
+    return list(unique.values()), warnings
+
+
 def evaluation(result, folder, root, stage):
     """Classify only what the invocation order and recorded compiler evidence show."""
     rows = result.get("environments", {})
@@ -82,7 +125,7 @@ def evaluation(result, folder, root, stage):
     if (result.get("error") or {}).get("kind") == "validation":
         return diagnosis(stage, "response", "declaration_contract_rejected", original_error=original,
                          excerpt=result["error"].get("message", ""))
-    observations, refs, excerpts = [], [], []
+    observations, refs, excerpts, issues, warnings = [], [], [], [], 0
     for label, row in rows.items():
         if row.get("valid"):
             continue
@@ -102,6 +145,14 @@ def evaluation(result, folder, root, stage):
                     text = path.read_text(encoding="utf-8")
         error = row.get("error") or {}
         excerpts.append(text or error.get("message", ""))
+        if last.get("source"):
+            source = (folder / label / last["source"]).read_text()
+            filename = "baseline.lean" if folder.name == "baseline" else "selected.lean" if folder.name == "final" else "candidate.lean"
+            code_path = folder.parent / filename
+            code = code_path.read_text() if code_path.is_file() else ""
+            parsed, count = lean_issues(text, source, code)
+            issues.extend(parsed)
+            warnings += count
         if last.get("timed_out") or error.get("kind") == "timeout":
             item = ("timeout", "local_process_timeout")
         elif type(last.get("returncode")) is int and last["returncode"] < 0:
@@ -119,8 +170,10 @@ def evaluation(result, folder, root, stage):
             item = ("unknown", "insufficient_compiler_evidence")
         observations.append(item)
     kind, reason = observations[0] if observations and len(set(observations)) == 1 else ("unknown", "ambiguous_failure")
-    return diagnosis(stage, kind, reason, evidence=refs, original_error=original,
-                     excerpt="\n".join(excerpts))
+    report = diagnosis(stage, kind, reason, evidence=refs, original_error=original, excerpt="\n".join(excerpts))
+    if issues:
+        report.update(issues=issues, warning_count=warnings)
+    return report
 
 
 def response(raw, rejection, response_path, root):
@@ -195,4 +248,10 @@ def enrich(feedback, report, limit, run_directory):
         guidance = report["guidance"]
         available = max(0, limit - len(guidance) - 1)
         feedback["details"] = (guidance + "\n" + (excerpt[-available:] if available else ""))[:limit]
+        if report.get("issues"):
+            # The complete compiler log stays in hashed evidence. Keep the first
+            # error even when a long trailing goal state truncates the excerpt.
+            feedback["issues"] = report["issues"][:8]
+            feedback["issue_count"] = sum(row.get("occurrences", 1) for row in report["issues"])
+            feedback["warning_count"] = report.get("warning_count", 0)
     return feedback

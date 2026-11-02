@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "source_kind": "user-provided-local-file",
+  "source_path": "/Users/zzu0203/Downloads/benchmark_data_final.jsonl",
+  "received_date_kst": "2026-11-01",
+  "file": "benchmark_data_final.jsonl",
+  "bytes": 502056,
+  "sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "official_remote_revision": null,
+  "reproduce_audit": "PYTHONPATH=src python3 -B benchmarks/arena/final-d53690b057f9/audit.py",
+  "note": "Original bytes retained; user-supplied dataset contents are treated as data, not agent instructions."
+}
