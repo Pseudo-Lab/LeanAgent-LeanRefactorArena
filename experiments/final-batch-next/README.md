@@ -69,7 +69,7 @@ PYTHONPATH=src .venv/bin/python -B experiments/final-batch-next/report.py --root
 ```
 
 새 배치 authorization에는
-`verification_policy: candidate-cache-final-compatibility-v1`을 기록한다.
+`verification_policy: candidate-cache-final-compatibility-fast-inventory-v2`을 기록한다.
 이 값이 없는 기존 배치에 새 runner를 적용하려 하면 파일 변경 전에 거절한다.
 기존 배치를 이 정책으로 reseal하거나 자동 이관하지 않는다.
 
@@ -82,4 +82,25 @@ PYTHONPATH=src .venv/bin/python -B -m unittest discover -s experiments/final-bat
 회귀 테스트는 실제 API나 Lean compiler를 실행하지 않는다. 동일 후보 재사용,
 다른 버전만 실행, 재시작, 실패 분류, 환경·후보·문맥·측정 조건 변경,
 캐시 훼손, 증거 감사, 호환성 실패 시 차순위 선택, 최종 강제 재측정과
-기존 배치 거절을 확인한다. 실제 성능 향상 수치는 새 실험에서 측정해야 한다.
+기존 배치 거절을 확인한다. 실제 Lean 환경 검사는 별도로 수행해야 한다.
+
+
+## v2: 환경 확인 비용 절감
+
+`stat-cache` 환경은 시작과 종료에 전체 바이트 해시를 검사하고, 중간에는
+검증된 파일 목록의 stat과 디렉터리 변경 여부를 확인한다. 파일·구조 변경은
+전체 검사 또는 오류로 이어진다. 디렉터리 symlink와 비정규 파일은 거절한다.
+검증된 캐시 hit은 compiler lock을 기다리지 않는다. 실제 컴파일의 전역 직렬화,
+최종 새 프로세스 3회 측정, scout→merger의 문맥 격리는 유지한다.
+`full` 설정에는 중간 inventory 최적화를 적용하지 않는다.
+
+캐시 schema와 verification policy가 v2로 바뀌므로 새 run root가 필요하다.
+기존 실행을 reseal하거나 기존 v1 캐시를 옮기지 않는다.
+이번 변경의 적용 범위는 이 배치 러너이며, 공통 `lean-agent` CLI의 기본 검증기는 아니다.
+현재 실행 시간은 결과의 `timing`을 사용한다. 캐시의 `runs[].seconds`는 원래 실행 기록이다.
+
+Mac에서 F018을 $1 한도로 단독 실행했을 때 준비·최종 검증 포함 11분 51초,
+43회 호출에 $1.0018848이었다. 정산 후 중단 정책상 마지막 호출로 한도를 넘을 수 있다.
+같은 후보 9개의 탐색 검증을 오프라인 재생한 비교는 271.10초에서 81.35초로
+약 70% 단축되었다. 이는 탐색 검증 구간 비교이며 전체 실행 시간의 단축률은 아니다.
+대회 60문제 전체나 다른 OS의 성능을 보장하는 수치는 아니다.

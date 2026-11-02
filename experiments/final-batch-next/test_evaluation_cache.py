@@ -95,6 +95,36 @@ class CacheIntegrationTests(unittest.TestCase):
         self.assertTrue(result["environments"]["v1"]["cache"]["hit"])
         self.assertNotIn("cache", result["environments"]["v2"])
 
+    def test_warm_cache_hit_does_not_acquire_compiler_lock(self):
+        self.evaluate("first")
+        self.ev._states = {"v1": {"id": "v1"}}
+        self.ev._contexts = {(None, "v1"): {"prefix": "", "suffix": "\n", "module": None}}
+        self.ev.calls.clear()
+        with patch.object(self.ev, "_compiler_lock", side_effect=AssertionError("compiler busy")):
+            result = self.evaluate("busy-compiler")
+        self.assertTrue(result["valid"])
+        self.assertEqual(result["timing"]["compiler_lock_wait_seconds"], 0)
+        self.assertEqual(result["timing"]["new_compiler_invocations"], 0)
+        self.assertEqual(self.ev.calls, [])
+
+    def test_warm_cache_hit_still_rejects_changed_environment(self):
+        self.evaluate("first")
+        self.ev._states = {"v1": {"id": "v1"}}
+        self.ev._contexts = {(None, "v1"): {"prefix": "", "suffix": "\n", "module": None}}
+        self.ev._prepared["v1"].verify.side_effect = ValueError("library changed")
+        with patch.object(self.ev, "_compiler_lock", side_effect=AssertionError("compiler busy")):
+            result = self.evaluate("changed-library")
+        self.assertFalse(result["valid"])
+        self.assertEqual(result["environments"]["v1"]["error"]["kind"], "environment")
+
+    def test_host_sandbox_failure_is_environment_stop_and_not_cached(self):
+        self.ev.failure = (71, False, "sandbox-exec: sandbox_apply: Operation not permitted")
+        for name in ("denied-one", "denied-two"):
+            result = self.evaluate(name)
+            self.assertFalse(result["valid"])
+            self.assertEqual(result["environments"]["v1"]["error"]["kind"], "environment")
+        self.assertEqual(len(self.ev.calls), 2)
+
     def test_fresh_final_measurement_does_not_reuse_or_replace_cached_samples(self):
         self.evaluate("first")
         self.ev.calls.clear()
