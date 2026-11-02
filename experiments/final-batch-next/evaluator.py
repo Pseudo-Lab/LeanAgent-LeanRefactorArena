@@ -299,7 +299,7 @@ class FinalEvaluator:
             finally:
                 fcntl.flock(stream, fcntl.LOCK_UN)
 
-    def _invoke(self, source, state, context, folder, label):
+    def _invoke(self, source, state, context, folder, label, *, timeout_seconds=1200, memory_mib=4096):
         project = self.repo / state["project"]
         # Reuse Lake's exact compiler setup without invoking Lake's resolver:
         # the latter may try to rewrite normalized, shared dependency links.
@@ -307,7 +307,7 @@ class FinalEvaluator:
         saved = (folder / (label + ".lean")).resolve()
         saved.write_text(source)
         compiler = self.root / "toolchains" / state["version"] / "bin"
-        command = [str(compiler / "lean"), str(saved), "-j1", "-M4096"]
+        command = [str(compiler / "lean"), str(saved), "-j1", f"-M{memory_mib}"]
         setup = None
         if context["module"]:
             setup = project / ".lake/build/ir" / (context["module"].replace(".", "/") + ".setup.json")
@@ -339,7 +339,7 @@ class FinalEvaluator:
                                        stderr=subprocess.STDOUT, start_new_session=True)
             timed_out = False
             try:
-                output, _ = process.communicate(timeout=1200)
+                output, _ = process.communicate(timeout=timeout_seconds)
             except subprocess.TimeoutExpired:
                 timed_out = True
                 os.killpg(process.pid, signal.SIGKILL)
@@ -498,6 +498,22 @@ class FinalEvaluator:
             result["error"] = {"kind": "lean", "message": "One or more required environments failed"}
         write(output / "result.json", result)
         return result
+
+    def inspect_native(self, code, problem, output, *, timeout, memory):
+        from lean_agent import native
+        problem = self.load_problem(problem)
+        with self._compiler_lock():
+            state = self._state(problem["environments"][0])
+            context = self._context(problem, state["id"])
+            prefix, suffix = context["prefix"], context["suffix"]
+            cut = pending_command_start(prefix)
+            def build(support, declaration):
+                return add_lean_import(prefix[:cut]) + "\n" + support + "\n" + prefix[cut:] + declaration + suffix
+            def run(path, seconds, mib):
+                record, log = self._invoke(path.read_text(), state, context, path.parent, "native",
+                                           timeout_seconds=seconds, memory_mib=mib)
+                return {**record, "output": log}
+            return native.observe(code, problem["statement"], output, build, run, timeout=timeout, memory=memory)
 
     def preflight(self, problem_id, output_folder):
         problem = self.load_problem(problem_id)

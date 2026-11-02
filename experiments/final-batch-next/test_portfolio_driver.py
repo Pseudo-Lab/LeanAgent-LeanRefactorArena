@@ -29,11 +29,17 @@ class PortfolioBatchTests(unittest.TestCase):
         d.atomic(self.output / "preflight.json", {"status": "ready"})
         d.atomic(self.root / "ledger.json", {"schema_version": 1, "attempts": {}})
         self.packets = []
+        self.inspections = []
+        self.automatic_signal = False
 
     def run_batch(self):
         class Evaluator:
-            def evaluate(self, code, problem, path, **kwargs):
+            def evaluate(evaluator, code, problem, path, **kwargs):
                 measured = json.loads(a.canonical(result(2, 50, all_versions=kwargs.get("all_versions", False))))
+                if "missing_auto_" in code:
+                    measured["valid"] = False
+                    for value in measured["environments"].values():
+                        value.update(valid=False, error={"kind": "compile", "message": "unknown identifier"})
                 for environment, row in measured["environments"].items():
                     destination = Path(path) / environment
                     destination.mkdir(parents=True, exist_ok=True)
@@ -43,15 +49,37 @@ class PortfolioBatchTests(unittest.TestCase):
                     for run in row["runs"]:
                         run.update(source="source.lean", source_sha256=a.sha(code),
                                    log="compile.log", log_sha256=a.sha(log))
+                    if self.automatic_signal and Path(path).parent.name == "autosolver":
+                        measured["valid"] = False
+                        row.update(valid=False, error={"kind": "compile", "message": "process died"})
+                        row["runs"][0]["returncode"] = -9
                 return measured
+            def inspect_native(evaluator, code, problem, path, *, timeout, memory):
+                self.inspections.append(code)
+                start = code.index("by")
+                end = len(code.rstrip())
+                goal = {"target": "True", "local_context": []}
+                closed = "missing_auto_" not in code
+                # The closed report contains the replacement by-block; the
+                # failed report contains the original tactic's native state.
+                pos = code.index("by", code.index("exact (")) if closed else start + 3
+                observation = {"kind": "proof", "source_sha256": a.sha(code),
+                    "errors": [] if closed else [{"position": pos, "message": "unknown identifier"}],
+                    "blocks": [{"start": start, "end": end}],
+                    "tactics": [{"start": pos, "end": end, "depth": 0,
+                        "syntax_kind": "Lean.Parser.Term.byTactic" if closed else "Lean.Parser.Tactic.exact",
+                        "before": [goal], "after": [] if closed else [goal]}]}
+                a.write(path / "result.json", observation)
+                return observation
             def verify_environments(self, problem, *, full):
                 return {"primary": "verified"}
 
         def query(body, *args):
             packet = json.loads(body["messages"][1]["content"])
             self.packets.append(packet)
+            proof = ("by exact missing_auto_" if "autosolver" in self.config["agent"] else "by trivial -- ")
             action = {"action": "propose", "parent_id": "c000", "strategy": packet["portfolio"]["route"],
-                      "proof": "by trivial -- " + packet["portfolio"]["branch"]}
+                      "proof": proof + packet["portfolio"]["branch"]}
             if packet["portfolio"]["branch"] == "merge":
                 action["source_candidate_ids"] = ["c001", "c002", "c003"]
             response = raw(action)
@@ -114,6 +142,33 @@ class PortfolioBatchTests(unittest.TestCase):
         self.assertEqual(exported["completed"], 0)
         self.assertIn("All authorized problems must complete before final export", exported["audit_errors"])
 
+    def test_autosolver_preserves_quotas_billing_scope_and_auditable_resume(self):
+        self.config["agent"]["autosolver"] = {"tactics": ["trivial"], "max_attempts": 1}
+        d.atomic(self.output / "input/config.json", self.config)
+        summary = self.run_batch()
+        self.assertEqual(summary["cost_usd"], "0.020")
+        self.assertEqual(summary["calls"], 4)
+        self.assertEqual(summary["autosolver"]["verified_candidates"], 4)
+        self.assertEqual(summary["autosolver"]["model_calls"], 0)
+        self.assertEqual(len(self.inspections), 8)
+        state = a.read(self.output / "state.json")
+        self.assertEqual(list(state["portfolio"]["evaluations"].values()), [1, 1, 1, 1])
+        for index in range(1, 5):
+            parent = f"c{index:03}"
+            self.assertFalse(state["exploration"]["candidates"][parent]["valid"])
+            self.assertTrue(state["exploration"]["candidates"][parent + "-auto"]["valid"])
+            self.assertEqual(state["portfolio"]["owners"][parent], state["portfolio"]["owners"][parent + "-auto"])
+        exported = self.export_report()
+        self.assertTrue(exported["audit_passed"], exported["audit_errors"])
+        with patch.object(d, "verify_frozen"), patch.object(d, "dispatch", side_effect=AssertionError("No repeat call")):
+            self.assertEqual(d.run_problem(self.root, 1), summary)
+        path = self.output / "steps/0001/autosolver/search.json"
+        record = a.read(path)
+        record["outcome"]["sites_closed"] += 1
+        d.atomic(path, record)
+        with self.assertRaisesRegex(ValueError, "differs from replay"):
+            report.audit_autosolver(self.output, summary, self.attempts())
+
     def test_prepared_inputs_freeze_policy_and_reject_mode_changes(self):
         repository = self.root / "repo"
         (repository / "examples/actions").mkdir(parents=True)
@@ -128,13 +183,29 @@ class PortfolioBatchTests(unittest.TestCase):
         root = self.root / "prepared"
         settings = {"scout_evaluations": 1, "merger_evaluations": 1}
         with patch.object(d, "REPO", repository), patch.object(d, "evaluator", return_value=Evaluator()):
-            d.prepare_inputs(root, [1], portfolio_settings=settings)
+            d.prepare_inputs(root, [1], portfolio_settings=settings, autosolver_settings={})
             self.assertEqual(a.read(d.folder(root, 1) / "input/config.json")["agent"]["portfolio"], settings)
+            self.assertEqual(a.read(d.folder(root, 1) / "input/config.json")["agent"]["autosolver"], {})
             d.validate_inputs(root, 1)
             with self.assertRaisesRegex(ValueError, "fresh batch root"):
                 d.prepare_inputs(root, [1], portfolio_settings={"scout_evaluations": 2})
+            with self.assertRaisesRegex(ValueError, "fresh batch root"):
+                d.prepare_inputs(root, [1], autosolver_settings={"max_attempts": 2})
             # A no-flag retry reuses the frozen prepared policy.
             d.prepare_inputs(root, [1])
+
+    def test_automatic_verification_signal_stops_before_next_model_dispatch(self):
+        self.config["agent"]["autosolver"] = {"tactics": ["trivial"], "max_attempts": 1}
+        d.atomic(self.output / "input/config.json", self.config)
+        self.automatic_signal = True
+        with self.assertRaisesRegex(ValueError, "evaluator environment failure"):
+            self.run_batch()
+        self.assertEqual(len(self.packets), 1)
+        state = a.read(self.output / "state.json")
+        self.assertEqual(state["cost_usd"], "0.005")
+        self.assertFalse(state["exploration"]["candidates"]["c001-auto"]["valid"])
+        measured = a.read(self.output / "steps/0001/autosolver/evaluation/result.json")
+        self.assertTrue(h.environment_failed(measured))
 
 
 if __name__ == "__main__":

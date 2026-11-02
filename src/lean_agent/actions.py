@@ -7,7 +7,7 @@ import json
 import re
 from collections import Counter
 
-from . import diagnostics, models, portfolio, search_policy
+from . import autosolver, diagnostics, models, portfolio, search_policy
 from .artifacts import canonical, sha
 from .evaluator.tokens import proof_body
 
@@ -32,7 +32,7 @@ def enabled(config):
 def validate_config(settings):
     if (not isinstance(settings, dict) or settings.get("mode") != MODE
             or set(settings) - {"mode", "corpus", "history_limit", "candidate_limit", "allow_finish",
-                                 "portfolio", "approach_policy"}):
+                                 "portfolio", "approach_policy", "autosolver"}):
         raise ValueError("Expected actions-v1 agent settings")
     if not isinstance(settings.get("corpus"), str) or not settings["corpus"]:
         raise ValueError("Actions require an explicit corpus file (an empty corpus is allowed)")
@@ -42,6 +42,8 @@ def validate_config(settings):
         portfolio.validate(settings["portfolio"])
     if "approach_policy" in settings:
         search_policy.validate(settings["approach_policy"])
+    if "autosolver" in settings:
+        autosolver.validate(settings["autosolver"])
     for key, default in (("history_limit", 4), ("candidate_limit", 12)):
         value = settings.get(key, default)
         if type(value) is not int or not 1 <= value <= 50:
