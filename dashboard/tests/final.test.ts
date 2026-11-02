@@ -8,7 +8,7 @@ function fixture(): Snapshot {
     datasetSha256: 'd53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682',
     measuredAt: '2000-01-01T00:00:00Z', releaseDate: null, provenance: 'synthetic tests only',
     problems: Array.from({ length: 60 }, (_, i) => ({ id: i + 1, name: `test.${i}`, source: 'test',
-      status: 'pending', baseline: { tokens: 10, heartbeats: 123 }, candidate: null,
+      status: 'pending', baseline: { tokens: 11, heartbeats: 123 }, candidate: null,
       baselineCompatibility: 100, versions: [{ version: 'v4.34.1', revision: 'a'.repeat(40), status: 'pending' }],
       environment: 'test-v4.34.1', candidateHash: '', evidence: [], note: 'candidate pending',
       original: { benchmarkId: `F${String(i + 1).padStart(3, '0')}`, sha256: 'b'.repeat(64),

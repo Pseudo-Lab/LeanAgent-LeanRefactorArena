@@ -18,7 +18,7 @@ function ProblemTile({ problem, snapshot, metric, selected, onSelect }: { proble
   const unit = METRICS.find(m => m.id === metric)!.unit;
   const measured = ['measured', 'partial'].includes(problem.status) ? problem.candidate : null;
   const original = !measured && snapshot.dataset === 'final';
-  const tokens = (measured?.tokens ?? (original ? problem.original?.localTokens : null))?.toLocaleString('ko-KR') ?? '—';
+  const tokens = (measured?.tokens ?? (original ? problem.original?.providedTokens : null))?.toLocaleString('ko-KR') ?? '—';
   const heartbeats = (measured?.heartbeats ?? (original ? problem.baseline?.heartbeats : null))?.toLocaleString('ko-KR', { maximumFractionDigits: 20 }) ?? '—';
   const label = problemLabel(snapshot, problem.id);
   const pendingLabel = original && problem.status === 'pending' ? '후보 미실행' : waitingLabel(problem);
@@ -30,7 +30,7 @@ function ProblemTile({ problem, snapshot, metric, selected, onSelect }: { proble
     <span className="tile-value">{format(value)}{value !== null && unit === '%' ? <small>%</small> : null}</span>
     <span className="tile-delta">{value === null ? <>{pendingLabel}</> : metric === 'compatibility' ? <><Check size={13}/>{problem.versions.filter(v => v.status === 'pass').length} / {problem.versions.length} 버전</> : delta !== null ? <><Arrow size={14}/>{signed(delta)}{metric === 'combined' ? 'p' : '%'}</> : <>{waitingLabel(problem)}</>}</span>
     {problem.status !== 'unreleased' ? <span className="tile-measurements">
-      <span title={original ? '원본의 로컬 tokenizer 길이' : '선택 후보의 증명 토큰 수'}><span>{original ? '원본 토큰' : '토큰'}</span><strong>{tokens}</strong></span>
+      <span title={original ? 'Final 평가기의 토큰 기준과 일치하는 원본 Length' : '선택 후보의 증명 토큰 수'}><span>{original ? '원본 토큰' : '토큰'}</span><strong>{tokens}</strong></span>
       <span title={`${original ? '원본 대표 버전' : '선택 후보'} heartbeat · raw // 1000`}><abbr title="Heartbeat">{original ? '원본 HB' : 'HB'}</abbr><strong>{heartbeats}</strong></span>
     </span> : null}
     {problem.teamResults ? <span className="tile-author">{problem.teamResults.find(c => c.id === problem.selectedCandidateId)?.author ?? '후보 없음'} · {waitingLabel(problem)}</span> : null}<span className="tile-name">{problem.status === 'unreleased' ? '11.01 공개 예정' : shortName(problem.name)}</span>

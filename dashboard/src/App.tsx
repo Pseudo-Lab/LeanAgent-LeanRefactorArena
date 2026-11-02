@@ -65,7 +65,7 @@ export default function App() {
   const queryLower = query.trim().toLowerCase();
   const visible = snapshot?.problems.filter(p => (scope === 'all' || p.status !== 'unreleased') && (source === 'all' || p.source === source) && (!queryLower || `${p.id} ${problemLabel(snapshot, p.id)} ${p.name} ${p.source}`.toLowerCase().includes(queryLower))).sort((a, b) => {
     if (sort === 'number') return a.id - b.id;
-    if (sort === 'length') return (b.original?.localTokens ?? 0) - (a.original?.localTokens ?? 0) || a.id - b.id;
+    if (sort === 'length') return (b.original?.providedTokens ?? 0) - (a.original?.providedTokens ?? 0) || a.id - b.id;
     if (sort === 'heartbeat') {
       const left = a.baseline?.heartbeats ?? null, right = b.baseline?.heartbeats ?? null;
       if (left === null) return right === null ? a.id - b.id : 1;

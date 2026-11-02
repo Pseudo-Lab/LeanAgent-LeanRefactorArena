@@ -228,7 +228,7 @@ function validateOriginal(p: Record<string, any>) {
   }
   const primary = v.versions[0];
   if (v.primaryEnvironment !== primary.environment || (primary.status === 'pass'
-      ? !p.baseline || p.baseline.tokens !== v.localTokens || p.baseline.heartbeats !== primary.heartbeats
+      ? !p.baseline || p.baseline.tokens !== v.providedTokens || p.baseline.heartbeats !== primary.heartbeats
       : p.baseline !== null)) throw new Error('Final 대표 원본 측정값이 다릅니다.');
   const compatibility = v.versions.every(x => x.status === 'pass') ? 100 : null;
   if (p.baselineCompatibility !== compatibility) throw new Error('Final 원본 호환성 범위가 다릅니다.');

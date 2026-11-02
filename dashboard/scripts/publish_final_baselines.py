@@ -4,12 +4,16 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import statistics
 
 REPO = Path(__file__).resolve().parents[2]
 DATASET_SHA = "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682"
+TOKEN_SPEC = importlib.util.spec_from_file_location('final_dashboard_tokens', REPO / 'experiments/proof-analyze/proof_tokens.py')
+TOKEN_MODULE = importlib.util.module_from_spec(TOKEN_SPEC)
+TOKEN_SPEC.loader.exec_module(TOKEN_MODULE)
 
 
 def main():
@@ -34,6 +38,8 @@ def main():
         benchmark = f"F{index:03d}"
         record = records[benchmark]
         reference_sha = hashlib.sha256(row["src"].encode()).hexdigest()
+        if TOKEN_MODULE.proof_length(row["src"], row["statement"]) != row["proof_length"]:
+            raise ValueError("Final evaluator Length differs from dataset: " + benchmark)
         if (record["name"] != row["name"] or record["source"] != row["source"] or
                 record["reference_sha256"] != reference_sha or record["provided_length"] != row["proof_length"]):
             raise ValueError("Final identity mismatch: " + benchmark)
@@ -59,7 +65,7 @@ def main():
         primary = versions[0]
         problems.append({
             "id": index, "name": row["name"], "source": row["source"], "status": "pending",
-            "baseline": {"tokens": record["local_length"], "heartbeats": primary["heartbeats"]}
+            "baseline": {"tokens": record["provided_length"], "heartbeats": primary["heartbeats"]}
                         if primary["status"] == "pass" else None,
             "candidate": None, "baselineCompatibility": 100 if len(measured) == len(pins) else None,
             "versions": [{"version": version, "revision": revision, "status": "pending"} for version, revision in pins],
@@ -74,7 +80,7 @@ def main():
     snapshot = {"schemaVersion": 1, "id": "final60-baselines", "dataset": "final", "datasetSha256": DATASET_SHA,
                 "label": "Final 60문제 · 원본 기준" if report["measured_problems"] == 60 else "Final 60문제 · 원본 측정 중",
                 "measuredAt": measured_at, "releaseDate": "2026-11-01",
-                "provenance": "고정 Final 원본의 로컬 Length·HB. 버전별 신규 HB 1회; 기존 F001의 3회 표본 보존. 공식 worker 결과 아님.",
+                "provenance": "고정 Final 원본의 Length·HB. 비교 Length는 Final 평가기의 arena-paper-compatible-v1과 일치하는 제공값; 별도 로컬 tokenizer 값도 보존. 신규 HB 버전별 1회, F001 기존 3회 보존. 공식 worker 결과 아님.",
                 "problems": problems}
     public = REPO / "dashboard/public/data"
     filename = snapshot["id"] + ".json"

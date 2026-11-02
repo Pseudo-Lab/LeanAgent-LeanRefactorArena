@@ -86,7 +86,7 @@ Cloudflare에서 운영 확인을 마친 후 기존 Vercel 자동 배포용 Secr
 
 고정 dataset SHA256은 `d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682`입니다. 60문제의 127개 지정 버전 조합을 검증하며, 원본과 후보의 검증 목록은 별도로 보존합니다. 대표 원본 HB는 dataset 첫 번째 지정 버전이고, 상세 화면에서 모든 버전의 raw HB·환산 HB·실제 표본 수를 확인할 수 있습니다. 환산 HB는 각 raw 표본의 `raw // 1000` 중앙값입니다.
 
-원본 기준은 `../docs/measurements/final60-baselines.json`에서 내보냅니다. 신규 HB는 버전별 1회이며, F001의 기존 3회 표본은 그대로 유지합니다. 원본 측정만 완료된 문제의 후보는 미실행 상태로 남고 개선 점수·호환성·전체 종합에 0 또는 통과로 집계하지 않습니다. F053·F056은 제공 Length와 로컬 tokenizer 결과가 1토큰 달라 두 값을 모두 표시합니다.
+원본 기준은 `../docs/measurements/final60-baselines.json`에서 내보냅니다. 신규 HB는 버전별 1회이며, F001의 기존 3회 표본은 그대로 유지합니다. 원본 측정만 완료된 문제의 후보는 미실행 상태로 남고 개선 점수·호환성·전체 종합에 0 또는 통과로 집계하지 않습니다. 비교 Length는 Final 평가기의 `arena-paper-compatible-v1` 계산과 60문제 모두 일치하는 dataset 제공값을 사용합니다. F053·F056은 별도 `lean-source-anchored-v1` tokenizer의 감사 값이 1토큰 달라 상세 화면에 두 값을 보존합니다.
 
 저장소 루트에서 다음 명령을 실행합니다. 원본 JSONL은 `benchmarks/arena/final-d53690b057f9/`에 고정한 로컬 원본을 사용합니다.
 
