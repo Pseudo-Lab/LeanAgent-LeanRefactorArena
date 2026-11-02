@@ -2,7 +2,7 @@
 
 [실험 목록](README.md) · 감사 기준: 2026-11-02
 
-원격 [PR #46](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/46)의 문서 정리 전 head는 `9fc68d3c1639d8af3667e1bc211a55d847cc5453`, 기준 main은 `7f9508a85d44c5369f9461222f9904d6a9c01486`이다. 감사 중 PR #46이 **2026-11-02 06:06:41 UTC에 병합**됐고 main은 `798c11e0772c5bf4c89463b7949234a48be13101`로 갱신됐다. 해당 merge commit의 파일 트리는 확인한 head `9fc68d3`와 동일하다. 이번 문서화·생성물 정리는 이 최신 main 위의 별도 후속 변경으로 관리한다.
+원격 [PR #46](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/46)의 문서 정리 전 head는 `9fc68d3c1639d8af3667e1bc211a55d847cc5453`, 기준 main은 `7f9508a85d44c5369f9461222f9904d6a9c01486`이다. 감사 중 PR #46이 **2026-11-02 06:06:41 UTC에 병합**됐고 main은 `798c11e0772c5bf4c89463b7949234a48be13101`로 갱신됐다. 해당 merge commit의 파일 트리는 확인한 head `9fc68d3`와 동일하다. 최초 문서화 초안은 이 main 위에서 시작했다. 이후 PR #47을 실험 보관용으로 변경했고, 최종 base는 `archive/common-harness-build-3ee67de`다. **최종 변경은 정리 문서 추가뿐이며 기존 아카이브 코드·Lean·설정·문서는 모두 유지한다.** 아래 표는 당시 main의 기능 반영과 앞선 로컬 정리를 감사한 기록이며 아카이브 runtime의 기능 목록이 아니다.
 
 ## 공통 코드 반영 확인
 
@@ -21,17 +21,17 @@
 | AutoSolver·native recursive repair | PR #39 → #41 → #42 | 아직 후속 연결 대상. `actions-v1.repair` 행동과 구별한다. |
 | 팀 MD 스킬·prompt 변경 | PR #44, #30·#36·#38 등 | 별도 PR의 저자·출처·의존성을 유지한다. 이번 정리에서 다른 PR을 병합하지 않았다. |
 
-제외된 과거 통합 묶음은 `3ee67de1707d712321e403da5cf1d064dc4240f9`이며 로컬 `codex/common-harness-cleanup`과 원격 `archive/common-harness-build-3ee67de`에서 복구할 수 있다. 원래 과거 코드 전체를 PR 부모 이력으로 다시 가져오지 않는다. [공통 하네스 문서](../common-harness/README.md)에 실행 계약이 있다.
+제외된 과거 통합 묶음은 `3ee67de1707d712321e403da5cf1d064dc4240f9`이며 로컬 `codex/common-harness-cleanup`과 원격 `archive/common-harness-build-3ee67de`에서 복구할 수 있다. PR #47의 충돌 해소에서는 이 아카이브 커밋을 merge parent로 포함하고 원본 파일 트리를 유지했다. main의 실행 계약은 [PR #46 시점 공통 하네스 문서](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/blob/9fc68d3c1639d8af3667e1bc211a55d847cc5453/docs/common-harness/README.md)에 있다. 아카이브의 동명 문서는 더 이른 원본 상태로 보존한다.
 
 ## 검증
 
-원격의 정리 전 head `9fc68d3`는 Harness CI의 Python 3.10·3.13 검사를 모두 통과했다. 이번 로컬 확인은 중앙 캐시 설정 후 `/usr/bin/python3` **3.9.6**으로 `python3 -B scripts/check_common_harness.py`를 실행했다.
+원격의 정리 전 head `9fc68d3`는 Harness CI의 Python 3.10·3.13 검사를 모두 통과했다. 최초 main 대상 초안의 로컬 확인은 중앙 캐시 설정 후 `/usr/bin/python3` **3.9.6**으로 `python3 -B scripts/check_common_harness.py`를 실행했다.
 
 - 15 suite, 총 276개 검사: **271 통과·5 조건부 skip**, 실패 0.
 - 후보 격리·평가 장벽·합성 출처·환율 접근·예산 중단·replay·배치 재시작·export 계약을 합성 fixture로 검사했다.
 - 이 수치는 새 모델 API 호출·Lean 컴파일·실험 재측정·공식 제출 결과가 아니다. 데이터셋/실환경 opt-in skip은 성공으로 계산하지 않는다.
 
-문서 정리에서 내부 Markdown 링크·39종 목록·추가 파일 확장자와 `git diff --check`를 확인했고, 보존한 Markdown 원문 70개의 SHA256 일치를 검증했다. 새 Lean은 추가하지 않고 자동 생성 focus 파일 15개만 Git에서 제거한다. 보존한 warmup 입력으로 `analyze.py`를 중앙 캐시 경로에 실행해 **15개 전부 기존 Git 파일과 byte 단위로 동일하게 재생성**됨을 확인했다. 모델·Lean 호출은 없다.
+문서 정리에서 내부 Markdown 링크·39종 목록·추가 파일 확장자와 `git diff --check`를 확인했고, 보존한 Markdown 원문 70개의 SHA256 일치를 검증했다. 최초 초안은 자동 생성 focus 파일 15개를 삭제했지만, 아카이브 보관 목적에 맞춰 최종 변경에서는 원본을 복원하고 ignore 변경도 철회했다. 보존한 warmup 입력으로 `analyze.py`를 중앙 캐시 경로에 실행해 **15개 전부 기존 Git 파일과 byte 단위로 동일하게 재생성**됨을 확인했다. 모델·Lean 호출은 없다.
 
 ## 워크트리별 결정
 
@@ -54,4 +54,8 @@
 
 ## 로컬 보관 검증
 
-앞의 5개 워크트리에서 Git이 무시하던 증거·입력·배포 설정 **313개 파일**을 별도 로컬 보관처로 옮겼고 파일별 SHA256 일치를 확인했다. 원래 브랜치와 중앙 env/cache는 유지했다. 마지막 공통 하네스 작업 워크트리도 후속 문서 브랜치가 원격에 보존된 뒤 제거한다.
+앞의 5개 워크트리에서 Git이 무시하던 증거·입력·배포 설정 **313개 파일**을 별도 로컬 보관처로 옮겼고 파일별 SHA256 일치를 확인했다. 원래 브랜치와 중앙 env/cache는 유지했다. 마지막 공통 하네스 작업 워크트리도 후속 문서 브랜치가 원격에 보존된 뒤 제거해 앞선 정리에서는 총 6개를 제거하고 고유 변경이 있는 4곳을 유지했다. 이후 PR #47 충돌 해소를 위한 임시 작업 폴더의 생성·제거는 이 과거 표와 별개다.
+
+## 아카이브 충돌 해소의 검증
+
+PR #47의 기존 head에 아카이브 base를 병합하고, 충돌 파일뿐 아니라 기존 추적 파일 전체를 기준 아카이브의 경로·모드·blob으로 일치시켰다. 정리 문서만 다시 추가해 최종 diff가 `docs/experiments` 아래의 Markdown 44개 추가인지 확인한다. 기준 파일의 수정·삭제 및 main 공통 코드 반입은 없다. runtime을 변경하지 않으므로 위 과거 CI·276개 검사 결과를 새 아카이브 코드의 재실행 결과로 표시하지 않는다.

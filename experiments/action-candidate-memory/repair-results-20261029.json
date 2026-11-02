@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "paid_requests": 0,
+  "paid_cost_usd": "0",
+  "offline_run": "runs/action-candidate-memory/20261029-p02-manual-repair-01",
+  "reproduction": {
+    "observed_validity": [
+      false,
+      false,
+      true
+    ],
+    "manual_repair_metrics": {
+      "raw_heartbeats": 3980769,
+      "raw_samples": [
+        3980769,
+        3980786,
+        3980712
+      ],
+      "tokens": 123
+    },
+    "manual_repair_local_ratio": "1.015568122424392985449629885",
+    "selected_is_manual_repair": false,
+    "full_module_passed": true,
+    "replay_passed": true,
+    "expected_validity": [
+      false,
+      false,
+      true
+    ]
+  },
+  "repair_context_repacking": {
+    "original_request_bytes": 26962,
+    "updated_request_bytes": 20799,
+    "same_original_prompt": true,
+    "structured_issue_kinds": [
+      "unknown_tactic",
+      "unsolved_goals",
+      "type_mismatch",
+      "unsolved_goals",
+      "unsolved_goals",
+      "unsolved_goals"
+    ]
+  },
+  "search_regression": {
+    "query": "List.append_subset_append append_subset",
+    "previous_matches": 0,
+    "updated_top_match": {
+      "name": "Local helper declarations",
+      "source": "P02 original task packet / Local helper declarations",
+      "excerpt": "Local helper declarations\ntheorem List.Subset.trans :\n  List.Subset a b → b.Subset c → a.Subset c := fun H1 H2 _ Hin => H2 (H1 Hin)\n\ntheorem List.Subset.app :\n  List.Subset a c → b.Subset c → (a ++ b).Subset c := by\n  intros H1 H2\n  intros x Hin\n  simp at Hin\n  cases Hin with\n  | inl Hin =>\n    exact H1 Hin\n  | inr Hin =>\n    exact H2 Hin",
+      "text_sha256": "cf7db0e2d9047e41cb7568c57f1acc5f345c0e2bbd7b0e48a714ff2cb0400d54",
+      "match_kind": "identifier-components",
+      "matched_terms": [
+        "list",
+        "subset"
+      ]
+    }
+  },
+  "budget_configuration": {
+    "last_call_may_overshoot": true,
+    "max_calls": null,
+    "mode": "threshold",
+    "stop_at_usd": "0.15",
+    "total_target_usd": "0.30"
+  }
+}

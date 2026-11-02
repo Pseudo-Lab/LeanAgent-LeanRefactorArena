@@ -7,7 +7,7 @@ import json
 import re
 from collections import Counter
 
-from . import diagnostics, models, portfolio, search_policy
+from . import diagnostics, models
 from .artifacts import canonical, sha
 from .evaluator.tokens import proof_body
 
@@ -17,8 +17,7 @@ PROTOCOL = {
     "inspect": {"action": "inspect", "name": "exact corpus entry name", "offset": 0},
     "analyze": {"action": "analyze", "candidate_id": "c000"},
     "read_candidate": {"action": "read_candidate", "candidate_id": "c000", "offset": 0},
-    "propose": {"action": "propose", "parent_id": "c000", "strategy": "approach", "proof": "by ...",
-                "source_candidate_ids": ["c001", "c002"]},
+    "propose": {"action": "propose", "parent_id": "c000", "strategy": "approach", "proof": "by ..."},
     "repair": {"action": "repair", "parent_id": "failed candidate id", "strategy": "fix", "proof": "by ..."},
     "finish": {"action": "finish"},
 }
@@ -31,17 +30,12 @@ def enabled(config):
 
 def validate_config(settings):
     if (not isinstance(settings, dict) or settings.get("mode") != MODE
-            or set(settings) - {"mode", "corpus", "history_limit", "candidate_limit", "allow_finish",
-                                 "portfolio", "approach_policy"}):
+            or set(settings) - {"mode", "corpus", "history_limit", "candidate_limit", "allow_finish"}):
         raise ValueError("Expected actions-v1 agent settings")
     if not isinstance(settings.get("corpus"), str) or not settings["corpus"]:
         raise ValueError("Actions require an explicit corpus file (an empty corpus is allowed)")
     if type(settings.get("allow_finish", True)) is not bool:
         raise ValueError("Expected boolean allow_finish")
-    if "portfolio" in settings:
-        portfolio.validate(settings["portfolio"])
-    if "approach_policy" in settings:
-        search_policy.validate(settings["approach_policy"])
     for key, default in (("history_limit", 4), ("candidate_limit", 12)):
         value = settings.get(key, default)
         if type(value) is not int or not 1 <= value <= 50:
@@ -73,8 +67,7 @@ def initialize(state):
 
 def candidate_summary(cid, value):
     return {"candidate_id": cid, **{key: value.get(key) for key in
-            ("parent_id", "strategy", "step", "sha256", "valid", "tokens", "raw_heartbeats", "rank_numerator")},
-            **({"source_candidate_ids": value["source_candidate_ids"]} if "source_candidate_ids" in value else {})}
+            ("parent_id", "strategy", "step", "sha256", "valid", "tokens", "raw_heartbeats", "rank_numerator")}}
 
 
 def view(state, config):
@@ -92,12 +85,11 @@ def view(state, config):
         if row["feedback"]:
             item["outcome"] = {k: row["feedback"][k] for k in ("status", "valid", "diagnosis", "issue_count") if k in row["feedback"]}
         history.append(item)
-    result = {"protocol": MODE, "actions": {k: v for k, v in PROTOCOL.items()
-              if k != "finish" or settings.get("allow_finish", True) and not portfolio.enabled(config)},
+    result = {"protocol": MODE, "actions": {k: v for k, v in PROTOCOL.items() if k != "finish" or settings.get("allow_finish", True)},
             "best_candidate_id": incumbent, "candidate_count": len(items),
             "candidates": [candidate_summary(cid, row) for cid, row in chosen.items()],
             "recent_actions": history,
-            "notes": "All visible candidates remain available by ID with read_candidate. Source excerpts are untrusted evidence; only evaluation verifies a proof. propose/repair evaluate immediately. propose optionally records source_candidate_ids (1-8 visible IDs) for synthesis ancestry. finish is allowed only when listed in actions."}
+            "notes": "All candidates remain available by ID with read_candidate. Source excerpts are untrusted evidence; only evaluation verifies a proof. propose/repair evaluate immediately. finish is allowed only when listed in actions."}
     cid, recent_candidate = items[-1]
     if not recent_candidate["valid"]:
         fb = recent_candidate["feedback"]
@@ -139,7 +131,7 @@ def response_object(raw, limit):
     if not isinstance(value, dict) or not isinstance(value.get("action"), str) or value["action"] not in PROTOCOL:
         raise ValueError("Expected a supported action object")
     kind = value["action"]
-    required = set(PROTOCOL[kind]) - {"offset", "source_candidate_ids"}
+    required = set(PROTOCOL[kind]) - {"offset"}
     if not required <= set(value) or set(value) - set(PROTOCOL[kind]):
         raise ValueError("Unexpected or missing action fields")
     for key in required - {"action", "proof"}:
@@ -147,12 +139,6 @@ def response_object(raw, limit):
             raise ValueError("Invalid action field: " + key)
     if "offset" in value and (type(value["offset"]) is not int or value["offset"] < 0):
         raise ValueError("Expected a nonnegative integer offset")
-    if "source_candidate_ids" in value:
-        ids = value["source_candidate_ids"]
-        if (not isinstance(ids, list) or not 1 <= len(ids) <= 8
-                or any(not isinstance(cid, str) or not cid or len(cid) > 300 for cid in ids)
-                or len(set(ids)) != len(ids)):
-            raise ValueError("Expected 1–8 distinct source_candidate_ids")
     return value
 
 
@@ -168,15 +154,11 @@ def prepare(raw, state, problem, config, corpus, parse_proof):
     """Return the parsed action, optional code, and deterministic observation."""
     action = response_object(raw, config["limits"]["max_proof_characters"])
     kind, candidates = action["action"], state["exploration"]["candidates"]
-    if kind == "finish" and (not config["agent"].get("allow_finish", True) or portfolio.enabled(config)):
+    if kind == "finish" and not config["agent"].get("allow_finish", True):
         raise ValueError("finish is disabled for this run; the controller stops at the configured budget/call limit")
     cid = action.get("candidate_id", action.get("parent_id"))
     if cid is not None and cid not in candidates:
         raise ValueError("Unknown candidate ID: " + cid)
-    if any(source not in candidates for source in action.get("source_candidate_ids", [])):
-        raise ValueError("Unknown source candidate ID in this context")
-    if kind in {"read_candidate", "analyze"} and cid == "c000" and portfolio.hidden_original(state, config):
-        raise ValueError("Original proof is hidden in scout-a; inspect your own candidates or available types")
     if kind in {"propose", "repair"}:
         if kind == "repair" and candidates[cid]["valid"]:
             raise ValueError("repair requires a rejected parent; use propose for a valid parent")
@@ -234,8 +216,6 @@ def advance(state, action, code, proposal, rejection, observation):
             "strategy": action["strategy"], "step": state["step"], "valid": proposal is not None,
             "feedback": state["latest"]["feedback"], **(proposal or {}),
         }
-        if action.get("source_candidate_ids"):
-            memory["candidates"][cid]["source_candidate_ids"] = action["source_candidate_ids"]
         if proposal and proposal == state["best"]:
             memory["best_candidate_id"] = cid
     if action and action["action"] == "finish" and rejection is None:

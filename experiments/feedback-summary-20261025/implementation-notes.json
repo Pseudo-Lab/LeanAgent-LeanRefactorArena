@@ -1,0 +1,62 @@
+{
+  "checked_at_kst": "2026-10-25",
+  "base_commit": "93cc6bb28da1616d75286ce2ea992fdc38efacf2",
+  "branch": "exp/feedback-followup-20261025",
+  "worktree": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025",
+  "historical_traces": "runs/first-harness-jwkweon (local symlink; read-only by policy)",
+  "test_commands": [
+    {
+      "command": "python3 -B experiments/feedback-summary-20261025/test_error_feedback.py",
+      "passed": 10
+    },
+    {
+      "command": "python3 -B experiments/feedback-summary-20261025/test_worker.py",
+      "passed": 14
+    },
+    {
+      "command": "python3 -B -m unittest discover -s experiments/first-harness-jwkweon -p test_harness.py",
+      "passed": 17
+    }
+  ],
+  "total_tests_passed": 41,
+  "legacy_structured_feedback_source_identical": true,
+  "legacy_source_sha256": "d6330355349f22417d43495aace342c8d02e69cc9d81bfab622a4e498c428484",
+  "solver_trials_in_tests": 0,
+  "new_lean_verification_in_tests": false,
+  "model_calls_in_tests": false,
+  "tests_note": "Deterministic fake measurements exercise budget, frozen original fallback, semantic feedback bridge and record-only replay. Fresh original Lean readiness is separate.",
+  "analysis_code_review": {
+    "reviewer_agent": "/root/cohort_setup",
+    "scope": [
+      "coordinator.py",
+      "report.py",
+      "monitor.py"
+    ],
+    "finding_fixed": "Require explicit boolean quality-review fields; missing values must not be counted as false.",
+    "compile_and_exposure_count_review": "No additional defect observed.",
+    "frozen_worker_or_feedback_changed": false
+  },
+  "plot_validation": {
+    "library": "ReportLab 4.4.9",
+    "workspace_bundle": "26.1015.12040",
+    "fixture": "synthetic layout only, excluded from solver experiments",
+    "standard_axis_projection": true,
+    "drawing_bounds_and_svg_xml_checked": true,
+    "raster_visual_preview_performed": false,
+    "lean_or_solver_model_calls": false
+  },
+  "completion_verification": {
+    "trial_count": 8,
+    "proposal_count": 80,
+    "verified_proposals": 60,
+    "final_valid_count": 8,
+    "record_replay_count": 8,
+    "record_audit_passed": true,
+    "runtime_hashes_unchanged": true,
+    "summary_jobs": 8,
+    "summary_fallbacks": 0,
+    "export_manifest_files_verified": 24,
+    "actual_plot_svg_xml_and_bounds_checked": true,
+    "no_additional_solver_or_lean_trials_for_export": true
+  }
+}

@@ -1,0 +1,138 @@
+{
+  "status": "VERIFIED_ALL_3_REQUIRED_PINS",
+  "official_submission": false,
+  "scope": "P12 development optimization seeded by earlier all-pin best, not a blind policy A/B or held-out evaluation",
+  "code_sha256": "6d5d2254b5588f87a3f5a249840f1fef6c9f24d26d974d0a0d3c96846f35af38",
+  "pins": [
+    {
+      "pin": "4.31.0",
+      "tokens": 178,
+      "raw_samples": [
+        3017977,
+        3017982,
+        3017981
+      ],
+      "raw_median": 3017981,
+      "baseline_raw_samples": [
+        9713388,
+        9713453,
+        9713470
+      ],
+      "baseline_raw_median": 9713453,
+      "code_sha256": "6d5d2254b5588f87a3f5a249840f1fef6c9f24d26d974d0a0d3c96846f35af38",
+      "HB_reduction_pct": 68.92988518089294,
+      "length_reduction_pct": 86.8440502586844,
+      "local_score": 85.2579784798591,
+      "evidence": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/offline-proof-search/p12-20261027/evaluations/confirm-selected-7149e1f463"
+    },
+    {
+      "pin": "v4.30.0",
+      "tokens": 178,
+      "raw_samples": [
+        3059433,
+        3059437,
+        3059437
+      ],
+      "raw_median": 3059437,
+      "baseline_raw_samples": [
+        9709080,
+        9709094,
+        9709138
+      ],
+      "baseline_raw_median": 9709094,
+      "code_sha256": "6d5d2254b5588f87a3f5a249840f1fef6c9f24d26d974d0a0d3c96846f35af38",
+      "HB_reduction_pct": 68.48895478816046,
+      "length_reduction_pct": 86.8440502586844,
+      "local_score": 85.11100168228162,
+      "evidence": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/offline-proof-search/p12-20261027-v430/evaluations/seed-bbc674f5e8"
+    },
+    {
+      "pin": "v4.29.0",
+      "tokens": 178,
+      "raw_samples": [
+        3506774,
+        3506778,
+        3506778
+      ],
+      "raw_median": 3506778,
+      "baseline_raw_samples": [
+        10931172,
+        10931150,
+        10931238
+      ],
+      "baseline_raw_median": 10931172,
+      "code_sha256": "6d5d2254b5588f87a3f5a249840f1fef6c9f24d26d974d0a0d3c96846f35af38",
+      "HB_reduction_pct": 67.91946920238745,
+      "length_reduction_pct": 86.8440502586844,
+      "local_score": 84.92117315369062,
+      "evidence": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/offline-proof-search/p12-20261027-v429/evaluations/seed-e918aad19d"
+    }
+  ],
+  "audits": {
+    "4.31.0": {
+      "receipts": 39,
+      "valid": 27,
+      "failed": 12,
+      "unique_measurement_nonces": 37,
+      "incomplete": [],
+      "passed": true,
+      "scope": "saved source/log/hash/nonce/context/axiom/metric audit; no new Lean execution",
+      "environment_identity": "4b2f22c774e647f9a5f3e731f9cb2dc894fa69cc9be8a620ea04b53e3d5f79ac"
+    },
+    "v4.30.0": {
+      "receipts": 2,
+      "valid": 2,
+      "failed": 0,
+      "unique_measurement_nonces": 6,
+      "incomplete": [],
+      "passed": true,
+      "scope": "saved source/log/hash/nonce/context/axiom/metric audit; no new Lean execution",
+      "environment_identity": "b0dde305ad83d701a872c76c7a9aacf0039acc69252312c5a280ef874c8ca9df"
+    },
+    "v4.29.0": {
+      "receipts": 2,
+      "valid": 2,
+      "failed": 0,
+      "unique_measurement_nonces": 6,
+      "incomplete": [],
+      "passed": true,
+      "scope": "saved source/log/hash/nonce/context/axiom/metric audit; no new Lean execution",
+      "environment_identity": "96fba228cd43b960f2d734363b2faf8e7acb79f4ee8c1d15a8196a0ff5967663"
+    }
+  },
+  "primary_previous_best": {
+    "tokens": 362,
+    "raw_samples": [
+      4111011,
+      4111012,
+      4111023
+    ],
+    "local_score": 76.97392413987242
+  },
+  "extra_length_reduction_vs_seed_pct": 50.82872928176796,
+  "extra_HB_reduction_vs_seed_pct": 26.587881524062684,
+  "primary_problem_score_gain": 8.284054339986682,
+  "conditional_15_problem_mean_gain": 0.5522702893324455,
+  "primary_search_attempts_excluding_original_and_seed": 34,
+  "primary_valid_search_attempts": 22,
+  "confirmation_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/offline-proof-search/p12-20261027/confirmation-7126fa388e.json",
+  "no_search_time_penalty": true,
+  "all_search_space_exhausted": false,
+  "declaration": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/offline-proof-search/validated/P12.lean",
+  "result_json": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/offline-proof-search/p12-20261027/RESULTS.json",
+  "result_json_sha256": "deb48e365b4cda75f88ce0c485be750eb15e0ced262161df21144ff74994515f",
+  "code_files_sha256": {
+    "audit.py": "3ba15298b1a016dd0f37acbb48833670887670e2d8c0b4f81ce7db4558878989",
+    "diagnose_p12.py": "bb5f7ae9d14c359691e18627e1d25aaf02f70775b13ba122a6135411b150a895",
+    "lookup.py": "6544a1bd8f0ced46c48b235090959e83eabaefe80f16c55a27fce3ba25a21b17",
+    "mutations.py": "a03c33d3cf42a5483bd0de9913c3b0ed78da8422f24e3ad174b53d3fb06b0620",
+    "polish.py": "302e4a27d3c12b86a368c8ec726b6c55482dc6fdc9c60d379e9178d21a48b3a1",
+    "search.py": "f9ea435b1dffd9ea6df06afd91f54879ff572fa88ef6258bc13e311eedf25dd4",
+    "summarize.py": "f2d3c73b8ef034fa154ff6c699347a644460eb2c3ff82c5ddc4c2a10b0643293",
+    "test_lookup.py": "1dc1e3a265aac0f02b99d0f57f1598c280732c2493d29b597f0657312b9ab27e",
+    "test_search.py": "30d31be1242a8d8cad36176c4d53ca967c81fd3bc08e63d4d7f1c79874c777ad",
+    "verify_all_p12.py": "448c6d1f0cba9cc29a89501506e5cc8d3ae294b108ef9bc43842ab3ad790795d"
+  },
+  "use": "Replace only this declaration in the pinned original full source; it is not a standalone module. Required prefix/imports/omit/suffix remain unchanged.",
+  "commit_performed": false
+}

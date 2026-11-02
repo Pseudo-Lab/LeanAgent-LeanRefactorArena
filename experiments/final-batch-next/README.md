@@ -1,9 +1,8 @@
 # 다음 실행용 검증 결과 재사용·최종 버전 검사
 
-평가 캐시와 최종 버전 검사를 사용하는 배치 실행기다.
+기존 `experiments/final-batch/`를 복사해 별도 실행 경로로 만든 변경본이다.
 현재 실행 중인 배치의 코드·입력·환경·ledger는 수정하지 않는다.
-이전 `final-batch` 복사본과 source snapshot은 원본 커밋 `3ee67de`에 보존하고
-새 브랜치에는 현재 실행기만 남겼다.
+복사한 원본의 해시는 `source-snapshot.json`에 기록했다.
 
 ## 변경한 실행 방식
 
@@ -24,24 +23,6 @@
 
 최종까지 호환성 검사를 미루므로 탐색 도중 다른 버전의 오류 피드백은 받지 못한다.
 기본 버전 최선 후보와 실제 최종 선택 후보가 다를 수 있다.
-
-## 선택적 scout→merger와 환율 정책
-
-새 입력을 준비할 때 `prepare` 또는 `inputs`에 `--portfolio`를 붙이면 공통 하네스의
-격리된 scout-a/b/c→merger와 `exchange-v1` 접근 정책을 사용한다.
-기본 평가 수는 scout 각 6회, merger 22회이며 `--scout-evaluations`·`--merger-evaluations`로 지정한다.
-모든 역할의 비용은 기존 문제별 $1 정산 후 중단 한도를 공유한다. 기존의 마지막 호출 초과 가능성은 같다.
-할당량을 먼저 완료하면 $1 전에도 정상 종료한다. 예산이 먼저 끝나면 검증 best를 보존하고
-`stopped`로 기록하며 완료 export에 포함하지 않는다. 보고서는 저장된 요청과 평가로 할당량을 재집계한다.
-
-```sh
-PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py prepare --root runs/final-batch-next/NEW-PORTFOLIO --rows 31 --workers 1 --portfolio
-```
-
-이는 입력 준비 명령이다. `run`에서는 봉인된 설정을 읽으므로 정책 플래그를 다시 지정하지 않는다.
-기존 준비 입력/실행의 정책은 바꾸지 않으며, 다른 정책에는 새 root가 필요하다.
-플래그가 없으면 기존 단일 문맥의 예산 기반 실행을 유지한다. 역할별 입력, 환율·단계 선택과
-합성 출처는 [`docs/common-harness/README.md`](../../docs/common-harness/README.md)를 따른다.
 
 ## 증거와 재시작
 

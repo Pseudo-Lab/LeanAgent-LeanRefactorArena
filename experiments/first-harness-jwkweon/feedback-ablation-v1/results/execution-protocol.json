@@ -1,0 +1,35 @@
+{
+  "status": "frozen_before_solver_dispatch",
+  "independent_variable": "failed compile-error details policy only: legacy vs structured_v1",
+  "details_character_limit": 1600,
+  "lean_timeout_seconds": 420,
+  "proposal_budget": 10,
+  "checkpoints": [
+    3,
+    6,
+    10
+  ],
+  "max_solver_parallelism": 2,
+  "trial_count": 8,
+  "proposal_count": 80,
+  "prompt_sha256": "392cb9211192e4621a1f6a634df9663c86e9d13e4c6d9f99591fee468f0366b9",
+  "same_initial_request_across_conditions": true,
+  "core_harness_evaluator_and_existing_worker_modified": false,
+  "only_worker_behavioral_changes": [
+    "validate optional error_feedback_mode",
+    "submit/replay use same format_feedback function"
+  ],
+  "new_tests_passed": 13,
+  "local_worker_legacy_compatibility_tests_passed": 13,
+  "existing_harness_tests_passed": 17,
+  "existing_original_worker_tests_passed": 13,
+  "implementation_notes_sha256": "556fe28d33d34f34a7b3162bb118eb444abdc499e1ef5fa58a40a938a1c39da5",
+  "offline_formatter_check_sha256": "f423ee3facee79faae7159e61a3ca10eb304dae3d861984a6d5b5bc941a0fdcb",
+  "readiness_sha256": {
+    "P01": "a9a59cb3c5008c8e76bd87e5839fca5a043b0678413e2005840f47c035cde2fc",
+    "P13": "c8f284b899e42ad7f832141525351fa88b7a626eb0c75fa8bd3787326698ea10"
+  },
+  "paid_api_calls": false,
+  "automatic_retries": false,
+  "model_id_sampling_seed_hidden_context_and_cost": "unobservable; do not invent or treat as zero"
+}

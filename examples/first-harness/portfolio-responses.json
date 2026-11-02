@@ -1,6 +1,0 @@
-[
-  "{\"action\":\"propose\",\"parent_id\":\"c000\",\"strategy\":\"derive from definitions\",\"proof\":\"by rfl\"}",
-  "{\"action\":\"propose\",\"parent_id\":\"c000\",\"strategy\":\"contract original obligations\",\"proof\":\"by simp\"}",
-  "{\"action\":\"propose\",\"parent_id\":\"c000\",\"strategy\":\"direct compositional lemma\",\"proof\":\"by exact Nat.add_zero n\"}",
-  "{\"action\":\"propose\",\"parent_id\":\"c003\",\"source_candidate_ids\":[\"c002\",\"c003\"],\"strategy\":\"combine lemma and simplification\",\"proof\":\"by simpa using (Nat.add_zero n)\"}"
-]

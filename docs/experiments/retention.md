@@ -1,53 +1,49 @@
-# 실험 코드와 Lean 보존 기준
+# 아카이브 원본과 정리 문서의 보존 기준
 
 [실험 목록](README.md)
 
-실험의 판단 근거는 Markdown에 남긴다. 실험이 끝났다는 이유로 모든 후보를 소스 트리에 유지하지 않는다. **현재 실행·제출·회귀 검증에 필요한 Lean은 유지하고, 생성 가능한 분석 출력·중복 후보는 기본적으로 Git에 추가하지 않는다.**
+이 문서 묶음은 **실험 원본을 유지하는 아카이브에 설명을 추가**한다. 기준은 `archive/common-harness-build-3ee67de`의 원본 커밋 `3ee67de1707d712321e403da5cf1d064dc4240f9`이다. PR #47의 최종 변경은 `docs/experiments/*.md`와 하위 Markdown 문서 추가뿐이다.
 
-## 남기는 것
+## 이번 PR에서 유지하는 것
 
-| 대상 | 결정과 이유 |
+| 대상 | 보존 결정 |
 | --- | --- |
-| `examples/basic/*.lean` | 유지. 유효·무효·단축 예제를 실제 평가 경로에서 사용한다. |
-| `submissions/warmup/best/*.lean` | 유지. 현재 제출 후보이며 실험 부산물이 아니다. 이번 정리로 후보를 교체하지 않는다. |
-| 문제의 원본·고정 문맥·데이터셋 | 원본 자산으로 관리한다. 캐시로 취급하거나 일괄 삭제하지 않는다. |
-| 컴파일러 조회용 `native.lean`, `native_type_search.lean` 등 | 파일 확장자로 폐기하지 않는다. 실행 도구 구현이면 유지하고 공통 통합 여부를 따로 판단한다. 현재 미커밋 연구 폴더에서도 그대로 보존했다. |
-| 최소 회귀 fixture | 현재 테스트가 필요로 하는 것만 유지. 목적·호출 위치를 설명할 수 있어야 한다. |
-| `experiments/final-environment`, `experiments/final-batch-next` | PR #46 runtime의 실제 의존성이므로 유지. 이름이 experiments라는 이유로 제거하지 않는다. |
+| 기준 아카이브의 모든 추적 파일 | 경로·파일 모드·Git blob을 동일하게 유지한다. 코드·설정·테스트·기존 문서·검증 기록을 수정하거나 삭제하지 않는다. |
+| `experiments/proof-analyze/results/P01_focus.lean`부터 `P15_focus.lean` | 원본 15개를 유지한다. 최초 main 대상 초안에서 제안한 삭제·ignore 변경은 이번 아카이브 PR에서 철회했다. |
+| `examples/basic/*.lean`, `submissions/warmup/best/*.lean` | 원본 그대로 유지한다. 제출 후보를 교체하지 않는다. |
+| 구형 실험 실행기·문제별 adapter·공식 앱 사본·과거 후보 | 기준 아카이브에 들어 있는 원본은 그대로 남긴다. main에 필요한 실행 코드의 선별과 별개다. |
+| `docs/common-harness`의 기존 문서·manifest·validation | 아카이브 원본을 유지한다. PR #46의 정리된 구현으로 덮어쓰지 않는다. |
+| `.gitignore`, CI workflow, runtime, 테스트 | 기준 아카이브와 동일하다. 새로운 공통 하네스 기능을 이 PR에서 통합하지 않는다. |
 
-## Git에 남기지 않는 것
+처음 PR #47은 main 후속 정리로 시작했지만, 이후 실험 보관용으로 목적과 base를 바꿨다. 이에 맞춰 충돌은 기준 아카이브 원본을 우선해 해결했고 정리 문서만 더했다. 이 아카이브에 병합해도 main은 바뀌지 않는다.
 
-| 대상 | 대체 기록과 복구 |
-| --- | --- |
-| `experiments/proof-analyze/results/P01_focus.lean`부터 `P15_focus.lean` | 자동 생성된 편집 위치 표시 파일 15개를 제거. 정적 결과 표는 [분석 기록](records/proof-analyze.md)에 보존. 원본 생성기 `analyze.py`로 15개 모두 기존 Git 파일과 byte 단위로 동일하게 재생성됨을 확인했으며 출력은 Git에서 무시한다. |
-| 과거 후보·attempt·check·measure·golf 사본 | 새 문서 묶음에 추가하지 않는다. 기법·최종 지표·검증 범위·필요한 작은 코드는 Markdown에 기록한다. |
-| 연구 문서 브랜치의 Lean 예제 14개 | 별도 파일로 복제하지 않는다. [기법 문서](research-techniques.md)에 설명과 비교를 보존하고 원본 `5fc7bff`에서 복구한다. |
-| 흡수된 구형 실행기·문제별 adapter·공식 앱 사본 | PR #46에 다시 반입하지 않는다. 원본 `3ee67de`와 원격 archive 브랜치에 남아 있다. |
-| 빌드·색인·설치 캐시 | 중앙 env/cache 규칙을 따른다. 원본 실험 결과와 API 영수증을 캐시로 분류하지 않는다. |
+## 정리 문서의 역할
 
-Lean을 Markdown 코드 블록으로 옮기는 것은 설명 보존이다. 실행·회귀 검증에 필요한 파일을 코드 블록만으로 대체하지 않는다. 지정 버전 검증을 완료한 제출 후보의 교체·폐기는 별도 판단이다.
+실험 39종의 목적·방법·실제 결과·한계·코드 반영 여부를 Markdown으로 읽는다. 당시 Markdown 원문 70개의 출처와 SHA256, 코드 복구 커밋을 기록한다. [연구 기법](research-techniques.md)의 설명용 코드와 수치도 별도 Lean·JSON·그림을 열지 않고 읽을 수 있다.
 
-## 이번 로컬 정리의 범위
+문서의 원문 인용에는 당시의 진행 중 상태·경로·명령이 남아 있다. 현재 아카이브의 보존 결정은 이 문서와 각 기록 첫 요약을 우선한다. main의 PR #46 구현과 기존 실험 아카이브는 서로 다른 snapshot이다.
 
-미커밋 실험과 원시 `runs/`는 이번에 일괄 삭제하지 않았다. Git에 없는 실행기는 커밋 해시만으로 복구할 수 없고, Markdown 요약만으로 원시 영수증·독립 측정을 재감사할 수도 없기 때문이다. 여기서의 기본값은 **새 문서·PR에 불필요한 Lean을 추가하지 않는 것**이다.
+향후 main 정리에서는 실행·제출·회귀 검증에 필요한 Lean을 남기고, 재생성 가능한 분석 출력·중복 후보는 문서로 설명하는 기준을 사용할 수 있다. **이 기준은 향후 선택 기준이며 이번 아카이브 원본을 삭제하는 근거가 아니다.**
 
-정리한 워크트리의 무시된 실행 기록·입력 사본·로컬 배포 설정은 저장소 밖의 다음 로컬 폴더에 옮긴다. 비밀값의 내용은 문서나 커밋에 넣지 않는다.
+## 별도 로컬 자료
+
+미커밋 실험 실행기와 원시 `runs/` 전체를 이 PR에 추가하지 않았다. Markdown 요약은 원시 영수증·로그를 이용한 독립 재감사나 동일 환경 실행을 대체하지 않는다. Git에 없는 파일이 모두 `3ee67de`에 들어 있다는 뜻도 아니다.
+
+앞선 워크트리 정리에서 Git이 무시하던 실행 기록·입력 사본·로컬 배포 설정 313개 파일은 다음 저장소 밖 로컬 보관처로 옮기고 SHA256 일치를 확인했다. 비밀값의 내용은 문서나 커밋에 넣지 않았다.
 
 ```text
 05_pseudolab/LeanAgent-LeanRefactorArena-archives/worktree-cleanup-20261102/
   <원래 워크트리 이름>/<원래 상대경로>
 ```
 
-이 보관 폴더는 원본 증거·로컬 설정의 보관처이며 캐시나 새 Git 저장소가 아니다. 재생성 가능한 `node_modules`, `dist`, 빌드 출력은 워크트리와 함께 정리한다. 외부의 중앙 env/cache 대상은 삭제하지 않는다.
+이 폴더는 원본 증거·로컬 설정의 보관처이며 캐시나 새 Git 저장소가 아니다. 중앙 env/cache와 기존 브랜치는 유지했다. [당시 워크트리 감사](worktree-audit-2026-11-02.md)에 근거가 있다.
 
-## 원본 코드 복구
-
-브랜치는 삭제하지 않았다. 워크트리만 제거하므로 기존 커밋에서 파일을 읽거나 필요한 브랜치를 다시 열 수 있다.
+## 원본 조회
 
 ```sh
 git show 3ee67de:experiments/portfolio-94/submission-round/README.ko.md
+git show 3ee67de:experiments/proof-analyze/results/P01_focus.lean
 git show 5fc7bff:docs/research/techniques-20261101/evidence/proofs/p02-portfolio40.lean
-git show 7f9508a:experiments/proof-analyze/results/P01_focus.lean
 ```
 
-새 워크트리를 만들 때는 프로젝트 공통 Git 계정 검사와 해당 프로젝트 키의 중앙 환경 설정을 먼저 적용한다. 과거 실행을 재현할 때는 당시 코드·입력·compiler·library revision을 함께 사용한다.
+새 워크트리를 만들 때는 프로젝트 공통 Git 계정 검사와 해당 프로젝트 키의 중앙 환경 설정을 적용한다. 실험을 재현할 때는 당시 코드·입력·compiler·library revision을 함께 사용한다.

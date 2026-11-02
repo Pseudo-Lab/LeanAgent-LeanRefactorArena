@@ -1,0 +1,334 @@
+[
+  {
+    "id": 1,
+    "label": "baseline",
+    "pin": "4.26.0",
+    "valid": true,
+    "tokens": 32,
+    "raw": 1319698,
+    "raw_samples": [
+      1319698
+    ],
+    "candidate_sha256": "954dee0cdde6bebb35e0bd0cb8b2d691526facc46d4b5ab7b7d7ee3fb6e9b5f5",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P01-baseline-4.26.0-af9e8483/result.json"
+  },
+  {
+    "id": 1,
+    "label": "lemma_direct_leaves",
+    "pin": "4.26.0",
+    "valid": false,
+    "tokens": 37,
+    "raw": null,
+    "raw_samples": [],
+    "candidate_sha256": "d8784dcafc1bc23c271f0bac887b3d4fbcda1f664c12e2ef50dd9fc35a2acb89",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P01-lemma_direct_leaves-4.26.0-4156d7ea/result.json"
+  },
+  {
+    "id": 2,
+    "label": "baseline",
+    "pin": "4.26.0",
+    "valid": true,
+    "tokens": 19,
+    "raw": 326149,
+    "raw_samples": [
+      326149
+    ],
+    "candidate_sha256": "9c73432c2f05c8ca0408716ae9bd45374ed724bd982ed43ffc34afd49ba5ce9d",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P02-baseline-4.26.0-4a8c510e/result.json"
+  },
+  {
+    "id": 2,
+    "label": "explicit_sublist_constructor",
+    "pin": "4.26.0",
+    "valid": false,
+    "tokens": 26,
+    "raw": null,
+    "raw_samples": [],
+    "candidate_sha256": "697866bf8deae7de959c42aca4cfe5c0efd3fe665d6d73ad72c3be4d9f9f371e",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P02-explicit_sublist_constructor-4.26.0-eee4611d/result.json"
+  },
+  {
+    "id": 4,
+    "label": "baseline",
+    "pin": null,
+    "valid": true,
+    "tokens": 123,
+    "raw": 1406888,
+    "raw_samples": [
+      1406888
+    ],
+    "candidate_sha256": "534b3f8929bc01e93d50fe36133ffc14ac729ff0eee74cacbc8cb03fe5ac0eb8",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P04-baseline-primary-4a8567a1/result.json"
+  },
+  {
+    "id": 4,
+    "label": "explicit_inner",
+    "pin": null,
+    "valid": false,
+    "tokens": 123,
+    "raw": null,
+    "raw_samples": [],
+    "candidate_sha256": "3f4d16c382e13fb92645f8fea7c44a489dffd73b564a5683a9e0287dbb6d5443",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P04-explicit_inner-primary-becad963/result.json"
+  },
+  {
+    "id": 4,
+    "label": "explicit_inner_prime",
+    "pin": null,
+    "valid": true,
+    "tokens": 126,
+    "raw": 1406735,
+    "raw_samples": [
+      1406735
+    ],
+    "candidate_sha256": "abd3f89f4684e55e9ecd16fe79cf4dabdb21f34669e9d46c2295392690f83848",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P04-explicit_inner_prime-primary-00de582f/result.json"
+  },
+  {
+    "id": 4,
+    "label": "explicit_real_inner",
+    "pin": null,
+    "valid": false,
+    "tokens": 128,
+    "raw": null,
+    "raw_samples": [],
+    "candidate_sha256": "170f15b2a739e4c194e746a0cc33adc009a77769c6b56c4aefc2beec75e32039",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P04-explicit_real_inner-primary-9d95145b/result.json"
+  },
+  {
+    "id": 4,
+    "label": "inferred_inner",
+    "pin": null,
+    "valid": false,
+    "tokens": 118,
+    "raw": null,
+    "raw_samples": [],
+    "candidate_sha256": "b27fbc3c02ca4a5bb85fbac23c2a5c0ad9a5e6653c397b5e7adbcf0a04261779",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P04-inferred_inner-primary-f131f9fb/result.json"
+  },
+  {
+    "id": 13,
+    "label": "baseline",
+    "pin": null,
+    "valid": true,
+    "tokens": 259,
+    "raw": 3659724,
+    "raw_samples": [
+      3659724
+    ],
+    "candidate_sha256": "6bf40078bbbbbafe922d313feb4228bc8c6262269d3a13231482b25c001feda9",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-baseline-primary-1b73ab39/result.json"
+  },
+  {
+    "id": 13,
+    "label": "confirm_implicit_index",
+    "pin": "4.25.0",
+    "valid": true,
+    "tokens": 259,
+    "raw": 3522969,
+    "raw_samples": [
+      3522785,
+      3522969,
+      3523217
+    ],
+    "candidate_sha256": "956fd2d9d51127c890711c4c14e4aadf8798e73c78029cd6920b9489dbde6d4f",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-confirm_implicit_index-4.25.0-ad2b7d12/result.json"
+  },
+  {
+    "id": 13,
+    "label": "confirm_implicit_index",
+    "pin": "4.26.0",
+    "valid": true,
+    "tokens": 259,
+    "raw": 2814529,
+    "raw_samples": [
+      2814529
+    ],
+    "candidate_sha256": "956fd2d9d51127c890711c4c14e4aadf8798e73c78029cd6920b9489dbde6d4f",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-confirm_implicit_index-4.26.0-9b652ebc/result.json"
+  },
+  {
+    "id": 13,
+    "label": "confirm_implicit_index",
+    "pin": "4.27.0",
+    "valid": true,
+    "tokens": 259,
+    "raw": 2759628,
+    "raw_samples": [
+      2759628
+    ],
+    "candidate_sha256": "956fd2d9d51127c890711c4c14e4aadf8798e73c78029cd6920b9489dbde6d4f",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-confirm_implicit_index-4.27.0-6b8d1add/result.json"
+  },
+  {
+    "id": 13,
+    "label": "implicit_index_explicit_bounds",
+    "pin": null,
+    "valid": true,
+    "tokens": 259,
+    "raw": 3522785,
+    "raw_samples": [
+      3522785
+    ],
+    "candidate_sha256": "956fd2d9d51127c890711c4c14e4aadf8798e73c78029cd6920b9489dbde6d4f",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-implicit_index_explicit_bounds-primary-e897b760/result.json"
+  },
+  {
+    "id": 13,
+    "label": "instantiate_bounds",
+    "pin": null,
+    "valid": true,
+    "tokens": 263,
+    "raw": 3536022,
+    "raw_samples": [
+      3536022
+    ],
+    "candidate_sha256": "06daa537a7bdc2b1e649ca96a80361dbed9cd555a24043c4d004833f64a863b3",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-instantiate_bounds-primary-b59d91ef/result.json"
+  },
+  {
+    "id": 14,
+    "label": "baseline",
+    "pin": "4.26.0",
+    "valid": true,
+    "tokens": 55,
+    "raw": 886112,
+    "raw_samples": [
+      886112
+    ],
+    "candidate_sha256": "a10d02bb75d48da51f9b0edda5b7312b1c4a4c02971d9bafdb4f77c9c8a44b32",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P14-baseline-4.26.0-5ac95fb8/result.json"
+  },
+  {
+    "id": 15,
+    "label": "baseline",
+    "pin": null,
+    "valid": true,
+    "tokens": 283,
+    "raw": 2628784,
+    "raw_samples": [
+      2628784
+    ],
+    "candidate_sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-baseline-primary-9046ddca/result.json"
+  },
+  {
+    "id": 15,
+    "label": "closed_decide",
+    "pin": null,
+    "valid": true,
+    "tokens": 283,
+    "raw": 2612855,
+    "raw_samples": [
+      2612855
+    ],
+    "candidate_sha256": "09f4976e504187511b86934356aa3cef4b40e689fa2b3546d6f947e28c89b093",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-closed_decide-primary-ad74dc63/result.json"
+  },
+  {
+    "id": 15,
+    "label": "closed_decide_no_push",
+    "pin": null,
+    "valid": true,
+    "tokens": 281,
+    "raw": 2499910,
+    "raw_samples": [
+      2499910
+    ],
+    "candidate_sha256": "fc7adf74804c25305b855198829de9da382edcbfff7626c24a4ccfa0c180efdc",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-closed_decide_no_push-primary-f1b3e32b/result.json"
+  },
+  {
+    "id": 15,
+    "label": "closed_kernel",
+    "pin": null,
+    "valid": true,
+    "tokens": 285,
+    "raw": 2614890,
+    "raw_samples": [
+      2614890
+    ],
+    "candidate_sha256": "99c1db3d6794a0e108d9ee32cf69d76021654f8a9fec358a2937bd0c7f3694de",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-closed_kernel-primary-e7683b6a/result.json"
+  },
+  {
+    "id": 15,
+    "label": "closed_rfl_no_push",
+    "pin": null,
+    "valid": true,
+    "tokens": 280,
+    "raw": 2524608,
+    "raw_samples": [
+      2524608
+    ],
+    "candidate_sha256": "77add6669520a002decb512ca2a7bee9126fb9419c4313ef8594e341d516233d",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-closed_rfl_no_push-primary-cd1edae2/result.json"
+  },
+  {
+    "id": 15,
+    "label": "confirm_decide_ring1",
+    "pin": "4.25.0",
+    "valid": true,
+    "tokens": 281,
+    "raw": 2499913,
+    "raw_samples": [
+      2499909,
+      2499961,
+      2499913
+    ],
+    "candidate_sha256": "fc7adf74804c25305b855198829de9da382edcbfff7626c24a4ccfa0c180efdc",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-confirm_decide_ring1-4.25.0-9ca50891/result.json"
+  },
+  {
+    "id": 15,
+    "label": "confirm_decide_ring1",
+    "pin": "4.26.0",
+    "valid": true,
+    "tokens": 281,
+    "raw": 2000462,
+    "raw_samples": [
+      2000462
+    ],
+    "candidate_sha256": "fc7adf74804c25305b855198829de9da382edcbfff7626c24a4ccfa0c180efdc",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-confirm_decide_ring1-4.26.0-6c70aa24/result.json"
+  },
+  {
+    "id": 15,
+    "label": "confirm_decide_ring1",
+    "pin": "4.27.0",
+    "valid": true,
+    "tokens": 281,
+    "raw": 1981343,
+    "raw_samples": [
+      1981343
+    ],
+    "candidate_sha256": "fc7adf74804c25305b855198829de9da382edcbfff7626c24a4ccfa0c180efdc",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-confirm_decide_ring1-4.27.0-655cae7a/result.json"
+  },
+  {
+    "id": 15,
+    "label": "no_push_cast",
+    "pin": null,
+    "valid": true,
+    "tokens": 281,
+    "raw": 2515806,
+    "raw_samples": [
+      2515806
+    ],
+    "candidate_sha256": "fcf337bacd88bac9e8a5742257ef23b16ad5690faaa71bfea4b5c80856afcd16",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-no_push_cast-primary-5ffeb94e/result.json"
+  },
+  {
+    "id": 15,
+    "label": "original_reference",
+    "pin": "4.25.0",
+    "valid": true,
+    "tokens": 4085,
+    "raw": 17948554,
+    "raw_samples": [
+      17948554
+    ],
+    "candidate_sha256": "56dcc03e9f1d22a0655aeb46aa929c75efddb21f2fa73d7504b648792b6e8329",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-original_reference-4.25.0-8089c72e/result.json"
+  }
+]

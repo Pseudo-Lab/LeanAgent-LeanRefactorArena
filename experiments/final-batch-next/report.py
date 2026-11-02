@@ -12,7 +12,6 @@ from pathlib import Path
 from policy import validate_declaration
 from openai_transport import compute_cost, normalize
 from evaluation_cache import EvaluationCache
-from lean_agent import portfolio
 
 
 def read(path):
@@ -21,48 +20,6 @@ def read(path):
 
 def sha(text):
     return hashlib.sha256(text.encode()).hexdigest()
-
-
-def audit_portfolio(folder, summary, attempts):
-    """Recount the routing barrier from saved requests and evaluation receipts."""
-    config = read(folder / "input/config.json")
-    if not portfolio.enabled(config):
-        if "portfolio" in summary or summary.get("stop_reason") == "portfolio_complete":
-            raise ValueError("Portfolio completion without configured portfolio")
-        return False
-    portfolio.validate(config["agent"]["portfolio"])
-    state = {}
-    portfolio.initialize(state, config)
-    scope, quotas = state["portfolio"], portfolio.quotas(config)
-    for _, item in attempts:
-        branch = scope["active"]
-        if branch == "complete":
-            raise ValueError("Model dispatch after portfolio completion")
-        step = folder / "steps" / f"{item['step']:04}"
-        packet = json.loads(read(step / "request.json")["messages"][1]["content"])
-        if packet["portfolio"]["branch"] != branch:
-            raise ValueError("Scout/merger request crossed evaluation barrier")
-        scope["calls"][branch] += 1
-        if (step / "selection-result.json").exists():
-            if not (step / "candidate.lean").is_file():
-                raise ValueError("Portfolio evaluation missing candidate source")
-            if type(read(step / "selection-result.json")["valid"]) is not bool:
-                raise ValueError("Portfolio evaluation missing validity")
-            scope["evaluations"][branch] += 1
-        if scope["evaluations"][branch] == quotas[branch]:
-            index = portfolio.BRANCHES.index(branch) + 1
-            scope["active"] = portfolio.BRANCHES[index] if index < len(portfolio.BRANCHES) else "complete"
-    expected = portfolio.summary(state, config)
-    saved = read(folder / "state.json")
-    if summary.get("portfolio") != expected or portfolio.summary(saved, config) != expected:
-        raise ValueError("Portfolio summary/state differs from recorded routing")
-    if saved["calls"] != len(attempts):
-        raise ValueError("Portfolio state call count differs from ledger")
-    if (summary["stop_reason"] == "portfolio_complete") != expected["complete"]:
-        raise ValueError("Portfolio completion reason differs from recorded routing")
-    if (summary["status"] == "completed") != expected["complete"]:
-        raise ValueError("Incomplete portfolio reported as completed")
-    return expected["complete"]
 
 
 def build_report(root, *, require_complete=False):
@@ -122,11 +79,6 @@ def build_report(root, *, require_complete=False):
                "status": progress["status"], "known_cost_usd": str(spent), "calls": len(attempts)}
         if (folder / "summary.json").exists():
             summary = read(folder / "summary.json")
-            portfolio_complete = False
-            try:
-                portfolio_complete = audit_portfolio(folder, summary, attempts)
-            except (OSError, ValueError, KeyError, TypeError) as exc:
-                errors.append(f"F{number:03}: invalid portfolio evidence: {exc}")
             final = read(folder / "final/result.json")
             code = (folder / "selected.lean").read_text()
             try:
@@ -161,13 +113,12 @@ def build_report(root, *, require_complete=False):
                             errors.append(f"F{number:03}: saved compiler log hash mismatch")
             if Decimal(summary["cost_usd"]) != spent or summary["calls"] != len(attempts):
                 errors.append(f"F{number:03}: summary accounting mismatch")
-            if (summary.get("status", "completed") == "completed" and not portfolio_complete
-                    and spent < Decimal(authorization["per_problem_target_usd"])):
+            if spent < Decimal(authorization["per_problem_target_usd"]):
                 errors.append(f"F{number:03}: completed below authorized cost threshold")
             baseline, selected = summary["baseline"], summary["final"]
             length_ratio = selected["tokens"] / baseline["tokens"]
             heartbeat_ratio = selected["raw_heartbeats"] / baseline["raw_heartbeats"]
-            row.update(status=summary.get("status", "completed"), baseline=baseline, final=selected,
+            row.update(status="completed", baseline=baseline, final=selected,
                        length_reduction_pct=100 * (1-length_ratio),
                        heartbeat_reduction_pct=100 * (1-heartbeat_ratio),
                        local_score_estimate=100 - 100 / 3 * (length_ratio + heartbeat_ratio),

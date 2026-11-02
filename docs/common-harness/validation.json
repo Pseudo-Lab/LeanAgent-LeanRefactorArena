@@ -1,0 +1,40 @@
+{
+  "base_main": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+  "python": "3.13.5",
+  "checks": {
+    "common_with_dataset": {
+      "tests": 405,
+      "suites": 20,
+      "skipped": 4,
+      "passed": true
+    },
+    "clean_checkout_without_dataset": {
+      "tests": 405,
+      "suites": 20,
+      "skipped": 10,
+      "passed": true
+    },
+    "prepared_contexts": {
+      "tests": 9,
+      "suites": 1,
+      "skipped": 0,
+      "passed": true,
+      "problem_version_combinations": 127
+    },
+    "full_existing_tests": {
+      "tests": 167,
+      "suites": 1,
+      "skipped": 4,
+      "passed": true
+    }
+  },
+  "lean_compilations": 0,
+  "model_api_calls": 0,
+  "official_submission": false,
+  "notes": [
+    "Common checks isolate suites in subprocesses.",
+    "Prepared context test reads existing fixed sources and setup files only.",
+    "Clean Git checkout has no ignored sources, credentials or datasets.",
+    "Historical artifact hashes are retained as historical evidence, not fresh validation."
+  ]
+}

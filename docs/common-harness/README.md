@@ -1,139 +1,86 @@
-# 공통 하네스 실행 기반
+# 공통하네스 구축
 
-prompt·환경 캐시·탐색 제어·탐색 정책·평가 상태 관리를 먼저 구현·검토하고,
-이 기반을 main에 병합한 뒤 기존 AutoSolver·재귀 수리 PR을 연결한다.
-기존 실행 기반을 추린 뒤, scout→merger 제어와 환율 피드백·접근 정책을 공통 실행 경로에 연결했다.
-main 반영은 `codex/common-harness-core` 기반 PR에서 진행한다.
+로컬 작업 사본에 나뉘어 있던 행동 선택·후보 계보, 오류 피드백 연구,
+최종 60문제 환경·배치·검증 캐시, 비용 가설·로컬 탐색 도구를 한 브랜치에 모았다.
+기준은 main `7f9508a85d44c5369f9461222f9904d6a9c01486`이며, main의
+사용량·비용 집계, prepared 환경 검증과 stat cache, agent kit를 보존한다.
 
-## 남긴 실행 코드
+## 공통 실행과 실험의 관계
 
-| 영역 | 위치 | 현재 범위 |
+| 영역 | 위치 | 역할 |
 | --- | --- | --- |
-| 기본 루프·후보 계보·기록 재생 | `src/lean_agent/` | 기존 비용 보고와 actions-v1을 함께 유지 |
-| 넓은 탐색→merger | `src/lean_agent/portfolio.py` | 격리된 세 scout, 평가 할당량 장벽, 전체 후보 합류, 공유 비용/호출 한도 |
-| 환율 피드백·접근 선택 | `src/lean_agent/search_policy.py` | 매 요청에 고정 환율·잔여 비율·부모 대비 교환량과 다음 접근 지침 제공 |
-| prompt·합성 입력 | `examples/actions/`, `configs/actions-smoke.json` | 공통 행동 지침·작은 고정 응답 fixture·공통 문제 참조 |
-| 환경 준비 | `experiments/final-environment/` | 지정 compiler·소스 revision·대상 문맥 준비와 봉인 |
-| 평가 캐시·배치 | `experiments/final-batch-next/` | 대표 버전 탐색, 최종 호환성, 캐시를 쓰지 않는 최종 측정 |
-| 입력 점검·고정 환경 | `benchmarks/arena/final-d53690b057f9/`, `configs/final-environments.lock.json` | snapshot·검사 생성기·환경 pin |
+| 기본 실행·후보 선택·기록 재생 | `src/lean_agent/harness.py` | 기존 기본 모드와 `actions-v1`을 함께 지원 |
+| 행동·후보 기억 | `src/lean_agent/actions.py` | 탐색·조회·제안·수리와 후보 계보 유지 |
+| 예산·오류 피드백 | `budgeting.py`, `diagnostics.py` | 요청 비용 예약과 수리 위치·진단 연결 |
+| 구조화/요약 피드백 비교 | `experiments/feedback-summary-20261025/` | 과거 실험 코드와 작은 검증 근거 보존 |
+| 비용 가설·부모 선택 | `experiments/cost-hypothesis-pipeline/` | 후보 계보·Pareto·결정적 재생 연구 |
+| 로컬 증명 탐색 | `experiments/offline-proof-search/`, `portfolio-94/` | 변형·검색·호환성·자원 제한 연구 |
+| 최종 환경 준비 | `experiments/final-environment/` | 8개 Lean 버전·17개 환경·127개 문제/버전 조합 고정 |
+| 최종 배치 | `experiments/final-batch/` | 기본 버전 탐색, 개선 후보의 호환성 피드백, 비용 장부 |
+| 다음 배치 정책 | `experiments/final-batch-next/` | 평가 캐시와 최종 호환성 검사, fresh 최종 측정 |
 
-`actions-v1`의 `repair`는 실패 proof 편집 행동이다. 지연님 PR #39·#41·#42의 native 목표 추출·
-AutoSolver·재귀 수리는 이 정리에 포함하지 않으며 기존 PR에서 후속 연결한다.
-소미님 PR #44의 MD 스킬·도구 참고와 기존 prompt PR도 저자·출처를 유지해 반영한다.
+이 통합은 실험 코드를 전부 하나의 범용 서비스로 재작성한 것이 아니다.
+공통 패키지에 들어간 행동·예산·진단과, 별도 실행 정책을 유지하는 실험을 구분한다.
+특히 `portfolio-94`의 역사적 adapter는 당시 `insights-*` 경로·원본 자료·prepared
+manifest를 요구한다. 해당 runtime은 clone에 포함되지 않으며 경로와 pin을 확인해
+준비해야 한다. 원본 full-context 검사나 공리 검사를 생략해 실행하지 않는다.
 
-## 공통 탐색 설정과 데이터 흐름
+## 통합한 원본
 
-`actions-v1` 설정에 다음을 추가한다. 기존 설정은 단일 문맥 동작을 유지한다.
+- action-memory: `7f05453`, `30f0b1b`, `183ddf4`, `12d6cf3`.
+- 피드백 연구: `exp/feedback-followup-20261025`의 `709bda1`까지. 선행
+  `first-harness-jwkweon` 실험은 후속 실험의 import·재현 의존성 때문에 함께 보존한다.
+- 미커밋 final-environment/final-batch/final-batch-next/length-bounds 및
+  cost-hypothesis/offline-proof-search/portfolio-94 코드와 작은 증거 파일.
+- [가져온 파일 명세](import-manifest.json)는 통합 수정 **전**의 원본 SHA-256이다.
+  과거 결과 JSON·후보·snapshot의 해시는 당시 실행에 대한 기록이며 이번 코드의
+  검증 결과로 다시 표시하지 않는다.
 
-```json
-{
-  "mode": "actions-v1",
-  "corpus": "action-corpus.json",
-  "portfolio": {"scout_evaluations": 6, "merger_evaluations": 22},
-  "approach_policy": "exchange-v1"
-}
-```
+## 충돌과 동작 차이의 해결
 
-`portfolio`가 있으면 접근 정책도 활성화한다. portfolio 없이 `approach_policy`만 켤 수도 있다.
-공통 `lean-agent run`과 Final 배치가 같은 `make_request → prepare_response → advance`를 사용한다.
+- `.gitignore`는 최신 main의 credential·prepared 환경 제외 규칙과 두 실험
+  브랜치의 raw runtime 제외 규칙을 모두 보존했다.
+- action-memory의 `harness.py` 변경은 3-way로 합쳐 main의 비용 보고 기능을 유지했다.
+- final-batch-next에는 final-batch의 후속 비공개 선언 판별과 명시적 Lean allocator
+  한도 진단을 가져왔다. 캐시·재시작 receipt·최종 fresh 측정 정책은 유지한다.
+- 단위 테스트의 로컬 registry/문제 파일 의존성을 임시 fixture로 바꿨다.
+  60문제 dataset 및 127개 환경을 직접 검사하는 테스트는 별도로 구분한다.
+- 과거 proof·후보·근거의 바이트와 해시를 보존하기 위해 해당 경로의 줄바꿈
+  정규화와 trailing-whitespace 판정을 `.gitattributes`에서 제한했다.
 
-1. scout-a는 명제·정의에서 경로를 구성하고, scout-b는 원본의 의존·반복을 줄이며,
-   scout-c는 합성 가능한 성질·표현과 목표로의 연결을 탐색한다.
-2. scout는 원본 baseline과 자기 후보·이력만 볼 수 있다. 다른 scout 후보를 부모·읽기·
-   합성 출처로 지정하면 거절한다. scout-a에서는 기본적으로 원본 proof 읽기도 차단한다.
-   `hide_original_first_scout: false`로 원본 공개를 선택할 수 있다. 공유 prompt/corpus에
-   원본 전체 선언이 그대로 들어 있으면 숨김 모드 설정을 거절한다. 이는 모델 입력 범위 제어다.
-3. 각 scout가 6개씩 평가된 뒤 merger를 연다. 유효·무효 proof 모두 할당량을 사용한다.
-   검색·읽기·잘못된 응답·같은 문맥의 중복 proof는 모델 호출/비용을 사용하지만 평가 수를 늘리지 않는다.
-4. merger는 전체 후보·실패·scout별 best ID와 Pareto 후보를 받아 실제 proof를 제안하고 평가받는다.
-   `propose.source_candidate_ids`로 여러 후보의 합성 출처를 기록한다. 출처 기록은 검증을 대체하지 않는다.
-5. merger의 기본 22회 평가가 끝나면 `portfolio_complete`로 종료한다. 전역 비용·호출·문맥 한도는
-   항상 우선 적용하며, 먼저 중단되면 검증 best와 최종 검사 결과를 보존하고 `status: stopped`로 표시한다.
+## 검증
 
-실행은 **독립된 모델 입력을 순차 호출**한다. 병렬 scout나 별도 provider·evaluator·예산 루프를 만들지 않는다.
-세 scout와 merger의 평가 기본 합계는 40회이며 도구 호출만큼 모델 호출 수가 더 필요하다.
-`finish`로 할당량을 건너뛸 수 없다. 최종 선택은 모든 유효 후보의 기존 고정 순위를 따른다.
-
-환율은 원본의 실제 측정값에서 `r = H0/T0`로 고정한다. 매 요청의 `approach_policy`에는
-정확한 유리수 환율, `T/T0`·`H/H0`, 유효한 직전 후보와 부모의 `ΔT + ΔH/r`, Pareto 후보,
-최근 구조 부모와 다음 접근 지침을 넣는다. objective 동률은 토큰 수·선언 SHA256 순으로 정한다.
-
-접근 선택은 실패 시 오류/연결 재검토, scout 초반 2회 넓은 탐색, merger 첫 회 합성,
-남은 평가/호출 2회 이하 정리, 엄격한 objective 개선 없이 3회 평가 시 접근 재고,
-그 외 잔여 비율이 큰 length 또는 HB 축 개선 순이다. 이 임계값은 초기 정책이며 성능 최적성을 주장하지 않는다.
-정책은 모델에 보낼 다음 지침을 선택하며 모델의 지침 이행이나 개선 성공을 보장하지 않는다.
-환율을 측정 노이즈로 해석하거나 과거 `r/4` 노이즈 규칙을 옮기지 않는다.
-
-입력·상태·평가·비용과 함께 이 정책 코드도 동결한다. 공통 runner의 offline replay는
-역할별 요청, 합류 장벽, 후보 소유와 합성 출처, 평가 수와 최종 선택을 재구성한다.
-Final 배치는 기존 체크포인트를 사용하고 보고서에서 요청·평가 기록으로 역할별 할당량을 재집계한다.
-
-작은 고정 응답 예시는 `configs/portfolio-smoke.json`이다. 아래 실행은 API를 쓰지 않지만 실제 Lean은 필요하다.
-
-```sh
-PYTHONPATH=src python3 -B -m lean_agent run --config configs/portfolio-smoke.json --output runs/portfolio-smoke
-PYTHONPATH=src python3 -B -m lean_agent replay runs/portfolio-smoke
-```
-
-출처는 원본 `3ee67de`의 `competitive-search40-20261031/controller.py`(세 scout·합류),
-`competitive-structure-20261101/controller.py`(환율 feedback), v4 prompt(축별 접근),
-과거 `cost-hypothesis-pipeline/policy.py`(잔여 비율·구조 부모·Pareto)다.
-대형 후보/실험 결과나 구형 실행기를 가져오지 않고 공통 상태 계약으로 옮겼다.
-
-## 이번에 제외한 것
-
-- `portfolio-94`의 대량 후보·문제별 adapter·공식 앱 사본·제출 당시 기록.
-- 첫 하네스·prompt/feedback ablation의 중복 원본·문맥·결과와 구형 실행기 복사본.
-- feedback-summary, offline-proof-search, length-bounds의 과거 연구 묶음.
-- `final-batch-next`와 겹치는 이전 `final-batch` 실행기.
-- 실험 결과 JSON·검증 결과 snapshot·대형 파일별 반입 manifest.
-- 비용 가설 연구의 과거 코호트 준비기·복구 패치·수동 worker·보고서.
-- 공통 정책으로 옮긴 뒤 호출하지 않는 `cost-hypothesis-pipeline` 정책·비교 prompt·전용 검사.
-- P02 유료 비교 실행기와 비교 전용 transport, 고정 응답 A/B 실행 wrapper·baseline 복사본.
-- 배치의 `preflight`·평가 캐시와 겹치는 `cache_rows.py` 보조 실행기.
-
-필요한 합성 fixture는 `examples/actions`, 설정은 `configs`, 공통 검사는 `tests`에 둔다.
-공통 테스트는 제거한 실험 실행기를 import하지 않는다. 예산 검사는 공통 예약·미확정 비용 중단·
-기록 재생을, 배치 검사는 현재 장부와 재시작을 확인한다. 제외한 비교 전용 transport의 검사도 함께 제외했다.
-이번 브랜치에서 새로 추가하는 실험 실행 코드는 실제 의존성이 있는 환경 준비와 Final 배치 adapter만 남긴다.
-기존 main의 다른 연구 실험은 이번 반입 범위에 포함하지 않는다. 생성 결과는 `.gitignore`에서 제외한다.
-원본 데이터·API 키·로컬 빌드·실험 runs를 이 브랜치에 복사하지 않는다.
-
-## 복구와 출처
-
-제외한 파일은 원본 커밋 `3ee67de1707d712321e403da5cf1d064dc4240f9`에서 복원할 수 있다.
-직전 통합 시점의 작은 실험 fixture·정책·스크립트는 `6cd8ba7`에도 보존되어 있다.
-로컬 `codex/common-harness-cleanup`과 원격 `archive/common-harness-build-3ee67de`가 이 원본을 가리킨다.
-PR #46의 `feat/common-harness-build`는 정리된 공통 하네스로 갱신했다.
-새 `codex/common-harness-core` 브랜치는 main `7f9508a`에서 시작했으므로,
-과거 자료가 들어간 대형 커밋을 PR의 부모 이력에 추가하지 않는다.
-
-```sh
-git show 3ee67de:experiments/portfolio-94/submission-round/README.ko.md
-```
-
-원래 작업 폴더의 미커밋 연구·실험 증거는 변경하지 않았다.
-동결한 이전 실행은 그 실행의 보존된 코드로 재생한다.
-
-## 검사
-
-공통 환경 설정 후 실행한다. 모델/API 호출이나 Lean 컴파일 없이 합성 fixture로 검사한다.
-동명 실험 모듈은 별도 프로세스에서 실행한다.
+저장소 루트에서 공통 오프라인 검사를 실행한다. Python 3.10 이상이며
+모델/API 호출이나 Lean 컴파일은 하지 않는다.
 
 ```sh
 python3 -B scripts/check_common_harness.py
 ```
 
-원본 dataset과 준비된 환경이 있는 경우의 opt-in 검사는 각 실행기 문서를 따른다.
-원본 없이 skip한 통합 검사를 새 Lean 검증 성공으로 보고하지 않는다.
+테스트는 실험별 별도 프로세스에서 실행되어 `report`, `worker`, `evaluator` 같은
+동명 모듈이 서로 섞이지 않는다. 데이터 없이도 실행되며 dataset 검사는
+고정 원본이 설치됐을 때 수행한다. CI는 Python 3.10/3.13에서 같은 명령을 실행한다.
 
-## PR 반영 순서
+실제 환경 준비는 [최종 환경 안내](../../experiments/final-environment/README.md)를
+따른다. 이 준비 도구는 Python 3.12 이상과 고정 소스·compiler를 요구한다.
+dataset 원본은 `benchmarks/arena/final-d53690b057f9/snapshot.json`의 hash로
+확인해 같은 디렉터리에 설치한다. 코드·pin·점검 명세만 Git에 포함한다.
 
-1. 완료: 업로드 대상 정리와 기존 실행 코드·fixture 의존성 확인.
-2. 기반 PR: prompt·환경 캐시·탐색 제어·탐색 정책·평가/상태의 공통 계약을 구현하고 검사.
-   scout→merger·환율 피드백·접근 선택은 연결했고, 기존 prompt·스킬 PR의 남은 반영 범위를 명시한다.
-3. 기반 PR을 main에 병합한 뒤 관련 작업 브랜치의 기준을 갱신한다.
-4. 기존 PR #39 → #41 → #42의 의존관계를 유지하며 AutoSolver·native repair를 공통 계약에 연결한다.
-   중복된 provider·예산·evaluator를 새로 만들지 않는다.
+준비한 환경의 메타데이터·문맥·setup 127개 조합을 검사하려면 다음을 실행한다.
+이 검사는 기존 파일을 읽으며 새 Lean/HB 측정을 수행하지 않는다.
 
-이번 단계에서 다른 사람의 PR을 병합·수정하거나 유료 실험을 실행하지 않는다.
+```sh
+ARENA_FINAL_INTEGRATION=1 PYTHONPATH=src python3 -B -m unittest discover \
+  -s experiments/final-batch-next -p test_evaluator.py -v
+```
+
+## 실행 기록 보존
+
+기존 실행의 frozen code·ledger·후보·manifest를 이 통합본으로 덮어쓰지 않는다.
+새 정책은 새 run root에서 시작한다. 특히 final-batch-next는 다른 verification policy의
+실행 재사용을 거절하며, 캐시 성공만으로 전체 버전 호환성을 선언하지 않는다.
+최종 선택은 모든 지정 버전을 확인하고 기본 버전에서 캐시 없이 다시 측정한다.
+
+원본 작업 사본, 과거 코드 해시와 원시 로그는 그대로 두었다. 이번 통합에서 새로운
+유료 실험·HB 측정·공식 제출을 수행하지 않았다. 기존 GitHub 검증·수리 PR 등
+다른 연구 브랜치는 이 변경에 임의로 병합하지 않았다.

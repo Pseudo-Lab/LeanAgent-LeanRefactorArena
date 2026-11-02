@@ -1,0 +1,179 @@
+{
+  "schema_version": 1,
+  "created_at": "2026-10-25",
+  "research_question": "Does model-based semantic compression of the same first Lean diagnostic improve early valid proposals and early score improvement compared with exact structured_v1 extraction?",
+  "independent_variable": "Compile-error details policy only: deterministic structured_v1 caps (S) versus independent model message summarization and verbatim goal/context selection (M), from the same extracted first diagnostic.",
+  "conditions": {
+    "S": {
+      "error_feedback_mode": "structured_v1",
+      "description": "Exact prior structured_v1 extraction and deterministic per-field caps, unchanged."
+    },
+    "M": {
+      "error_feedback_mode": "semantic_v1",
+      "description": "One fresh independent summarizer job receives uncapped first diagnostic extraction, summarizes message, retains verbatim goal substring and ordered whole context lines, and emits the same complete JSON schema."
+    }
+  },
+  "details_character_limit": 1600,
+  "prompt_sha256": "392cb9211192e4621a1f6a634df9663c86e9d13e4c6d9f99591fee468f0366b9",
+  "prompt_origin": "experiments/first-harness-jwkweon/prompt-ablation-v1/prompts/A.txt",
+  "problems": {
+    "P01": {
+      "origin": "runs/first-harness-jwkweon/p01-p13-subagents-20261024/P01-r1",
+      "baseline": {
+        "tokens": 313,
+        "raw_heartbeats": 5173306
+      },
+      "input_files_sha256": {
+        "inputs/P01/baseline-observation.json": "90ab1f949accde5f61c469fc27555b1d99d913587bb873b42e0c52d3dd6603c3",
+        "inputs/P01/environment.lock.json": "e662b9a4502ffdb910df8e7c031c6b9c6437f119d4ccb8cc494ce7cc5eac2e8c",
+        "inputs/P01/context.lean.in": "412bac0c726411a9d4dc368b20aa2238d8be173b58646551ec2a91f631a74b6c",
+        "inputs/P01/source.lean": "1c5e76014548db4a380b5c225f561c726a0db1184dcddfefb7191052e67dd79a",
+        "inputs/P01/problem.json": "faa7c05686a305798abd9f2885e78cf809c90eec5d9cd3aac05fa7527c50789b"
+      }
+    },
+    "P13": {
+      "origin": "runs/first-harness-jwkweon/p13-budget10-subagents-20261024/P13-10-r1",
+      "baseline": {
+        "tokens": 1769,
+        "raw_heartbeats": 115674908
+      },
+      "input_files_sha256": {
+        "inputs/P13/baseline-observation.json": "b9e57ffca65b4de2334157101b73f85975cf586d59a2bfc40e463dbfaaf30f5f",
+        "inputs/P13/environment.lock.json": "038fbb1e295023fe3d014565fafe228e7abe49c6bf302dd50f07c5f09d1b5551",
+        "inputs/P13/context.lean.in": "40ab003e87d11a9a916c343ed77ea304decdf866259463271b0d01e9b761dd2f",
+        "inputs/P13/source.lean": "5a04c464cc6d845401a3dbe806ee45f9151fd337d76201129b0dcbf917cfd0ea",
+        "inputs/P13/problem.json": "fcde55311ab5dc46d98fc619318f8d34a36862a320ce65e2d9aa37a190411e19"
+      }
+    }
+  },
+  "trials": [
+    {
+      "trial_id": "P01-S-r1",
+      "problem_id": "P01",
+      "condition": "S",
+      "repetition": 1,
+      "max_proposals": 10
+    },
+    {
+      "trial_id": "P13-M-r1",
+      "problem_id": "P13",
+      "condition": "M",
+      "repetition": 1,
+      "max_proposals": 10
+    },
+    {
+      "trial_id": "P13-S-r1",
+      "problem_id": "P13",
+      "condition": "S",
+      "repetition": 1,
+      "max_proposals": 10
+    },
+    {
+      "trial_id": "P01-M-r1",
+      "problem_id": "P01",
+      "condition": "M",
+      "repetition": 1,
+      "max_proposals": 10
+    },
+    {
+      "trial_id": "P01-M-r2",
+      "problem_id": "P01",
+      "condition": "M",
+      "repetition": 2,
+      "max_proposals": 10
+    },
+    {
+      "trial_id": "P13-S-r2",
+      "problem_id": "P13",
+      "condition": "S",
+      "repetition": 2,
+      "max_proposals": 10
+    },
+    {
+      "trial_id": "P13-M-r2",
+      "problem_id": "P13",
+      "condition": "M",
+      "repetition": 2,
+      "max_proposals": 10
+    },
+    {
+      "trial_id": "P01-S-r2",
+      "problem_id": "P01",
+      "condition": "S",
+      "repetition": 2,
+      "max_proposals": 10
+    }
+  ],
+  "schedule": "Prespecified counterbalanced dispatch order; rolling queue maximum 2 fresh solvers, no paired model seed claim.",
+  "max_solver_parallelism": 2,
+  "repetitions_per_problem_condition": 2,
+  "planned_trial_count": 8,
+  "planned_proposal_count": 80,
+  "proposal_budget": 10,
+  "checkpoints": [
+    3,
+    6,
+    10
+  ],
+  "primary_outcome": "Per problem/condition, number of runs whose best cost at proposal 3 is strictly below the original cost of 1.",
+  "secondary_outcomes": [
+    "Valid proposal count among first 3 per run",
+    "First valid proposal and first score improvement (not achieved by 10 recorded as censored/null)",
+    "Best observed local cost at proposals 3,6,10",
+    "Compile failures and timeouts; final validation and record replay",
+    "Compile-error feedback exposure count, same-error offline formatter check, and first-error preservation",
+    "Next-proposal validity after a compile failure, descriptive only due to endogenous trajectories",
+    "Number of summarizer jobs, input/output sizes, elapsed time and schema/substring compliance; fallback incidents",
+    "Extracted and delivered goal/context character retention; whole-goal preservation where feasible"
+  ],
+  "constants": [
+    "Exact naive prompt, original statement/source/context and pinned libraries per problem",
+    "Same frozen original denominator and ranking, 10 proposals including rejections",
+    "Normal compilation plus 3 fresh measurement runs, final revalidation, 420-second limit per invocation",
+    "Same worker code; feedback condition not disclosed in initial request; independent fresh solver per trial",
+    "Same source access restrictions and best/latest history; no extra Lean calls, library search, repairs, strategy hints or additional budget",
+    "Successful feedback, response rejection and non-compile failures retain exact legacy behavior",
+    "Only the same first diagnostic is given to the summarizer: no proof source, full compiler log, problem statement, history or repair strategies.",
+    "M uses one independent model summarizer per compile failure, no automatic retry; invalid or missing summary falls back to exact S and records an incident."
+  ],
+  "readiness_policy": "One fresh original normal+3 validation and imports-only check per problem before any solver dispatch, with two problems checked concurrently. Full shared-runtime SHA256 before and after.",
+  "limitations": [
+    "Two fresh independent runs per condition are exploratory, not a significance test.",
+    "Exact backend model ID, sampling seed, hidden context, internal model calls and cost unobservable.",
+    "S and M receive the same extraction; M adds a model transformation and variable latency, so this does not isolate compression alone.",
+    "Both problems have already informed development; not held-out generalization.",
+    "Libraries are shared read-only by policy; no OS-level isolation.",
+    "Offline old-log formatter checks are manipulation checks, not extra solver trials or performance evidence.",
+    "Strategy-free semantic fidelity cannot be proved by deterministic schema/substring checks; preserve raw inputs and outputs for review.",
+    "Summarizer jobs are observable; exact internal model-call count, backend model ID and monetary cost remain unknown for both roles."
+  ],
+  "status": "planned",
+  "summary_policy": {
+    "input": "uncapped prior _extract output (including its existing last-12-local-context restriction)",
+    "schema": [
+      "location",
+      "message",
+      "case",
+      "goal",
+      "local_context",
+      "truncated"
+    ],
+    "immutable_fields": [
+      "location",
+      "case"
+    ],
+    "verbatim_contiguous_substrings": [
+      "goal"
+    ],
+    "free_summary_field": "message",
+    "preserve_entire_goal_when_feasible": true,
+    "canonical_json_character_limit": 1600,
+    "max_jobs_per_compile_failure": 1,
+    "automatic_retries": false,
+    "wait_timeout_seconds": 1800,
+    "invalid_or_missing_output": "exact structured_v1 fallback and recorded incident",
+    "repair_strategies": "forbidden",
+    "local_context": "whole original lines in original order; ordered subsequence",
+    "whole_goal_feasibility": "canonical envelope with empty message/context and truncated=true plus 200 characters <=1600"
+  }
+}

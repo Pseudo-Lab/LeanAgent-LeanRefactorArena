@@ -14,7 +14,7 @@ from lean_agent import actions, artifacts, harness, models
 from test_harness import FakeEvaluator
 
 REPO = Path(__file__).resolve().parents[1]
-FIXTURES = REPO / "examples/actions"
+EXPERIMENT = REPO / "experiments/action-candidate-memory"
 
 
 class ActionTests(unittest.TestCase):
@@ -22,12 +22,12 @@ class ActionTests(unittest.TestCase):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
         self.root = Path(temp.name)
-        shutil.copytree(FIXTURES, self.root / "fixtures")
-        self.config = artifacts.read(REPO / "configs/actions-smoke.json")
+        shutil.copytree(EXPERIMENT, self.root / "experiment")
+        self.config = artifacts.read(EXPERIMENT / "smoke.json")
         for key in ("problem", "template", "project", "prompt"):
-            self.config[key] = str((REPO / "configs" / self.config[key]).resolve())
-        self.config["agent"]["corpus"] = str(self.root / "fixtures/corpus.json")
-        self.config["model"]["responses"] = str(self.root / "fixtures/responses.json")
+            self.config[key] = str((EXPERIMENT / self.config[key]).resolve())
+        self.config["agent"]["corpus"] = str(self.root / "experiment/corpus.json")
+        self.config["model"]["responses"] = str(self.root / "experiment/responses.json")
         self.path, self.output = self.root / "config.json", self.root / "run"
 
     def run_case(self, evaluator=None, **kwargs):

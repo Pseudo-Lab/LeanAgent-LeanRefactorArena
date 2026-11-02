@@ -1,0 +1,1 @@
+{"kind": "pre_dispatch_implementation_correction", "solver_dispatch_count": 0, "description": "queue.py renamed dispatch.py after stdlib queue shadowing prevented readiness launch; no Lean work in failed attempt. Explicit post-finish replay command added to frozen operations template before solver dispatch; active mapping is a dict."}

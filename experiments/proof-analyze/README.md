@@ -77,7 +77,3 @@ python analyze.py --decl proof.lean --statement statement.lean
 - 블록은 들여쓰기로 나누므로 항 자리의 증명이나 한 줄에 여러 tactic이 있는 증명은 나누지 못함.
 - 유형 분류 기준(50%, 25%)과 길이 구간은 웜업 15문제를 보고 정한 값이라 본 벤치마크에서 다시 확인해야 함.
 - 다음 단계: 하네스에서 `analyze` → `focus_view`로 모델에 구간 전달 → 모델 응답을 `splice` → 컴파일과 점수 확인 순으로 연결하고, 대상을 고르지 않고 증명 전체를 넘긴 경우와 같은 예산에서 비교함.
-
-## 생성물 보존
-
-`results/P01_focus.lean`부터 `P15_focus.lean`까지는 자동 생성되는 편집 위치 표시 파일로 Git에서 관리하지 않는다. 필요하면 위 `analyze.py` 명령으로 재생성한다. 도구·문제별 JSON·요약 Markdown은 유지하며, [실험 기록](../../docs/experiments/records/proof-analyze.md)에서 소스 파일 없이 결과와 한계를 읽을 수 있다.

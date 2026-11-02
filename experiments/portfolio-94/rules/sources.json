@@ -1,0 +1,20 @@
+{
+  "retrieved_at": "2026-10-28T02:27:27.119678+00:00",
+  "sources": [
+    {
+      "url": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/raw/main/app.py",
+      "file": "app.py",
+      "sha256": "7cac6c0e2d09c01cd1236954434f4dd59d99c51389ddfc8d428f4f4c7b08da95"
+    },
+    {
+      "url": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/raw/main/leaderboard.py",
+      "file": "leaderboard.py",
+      "sha256": "04475298b1058d74f945d07706f33c889926c40442eb388a828f5a30394f8e84"
+    },
+    {
+      "url": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/raw/main/README.md",
+      "file": "README.md",
+      "sha256": "94bbfa5e4ca35035dc171dadcda13eaefc082bdf569b80ea69dd3ee547854ce3"
+    }
+  ]
+}

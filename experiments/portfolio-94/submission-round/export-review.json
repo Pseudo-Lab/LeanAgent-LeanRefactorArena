@@ -1,0 +1,306 @@
+{
+  "created_utc": "2026-10-28T07:50:45.975026+00:00",
+  "scope": "Independent snapshot review of 15-row export; no Lean execution or official submission.",
+  "artifact_hashes": {
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/selection-current.json": "17c34e5e84debcc45532b5ed42530c0ef6ef2f8b90c723c4b36f23619f365967",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup-hb-20261028/manifest.json": "8f9afbc7ab446adefbfc71ed87820c9cec4d88bdac428bd8bc24430c0c0f68cd",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup-hb-20261028/submission.jsonl": "248b1a96124f8d7caa3d94c386dffc19ea500595b5bd529779979cb91b1a471c",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup-hb-20261028/proofs-readable.json": "7c5a7f260b855c9fbe72f9dbe967302c3a21640f51a395c225e4e68e02e9b9f8"
+  },
+  "exported_with_exporter_sha256": "04073e8ce15db8ab847122431eb8ce08ab6e8dde4f94bcb69cc71cdc74aed93c",
+  "current_exporter_sha256": "04073e8ce15db8ab847122431eb8ce08ab6e8dde4f94bcb69cc71cdc74aed93c",
+  "evidence_gate_sha256": "e375c1d75a4221bc09c5f9659ca4802edd75112743c67ff736cd384ea8625585",
+  "rules_sha256": "7cac6c0e2d09c01cd1236954434f4dd59d99c51389ddfc8d428f4f4c7b08da95",
+  "payload_checks_passed": true,
+  "evidence_binding_checks_passed": true,
+  "all_required_pins_complete": false,
+  "pending": [
+    {
+      "id": 9,
+      "pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ]
+    },
+    {
+      "id": 10,
+      "pins": [
+        "v4.28.0"
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "id": 1,
+      "name": "CallElimCorrect.substOldPostSubset",
+      "proof_sha256": "954dee0cdde6bebb35e0bd0cb8b2d691526facc46d4b5ab7b7d7ee3fb6e9b5f5",
+      "tokens": 32,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.26.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 2,
+      "name": "CallElimCorrect.extractedOldExprInVars",
+      "proof_sha256": "9c73432c2f05c8ca0408716ae9bd45374ed724bd982ed43ffc34afd49ba5ce9d",
+      "tokens": 19,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.26.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 3,
+      "name": "Core.InitsUpdatesComm",
+      "proof_sha256": "4422a08306c406fbf1cc8f63ea6aac6cb615f540e9d92fab67cd8cc1787cf2b3",
+      "tokens": 78,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.26.0",
+        "v4.27.0",
+        "v4.29.1"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 4,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "proof_sha256": "534b3f8929bc01e93d50fe36133ffc14ac729ff0eee74cacbc8cb03fe5ac0eb8",
+      "tokens": 123,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.32.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 5,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "proof_sha256": "9aabe6f4d7499ed974d0eb341ec6c0ecc1b727edb79f203343d272719f98b4fa",
+      "tokens": 427,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.32.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 6,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "proof_sha256": "07163bcdf011341d0a6364f0cadc80389366b248bc15eb99a773e64d7c582a46",
+      "tokens": 422,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.32.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 7,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "proof_sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+      "tokens": 101,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 8,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "proof_sha256": "8b15f299a78a2444df2d0f92648f0562c38dabdedfd5a51c27e6a86bf0ad2b10",
+      "tokens": 185,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.30.0",
+        "v4.31.0",
+        "v4.32.0",
+        "v4.33.0-rc2"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 9,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "proof_sha256": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
+      "tokens": 79,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [],
+      "pending_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ]
+    },
+    {
+      "id": 10,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "proof_sha256": "c617f04451b737b39bcaa00366e92ba1b969bca536a3477ccb563f179c2eb5f4",
+      "tokens": 257,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "pending_pins": [
+        "v4.28.0"
+      ]
+    },
+    {
+      "id": 11,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "proof_sha256": "c7968b607b27165f48d1a8f9ab79a672348f7390c6403e4630cca09d0cc626d7",
+      "tokens": 248,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 12,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "proof_sha256": "1e3abf1f63b8b83265cc0e92fbd041997489be9855b84af4447b75a1b3809208",
+      "tokens": 156,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 13,
+      "name": "putnam_1964_a4",
+      "proof_sha256": "6bf40078bbbbbafe922d313feb4228bc8c6262269d3a13231482b25c001feda9",
+      "tokens": 259,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 14,
+      "name": "putnam_1964_b2",
+      "proof_sha256": "a10d02bb75d48da51f9b0edda5b7312b1c4a4c02971d9bafdb4f77c9c8a44b32",
+      "tokens": 55,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.25.0",
+        "v4.26.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 15,
+      "name": "putnam_1995_a3",
+      "proof_sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+      "tokens": 283,
+      "statement_exact": true,
+      "strict_no_extra_declaration_gate": true,
+      "public_rules_filter_passed": true,
+      "selected_and_bundled_proof_hashes_match": true,
+      "evidence_snapshot_hashes_match": true,
+      "evidence_derived_pins": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "pending_pins": []
+    }
+  ],
+  "actual_artifact_findings": [],
+  "exporter_review_findings": [
+    {
+      "severity": "P2",
+      "file": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/export_bundle.py",
+      "original_line": 71,
+      "title": "Original exporter trusted verified_pins without enforcing proof SHA and successful pin binding",
+      "status": "Evidence gate implemented and tested; exporter integration owned by parent",
+      "fix": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/evidence_gate.py",
+      "tests": [
+        "All 15 current selections yield expected pins.",
+        "Forged verified_pins claims do not affect returned evidence-derived pins.",
+        "Fourteen valid-source/stale-evidence swaps rejected; P09 intentionally has no evidence and returns [].",
+        "Both small-runner fingerprint.pin and fingerprint.lean_pin normalize successfully."
+      ]
+    }
+  ],
+  "limitations": [
+    "Pending pins are explicit; this review does not certify those pins.",
+    "Archival evidence retains independent-Audit and remote raw-log availability caveats.",
+    "Only five pure intake declarations were extracted via AST; the complete Space app was not imported.",
+    "Exact statement and conservative single-proof lexical gate passed; no additional Lean parse or compilation was performed in this review.",
+    "Review applies only to recorded selection/manifest/JSONL hashes. Later rebuilds require another review."
+  ]
+}

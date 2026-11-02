@@ -20,7 +20,7 @@
 - `sources/final/problems/F001.json` … `F060.json`: 최종 dataset SHA가 들어간 별도 문제 ID.
   warmup의 번호·기준값을 재사용하지 않는다.
 - `configs/final-environments.local.json`: 준비된 환경을 가리키는 로컬 registry.
-- `preparation-results.json` (로컬 생성·Git 제외): 모든 환경 준비와 봉인이 끝나면 생성하는 요약.
+- [preparation-results.json](preparation-results.json): 모든 환경 준비와 봉인이 끝나면 생성하는 요약.
 
 큰 runtime과 캐시는 `/sources/` 아래에 있고 Git에서 제외된다. 코드와 pin lock은 검토 가능한
 작은 파일이다. 전역 기본 Lean 버전은 바꾸지 않는다. 원본 저장소의 추적 소스와
@@ -96,5 +96,5 @@ Lean library와 native 공유 라이브러리를 포함한다. 파일 경로는 
 
 이 준비는 공식 Linux worker와 동일한 실행 결과나 점수를 보장하는 검증이 아니다.
 현재 하네스의 보수적 후보 문자열 검사에 걸리는 원본 4개와 로컬 토큰 계산 차이 2개는
-`benchmarks/arena/final-d53690b057f9/audit.py`로 생성하는 로컬 dataset audit에 별도 기록돼 있다.
+[dataset audit](../../benchmarks/arena/final-d53690b057f9/audit.json)에 별도 기록돼 있다.
 환경 준비를 위해 후보 검사 규칙이나 dataset의 길이 값을 완화·수정하지 않는다.

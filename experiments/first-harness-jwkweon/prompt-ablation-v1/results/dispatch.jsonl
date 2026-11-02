@@ -1,0 +1,20 @@
+{"event": "dispatched", "trial_id": "P13-B3-r1", "agent": "/root/ablation_p13_b3_r1", "dispatched_at": "2026-10-23T17:24:43.107114+00:00"}
+{"event": "dispatched", "trial_id": "P13-A-r1", "agent": "/root/ablation_p13_a_r1", "dispatched_at": "2026-10-23T17:24:43.107437+00:00"}
+{"event": "completed", "trial_id": "P13-B3-r1", "agent": "/root/ablation_p13_b3_r1", "observed_at": "2026-10-24T00:02:49.165799+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-B2-r1", "agent": "/root/ablation_p13_b2_r1", "dispatched_at": "2026-10-24T00:03:00.176645+00:00"}
+{"event": "completed", "trial_id": "P13-A-r1", "agent": "/root/ablation_p13_a_r1", "observed_at": "2026-10-24T00:11:10.378039+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-B1-r1", "agent": "/root/ablation_p13_b1_r1", "dispatched_at": "2026-10-24T00:11:20.793997+00:00"}
+{"event": "completed", "trial_id": "P13-B2-r1", "agent": "/root/ablation_p13_b2_r1", "observed_at": "2026-10-24T00:44:51.971744+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-B4-r1", "agent": "/root/ablation_p13_b4_r1", "dispatched_at": "2026-10-24T00:45:06.024101+00:00"}
+{"event": "completed", "trial_id": "P13-B1-r1", "agent": "/root/ablation_p13_b1_r1", "observed_at": "2026-10-24T00:54:51.396581+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-B4-r2", "agent": "/root/ablation_p13_b4_r2", "dispatched_at": "2026-10-24T00:54:59.838147+00:00"}
+{"event": "completed", "trial_id": "P13-B4-r1", "agent": "/root/ablation_p13_b4_r1", "observed_at": "2026-10-24T01:14:23.949372+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-B1-r2", "agent": "/root/ablation_p13_b1_r2", "dispatched_at": "2026-10-24T01:14:33.730172+00:00"}
+{"event": "completed", "trial_id": "P13-B4-r2", "agent": "/root/ablation_p13_b4_r2", "observed_at": "2026-10-24T01:25:44.762271+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-B2-r2", "agent": "/root/ablation_p13_b2_r2", "dispatched_at": "2026-10-24T01:25:54.392892+00:00"}
+{"event": "completed", "trial_id": "P13-B1-r2", "agent": "/root/ablation_p13_b1_r2", "observed_at": "2026-10-24T01:38:38.650075+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-A-r2", "agent": "/root/ablation_p13_a_r2", "dispatched_at": "2026-10-24T01:38:47.901761+00:00"}
+{"event": "completed", "trial_id": "P13-B2-r2", "agent": "/root/ablation_p13_b2_r2", "observed_at": "2026-10-24T01:44:19.453666+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-B3-r2", "agent": "/root/ablation_p13_b3_r2", "dispatched_at": "2026-10-24T01:44:28.741386+00:00"}
+{"event": "completed", "trial_id": "P13-A-r2", "agent": "/root/ablation_p13_a_r2", "observed_at": "2026-10-24T01:46:28.974881+00:00", "final_valid": true}
+{"event": "completed", "trial_id": "P13-B3-r2", "agent": "/root/ablation_p13_b3_r2", "observed_at": "2026-10-24T01:52:38.051142+00:00", "final_valid": true}

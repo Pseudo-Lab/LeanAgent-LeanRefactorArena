@@ -1,0 +1,16 @@
+{"event": "dispatched", "trial_id": "P13-M-r1", "step": 1, "agent": "/root/summary_p13_m_r1_001", "dispatched_at": "2026-10-25T10:01:21.400203+00:00"}
+{"event": "completed", "trial_id": "P13-M-r1", "step": 1, "agent": "/root/summary_p13_m_r1_001", "observed_at": "2026-10-25T10:01:49.702993+00:00"}
+{"event": "dispatched", "trial_id": "P13-M-r1", "step": 5, "agent": "/root/summary_p13_m_r1_005", "dispatched_at": "2026-10-25T10:16:53.246399+00:00"}
+{"event": "completed", "trial_id": "P13-M-r1", "step": 5, "agent": "/root/summary_p13_m_r1_005", "observed_at": "2026-10-25T10:17:14.951766+00:00"}
+{"event": "dispatched", "trial_id": "P01-M-r1", "step": 1, "agent": "/root/summary_p01_m_r1_001", "dispatched_at": "2026-10-25T10:49:38.211008+00:00"}
+{"event": "completed", "trial_id": "P01-M-r1", "step": 1, "agent": "/root/summary_p01_m_r1_001", "observed_at": "2026-10-25T10:49:56.678216+00:00"}
+{"event": "dispatched", "trial_id": "P01-M-r1", "step": 2, "agent": "/root/summary_p01_m_r1_002", "dispatched_at": "2026-10-25T10:50:21.621780+00:00"}
+{"event": "completed", "trial_id": "P01-M-r1", "step": 2, "agent": "/root/summary_p01_m_r1_002", "observed_at": "2026-10-25T10:50:41.544956+00:00"}
+{"event": "dispatched", "trial_id": "P01-M-r1", "step": 7, "agent": "/root/summary_p01_m_r1_007", "dispatched_at": "2026-10-25T10:58:24.219087+00:00"}
+{"event": "completed", "trial_id": "P01-M-r1", "step": 7, "agent": "/root/summary_p01_m_r1_007", "observed_at": "2026-10-25T10:58:57.438399+00:00"}
+{"event": "dispatched", "trial_id": "P01-M-r2", "step": 1, "agent": "/root/summary_p01_m_r2_001", "dispatched_at": "2026-10-25T11:06:37.880528+00:00"}
+{"event": "completed", "trial_id": "P01-M-r2", "step": 1, "agent": "/root/summary_p01_m_r2_001", "observed_at": "2026-10-25T11:07:11.447458+00:00"}
+{"event": "dispatched", "trial_id": "P13-M-r2", "step": 1, "agent": "/root/summary_p13_m_r2_001", "dispatched_at": "2026-10-25T11:26:41.432323+00:00"}
+{"event": "completed", "trial_id": "P13-M-r2", "step": 1, "agent": "/root/summary_p13_m_r2_001", "observed_at": "2026-10-25T11:28:33.431662+00:00"}
+{"event": "dispatched", "trial_id": "P13-M-r2", "step": 3, "agent": "/root/summary_p13_m_r2_003", "dispatched_at": "2026-10-25T11:36:18.435983+00:00"}
+{"event": "completed", "trial_id": "P13-M-r2", "step": 3, "agent": "/root/summary_p13_m_r2_003", "observed_at": "2026-10-25T11:36:51.187806+00:00"}

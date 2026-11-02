@@ -1,0 +1,3764 @@
+{
+  "checked_at": "2026-10-24T04:17:39.039173+00:00",
+  "status": "completed",
+  "trial_count": 10,
+  "proposal_count": 100,
+  "all_record_checks_passed": true,
+  "all_final_valid": true,
+  "same_first_request_within_condition": true,
+  "common_baseline": {
+    "tokens": 313,
+    "raw_heartbeats": 5173306
+  },
+  "shared_runtime_artifacts_unchanged": true,
+  "shared_runtime_file_count": 11532,
+  "recorded_peak_solver_parallelism": 2,
+  "trials": [
+    {
+      "trial_id": "P01-B3-r1",
+      "condition": "B3",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 37,
+          "raw_heartbeats": 3278373,
+          "local_cost": 0.3759601659805384,
+          "code_sha256": "dafb168393c676f825dd5e82933b36974780c32c218d4cad2740a9bfa1ef1339"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 47,
+          "raw_heartbeats": 2143519,
+          "local_cost": 0.282250973237352,
+          "code_sha256": "e869d9c49f3358ad0cf0846a2af8e445ac0d31fb783b06eec7472fb070fcb1cd"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 914066829,
+        "raw_heartbeats": 2143519,
+        "raw_samples": [
+          2143519,
+          2143570,
+          2143390
+        ],
+        "sha256": "e869d9c49f3358ad0cf0846a2af8e445ac0d31fb783b06eec7472fb070fcb1cd",
+        "tokens": 47
+      },
+      "selected_local_cost": 0.282250973237352,
+      "final": {
+        "raw_heartbeats": 2143590,
+        "raw_samples": [
+          2143563,
+          2143615,
+          2143590
+        ],
+        "tokens": 47
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2143,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "51dd8fe79330c74fb15fe284c3e7c95cc6268a1e9a26fa16cabfa65dde598b58",
+                "returncode": 0,
+                "seconds": 15.783787,
+                "source": "check.lean",
+                "source_sha256": "5e84bb78faf56b2fd56f99cb209b6afc1a0891cf641ef2924a3f7c7f8810cd84",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "a77f4e9b306cdc22fe31bfe6981870f755c5dbdcc0b6030e66f0cb5ffe564ce2",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2143563,
+                  "scaled": 2143,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.795159,
+                "source": "measure-1.lean",
+                "source_sha256": "2727edd1523a726d1d725a17bb06da4d54cbf908fe1c123ff8f8c2a37a77f8ae",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "fc38f511d4885114b8757883d27a9cfa3bd66f6448841ebdba63925c374dffa4",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2143615,
+                  "scaled": 2143,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.489986,
+                "source": "measure-2.lean",
+                "source_sha256": "4a0651f2071262de1f0b98d3a97e83c57e0cf59b6affd8c731eb4ff80e2c3080",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "bfa3e5c62c9038596b80caaeed4fe8b07811668fa0b9df8eb76b194209ed7896",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2143590,
+                  "scaled": 2143,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.747426,
+                "source": "measure-3.lean",
+                "source_sha256": "7271cacc59e22fd2ddb4fccb4ba1d7006bb701e01bde34a528e2efc79e31dfd1",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 47,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "tokens": 73,
+          "raw_heartbeats": 3923047,
+          "local_cost": 0.49577589219806023,
+          "code_sha256": "c75f3d7e286eb55239c4d1ebf01668aaae9377a56e1be6fe202ebd1fa4337bba"
+        },
+        {
+          "step": 5,
+          "tokens": 73,
+          "raw_heartbeats": 3923047,
+          "local_cost": 0.49577589219806023,
+          "code_sha256": "c75f3d7e286eb55239c4d1ebf01668aaae9377a56e1be6fe202ebd1fa4337bba"
+        },
+        {
+          "step": 6,
+          "tokens": 37,
+          "raw_heartbeats": 3278373,
+          "local_cost": 0.3759601659805384,
+          "code_sha256": "dafb168393c676f825dd5e82933b36974780c32c218d4cad2740a9bfa1ef1339"
+        },
+        {
+          "step": 7,
+          "tokens": 38,
+          "raw_heartbeats": 3257478,
+          "local_cost": 0.3755381084205664,
+          "code_sha256": "eb92bc20c142bba5450b2d936474e49583f28c1fe7fd466ecc2147b2f37bb0ef"
+        },
+        {
+          "step": 8,
+          "tokens": 41,
+          "raw_heartbeats": 3127476,
+          "local_cost": 0.3677657480146587,
+          "code_sha256": "a6caba17bb51d984e886efe41f764ed10b92155a43ce9e97b868f5caf0ef087e"
+        },
+        {
+          "step": 9,
+          "tokens": 47,
+          "raw_heartbeats": 2143519,
+          "local_cost": 0.282250973237352,
+          "code_sha256": "e869d9c49f3358ad0cf0846a2af8e445ac0d31fb783b06eec7472fb070fcb1cd"
+        },
+        {
+          "step": 10,
+          "tokens": 47,
+          "raw_heartbeats": 2143519,
+          "local_cost": 0.282250973237352,
+          "code_sha256": "e869d9c49f3358ad0cf0846a2af8e445ac0d31fb783b06eec7472fb070fcb1cd"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "4ff7181772ff50ec1b0551a75fb8817dbfed972cc1429f1100b46350e7efbdea"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "88febbeea2b5e7b0d642738c80ac0821e834b0ddd04708d96c3a9808fefa03c6"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10059785,
+            "tokens": 44
+          },
+          "code_sha256": "7bf9f1674b86808b3bbada364ae25ecc5b60e064789cccb6645b26639955a9a5"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3923047,
+            "tokens": 73
+          },
+          "code_sha256": "c75f3d7e286eb55239c4d1ebf01668aaae9377a56e1be6fe202ebd1fa4337bba"
+        },
+        {
+          "step": 5,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "5f6cf09aad53775bbe07ef781ecf104675c33c5b3dc571b9b2364a0cde6c676c"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3278373,
+            "tokens": 37
+          },
+          "code_sha256": "dafb168393c676f825dd5e82933b36974780c32c218d4cad2740a9bfa1ef1339"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3257478,
+            "tokens": 38
+          },
+          "code_sha256": "eb92bc20c142bba5450b2d936474e49583f28c1fe7fd466ecc2147b2f37bb0ef"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3127476,
+            "tokens": 41
+          },
+          "code_sha256": "a6caba17bb51d984e886efe41f764ed10b92155a43ce9e97b868f5caf0ef087e"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2143519,
+            "tokens": 47
+          },
+          "code_sha256": "e869d9c49f3358ad0cf0846a2af8e445ac0d31fb783b06eec7472fb070fcb1cd"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2482215,
+            "tokens": 41
+          },
+          "code_sha256": "82c2cd465b214117311c973dded911c1b4c6ff1ecb66f8156efe40dbab8bf933"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 3
+      },
+      "verified_proposals": 7,
+      "distinct_valid_proofs": 7,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "cd656a7c49e26ce7988043496bfb2ef20af1082f392343476e5a741b015ea823",
+      "first_request_sha256": "8efc416df39bf84c4f1d954688d33c2af1eb2c7d0543ee86eec07d8e9f9f768e",
+      "started_at": "2026-10-24T03:10:11.293020+00:00",
+      "finished_at": "2026-10-24T03:23:27.722025+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:10:46.722469+00:00",
+      "solver_completion_observed_at": "2026-10-24T03:23:41.314528+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-A-r1",
+      "condition": "A",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 36,
+          "raw_heartbeats": 4518308,
+          "local_cost": 0.4942024336730638,
+          "code_sha256": "2ba347d62f45fb0e0d23a374d00f0265028d485a41a5261d71a2765cf7b9e300"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 38,
+          "raw_heartbeats": 2394859,
+          "local_cost": 0.2921659862224981,
+          "code_sha256": "19b8dc17299658127dd663f7094d63b0b4b818a0b3cc1145a22355186453862b"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 946176495,
+        "raw_heartbeats": 2394859,
+        "raw_samples": [
+          2394809,
+          2394965,
+          2394859
+        ],
+        "sha256": "19b8dc17299658127dd663f7094d63b0b4b818a0b3cc1145a22355186453862b",
+        "tokens": 38
+      },
+      "selected_local_cost": 0.2921659862224981,
+      "final": {
+        "raw_heartbeats": 2394925,
+        "raw_samples": [
+          2395085,
+          2394925,
+          2394917
+        ],
+        "tokens": 38
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2394,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "fe314832b440bc884fcd77f11ca0dc7b1501ea61436177311d0d112b1ccec150",
+                "returncode": 0,
+                "seconds": 15.836321,
+                "source": "check.lean",
+                "source_sha256": "de9c7b0a60db232a4ba0d2f32f178c10766e742b74d192f570466096af6368c9",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "ee85675e816991290f66e97c06aac3367057cf38e926950ba663c386a893a073",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2395085,
+                  "scaled": 2395,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.224502,
+                "source": "measure-1.lean",
+                "source_sha256": "c80bc6bbfef57cd9d60a56de3e5d77eb661c59b12a5fafd709d60193a2c1d5df",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "7b43bdece4bd2c4d83aa8037478195f75fba81297f29cfeb5cae19402cddcb77",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2394925,
+                  "scaled": 2394,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.59306,
+                "source": "measure-2.lean",
+                "source_sha256": "56688c7d8b8d1c7128d6c6099f9bd416f93060192d42419f3d2b57b8525d8be3",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "687e6e4b1e04934ab376504184a025b9a2f2dcc23c610860826d770dd77626c1",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2394917,
+                  "scaled": 2394,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.965738,
+                "source": "measure-3.lean",
+                "source_sha256": "1253f3667b0b7fa03829dda79fd3426c456dc4ddfc583d75b1f4d89c8ac75005",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 38,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "tokens": 40,
+          "raw_heartbeats": 4731667,
+          "local_cost": 0.5212133563539583,
+          "code_sha256": "564393b7a8b9ec6946867f5ae9af0c0189b4c01f8ecf80f5f85fed0ad70d5679"
+        },
+        {
+          "step": 6,
+          "tokens": 36,
+          "raw_heartbeats": 4518308,
+          "local_cost": 0.4942024336730638,
+          "code_sha256": "2ba347d62f45fb0e0d23a374d00f0265028d485a41a5261d71a2765cf7b9e300"
+        },
+        {
+          "step": 7,
+          "tokens": 38,
+          "raw_heartbeats": 3252338,
+          "local_cost": 0.3750413274453061,
+          "code_sha256": "612b8612a882ce64652325692a9b84441594c3b4ee40ba6cc37fcb360cb92326"
+        },
+        {
+          "step": 8,
+          "tokens": 38,
+          "raw_heartbeats": 2680148,
+          "local_cost": 0.3197391666993537,
+          "code_sha256": "b3ba08923e9e99f28c662d045cd17888d7d834c2c69439d7a9b6bd9c020a3465"
+        },
+        {
+          "step": 9,
+          "tokens": 38,
+          "raw_heartbeats": 2394859,
+          "local_cost": 0.2921659862224981,
+          "code_sha256": "19b8dc17299658127dd663f7094d63b0b4b818a0b3cc1145a22355186453862b"
+        },
+        {
+          "step": 10,
+          "tokens": 38,
+          "raw_heartbeats": 2394859,
+          "local_cost": 0.2921659862224981,
+          "code_sha256": "19b8dc17299658127dd663f7094d63b0b4b818a0b3cc1145a22355186453862b"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "e561abc05916c05e896420d3275430c715b69610f4b1871ac42b71911a049cc2"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "f6f5b97c198b92678d941ab578a120db9222030a524f93395491cecfc2fb1bb6"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10072304,
+            "tokens": 27
+          },
+          "code_sha256": "7ea5909b042e6d9489e22544ca373eee7704fa86e3c485c5a1e177dc2a0a2867"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10055637,
+            "tokens": 28
+          },
+          "code_sha256": "c61c7d5c2d75395c2b99358749dfffd9370807d60b465b22e0e64c469943a47d"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 4731667,
+            "tokens": 40
+          },
+          "code_sha256": "564393b7a8b9ec6946867f5ae9af0c0189b4c01f8ecf80f5f85fed0ad70d5679"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 4518308,
+            "tokens": 36
+          },
+          "code_sha256": "2ba347d62f45fb0e0d23a374d00f0265028d485a41a5261d71a2765cf7b9e300"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3252338,
+            "tokens": 38
+          },
+          "code_sha256": "612b8612a882ce64652325692a9b84441594c3b4ee40ba6cc37fcb360cb92326"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2680148,
+            "tokens": 38
+          },
+          "code_sha256": "b3ba08923e9e99f28c662d045cd17888d7d834c2c69439d7a9b6bd9c020a3465"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2394859,
+            "tokens": 38
+          },
+          "code_sha256": "19b8dc17299658127dd663f7094d63b0b4b818a0b3cc1145a22355186453862b"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2511110,
+            "tokens": 44
+          },
+          "code_sha256": "0a9af97ac598702b3638c446ad260810aa0eed7ef9b2624de2d7c20358fad3c0"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "verified_proposals": 8,
+      "distinct_valid_proofs": 8,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "71d10102786f19e75d75ffa565d6bc4d459ec721a8d2fdeb037c1e49dc18893d",
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "started_at": "2026-10-24T03:10:11.513894+00:00",
+      "finished_at": "2026-10-24T03:24:11.056871+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:10:58.529872+00:00",
+      "solver_completion_observed_at": "2026-10-24T03:24:22.641367+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-B2-r1",
+      "condition": "B2",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 33,
+          "raw_heartbeats": 3256276,
+          "local_cost": 0.3674347146790675,
+          "code_sha256": "b306b0b8e1e68896c3a6b613bf5ed0ccea6c0a6e0cc41c42c161c841c5bdefb3"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 33,
+          "raw_heartbeats": 2696469,
+          "local_cost": 0.31332937082351364,
+          "code_sha256": "f37fa2ec83b7e1a9729d3c609ce3c222e81a494e95c6f0b9010c34c3a69334be"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 1014713895,
+        "raw_heartbeats": 2696469,
+        "raw_samples": [
+          2696469,
+          2696441,
+          2696492
+        ],
+        "sha256": "f37fa2ec83b7e1a9729d3c609ce3c222e81a494e95c6f0b9010c34c3a69334be",
+        "tokens": 33
+      },
+      "selected_local_cost": 0.31332937082351364,
+      "final": {
+        "raw_heartbeats": 2696462,
+        "raw_samples": [
+          2696468,
+          2696462,
+          2696458
+        ],
+        "tokens": 33
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2696,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "9693a214207ede9961d01be4b8434bbbf0647ac6400877eb5ed90b633f25081c",
+                "returncode": 0,
+                "seconds": 15.103307,
+                "source": "check.lean",
+                "source_sha256": "f9a387b144762af32bc5813d710523bf3822531e6251e3eda2003a356918073a",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "0697c22c1969c1e6f2e243edb6481d2d1e62415bbaed1d2dfcb66c50c2ce09cb",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2696468,
+                  "scaled": 2696,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.173241,
+                "source": "measure-1.lean",
+                "source_sha256": "e03fde1d5ef6c0866e5c3fc893216da3816491adddc203b99407d6a13d1b034b",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "9f4fbffb11e660ee38ee967904c5383b229149f59bd090534c54ed3b4d347bb0",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2696462,
+                  "scaled": 2696,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.651478,
+                "source": "measure-2.lean",
+                "source_sha256": "464f884da630d7987ba8ed45ca0857d2b29984955410e5be0e25e5bbe0eb3046",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "73e728195888b2849b0f40166aa0eda5f303c02710ede3fcdf50b039645d890d",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2696458,
+                  "scaled": 2696,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.282426,
+                "source": "measure-3.lean",
+                "source_sha256": "b86269c349759a45a45ad01ddf6ada7c87146e9ffe8cdafa1f122223c86aee41",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 33,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "tokens": 37,
+          "raw_heartbeats": 3378969,
+          "local_cost": 0.3856827688963527,
+          "code_sha256": "32161445baeb7594f5efc1fe1c93c319f2894f040d9b29aea2936abd7d6ee7bc"
+        },
+        {
+          "step": 6,
+          "tokens": 33,
+          "raw_heartbeats": 3256276,
+          "local_cost": 0.3674347146790675,
+          "code_sha256": "b306b0b8e1e68896c3a6b613bf5ed0ccea6c0a6e0cc41c42c161c841c5bdefb3"
+        },
+        {
+          "step": 7,
+          "tokens": 33,
+          "raw_heartbeats": 3256276,
+          "local_cost": 0.3674347146790675,
+          "code_sha256": "b306b0b8e1e68896c3a6b613bf5ed0ccea6c0a6e0cc41c42c161c841c5bdefb3"
+        },
+        {
+          "step": 8,
+          "tokens": 33,
+          "raw_heartbeats": 3256276,
+          "local_cost": 0.3674347146790675,
+          "code_sha256": "b306b0b8e1e68896c3a6b613bf5ed0ccea6c0a6e0cc41c42c161c841c5bdefb3"
+        },
+        {
+          "step": 9,
+          "tokens": 33,
+          "raw_heartbeats": 2696469,
+          "local_cost": 0.31332937082351364,
+          "code_sha256": "f37fa2ec83b7e1a9729d3c609ce3c222e81a494e95c6f0b9010c34c3a69334be"
+        },
+        {
+          "step": 10,
+          "tokens": 33,
+          "raw_heartbeats": 2696469,
+          "local_cost": 0.31332937082351364,
+          "code_sha256": "f37fa2ec83b7e1a9729d3c609ce3c222e81a494e95c6f0b9010c34c3a69334be"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "e115864993837c601ad6064b829780c8ceeebd741f2fe03bb58258bb71b774ce"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10150134,
+            "tokens": 30
+          },
+          "code_sha256": "4d05134ea4fa632e718e0028db6806e97751f818876ec2691c57d723073327a7"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10088149,
+            "tokens": 24
+          },
+          "code_sha256": "eeb9287e47e0f2891fcc41eb2b30ee7ca24dcbcea83ab29ecd2c25bbf66f1ee4"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10071494,
+            "tokens": 25
+          },
+          "code_sha256": "0223fef84421b5b7944c2c60debfc75af4f337c384d902ea78e18ae3f2bcd3ae"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3378969,
+            "tokens": 37
+          },
+          "code_sha256": "32161445baeb7594f5efc1fe1c93c319f2894f040d9b29aea2936abd7d6ee7bc"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3256276,
+            "tokens": 33
+          },
+          "code_sha256": "b306b0b8e1e68896c3a6b613bf5ed0ccea6c0a6e0cc41c42c161c841c5bdefb3"
+        },
+        {
+          "step": 7,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "0807b4d22e2229ee75bdcbf74495c55e50ae2b31c3277c70cb12fe65458e0c93"
+        },
+        {
+          "step": 8,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "e32f2faa612b4f2e770300d7a991d6ed3df6b8a0e39dac9b9376982e9ecf2b48"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2696469,
+            "tokens": 33
+          },
+          "code_sha256": "f37fa2ec83b7e1a9729d3c609ce3c222e81a494e95c6f0b9010c34c3a69334be"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2681455,
+            "tokens": 37
+          },
+          "code_sha256": "aa849d4aa1954e2346ff26bbf025bf934906eddff983f3b21da93b1e6dbda30c"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 3
+      },
+      "verified_proposals": 7,
+      "distinct_valid_proofs": 7,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "6abff55f5edf0076241ef0fafca314600b969c7138eee5476c154ba3e30a862f",
+      "first_request_sha256": "8d31fd289d179dee42603da86eab062ad6a8ced72e9b07aaa6107ea1381d18b4",
+      "started_at": "2026-10-24T03:10:11.747056+00:00",
+      "finished_at": "2026-10-24T03:36:29.869341+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:23:59.481881+00:00",
+      "solver_completion_observed_at": "2026-10-24T03:37:07.533324+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-B1-r1",
+      "condition": "B1",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 37,
+          "raw_heartbeats": 2794958,
+          "local_cost": 0.32923810855729685,
+          "code_sha256": "ab980ae19f17366cc436f6a27f0589f1c331b6ac1b84ad29e5d3003c34c3838c"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 1066234176,
+        "raw_heartbeats": 2794958,
+        "raw_samples": [
+          2795008,
+          2794958,
+          2794868
+        ],
+        "sha256": "ab980ae19f17366cc436f6a27f0589f1c331b6ac1b84ad29e5d3003c34c3838c",
+        "tokens": 37
+      },
+      "selected_local_cost": 0.32923810855729685,
+      "final": {
+        "raw_heartbeats": 2794926,
+        "raw_samples": [
+          2794835,
+          2794926,
+          2794937
+        ],
+        "tokens": 37
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2794,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "55a8af66f1a671dad8afca54259619404b6679728c474b5ef8d729a85f865f5a",
+                "returncode": 0,
+                "seconds": 14.862245,
+                "source": "check.lean",
+                "source_sha256": "88940157944eb44bda1ec67db87607d3d498d8b4ede312273a36a2a0f0503c2e",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "23912234b0a4fed5f8cd21cc5143f134ee3d4fe2c6372fa4ebceb581233fbb86",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2794835,
+                  "scaled": 2794,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.724846,
+                "source": "measure-1.lean",
+                "source_sha256": "097b7284e55795e0c79ed5fe59353bbe5b8a8163295300162bd8c3f6bf576bd9",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "3eea34c13aa31b082de464403ae18f71497309a98dae549c3ca1e2824a499cec",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2794926,
+                  "scaled": 2794,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.822554,
+                "source": "measure-2.lean",
+                "source_sha256": "12f95de199950873ce0d99afa59f0c7e78a3e40481c5bc2d33b78a7052ed0b05",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "2f0d73c55b2003036bb5d96ad75efc40bcac760fe09c01404d48794dd94ae6dc",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2794937,
+                  "scaled": 2794,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.324549,
+                "source": "measure-3.lean",
+                "source_sha256": "d264f5a933d3da338dc5079b5e608d6dc3e7cb9ab5e38c34517e5434efb9f279",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 37,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 6,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 7,
+          "tokens": 61,
+          "raw_heartbeats": 3659330,
+          "local_cost": 0.4511183163438925,
+          "code_sha256": "ffdabf1bcd8ce65d16544ff786d0790c055489d0da0fe8d8c5a555349ec335dd"
+        },
+        {
+          "step": 8,
+          "tokens": 42,
+          "raw_heartbeats": 3379730,
+          "local_cost": 0.39374353998997424,
+          "code_sha256": "007dff7ae4e860577709e8e0910863092f1ae0aabfd80621ac96b36183e85927"
+        },
+        {
+          "step": 9,
+          "tokens": 44,
+          "raw_heartbeats": 2816759,
+          "local_cost": 0.342527283728563,
+          "code_sha256": "ef85e4167d6788053ada46aa4fb6fb4702cd2bfb921641269ca4828930818785"
+        },
+        {
+          "step": 10,
+          "tokens": 37,
+          "raw_heartbeats": 2794958,
+          "local_cost": 0.32923810855729685,
+          "code_sha256": "ab980ae19f17366cc436f6a27f0589f1c331b6ac1b84ad29e5d3003c34c3838c"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "7c8b2d23db2b681771f64ca228d6b9111671d3f07ea021ff6696ba779578fb41"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "7b37effc154c4c6a9c1d7c2ac5a5edfbc5225b783cc2f2c5b95b440816c3c5ef"
+        },
+        {
+          "step": 3,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "ac1ed2eea9673bf16479f78c5cc56519eaab94900a8125d87f7531b6b0bd1cd7"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 12276946,
+            "tokens": 38
+          },
+          "code_sha256": "2609162b543ac64acf49721c603b747ac9dc0b10132568f52da088b7c6277008"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 12260276,
+            "tokens": 39
+          },
+          "code_sha256": "734cdebea2e1371c199aa1bfce96244191d2b31cfa916de93693a8703409872f"
+        },
+        {
+          "step": 6,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "ada126c45cab1d29f02d87a9a04974bb334916d793adbfc8540ffc4c0e275d84"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3659330,
+            "tokens": 61
+          },
+          "code_sha256": "ffdabf1bcd8ce65d16544ff786d0790c055489d0da0fe8d8c5a555349ec335dd"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3379730,
+            "tokens": 42
+          },
+          "code_sha256": "007dff7ae4e860577709e8e0910863092f1ae0aabfd80621ac96b36183e85927"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2816759,
+            "tokens": 44
+          },
+          "code_sha256": "ef85e4167d6788053ada46aa4fb6fb4702cd2bfb921641269ca4828930818785"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2794958,
+            "tokens": 37
+          },
+          "code_sha256": "ab980ae19f17366cc436f6a27f0589f1c331b6ac1b84ad29e5d3003c34c3838c"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 4
+      },
+      "verified_proposals": 6,
+      "distinct_valid_proofs": 6,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "dcf66e7a9ebaa0729f6b07b3442abea6a40a43fd1f86c459f50b8460305a8e51",
+      "first_request_sha256": "39af006fc4617836ffefa1a1a81b8fa50033449665d0f2c89950b5798bed5402",
+      "started_at": "2026-10-24T03:10:11.971333+00:00",
+      "finished_at": "2026-10-24T03:35:10.048623+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:24:34.759705+00:00",
+      "solver_completion_observed_at": "2026-10-24T03:35:20.646565+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-B4-r1",
+      "condition": "B4",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 35,
+          "raw_heartbeats": 9555386,
+          "local_cost": 0.9794385540392955,
+          "code_sha256": "617c1491933e187b1786a9a35d32ca63c18bd800752a0815c303614640c83314"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 35,
+          "raw_heartbeats": 9555386,
+          "local_cost": 0.9794385540392955,
+          "code_sha256": "617c1491933e187b1786a9a35d32ca63c18bd800752a0815c303614640c83314"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 32,
+          "raw_heartbeats": 9533337,
+          "local_cost": 0.9725151860270504,
+          "code_sha256": "fe0935975e479b7192fc6d3d387b38b884da0404e1bacc683e1942517378eae5"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 3149480273,
+        "raw_heartbeats": 9533337,
+        "raw_samples": [
+          9533337,
+          9533364,
+          9533170
+        ],
+        "sha256": "fe0935975e479b7192fc6d3d387b38b884da0404e1bacc683e1942517378eae5",
+        "tokens": 32
+      },
+      "selected_local_cost": 0.9725151860270504,
+      "final": {
+        "raw_heartbeats": 9533293,
+        "raw_samples": [
+          9533233,
+          9533293,
+          9533368
+        ],
+        "tokens": 32
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 9533,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "80064065976756d07a3890e38558f594cbc0cdbad018fdbbf4f5c3d9a946a7da",
+                "returncode": 0,
+                "seconds": 14.941268,
+                "source": "check.lean",
+                "source_sha256": "550699073438102f2c6b0fbf480f22ff094c14f44f7f0caa3e39d5a27422f270",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "de3ee658a5cd5a08c3e34fc04b203ad6ba497f0e10d3b6db6552de0b8013f596",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 9533233,
+                  "scaled": 9533,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.766287,
+                "source": "measure-1.lean",
+                "source_sha256": "4b8fff96e89204ace56c7790f4e3f1f50813770d19004e49f0458cd8775c0f7f",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "f8b50ec029ebff9b9e8d721b01f7d71e5414ee35f91f57d3d768d16038904c9c",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 9533293,
+                  "scaled": 9533,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.835316,
+                "source": "measure-2.lean",
+                "source_sha256": "57cacbc12f3e3d64ed300351e442429d50a548f276d9ff5ebe042e21adf38971",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "43900307a7041fff92f248fc135d014ef265a8a2441752cfe7894b889323b9e9",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 9533368,
+                  "scaled": 9533,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.195089,
+                "source": "measure-3.lean",
+                "source_sha256": "378ab1a972642afd5a75f9620e2c00202b25fda92a3ca136a4fc2238a7e7efd4",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 32,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 35,
+          "raw_heartbeats": 9555386,
+          "local_cost": 0.9794385540392955,
+          "code_sha256": "617c1491933e187b1786a9a35d32ca63c18bd800752a0815c303614640c83314"
+        },
+        {
+          "step": 4,
+          "tokens": 35,
+          "raw_heartbeats": 9555386,
+          "local_cost": 0.9794385540392955,
+          "code_sha256": "617c1491933e187b1786a9a35d32ca63c18bd800752a0815c303614640c83314"
+        },
+        {
+          "step": 5,
+          "tokens": 35,
+          "raw_heartbeats": 9555386,
+          "local_cost": 0.9794385540392955,
+          "code_sha256": "617c1491933e187b1786a9a35d32ca63c18bd800752a0815c303614640c83314"
+        },
+        {
+          "step": 6,
+          "tokens": 35,
+          "raw_heartbeats": 9555386,
+          "local_cost": 0.9794385540392955,
+          "code_sha256": "617c1491933e187b1786a9a35d32ca63c18bd800752a0815c303614640c83314"
+        },
+        {
+          "step": 7,
+          "tokens": 32,
+          "raw_heartbeats": 9533337,
+          "local_cost": 0.9725151860270504,
+          "code_sha256": "fe0935975e479b7192fc6d3d387b38b884da0404e1bacc683e1942517378eae5"
+        },
+        {
+          "step": 8,
+          "tokens": 32,
+          "raw_heartbeats": 9533337,
+          "local_cost": 0.9725151860270504,
+          "code_sha256": "fe0935975e479b7192fc6d3d387b38b884da0404e1bacc683e1942517378eae5"
+        },
+        {
+          "step": 9,
+          "tokens": 32,
+          "raw_heartbeats": 9533337,
+          "local_cost": 0.9725151860270504,
+          "code_sha256": "fe0935975e479b7192fc6d3d387b38b884da0404e1bacc683e1942517378eae5"
+        },
+        {
+          "step": 10,
+          "tokens": 32,
+          "raw_heartbeats": 9533337,
+          "local_cost": 0.9725151860270504,
+          "code_sha256": "fe0935975e479b7192fc6d3d387b38b884da0404e1bacc683e1942517378eae5"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "f6f5b97c198b92678d941ab578a120db9222030a524f93395491cecfc2fb1bb6"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "5afce5c2bc3520d7b1ca3b52afbf16850a839f51087232773c383b8839c89e2f"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 9555386,
+            "tokens": 35
+          },
+          "code_sha256": "617c1491933e187b1786a9a35d32ca63c18bd800752a0815c303614640c83314"
+        },
+        {
+          "step": 4,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "543fad52bb135e05d308acf2fa22536694a0578ba5610723e7f9647578fe92d7"
+        },
+        {
+          "step": 5,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "abe1f164046cd604a353d6a0c1ff1bea14d4ea49bafec69e65f232fe59b6f037"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10166238,
+            "tokens": 41
+          },
+          "code_sha256": "2c0bf09f3b7ba867b95682b1d7a26bf50cdd87bdca4eeed1545e2f68a9be2890"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 9533337,
+            "tokens": 32
+          },
+          "code_sha256": "fe0935975e479b7192fc6d3d387b38b884da0404e1bacc683e1942517378eae5"
+        },
+        {
+          "step": 8,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "1850ece3e4182907bf9bd15ada6c56ba79628a89cb1aa2c8fc3e5f13f69edf85"
+        },
+        {
+          "step": 9,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "f19b24f9cb235a3ffd9001b39c09098e346c18fe8efbad4502967e69ff55e21d"
+        },
+        {
+          "step": 10,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "63e6fbde1d24ffb2550df80fab2ab8967e7818ab7d59ab41b99c39ab52dc6e0a"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 7
+      },
+      "verified_proposals": 3,
+      "distinct_valid_proofs": 3,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "4a3b31c05f6ace6ed280e5a8f7bd4b9d2e6996e4a7e187025b81f007e5c9bf86",
+      "first_request_sha256": "cdf8525c31d32e0dc519fa801a1a087ac0496e9138b4c8f66161f005f12a4d3b",
+      "started_at": "2026-10-24T03:10:12.210663+00:00",
+      "finished_at": "2026-10-24T03:44:12.512504+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:35:32.774663+00:00",
+      "solver_completion_observed_at": "2026-10-24T03:44:25.251813+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-B4-r2",
+      "condition": "B4",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 76,
+          "raw_heartbeats": 5583826,
+          "local_cost": 0.6610825068228195,
+          "code_sha256": "5a2c2d3ccd0796d252bfb68fa7af870f6c5fcf36596f3eb8b370db3734b71942"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 79,
+          "raw_heartbeats": 4288863,
+          "local_cost": 0.540716671374067,
+          "code_sha256": "7ea5048c4aae0cd4785dfee0a2ca0e27d4a037afdfcfc83240b1462ebdd9eec2"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 1751105293,
+        "raw_heartbeats": 4288863,
+        "raw_samples": [
+          4288870,
+          4288854,
+          4288863
+        ],
+        "sha256": "7ea5048c4aae0cd4785dfee0a2ca0e27d4a037afdfcfc83240b1462ebdd9eec2",
+        "tokens": 79
+      },
+      "selected_local_cost": 0.540716671374067,
+      "final": {
+        "raw_heartbeats": 4288863,
+        "raw_samples": [
+          4288864,
+          4288854,
+          4288863
+        ],
+        "tokens": 79
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 4288,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "03cd0eb663ba323e169f84f8a76a4abfd4d9ad1bd73ee8c7646018d75834b6dd",
+                "returncode": 0,
+                "seconds": 14.788744,
+                "source": "check.lean",
+                "source_sha256": "becd73de13361fa494841510b247135dc574e59d646236edb2397d1ea8db7ab3",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "ff16b8501b3c68b8dd0cca567bfc8cef3af6bfa5c5f3e7aec288df052a90fb1e",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound"
+                  ],
+                  "raw": 4288864,
+                  "scaled": 4288,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.212343,
+                "source": "measure-1.lean",
+                "source_sha256": "3187bb69c1b516c92659c15bb5b9c02ac6fcfdbb4dbdc21a4e65f677820e6600",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "a2819749427b89c7bacbffaa0b0f230b82b24e7333dd14644c45559b90554a3d",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound"
+                  ],
+                  "raw": 4288854,
+                  "scaled": 4288,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.625888,
+                "source": "measure-2.lean",
+                "source_sha256": "4197f6b1dfff8ee8cea5bbeec054593b2629df2f9c5a470a6a4925b06087b14e",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B4-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "261d0d0788702222e90bead54191dffedaf4263a1e169d0b117c2816f260d5fb",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound"
+                  ],
+                  "raw": 4288863,
+                  "scaled": 4288,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.635745,
+                "source": "measure-3.lean",
+                "source_sha256": "5d83f07a54c77123d4bc8b3fd7c5849a5fe5d1b4faf977593785aecee0b000ef",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 79,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "tokens": 76,
+          "raw_heartbeats": 5583826,
+          "local_cost": 0.6610825068228195,
+          "code_sha256": "5a2c2d3ccd0796d252bfb68fa7af870f6c5fcf36596f3eb8b370db3734b71942"
+        },
+        {
+          "step": 6,
+          "tokens": 76,
+          "raw_heartbeats": 5583826,
+          "local_cost": 0.6610825068228195,
+          "code_sha256": "5a2c2d3ccd0796d252bfb68fa7af870f6c5fcf36596f3eb8b370db3734b71942"
+        },
+        {
+          "step": 7,
+          "tokens": 79,
+          "raw_heartbeats": 4701502,
+          "local_cost": 0.5805982287379654,
+          "code_sha256": "08262f89c14ba819eee4221e572828a99ccc9f0213ccd7d3a4ac3972f7b1b02c"
+        },
+        {
+          "step": 8,
+          "tokens": 79,
+          "raw_heartbeats": 4701502,
+          "local_cost": 0.5805982287379654,
+          "code_sha256": "08262f89c14ba819eee4221e572828a99ccc9f0213ccd7d3a4ac3972f7b1b02c"
+        },
+        {
+          "step": 9,
+          "tokens": 79,
+          "raw_heartbeats": 4288863,
+          "local_cost": 0.540716671374067,
+          "code_sha256": "7ea5048c4aae0cd4785dfee0a2ca0e27d4a037afdfcfc83240b1462ebdd9eec2"
+        },
+        {
+          "step": 10,
+          "tokens": 79,
+          "raw_heartbeats": 4288863,
+          "local_cost": 0.540716671374067,
+          "code_sha256": "7ea5048c4aae0cd4785dfee0a2ca0e27d4a037afdfcfc83240b1462ebdd9eec2"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "a10e8d902f43df2ec5050e1e7ed1f46023f20b45da249ebd5b21e82d8ada3644"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 12021276,
+            "tokens": 51
+          },
+          "code_sha256": "a98a3cfda5e947dd5d912937c6ccb4deb9748731a4e9637a2d7073661abad6dc"
+        },
+        {
+          "step": 3,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "1a4a1d199780229e75af84838565a18c423b58e06ed803d52c427c958f196ab9"
+        },
+        {
+          "step": 4,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "60adbbbaafbea98ae0949cad0e3ee8da40c9fd57ffc7017d42cc287236392344"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 5583826,
+            "tokens": 76
+          },
+          "code_sha256": "5a2c2d3ccd0796d252bfb68fa7af870f6c5fcf36596f3eb8b370db3734b71942"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 6317396,
+            "tokens": 78
+          },
+          "code_sha256": "e1fb31fe4b8444b60daeb639c537fbc007b3e3d8eb556d0d2c666657781d26bb"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 4701502,
+            "tokens": 79
+          },
+          "code_sha256": "08262f89c14ba819eee4221e572828a99ccc9f0213ccd7d3a4ac3972f7b1b02c"
+        },
+        {
+          "step": 8,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "d1afb42304ac063282680f1a3df17dd389e251d21b7628bd71dc003d1948b037"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 4288863,
+            "tokens": 79
+          },
+          "code_sha256": "7ea5048c4aae0cd4785dfee0a2ca0e27d4a037afdfcfc83240b1462ebdd9eec2"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 4296734,
+            "tokens": 86
+          },
+          "code_sha256": "cac57515c9dc28ce92cf632f65cce860ff1b37b3a0349bc913b3d2934c043340"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 4
+      },
+      "verified_proposals": 6,
+      "distinct_valid_proofs": 6,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "e55526f27ba2c52b35bbc4ff2a7af1bc9bb5e769e7db351756028d3dd9325e10",
+      "first_request_sha256": "cdf8525c31d32e0dc519fa801a1a087ac0496e9138b4c8f66161f005f12a4d3b",
+      "started_at": "2026-10-24T03:10:12.438542+00:00",
+      "finished_at": "2026-10-24T03:49:04.248782+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:37:19.389368+00:00",
+      "solver_completion_observed_at": "2026-10-24T03:49:19.242807+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-B1-r2",
+      "condition": "B1",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 32,
+          "raw_heartbeats": 5344118,
+          "local_cost": 0.5676271898404727,
+          "code_sha256": "03d4443c7ea75864bccdfef40a2ff4b284a8b0149f9f8f8f9ce82b4fd195c656"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 51,
+          "raw_heartbeats": 3523503,
+          "local_cost": 0.42201619655308226,
+          "code_sha256": "4f50d92551d1afcf2786e96d171561d49f07e5ece2ca897a5d1819236aabec79"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 38,
+          "raw_heartbeats": 2680152,
+          "local_cost": 0.31973955329933446,
+          "code_sha256": "2da7cb0a44cdc208cf5f907a1619862a12babb0331a3aa3d4fa6a6de2847cb69"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 1035473204,
+        "raw_heartbeats": 2680152,
+        "raw_samples": [
+          2680185,
+          2680028,
+          2680152
+        ],
+        "sha256": "2da7cb0a44cdc208cf5f907a1619862a12babb0331a3aa3d4fa6a6de2847cb69",
+        "tokens": 38
+      },
+      "selected_local_cost": 0.31973955329933446,
+      "final": {
+        "raw_heartbeats": 2680104,
+        "raw_samples": [
+          2680098,
+          2680278,
+          2680104
+        ],
+        "tokens": 38
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2680,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "22b770a48233cf93153dd0de27313d8100e2ace977672dccd5ef3342aadab92d",
+                "returncode": 0,
+                "seconds": 14.776852,
+                "source": "check.lean",
+                "source_sha256": "9c80396c8b684ac92dff46d0171e1aaa46032b5c18cbb59c3c5f0035f6fb5e41",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "3f75d542e539faa1c71ba747f131b87848d75a84f6dbecb22c5072c707182a9d",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2680098,
+                  "scaled": 2680,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.207606,
+                "source": "measure-1.lean",
+                "source_sha256": "8d739bf5c5b2bec1a92b85767fc20b46f25f603d99b41cb1b0e188712ff206e5",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "6eaeaf252116abc70dc08e50d1189d42e1abda1109b66148b6962f171af9457a",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2680278,
+                  "scaled": 2680,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.444045,
+                "source": "measure-2.lean",
+                "source_sha256": "fe37987b0c9d30a91e7316c6a131f1d55d33e30e577dfbfa52916aeb281e94ba",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B1-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "72949f77f628735b4c3e9953eab71a02a3d288aaa939b44f45f6bcb36e068ef2",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2680104,
+                  "scaled": 2680,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.506576,
+                "source": "measure-3.lean",
+                "source_sha256": "213d40cf70547966be74a98189745278b4a1e785b2105b393f344810a1ca9a32",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 38,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 32,
+          "raw_heartbeats": 5344118,
+          "local_cost": 0.5676271898404727,
+          "code_sha256": "03d4443c7ea75864bccdfef40a2ff4b284a8b0149f9f8f8f9ce82b4fd195c656"
+        },
+        {
+          "step": 4,
+          "tokens": 50,
+          "raw_heartbeats": 3559830,
+          "local_cost": 0.4239297568387773,
+          "code_sha256": "fd8f63e4aaddf04e5ff02f6e72e4ab2e78bc84928e3ee54f54c4074dee931252"
+        },
+        {
+          "step": 5,
+          "tokens": 51,
+          "raw_heartbeats": 3523503,
+          "local_cost": 0.42201619655308226,
+          "code_sha256": "4f50d92551d1afcf2786e96d171561d49f07e5ece2ca897a5d1819236aabec79"
+        },
+        {
+          "step": 6,
+          "tokens": 51,
+          "raw_heartbeats": 3523503,
+          "local_cost": 0.42201619655308226,
+          "code_sha256": "4f50d92551d1afcf2786e96d171561d49f07e5ece2ca897a5d1819236aabec79"
+        },
+        {
+          "step": 7,
+          "tokens": 51,
+          "raw_heartbeats": 3523503,
+          "local_cost": 0.42201619655308226,
+          "code_sha256": "4f50d92551d1afcf2786e96d171561d49f07e5ece2ca897a5d1819236aabec79"
+        },
+        {
+          "step": 8,
+          "tokens": 40,
+          "raw_heartbeats": 2797539,
+          "local_cost": 0.33427989446324463,
+          "code_sha256": "3a8fdc4dfc66828b731e254c8c21b0648923a9e744cb376a4de8c982aaf094d3"
+        },
+        {
+          "step": 9,
+          "tokens": 40,
+          "raw_heartbeats": 2797539,
+          "local_cost": 0.33427989446324463,
+          "code_sha256": "3a8fdc4dfc66828b731e254c8c21b0648923a9e744cb376a4de8c982aaf094d3"
+        },
+        {
+          "step": 10,
+          "tokens": 38,
+          "raw_heartbeats": 2680152,
+          "local_cost": 0.31973955329933446,
+          "code_sha256": "2da7cb0a44cdc208cf5f907a1619862a12babb0331a3aa3d4fa6a6de2847cb69"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "701a2a11f190da3f57e02b78cc6e97e821d251e1a7cf252d022e8ec0e551bd8b"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "9dc979fc21a2e195470cdbb89b25268c581746fdf3da1117b4ca59afaaea940a"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 5344118,
+            "tokens": 32
+          },
+          "code_sha256": "03d4443c7ea75864bccdfef40a2ff4b284a8b0149f9f8f8f9ce82b4fd195c656"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3559830,
+            "tokens": 50
+          },
+          "code_sha256": "fd8f63e4aaddf04e5ff02f6e72e4ab2e78bc84928e3ee54f54c4074dee931252"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3523503,
+            "tokens": 51
+          },
+          "code_sha256": "4f50d92551d1afcf2786e96d171561d49f07e5ece2ca897a5d1819236aabec79"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3954474,
+            "tokens": 51
+          },
+          "code_sha256": "16fd341d2ea6700be28015c3327bff49b477c43df92b05f43dac271319c37959"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 9439544,
+            "tokens": 30
+          },
+          "code_sha256": "0d131c9a9b161f93f49b65ee4eb473083e1e3fdb761da12d7b37e10a951afa4d"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2797539,
+            "tokens": 40
+          },
+          "code_sha256": "3a8fdc4dfc66828b731e254c8c21b0648923a9e744cb376a4de8c982aaf094d3"
+        },
+        {
+          "step": 9,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "f8860bfc72c4a88dfa8a2136aa1a8b7e4cbc903c38efcab9c6fcc8fb4f8e3798"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2680152,
+            "tokens": 38
+          },
+          "code_sha256": "2da7cb0a44cdc208cf5f907a1619862a12babb0331a3aa3d4fa6a6de2847cb69"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 3
+      },
+      "verified_proposals": 7,
+      "distinct_valid_proofs": 7,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "1f96d3482685cf7385672db900de4397f196db68240f6a966c4afc4659ca3390",
+      "first_request_sha256": "39af006fc4617836ffefa1a1a81b8fa50033449665d0f2c89950b5798bed5402",
+      "started_at": "2026-10-24T03:10:12.649265+00:00",
+      "finished_at": "2026-10-24T03:56:33.616250+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:44:37.576902+00:00",
+      "solver_completion_observed_at": "2026-10-24T03:56:45.104479+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-B2-r2",
+      "condition": "B2",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 39,
+          "raw_heartbeats": 3375378,
+          "local_cost": 0.38853058694255055,
+          "code_sha256": "f73d2d9ec95a2aad68435ade7613dce2ca9f97cbcda2bf900c8df846820359b2"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 36,
+          "raw_heartbeats": 2470115,
+          "local_cost": 0.29624459008136445,
+          "code_sha256": "bf2ae333c5e380f9fb1a848356d1ccfb252bfae055d62fa1f8fade0937ca8fb8"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 959385011,
+        "raw_heartbeats": 2470115,
+        "raw_samples": [
+          2470198,
+          2470007,
+          2470115
+        ],
+        "sha256": "bf2ae333c5e380f9fb1a848356d1ccfb252bfae055d62fa1f8fade0937ca8fb8",
+        "tokens": 36
+      },
+      "selected_local_cost": 0.29624459008136445,
+      "final": {
+        "raw_heartbeats": 2470149,
+        "raw_samples": [
+          2470310,
+          2470129,
+          2470149
+        ],
+        "tokens": 36
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2470,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "78701b5cd6dd205cb81061dbd1fe1364d128532ed8c4858a5413e8ebcc6d99e8",
+                "returncode": 0,
+                "seconds": 14.35301,
+                "source": "check.lean",
+                "source_sha256": "2ebe615a418fb150635afb1fca164715e5692a60d86416a56998e701fddc543e",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "e364a1cd3d4adbcd187c1077e836eac249a530e267d307ccdaf3fdff6b68e55b",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2470310,
+                  "scaled": 2470,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.752807,
+                "source": "measure-1.lean",
+                "source_sha256": "23449e91b78e53e4067f2b59e5833a1453e2da061bc3fbd41596121c79c04320",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "1fab0f93b418db804a5a502011c42fc3b5d20c61c4406d92b4308bbb97bdfb6e",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2470129,
+                  "scaled": 2470,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.901145,
+                "source": "measure-2.lean",
+                "source_sha256": "5c77adea8158dd80c762094f76c0e34217d61963febdbc715be6c3e292af0338",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B2-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "1c4576f24245310a82a6a100588a45e56018e5b067e8b36ca39b8ac7084f0b76",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2470149,
+                  "scaled": 2470,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.897872,
+                "source": "measure-3.lean",
+                "source_sha256": "1ec8cd665c5704126103e8241b1040d4b81517a920ced9b7fb71db9d449c0e07",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 36,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "tokens": 39,
+          "raw_heartbeats": 3375378,
+          "local_cost": 0.38853058694255055,
+          "code_sha256": "f73d2d9ec95a2aad68435ade7613dce2ca9f97cbcda2bf900c8df846820359b2"
+        },
+        {
+          "step": 6,
+          "tokens": 39,
+          "raw_heartbeats": 3375378,
+          "local_cost": 0.38853058694255055,
+          "code_sha256": "f73d2d9ec95a2aad68435ade7613dce2ca9f97cbcda2bf900c8df846820359b2"
+        },
+        {
+          "step": 7,
+          "tokens": 39,
+          "raw_heartbeats": 2814634,
+          "local_cost": 0.3343346820415066,
+          "code_sha256": "c9c4e8ea4cc8cede0176731c12fd48f917a979ef8187118c59ec8bcb0e2a3d01"
+        },
+        {
+          "step": 8,
+          "tokens": 39,
+          "raw_heartbeats": 2814634,
+          "local_cost": 0.3343346820415066,
+          "code_sha256": "c9c4e8ea4cc8cede0176731c12fd48f917a979ef8187118c59ec8bcb0e2a3d01"
+        },
+        {
+          "step": 9,
+          "tokens": 42,
+          "raw_heartbeats": 2602828,
+          "local_cost": 0.3186559654293355,
+          "code_sha256": "1ccea7914520dfe9d1c2686bd00be33a75b897aec7c3b74c55a24ed6069dde93"
+        },
+        {
+          "step": 10,
+          "tokens": 36,
+          "raw_heartbeats": 2470115,
+          "local_cost": 0.29624459008136445,
+          "code_sha256": "bf2ae333c5e380f9fb1a848356d1ccfb252bfae055d62fa1f8fade0937ca8fb8"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "793d5a274e546e67cdfa81e3b48ed898e5e4f7ad39df5b92d2b977f76342e107"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "8744020125c528b1f80b368722b23debc3f93f44ba4180155604146fea996a5d"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10066001,
+            "tokens": 22
+          },
+          "code_sha256": "4128c66313a8e9062041dcd2bc60d8c6b396e3d28053e6ab7d397f41ef93d86c"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10049242,
+            "tokens": 23
+          },
+          "code_sha256": "65cde3f701898eee4ddfa08e8607aec86b6dd33dcebd81a9bab2d7aed1faf543"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3375378,
+            "tokens": 39
+          },
+          "code_sha256": "f73d2d9ec95a2aad68435ade7613dce2ca9f97cbcda2bf900c8df846820359b2"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 6270727,
+            "tokens": 34
+          },
+          "code_sha256": "ed1b62c4c8871106c4d8fadd6df5f979812e9d9d83b43b0885ba1841131ec771"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2814634,
+            "tokens": 39
+          },
+          "code_sha256": "c9c4e8ea4cc8cede0176731c12fd48f917a979ef8187118c59ec8bcb0e2a3d01"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 4037981,
+            "tokens": 37
+          },
+          "code_sha256": "73cdf65b982f6715718b1e6e31cfb8a3d5aa10468b84dce1c0e22c51134d15f9"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2602828,
+            "tokens": 42
+          },
+          "code_sha256": "1ccea7914520dfe9d1c2686bd00be33a75b897aec7c3b74c55a24ed6069dde93"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2470115,
+            "tokens": 36
+          },
+          "code_sha256": "bf2ae333c5e380f9fb1a848356d1ccfb252bfae055d62fa1f8fade0937ca8fb8"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "verified_proposals": 8,
+      "distinct_valid_proofs": 8,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "19f90af61ddd2224ddb706606d104338c94f108ec1fe9c3ec7a6c13829b239bf",
+      "first_request_sha256": "8d31fd289d179dee42603da86eab062ad6a8ced72e9b07aaa6107ea1381d18b4",
+      "started_at": "2026-10-24T03:10:12.868633+00:00",
+      "finished_at": "2026-10-24T04:02:52.569468+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:49:31.300688+00:00",
+      "solver_completion_observed_at": "2026-10-24T04:03:06.022974+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-A-r2",
+      "condition": "A",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 34,
+          "raw_heartbeats": 3366584,
+          "local_cost": 0.37969342643759324,
+          "code_sha256": "b1cf4cb53fd6795f5120089232caf5e52f4732b8c37e00a06f218cfa769442f9"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 43,
+          "raw_heartbeats": 2534366,
+          "local_cost": 0.3136365575483116,
+          "code_sha256": "b637a4703f3e2abef8b273b32486e05840aa0d1a1f025397c3655dda4d182067"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 1015708716,
+        "raw_heartbeats": 2534366,
+        "raw_samples": [
+          2534483,
+          2534231,
+          2534366
+        ],
+        "sha256": "b637a4703f3e2abef8b273b32486e05840aa0d1a1f025397c3655dda4d182067",
+        "tokens": 43
+      },
+      "selected_local_cost": 0.3136365575483116,
+      "final": {
+        "raw_heartbeats": 2534314,
+        "raw_samples": [
+          2534407,
+          2534314,
+          2534304
+        ],
+        "tokens": 43
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2534,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "db8f56f4dd7ad5cd2484641d7af06d2bf1e17d74e26e86399e99bd25b61822a0",
+                "returncode": 0,
+                "seconds": 14.613146,
+                "source": "check.lean",
+                "source_sha256": "f113dda37f1a5651e6ed317b32f3aa9a682dca483175be895fe8940838a4525c",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "0b850684e45f3408269cc8cf57fb18a50ded6069dc200440f11802191ae448d0",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2534407,
+                  "scaled": 2534,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.797293,
+                "source": "measure-1.lean",
+                "source_sha256": "b6d6bfa1709bc3f82e91c9342cd507f5724218eb83236ce9bcf14151cb68183d",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "8ae177bd558b112fe6994a892dcb635a84e5e26aff9dc20e2033aeddf5290e0b",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2534314,
+                  "scaled": 2534,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.869268,
+                "source": "measure-2.lean",
+                "source_sha256": "a190a5af0197a257e39eae983ff0b8a45cff320cc2c10402791cca39bf69615e",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-A-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "8b3af52ec5339b53e21f0771a4d6ac66cc6935572d67c34a999223f94673a057",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2534304,
+                  "scaled": 2534,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.896948,
+                "source": "measure-3.lean",
+                "source_sha256": "78736a432605703e89c868ed7031676093400f34451389e810fddefd88dfb5b1",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 43,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "tokens": 32,
+          "raw_heartbeats": 4704560,
+          "local_cost": 0.5058139122187739,
+          "code_sha256": "3650c35148ec73c08e2bc70983159715c99319a5c6ecf23c4aa3152f13ee053e"
+        },
+        {
+          "step": 6,
+          "tokens": 34,
+          "raw_heartbeats": 3366584,
+          "local_cost": 0.37969342643759324,
+          "code_sha256": "b1cf4cb53fd6795f5120089232caf5e52f4732b8c37e00a06f218cfa769442f9"
+        },
+        {
+          "step": 7,
+          "tokens": 34,
+          "raw_heartbeats": 3366584,
+          "local_cost": 0.37969342643759324,
+          "code_sha256": "b1cf4cb53fd6795f5120089232caf5e52f4732b8c37e00a06f218cfa769442f9"
+        },
+        {
+          "step": 8,
+          "tokens": 34,
+          "raw_heartbeats": 3366584,
+          "local_cost": 0.37969342643759324,
+          "code_sha256": "b1cf4cb53fd6795f5120089232caf5e52f4732b8c37e00a06f218cfa769442f9"
+        },
+        {
+          "step": 9,
+          "tokens": 40,
+          "raw_heartbeats": 2732162,
+          "local_cost": 0.32796120772791526,
+          "code_sha256": "26c322ffff70c9d9998d8eb9003f3c47feb8a02fb6766a213d13e696abc797d6"
+        },
+        {
+          "step": 10,
+          "tokens": 43,
+          "raw_heartbeats": 2534366,
+          "local_cost": 0.3136365575483116,
+          "code_sha256": "b637a4703f3e2abef8b273b32486e05840aa0d1a1f025397c3655dda4d182067"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "c2c9675b2c01df9daeacb609bc2ddb9318630600fdcbac3246caefc74b0abf43"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "260c3e7635424347b7f227afa0ca80ae93aba76ae0a5cf943353569620000dc6"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 12563607,
+            "tokens": 32
+          },
+          "code_sha256": "3cb5b6d050fbeaa5bb46ad7888c2c346f4e4a40ebfa0a862bcadcc417d918406"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 12546902,
+            "tokens": 33
+          },
+          "code_sha256": "75c8bc663920130812ab51a186fb9ef6bbe21491ebc6c9164d870377a33c21d9"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 4704560,
+            "tokens": 32
+          },
+          "code_sha256": "3650c35148ec73c08e2bc70983159715c99319a5c6ecf23c4aa3152f13ee053e"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3366584,
+            "tokens": 34
+          },
+          "code_sha256": "b1cf4cb53fd6795f5120089232caf5e52f4732b8c37e00a06f218cfa769442f9"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3356117,
+            "tokens": 82
+          },
+          "code_sha256": "bc526c23886e51edb38ce973d637d3ba18ba23bab5316248cfd83656b3c0f950"
+        },
+        {
+          "step": 8,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "14908519b868143ae228e642fcdc40a542239cc36531bf070420a8d6d11e9fbd"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2732162,
+            "tokens": 40
+          },
+          "code_sha256": "26c322ffff70c9d9998d8eb9003f3c47feb8a02fb6766a213d13e696abc797d6"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2534366,
+            "tokens": 43
+          },
+          "code_sha256": "b637a4703f3e2abef8b273b32486e05840aa0d1a1f025397c3655dda4d182067"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 3
+      },
+      "verified_proposals": 7,
+      "distinct_valid_proofs": 7,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "384975f9b261f609edd08ab654a751bbd73e33d7d5c3f4f87c9d1562e09adf01",
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "started_at": "2026-10-24T03:10:13.087762+00:00",
+      "finished_at": "2026-10-24T04:08:35.177493+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T03:56:56.104344+00:00",
+      "solver_completion_observed_at": "2026-10-24T04:08:47.428899+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-B3-r2",
+      "condition": "B3",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "tokens": 42,
+          "raw_heartbeats": 3387400,
+          "local_cost": 0.39448484545305723,
+          "code_sha256": "459f09bfde0b9796d709a94fbb47854f5a06ab06b99be182c9bd204a0d439a37"
+        },
+        "10": {
+          "step": 10,
+          "tokens": 39,
+          "raw_heartbeats": 3273003,
+          "local_cost": 0.37863604368529885,
+          "code_sha256": "08a65871d8daf5c227ebfd5d4f68de5b300fff4a5d145cff773df28b12a73121"
+        }
+      },
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 1226208873,
+        "raw_heartbeats": 3273003,
+        "raw_samples": [
+          3273053,
+          3273001,
+          3273003
+        ],
+        "sha256": "08a65871d8daf5c227ebfd5d4f68de5b300fff4a5d145cff773df28b12a73121",
+        "tokens": 39
+      },
+      "selected_local_cost": 0.37863604368529885,
+      "final": {
+        "raw_heartbeats": 3273071,
+        "raw_samples": [
+          3273088,
+          3273051,
+          3273071
+        ],
+        "tokens": 39
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 3273,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "f8384d5fe4fc313d7c98965f011b5112c95874cf236802fe49b139a0ee28f208",
+                "returncode": 0,
+                "seconds": 14.016715,
+                "source": "check.lean",
+                "source_sha256": "9e06e03f87c66d57e9710d85b02dce8c498d4e9e09f97fe235df7bb50f8f4647",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "04a0867c944b182ffd55286aa0625c7dd45b6e62feec8995e5b85b302a73d293",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3273088,
+                  "scaled": 3273,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.003495,
+                "source": "measure-1.lean",
+                "source_sha256": "7767032630949492c1f580650ef5ddef1b57f9267319b7e4cc503e46539fc1db",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "b15016ed550f79c4efec4991f1a0c6f8cd285dd16f626bf0e617d782e95289f5",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3273051,
+                  "scaled": 3273,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 14.994981,
+                "source": "measure-2.lean",
+                "source_sha256": "a29287a90dd26bfef7a08fcef30f7acdeadb31e58eb4c7b1e59ca53fd5900001",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p01-prompt-ablation-20261024/P01-B3-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "2c13c175da0d6382894bcaf7679c944d64e9abf583779f7dfbfa416c6b27c4db",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3273071,
+                  "scaled": 3273,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.001877,
+                "source": "measure-3.lean",
+                "source_sha256": "cc2d03f18c2d60366e36292fda12c0f3df0fc396e3789b24c5d88398bea5c4a3",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 39,
+        "valid": true
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "local_cost": 1.0,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "tokens": 42,
+          "raw_heartbeats": 3387400,
+          "local_cost": 0.39448484545305723,
+          "code_sha256": "459f09bfde0b9796d709a94fbb47854f5a06ab06b99be182c9bd204a0d439a37"
+        },
+        {
+          "step": 6,
+          "tokens": 42,
+          "raw_heartbeats": 3387400,
+          "local_cost": 0.39448484545305723,
+          "code_sha256": "459f09bfde0b9796d709a94fbb47854f5a06ab06b99be182c9bd204a0d439a37"
+        },
+        {
+          "step": 7,
+          "tokens": 42,
+          "raw_heartbeats": 3387400,
+          "local_cost": 0.39448484545305723,
+          "code_sha256": "459f09bfde0b9796d709a94fbb47854f5a06ab06b99be182c9bd204a0d439a37"
+        },
+        {
+          "step": 8,
+          "tokens": 42,
+          "raw_heartbeats": 3387400,
+          "local_cost": 0.39448484545305723,
+          "code_sha256": "459f09bfde0b9796d709a94fbb47854f5a06ab06b99be182c9bd204a0d439a37"
+        },
+        {
+          "step": 9,
+          "tokens": 44,
+          "raw_heartbeats": 3285002,
+          "local_cost": 0.3877829674248299,
+          "code_sha256": "2b74d7e53596e23236f009efef03e01a8a0b18e17968e827b2787b7ac174353b"
+        },
+        {
+          "step": 10,
+          "tokens": 39,
+          "raw_heartbeats": 3273003,
+          "local_cost": 0.37863604368529885,
+          "code_sha256": "08a65871d8daf5c227ebfd5d4f68de5b300fff4a5d145cff773df28b12a73121"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "c028143507969317b2e95b2490cb7bc761b698746c763bef0d7482d2c0dc4cfe"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "status": "proof_rejected",
+          "metrics": null,
+          "code_sha256": "d75bbdae14aac15a1c2484e9167ec419b1121f2e507a5b8c250950c4677a9a38"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 12288310,
+            "tokens": 38
+          },
+          "code_sha256": "bbc45065a4faa832c65a919319c15fde8c3c5631406ce85d638a7b0c0d3897da"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 10084040,
+            "tokens": 30
+          },
+          "code_sha256": "163e38c6712c7ee53c5619ed81ea162a33074735174f3e61efb1b4b00ef4147e"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3387400,
+            "tokens": 42
+          },
+          "code_sha256": "459f09bfde0b9796d709a94fbb47854f5a06ab06b99be182c9bd204a0d439a37"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3403823,
+            "tokens": 43
+          },
+          "code_sha256": "ab2ba793f0f37745330dbfd200165938d618c5c7e66838ca7ef31bcc264848fe"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 2055695,
+            "tokens": 185
+          },
+          "code_sha256": "419e0bfd919da6129b40ebf6b8169432547cd980814ea0c080cc2d1695618040"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 1943914,
+            "tokens": 158
+          },
+          "code_sha256": "afe81866a829ea190353e05bcaae550ae8c200d0fc6be6aa37bbb416a082d866"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3285002,
+            "tokens": 44
+          },
+          "code_sha256": "2b74d7e53596e23236f009efef03e01a8a0b18e17968e827b2787b7ac174353b"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "status": "verified",
+          "metrics": {
+            "raw_heartbeats": 3273003,
+            "tokens": 39
+          },
+          "code_sha256": "08a65871d8daf5c227ebfd5d4f68de5b300fff4a5d145cff773df28b12a73121"
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "verified_proposals": 8,
+      "distinct_valid_proofs": 8,
+      "record_replay_passed": true,
+      "artifact_index_sha256": "3fc32f500f86e5dbe52ab026b78e06b0c2e1e9e87cd8b12d478c891304dcad9b",
+      "first_request_sha256": "8efc416df39bf84c4f1d954688d33c2af1eb2c7d0543ee86eec07d8e9f9f768e",
+      "started_at": "2026-10-24T03:10:13.308810+00:00",
+      "finished_at": "2026-10-24T04:16:37.377506+00:00",
+      "started_at_semantics": "worker initialization; may precede queue dispatch",
+      "solver_dispatched_at": "2026-10-24T04:03:17.694112+00:00",
+      "solver_completion_observed_at": "2026-10-24T04:16:52.726909+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    }
+  ],
+  "aggregate": {
+    "A": {
+      "final_valid_count": 2,
+      "checkpoints": {
+        "3": {
+          "mean_cost": 1.0,
+          "min_cost": 1.0,
+          "max_cost": 1.0,
+          "difference_from_A": 0.0
+        },
+        "6": {
+          "mean_cost": 0.4369479300553285,
+          "min_cost": 0.37969342643759324,
+          "max_cost": 0.4942024336730638,
+          "difference_from_A": 0.0
+        },
+        "10": {
+          "mean_cost": 0.30290127188540483,
+          "min_cost": 0.2921659862224981,
+          "max_cost": 0.3136365575483116,
+          "difference_from_A": 0.0
+        }
+      }
+    },
+    "B1": {
+      "final_valid_count": 2,
+      "checkpoints": {
+        "3": {
+          "mean_cost": 0.7838135949202363,
+          "min_cost": 0.5676271898404727,
+          "max_cost": 1.0,
+          "difference_from_A": -0.21618640507976372
+        },
+        "6": {
+          "mean_cost": 0.7110080982765411,
+          "min_cost": 0.42201619655308226,
+          "max_cost": 1.0,
+          "difference_from_A": 0.2740601682212126
+        },
+        "10": {
+          "mean_cost": 0.32448883092831565,
+          "min_cost": 0.31973955329933446,
+          "max_cost": 0.32923810855729685,
+          "difference_from_A": 0.02158755904291082
+        }
+      }
+    },
+    "B2": {
+      "final_valid_count": 2,
+      "checkpoints": {
+        "3": {
+          "mean_cost": 1.0,
+          "min_cost": 1.0,
+          "max_cost": 1.0,
+          "difference_from_A": 0.0
+        },
+        "6": {
+          "mean_cost": 0.37798265081080906,
+          "min_cost": 0.3674347146790675,
+          "max_cost": 0.38853058694255055,
+          "difference_from_A": -0.05896527924451944
+        },
+        "10": {
+          "mean_cost": 0.304786980452439,
+          "min_cost": 0.29624459008136445,
+          "max_cost": 0.31332937082351364,
+          "difference_from_A": 0.0018857085670341833
+        }
+      }
+    },
+    "B3": {
+      "final_valid_count": 2,
+      "checkpoints": {
+        "3": {
+          "mean_cost": 1.0,
+          "min_cost": 1.0,
+          "max_cost": 1.0,
+          "difference_from_A": 0.0
+        },
+        "6": {
+          "mean_cost": 0.38522250571679784,
+          "min_cost": 0.3759601659805384,
+          "max_cost": 0.39448484545305723,
+          "difference_from_A": -0.05172542433853067
+        },
+        "10": {
+          "mean_cost": 0.3304435084613254,
+          "min_cost": 0.282250973237352,
+          "max_cost": 0.37863604368529885,
+          "difference_from_A": 0.027542236575920587
+        }
+      }
+    },
+    "B4": {
+      "final_valid_count": 2,
+      "checkpoints": {
+        "3": {
+          "mean_cost": 0.9897192770196477,
+          "min_cost": 0.9794385540392955,
+          "max_cost": 1.0,
+          "difference_from_A": -0.01028072298035232
+        },
+        "6": {
+          "mean_cost": 0.8202605304310575,
+          "min_cost": 0.6610825068228195,
+          "max_cost": 0.9794385540392955,
+          "difference_from_A": 0.383312600375729
+        },
+        "10": {
+          "mean_cost": 0.7566159287005587,
+          "min_cost": 0.540716671374067,
+          "max_cost": 0.9725151860270504,
+          "difference_from_A": 0.4537146568151539
+        }
+      }
+    }
+  },
+  "design_sha256": "2bc499461a34124659e1c4ede972cc3b1526758d918dc1f7479b7845ce494f7b",
+  "host_clock_observation": {
+    "observer_started": {
+      "event": "started",
+      "utc": "2026-10-24T03:07:06.349890+00:00",
+      "observer_pid": 22907,
+      "idle_assertion_pid": 22917,
+      "start_error": null
+    },
+    "observer_stopped": true,
+    "sample_count": 141,
+    "max_observed_civil_minus_monotonic_interval_seconds": 0.07548489887267351,
+    "initial_gap_note": "Observer started before P01 readiness and solver dispatch. Do not interpret civil elapsed time as proof/model compute time."
+  },
+  "operational_incidents": [
+    {
+      "observed_at": "2026-10-24T04:06:50.210052+00:00",
+      "trial_id": "P01-B3-r2",
+      "proposal": 4,
+      "kind": "response_path_typo_before_worker_response_load",
+      "evidence": "agent report",
+      "description": "Solver reported FileNotFoundError from mistyped workspace component in --response path. No verification ran and no proposal was consumed. Corrected the command path using the same existing response; no proof, budget, timeout, or verification retry was authorized."
+    }
+  ],
+  "limitations": [
+    "These strategies have evidence on other development problems; P01 was used to derive B2/B3 hypotheses; this is an in-development-problem replication, not a held-out generalization test.",
+    "The observed free-search session is not a controlled Astra-versus-other-model comparison.",
+    "Exact Codex model sampling seed, hidden system context, model calls and cost are not observable with the manual subagent adapter.",
+    "Two repetitions are exploratory; do not claim statistical significance or general policy superiority."
+  ],
+  "development_problem_overlap": true
+}

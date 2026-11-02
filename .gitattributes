@@ -1,0 +1,7 @@
+# Frozen proof/evidence bytes are covered by historical hashes; do not normalize.
+experiments/first-harness-jwkweon/feedback-ablation-v1/inputs/P13/source.lean -text whitespace=-blank-at-eol
+experiments/first-harness-jwkweon/prompt-ablation-v1/input/source.lean -text whitespace=-blank-at-eol
+experiments/portfolio-94/candidates/** -text whitespace=-blank-at-eol,-blank-at-eof
+experiments/portfolio-94/validated/**/*.lean -text whitespace=-blank-at-eol,-blank-at-eof
+# Historical Markdown uses intentional two-space hard line breaks.
+experiments/first-harness-jwkweon/experiment-reference.md whitespace=-blank-at-eol

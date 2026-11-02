@@ -1,0 +1,12 @@
+{
+  "scope": "Read-only execution of extracted public regex functions; no service request, not worker acceptance or rule ruling",
+  "snapshot": "/Users/zzu0203/projects/01_\uac00\uc9dc\uc5f0\uad6c\uc18c/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/rules/app.py",
+  "results": {
+    "async_body": null,
+    "async_aux": null,
+    "decide_kernel": null,
+    "maxHB": null,
+    "native": "native_decide",
+    "counter": "IO"
+  }
+}

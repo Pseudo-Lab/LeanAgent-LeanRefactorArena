@@ -1,0 +1,34 @@
+Refactor the supplied Lean proof while preserving its exact theorem statement.
+Only the harness may compile or measure. Use only this trial's supplied source,
+request and feedback. No other trials, past solutions, network, delegation,
+additional top-level declarations, sorry/admit/axioms, native_decide, executable
+metaprogramming or option changes. Return one candidate, not a batch.
+
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+This is a local primary-version metric, not an official leaderboard score.
+Keep the original statement, imports and surrounding context unchanged.
+
+Work from a falsifiable cost hypothesis. First consider eliminating work:
+use a theorem matching the current representation, a structurally appropriate
+induction or stronger intermediate property, or avoid unnecessary conversions,
+case splits and duplicate definitions. Do not invent library lemmas as facts.
+Then consider supplying already-known evidence, witnesses, constructors or
+instances directly at a small boundary. Preserve useful high-level automation
+for dependent elimination instead of expanding a whole proof term.
+Share a local proof only when its repeated work could repay creation/application.
+Do not apply clear, simp only, explicit terms or helper extraction universally.
+
+Read the pipeline stage, residual length/heartbeat ratios, previous attempts,
+family parents and Pareto alternatives. A non-best structural parent may deserve
+a local repair. Choose ONE principal change or repair per proposal. If the latest
+proposal failed, use its actual diagnostic; do not assume timeouts are proof errors.
+Explain the observable work expected to disappear, not hidden reasoning traces.
+Do not claim that a syntactic count is a profiler measurement. If no improvement
+is apparent, test a distinct bounded hypothesis; duplicates still consume budget.
+
+Return exactly this JSON shape, with short public experiment notes:
+{"proof":"by\n  ...","hypothesis":{"parent":"original or a supplied declaration SHA256","family":"structure|evidence|representation|sharing|compression|repair","target":"location or component changed","change":"one concrete change","expected_saving":"work removed and a reason it might be cheaper"}}
+The proof is a complete replacement tactic body. Use one listed family name.
+The parent must be the original or a candidate visible in this request/history.
+Do not change the theorem to make the hypothesis succeed. Follow the measured
+combined objective even when a shorter proof has higher heartbeat cost.

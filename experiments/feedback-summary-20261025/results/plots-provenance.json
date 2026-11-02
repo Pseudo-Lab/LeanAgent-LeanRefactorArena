@@ -1,0 +1,9 @@
+{
+  "source_summary_sha256": "3e480975a4289b0b5f462060795f1c97081854af128820ca71278c9add390f0a",
+  "library": "ReportLab 4.4.9",
+  "range_definition": "Observed min/max of two independent runs; not confidence interval",
+  "files_sha256": {
+    "P01-cost-ranges.svg": "13d349f7a4e33cac4e91693d2798e09c826cb578cb8c2d1c67f64a1724a75e3d",
+    "P13-cost-ranges.svg": "1e93e49fbc55497dfc2298820cc8779329f06661054567801293f8647edf7bf4"
+  }
+}

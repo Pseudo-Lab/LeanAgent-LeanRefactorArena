@@ -1,0 +1,317 @@
+{
+  "purpose": "Same archived compiler errors rendered both ways; no new Lean/model calls, no solver performance claim.",
+  "rows": [
+    {
+      "problem": "P01",
+      "trial": "P01-A-r1",
+      "step": 1,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 976,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-A-r1",
+      "step": 2,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1328,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-A-r2",
+      "step": 1,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 166,
+      "goal_present": false
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-A-r2",
+      "step": 2,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 976,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B1-r1",
+      "step": 1,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1003,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B1-r1",
+      "step": 2,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1224,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B1-r1",
+      "step": 3,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1413,
+      "structured_chars": 165,
+      "goal_present": false
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B1-r2",
+      "step": 1,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1329,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B1-r2",
+      "step": 2,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 706,
+      "structured_chars": 166,
+      "goal_present": false
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B2-r1",
+      "step": 1,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1334,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B2-r2",
+      "step": 1,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 977,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B2-r2",
+      "step": 2,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1329,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B3-r1",
+      "step": 1,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 977,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B3-r1",
+      "step": 2,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1329,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B3-r2",
+      "step": 1,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1004,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B3-r2",
+      "step": 2,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1373,
+      "structured_chars": 166,
+      "goal_present": false
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B4-r1",
+      "step": 1,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1328,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B4-r1",
+      "step": 2,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1277,
+      "structured_chars": 165,
+      "goal_present": false
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B4-r2",
+      "step": 1,
+      "legacy_retains_first_error": false,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 976,
+      "goal_present": true
+    },
+    {
+      "problem": "P01",
+      "trial": "P01-B4-r2",
+      "step": 3,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 1060,
+      "goal_present": true
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-A-r2",
+      "step": 1,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 397,
+      "structured_chars": 340,
+      "goal_present": false
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-A-r2",
+      "step": 2,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 452,
+      "structured_chars": 314,
+      "goal_present": false
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-B1-r2",
+      "step": 1,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 340,
+      "structured_chars": 210,
+      "goal_present": false
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-B2-r1",
+      "step": 2,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 452,
+      "structured_chars": 314,
+      "goal_present": false
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-B3-r1",
+      "step": 1,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 913,
+      "structured_chars": 210,
+      "goal_present": false
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-B3-r1",
+      "step": 2,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 807,
+      "structured_chars": 742,
+      "goal_present": true
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-B4-r1",
+      "step": 1,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1025,
+      "structured_chars": 270,
+      "goal_present": false
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-B4-r1",
+      "step": 3,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1112,
+      "structured_chars": 340,
+      "goal_present": false
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-B4-r2",
+      "step": 1,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 1600,
+      "structured_chars": 210,
+      "goal_present": false
+    },
+    {
+      "problem": "P13",
+      "trial": "P13-B4-r2",
+      "step": 2,
+      "legacy_retains_first_error": true,
+      "structured_retains_first_error": true,
+      "legacy_chars": 807,
+      "structured_chars": 742,
+      "goal_present": true
+    }
+  ],
+  "counts": {
+    "P01": {
+      "errors": 20,
+      "legacy_retained": 9,
+      "structured_retained": 20
+    },
+    "P13": {
+      "errors": 10,
+      "legacy_retained": 10,
+      "structured_retained": 10
+    }
+  }
+}

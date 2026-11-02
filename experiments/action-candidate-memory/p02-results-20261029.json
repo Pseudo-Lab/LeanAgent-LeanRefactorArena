@@ -1,0 +1,317 @@
+{
+  "authorization": {
+    "condition_cap_usd": "0.15",
+    "max_calls": 12,
+    "total_usd": "0.30"
+  },
+  "base_main": "ba3de4f",
+  "budget_ok": true,
+  "conditions": [
+    {
+      "actions": {
+        "proof": 4
+      },
+      "baseline": {
+        "raw_heartbeats": 2695022,
+        "tokens": 222
+      },
+      "calls": 4,
+      "candidate_evaluations": 4,
+      "condition": "whole",
+      "cost_usd": "0.0670090",
+      "final": {
+        "raw_heartbeats": 488671,
+        "raw_samples": [
+          488671,
+          488681,
+          488659
+        ],
+        "tokens": 166
+      },
+      "full_module_passed": true,
+      "local_ratio_score": "0.4645356569687799636942909242",
+      "replay_passed": true,
+      "status": "completed",
+      "steps": [
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 2695022,
+          "best_tokens": 222,
+          "candidate_valid": false,
+          "cost_usd_after": "0.025561",
+          "metrics": null,
+          "rejection": null,
+          "step": 1
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 626964,
+          "best_tokens": 194,
+          "candidate_valid": true,
+          "cost_usd_after": "0.0354295",
+          "metrics": {
+            "raw_heartbeats": 626964,
+            "raw_samples": [
+              626975,
+              626964,
+              626947
+            ],
+            "tokens": 194
+          },
+          "rejection": null,
+          "step": 2
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 481693,
+          "best_tokens": 170,
+          "candidate_valid": true,
+          "cost_usd_after": "0.0506005",
+          "metrics": {
+            "raw_heartbeats": 481693,
+            "raw_samples": [
+              481693,
+              481703,
+              481681
+            ],
+            "tokens": 170
+          },
+          "rejection": null,
+          "step": 3
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 488671,
+          "best_tokens": 166,
+          "candidate_valid": true,
+          "cost_usd_after": "0.0670090",
+          "metrics": {
+            "raw_heartbeats": 488671,
+            "raw_samples": [
+              488671,
+              488681,
+              488659
+            ],
+            "tokens": 166
+          },
+          "rejection": null,
+          "step": 4
+        }
+      ],
+      "stop_reason": "budget_reservation",
+      "valid_candidates": 3,
+      "wall_seconds": 442.305,
+      "selected_sha256": "58aa9858ac88b9237520a7a9ab8a727213e96fb24167dd510e99d801f014eb67",
+      "next_request_reservation": {
+        "allowed": false,
+        "cap_usd": "0.15",
+        "input_token_bound": 17348,
+        "output_token_bound": 4096,
+        "request_sha256": "2e3d0b468ca77f9868a05e843597ef90e67184768145914f6f411ea33907a661",
+        "reserved_usd": "0.08433",
+        "spent_usd": "0.0670090"
+      },
+      "usage_summary": {
+        "reported_cost_known_subtotal_usd": "0.0670090",
+        "reported_cost_usd": "0.0670090",
+        "responses": 4,
+        "schema_version": 1,
+        "source": "model_response_usage",
+        "token_scope": "cache reads/writes included in input; reasoning included in output; not added twice",
+        "tokens": {
+          "cache_write_tokens": {
+            "known_records": 4,
+            "known_subtotal": 8489,
+            "mean": 2122.25,
+            "median": 1748.5,
+            "missing_records": 0,
+            "total": 8489
+          },
+          "cached_input_tokens": {
+            "known_records": 4,
+            "known_subtotal": 6525,
+            "mean": 1631.25,
+            "median": 2175.0,
+            "missing_records": 0,
+            "total": 6525
+          },
+          "input_tokens": {
+            "known_records": 4,
+            "known_subtotal": 15026,
+            "mean": 3756.5,
+            "median": 3694.5,
+            "missing_records": 0,
+            "total": 15026
+          },
+          "output_tokens": {
+            "known_records": 4,
+            "known_subtotal": 4511,
+            "mean": 1127.75,
+            "median": 1177.5,
+            "missing_records": 0,
+            "total": 4511
+          },
+          "reasoning_tokens": {
+            "known_records": 4,
+            "known_subtotal": 3289,
+            "mean": 822.25,
+            "median": 903.5,
+            "missing_records": 0,
+            "total": 3289
+          }
+        },
+        "unknown_cost_responses": 0
+      }
+    },
+    {
+      "actions": {
+        "propose": 1,
+        "repair": 1,
+        "search": 1
+      },
+      "baseline": {
+        "raw_heartbeats": 2695022,
+        "tokens": 222
+      },
+      "calls": 3,
+      "candidate_evaluations": 2,
+      "condition": "actions-memory",
+      "cost_usd": "0.0533791",
+      "final": {
+        "raw_heartbeats": 2695022,
+        "raw_samples": [
+          2694903,
+          2695059,
+          2695022
+        ],
+        "tokens": 222
+      },
+      "full_module_passed": true,
+      "local_ratio_score": "1",
+      "replay_passed": true,
+      "status": "completed",
+      "steps": [
+        {
+          "action": "search",
+          "best_raw_heartbeats": 2695022,
+          "best_tokens": 222,
+          "candidate_valid": null,
+          "cost_usd_after": "0.0107885",
+          "metrics": null,
+          "rejection": null,
+          "step": 1
+        },
+        {
+          "action": "propose",
+          "best_raw_heartbeats": 2695022,
+          "best_tokens": 222,
+          "candidate_valid": false,
+          "cost_usd_after": "0.0264213",
+          "metrics": null,
+          "rejection": null,
+          "step": 2
+        },
+        {
+          "action": "repair",
+          "best_raw_heartbeats": 2695022,
+          "best_tokens": 222,
+          "candidate_valid": false,
+          "cost_usd_after": "0.0533791",
+          "metrics": null,
+          "rejection": null,
+          "step": 3
+        }
+      ],
+      "stop_reason": "budget_reservation",
+      "valid_candidates": 0,
+      "wall_seconds": 235.634,
+      "selected_sha256": "bd09b47c0a79a48c942bdcc94202049c727d1c6b5e57b714ba5bf7cf17784a70",
+      "next_request_reservation": {
+        "allowed": false,
+        "cap_usd": "0.15",
+        "input_token_bound": 28600,
+        "output_token_bound": 4096,
+        "request_sha256": "610e2771081ce4bb2ae69973bc11040f7de6497cf3c40389e6c644d74986cadd",
+        "reserved_usd": "0.11246",
+        "spent_usd": "0.0533791"
+      },
+      "usage_summary": {
+        "reported_cost_known_subtotal_usd": "0.0533791",
+        "reported_cost_usd": "0.0533791",
+        "responses": 3,
+        "schema_version": 1,
+        "source": "model_response_usage",
+        "token_scope": "cache reads/writes included in input; reasoning included in output; not added twice",
+        "tokens": {
+          "cache_write_tokens": {
+            "known_records": 3,
+            "known_subtotal": 11033,
+            "mean": 3677.6666666666665,
+            "median": 3885,
+            "missing_records": 0,
+            "total": 11033
+          },
+          "cached_input_tokens": {
+            "known_records": 3,
+            "known_subtotal": 4486,
+            "mean": 1495.3333333333333,
+            "median": 2243,
+            "missing_records": 0,
+            "total": 4486
+          },
+          "input_tokens": {
+            "known_records": 3,
+            "known_subtotal": 15528,
+            "mean": 5176,
+            "median": 3999,
+            "missing_records": 0,
+            "total": 15528
+          },
+          "output_tokens": {
+            "known_records": 3,
+            "known_subtotal": 2533,
+            "mean": 844.3333333333334,
+            "median": 1102,
+            "missing_records": 0,
+            "total": 2533
+          },
+          "reasoning_tokens": {
+            "known_records": 3,
+            "known_subtotal": 1971,
+            "mean": 657,
+            "median": 853,
+            "missing_records": 0,
+            "total": 1971
+          }
+        },
+        "unknown_cost_responses": 0
+      }
+    }
+  ],
+  "generation_context": "same original short task packet; no optimized proofs",
+  "limitations": "One run per condition; strict byte-bound reservations may leave budget unused. Not an official score.",
+  "model": {
+    "backend": "openrouter",
+    "id": "openai/gpt-6.1-sol",
+    "max_price": {
+      "completion": 10,
+      "prompt": 2.5
+    },
+    "max_tokens": 4096,
+    "provider": "openai",
+    "reasoning_effort": "high",
+    "seed": 42,
+    "timeout_seconds": 180
+  },
+  "problem": "P02",
+  "reported_total_usd": "0.1203881",
+  "schema_version": 1,
+  "secret_in_evidence": false,
+  "source_sha256": "1c5e76014548db4a380b5c225f561c726a0db1184dcddfefb7191052e67dd79a",
+  "audit": {
+    "unique_generation_ids": 7,
+    "transport_matches_native": true,
+    "root_inventory_verified": true,
+    "per_condition_caps_verified": true
+  }
+}

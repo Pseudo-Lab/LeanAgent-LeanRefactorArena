@@ -1,0 +1,30 @@
+{
+  "artifact_count": 11532,
+  "artifacts_sha256": "2f256eb28f1b6e5234f1262f1f6192b21c726ad1d47e3ed93281c89776decc22",
+  "commit": "451e5f047bafa010d178856db76c00029bfa4d7f",
+  "compiler": "/Users/zzu0203/.elan/toolchains/leanprover--lean4---v4.26.0/bin/lean",
+  "compiler_version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+  "dependencies": [
+    {
+      "commit": "b949552f6ca8e223f424b3e3b33f74185bbf1179",
+      "name": "plausible",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/Strata/.lake/packages/plausible"
+    }
+  ],
+  "environment_id": "4375ef92a5115f4dd2a92d169f1357e08127d30786577345169d47729fb36356",
+  "flags": [
+    "-Dexperimental.module=true"
+  ],
+  "label": "v4.26.0",
+  "lean_path": [
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/Strata/.lake/build/lib/lean"
+  ],
+  "manifest_sha256": "5aab41f14cc55b5049ae81535506b6998bfadd9d983af6130fa92f4a39bd244c",
+  "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/Strata",
+  "runtime_roots": {
+    "compiler-bin": "/Users/zzu0203/.elan/toolchains/leanprover--lean4---v4.26.0/bin",
+    "compiler-lib": "/Users/zzu0203/.elan/toolchains/leanprover--lean4---v4.26.0/lib",
+    "project-lib": "/Users/zzu0203/projects/01_가짜연구소/LEArN/Strata/.lake/build/lib/lean"
+  },
+  "toolchain_sha256": "e8173aad377a6d70041e5f7a5d8895ed587628f5cab243c53a18c40a1b7b6bf8"
+}

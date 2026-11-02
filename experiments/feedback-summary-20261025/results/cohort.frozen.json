@@ -1,0 +1,30 @@
+{
+  "prepared_at": "2026-10-25T09:58:43.761410+00:00",
+  "design_sha256": "aafd05edf03d70b069592dd3f5413e09d6f490b6971ecb8b241f5a060291f99d",
+  "protocol_sha256": "516e4460b8bd85feb56660e07405c9352c4ad535a7e0ced091585f778e7768e1",
+  "operations_sha256": "237d7df5c64b86417317349042ce8e1592a95a7ec8d0c0454922a379eb54f2d8",
+  "prompt_sha256": "392cb9211192e4621a1f6a634df9663c86e9d13e4c6d9f99591fee468f0366b9",
+  "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6",
+  "code_sha256": {
+    "harness.py": "a4af55e61348f1a932e8b3532283fdf23b1a9789fda025db71d184ad4119cd20",
+    "models.py": "29ced33ee6fb906a03b5b8d5df2e6162a8421aa47e45d52c8192d16be04912d7",
+    "evaluator/__init__.py": "0eab47670182910a6f889d4f5bf1712d73b159bfffe499d63c6a1a94e8abacd7",
+    "evaluator/lean.py": "c4e779e71fc8e5999b81641e458ae4543c420e4dee32586acdfeebe1aea7e5a8",
+    "evaluator/tokens.py": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+    "evaluator/provenance.json": "b5a61820afb043091f175ff2ff071ff1554a155e026d8f6093ecf470ce982c0b",
+    "subagent_trials.py": "8e2f9eb5d81f332a0709cee8361a63ed1378d0765b77962db60d2f5689d724e1",
+    "error_feedback.py": "b953b0a30bedec9338a279cf19915b528a64f4eaaf99f4b8c618770aca19b958",
+    "legacy_error_feedback.py": "d6330355349f22417d43495aace342c8d02e69cc9d81bfab622a4e498c428484"
+  },
+  "readiness_sha256": {
+    "P01": {
+      "summary": "d88111b2bf7bf2be2e07604bb4e3715ce696c4559db7b0bf8816ebee97ed2bf8",
+      "runtime_before": "ed733e212c568a53f4a3c5b8aa8ea822497743738a240354c0ed8da13306c37d"
+    },
+    "P13": {
+      "summary": "dd456ea336a70569b018c4e385521e668ee0fc75ca131de9393f513387860ea3",
+      "runtime_before": "5dc5cec510977c7b3ca0a383bb08bd821ef89f2e5733de9940ef054acd3b6ea0"
+    }
+  },
+  "max_solver_parallelism": 2
+}

@@ -1,0 +1,24 @@
+{
+  "checks": [
+    {
+      "case": "stale_proof_evidence",
+      "rejected": true,
+      "reason": "",
+      "submission_written": false
+    },
+    {
+      "case": "invented_428_success",
+      "rejected": true,
+      "reason": "(10, 'declared and evidence-derived pins differ')",
+      "submission_written": false
+    },
+    {
+      "case": "require_complete_blocks_pending",
+      "rejected": true,
+      "reason": "('required pin verification remains', [{'id': 10, 'pins': ['v4.28.0']}])",
+      "submission_written": false
+    }
+  ],
+  "exporter_sha256": "0c2fc3da3f9e08b21273ee485e9e05d693a66f00eb34bf2b4f6385881c5cfdf3",
+  "evidence_gate_sha256": "d574d424792d68ddbde425d7acbec6a1a2709b699c83cd56350ea51a4f380b78"
+}

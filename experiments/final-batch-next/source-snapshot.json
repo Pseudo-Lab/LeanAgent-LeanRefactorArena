@@ -1,0 +1,21 @@
+{
+  "copied_from": "experiments/final-batch",
+  "files": {
+    "experiments/final-batch/test_transport_review.py": "87e25b11343d8b2fe58cc62f8315fad073720b98fcbef14c8df30028187cfe45",
+    "experiments/final-batch/test_retrieval.py": "f56076270edfd11253d390862e9925d8084711d42d458851dd463b1100fde18f",
+    "experiments/final-batch/openai_transport.py": "dcac31710a24b98aa3d7872b393dd9d59d15f882fac147c1851851a41095197e",
+    "experiments/final-batch/test_driver.py": "e4d4052e31a1e793959626df7efb7281eab31c76763597a9674a013e075557f0",
+    "experiments/final-batch/test_evaluator.py": "4bdb1d061f59205a871c23a02c2a45bce0589e1be80b15aaa6b306f48fd12bcc",
+    "experiments/final-batch/policy.py": "4b69591cda0571b3f1d611e0278c9a1c3b4bbc763f2c873971a577e2284915df",
+    "experiments/final-batch/test_report.py": "9f4e1a46c70f99d88104ef4d9f472a1d4c81d7c2dfe7cf5f9ca4affbffce85a8",
+    "experiments/final-batch/README.md": "e75bc92420d9ef814a05b1355b79124f6a7ab4ca43e1c8f9aa46773c29f7e2f2",
+    "experiments/final-batch/cache_rows.py": "0e7ba4144e40985eefca9b93ab4a4cb031e2e6a678152053c732030d226cdedb",
+    "experiments/final-batch/retrieval.py": "9413ee7e943b2b02d6b6b8183ec36dc9d4f8bd56c8d5d50309723f617d467f94",
+    "experiments/final-batch/resources.py": "d05557124f2053fa70e1025c7a5bc9a369afc55321cba454465a93eb2b679326",
+    "experiments/final-batch/test_openai_transport.py": "5d76e52d063ab0685f93204902748ff31c81297f7dece7fac92393b2b4e62c68",
+    "experiments/final-batch/driver.py": "9a56940ab488fc4b2fd5d777fd82f51a73f5f991e9af242969a99fe8ec9b816b",
+    "experiments/final-batch/test_policy.py": "2150d132cdeec3dff3ed3ffdb80615efec5d43b1e349db69f8edaf1f631c8c23",
+    "experiments/final-batch/evaluator.py": "a4de037a6f37a30372cd4daad699b476193c55a790580ed4443079dd983f88d4",
+    "experiments/final-batch/report.py": "cb8c7923104ffbaa85b8d78039fb3e6af6928c021849823c149fead8d5e0b592"
+  }
+}

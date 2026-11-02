@@ -7,6 +7,10 @@
 - [보존·정리 기준](retention.md): 어떤 Lean과 실행 코드를 남기는가.
 - [PR #46·워크트리 감사](worktree-audit-2026-11-02.md): 반영 범위·남은 구현·검사·복구 경로.
 
+## 아카이브 보관 범위
+
+[PR #47](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/pull/47)은 `archive/common-harness-build-3ee67de`에 정리 문서만 추가한다. 기준 커밋 `3ee67de`의 모든 코드·Lean·설정·기존 문서는 그대로 유지한다. 최초 초안의 Lean 출력 15개 삭제와 공통 하네스 변경은 최종 아카이브 비교에서 제외했다. main 반영 상태에 대한 설명은 당시 main의 감사 결과이며 아카이브 runtime의 구현 상태를 뜻하지 않는다.
+
 ## 읽는 기준
 
 `T`는 proof 소스 토큰 수, `H`는 각 시행이 정의한 heartbeat다. 모델 사용 토큰·요금과 구분한다. 보통 `O=T/T0+H/H0`를 최소화하지만 구조 후속은 공개 환산 HB 분모를 사용한다. raw HB·환산 HB·분모가 다른 시행의 O를 바로 비교하지 않는다. 조건부 점수는 호환성 가정의 로컬 계산이며 공식 제출 결과가 아니다.

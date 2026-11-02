@@ -1,0 +1,51 @@
+{
+  "created_utc": "2026-10-28T04:58:06.663081+00:00",
+  "scope": "Single required pin verified locally; no official submission",
+  "target": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+  "candidate_sha256": "618cc07c9dae13099535beff81c0931576e2e23f772f5c804b4c0165b34e8ad0",
+  "tokens": 394,
+  "primary_pin": "v4.32.0",
+  "raw_samples": [
+    13359032,
+    13359367,
+    13358447
+  ],
+  "raw_median": 13359032,
+  "estimated_score": 78.62020783748395,
+  "compatibility": "1/1",
+  "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/checkpoint-factors-7f41f3ac0f/result.json",
+  "baseline_receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/original-4a8747b2c4/result.json",
+  "receipt_audit": {
+    "receipts": 18,
+    "valid": 8,
+    "failed": 9,
+    "unique_measurement_nonces": 14,
+    "incomplete": [
+      "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/agent-bilinear-basis-0e04494a86/result.json"
+    ],
+    "passed": false,
+    "scope": "saved source/log/hash/nonce/context/axiom/metric audit; no new Lean execution",
+    "environment_identity": "0c18c271b1246b75048271e615a36086573166bcb93dc2d65801c904330284c2"
+  },
+  "selected_receipt_audit": {
+    "passed": true,
+    "scope": "Selected completed receipt only; unfinished sibling candidates excluded",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/checkpoint-factors-7f41f3ac0f/result.json",
+    "receipt_sha256": "9169625bc6f55c2e7da45974c3425af6db5cf869a97343b7a1728398a7ad3e56",
+    "candidate_sha256": "618cc07c9dae13099535beff81c0931576e2e23f772f5c804b4c0165b34e8ad0",
+    "tokens": 394,
+    "raw_samples": [
+      13359032,
+      13359367,
+      13358447
+    ],
+    "raw_median": 13359032,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "environment_identity": "0c18c271b1246b75048271e615a36086573166bcb93dc2d65801c904330284c2"
+  },
+  "receipt_audit_scope_note": "receipt_audit covers the entire search at export time and may list unfinished sibling candidates; selected_receipt_audit audits this exported proof independently."
+}

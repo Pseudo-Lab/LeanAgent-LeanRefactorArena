@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "scope": "Selected completed receipt only; unfinished sibling candidates excluded",
+  "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/checkpoint-factors-7f41f3ac0f/result.json",
+  "receipt_sha256": "9169625bc6f55c2e7da45974c3425af6db5cf869a97343b7a1728398a7ad3e56",
+  "candidate_sha256": "618cc07c9dae13099535beff81c0931576e2e23f772f5c804b4c0165b34e8ad0",
+  "tokens": 394,
+  "raw_samples": [
+    13359032,
+    13359367,
+    13358447
+  ],
+  "raw_median": 13359032,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "environment_identity": "0c18c271b1246b75048271e615a36086573166bcb93dc2d65801c904330284c2"
+}

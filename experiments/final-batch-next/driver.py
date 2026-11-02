@@ -114,7 +114,7 @@ def require_policy(root):
 
 
 def prompt_text(context):
-    base = (REPO / "examples/actions/prompt.txt").read_text()
+    base = (HERE.parent / "action-candidate-memory/prompt.txt").read_text()
     return base + "\n" + (
         "Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. "
         "Then reduce repeated whole-context simplification or broad search using recorded evidence. "
@@ -152,7 +152,7 @@ def make_request(state, problem, config, prompt):
     changes = []
     if "code" in packet["best"]:
         packet["best"].pop("code")
-        packet["best"]["code_ref"] = {"action": "read_candidate", "candidate_id": packet["exploration"]["best_candidate_id"]}
+        packet["best"]["code_ref"] = {"action": "read_candidate", "candidate_id": state["exploration"]["best_candidate_id"]}
         changes.append("best source available through read_candidate")
         packet["request_compaction"] = changes
         body["messages"][1]["content"] = a.canonical(packet)
@@ -220,18 +220,14 @@ def guard_compiler_signal(result):
 INPUT_FILES = ("problem.json", "config.json", "action-corpus.json", "context-metadata.json", "prompt.txt")
 
 
-def configuration(problem, portfolio_settings=None):
+def configuration(problem):
     model = {**MODEL, "max_tokens": 16384 if len(problem["reference"]) > 12000 else 8192}
-    config = {"schema_version": 1, "model": model,
+    return {"schema_version": 1, "model": model,
         "limits": {"max_calls": None, "cost_stop_usd": str(TARGET),
                    "max_proof_characters": max(24000, len(problem["reference"]) * 3),
                    "max_feedback_characters": 7000, "max_request_characters": 190000},
         "agent": {"mode": "actions-v1", "corpus": "action-corpus.json", "history_limit": 4,
                   "candidate_limit": 8, "allow_finish": False}}
-    if portfolio_settings is not None:
-        h.portfolio.validate(portfolio_settings)
-        config["agent"].update(portfolio=dict(portfolio_settings), approach_policy="exchange-v1")
-    return config
 
 
 def validate_inputs(root, row):
@@ -244,25 +240,23 @@ def validate_inputs(root, row):
     if problem != original or problem.get("dataset_sha256") != DATASET_SHA:
         raise ValueError(f"F{row:03} frozen problem identity differs")
     config = a.read(inputs / "config.json")
-    expected = configuration(problem, config.get("agent", {}).get("portfolio"))
+    expected = configuration(problem)
     timeout = config.get("model", {}).get("timeout_seconds")
     if timeout not in (300, 900):
         raise ValueError(f"F{row:03} unexpected prelaunch timeout")
     expected["model"]["timeout_seconds"] = timeout
     if config != expected:
         raise ValueError(f"F{row:03} input configuration differs from the fixed policy")
-    corpus = a.read(inputs / "action-corpus.json")
-    actions.validate_corpus(corpus)
+    actions.validate_corpus(a.read(inputs / "action-corpus.json"))
     if not isinstance(a.read(inputs / "context-metadata.json"), dict):
         raise ValueError(f"F{row:03} context metadata must be an object")
     prompt = (inputs / "prompt.txt").read_text()
     if not prompt or len(prompt) > 60000:
         raise ValueError(f"F{row:03} missing or oversized prompt")
-    h.portfolio.validate_shared_inputs(config, problem["reference"], prompt, corpus)
     return problem
 
 
-def prepare_inputs(root, rows, workers=1, portfolio_settings=None):
+def prepare_inputs(root, rows, workers=1):
     """Prepare disjoint row inputs only; no authorization, API ledger or seal."""
     if workers not in (1, 2):
         raise ValueError("Input preparation workers must be 1 or 2")
@@ -280,8 +274,6 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=None):
             inputs = output / "input"
             if all((inputs / name).is_file() for name in INPUT_FILES):
                 validate_inputs(root, row)
-                if portfolio_settings is not None and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
-                    raise ValueError("Existing inputs have a different policy; use a fresh batch root")
                 return {"row": row, "input_status": "reused"}
             inputs.mkdir(parents=True, exist_ok=True)
             problem = ev.load_problem(row)
@@ -294,7 +286,7 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=None):
             if len(text) > 40000:
                 raise ValueError("Initial context exceeds bounded 40000 characters")
             atomic(inputs / "problem.json", problem)
-            atomic(inputs / "config.json", configuration(problem, portfolio_settings))
+            atomic(inputs / "config.json", configuration(problem))
             atomic(inputs / "action-corpus.json", corpus)
             atomic(inputs / "context-metadata.json", context.get("metadata", {}))
             (inputs / "prompt.txt").write_text(prompt_text(text))
@@ -350,16 +342,11 @@ def seal_inputs(root, rows):
     print(json.dumps({"prepared": str(root), "rows": rows, "api_calls": 0}), flush=True)
 
 
-def prepare(root, rows, workers=2, portfolio_settings=None):
+def prepare(root, rows, workers=2):
     if (Path(root) / "frozen.json").exists():
-        if portfolio_settings is not None:
-            for row in rows:
-                config = a.read(folder(root, row) / "input/config.json")
-                if config.get("agent", {}).get("portfolio") != portfolio_settings:
-                    raise ValueError("Sealed policy differs; use a fresh batch root")
         seal_inputs(root, rows)
         return
-    prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings)
+    prepare_inputs(root, rows, workers=workers)
     seal_inputs(root, rows)
 
 
@@ -668,7 +655,7 @@ def run_problem(root, row):
                 initial_receipt.rename(initial_receipt.with_name("initial-environment-fingerprints-before-resume-" + str(time.time_ns()) + ".json"))
             atomic(initial_receipt, {"full_content_verification": True, "verified_at": now(),
                                      "environments": initial_fingerprints})
-            while not h.cost_threshold_reached(state, config) and not h.portfolio.finished(state):
+            while not h.cost_threshold_reached(state, config):
                 step = state["step"] + 1
                 step_dir = output / "steps" / f"{step:04}"
                 step_dir.mkdir(parents=True, exist_ok=True)
@@ -733,20 +720,15 @@ def run_problem(root, row):
             atomic(output / "final/environment-fingerprints.json", {"full_content_verification": True,
                     "verified_at": now(), "environments": fingerprints})
             summary = {"row": row, "id": problem["id"], "name": problem["name"], "status": "completed",
-                       "stop_reason": "portfolio_complete" if h.portfolio.finished(state) else "cost_limit",
-                       "cost_usd": state["cost_usd"], "calls": state["calls"],
+                       "stop_reason": "cost_limit", "cost_usd": state["cost_usd"], "calls": state["calls"],
                        "baseline": h.metrics(baseline), "selected": {k: v for k, v in selected.items() if k != "code"},
                        "final": measured, "all_versions_valid": checked["valid"], "official_evaluation": False,
                        "finished_at": now(), "verification_policy": VERIFICATION_POLICY}
-            if h.portfolio.enabled(config):
-                summary["portfolio"] = h.portfolio.summary(state, config)
-                if not summary["portfolio"]["complete"]:
-                    summary["status"] = "stopped"
             summary.update(cost_basis="provider-token-usage-times-frozen-public-list-prices", invoice_verified=False,
                            provider="OpenAI direct", model=MODEL["id"])
             atomic(output / "summary.json", summary)
-            atomic(output / "progress.json", {"row": row, "status": summary["status"], "cost_usd": state["cost_usd"], "at": now()})
-            print(json.dumps({"row": row, "status": summary["status"], "cost_usd": state["cost_usd"], "calls": state["calls"]}), flush=True)
+            atomic(output / "progress.json", {"row": row, "status": "completed", "cost_usd": state["cost_usd"], "at": now()})
+            print(json.dumps({"row": row, "status": "completed", "cost_usd": state["cost_usd"], "calls": state["calls"]}), flush=True)
             return summary
         except Exception as exc:
             atomic(output / "progress.json", {"row": row, "status": "stopped", "error_type": type(exc).__name__,
@@ -788,24 +770,14 @@ def main():
     parser.add_argument("--key-file", type=Path)
     parser.add_argument("--ensure-preflight", action="store_true",
                         help="Finish each problem's no-API baseline checks before its first paid request")
-    parser.add_argument("--portfolio", action="store_true", help="Prepare isolated scouts then merger with exchange-v1 policy")
-    parser.add_argument("--scout-evaluations", type=int, default=None)
-    parser.add_argument("--merger-evaluations", type=int, default=None)
     args = parser.parse_args()
-    settings = None
-    if args.portfolio or args.scout_evaluations is not None or args.merger_evaluations is not None:
-        if not args.portfolio or args.command not in ("prepare", "inputs"):
-            parser.error("Portfolio settings require --portfolio with prepare/inputs on a fresh root")
-        settings = {"scout_evaluations": 6 if args.scout_evaluations is None else args.scout_evaluations,
-                    "merger_evaluations": 22 if args.merger_evaluations is None else args.merger_evaluations}
-        h.portfolio.validate(settings)
     root = args.root.resolve()
     require_policy(root)
     rows = rows_from(args)
     if args.command == "prepare":
-        prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings)
+        prepare(root, rows, workers=args.workers or 2)
     elif args.command == "inputs":
-        prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings)
+        prepare_inputs(root, rows, workers=args.workers or 1)
     elif args.command == "seal":
         seal_inputs(root, rows)
     elif args.command == "preflight":
@@ -826,8 +798,7 @@ def main():
             for future in as_completed(futures):
                 row = futures.pop(future)
                 try:
-                    if future.result()["status"] != "completed":
-                        failed.append(row)
+                    future.result()
                 except Exception as exc:
                     failed.append(row)
                     print(json.dumps({"row": row, "status": "stopped", **compact_worker_failure(exc)}), flush=True)

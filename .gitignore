@@ -54,17 +54,3 @@ __pycache__/
 /runs/final-batch-next/
 /runs/final-batch-preflight-smoke/
 /runs/verification-profile/
-
-# Generated reports remain local; publish generators and focused fixtures.
-/benchmarks/arena/final-d53690b057f9/audit.json
-/experiments/final-environment/preparation-results.json
-/experiments/final-batch-next/validation.json
-/docs/common-harness/validation.json
-/experiments/portfolio-94/
-/experiments/first-harness-jwkweon/
-/experiments/feedback-summary-20261025/
-/experiments/offline-proof-search/
-/experiments/length-bounds/
-
-# Regenerable static-analysis views; retain analyzer, JSON and Markdown summaries.
-/experiments/proof-analyze/results/*_focus.lean

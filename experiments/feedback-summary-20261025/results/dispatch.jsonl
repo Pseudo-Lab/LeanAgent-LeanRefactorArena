@@ -1,0 +1,16 @@
+{"event": "dispatched", "trial_id": "P01-S-r1", "agent": "/root/solver_p01_s_r1", "dispatched_at": "2026-10-25T09:59:13.668434+00:00"}
+{"event": "dispatched", "trial_id": "P13-M-r1", "agent": "/root/solver_p13_m_r1", "dispatched_at": "2026-10-25T09:59:29.330393+00:00"}
+{"event": "completed", "trial_id": "P01-S-r1", "agent": "/root/solver_p01_s_r1", "observed_at": "2026-10-25T10:13:55.096117+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-S-r1", "agent": "/root/solver_p13_s_r1", "dispatched_at": "2026-10-25T10:14:08.587946+00:00"}
+{"event": "completed", "trial_id": "P13-M-r1", "agent": "/root/solver_p13_m_r1", "observed_at": "2026-10-25T10:48:27.427494+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P01-M-r1", "agent": "/root/solver_p01_m_r1", "dispatched_at": "2026-10-25T10:48:39.791170+00:00"}
+{"event": "completed", "trial_id": "P01-M-r1", "agent": "/root/solver_p01_m_r1", "observed_at": "2026-10-25T11:05:38.712357+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P01-M-r2", "agent": "/root/solver_p01_m_r2", "dispatched_at": "2026-10-25T11:05:49.442590+00:00"}
+{"event": "completed", "trial_id": "P13-S-r1", "agent": "/root/solver_p13_s_r1", "observed_at": "2026-10-25T11:11:58.184925+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-S-r2", "agent": "/root/solver_p13_s_r2", "dispatched_at": "2026-10-25T11:12:09.751466+00:00"}
+{"event": "completed", "trial_id": "P01-M-r2", "agent": "/root/solver_p01_m_r2", "observed_at": "2026-10-25T11:23:58.685919+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P13-M-r2", "agent": "/root/solver_p13_m_r2", "dispatched_at": "2026-10-25T11:24:12.857241+00:00"}
+{"event": "completed", "trial_id": "P13-S-r2", "agent": "/root/solver_p13_s_r2", "observed_at": "2026-10-25T11:54:29.436329+00:00", "final_valid": true}
+{"event": "dispatched", "trial_id": "P01-S-r2", "agent": "/root/solver_p01_s_r2", "dispatched_at": "2026-10-25T11:54:42.084898+00:00"}
+{"event": "completed", "trial_id": "P01-S-r2", "agent": "/root/solver_p01_s_r2", "observed_at": "2026-10-25T12:11:27.864836+00:00", "final_valid": true}
+{"event": "completed", "trial_id": "P13-M-r2", "agent": "/root/solver_p13_m_r2", "observed_at": "2026-10-25T12:14:41.018249+00:00", "final_valid": true}

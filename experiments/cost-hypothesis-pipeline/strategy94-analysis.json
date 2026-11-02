@@ -1,0 +1,177 @@
+{
+  "date": "2026-10-27",
+  "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round7/scores.json",
+  "scope": "Historical first submission with seven all-required-pin local replacements; NOT a fresh complete portfolio or official resubmission. Later primary-only results and unfinished harness pilot excluded.",
+  "assumptions": {
+    "problems": 15,
+    "compatibility_pct": 100,
+    "target_score": 94
+  },
+  "mean_score": 82.15993913169228,
+  "mean_length_remaining": 0.2782676097340886,
+  "mean_heartbeat_remaining": 0.2569342163151429,
+  "max_score_if_only_HB_eliminated": 90.7244130088637,
+  "max_score_if_only_length_eliminated": 91.43552612282858,
+  "remaining_normalized_loss_to_remove_fraction": 0.6636782775411487,
+  "required_mean_score_of_six_if_other_nine_frozen": 99.52963090656556,
+  "six_problem_ids": [
+    5,
+    6,
+    7,
+    8,
+    10,
+    12
+  ],
+  "rows": [
+    {
+      "id": 7,
+      "name": "Typing.progress",
+      "problem_score": 51.35960384488075,
+      "tokens": 300,
+      "original_tokens": 408,
+      "length_ratio": 0.7352941176470589,
+      "heartbeat_ratio": 0.7239177670065184,
+      "evidence_tier": "official_user_table"
+    },
+    {
+      "id": 5,
+      "name": "time_deriv_time_deriv_electricField_of_isExtrema",
+      "problem_score": 68.492139161931,
+      "tokens": 721,
+      "original_tokens": 1372,
+      "length_ratio": 0.5255102040816326,
+      "heartbeat_ratio": 0.41972562106043754,
+      "evidence_tier": "official_user_table"
+    },
+    {
+      "id": 10,
+      "name": "fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "problem_score": 70.7642708561112,
+      "tokens": 484,
+      "original_tokens": 1463,
+      "length_ratio": 0.3308270676691729,
+      "heartbeat_ratio": 0.5462448066474912,
+      "evidence_tier": "official_user_table"
+    },
+    {
+      "id": 8,
+      "name": "parallelReduction_diamond",
+      "problem_score": 75.4708011320338,
+      "tokens": 185,
+      "original_tokens": 407,
+      "length_ratio": 0.45454545454545453,
+      "heartbeat_ratio": 0.2813305114935315,
+      "evidence_tier": "round6_fresh_all_required_pins"
+    },
+    {
+      "id": 6,
+      "name": "ι_timeOrderF_superCommuteF_eq_time",
+      "problem_score": 76.51613327994845,
+      "tokens": 450,
+      "original_tokens": 1217,
+      "length_ratio": 0.3697617091207888,
+      "heartbeat_ratio": 0.33475429248075783,
+      "evidence_tier": "official_user_table"
+    },
+    {
+      "id": 12,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "problem_score": 76.97392413987242,
+      "tokens": 362,
+      "original_tokens": 1353,
+      "length_ratio": 0.2675535846267554,
+      "heartbeat_ratio": 0.4232286911770716,
+      "evidence_tier": "round7_fresh_all_required_pins"
+    },
+    {
+      "id": 11,
+      "name": "fold_advances_evaluation_poly",
+      "problem_score": 83.26123858311162,
+      "tokens": 473,
+      "original_tokens": 1906,
+      "length_ratio": 0.24816369359916055,
+      "heartbeat_ratio": 0.2539991489074909,
+      "evidence_tier": "round7_fresh_all_required_pins"
+    },
+    {
+      "id": 9,
+      "name": "bisimilarity_congr_choice",
+      "problem_score": 85.10220393697372,
+      "tokens": 79,
+      "original_tokens": 251,
+      "length_ratio": 0.3147410358565737,
+      "heartbeat_ratio": 0.1321928460342146,
+      "evidence_tier": "official_user_table"
+    },
+    {
+      "id": 3,
+      "name": "InitsUpdatesComm",
+      "problem_score": 86.26202052045763,
+      "tokens": 78,
+      "original_tokens": 224,
+      "length_ratio": 0.3482142857142857,
+      "heartbeat_ratio": 0.06392509867198562,
+      "evidence_tier": "fresh_full_source_all_required_pins"
+    },
+    {
+      "id": 1,
+      "name": "substOldPostSubset",
+      "problem_score": 88.0839040843158,
+      "tokens": 32,
+      "original_tokens": 313,
+      "length_ratio": 0.10223642172523961,
+      "heartbeat_ratio": 0.2552464557452861,
+      "evidence_tier": "fresh_full_source_all_required_pins"
+    },
+    {
+      "id": 4,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "problem_score": 91.24530654076001,
+      "tokens": 123,
+      "original_tokens": 851,
+      "length_ratio": 0.1445358401880141,
+      "heartbeat_ratio": 0.11810496358918557,
+      "evidence_tier": "official_user_table"
+    },
+    {
+      "id": 15,
+      "name": "putnam_1995_a3",
+      "problem_score": 92.76033035897072,
+      "tokens": 283,
+      "original_tokens": 4085,
+      "length_ratio": 0.06927784577723378,
+      "heartbeat_ratio": 0.14791224345364473,
+      "evidence_tier": "official_user_table"
+    },
+    {
+      "id": 2,
+      "name": "extractedOldExprInVars",
+      "problem_score": 93.11355557024854,
+      "tokens": 19,
+      "original_tokens": 222,
+      "length_ratio": 0.08558558558558559,
+      "heartbeat_ratio": 0.12100774730695833,
+      "evidence_tier": "fresh_full_source_all_required_pins"
+    },
+    {
+      "id": 13,
+      "name": "putnam_1964_a4",
+      "problem_score": 94.25848137666722,
+      "tokens": 259,
+      "original_tokens": 1769,
+      "length_ratio": 0.1464104013566987,
+      "heartbeat_ratio": 0.02583515734328465,
+      "evidence_tier": "official_user_table"
+    },
+    {
+      "id": 14,
+      "name": "putnam_1964_b2",
+      "problem_score": 98.73517358910138,
+      "tokens": 55,
+      "original_tokens": 1754,
+      "length_ratio": 0.03135689851767389,
+      "heartbeat_ratio": 0.006587893809284855,
+      "evidence_tier": "fresh_full_source_all_required_pins"
+    }
+  ]
+}

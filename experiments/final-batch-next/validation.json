@@ -1,0 +1,10 @@
+{
+  "test_command": "PYTHONPATH=src .venv/bin/python -B -m unittest discover -s experiments/final-batch-next -p 'test_*.py'",
+  "tests_passed": 65,
+  "model_api_calls": 0,
+  "lean_compiler_invocations": 0,
+  "active_frozen_files_checked": 337,
+  "changed_active_frozen_files": [],
+  "changed_source_files": [],
+  "existing_run_not_started_stopped_or_resealed": true
+}

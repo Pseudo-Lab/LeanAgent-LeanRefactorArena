@@ -1,0 +1,20 @@
+{
+  "benchmark": "/Users/zzu0203/projects/01_가짜연구소/LEArN/week3-experiments/corpus/data/arena/56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c/benchmark_data_warmup.jsonl",
+  "proofs": {
+    "1": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/candidate.lean",
+    "2": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/candidate.lean",
+    "3": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/candidate.lean",
+    "4": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/best/P04.lean",
+    "5": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P05-d82d292cce4b/P05.lean",
+    "6": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P06-618cc07c9dae/P06.lean",
+    "7": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P07-2d273e0f5161/P07.lean",
+    "8": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round6/validated/P08.lean",
+    "9": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/best/P09.lean",
+    "10": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/best/P10.lean",
+    "11": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P11-8a33b2dfc592/P11.lean",
+    "12": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/offline-proof-search/validated/20261028/P12.lean",
+    "13": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/best/P13.lean",
+    "14": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full/candidate.lean",
+    "15": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/best/P15.lean"
+  }
+}

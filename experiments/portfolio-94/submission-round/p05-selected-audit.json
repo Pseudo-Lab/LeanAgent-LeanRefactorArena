@@ -1,0 +1,20 @@
+{
+  "passed": true,
+  "scope": "Selected completed receipt only; unfinished sibling candidates excluded",
+  "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p05-432/evaluations/submit-confirm-natural-denominator-943b28cfcd/result.json",
+  "receipt_sha256": "b6996d91d7e25d3b6a10134f5bda2348916f7f5e06181583f47d0565a26b4ee8",
+  "candidate_sha256": "9aabe6f4d7499ed974d0eb341ec6c0ecc1b727edb79f203343d272719f98b4fa",
+  "tokens": 427,
+  "raw_samples": [
+    5482838,
+    5482832,
+    5482822
+  ],
+  "raw_median": 5482832,
+  "axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "environment_identity": "673a35a3e43fedbbd5b7782a4bc1d113028851583a90a7661096205074fc0e47"
+}
