@@ -1,6 +1,7 @@
 """Content-addressed, evidence-preserving cache for one problem/environment.
 
-The evaluator holds its global compiler lock across lookup, execution and publish.
+Verified warm-cache hits bypass the compiler lock. Cache misses and cold
+inventory setup hold the global compiler lock across execution and publish.
 Timeouts, resource failures and environment failures must be retried locally,
 never treated as permanent proof rejections. Final measurements bypass this cache.
 """
@@ -13,7 +14,8 @@ from pathlib import Path
 import shutil
 import tempfile
 
-SCHEMA = "candidate-environment-evidence-v1"
+SCHEMA = "candidate-environment-evidence-v2"
+VERIFICATION_POLICY = "candidate-cache-final-compatibility-fast-inventory-v2"
 
 
 def canonical(value):
@@ -39,6 +41,7 @@ def cacheable(result):
         "no such file", "failed to open", "unknown module prefix", "object file",
         "permission denied", "input/output error", "stack overflow", "heartbeat",
         "maximum recursion depth", "timeout", "timed out",
+        "operation not permitted", "sandbox-exec:", "sandbox_apply:",
     )):
         return False
     return (error["kind"] == "axioms" or any((r.get("returncode") or 0) > 0 for r in runs))

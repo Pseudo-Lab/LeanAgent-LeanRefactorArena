@@ -26,7 +26,7 @@ REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "src"))
 from lean_agent.evaluator.lean import ALLOWED_AXIOMS, WRAPPER
 from lean_agent.evaluator.tokens import proof_body, without_comments
-from lean_agent.prepared import PreparedLeanEvaluator
+from fast_prepared import FastPreparedLeanEvaluator as PreparedLeanEvaluator
 from evaluation_cache import EvaluationCache
 
 # Use this variant only for immutable source prefixes carrying a private target
@@ -199,6 +199,7 @@ class FinalEvaluator:
         self._states = {}
         self._contexts = {}
         self.cache = EvaluationCache(cache_root) if cache_root is not None else None
+        self.timing_records = []
 
     def _cache_identity(self, code, problem, state, context, repetitions, trusted_reference):
         """Bind reuse to exact input, full context, toolchain and evaluator policy."""
@@ -221,16 +222,26 @@ class FinalEvaluator:
             if context.setdefault("setup_sha256", setup) != setup:
                 raise ValueError("Pinned Lake compiler setup changed")
         implementation = [Path(__file__), Path(__file__).with_name("evaluation_cache.py"),
-                          Path(__file__).with_name("policy.py"), Path(_token_spec.origin),
+                          Path(__file__).with_name("policy.py"), Path(__file__).with_name("fast_prepared.py"), Path(_token_spec.origin),
                           self.repo / "src/lean_agent/prepared.py",
                           self.repo / "src/lean_agent/evaluator/lean.py"]
         compiler = self.root / "toolchains" / state["version"] / "bin/lean"
         return {"candidate_sha256": digest(code), "problem": problem,
                 "environment": state, "source_sha256": context["source_sha256"],
+                "prepared_layout_sha256": getattr(getattr(self, "_prepared", {}).get(state["id"]), "layout_sha256", None),
                 "setup_sha256": setup, "compiler_sha256": digest(compiler.read_bytes()),
                 "implementation": {str(path): digest(path.read_bytes()) for path in implementation},
                 "repetitions": repetitions, "trusted_reference": trusted_reference,
                 "platform": platform.platform(), "machine": platform.machine()}
+
+    def _cached_result(self, code, problem, state, context, folder, repetitions, trusted_reference):
+        identity = self._cache_identity(code, problem, state, context, repetitions, trusted_reference)
+        if not self.cache.contains(identity):
+            return identity, None, 0
+        started = time.monotonic()
+        self._prepared[state["id"]].verify(full=False)
+        verified_seconds = time.monotonic() - started
+        return identity, self.cache.load(identity, folder), verified_seconds
 
     def load_problem(self, problem_id):
         if isinstance(problem_id, dict):
@@ -293,10 +304,15 @@ class FinalEvaluator:
     def _compiler_lock(self):
         self.lock_path.parent.mkdir(parents=True, exist_ok=True)
         with self.lock_path.open("a+") as stream:
+            waiting = time.monotonic()
             fcntl.flock(stream, fcntl.LOCK_EX)
+            acquired = time.monotonic()
             try:
                 yield
             finally:
+                released = time.monotonic()
+                self.timing_records.append({"compiler_lock_wait_seconds": acquired - waiting,
+                                            "lock_held_seconds": released - acquired})
                 fcntl.flock(stream, fcntl.LOCK_UN)
 
     def _invoke(self, source, state, context, folder, label):
@@ -334,7 +350,9 @@ class FinalEvaluator:
         try:
             from resources import wait_for_memory, memory_snapshot
             wait_for_memory(log_path=folder / (label + ".memory.json"))
+            after_memory = time.monotonic()
             self._prepared[state["id"]].verify(full=False)
+            after_verification = time.monotonic()
             process = subprocess.Popen(command, cwd=project, env=child, stdout=subprocess.PIPE,
                                        stderr=subprocess.STDOUT, start_new_session=True)
             timed_out = False
@@ -349,6 +367,10 @@ class FinalEvaluator:
                     os.killpg(process.pid, signal.SIGKILL)
                 process.communicate()
                 raise
+            after_compiler = time.monotonic()
+            record["timing"] = {"memory_gate_seconds": after_memory - started,
+                                "environment_verify_seconds": after_verification - after_memory,
+                                "compiler_seconds": after_compiler - after_verification}
             text = output.decode(errors="replace")
             log = folder / (label + ".log")
             log.write_text(text)
@@ -410,6 +432,8 @@ class FinalEvaluator:
                  trusted_reference=False, fresh=False):
         if type(repetitions) is not int or repetitions < 1:
             raise ValueError("Expected a positive measurement count")
+        evaluation_started = time.monotonic()
+        first_timing = len(getattr(self, "timing_records", []))
         problem = self.load_problem(problem)
         output = Path(output_folder)
         output.mkdir(parents=True, exist_ok=False)
@@ -429,6 +453,7 @@ class FinalEvaluator:
             write(output / "result.json", result)
             return result
         ids = problem["environments"] if all_versions else problem["environments"][:1]
+        cache_verification_seconds = 0
         for environment_id in ids:
             row = {"valid": False, "runs": [], "median_heartbeats": None, "error": None}
             result["environments"][environment_id] = row
@@ -436,15 +461,30 @@ class FinalEvaluator:
             folder.mkdir()
             cache_identity = None
             try:
+                # Published cache evidence is immutable. A warm evaluator can
+                # verify its library inventory and reuse it without waiting for
+                # another worker's compiler. Cold initialization and misses keep
+                # the existing global serial lock and memory guard.
+                context_key = (problem.get("row"), environment_id)
+                if (self.cache is not None and not fresh
+                        and environment_id in getattr(self, "_states", {})
+                        and context_key in getattr(self, "_contexts", {})):
+                    state = self._states[environment_id]
+                    context = self._contexts[context_key]
+                    _, cached, seconds = self._cached_result(
+                        code, problem, state, context, folder, repetitions, trusted_reference)
+                    cache_verification_seconds += seconds
+                    if cached is not None:
+                        result["environments"][environment_id] = cached
+                        continue
                 with self._compiler_lock():
                     state = self._state(environment_id)
                     context = self._context(problem, environment_id)
                     if self.cache is not None and not fresh:
-                        cache_identity = self._cache_identity(code, problem, state, context,
-                                                              repetitions, trusted_reference)
-                        if self.cache.contains(cache_identity):
-                            self._prepared[environment_id].verify(full=False)
-                            cached = self.cache.load(cache_identity, folder)
+                        cache_identity, cached, seconds = self._cached_result(
+                            code, problem, state, context, folder, repetitions, trusted_reference)
+                        cache_verification_seconds += seconds
+                        if cached is not None:
                             result["environments"][environment_id] = cached
                             continue
                     prefix, suffix = context["prefix"], context["suffix"]
@@ -464,7 +504,10 @@ class FinalEvaluator:
                         record, log = self._invoke(source, state, context, folder, label)
                         row["runs"].append(record)
                         if record["returncode"] or record["timed_out"]:
-                            row["error"] = {"kind": "timeout" if record["timed_out"] else "compile", "message": log[-8000:]}
+                            host_failure = any(marker in log.lower() for marker in
+                                ("sandbox-exec:", "sandbox_apply:", "operation not permitted", "permission denied", "input/output error"))
+                            kind = "environment" if host_failure else "timeout" if record["timed_out"] else "compile"
+                            row["error"] = {"kind": kind, "message": log[-8000:]}
                             break
                         if nonce:
                             matches = re.findall(r"REFACTOR_EVAL " + nonce + r" (\{[^\n]*\})", log)
@@ -496,6 +539,16 @@ class FinalEvaluator:
         result["valid"] = bool(result["environments"]) and all(row["valid"] for row in result["environments"].values())
         if not result["valid"]:
             result["error"] = {"kind": "lean", "message": "One or more required environments failed"}
+        records = getattr(self, "timing_records", [])[first_timing:]
+        actual = [r for value in result["environments"].values() if not value.get("cache", {}).get("hit")
+                  for r in value["runs"]]
+        result["timing"] = {"wall_seconds": time.monotonic() - evaluation_started,
+            "compiler_lock_wait_seconds": sum(r["compiler_lock_wait_seconds"] for r in records),
+            "lock_held_seconds": sum(r["lock_held_seconds"] for r in records),
+            "new_compiler_invocations": len(actual),
+            "cache_hits": sum(bool(v.get("cache", {}).get("hit")) for v in result["environments"].values()),
+            "environment_verify_seconds": cache_verification_seconds + sum(r.get("timing", {}).get("environment_verify_seconds", 0) for r in actual),
+            "compiler_seconds": sum(r.get("timing", {}).get("compiler_seconds", 0) for r in actual)}
         write(output / "result.json", result)
         return result
 

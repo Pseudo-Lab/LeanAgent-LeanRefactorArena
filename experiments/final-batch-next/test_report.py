@@ -2,6 +2,7 @@ import json
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 import report
 
@@ -48,6 +49,21 @@ class ReportTests(unittest.TestCase):
             result = report.build_report(root)
             self.assertFalse(result["audit_passed"])
             self.assertIn("provider token accounting differs", result["audit_errors"][0])
+
+    def test_cli_rejects_old_or_missing_policy_before_report_writes(self):
+        for policy in (None, "candidate-cache-final-compatibility-v1"):
+            with self.subTest(policy=policy), tempfile.TemporaryDirectory() as name:
+                root = Path(name)
+                authorization = {} if policy is None else {"verification_policy": policy}
+                path = root / "authorization.json"
+                path.write_text(json.dumps(authorization))
+                before = path.read_bytes()
+                with patch("sys.argv", ["report.py", "--root", str(root)]), patch.object(report, "build_report") as build:
+                    with self.assertRaisesRegex(ValueError, "Different verification policy"):
+                        report.main()
+                    build.assert_not_called()
+                self.assertEqual(list(root.iterdir()), [path])
+                self.assertEqual(path.read_bytes(), before)
 
     def test_incomplete_batch_cannot_be_final_export(self):
         with tempfile.TemporaryDirectory() as name:
