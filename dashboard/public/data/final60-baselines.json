@@ -1,0 +1,3790 @@
+{
+  "schemaVersion": 1,
+  "id": "final60-baselines",
+  "dataset": "final",
+  "datasetSha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "label": "Final 60문제 · 원본 기준",
+  "measuredAt": "2026-11-02T15:10:16.088908+00:00",
+  "releaseDate": "2026-11-01",
+  "provenance": "고정 Final 원본의 Length·HB. 비교 Length는 Final 평가기의 arena-paper-compatible-v1과 일치하는 제공값; 별도 로컬 tokenizer 값도 보존. 신규 HB 버전별 1회, F001 기존 3회 보존. 공식 worker 결과 아님.",
+  "problems": [
+    {
+      "id": 1,
+      "name": "Core.InitsUpdatesComm",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 224,
+        "heartbeats": 4182
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F001",
+        "sha256": "0bd9a59f8ee210f7aa33326b61e40934872abaced72cb270dd62288ee1cb1973",
+        "providedTokens": 224,
+        "localTokens": 224,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              4182544,
+              4182543,
+              4182543
+            ],
+            "rawHeartbeats": 4182543,
+            "heartbeats": 4182
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              4699579,
+              4699579,
+              4699579
+            ],
+            "rawHeartbeats": 4699579,
+            "heartbeats": 4699
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+            "environment": "strata-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              4683842,
+              4683844,
+              4683842
+            ],
+            "rawHeartbeats": 4683842,
+            "heartbeats": 4683
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "name": "Lambda.denote_suffix_irrel",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 904,
+        "heartbeats": 4367
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F002",
+        "sha256": "857536ed5def04d6905a3f1154dbc4d70a927c9be8dcd52b71e98f3963377871",
+        "providedTokens": 904,
+        "localTokens": 904,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              4367942
+            ],
+            "rawHeartbeats": 4367942,
+            "heartbeats": 4367
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              4816051
+            ],
+            "rawHeartbeats": 4816051,
+            "heartbeats": 4816
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "name": "Lambda.denote_Denotes",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 931,
+        "heartbeats": 10925
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F003",
+        "sha256": "5b640984fce466613ce6a520c58aecc3459437941d7d34c1039cefd40cea8ad5",
+        "providedTokens": 931,
+        "localTokens": 931,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              10925062
+            ],
+            "rawHeartbeats": 10925062,
+            "heartbeats": 10925
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              12476761
+            ],
+            "rawHeartbeats": 12476761,
+            "heartbeats": 12476
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "name": "Lambda.callOfLFunc_eraseMetadata_congr",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 291,
+        "heartbeats": 21349
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F004",
+        "sha256": "8fdb8ae764d8d314559dc608943b256da5e5984b7028ba5abd7d5f0bea5b2410",
+        "providedTokens": 291,
+        "localTokens": 291,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              21349356
+            ],
+            "rawHeartbeats": 21349356,
+            "heartbeats": 21349
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              63449865
+            ],
+            "rawHeartbeats": 63449865,
+            "heartbeats": 63449
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "Lambda.liftBVars_typeCheck",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 209,
+        "heartbeats": 17630
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F005",
+        "sha256": "b42793776ffa2b5d3af1567828e15bbf8b72a47fc507603b5da70ca046efe898",
+        "providedTokens": 209,
+        "localTokens": 209,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              17630192
+            ],
+            "rawHeartbeats": 17630192,
+            "heartbeats": 17630
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              23917585
+            ],
+            "rawHeartbeats": 23917585,
+            "heartbeats": 23917
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "name": "Lambda.liftBVars_denote",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 972,
+        "heartbeats": 8898
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F006",
+        "sha256": "5738c65dda15e712890dc31dec7de2ae01bd0712f7c0943eb2074313ad2de840",
+        "providedTokens": 972,
+        "localTokens": 972,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              8898513
+            ],
+            "rawHeartbeats": 8898513,
+            "heartbeats": 8898
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              11988265
+            ],
+            "rawHeartbeats": 11988265,
+            "heartbeats": 11988
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "name": "Lambda.LExpr.typeCheck_to_HasTypeA",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 429,
+        "heartbeats": 7093
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F007",
+        "sha256": "b7162fb2d3da5109aee0a76d03c4be63b321ca1902c371c3120775095695eb8f",
+        "providedTokens": 429,
+        "localTokens": 429,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              7093908
+            ],
+            "rawHeartbeats": 7093908,
+            "heartbeats": 7093
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              9080928
+            ],
+            "rawHeartbeats": 9080928,
+            "heartbeats": 9080
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "name": "Lambda.callOfLFunc_constr_disjoint_denote",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 968,
+        "heartbeats": 7351
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F008",
+        "sha256": "110723a3c5f920a0f1b9ea722b054ab5bfa7a8a0b96b2e1bc4c2bb5e0359021b",
+        "providedTokens": 968,
+        "localTokens": 968,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              7351450
+            ],
+            "rawHeartbeats": 7351450,
+            "heartbeats": 7351
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              7718944
+            ],
+            "rawHeartbeats": 7718944,
+            "heartbeats": 7718
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "name": "Lambda.denote_replaceMetadata",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 938,
+        "heartbeats": 7275
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F009",
+        "sha256": "e1ec255391ce023abd248711691eca984ac250472f19b8bfdc190c33719dd40d",
+        "providedTokens": 938,
+        "localTokens": 938,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              7275281
+            ],
+            "rawHeartbeats": 7275281,
+            "heartbeats": 7275
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              8309077
+            ],
+            "rawHeartbeats": 8309077,
+            "heartbeats": 8309
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "name": "Lambda.denote_ext",
+      "source": "strata",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1200,
+        "heartbeats": 4667
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "status": "pending"
+        },
+        {
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "status": "pending"
+        }
+      ],
+      "environment": "strata-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F010",
+        "sha256": "f2eaf998e6f640a39429b3563327a5374d3159468433c735415a0792f6a3215e",
+        "providedTokens": 1200,
+        "localTokens": 1200,
+        "primaryEnvironment": "strata-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+            "environment": "strata-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              4667076
+            ],
+            "rawHeartbeats": 4667076,
+            "heartbeats": 4667
+          },
+          {
+            "version": "v4.27.0",
+            "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+            "environment": "strata-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              5257943
+            ],
+            "rawHeartbeats": 5257943,
+            "heartbeats": 5257
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 4,
+        "heartbeats": 64051
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F011",
+        "sha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
+        "providedTokens": 4,
+        "localTokens": 4,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              64051730
+            ],
+            "rawHeartbeats": 64051730,
+            "heartbeats": 64051
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              64051730
+            ],
+            "rawHeartbeats": 64051730,
+            "heartbeats": 64051
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 12,
+        "heartbeats": 74041
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F012",
+        "sha256": "5d5ec4e8188e296a6504c12906bad9574ecb21354def05c2cc6562dfcb549a09",
+        "providedTokens": 12,
+        "localTokens": 12,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              74041515
+            ],
+            "rawHeartbeats": 74041515,
+            "heartbeats": 74041
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              74041515
+            ],
+            "rawHeartbeats": 74041515,
+            "heartbeats": 74041
+          }
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 12,
+        "heartbeats": 79108
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F013",
+        "sha256": "847028f55ca688f2aedece86f71654a5af77a765c27f15681d27d3f92b0b1406",
+        "providedTokens": 12,
+        "localTokens": 12,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              79108905
+            ],
+            "rawHeartbeats": 79108905,
+            "heartbeats": 79108
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              79108905
+            ],
+            "rawHeartbeats": 79108905,
+            "heartbeats": 79108
+          }
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 181,
+        "heartbeats": 212379
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F014",
+        "sha256": "80f1722a4735cf2546eeabd5724f07682f10903d7fc9f978342aed5aaa3840d4",
+        "providedTokens": 181,
+        "localTokens": 181,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              212379390
+            ],
+            "rawHeartbeats": 212379390,
+            "heartbeats": 212379
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              212379390
+            ],
+            "rawHeartbeats": 212379390,
+            "heartbeats": 212379
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 183,
+        "heartbeats": 136539
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F015",
+        "sha256": "13a7b6e73c3d7d0eaba531809654eb931b3851f2d25275ccdc0ba49e22cfd667",
+        "providedTokens": 183,
+        "localTokens": 183,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              136539444
+            ],
+            "rawHeartbeats": 136539444,
+            "heartbeats": 136539
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              136539444
+            ],
+            "rawHeartbeats": 136539444,
+            "heartbeats": 136539
+          }
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1372,
+        "heartbeats": 23941
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F016",
+        "sha256": "9839fbd7f2dedf9c22190403722dc98210c990a14188a042ddf41ab5e050496c",
+        "providedTokens": 1372,
+        "localTokens": 1372,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              23941357
+            ],
+            "rawHeartbeats": 23941357,
+            "heartbeats": 23941
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              23941357
+            ],
+            "rawHeartbeats": 23941357,
+            "heartbeats": 23941
+          }
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1217,
+        "heartbeats": 35774
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F017",
+        "sha256": "b0b0bdda4094c15be7cfd13caee9f73b03ddf22c9de85a90567a1291cc6f0306",
+        "providedTokens": 1217,
+        "localTokens": 1217,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              35774573
+            ],
+            "rawHeartbeats": 35774573,
+            "heartbeats": 35774
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              35774569
+            ],
+            "rawHeartbeats": 35774569,
+            "heartbeats": 35774
+          }
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 851,
+        "heartbeats": 10202
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F018",
+        "sha256": "88fd5fd92db61b8c08e5d861cdfdb959fac1e343b60401d76e76f8956c2ef1d7",
+        "providedTokens": 851,
+        "localTokens": 851,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              10202611
+            ],
+            "rawHeartbeats": 10202611,
+            "heartbeats": 10202
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              10202612
+            ],
+            "rawHeartbeats": 10202612,
+            "heartbeats": 10202
+          }
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "name": "HermitianMat.inv_convex",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1025,
+        "heartbeats": 211678
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F019",
+        "sha256": "337495a06d7c58056fbff562d51a13f0bffd9c0ab8af1a35cc3ffedb7c302a6c",
+        "providedTokens": 1025,
+        "localTokens": 1025,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              211678390
+            ],
+            "rawHeartbeats": 211678390,
+            "heartbeats": 211678
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              211678433
+            ],
+            "rawHeartbeats": 211678433,
+            "heartbeats": 211678
+          }
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "name": "cauchyBinet",
+      "source": "physlib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1200,
+        "heartbeats": 143389
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "status": "pending"
+        }
+      ],
+      "environment": "physlib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F020",
+        "sha256": "5e77c0a363d830b4c829493520753ec5831b578bfc3ea28f011200b0440b4485",
+        "providedTokens": 1200,
+        "localTokens": 1200,
+        "primaryEnvironment": "physlib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+            "environment": "physlib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              143389537
+            ],
+            "rawHeartbeats": 143389537,
+            "heartbeats": 143389
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+            "environment": "physlib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              143389673
+            ],
+            "rawHeartbeats": 143389673,
+            "heartbeats": 143389
+          }
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 408,
+        "heartbeats": 59936
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F021",
+        "sha256": "e8b89255b06b284c8a4f4ba9a140c458d8c4640f63014c9c0037585855039be7",
+        "providedTokens": 408,
+        "localTokens": 408,
+        "primaryEnvironment": "cslib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+            "environment": "cslib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              59936725
+            ],
+            "rawHeartbeats": 59936725,
+            "heartbeats": 59936
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              60093800
+            ],
+            "rawHeartbeats": 60093800,
+            "heartbeats": 60093
+          }
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 407,
+        "heartbeats": 1500
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F022",
+        "sha256": "35f528e8e77dceff098e735cfb0ee98ea989fecca8258a7d59632f211cc5ffdc",
+        "providedTokens": 407,
+        "localTokens": 407,
+        "primaryEnvironment": "cslib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+            "environment": "cslib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              1500541
+            ],
+            "rawHeartbeats": 1500541,
+            "heartbeats": 1500
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              1499947
+            ],
+            "rawHeartbeats": 1499947,
+            "heartbeats": 1499
+          }
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 251,
+        "heartbeats": 3940
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F023",
+        "sha256": "90ec3fb53d6c4e9485868b3d1f1bceac5de6abc8b429d456281744fd1b0fa828",
+        "providedTokens": 251,
+        "localTokens": 251,
+        "primaryEnvironment": "cslib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+            "environment": "cslib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              3940867
+            ],
+            "rawHeartbeats": 3940867,
+            "heartbeats": 3940
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              3923913
+            ],
+            "rawHeartbeats": 3923913,
+            "heartbeats": 3923
+          },
+          {
+            "version": "v4.31.0",
+            "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+            "environment": "cslib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              3927323
+            ],
+            "rawHeartbeats": 3927323,
+            "heartbeats": 3927
+          }
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 391,
+        "heartbeats": 38100
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F024",
+        "sha256": "cd3326e6962c0989a1af0b1b625c932f5d9493b580dd4c9cfaebeacf3fa0f7a6",
+        "providedTokens": 391,
+        "localTokens": 391,
+        "primaryEnvironment": "cslib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+            "environment": "cslib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              38100120
+            ],
+            "rawHeartbeats": 38100120,
+            "heartbeats": 38100
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              38313227
+            ],
+            "rawHeartbeats": 38313227,
+            "heartbeats": 38313
+          }
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 433,
+        "heartbeats": 11623
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F025",
+        "sha256": "e8ea4b43e120b125b1001db6d40f3a06fb2ae6ea078631b47d9914c0064bbb21",
+        "providedTokens": 433,
+        "localTokens": 433,
+        "primaryEnvironment": "cslib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+            "environment": "cslib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              11623232
+            ],
+            "rawHeartbeats": 11623232,
+            "heartbeats": 11623
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              12051112
+            ],
+            "rawHeartbeats": 12051112,
+            "heartbeats": 12051
+          }
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 623,
+        "heartbeats": 56935
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.33.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F026",
+        "sha256": "8bbae709173e505bffb0cfc737042fc349f97067387f5f62a62924f3beb9f50b",
+        "providedTokens": 623,
+        "localTokens": 623,
+        "primaryEnvironment": "cslib-v4.33.1",
+        "versions": [
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              56935331
+            ],
+            "rawHeartbeats": 56935331,
+            "heartbeats": 56935
+          },
+          {
+            "version": "v4.31.0",
+            "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+            "environment": "cslib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              77902172
+            ],
+            "rawHeartbeats": 77902172,
+            "heartbeats": 77902
+          }
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 368,
+        "heartbeats": 39339
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F027",
+        "sha256": "b32c6230a23e675921a867a7c1b5b4ff3d78c55bc944d8adade36377ae08b0af",
+        "providedTokens": 368,
+        "localTokens": 368,
+        "primaryEnvironment": "cslib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+            "environment": "cslib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              39339312
+            ],
+            "rawHeartbeats": 39339312,
+            "heartbeats": 39339
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              37257043
+            ],
+            "rawHeartbeats": 37257043,
+            "heartbeats": 37257
+          }
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 312,
+        "heartbeats": 27607
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.33.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F028",
+        "sha256": "f5d19e4e3d4c7b8b3855cbcd7f6406a9886f76d5e7b225fc2988e0351eaeedab",
+        "providedTokens": 312,
+        "localTokens": 312,
+        "primaryEnvironment": "cslib-v4.33.1",
+        "versions": [
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              27607488
+            ],
+            "rawHeartbeats": 27607488,
+            "heartbeats": 27607
+          },
+          {
+            "version": "v4.31.0",
+            "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+            "environment": "cslib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              32182165
+            ],
+            "rawHeartbeats": 32182165,
+            "heartbeats": 32182
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
+            "environment": "cslib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              35212723
+            ],
+            "rawHeartbeats": 35212723,
+            "heartbeats": 35212
+          }
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 364,
+        "heartbeats": 33199
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F029",
+        "sha256": "f30aacc80b142837c1b24c2d51f4ebde3430d75548ecda849704d832aba9a9de",
+        "providedTokens": 364,
+        "localTokens": 364,
+        "primaryEnvironment": "cslib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+            "environment": "cslib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              33199270
+            ],
+            "rawHeartbeats": 33199270,
+            "heartbeats": 33199
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              29186712
+            ],
+            "rawHeartbeats": 29186712,
+            "heartbeats": 29186
+          }
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "source": "cslib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 519,
+        "heartbeats": 8589
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "status": "pending"
+        }
+      ],
+      "environment": "cslib-v4.34.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F030",
+        "sha256": "596f54a91cd38f82f018771f60067f7b5607fc188de3c550f2e84fcaab7fe4ba",
+        "providedTokens": 519,
+        "localTokens": 519,
+        "primaryEnvironment": "cslib-v4.34.1",
+        "versions": [
+          {
+            "version": "v4.34.1",
+            "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+            "environment": "cslib-v4.34.1",
+            "status": "pass",
+            "rawSamples": [
+              8589142
+            ],
+            "rawHeartbeats": 8589142,
+            "heartbeats": 8589
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+            "environment": "cslib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              8709469
+            ],
+            "rawHeartbeats": 8709469,
+            "heartbeats": 8709
+          }
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1353,
+        "heartbeats": 7774
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.0",
+          "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "status": "pending"
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.34.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F031",
+        "sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+        "providedTokens": 1353,
+        "localTokens": 1353,
+        "primaryEnvironment": "arklib-v4.34.0",
+        "versions": [
+          {
+            "version": "v4.34.0",
+            "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+            "environment": "arklib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              7774574
+            ],
+            "rawHeartbeats": 7774574,
+            "heartbeats": 7774
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+            "environment": "arklib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              7829037
+            ],
+            "rawHeartbeats": 7829037,
+            "heartbeats": 7829
+          },
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              10226033
+            ],
+            "rawHeartbeats": 10226033,
+            "heartbeats": 10226
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              10227365
+            ],
+            "rawHeartbeats": 10227365,
+            "heartbeats": 10227
+          }
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1906,
+        "heartbeats": 47701
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F032",
+        "sha256": "67401740132ca27612c5a143c6dd3a90205f5d84a7c0850182c9391592a0752f",
+        "providedTokens": 1906,
+        "localTokens": 1906,
+        "primaryEnvironment": "arklib-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              47701818
+            ],
+            "rawHeartbeats": 47701818,
+            "heartbeats": 47701
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              49156465
+            ],
+            "rawHeartbeats": 49156465,
+            "heartbeats": 49156
+          }
+        ]
+      }
+    },
+    {
+      "id": 33,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1463,
+        "heartbeats": 16839
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F033",
+        "sha256": "561da2e1599d85a33fddbdbdb9eca3f05f504c3dfaa7e32d367eef4eba532033",
+        "providedTokens": 1463,
+        "localTokens": 1463,
+        "primaryEnvironment": "arklib-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              16839602
+            ],
+            "rawHeartbeats": 16839602,
+            "heartbeats": 16839
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              18274665
+            ],
+            "rawHeartbeats": 18274665,
+            "heartbeats": 18274
+          }
+        ]
+      }
+    },
+    {
+      "id": 34,
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 546,
+        "heartbeats": 190043
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "status": "pending"
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.33.1 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F034",
+        "sha256": "9bd964e1df9b474cee4c4a0d14ba8d3e8a9fbc85bbe7790544932292df270cfa",
+        "providedTokens": 546,
+        "localTokens": 546,
+        "primaryEnvironment": "arklib-v4.33.1",
+        "versions": [
+          {
+            "version": "v4.33.1",
+            "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+            "environment": "arklib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              190043613
+            ],
+            "rawHeartbeats": 190043613,
+            "heartbeats": 190043
+          },
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              282353782
+            ],
+            "rawHeartbeats": 282353782,
+            "heartbeats": 282353
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              310005663
+            ],
+            "rawHeartbeats": 310005663,
+            "heartbeats": 310005
+          }
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2440,
+        "heartbeats": 84743
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F035",
+        "sha256": "762d9c0342f6ad7b06dcbaa3e18a475614b61fff262d85cc7433a7ce1d9d3c44",
+        "providedTokens": 2440,
+        "localTokens": 2440,
+        "primaryEnvironment": "arklib-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              84743834
+            ],
+            "rawHeartbeats": 84743834,
+            "heartbeats": 84743
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              95208808
+            ],
+            "rawHeartbeats": 95208808,
+            "heartbeats": 95208
+          }
+        ]
+      }
+    },
+    {
+      "id": 36,
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 5128,
+        "heartbeats": 106464
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F036",
+        "sha256": "81afc259bab2d5268fc8e907ac6cf301de625c35067e3be1f081cd6c849ccf5c",
+        "providedTokens": 5128,
+        "localTokens": 5128,
+        "primaryEnvironment": "arklib-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              106464364
+            ],
+            "rawHeartbeats": 106464364,
+            "heartbeats": 106464
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              106965202
+            ],
+            "rawHeartbeats": 106965202,
+            "heartbeats": 106965
+          }
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2122,
+        "heartbeats": 163948
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F037",
+        "sha256": "4ad1a29e5ef91b442667c9b171deb6f3ed28c96ca9709e59911f7cbbbb16a2f4",
+        "providedTokens": 2122,
+        "localTokens": 2122,
+        "primaryEnvironment": "arklib-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              163948549
+            ],
+            "rawHeartbeats": 163948549,
+            "heartbeats": 163948
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              167280056
+            ],
+            "rawHeartbeats": 167280056,
+            "heartbeats": 167280
+          }
+        ]
+      }
+    },
+    {
+      "id": 38,
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 5538,
+        "heartbeats": 62515
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F038",
+        "sha256": "1901501cdd37e5592f25590cce58688d20049ca2c5dce6d23529eb148902e9ed",
+        "providedTokens": 5538,
+        "localTokens": 5538,
+        "primaryEnvironment": "arklib-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              62515166
+            ],
+            "rawHeartbeats": 62515166,
+            "heartbeats": 62515
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              70404926
+            ],
+            "rawHeartbeats": 70404926,
+            "heartbeats": 70404
+          }
+        ]
+      }
+    },
+    {
+      "id": 39,
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1426,
+        "heartbeats": 44522
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.31.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F039",
+        "sha256": "e6acb4f7de76b3d013c869c5a72bc86428b2587b4080e59d1b6261d395198dde",
+        "providedTokens": 1426,
+        "localTokens": 1426,
+        "primaryEnvironment": "arklib-v4.31.0",
+        "versions": [
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              44522173
+            ],
+            "rawHeartbeats": 44522173,
+            "heartbeats": 44522
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              45724728
+            ],
+            "rawHeartbeats": 45724728,
+            "heartbeats": 45724
+          }
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1105,
+        "heartbeats": 38031
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.34.0",
+          "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+          "status": "pending"
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "status": "pending"
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "status": "pending"
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "status": "pending"
+        }
+      ],
+      "environment": "arklib-v4.34.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F040",
+        "sha256": "17eafc75486d1b6fc4f1bf5f3a9cfc825d675c4d6ae7172548ce46aee5da4b68",
+        "providedTokens": 1105,
+        "localTokens": 1105,
+        "primaryEnvironment": "arklib-v4.34.0",
+        "versions": [
+          {
+            "version": "v4.34.0",
+            "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+            "environment": "arklib-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              38031288
+            ],
+            "rawHeartbeats": 38031288,
+            "heartbeats": 38031
+          },
+          {
+            "version": "v4.33.1",
+            "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+            "environment": "arklib-v4.33.1",
+            "status": "pass",
+            "rawSamples": [
+              40063756
+            ],
+            "rawHeartbeats": 40063756,
+            "heartbeats": 40063
+          },
+          {
+            "version": "v4.31.0",
+            "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+            "environment": "arklib-v4.31.0",
+            "status": "pass",
+            "rawSamples": [
+              44381008
+            ],
+            "rawHeartbeats": 44381008,
+            "heartbeats": 44381
+          },
+          {
+            "version": "v4.30.0",
+            "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+            "environment": "arklib-v4.30.0",
+            "status": "pass",
+            "rawSamples": [
+              46665599
+            ],
+            "rawHeartbeats": 46665599,
+            "heartbeats": 46665
+          }
+        ]
+      }
+    },
+    {
+      "id": 41,
+      "name": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2030,
+        "heartbeats": 49681
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F041",
+        "sha256": "1c3a303594e864c1626c69c7cc1f96b354da68f3048ebe7ba6d2ef7647db9240",
+        "providedTokens": 2030,
+        "localTokens": 2030,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              49681455
+            ],
+            "rawHeartbeats": 49681455,
+            "heartbeats": 49681
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              54162272
+            ],
+            "rawHeartbeats": 54162272,
+            "heartbeats": 54162
+          }
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "name": "CoxeterSystem.matsumoto_reduced_aux",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1699,
+        "heartbeats": 3091
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F042",
+        "sha256": "2a9442d902db86229559552b4b8c19626d3e9cf7d9870e717f42be0b9fe5b857",
+        "providedTokens": 1699,
+        "localTokens": 1699,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              3091286
+            ],
+            "rawHeartbeats": 3091286,
+            "heartbeats": 3091
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              3247359
+            ],
+            "rawHeartbeats": 3247359,
+            "heartbeats": 3247
+          }
+        ]
+      }
+    },
+    {
+      "id": 43,
+      "name": "Vlasov.transportedIntegral_continuousOn",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2413,
+        "heartbeats": 9943
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F043",
+        "sha256": "d13dc916a9c31834a4ea34a3bec6b162a3c7e709cd5182b5a5ae531e6b92830c",
+        "providedTokens": 2413,
+        "localTokens": 2413,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              9943703
+            ],
+            "rawHeartbeats": 9943703,
+            "heartbeats": 9943
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              10672287
+            ],
+            "rawHeartbeats": 10672287,
+            "heartbeats": 10672
+          }
+        ]
+      }
+    },
+    {
+      "id": 44,
+      "name": "ZetaZeros.step1_double",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2315,
+        "heartbeats": 13000
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F044",
+        "sha256": "cf20514cf5a94d2b7aef9e6583b55e79617195a21f5a6c8afc1d08dee51eef0c",
+        "providedTokens": 2315,
+        "localTokens": 2315,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              13000252
+            ],
+            "rawHeartbeats": 13000252,
+            "heartbeats": 13000
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              13790729
+            ],
+            "rawHeartbeats": 13790729,
+            "heartbeats": 13790
+          }
+        ]
+      }
+    },
+    {
+      "id": 45,
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1756,
+        "heartbeats": 53089
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F045",
+        "sha256": "54b559c330d77a8f38462bf60551d5affb4aca06270eae9197f829bf7d23cd0f",
+        "providedTokens": 1756,
+        "localTokens": 1756,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              53089873
+            ],
+            "rawHeartbeats": 53089873,
+            "heartbeats": 53089
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              53805764
+            ],
+            "rawHeartbeats": 53805764,
+            "heartbeats": 53805
+          }
+        ]
+      }
+    },
+    {
+      "id": 46,
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1645,
+        "heartbeats": 11484
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F046",
+        "sha256": "0b00e26efe74c4754f2f694508535386d4f90ca8267d0a2f8c59b1060189eff7",
+        "providedTokens": 1645,
+        "localTokens": 1645,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              11484649
+            ],
+            "rawHeartbeats": 11484649,
+            "heartbeats": 11484
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              11865100
+            ],
+            "rawHeartbeats": 11865100,
+            "heartbeats": 11865
+          }
+        ]
+      }
+    },
+    {
+      "id": 47,
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1509,
+        "heartbeats": 6122
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F047",
+        "sha256": "2ca32f321bffb175e737cce673d0eb0f3e4df2d62bc773ae10f7fb832e7e5b48",
+        "providedTokens": 1509,
+        "localTokens": 1509,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              6122522
+            ],
+            "rawHeartbeats": 6122522,
+            "heartbeats": 6122
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              6380698
+            ],
+            "rawHeartbeats": 6380698,
+            "heartbeats": 6380
+          }
+        ]
+      }
+    },
+    {
+      "id": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2879,
+        "heartbeats": 4193
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F048",
+        "sha256": "502416c2b27c38eae98d8f93388c840b99ee0027d4f1718fb821e69a0b541c6c",
+        "providedTokens": 2879,
+        "localTokens": 2879,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              4193446
+            ],
+            "rawHeartbeats": 4193446,
+            "heartbeats": 4193
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              4730011
+            ],
+            "rawHeartbeats": 4730011,
+            "heartbeats": 4730
+          }
+        ]
+      }
+    },
+    {
+      "id": 49,
+      "name": "FirstOrder.Language.schemaTruthStage_imp",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 746,
+        "heartbeats": 194028
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F049",
+        "sha256": "e8f17a86908e5806ae6de52e275a1efa68418f69379ba6e1b8043ea49902039a",
+        "providedTokens": 746,
+        "localTokens": 746,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              194028210
+            ],
+            "rawHeartbeats": 194028210,
+            "heartbeats": 194028
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              197885515
+            ],
+            "rawHeartbeats": 197885515,
+            "heartbeats": 197885
+          }
+        ]
+      }
+    },
+    {
+      "id": 50,
+      "name": "RS.cechCount",
+      "source": "leanpool",
+      "status": "pending",
+      "baseline": {
+        "tokens": 911,
+        "heartbeats": 157420
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "status": "pending"
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "status": "pending"
+        }
+      ],
+      "environment": "leanpool-v4.35.0-rc3 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F050",
+        "sha256": "de8882eec0fa1f98739e146ddce6f79e559905702a7f631cb6dc60322c561aa7",
+        "providedTokens": 911,
+        "localTokens": 911,
+        "primaryEnvironment": "leanpool-v4.35.0-rc3",
+        "versions": [
+          {
+            "version": "v4.35.0-rc3",
+            "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+            "environment": "leanpool-v4.35.0-rc3",
+            "status": "pass",
+            "rawSamples": [
+              157420889
+            ],
+            "rawHeartbeats": 157420889,
+            "heartbeats": 157420
+          },
+          {
+            "version": "v4.34.0",
+            "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+            "environment": "leanpool-v4.34.0",
+            "status": "pass",
+            "rawSamples": [
+              186364554
+            ],
+            "rawHeartbeats": 186364554,
+            "heartbeats": 186364
+          }
+        ]
+      }
+    },
+    {
+      "id": 51,
+      "name": "putnam_1964_a4",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1769,
+        "heartbeats": 111471
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F051",
+        "sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669",
+        "providedTokens": 1769,
+        "localTokens": 1769,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              111471011
+            ],
+            "rawHeartbeats": 111471011,
+            "heartbeats": 111471
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              115677592
+            ],
+            "rawHeartbeats": 115677592,
+            "heartbeats": 115677
+          }
+        ]
+      }
+    },
+    {
+      "id": 52,
+      "name": "putnam_1995_a3",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 4085,
+        "heartbeats": 14127
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F052",
+        "sha256": "56dcc03e9f1d22a0655aeb46aa929c75efddb21f2fa73d7504b648792b6e8329",
+        "providedTokens": 4085,
+        "localTokens": 4085,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              14127586
+            ],
+            "rawHeartbeats": 14127586,
+            "heartbeats": 14127
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              14303829
+            ],
+            "rawHeartbeats": 14303829,
+            "heartbeats": 14303
+          }
+        ]
+      }
+    },
+    {
+      "id": 53,
+      "name": "putnam_1988_a2",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2162,
+        "heartbeats": 58090
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F053",
+        "sha256": "7edb936f360026703509e49c688e19198bb7ffc47fce507061a752b0c1c28d37",
+        "providedTokens": 2162,
+        "localTokens": 2161,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              58090725
+            ],
+            "rawHeartbeats": 58090725,
+            "heartbeats": 58090
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              60689837
+            ],
+            "rawHeartbeats": 60689837,
+            "heartbeats": 60689
+          }
+        ]
+      }
+    },
+    {
+      "id": 54,
+      "name": "putnam_2001_b1",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 3178,
+        "heartbeats": 50251
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F054",
+        "sha256": "a1c3112e1b7b1d282cf20b9eb593ae4beb94cf111ce9c66291282edcc622311d",
+        "providedTokens": 3178,
+        "localTokens": 3178,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              50251248
+            ],
+            "rawHeartbeats": 50251248,
+            "heartbeats": 50251
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              50745938
+            ],
+            "rawHeartbeats": 50745938,
+            "heartbeats": 50745
+          }
+        ]
+      }
+    },
+    {
+      "id": 55,
+      "name": "putnam_1964_b2",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1754,
+        "heartbeats": 134489
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.26.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F055",
+        "sha256": "16f0c2b3e008d0002b83f9550e553fb9acd22cbb4daf5ec813ecd68282738892",
+        "providedTokens": 1754,
+        "localTokens": 1754,
+        "primaryEnvironment": "putnambench-v4.26.0",
+        "versions": [
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              134489542
+            ],
+            "rawHeartbeats": 134489542,
+            "heartbeats": 134489
+          }
+        ]
+      }
+    },
+    {
+      "id": 56,
+      "name": "putnam_2007_a1",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 5464,
+        "heartbeats": 528106
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F056",
+        "sha256": "1f1ed2d17fe9d826122e560d362c3e3bc1e663f8c221fe72c91e6e0b3cd70d59",
+        "providedTokens": 5464,
+        "localTokens": 5463,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              528106440
+            ],
+            "rawHeartbeats": 528106440,
+            "heartbeats": 528106
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              551645096
+            ],
+            "rawHeartbeats": 551645096,
+            "heartbeats": 551645
+          }
+        ]
+      }
+    },
+    {
+      "id": 57,
+      "name": "putnam_1970_b5",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2134,
+        "heartbeats": 288824
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F057",
+        "sha256": "98f8c3392204185d91a6da33134262ce2f20483eb68ee1f8603546dc3e0ac925",
+        "providedTokens": 2134,
+        "localTokens": 2134,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              288824885
+            ],
+            "rawHeartbeats": 288824885,
+            "heartbeats": 288824
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              299472901
+            ],
+            "rawHeartbeats": 299472901,
+            "heartbeats": 299472
+          }
+        ]
+      }
+    },
+    {
+      "id": 58,
+      "name": "putnam_1968_a1",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 1084,
+        "heartbeats": 60254
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F058",
+        "sha256": "6891b2eb59e599021de5242ee92284ac579d1b6f8c77f3b61035071cbb74cdcb",
+        "providedTokens": 1084,
+        "localTokens": 1084,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              60254798
+            ],
+            "rawHeartbeats": 60254798,
+            "heartbeats": 60254
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              63206600
+            ],
+            "rawHeartbeats": 63206600,
+            "heartbeats": 63206
+          }
+        ]
+      }
+    },
+    {
+      "id": 59,
+      "name": "putnam_1991_b1",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 3313,
+        "heartbeats": 342798
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F059",
+        "sha256": "7096b03c290ab3a35e17fd18e5e1544d24662cfd5198849dac44d5650ca38d5e",
+        "providedTokens": 3313,
+        "localTokens": 3313,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              342798486
+            ],
+            "rawHeartbeats": 342798486,
+            "heartbeats": 342798
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              351967827
+            ],
+            "rawHeartbeats": 351967827,
+            "heartbeats": 351967
+          }
+        ]
+      }
+    },
+    {
+      "id": 60,
+      "name": "putnam_2019_a1",
+      "source": "putnambench",
+      "status": "pending",
+      "baseline": {
+        "tokens": 2381,
+        "heartbeats": 3223874
+      },
+      "candidate": null,
+      "baselineCompatibility": 100,
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "status": "pending"
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "status": "pending"
+        }
+      ],
+      "environment": "putnambench-v4.27.0 · scaled heartbeat (raw // 1000)",
+      "candidateHash": "",
+      "evidence": [
+        "docs/measurements/final60-baselines.md"
+      ],
+      "note": "후보 미실행. 원본 측정과 후보 검증은 별도로 집계합니다.",
+      "original": {
+        "benchmarkId": "F060",
+        "sha256": "3031af87d604126642e540e391bfc0549f127ce45ddc8f2c28e054965fe3f893",
+        "providedTokens": 2381,
+        "localTokens": 2381,
+        "primaryEnvironment": "putnambench-v4.27.0",
+        "versions": [
+          {
+            "version": "v4.27.0",
+            "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+            "environment": "putnambench-v4.27.0",
+            "status": "pass",
+            "rawSamples": [
+              3223874343
+            ],
+            "rawHeartbeats": 3223874343,
+            "heartbeats": 3223874
+          },
+          {
+            "version": "v4.26.0",
+            "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+            "environment": "putnambench-v4.26.0",
+            "status": "pass",
+            "rawSamples": [
+              3448431931
+            ],
+            "rawHeartbeats": 3448431931,
+            "heartbeats": 3448431
+          }
+        ]
+      }
+    }
+  ]
+}
