@@ -105,7 +105,8 @@ jobs:
           tar xzf "$RUNNER_TEMP/autosolver-elan.tar.gz" -C "$RUNNER_TEMP"
           "$RUNNER_TEMP/elan-init" -y --no-modify-path --default-toolchain none
           "$ELAN_HOME/bin/elan" toolchain install "leanprover/lean4:$LEAN_VERSION"
-          echo "AUTOSOLVER_LEAN=$($ELAN_HOME/bin/elan which --toolchain leanprover/lean4:$LEAN_VERSION lean)" >> "$GITHUB_ENV"
+          autosolver_compiler="$(ELAN_TOOLCHAIN="leanprover/lean4:$LEAN_VERSION" "$ELAN_HOME/bin/elan" which lean)"
+          echo "AUTOSOLVER_LEAN=$autosolver_compiler" >> "$GITHUB_ENV"
       - name: Verify goal extraction, scoped repairs, full verification and replay
         env:
           AUTOSOLVER_LEAN_VERSION: v${{ matrix.lean }}
