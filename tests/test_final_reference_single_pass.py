@@ -1,16 +1,18 @@
 """The reference fast path must retain real compile/counter/axiom rejection."""
 from contextlib import nullcontext
 import json
+import fcntl
 import os
 from pathlib import Path
 import re
 import sys
+import subprocess
 import tempfile
 import unittest
 from unittest.mock import Mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'experiments/final-batch-next'))
-from evaluator import FinalEvaluator
+from evaluator import FinalEvaluator, WRAPPER, PRIVATE_WRAPPER
 
 
 class SinglePassReferenceTests(unittest.TestCase):
@@ -74,6 +76,24 @@ class SinglePassReferenceTests(unittest.TestCase):
         self.problem['reference'] += ' '
         self.assertFalse(self.evaluate()['valid'])
         self.evaluator._invoke.assert_not_called()
+
+    @unittest.skipUnless(os.environ.get('ARENA_WRAPPER_HYGIENE_LEAN'),
+                         'Set ARENA_WRAPPER_HYGIENE_LEAN and ARENA_COMPILER_LOCK for native regression')
+    def test_native_public_and_private_helpers_do_not_capture_a_section_name_type(self):
+        with Path(os.environ['ARENA_COMPILER_LOCK']).open('a+') as stream:
+            fcntl.flock(stream, fcntl.LOCK_EX)
+            for private, wrapper in [(False, WRAPPER), (True, PRIVATE_WRAPPER)]:
+                source = Path(self.temp.name) / ('private.lean' if private else 'public.lean')
+                source.write_text(('module\npublic import Lean\n' if private else 'import Lean\n') +
+                    'namespace Collision\nvariable {Name : Type}\n' + wrapper +
+                    '\nset_option Elab.async false in\n#refactor_eval "hygiene-check" "Collision.target"\n' +
+                    'theorem target : True := by trivial\nend Collision\n')
+                for compiler in os.environ['ARENA_WRAPPER_HYGIENE_LEAN'].split(os.pathsep):
+                    with self.subTest(compiler=compiler, private=private):
+                        result = subprocess.run([compiler, str(source), '-j1', '-M4096'],
+                                                text=True, capture_output=True, timeout=120)
+                        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                        self.assertIn('REFACTOR_EVAL hygiene-check', result.stdout)
 
 
 if __name__ == '__main__':

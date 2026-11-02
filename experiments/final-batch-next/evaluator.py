@@ -24,20 +24,24 @@ import uuid
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "src"))
-from lean_agent.evaluator.lean import ALLOWED_AXIOMS, WRAPPER
+from lean_agent.evaluator.lean import ALLOWED_AXIOMS, WRAPPER as COMMON_WRAPPER
 from lean_agent.evaluator.tokens import proof_body, without_comments
 from lean_agent.prepared import PreparedLeanEvaluator
 from evaluation_cache import EvaluationCache
 
+# A source section may bind `Name : Type`, shadowing Lean.Name. This helper is
+# elaborated before the target counter starts; qualify its metaprogramming type.
+WRAPPER = COMMON_WRAPPER.replace("Name.toString", "_root_.Lean.Name.toString")
+
 # Use this variant only for immutable source prefixes carrying a private target
-# modifier. Public targets retain the common wrapper byte-for-byte.
+# modifier. The target counter and axiom collection are the common algorithm.
 PRIVATE_WRAPPER = WRAPPER.replace(
     '    let name := target.getString.toName\n'
     '    if (← getEnv).contains name then\n',
     '    let semanticName := target.getString.toName\n'
-    '    let findTargets (env : Environment) : Array Name :=\n'
+    '    let findTargets (env : _root_.Lean.Environment) : _root_.Array _root_.Lean.Name :=\n'
     '      env.checked.get.constants.fold (fun names name _ =>\n'
-    '        if name == semanticName || privateToUserName? name == some semanticName then\n'
+    '        if name == semanticName || _root_.Lean.privateToUserName? name == some semanticName then\n'
     '          names.push name\n'
     '        else names) #[]\n'
     '    unless (findTargets (← getEnv)).isEmpty do\n'
