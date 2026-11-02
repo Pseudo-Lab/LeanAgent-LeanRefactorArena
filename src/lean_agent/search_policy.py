@@ -50,7 +50,8 @@ def packet(state, config, context=None):
         other["tokens"] <= row["tokens"] and other["raw_heartbeats"] <= row["raw_heartbeats"]
         and (other["tokens"] < row["tokens"] or other["raw_heartbeats"] < row["raw_heartbeats"])
         for _, other in valid)]
-    attempts = [row for row in memory["history"] if row.get("candidate_id")]
+    attempts = [{**row, "candidate_id": row.get("effective_candidate_id", row.get("candidate_id"))}
+                for row in memory["history"] if row.get("candidate_id")]
     # Count evaluated candidates after the last strict objective improvement.
     incumbent = memory["candidates"]["c000"]["rank_numerator"]
     stagnant = 0

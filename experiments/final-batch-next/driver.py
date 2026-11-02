@@ -217,10 +217,20 @@ def guard_compiler_signal(result):
     return value
 
 
+def evaluate_automatic(ev, code, problem, destination):
+    """Apply the batch's existing process/resource policy to derived proofs too."""
+    measured = evaluate_cached(ev, code, problem, destination, repetitions=1)
+    guarded = guard_compiler_signal(measured)
+    if guarded != measured:
+        atomic(destination / "compiler-result.json", measured)
+        atomic(destination / "result.json", guarded)
+    return guarded
+
+
 INPUT_FILES = ("problem.json", "config.json", "action-corpus.json", "context-metadata.json", "prompt.txt")
 
 
-def configuration(problem, portfolio_settings=None):
+def configuration(problem, portfolio_settings=None, autosolver_settings=None):
     model = {**MODEL, "max_tokens": 16384 if len(problem["reference"]) > 12000 else 8192}
     config = {"schema_version": 1, "model": model,
         "limits": {"max_calls": None, "cost_stop_usd": str(TARGET),
@@ -231,6 +241,9 @@ def configuration(problem, portfolio_settings=None):
     if portfolio_settings is not None:
         h.portfolio.validate(portfolio_settings)
         config["agent"].update(portfolio=dict(portfolio_settings), approach_policy="exchange-v1")
+    if autosolver_settings is not None:
+        h.autosolver.validate(autosolver_settings)
+        config["agent"]["autosolver"] = dict(autosolver_settings)
     return config
 
 
@@ -244,7 +257,7 @@ def validate_inputs(root, row):
     if problem != original or problem.get("dataset_sha256") != DATASET_SHA:
         raise ValueError(f"F{row:03} frozen problem identity differs")
     config = a.read(inputs / "config.json")
-    expected = configuration(problem, config.get("agent", {}).get("portfolio"))
+    expected = configuration(problem, config.get("agent", {}).get("portfolio"), config.get("agent", {}).get("autosolver"))
     timeout = config.get("model", {}).get("timeout_seconds")
     if timeout not in (300, 900):
         raise ValueError(f"F{row:03} unexpected prelaunch timeout")
@@ -262,7 +275,7 @@ def validate_inputs(root, row):
     return problem
 
 
-def prepare_inputs(root, rows, workers=1, portfolio_settings=None):
+def prepare_inputs(root, rows, workers=1, portfolio_settings=None, autosolver_settings=None):
     """Prepare disjoint row inputs only; no authorization, API ledger or seal."""
     if workers not in (1, 2):
         raise ValueError("Input preparation workers must be 1 or 2")
@@ -282,6 +295,8 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=None):
                 validate_inputs(root, row)
                 if portfolio_settings is not None and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
                     raise ValueError("Existing inputs have a different policy; use a fresh batch root")
+                if autosolver_settings is not None and a.read(inputs / "config.json")["agent"].get("autosolver") != autosolver_settings:
+                    raise ValueError("Existing AutoSolver policy differs; use a fresh batch root")
                 return {"row": row, "input_status": "reused"}
             inputs.mkdir(parents=True, exist_ok=True)
             problem = ev.load_problem(row)
@@ -294,7 +309,7 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=None):
             if len(text) > 40000:
                 raise ValueError("Initial context exceeds bounded 40000 characters")
             atomic(inputs / "problem.json", problem)
-            atomic(inputs / "config.json", configuration(problem, portfolio_settings))
+            atomic(inputs / "config.json", configuration(problem, portfolio_settings, autosolver_settings))
             atomic(inputs / "action-corpus.json", corpus)
             atomic(inputs / "context-metadata.json", context.get("metadata", {}))
             (inputs / "prompt.txt").write_text(prompt_text(text))
@@ -350,8 +365,13 @@ def seal_inputs(root, rows):
     print(json.dumps({"prepared": str(root), "rows": rows, "api_calls": 0}), flush=True)
 
 
-def prepare(root, rows, workers=2, portfolio_settings=None):
+def prepare(root, rows, workers=2, portfolio_settings=None, autosolver_settings=None):
     if (Path(root) / "frozen.json").exists():
+        if autosolver_settings is not None:
+            for row in rows:
+                config = a.read(folder(root, row) / "input/config.json")
+                if config.get("agent", {}).get("autosolver") != autosolver_settings:
+                    raise ValueError("Sealed AutoSolver policy differs; use a fresh batch root")
         if portfolio_settings is not None:
             for row in rows:
                 config = a.read(folder(root, row) / "input/config.json")
@@ -359,7 +379,7 @@ def prepare(root, rows, workers=2, portfolio_settings=None):
                     raise ValueError("Sealed policy differs; use a fresh batch root")
         seal_inputs(root, rows)
         return
-    prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings)
+    prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings, autosolver_settings=autosolver_settings)
     seal_inputs(root, rows)
 
 
@@ -691,17 +711,23 @@ def run_problem(root, row):
                     result = guard_compiler_signal(a.read(evaluation))
                     result = check_improvement_compatibility(ev, problem, code, result, state, baseline, step_dir)
                     atomic(step_dir / "selection-result.json", result)
+                automatic = h.automatic_candidate(config, raw, code, result, step_dir,
+                    lambda source, destination, seconds, mib: ev.inspect_native(
+                        source, problem, destination, timeout=seconds, memory=mib),
+                    lambda source, destination, source_path: evaluate_automatic(
+                        ev, source, problem, destination))
                 diagnosis = candidate_diagnosis(raw, rejection, result, step_dir, output, config)
                 previous_sha = a.sha(a.canonical(state))
                 state = h.advance(state, raw, code, result, rejection, h.metrics(baseline), config,
-                                  str(output), diagnosis, action=action, observation=observation)
+                                  str(output), diagnosis, action=action, observation=observation, automatic=automatic)
                 atomic(step_dir / "event.json", {"step": step, "previous_state_sha256": previous_sha,
                     "state_sha256": a.sha(a.canonical(state)), "action": {k: v for k, v in (action or {}).items() if k != "proof"},
                     "rejection": rejection, "cost_usd_after": state["cost_usd"], "best_sha256": state["best"]["sha256"]})
                 atomic(output / "state.json", state)
                 atomic(output / "progress.json", {"status": "running", "row": row, "step": step,
                     "cost_usd": state["cost_usd"], "best": {k: v for k, v in state["best"].items() if k != "code"}, "at": now()})
-                if state["unknown_cost"] or (result and h.environment_failed(result)):
+                if (state["unknown_cost"] or (result and h.environment_failed(result))
+                        or automatic and automatic["evaluation"] and h.environment_failed(automatic["evaluation"])):
                     raise ValueError("Unknown model cost or evaluator environment failure")
             # Score/compatibility selection happens after exploration without additional API spend.
             unique = {value["sha256"]: value for value in state["exploration"]["candidates"].values() if value["valid"]}
@@ -742,6 +768,8 @@ def run_problem(root, row):
                 summary["portfolio"] = h.portfolio.summary(state, config)
                 if not summary["portfolio"]["complete"]:
                     summary["status"] = "stopped"
+            if h.autosolver.enabled(config):
+                summary["autosolver"] = state.get("autosolver", {"searches": 0, "model_calls": 0})
             summary.update(cost_basis="provider-token-usage-times-frozen-public-list-prices", invoice_verified=False,
                            provider="OpenAI direct", model=MODEL["id"])
             atomic(output / "summary.json", summary)
@@ -791,7 +819,10 @@ def main():
     parser.add_argument("--portfolio", action="store_true", help="Prepare isolated scouts then merger with exchange-v1 policy")
     parser.add_argument("--scout-evaluations", type=int, default=None)
     parser.add_argument("--merger-evaluations", type=int, default=None)
+    parser.add_argument("--autosolver", action="store_true", help="Prepare bounded native AutoSolver for failed candidates (no extra model calls)")
     args = parser.parse_args()
+    if args.autosolver and args.command not in ("prepare", "inputs"):
+        parser.error("--autosolver is a frozen prepare/inputs setting; use a fresh batch root")
     settings = None
     if args.portfolio or args.scout_evaluations is not None or args.merger_evaluations is not None:
         if not args.portfolio or args.command not in ("prepare", "inputs"):
@@ -803,9 +834,11 @@ def main():
     require_policy(root)
     rows = rows_from(args)
     if args.command == "prepare":
-        prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings)
+        prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings,
+                autosolver_settings={} if args.autosolver else None)
     elif args.command == "inputs":
-        prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings)
+        prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings,
+                       autosolver_settings={} if args.autosolver else None)
     elif args.command == "seal":
         seal_inputs(root, rows)
     elif args.command == "preflight":

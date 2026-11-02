@@ -126,6 +126,19 @@ class LeanEvaluator:
         from ..preflight import check
         return check(environment, output, self, progress=progress)
 
+    def inspect_native(self, code, problem, environment, output, *, timeout, memory):
+        from .. import native
+        output = Path(output)
+        def build(support, declaration):
+            values = {'{{HARNESS_IMPORT}}': 'public import Lean' if re.search(r'(?m)^module\s*$', environment['template']) else 'import Lean',
+                      '{{HARNESS_COMMANDS}}': support, '{{DECLARATION}}': declaration}
+            return re.sub('|'.join(map(re.escape, values)), lambda m: values[m[0]], environment['template'])
+        def run(path, seconds, mib):
+            command = [arg for arg in environment['command'] if not arg.startswith('-M')]
+            return self.execute([*command, f'-M{mib}', '--root=' + str(output.resolve()), str(path.resolve())],
+                                Path(environment['project']), seconds)
+        return native.observe(code, problem['statement'], output, build, run, timeout=timeout, memory=memory)
+
     def fingerprint(self, environment: dict, *, executor=None) -> dict:
         invoke = executor or self.execute
         project = Path(environment["project"])

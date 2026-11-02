@@ -12,7 +12,7 @@ from pathlib import Path
 from policy import validate_declaration
 from openai_transport import compute_cost, normalize
 from evaluation_cache import EvaluationCache
-from lean_agent import portfolio
+from lean_agent import autosolver, harness as h, portfolio
 
 
 def read(path):
@@ -63,6 +63,42 @@ def audit_portfolio(folder, summary, attempts):
     if (summary["status"] == "completed") != expected["complete"]:
         raise ValueError("Incomplete portfolio reported as completed")
     return expected["complete"]
+
+
+def audit_autosolver(folder, summary, attempts):
+    config = read(folder / "input/config.json")
+    if not autosolver.enabled(config):
+        return
+    state = read(folder / "state.json")
+    totals = {"searches": 0, "attempts": 0, "inspections": 0, "verified_candidates": 0,
+              "native_seconds": 0.0, "model_calls": 0}
+    for _, item in attempts:
+        step = folder / "steps" / f"{item['step']:04}"
+        code = (step / "candidate.lean").read_text() if (step / "candidate.lean").exists() else None
+        result = read(step / "selection-result.json") if (step / "selection-result.json").exists() else None
+        automatic = h.read_automatic(config, read(step / "response.json"), code, result, step)
+        if automatic is None:
+            continue
+        outcome = autosolver.replay_search(config, code, automatic["search"])
+        parent = f"c{item['step']:03}"
+        info = autosolver.summary(outcome, parent)
+        totals["searches"] += 1
+        for key in ("attempts", "inspections", "native_seconds"):
+            totals[key] += info[key]
+        if outcome["candidate_code"] is not None:
+            child = state["exploration"]["candidates"][parent + "-auto"]
+            measured = automatic["evaluation"]
+            candidate = h.candidate(outcome["candidate_code"], measured, summary["baseline"])
+            if (child["code"] != outcome["candidate_code"] or child["sha256"] != sha(child["code"])
+                    or child["parent_id"] != parent or child["valid"] != bool(candidate)
+                    or candidate and any(child[key] != value for key, value in candidate.items())):
+                raise ValueError("Automatic candidate ancestry/measurement differs")
+            totals["verified_candidates"] += candidate is not None
+            if portfolio.enabled(config) and state["portfolio"]["owners"][parent] != state["portfolio"]["owners"][parent + "-auto"]:
+                raise ValueError("Automatic candidate crossed scout scope")
+    expected = totals if totals["searches"] else {"searches": 0, "model_calls": 0}
+    if state.get("autosolver", expected) != expected or summary.get("autosolver") != expected:
+        raise ValueError("AutoSolver accounting differs from saved inspections")
 
 
 def build_report(root, *, require_complete=False):
@@ -125,8 +161,9 @@ def build_report(root, *, require_complete=False):
             portfolio_complete = False
             try:
                 portfolio_complete = audit_portfolio(folder, summary, attempts)
+                audit_autosolver(folder, summary, attempts)
             except (OSError, ValueError, KeyError, TypeError) as exc:
-                errors.append(f"F{number:03}: invalid portfolio evidence: {exc}")
+                errors.append(f"F{number:03}: invalid exploration evidence: {exc}")
             final = read(folder / "final/result.json")
             code = (folder / "selected.lean").read_text()
             try:
