@@ -114,7 +114,7 @@ def require_policy(root):
 
 
 def prompt_text(context):
-    base = (HERE.parent / "action-candidate-memory/prompt.txt").read_text()
+    base = (REPO / "examples/actions/prompt.txt").read_text()
     return base + "\n" + (
         "Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. "
         "Then reduce repeated whole-context simplification or broad search using recorded evidence. "

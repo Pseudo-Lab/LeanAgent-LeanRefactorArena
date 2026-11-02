@@ -280,6 +280,8 @@ class DriverTests(unittest.TestCase):
                 return {"corpus": {"schema_version": 1, "entries": []}, "prompt_context": "original context",
                         "metadata": {"row": problem["row"]}}
         fixture_repo = self.root / "repository"
+        (fixture_repo / "examples/actions").mkdir(parents=True)
+        (fixture_repo / "examples/actions/prompt.txt").write_text((d.REPO / "examples/actions/prompt.txt").read_text())
         for row in (1, 2):
             d.atomic(fixture_repo / "sources/final/problems" / f"F{row:03}.json", {
                 "id": f"F{row:03}", "row": row, "dataset_sha256": d.DATASET_SHA,

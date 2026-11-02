@@ -116,6 +116,8 @@ class PortfolioBatchTests(unittest.TestCase):
 
     def test_prepared_inputs_freeze_policy_and_reject_mode_changes(self):
         repository = self.root / "repo"
+        (repository / "examples/actions").mkdir(parents=True)
+        (repository / "examples/actions/prompt.txt").write_text((d.REPO / "examples/actions/prompt.txt").read_text())
         problem = {**self.problem, "row": 1, "dataset_sha256": d.DATASET_SHA, "environments": ["fixture"]}
         a.write(repository / "sources/final/problems/F001.json", problem)
         class Evaluator:

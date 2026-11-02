@@ -18,7 +18,7 @@ CORE = (
     "test_accounting.py", "test_usage_*.py", "test_evaluation.py", "test_corpus_storage.py",
 )
 EXPERIMENTS = (
-    "api-comparison", "usage-cost", "cost-hypothesis-pipeline", "final-batch-next",
+    "api-comparison", "usage-cost", "final-batch-next",
 )
 
 

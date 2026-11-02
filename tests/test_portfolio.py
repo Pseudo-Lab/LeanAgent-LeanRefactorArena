@@ -28,12 +28,12 @@ class PortfolioTests(unittest.TestCase):
         self.config = a.read(ROOT / "configs/smoke.json")
         for key in ("problem", "template", "project"):
             self.config[key] = str((ROOT / "configs" / self.config[key]).resolve())
-        self.config["prompt"] = str(ROOT / "experiments/action-candidate-memory/prompt.txt")
+        self.config["prompt"] = str(ROOT / "examples/actions/prompt.txt")
         self.config["limits"].update(max_calls=12, max_request_characters=80000)
         self.config["model"] = {"backend": "openrouter", "id": "synthetic/model", "provider": "synthetic",
                                 "max_tokens": 100, "timeout_seconds": 1}
         self.config["agent"] = {
-            "mode": "actions-v1", "corpus": str(ROOT / "experiments/action-candidate-memory/corpus.json"),
+            "mode": "actions-v1", "corpus": str(ROOT / "examples/actions/corpus.json"),
             "portfolio": {"scout_evaluations": 1, "merger_evaluations": 1},
             "approach_policy": "exchange-v1",
         }

@@ -3,10 +3,10 @@
   "problem": "../examples/first-harness/problem.json",
   "template": "../examples/first-harness/context.lean.in",
   "project": "../examples/first-harness/project",
-  "prompt": "../experiments/action-candidate-memory/prompt.txt",
+  "prompt": "../examples/actions/prompt.txt",
   "agent": {
     "mode": "actions-v1",
-    "corpus": "../experiments/action-candidate-memory/corpus.json",
+    "corpus": "../examples/actions/corpus.json",
     "portfolio": {"scout_evaluations": 1, "merger_evaluations": 1},
     "approach_policy": "exchange-v1"
   },

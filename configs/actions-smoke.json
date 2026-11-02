@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "problem": "../../examples/first-harness/problem.json",
-  "template": "../../examples/first-harness/context.lean.in",
-  "project": "../../examples/first-harness/project",
-  "prompt": "prompt.txt",
+  "problem": "../examples/first-harness/problem.json",
+  "template": "../examples/first-harness/context.lean.in",
+  "project": "../examples/first-harness/project",
+  "prompt": "../examples/actions/prompt.txt",
   "lean": {
     "toolchain": "leanprover/lean4:v4.26.0",
     "command": [
@@ -23,11 +23,11 @@
   },
   "model": {
     "backend": "fixture",
-    "responses": "responses.json"
+    "responses": "../examples/actions/responses.json"
   },
   "agent": {
     "mode": "actions-v1",
-    "corpus": "corpus.json",
+    "corpus": "../examples/actions/corpus.json",
     "history_limit": 4,
     "candidate_limit": 4
   }

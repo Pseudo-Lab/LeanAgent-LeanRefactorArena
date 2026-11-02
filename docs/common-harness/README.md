@@ -12,8 +12,7 @@ main 반영은 `codex/common-harness-core` 기반 PR에서 진행한다.
 | 기본 루프·후보 계보·기록 재생 | `src/lean_agent/` | 기존 비용 보고와 actions-v1을 함께 유지 |
 | 넓은 탐색→merger | `src/lean_agent/portfolio.py` | 격리된 세 scout, 평가 할당량 장벽, 전체 후보 합류, 공유 비용/호출 한도 |
 | 환율 피드백·접근 선택 | `src/lean_agent/search_policy.py` | 매 요청에 고정 환율·잔여 비율·부모 대비 교환량과 다음 접근 지침 제공 |
-| prompt·합성 입력 | `experiments/action-candidate-memory/` | 작은 고정 응답 fixture·공통 문제 참조 |
-| 부모·Pareto·탐색 단계 정책 | `experiments/cost-hypothesis-pipeline/` | 순수 정책·지침·회귀 검사. 구형 harness 복사본에 의존하지 않음 |
+| prompt·합성 입력 | `examples/actions/`, `configs/actions-smoke.json` | 공통 행동 지침·작은 고정 응답 fixture·공통 문제 참조 |
 | 환경 준비 | `experiments/final-environment/` | 지정 compiler·소스 revision·대상 문맥 준비와 봉인 |
 | 평가 캐시·배치 | `experiments/final-batch-next/` | 대표 버전 탐색, 최종 호환성, 캐시를 쓰지 않는 최종 측정 |
 | 입력 점검·고정 환경 | `benchmarks/arena/final-d53690b057f9/`, `configs/final-environments.lock.json` | snapshot·검사 생성기·환경 pin |
@@ -78,7 +77,7 @@ PYTHONPATH=src python3 -B -m lean_agent replay runs/portfolio-smoke
 
 출처는 원본 `3ee67de`의 `competitive-search40-20261031/controller.py`(세 scout·합류),
 `competitive-structure-20261101/controller.py`(환율 feedback), v4 prompt(축별 접근),
-현재 `cost-hypothesis-pipeline/policy.py`(잔여 비율·구조 부모·Pareto)다.
+과거 `cost-hypothesis-pipeline/policy.py`(잔여 비율·구조 부모·Pareto)다.
 대형 후보/실험 결과나 구형 실행기를 가져오지 않고 공통 상태 계약으로 옮겼다.
 
 ## 이번에 제외한 것
@@ -89,13 +88,21 @@ PYTHONPATH=src python3 -B -m lean_agent replay runs/portfolio-smoke
 - `final-batch-next`와 겹치는 이전 `final-batch` 실행기.
 - 실험 결과 JSON·검증 결과 snapshot·대형 파일별 반입 manifest.
 - 비용 가설 연구의 과거 코호트 준비기·복구 패치·수동 worker·보고서.
+- 공통 정책으로 옮긴 뒤 호출하지 않는 `cost-hypothesis-pipeline` 정책·비교 prompt·전용 검사.
+- P02 유료 비교 실행기와 비교 전용 transport, 고정 응답 A/B 실행 wrapper·baseline 복사본.
+- 배치의 `preflight`·평가 캐시와 겹치는 `cache_rows.py` 보조 실행기.
 
-필요한 합성 fixture와 회귀 검사는 유지한다. 생성 결과는 `.gitignore`에서 제외한다.
+필요한 합성 fixture는 `examples/actions`, 설정은 `configs`, 공통 검사는 `tests`에 둔다.
+공통 테스트는 제거한 실험 실행기를 import하지 않는다. 예산 검사는 공통 예약·미확정 비용 중단·
+기록 재생을, 배치 검사는 현재 장부와 재시작을 확인한다. 제외한 비교 전용 transport의 검사도 함께 제외했다.
+이번 브랜치에서 새로 추가하는 실험 실행 코드는 실제 의존성이 있는 환경 준비와 Final 배치 adapter만 남긴다.
+기존 main의 다른 연구 실험은 이번 반입 범위에 포함하지 않는다. 생성 결과는 `.gitignore`에서 제외한다.
 원본 데이터·API 키·로컬 빌드·실험 runs를 이 브랜치에 복사하지 않는다.
 
 ## 복구와 출처
 
 제외한 파일은 원본 커밋 `3ee67de1707d712321e403da5cf1d064dc4240f9`에서 복원할 수 있다.
+직전 통합 시점의 작은 실험 fixture·정책·스크립트는 `6cd8ba7`에도 보존되어 있다.
 로컬 `codex/common-harness-cleanup`과 원격 `feat/common-harness-build`가 이 원본을 가리킨다.
 새 `codex/common-harness-core` 브랜치는 main `7f9508a`에서 시작했으므로,
 과거 자료가 들어간 대형 커밋을 PR의 부모 이력에 추가하지 않는다.

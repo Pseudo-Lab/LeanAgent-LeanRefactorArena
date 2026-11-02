@@ -1,7 +1,6 @@
 """Conservative reservations for pinned OpenAI text requests, including reasoning.
 
-The experiment adapter additionally verifies live endpoint/cache prices against
-the transmitted price ceilings before every dispatch. No cache discount assumed.
+Reservations use the transmitted price ceilings. No cache discount is assumed.
 """
 from decimal import Decimal
 import json

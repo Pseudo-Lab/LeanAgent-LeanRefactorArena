@@ -1,6 +1,0 @@
-[
-  "{\"proof\": \"by\\n  exact False.elim (by assumption)\"}",
-  "{\"proof\": \"by\\n  simpa using Nat.add_zero n\"}",
-  "{\"proof\": \"by\\n  have h : n + 0 = n := Nat.add_zero n\\n  have h2 : n + 0 = n := h\\n  exact h2\"}",
-  "{\"proof\": \"by rfl\"}"
-]
