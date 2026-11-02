@@ -103,7 +103,8 @@ PYTHONPATH=src python3 -B -m lean_agent replay runs/portfolio-smoke
 
 제외한 파일은 원본 커밋 `3ee67de1707d712321e403da5cf1d064dc4240f9`에서 복원할 수 있다.
 직전 통합 시점의 작은 실험 fixture·정책·스크립트는 `6cd8ba7`에도 보존되어 있다.
-로컬 `codex/common-harness-cleanup`과 원격 `feat/common-harness-build`가 이 원본을 가리킨다.
+로컬 `codex/common-harness-cleanup`과 원격 `archive/common-harness-build-3ee67de`가 이 원본을 가리킨다.
+PR #46의 `feat/common-harness-build`는 정리된 공통 하네스로 갱신했다.
 새 `codex/common-harness-core` 브랜치는 main `7f9508a`에서 시작했으므로,
 과거 자료가 들어간 대형 커밋을 PR의 부모 이력에 추가하지 않는다.
 
