@@ -50,9 +50,9 @@ def snapshot(seed, version, revision, visited):
         dest.parent.mkdir(parents=True, exist_ok=True)
         # APFS clonefile is mandatory: fail instead of silently making a full copy.
         subprocess.run(["/bin/cp", "-cR", str(seed), str(dest)], check=True)
-        subprocess.run([sys.executable, ACCOUNT, "setup", "personal"], cwd=dest, check=True,
+        subprocess.run(["/usr/bin/python3", ACCOUNT, "setup", "personal"], cwd=dest, check=True,
                        stdout=subprocess.DEVNULL)
-        subprocess.run([sys.executable, ACCOUNT, "verify-login"], cwd=dest, check=True,
+        subprocess.run(["/usr/bin/python3", ACCOUNT, "verify-login"], cwd=dest, check=True,
                        stdout=subprocess.DEVNULL)
     verify_source(dest, revision)
     visited[str(dest)] = (seed, revision)

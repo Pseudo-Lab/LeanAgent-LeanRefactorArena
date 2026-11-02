@@ -43,3 +43,5 @@ Length는 제공 기준값과 로컬 tokenizer 결과를 구분한다. raw HB와
 새 문제의 HB는 fresh 측정한다. 이전 완료 결과는 아래 원본 증거를 검증해 유지한다.
 
 - 기존 증거: `/Users/jwkweon/00_work/00_project/05_pseudolab/.worktrees/arena-final60-baselines/runs/manual/final60-baselines-20261102/F001`
+
+[F011 대표 버전 측정과 미완료 범위](final60-primary-pending.md)도 별도로 기록했다.

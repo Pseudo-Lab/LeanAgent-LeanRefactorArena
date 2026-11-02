@@ -403,8 +403,22 @@
       "provided_length": 4,
       "local_length": 4,
       "reference_sha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "partial",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            64051730
+          ],
+          "median_raw_heartbeats": 64051730,
+          "median_heartbeats": 64051,
+          "measurement_count": 1
+        }
+      },
+      "primary_environment": "physlib-v4.34.1",
+      "pending_environments": [
+        "physlib-v4.34.0"
+      ]
     },
     {
       "id": "F012",
@@ -896,5 +910,6 @@
       "status": "pending_environment",
       "environments": {}
     }
-  ]
+  ],
+  "partial_problems": 1
 }
