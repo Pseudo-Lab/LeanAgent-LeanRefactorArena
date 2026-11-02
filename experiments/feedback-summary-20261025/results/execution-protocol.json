@@ -1,0 +1,52 @@
+{
+  "status": "planned_frozen_before_solver_dispatch",
+  "independent_variable": "Compile-error details policy only: deterministic structured_v1 caps (S) versus independent model message summarization and verbatim goal/context selection (M), from the same extracted first diagnostic.",
+  "details_character_limit": 1600,
+  "lean_timeout_seconds": 420,
+  "summary_timeout_seconds": 1800,
+  "proposal_budget": 10,
+  "checkpoints": [
+    3,
+    6,
+    10
+  ],
+  "max_solver_parallelism": 2,
+  "trial_count": 8,
+  "proposal_count": 80,
+  "prompt_sha256": "392cb9211192e4621a1f6a634df9663c86e9d13e4c6d9f99591fee468f0366b9",
+  "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6",
+  "same_initial_request_across_conditions": true,
+  "automatic_retries": false,
+  "model_internal_calls": null,
+  "cost_usd": null,
+  "exact_backend_model_id": null,
+  "summarizer_jobs_are_observable": true,
+  "summary_policy": {
+    "input": "uncapped prior _extract output (including its existing last-12-local-context restriction)",
+    "schema": [
+      "location",
+      "message",
+      "case",
+      "goal",
+      "local_context",
+      "truncated"
+    ],
+    "immutable_fields": [
+      "location",
+      "case"
+    ],
+    "verbatim_contiguous_substrings": [
+      "goal"
+    ],
+    "free_summary_field": "message",
+    "preserve_entire_goal_when_feasible": true,
+    "canonical_json_character_limit": 1600,
+    "max_jobs_per_compile_failure": 1,
+    "automatic_retries": false,
+    "wait_timeout_seconds": 1800,
+    "invalid_or_missing_output": "exact structured_v1 fallback and recorded incident",
+    "repair_strategies": "forbidden",
+    "local_context": "whole original lines in original order; ordered subsequence",
+    "whole_goal_feasibility": "canonical envelope with empty message/context and truncated=true plus 200 characters <=1600"
+  }
+}

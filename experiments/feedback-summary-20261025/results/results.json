@@ -1,0 +1,4106 @@
+{
+  "checked_at": "2026-10-25T12:14:46.289738+00:00",
+  "trial_count": 8,
+  "proposal_count": 80,
+  "all_record_checks_passed": true,
+  "all_final_valid": true,
+  "trials": [
+    {
+      "trial_id": "P01-S-r1",
+      "problem_id": "P01",
+      "condition": "S",
+      "repetition": 1,
+      "max_proposals": 10,
+      "error_feedback_mode": "structured_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.8425950248764674,
+          "tokens": 73,
+          "raw_heartbeats": 7511450,
+          "code_sha256": "882b86bc71b259e60c49f310b6adc369bdd2407816ae1214ec034836dcd7e679"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 6,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.9641851128452428,
+          "tokens": 69,
+          "raw_heartbeats": 8835608,
+          "code_sha256": "e00ef6f7f7d0087a18ff7288a9844b01489f5346b11dc9abc6ce2a0bd8b1c9a6"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.8425950248764674,
+          "tokens": 73,
+          "raw_heartbeats": 7511450,
+          "code_sha256": "882b86bc71b259e60c49f310b6adc369bdd2407816ae1214ec034836dcd7e679"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.8425950248764674,
+          "tokens": 73,
+          "raw_heartbeats": 7511450,
+          "code_sha256": "882b86bc71b259e60c49f310b6adc369bdd2407816ae1214ec034836dcd7e679"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.8425950248764674,
+          "tokens": 73,
+          "raw_heartbeats": 7511450,
+          "code_sha256": "882b86bc71b259e60c49f310b6adc369bdd2407816ae1214ec034836dcd7e679"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":\"grind\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ¬[name].Subset [name, h1]\\n  [eqc] False propositions\\n    [prop] [name].Subset [name, h1]\",\"local_context\":\"EvalEnv := Lambda.LState { Metadata := ExpressionMetadata, IDMeta := Visibility } }.Ident\\nm : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nh1 :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm_1 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nname :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadat\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3098:4\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "details_characters": 975,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "9adc515a2ac1235860463dbd3ab6549746cc5ee963fb58559494d1d5ec7281ea"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":\"grind.1.1\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) →\\n            a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e) →\\n            a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\\n    [prop] a ∈\\n          Lambda.LExpr.LExpr.getVars\\n        \",\"local_context\":\"left_1 : ¬a ∈ Lambda.LExpr.LExpr.getVars e\\nright_1 : ¬a = h1\\nm_2 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nty_1 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm_3 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nx :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty_2 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lamb\",\"location\":\"<RUN>/steps/002/evaluation/fixed/check.lean:3098:4\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "details_characters": 1327,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "68276c8ea08d91eedcc83a1814bac7e57185274238a8d83c7e3d1517494c0693"
+        },
+        {
+          "step": 3,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/003/evaluation/fixed/check.lean:3104:4\",\"message\":\"No goals to be solved\",\"truncated\":false}\n",
+          "details_characters": 161,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "242c698f222556b9b2c2f7d24d948c0cf2008f7c4c988c196dcfc0a96beaa048"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 10060452,
+            "tokens": 45
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "1d4f2e4a84088e4895e1fa4b4583c2853d4e965b17c2c4e5494e873e43eeb75d"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 10043714,
+            "tokens": 47
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "3f0b11193bf66931aee3cd5ceef0e8a742a0cb70999590e17820c99ac4cfb8c2"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 10327515,
+            "tokens": 83
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "7f386a08e1a8b75924dae2202cadc5224fc8619080ea55fa53194e6896506a59"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 8835608,
+            "tokens": 69
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "e00ef6f7f7d0087a18ff7288a9844b01489f5346b11dc9abc6ce2a0bd8b1c9a6"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 7511450,
+            "tokens": 73
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "882b86bc71b259e60c49f310b6adc369bdd2407816ae1214ec034836dcd7e679"
+        },
+        {
+          "step": 9,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/009/evaluation/fixed/check.lean:3104:37\",\"message\":\"Application type mismatch: The argument\\n  cih\\nhas type\\n  (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) c✝)).Subset\\n    (Lambda.LExpr.LExpr.getVars c✝ ++ [h1])\\nbut is expected to have type\\n  (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) c✝) ++\\n        Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) t✝)).Subset\\n    (Lambda.LExpr.LExpr.getVars c✝ ++ Lambda.LExpr.LExpr.getVars t✝ ++ [h1])\\nin the application\\n  join cih\",\"truncated\":false}\n",
+          "details_characters": 634,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "d907c5c170e3bc8ddb5e55eeb9de66a616f81886c74a12fede0e9efc93d77aca"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 8541200,
+            "tokens": 174
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "6ec91c6df95163bf7e4532e30422f3121c554f391714517c78af6dfbca6fd8d3"
+        }
+      ],
+      "verified_proposals": 6,
+      "valid_first3": 0,
+      "improved_at3": false,
+      "first_valid_proposal": 4,
+      "first_improvement_proposal": 7,
+      "early_error_feedback_exposures": 2,
+      "error_feedback_exposures": 4,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": false
+        },
+        {
+          "from_step": 2,
+          "next_valid": false
+        },
+        {
+          "from_step": 3,
+          "next_valid": true
+        },
+        {
+          "from_step": 9,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 4
+      },
+      "selected": {
+        "rank_numerator": 2728735188,
+        "raw_heartbeats": 7511450,
+        "raw_samples": [
+          7511460,
+          7511385,
+          7511450
+        ],
+        "sha256": "882b86bc71b259e60c49f310b6adc369bdd2407816ae1214ec034836dcd7e679",
+        "tokens": 73
+      },
+      "selected_local_cost": 0.8425950248764674,
+      "final": {
+        "raw_heartbeats": 7511511,
+        "raw_samples": [
+          7511633,
+          7511488,
+          7511511
+        ],
+        "tokens": 73
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 7511,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "3a95f1c62199d69b7b3665a3499bdccd8893694ccf192507aaa21468f0c0a5d8",
+                "returncode": 0,
+                "seconds": 15.836289,
+                "source": "check.lean",
+                "source_sha256": "518775acc6e2e6db7272068217699fd1c87e445e91ca34e7d01520b969c25d7c",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "307f2d5c009680d04dd3596a93e1393f19106dd3075ef42c361f98176f5b6f32",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 7511633,
+                  "scaled": 7511,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 17.162144,
+                "source": "measure-1.lean",
+                "source_sha256": "8b380202b0f495ac8231e627d5b00a9acc71f209ed93dc0e082c84910a3d4c6e",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "cf57036d6ce7ab94e5c27a9a216ed0ef524a72919d9f97d43bef4aa3bc66eabc",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 7511488,
+                  "scaled": 7511,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 19.465002,
+                "source": "measure-2.lean",
+                "source_sha256": "5b609f10284138fdfb6c5792fd9e989a300a4ab27d2f83ff0d7aae52d2975234",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "888b7a253e3410fcd6d51c49911da5dd1a249fac372dfcf13d60670719bcb550",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 7511511,
+                  "scaled": 7511,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 21.116064,
+                "source": "measure-3.lean",
+                "source_sha256": "5eac1b2d265cc4e7edf45604c0566563086d3d6e7729ba13b851abd65c44605e",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 73,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "e40cae6e221c7accb2eb609ddaadd7e7936a44e676591029c9a556ef4d67c5f4",
+      "final_compiler_invocations": 4,
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "solver_dispatched_at": "2026-10-25T09:59:13.668434+00:00",
+      "solver_completion_observed_at": "2026-10-25T10:13:55.096117+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "summaries": [],
+      "summarizer_job_count": 0,
+      "summary_fallback_count": 0,
+      "changed_feedback_exposures": 0,
+      "early_changed_feedback_exposures": 0
+    },
+    {
+      "trial_id": "P13-M-r1",
+      "problem_id": "P13",
+      "condition": "M",
+      "repetition": 1,
+      "max_proposals": 10,
+      "error_feedback_mode": "semantic_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.20506400267291588,
+          "tokens": 631,
+          "raw_heartbeats": 6180430,
+          "code_sha256": "b98da5457fe7981339eff3302604cecb14b3c314bb2f6f4b2783f186b8b0ea0b"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.18977975044247658,
+          "tokens": 579,
+          "raw_heartbeats": 6044701,
+          "code_sha256": "5051fd0d20112f4705f66152c53429d6b138ebc6c271bfe98d161011c79179a3"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.12768061830785907,
+          "tokens": 396,
+          "raw_heartbeats": 3644448,
+          "code_sha256": "7be71d3ea9736f3f1615a0a6e22cc6e3b0c53557faabb1479b3ceeed4df3ef09"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 1769,
+          "raw_heartbeats": 115674908,
+          "code_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.20506400267291588,
+          "tokens": 631,
+          "raw_heartbeats": 6180430,
+          "code_sha256": "b98da5457fe7981339eff3302604cecb14b3c314bb2f6f4b2783f186b8b0ea0b"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.20506400267291588,
+          "tokens": 631,
+          "raw_heartbeats": 6180430,
+          "code_sha256": "b98da5457fe7981339eff3302604cecb14b3c314bb2f6f4b2783f186b8b0ea0b"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.18977975044247658,
+          "tokens": 579,
+          "raw_heartbeats": 6044701,
+          "code_sha256": "5051fd0d20112f4705f66152c53429d6b138ebc6c271bfe98d161011c79179a3"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.18977975044247658,
+          "tokens": 579,
+          "raw_heartbeats": 6044701,
+          "code_sha256": "5051fd0d20112f4705f66152c53429d6b138ebc6c271bfe98d161011c79179a3"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.18977975044247658,
+          "tokens": 579,
+          "raw_heartbeats": 6044701,
+          "code_sha256": "5051fd0d20112f4705f66152c53429d6b138ebc6c271bfe98d161011c79179a3"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.17985416674246282,
+          "tokens": 546,
+          "raw_heartbeats": 5906289,
+          "code_sha256": "3582c2f273ef551890676482143c071a5ebaa927cbb17d8deb1bcad0f47b834e"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.1459303623953469,
+          "tokens": 452,
+          "raw_heartbeats": 4204683,
+          "code_sha256": "4cb91c645cf06a39a0266d4fae422a40913bde0d600e9b253d9ce4164207f633"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.136754024978826,
+          "tokens": 428,
+          "raw_heartbeats": 3651099,
+          "code_sha256": "b01391322d7c2862040286ebd246443bb90959a4d12d5338409f05aed338c4d7"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.12768061830785907,
+          "tokens": 396,
+          "raw_heartbeats": 3644448,
+          "code_sha256": "7be71d3ea9736f3f1615a0a6e22cc6e3b0c53557faabb1479b3ceeed4df3ef09"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:41:29\",\"message\":\"Type mismatch: After simplification, term\\n  heq.left\\n has type\\n  u i = u j\\nbut is expected to have type\\n  u (i + 1) = u (j + 1)\",\"truncated\":false}\n",
+          "details_characters": 271,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "5472cea3d62fc6954ec4d4d52af8c33dcbd3ff89fdff166be018e5970babfc97"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6180430,
+            "tokens": 631
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "b98da5457fe7981339eff3302604cecb14b3c314bb2f6f4b2783f186b8b0ea0b"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6172017,
+            "tokens": 634
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "11c166a6dbeef41c918ba4821852d01068a8a980e56ea4b5cafeae69725ea546"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6044701,
+            "tokens": 579
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "5051fd0d20112f4705f66152c53429d6b138ebc6c271bfe98d161011c79179a3"
+        },
+        {
+          "step": 5,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/005/evaluation/fixed/check.lean:35:11\",\"message\":\"error(lean.unknownIdentifier): Unknown identifier `hex`\",\"truncated\":false}\n",
+          "details_characters": 194,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "9dcacd2e9d8b976004249f98bfad2ff590feba17c8c706b3b6ffb5235d96fa8b"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5973596,
+            "tokens": 585
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "41e4d676be9c2142ab829d0a608b8d1157823561474c458a4774e00817eb8d4c"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5906289,
+            "tokens": 546
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "3582c2f273ef551890676482143c071a5ebaa927cbb17d8deb1bcad0f47b834e"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4204683,
+            "tokens": 452
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "4cb91c645cf06a39a0266d4fae422a40913bde0d600e9b253d9ce4164207f633"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3651099,
+            "tokens": 428
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "b01391322d7c2862040286ebd246443bb90959a4d12d5338409f05aed338c4d7"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3644448,
+            "tokens": 396
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "7be71d3ea9736f3f1615a0a6e22cc6e3b0c53557faabb1479b3ceeed4df3ef09"
+        }
+      ],
+      "verified_proposals": 8,
+      "valid_first3": 2,
+      "improved_at3": true,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 2,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 2,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        },
+        {
+          "from_step": 5,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "selected": {
+        "rank_numerator": 52254292080,
+        "raw_heartbeats": 3644448,
+        "raw_samples": [
+          3644404,
+          3644634,
+          3644448
+        ],
+        "sha256": "7be71d3ea9736f3f1615a0a6e22cc6e3b0c53557faabb1479b3ceeed4df3ef09",
+        "tokens": 396
+      },
+      "selected_local_cost": 0.12768061830785907,
+      "final": {
+        "raw_heartbeats": 3644448,
+        "raw_samples": [
+          3644404,
+          3644634,
+          3644448
+        ],
+        "tokens": 396
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 3644,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "returncode": 0,
+                "seconds": 82.700983,
+                "source": "check.lean",
+                "source_sha256": "ef35a84e70deb45067800d48195d43b58407048321cbd0925ab9a037b6ac4898",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "f93830a8857b96804a6f2cb0eafdeb5978d6486213801b386bfbf5cd1f84600c",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3644404,
+                  "scaled": 3644,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 104.678721,
+                "source": "measure-1.lean",
+                "source_sha256": "9231b16b6fedeb8bf1ed306b68a96d88fe0244f8525b1d783d9a49fc8c422076",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "e062a2a7aa416cc0d6466f034d9b7737a0746d356336d4403a097926a8a52194",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3644634,
+                  "scaled": 3644,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 109.121976,
+                "source": "measure-2.lean",
+                "source_sha256": "88a36213d633c2311af6a3d9e3012fc271c1faa375e8759bec94306b71e63313",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "440578d8ec1b9af3fe70981bbbbbf35de634668f108c3da7e25fea4ae17668a7",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3644448,
+                  "scaled": 3644,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 94.624453,
+                "source": "measure-3.lean",
+                "source_sha256": "0323e6e72c428b9564d16baa49ff747cd417fee3119bf038628e72ac14f727ef",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 396,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "943766f0a58dec28a761d3cce93c6bc1f0ff5b3b5221e06f4921f541f24259f0",
+      "final_compiler_invocations": 4,
+      "first_request_sha256": "dda888025d2788b9e365db3d6557ad072369b024f574ccad989ce3b712352adb",
+      "solver_dispatched_at": "2026-10-25T09:59:29.330393+00:00",
+      "solver_completion_observed_at": "2026-10-25T10:48:27.427494+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "summaries": [
+        {
+          "step": 1,
+          "cost_usd": null,
+          "fallback": null,
+          "model_internal_calls": null,
+          "response_sha256": "9395820894acf26a52bfd6859dec330ba86fe73113e3b0d769a9dfaf3da63e86",
+          "status": "accepted",
+          "wait_seconds": 25.373009,
+          "job_dispatched": true,
+          "request": {
+            "details_character_limit": 1600,
+            "diagnostic": {
+              "case": null,
+              "goal": null,
+              "local_context": "",
+              "location": "<RUN>/steps/001/evaluation/fixed/check.lean:41:29",
+              "message": "Type mismatch: After simplification, term\n  heq.left\n has type\n  u i = u j\nbut is expected to have type\n  u (i + 1) = u (j + 1)",
+              "truncated": false
+            },
+            "schema_version": 1,
+            "source_log_sha256": "81f515d4bcc53c94b54fb14aa7a9838fec42987345f28a7b1b6e12f0e6882a87",
+            "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6"
+          },
+          "raw_response": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:41:29\",\"message\":\"Type mismatch: After simplification, term\\n  heq.left\\n has type\\n  u i = u j\\nbut is expected to have type\\n  u (i + 1) = u (j + 1)\",\"truncated\":false}\n",
+          "request_sha256": "6db35733dccd7fe9efc524c6ae200867805f31b35184979d69af513ba9be3183",
+          "input_bytes": 517,
+          "output_bytes": 271,
+          "input_characters": 271,
+          "delivered_characters": 271,
+          "input_goal_characters": 0,
+          "delivered_goal_characters": 0,
+          "input_context_characters": 0,
+          "delivered_context_characters": 0,
+          "same_error_structured_characters": 271,
+          "same_error_structured_details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:41:29\",\"message\":\"Type mismatch: After simplification, term\\n  heq.left\\n has type\\n  u i = u j\\nbut is expected to have type\\n  u (i + 1) = u (j + 1)\",\"truncated\":false}\n",
+          "changed_from_structured": false,
+          "changed_payload_from_structured": false,
+          "changed_from_extracted": false,
+          "message_rewritten_from_source": false,
+          "goal_differs_from_structured": false,
+          "context_differs_from_structured": false,
+          "same_error_structured_goal_characters": 0,
+          "same_error_structured_context_characters": 0,
+          "whole_goal_preserved": true
+        },
+        {
+          "step": 5,
+          "cost_usd": null,
+          "fallback": null,
+          "model_internal_calls": null,
+          "response_sha256": "2810792b89ebcd476c05c07e41586050c2794da628741618d9e312c35cdaf1e4",
+          "status": "accepted",
+          "wait_seconds": 38.551063,
+          "job_dispatched": true,
+          "request": {
+            "details_character_limit": 1600,
+            "diagnostic": {
+              "case": null,
+              "goal": null,
+              "local_context": "",
+              "location": "<RUN>/steps/005/evaluation/fixed/check.lean:35:11",
+              "message": "error(lean.unknownIdentifier): Unknown identifier `hex`",
+              "truncated": false
+            },
+            "schema_version": 1,
+            "source_log_sha256": "956b52ab709a8a850d789216f5d5e5f69cb83f0d746098341ddf20c3ccc5e229",
+            "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6"
+          },
+          "raw_response": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/005/evaluation/fixed/check.lean:35:11\",\"message\":\"error(lean.unknownIdentifier): Unknown identifier `hex`\",\"truncated\":false}\n",
+          "request_sha256": "bd82f9a0fdcddac6c5a6ebeceadc3c91d4dc02fcb4d6fe5a625b13a0d9219cd2",
+          "input_bytes": 440,
+          "output_bytes": 194,
+          "input_characters": 194,
+          "delivered_characters": 194,
+          "input_goal_characters": 0,
+          "delivered_goal_characters": 0,
+          "input_context_characters": 0,
+          "delivered_context_characters": 0,
+          "same_error_structured_characters": 194,
+          "same_error_structured_details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/005/evaluation/fixed/check.lean:35:11\",\"message\":\"error(lean.unknownIdentifier): Unknown identifier `hex`\",\"truncated\":false}\n",
+          "changed_from_structured": false,
+          "changed_payload_from_structured": false,
+          "changed_from_extracted": false,
+          "message_rewritten_from_source": false,
+          "goal_differs_from_structured": false,
+          "context_differs_from_structured": false,
+          "same_error_structured_goal_characters": 0,
+          "same_error_structured_context_characters": 0,
+          "whole_goal_preserved": true
+        }
+      ],
+      "summarizer_job_count": 2,
+      "summary_fallback_count": 0,
+      "changed_feedback_exposures": 0,
+      "early_changed_feedback_exposures": 0
+    },
+    {
+      "trial_id": "P13-S-r1",
+      "problem_id": "P13",
+      "condition": "S",
+      "repetition": 1,
+      "max_proposals": 10,
+      "error_feedback_mode": "structured_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.1742916293401321,
+          "tokens": 550,
+          "raw_heartbeats": 4357837,
+          "code_sha256": "0ddaffcffd7afd9e69aead087c31807933195a67a855df78ffee404f21a68e03"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.12786172927400818,
+          "tokens": 406,
+          "raw_heartbeats": 3032448,
+          "code_sha256": "c49e57a4aef84d2822b51deac05c1853810626fa724013aee119d59da337e89f"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.11125701784732761,
+          "tokens": 347,
+          "raw_heartbeats": 3048961,
+          "code_sha256": "043ae1dd4efd57099ec27e5eb07694e4716607ccd77aaf0bd2487ac2310b1617"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 0.24749942051018747,
+          "tokens": 535,
+          "raw_heartbeats": 22275296,
+          "code_sha256": "5310e51c67bc804a1ddcc65290e718f9b86f7572b4424c8c77f104380de0e671"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.17544059934839007,
+          "tokens": 550,
+          "raw_heartbeats": 4623651,
+          "code_sha256": "893e0de70332a2a4188ed4e27332a71707e4760e3d7868acba8e047313b43c50"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.1742916293401321,
+          "tokens": 550,
+          "raw_heartbeats": 4357837,
+          "code_sha256": "0ddaffcffd7afd9e69aead087c31807933195a67a855df78ffee404f21a68e03"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.1742916293401321,
+          "tokens": 550,
+          "raw_heartbeats": 4357837,
+          "code_sha256": "0ddaffcffd7afd9e69aead087c31807933195a67a855df78ffee404f21a68e03"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.13645421922154155,
+          "tokens": 434,
+          "raw_heartbeats": 3189399,
+          "code_sha256": "be800c36943b59ac328b2797a23ee693bae8601bff8bdba7269e7d91febcbbc3"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.12786172927400818,
+          "tokens": 406,
+          "raw_heartbeats": 3032448,
+          "code_sha256": "c49e57a4aef84d2822b51deac05c1853810626fa724013aee119d59da337e89f"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.12082753748918658,
+          "tokens": 384,
+          "raw_heartbeats": 2843669,
+          "code_sha256": "da6724846eacc54e04939a5c5055ca18708b7eb181f49752002df29a02508b1d"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.11173482671814637,
+          "tokens": 352,
+          "raw_heartbeats": 2832552,
+          "code_sha256": "6d497040860ae7c4a29650598c64e2ff09528ed12fd50cf7458cc012432c8b1e"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.11173482671814637,
+          "tokens": 352,
+          "raw_heartbeats": 2832552,
+          "code_sha256": "6d497040860ae7c4a29650598c64e2ff09528ed12fd50cf7458cc012432c8b1e"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.11125701784732761,
+          "tokens": 347,
+          "raw_heartbeats": 3048961,
+          "code_sha256": "043ae1dd4efd57099ec27e5eb07694e4716607ccd77aaf0bd2487ac2310b1617"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 22275296,
+            "tokens": 535
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "5310e51c67bc804a1ddcc65290e718f9b86f7572b4424c8c77f104380de0e671"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4623651,
+            "tokens": 550
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "893e0de70332a2a4188ed4e27332a71707e4760e3d7868acba8e047313b43c50"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4357837,
+            "tokens": 550
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "0ddaffcffd7afd9e69aead087c31807933195a67a855df78ffee404f21a68e03"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4349438,
+            "tokens": 553
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "f6657d56b283f516e26e96ae442d765c782dfe7ea613966c00823d7149a63060"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3189399,
+            "tokens": 434
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "be800c36943b59ac328b2797a23ee693bae8601bff8bdba7269e7d91febcbbc3"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3032448,
+            "tokens": 406
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "c49e57a4aef84d2822b51deac05c1853810626fa724013aee119d59da337e89f"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2843669,
+            "tokens": 384
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "da6724846eacc54e04939a5c5055ca18708b7eb181f49752002df29a02508b1d"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2832552,
+            "tokens": 352
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "6d497040860ae7c4a29650598c64e2ff09528ed12fd50cf7458cc012432c8b1e"
+        },
+        {
+          "step": 9,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":\"neg\",\"goal\":\"⊢ u (i + m) = u (j + m)\",\"local_context\":\"ih : ∀ m_1 < m, u (i + m_1) = u (j + m_1)\\nhm✝ : ¬m < 4\\nhm : 4 ≤ m\\nhi :\\n  ↑(u (i + m)) =\\n    (↑(u (i + m - 1)) + ↑(u (i + m - 2)) + ↑(u (i + m - 3)) * ↑(u (i + m - 4))) /\\n      (↑(u (i + m - 1)) * ↑(u (i + m - 2)) + ↑(u (i + m - 3)) + ↑(u (i + m - 4)))\\nhj :\\n  ↑(u (j + m)) =\\n    (↑(u (j + m - 1)) + ↑(u (j + m - 2)) + ↑(u (j + m - 3)) * ↑(u (j + m - 4))) /\\n      (↑(u (j + m - 1)) * ↑(u (j + m - 2)) + ↑(u (j + m - 3)) + ↑(u (j + m - 4)))\\nhs : ∀ (k : Fin 4), u (i + m - (↑k + 1)) = u (j + m - (↑k + 1))\",\"location\":\"<RUN>/steps/009/evaluation/fixed/check.lean:37:12\",\"message\":\"Tactic `rewrite` failed: Did not find an occurrence of the pattern\\n  u (i + m - (↑0 + 1))\\nin the target expression\\n  ↑(u (i + m)) =\\n    (↑(u (i + m - 1)) + ↑(u (i + m - 2)) + ↑(u (i + m - 3)) * ↑(u (i + m - 4))) /\\n      (↑(u (i + m - 1)) * ↑(u (i + m - 2)) + ↑(u (i + m - 3)) + ↑(u (i + m - 4)))\",\"truncated\":true}\n",
+          "details_characters": 972,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "ba9e1de49cf6247cc7405058e61c09220cf18c8798103c6384bb115c54b91d90"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3048961,
+            "tokens": 347
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "043ae1dd4efd57099ec27e5eb07694e4716607ccd77aaf0bd2487ac2310b1617"
+        }
+      ],
+      "verified_proposals": 9,
+      "valid_first3": 3,
+      "improved_at3": true,
+      "first_valid_proposal": 1,
+      "first_improvement_proposal": 1,
+      "early_error_feedback_exposures": 0,
+      "error_feedback_exposures": 1,
+      "post_error_transitions": [
+        {
+          "from_step": 9,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 1
+      },
+      "selected": {
+        "rank_numerator": 45532805085,
+        "raw_heartbeats": 3048961,
+        "raw_samples": [
+          3048961,
+          3048960,
+          3049323
+        ],
+        "sha256": "043ae1dd4efd57099ec27e5eb07694e4716607ccd77aaf0bd2487ac2310b1617",
+        "tokens": 347
+      },
+      "selected_local_cost": 0.11125701784732761,
+      "final": {
+        "raw_heartbeats": 3048961,
+        "raw_samples": [
+          3048961,
+          3048960,
+          3049323
+        ],
+        "tokens": 347
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 3048,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "returncode": 0,
+                "seconds": 68.766461,
+                "source": "check.lean",
+                "source_sha256": "0d766bc622e424a37590cd64868f50c3439f4f7a699014b4bb73bf3555d51606",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "0c514573847f97d1fe2892501a1febdb9584986260cc9fc67d9556ff3f0a5dd9",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3048961,
+                  "scaled": 3048,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 84.405126,
+                "source": "measure-1.lean",
+                "source_sha256": "35c4887fa77014f22502f3c2a982b710a4c85b93f39b5b35d5b2d4bc61c0b99a",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "aa0ca97346b15b41c3d2e23ffa73ccf67aa287726718519d6f3f0bf5adb17c6f",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3048960,
+                  "scaled": 3048,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 68.320443,
+                "source": "measure-2.lean",
+                "source_sha256": "db942abff89fc580e8b0aacbd4365e0084fd2df403b9fd6a2488b1b84a833528",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "523750ec1520fd1a358b3c9409e89f7b04b0678c3519f7229e4a521ab72503b9",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3049323,
+                  "scaled": 3049,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 75.630078,
+                "source": "measure-3.lean",
+                "source_sha256": "aa62cebefed960918038a2a9ea0dc90574bb9b248ac6f001ccf36350d7783a6a",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 347,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "6cca6edf2c9d64ccb709e518402656c4fe21c8ba1b917c6ddebb2d7ff388e01f",
+      "final_compiler_invocations": 4,
+      "first_request_sha256": "dda888025d2788b9e365db3d6557ad072369b024f574ccad989ce3b712352adb",
+      "solver_dispatched_at": "2026-10-25T10:14:08.587946+00:00",
+      "solver_completion_observed_at": "2026-10-25T11:11:58.184925+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "summaries": [],
+      "summarizer_job_count": 0,
+      "summary_fallback_count": 0,
+      "changed_feedback_exposures": 0,
+      "early_changed_feedback_exposures": 0
+    },
+    {
+      "trial_id": "P01-M-r1",
+      "problem_id": "P01",
+      "condition": "M",
+      "repetition": 1,
+      "max_proposals": 10,
+      "error_feedback_mode": "semantic_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.3794801198982159,
+          "tokens": 34,
+          "raw_heartbeats": 3364377,
+          "code_sha256": "b7d63d70233cde394a027a784e4554049f109e3d86f57d83bd8e4c5ad45f9fae"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.32418221175205175,
+          "tokens": 34,
+          "raw_heartbeats": 2792231,
+          "code_sha256": "fb5dca29c3b392ac214aefaa5f9da579a0da7424c9dcfa7cced837f7d5febe4d"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.5358731887168698,
+          "tokens": 37,
+          "raw_heartbeats": 4932931,
+          "code_sha256": "1626c92529bf827b85a7909d963862da7662c56bd33bb0e673af4476447a274d"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.5354526775568209,
+          "tokens": 38,
+          "raw_heartbeats": 4912052,
+          "code_sha256": "8b135636e103c57caee046df8a8474f069aabad5b9ccf35d219a02e5b877dd79"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.3794801198982159,
+          "tokens": 34,
+          "raw_heartbeats": 3364377,
+          "code_sha256": "b7d63d70233cde394a027a784e4554049f109e3d86f57d83bd8e4c5ad45f9fae"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.3794801198982159,
+          "tokens": 34,
+          "raw_heartbeats": 3364377,
+          "code_sha256": "b7d63d70233cde394a027a784e4554049f109e3d86f57d83bd8e4c5ad45f9fae"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.3794801198982159,
+          "tokens": 34,
+          "raw_heartbeats": 3364377,
+          "code_sha256": "b7d63d70233cde394a027a784e4554049f109e3d86f57d83bd8e4c5ad45f9fae"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.32418221175205175,
+          "tokens": 34,
+          "raw_heartbeats": 2792231,
+          "code_sha256": "fb5dca29c3b392ac214aefaa5f9da579a0da7424c9dcfa7cced837f7d5febe4d"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.32418221175205175,
+          "tokens": 34,
+          "raw_heartbeats": 2792231,
+          "code_sha256": "fb5dca29c3b392ac214aefaa5f9da579a0da7424c9dcfa7cced837f7d5febe4d"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3100:14\",\"message\":\"simp_all made no progress\",\"truncated\":false}\n",
+          "details_characters": 166,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "52b6164e5a1106d8ce5aa9f717c2f0b35bd4693af57ec21940c373fcb2c9706c"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":\"grind\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ¬[name].Subset [name, h1]\\n  [eqc] False propositions\\n    [prop] [name].Subset [name, h1]\",\"local_context\":\"h1 :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty_1 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\",\"location\":\"<RUN>/steps/002/evaluation/fixed/check.lean:3101:14\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "details_characters": 712,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "10f7791398623160111f10518c9f8679f935e8172052860350d83bb65fbef587"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 12278705,
+            "tokens": 29
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "a4563ad9c4f12c29147c84c1fb04757c8fe19401144126cbe5a8b2fdbd5de1f7"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4932931,
+            "tokens": 37
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "1626c92529bf827b85a7909d963862da7662c56bd33bb0e673af4476447a274d"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4912052,
+            "tokens": 38
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "8b135636e103c57caee046df8a8474f069aabad5b9ccf35d219a02e5b877dd79"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3364377,
+            "tokens": 34
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "b7d63d70233cde394a027a784e4554049f109e3d86f57d83bd8e4c5ad45f9fae"
+        },
+        {
+          "step": 7,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/007/evaluation/fixed/check.lean:3101:4\",\"message\":\"No goals to be solved\",\"truncated\":false}\n",
+          "details_characters": 161,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "0c36b7e17adcd8a8f3ebb3a04b4213d9d6afda5d7663bfe8426f932b012ffd92"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3301967,
+            "tokens": 38
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "710b203b803a32339b81f1a89393b2139b640f6d66b40e69c9e6e1e7ad95e143"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2792231,
+            "tokens": 34
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "fb5dca29c3b392ac214aefaa5f9da579a0da7424c9dcfa7cced837f7d5febe4d"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2972869,
+            "tokens": 40
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "c77bfebda68e658bebbcaae7aec5ced17a44e164d0b63e5b9fe7563f73186c9b"
+        }
+      ],
+      "verified_proposals": 7,
+      "valid_first3": 1,
+      "improved_at3": false,
+      "first_valid_proposal": 3,
+      "first_improvement_proposal": 4,
+      "early_error_feedback_exposures": 2,
+      "error_feedback_exposures": 3,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": false
+        },
+        {
+          "from_step": 2,
+          "next_valid": true
+        },
+        {
+          "from_step": 7,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 3
+      },
+      "selected": {
+        "rank_numerator": 1049860707,
+        "raw_heartbeats": 2792231,
+        "raw_samples": [
+          2792324,
+          2792226,
+          2792231
+        ],
+        "sha256": "fb5dca29c3b392ac214aefaa5f9da579a0da7424c9dcfa7cced837f7d5febe4d",
+        "tokens": 34
+      },
+      "selected_local_cost": 0.32418221175205175,
+      "final": {
+        "raw_heartbeats": 2792350,
+        "raw_samples": [
+          2792364,
+          2792350,
+          2792275
+        ],
+        "tokens": 34
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2792,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "97c8dbe27e7ea14cfe2ba0868f61ca1d6d6dbbadd1f884133d5ace194277f419",
+                "returncode": 0,
+                "seconds": 19.925473,
+                "source": "check.lean",
+                "source_sha256": "e1be45ed7fbccd6955fa1e5a22d6bc3cf5c8a0df3fdf1cb27c6b11b7eeb792f2",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "80d131e9146b401d10d09dd1fc0bd0a36a51f7ddfcaa179deb1e82f608bfce2d",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2792364,
+                  "scaled": 2792,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 21.747841,
+                "source": "measure-1.lean",
+                "source_sha256": "d51c2cc3e71bb18ac9f4ad7768b52462e45b508987af05fe91a010e4376b3617",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "d926e366f58d65f900b6ebb57fa568f971817414f6be90c0e19e453fcd75aeda",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2792350,
+                  "scaled": 2792,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 24.824604,
+                "source": "measure-2.lean",
+                "source_sha256": "cac8fd206e2300020cd64adf44d488f694850e9860a608a1da2a955c94be7b3f",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "476e30f8721147bdace99b0bfec7fcb30b13414b0bce9d25875feb7e964c56ce",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2792275,
+                  "scaled": 2792,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 23.258887,
+                "source": "measure-3.lean",
+                "source_sha256": "5ce986b52c2834139cde76ee909166d6ce92b1ea1176fe2da7a37019e87dc393",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 34,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "e70e5743338fa2e8fbb82bcb68289f2b8dc727b232da585c9a4dc243d8a1c829",
+      "final_compiler_invocations": 4,
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "solver_dispatched_at": "2026-10-25T10:48:39.791170+00:00",
+      "solver_completion_observed_at": "2026-10-25T11:05:38.712357+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "summaries": [
+        {
+          "step": 1,
+          "cost_usd": null,
+          "fallback": null,
+          "model_internal_calls": null,
+          "response_sha256": "b5a13ee8341c5e174a1212ba01d6044707c05fa6fd4f6b88d6af1b2b1d496492",
+          "status": "accepted",
+          "wait_seconds": 26.701858,
+          "job_dispatched": true,
+          "request": {
+            "details_character_limit": 1600,
+            "diagnostic": {
+              "case": null,
+              "goal": null,
+              "local_context": "",
+              "location": "<RUN>/steps/001/evaluation/fixed/check.lean:3100:14",
+              "message": "simp_all made no progress",
+              "truncated": false
+            },
+            "schema_version": 1,
+            "source_log_sha256": "e87b324a67da3e8470fae8300d8c0988838ec842df47f0ef34d406cd1fde9027",
+            "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6"
+          },
+          "raw_response": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3100:14\",\"message\":\"simp_all made no progress\",\"truncated\":false}\n",
+          "request_sha256": "9aef98b8f972a6d52ef9df30c19c3e211e5e66ea91e1514a831a1fbaa1b22ee0",
+          "input_bytes": 412,
+          "output_bytes": 166,
+          "input_characters": 166,
+          "delivered_characters": 166,
+          "input_goal_characters": 0,
+          "delivered_goal_characters": 0,
+          "input_context_characters": 0,
+          "delivered_context_characters": 0,
+          "same_error_structured_characters": 166,
+          "same_error_structured_details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3100:14\",\"message\":\"simp_all made no progress\",\"truncated\":false}\n",
+          "changed_from_structured": false,
+          "changed_payload_from_structured": false,
+          "changed_from_extracted": false,
+          "message_rewritten_from_source": false,
+          "goal_differs_from_structured": false,
+          "context_differs_from_structured": false,
+          "same_error_structured_goal_characters": 0,
+          "same_error_structured_context_characters": 0,
+          "whole_goal_preserved": true
+        },
+        {
+          "step": 2,
+          "cost_usd": null,
+          "fallback": null,
+          "model_internal_calls": null,
+          "response_sha256": "12258295f3627a4fa9606ea82ea60e551967b86da0ce00b9069e465943a62c1d",
+          "status": "accepted",
+          "wait_seconds": 17.639162,
+          "job_dispatched": true,
+          "request": {
+            "details_character_limit": 1600,
+            "diagnostic": {
+              "case": "grind",
+              "goal": "⊢ False\n[grind] Goal diagnostics\n  [facts] Asserted facts\n    [prop] ¬[name].Subset [name, h1]\n  [eqc] False propositions\n    [prop] [name].Subset [name, h1]",
+              "local_context": "EvalEnv := Lambda.LState { Metadata := ExpressionMetadata, IDMeta := Visibility } }.Ident\nm : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\nh1 :\n  Lambda.Identifier\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\nty : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\nm_1 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\nname :\n  Lambda.Identifier\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\nty_1 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\nh : ¬[name].Subset [name, h1]",
+              "location": "<RUN>/steps/002/evaluation/fixed/check.lean:3101:14",
+              "message": "`grind` failed",
+              "truncated": true
+            },
+            "schema_version": 1,
+            "source_log_sha256": "c12aa0c5275445fd3dc0c526d70d9dd3b901b8bae512baae6306f64fe65f1e6a",
+            "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6"
+          },
+          "raw_response": "{\"case\":\"grind\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ¬[name].Subset [name, h1]\\n  [eqc] False propositions\\n    [prop] [name].Subset [name, h1]\",\"local_context\":\"h1 :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty_1 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\",\"location\":\"<RUN>/steps/002/evaluation/fixed/check.lean:3101:14\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "request_sha256": "55ec77bc53770551e874e45eeaae90e4267575a2838795faebfbc84c5f4e772a",
+          "input_bytes": 1445,
+          "output_bytes": 715,
+          "input_characters": 1195,
+          "delivered_characters": 712,
+          "input_goal_characters": 157,
+          "delivered_goal_characters": 157,
+          "input_context_characters": 867,
+          "delivered_context_characters": 390,
+          "same_error_structured_characters": 976,
+          "same_error_structured_details": "{\"case\":\"grind\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ¬[name].Subset [name, h1]\\n  [eqc] False propositions\\n    [prop] [name].Subset [name, h1]\",\"local_context\":\"EvalEnv := Lambda.LState { Metadata := ExpressionMetadata, IDMeta := Visibility } }.Ident\\nm : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nh1 :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm_1 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nname :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadat\",\"location\":\"<RUN>/steps/002/evaluation/fixed/check.lean:3101:14\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "changed_from_structured": true,
+          "changed_payload_from_structured": true,
+          "changed_from_extracted": true,
+          "message_rewritten_from_source": false,
+          "goal_differs_from_structured": false,
+          "context_differs_from_structured": true,
+          "same_error_structured_goal_characters": 157,
+          "same_error_structured_context_characters": 650,
+          "whole_goal_preserved": true
+        },
+        {
+          "step": 7,
+          "cost_usd": null,
+          "fallback": null,
+          "model_internal_calls": null,
+          "response_sha256": "31c9c6031dcb74c3f8cf07f66f15eeb92b4b23d7d9d8a6e572c6ba20c54b0fb0",
+          "status": "accepted",
+          "wait_seconds": 18.630723,
+          "job_dispatched": true,
+          "request": {
+            "details_character_limit": 1600,
+            "diagnostic": {
+              "case": null,
+              "goal": null,
+              "local_context": "",
+              "location": "<RUN>/steps/007/evaluation/fixed/check.lean:3101:4",
+              "message": "No goals to be solved",
+              "truncated": false
+            },
+            "schema_version": 1,
+            "source_log_sha256": "21b0c807847a1e4f2f9caa62b7b3a0d00b82d1eabbe0d97ccb736a38500a1b1d",
+            "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6"
+          },
+          "raw_response": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/007/evaluation/fixed/check.lean:3101:4\",\"message\":\"No goals to be solved\",\"truncated\":false}\n",
+          "request_sha256": "b743649a25c807846211789a4a9743d417e0faec2c31f727894b686ef321eaf9",
+          "input_bytes": 407,
+          "output_bytes": 161,
+          "input_characters": 161,
+          "delivered_characters": 161,
+          "input_goal_characters": 0,
+          "delivered_goal_characters": 0,
+          "input_context_characters": 0,
+          "delivered_context_characters": 0,
+          "same_error_structured_characters": 161,
+          "same_error_structured_details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/007/evaluation/fixed/check.lean:3101:4\",\"message\":\"No goals to be solved\",\"truncated\":false}\n",
+          "changed_from_structured": false,
+          "changed_payload_from_structured": false,
+          "changed_from_extracted": false,
+          "message_rewritten_from_source": false,
+          "goal_differs_from_structured": false,
+          "context_differs_from_structured": false,
+          "same_error_structured_goal_characters": 0,
+          "same_error_structured_context_characters": 0,
+          "whole_goal_preserved": true
+        }
+      ],
+      "summarizer_job_count": 3,
+      "summary_fallback_count": 0,
+      "changed_feedback_exposures": 1,
+      "early_changed_feedback_exposures": 1
+    },
+    {
+      "trial_id": "P01-M-r2",
+      "problem_id": "P01",
+      "condition": "M",
+      "repetition": 2,
+      "max_proposals": 10,
+      "error_feedback_mode": "semantic_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.5236231566219693,
+          "tokens": 42,
+          "raw_heartbeats": 4723544,
+          "code_sha256": "b5435a42855adc3c08c667e22cada61ec2ef0f318ccf949c2eea6ed0a52b3d72"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.3144013619292339,
+          "tokens": 44,
+          "raw_heartbeats": 2525751,
+          "code_sha256": "090cb95cde76e70686096df794b7ae170b8536828f53e3d81652f76d5f0533ba"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.28082097171351816,
+          "tokens": 42,
+          "raw_heartbeats": 2211364,
+          "code_sha256": "b2325171af4dbe252583a5c009b0e3e77fe3335f7a3ed7ecd662a0f177193e06"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.5236231566219693,
+          "tokens": 42,
+          "raw_heartbeats": 4723544,
+          "code_sha256": "b5435a42855adc3c08c667e22cada61ec2ef0f318ccf949c2eea6ed0a52b3d72"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.39751813484001863,
+          "tokens": 44,
+          "raw_heartbeats": 3385728,
+          "code_sha256": "cd060d93e1bd0320fa102f68d541d6c874865246bb01ebf13c950b7f97beee47"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.3420669398014881,
+          "tokens": 44,
+          "raw_heartbeats": 2811996,
+          "code_sha256": "3847ddd534f1b41fa25b63f6e1582768ea5547269ff305caad4c2f021b1a57ba"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.3144013619292339,
+          "tokens": 44,
+          "raw_heartbeats": 2525751,
+          "code_sha256": "090cb95cde76e70686096df794b7ae170b8536828f53e3d81652f76d5f0533ba"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.3144013619292339,
+          "tokens": 44,
+          "raw_heartbeats": 2525751,
+          "code_sha256": "090cb95cde76e70686096df794b7ae170b8536828f53e3d81652f76d5f0533ba"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.3013428266865777,
+          "tokens": 47,
+          "raw_heartbeats": 2341055,
+          "code_sha256": "c3fe7ce34c18053e063ad90d5c6a2e16f213275bbf62b65790bd5dfa8e55cd11"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.2945689762168867,
+          "tokens": 44,
+          "raw_heartbeats": 2320553,
+          "code_sha256": "8d2632356f45353d4e223c4115e1f6e35e31d308b3e960490ba8dc1fb3bd64a2"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.28082097171351816,
+          "tokens": 42,
+          "raw_heartbeats": 2211364,
+          "code_sha256": "b2325171af4dbe252583a5c009b0e3e77fe3335f7a3ed7ecd662a0f177193e06"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":\"grind.1.1\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) →\\n            a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e) →\\n            a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\\n    [prop] a ∈\\n          Lambda.LExpr.LExpr.getVars\\n            (match fn, e with\\n            | Lambda.LExpr.op m_4 { name := \\\"old\\\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\\n              if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\\n            | x, x_1 =>\\n              Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\\n                (substOld h2 (Lambda.LExpr.fvar m h1 ty) e))\\n    [prop] ¬a ∈ Lambda.LExpr.LExpr.getVars fn\\n    [prop] ¬a ∈ Lambda.LExpr.LExpr.getVars e\\n    [prop] ¬a = h1\",\"local_context\":\"left_1 : ¬a ∈ Lambda.LExpr.LExpr.getVars e\\nright_1 : ¬a = h1\\nx :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nh_2 : fn = Lambda.LExpr.op m_2 { name := \\\"old\\\", metadata := Visibility.unres } ty_1\\nh_3 : e = Lambda.LExpr.fvar m_3 x ty_2\\nh_4 : x = h2\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3096:119\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "details_characters": 1525,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "88febbeea2b5e7b0d642738c80ac0821e834b0ddd04708d96c3a9808fefa03c6"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 10062566,
+            "tokens": 39
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "de376ff3c21b9cce5e86769124541189fb72b403a605a0fa128c056bbab22f01"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4723544,
+            "tokens": 42
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "b5435a42855adc3c08c667e22cada61ec2ef0f318ccf949c2eea6ed0a52b3d72"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3385728,
+            "tokens": 44
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "cd060d93e1bd0320fa102f68d541d6c874865246bb01ebf13c950b7f97beee47"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2811996,
+            "tokens": 44
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "3847ddd534f1b41fa25b63f6e1582768ea5547269ff305caad4c2f021b1a57ba"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2525751,
+            "tokens": 44
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "090cb95cde76e70686096df794b7ae170b8536828f53e3d81652f76d5f0533ba"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2646784,
+            "tokens": 50
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "f0edea481bb2e7efd41f441ba2a689fcffdbe77ce2d979364dfa9ecacf81b207"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2341055,
+            "tokens": 47
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "c3fe7ce34c18053e063ad90d5c6a2e16f213275bbf62b65790bd5dfa8e55cd11"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2320553,
+            "tokens": 44
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "8d2632356f45353d4e223c4115e1f6e35e31d308b3e960490ba8dc1fb3bd64a2"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2211364,
+            "tokens": 42
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "b2325171af4dbe252583a5c009b0e3e77fe3335f7a3ed7ecd662a0f177193e06"
+        }
+      ],
+      "verified_proposals": 9,
+      "valid_first3": 2,
+      "improved_at3": true,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 3,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 1,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 1
+      },
+      "selected": {
+        "rank_numerator": 909435784,
+        "raw_heartbeats": 2211364,
+        "raw_samples": [
+          2211297,
+          2211364,
+          2211446
+        ],
+        "sha256": "b2325171af4dbe252583a5c009b0e3e77fe3335f7a3ed7ecd662a0f177193e06",
+        "tokens": 42
+      },
+      "selected_local_cost": 0.28082097171351816,
+      "final": {
+        "raw_heartbeats": 2211321,
+        "raw_samples": [
+          2211288,
+          2211416,
+          2211321
+        ],
+        "tokens": 42
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2211,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "8dfed171fb07b699ccfde6bbd851fee4d0bae40e5615d970412863289d8e41ca",
+                "returncode": 0,
+                "seconds": 18.690059,
+                "source": "check.lean",
+                "source_sha256": "e9a0698e391a5a9c3fbf8b88b702436db169bb0f61798e16bb8ed84cce7af5d1",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "d680a322744efee3dc07e5a87d8c9f01a91c780adb8350bbdf8cdb5b38d9ca9f",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2211288,
+                  "scaled": 2211,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 20.370183,
+                "source": "measure-1.lean",
+                "source_sha256": "422069f2f1609cee63aa2133368cc1c691d8974eee38851379a4b9948fc09f6d",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "e4c33b01040374ef5558b123584445076827704ba0daa14a89811f3322890cc7",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2211416,
+                  "scaled": 2211,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 21.390267,
+                "source": "measure-2.lean",
+                "source_sha256": "e255af2a936b216919a0b94b16f119e3332d267fab2bdef0400d3f1ef684b09d",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-M-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "466c04238e9ed4e5e44e33da27acf3728b4a8c1928ff6f806c278219fd06e3ce",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2211321,
+                  "scaled": 2211,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 20.325886,
+                "source": "measure-3.lean",
+                "source_sha256": "6cc63b2050430af54b151da0d28054be5c540f97516db01f1bb0996c5afbe82f",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 42,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "50626407536a0f40e93479593d05fae14c7c0a23281783d00b54ed99fa8a12d7",
+      "final_compiler_invocations": 4,
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "solver_dispatched_at": "2026-10-25T11:05:49.442590+00:00",
+      "solver_completion_observed_at": "2026-10-25T11:23:58.685919+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "summaries": [
+        {
+          "step": 1,
+          "cost_usd": null,
+          "fallback": null,
+          "model_internal_calls": null,
+          "response_sha256": "35a21c5fefa448c2c98e27e1079bb39c9da6fb4ed1e623f99e67cd05a5727a0d",
+          "status": "accepted",
+          "wait_seconds": 35.750484,
+          "job_dispatched": true,
+          "request": {
+            "details_character_limit": 1600,
+            "diagnostic": {
+              "case": "grind.1.1",
+              "goal": "⊢ False\n[grind] Goal diagnostics\n  [facts] Asserted facts\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) →\n            a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e) →\n            a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\n    [prop] a ∈\n          Lambda.LExpr.LExpr.getVars\n            (match fn, e with\n            | Lambda.LExpr.op m_4 { name := \"old\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\n              if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n            | x, x_1 =>\n              Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n                (substOld h2 (Lambda.LExpr.fvar m h1 ty) e))\n    [prop] ¬a ∈ Lambda.LExpr.LExpr.getVars fn\n    [prop] ¬a ∈ Lambda.LExpr.LExpr.getVars e\n    [prop] ¬a = h1\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) →\n          a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e) →\n          a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\n    [prop] (∀\n            (m :\n              { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.base.Metadata)\n            (ty :\n              Option\n                { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.TypeType)\n            (m_4 :\n              { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.base.Metadata)\n            (x :\n              Lambda.Identifier\n                { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                      TypeType := Lambda.LMonoTy }.base.IDMeta)\n            (ty_3 :\n              Option\n                { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.TypeType),\n            fn = Lambda.LExpr.op m { name := \"old\", metadata := Visibility.unres } ty →\n              e = Lambda.LExpr.fvar m_4 x ty_3 → False) →\n          (match fn, e with\n            | Lambda.LExpr.op m_4 { name := \"old\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\n              if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n            | x, x_1 =>\n              Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n                (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)) =\n            Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n              (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)\n    [prop] fn = Lambda.LExpr.op m_2 { name := \"old\", metadata := Visibility.unres } ty_1\n    [prop] e = Lambda.LExpr.fvar m_3 x ty_2\n    [prop] (match fn, e with\n          | Lambda.LExpr.op m_4 { name := \"old\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\n            if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n          | x, x_1 =>\n            Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n              (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)) =\n          if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n    [prop] x = h2\n  [eqc] True propositions\n    [prop] a ∈\n          Lambda.LExpr.LExpr.getVars\n            (match fn, e with\n            | Lambda.LExpr.op m_4 { name := \"old\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\n              if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n            | x, x_1 =>\n              Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n                (substOld h2 (Lambda.LExpr.fvar m h1 ty) e))\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) →\n            a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e) →\n            a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\n    [prop] (∀\n            (m :\n              { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.base.Metadata)\n            (ty :\n              Option\n                { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.TypeType)\n            (m_4 :\n              { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.base.Metadata)\n            (x :\n              Lambda.Identifier\n                { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                      TypeType := Lambda.LMonoTy }.base.IDMeta)\n            (ty_3 :\n              Option\n                { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.TypeType),\n            fn = Lambda.LExpr.op m { name := \"old\", metadata := Visibility.unres } ty →\n              e = Lambda.LExpr.fvar m_4 x ty_3 → False) →\n          (match fn, e with\n            | Lambda.LExpr.op m_4 { name := \"old\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\n              if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n            | x, x_1 =>\n              Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n                (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)) =\n            Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n              (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) →\n          a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e) →\n          a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\n    [prop] x = h2\n  [eqc] False propositions\n    [prop] a = h1\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars fn\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars e\n    [prop] ∀\n          (m :\n            { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                  TypeType := Lambda.LMonoTy }.base.Metadata)\n          (ty :\n            Option\n              { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType)\n          (m_4 :\n            { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                  TypeType := Lambda.LMonoTy }.base.Metadata)\n          (x :\n            Lambda.Identifier\n              { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                    TypeType := Lambda.LMonoTy }.base.IDMeta)\n          (ty_3 :\n            Option\n              { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                  TypeType := Lambda.LMonoTy }.TypeType),\n          fn = Lambda.LExpr.op m { name := \"old\", metadata := Visibility.unres } ty →\n            e = Lambda.LExpr.fvar m_4 x ty_3 → False\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\n    [prop] (match fn, e with\n          | Lambda.LExpr.op m_4 { name := \"old\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\n            if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n          | x, x_1 =>\n            Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n              (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)) =\n          Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n    [prop] a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)\n    [prop] (fun x_0 x_1 =>\n            ∀\n              (m :\n                { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                      TypeType := Lambda.LMonoTy }.base.Metadata)\n              (ty :\n                Option\n                  { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                      TypeType := Lambda.LMonoTy }.TypeType)\n              (m_4 :\n                { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                      TypeType := Lambda.LMonoTy }.base.Metadata)\n              (x :\n                Lambda.Identifier\n                  { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                        TypeType := Lambda.LMonoTy }.base.IDMeta)\n              (ty_3 :\n                Option\n                  { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n                      TypeType := Lambda.LMonoTy }.TypeType),\n              x_0 = Lambda.LExpr.op m { name := \"old\", metadata := Visibility.unres } ty →\n                x_1 = Lambda.LExpr.fvar m_4 x ty_3 → False)\n          fn e\n  [eqc] Equivalence classes\n    [eqc] {h2, x}\n    [eqc] {fn, Lambda.LExpr.op m_2 { name := \"old\", metadata := Visibility.unres } ty_1}\n    [eqc] {e, Lambda.LExpr.fvar m_3 x ty_2}\n    [eqc] others\n      [eqc] {Lambda.LExpr.fvar m h1 ty,\n          match fn, e with\n          | Lambda.LExpr.op m_4 { name := \"old\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\n            if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n          | x, x_1 =>\n            Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\n              (substOld h2 (Lambda.LExpr.fvar m h1 ty) e),\n          if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e}\n  [cases] Case analyses\n    [cases] [1/2]: match fn, e with\n        | Lambda.LExpr.op m_4 { name := \"old\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\n          if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n        | x, x_1 =>\n          Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)\n      [cases] source: Initial goal\n    [cases] [1/2]: if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\n      [cases] source: E-matching substOld.match_1.congr_eq_1\n  [ematch] E-matching patterns\n    [thm] fn_ih: [@Membership.mem `[Lambda.Identifier\n           Visibility] `[List\n           (Lambda.Identifier\n             Visibility)] `[List.instMembership] `[Lambda.LExpr.LExpr.getVars\n           (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)] #1]\n    [thm] fn_ih: [@Membership.mem `[Lambda.Identifier\n           Visibility] `[List\n           (Lambda.Identifier Visibility)] `[List.instMembership] `[Lambda.LExpr.LExpr.getVars fn] #1]\n    [thm] e_ih: [@Membership.mem `[Lambda.Identifier\n           Visibility] `[List\n           (Lambda.Identifier\n             Visibility)] `[List.instMembership] `[Lambda.LExpr.LExpr.getVars\n           (substOld h2 (Lambda.LExpr.fvar m h1 ty) e)] #1]\n    [thm] e_ih: [@Membership.mem `[Lambda.Identifier\n           Visibility] `[List (Lambda.Identifier Visibility)] `[List.instMembership] `[Lambda.LExpr.LExpr.getVars e] #1]\n    [thm] substOld.match_1.congr_eq_1: [substOld.match_1 #11 (@Lean.Grind.genPattern `[Lambda.LExpr\n            { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n              TypeType :=\n                Lambda.LMonoTy }] #1 #10 (@Lambda.LExpr.op `[{\n             base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n             TypeType :=\n               Lambda.LMonoTy }] #6 `[{ name := \"old\",\n             metadata :=\n               Visibility.unres }] #5)) (@Lean.Grind.genPattern `[Lambda.LExpr\n            { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n              TypeType :=\n                Lambda.LMonoTy }] #0 #9 (@Lambda.LExpr.fvar `[{\n             base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n             TypeType := Lambda.LMonoTy }] #4 #3 #2)) #8 #7]\n    [thm] substOld.match_1.congr_eq_2: [substOld.match_1 #9 (@Lean.Grind.genPattern `[Lambda.LExpr\n            { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n              TypeType :=\n                Lambda.LMonoTy }] #2 #8 #4) (@Lean.Grind.genPattern `[Lambda.LExpr\n            { base := { Metadata := ExpressionMetadata, IDMeta := Visibility },\n              TypeType := Lambda.LMonoTy }] #1 #7 #3) #6 #5]\n[grind] Diagnostics\n  [thm] E-Matching instances\n    [thm] substOld.match_1.congr_eq_1 ↦ 1\n    [thm] substOld.match_1.congr_eq_2 ↦ 1",
+              "local_context": "left_1 : ¬a ∈ Lambda.LExpr.LExpr.getVars e\nright_1 : ¬a = h1\nm_2 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\nty_1 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\nm_3 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\nx :\n  Lambda.Identifier\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\nty_2 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\nh_2 : fn = Lambda.LExpr.op m_2 { name := \"old\", metadata := Visibility.unres } ty_1\nh_3 : e = Lambda.LExpr.fvar m_3 x ty_2\nh_4 : x = h2",
+              "location": "<RUN>/steps/001/evaluation/fixed/check.lean:3096:119",
+              "message": "`grind` failed",
+              "truncated": true
+            },
+            "schema_version": 1,
+            "source_log_sha256": "2af43635c938c8e50c388ad5385d2bc9b9d7d3d04e7636616e64c888d783a2cf",
+            "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6"
+          },
+          "raw_response": "{\"case\":\"grind.1.1\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) →\\n            a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e) →\\n            a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\\n    [prop] a ∈\\n          Lambda.LExpr.LExpr.getVars\\n            (match fn, e with\\n            | Lambda.LExpr.op m_4 { name := \\\"old\\\", metadata := Visibility.unres } ty_3, Lambda.LExpr.fvar m_5 x ty_4 =>\\n              if x = h2 then Lambda.LExpr.fvar m h1 ty else Lambda.LExpr.app m_1 fn e\\n            | x, x_1 =>\\n              Lambda.LExpr.app m_1 (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn)\\n                (substOld h2 (Lambda.LExpr.fvar m h1 ty) e))\\n    [prop] ¬a ∈ Lambda.LExpr.LExpr.getVars fn\\n    [prop] ¬a ∈ Lambda.LExpr.LExpr.getVars e\\n    [prop] ¬a = h1\",\"local_context\":\"left_1 : ¬a ∈ Lambda.LExpr.LExpr.getVars e\\nright_1 : ¬a = h1\\nx :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nh_2 : fn = Lambda.LExpr.op m_2 { name := \\\"old\\\", metadata := Visibility.unres } ty_1\\nh_3 : e = Lambda.LExpr.fvar m_3 x ty_2\\nh_4 : x = h2\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3096:119\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "request_sha256": "350a6a4a53ad0aa3ef8807098e4915493de2157edb5c4efb350038d2de2bdfd7",
+          "input_bytes": 14531,
+          "output_bytes": 1568,
+          "input_characters": 14132,
+          "delivered_characters": 1525,
+          "input_goal_characters": 12891,
+          "delivered_goal_characters": 1002,
+          "input_context_characters": 807,
+          "delivered_context_characters": 333,
+          "same_error_structured_characters": 1329,
+          "same_error_structured_details": "{\"case\":\"grind.1.1\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) fn) →\\n            a ∈ Lambda.LExpr.LExpr.getVars fn ∨ a = h1\\n    [prop] ∀ ⦃a : Lambda.Identifier Visibility⦄,\\n          a ∈ Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e) →\\n            a ∈ Lambda.LExpr.LExpr.getVars e ∨ a = h1\\n    [prop] a ∈\\n          Lambda.LExpr.LExpr.getVars\\n        \",\"local_context\":\"left_1 : ¬a ∈ Lambda.LExpr.LExpr.getVars e\\nright_1 : ¬a = h1\\nm_2 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nty_1 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm_3 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nx :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty_2 : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lamb\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3096:119\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "changed_from_structured": true,
+          "changed_payload_from_structured": true,
+          "changed_from_extracted": true,
+          "message_rewritten_from_source": false,
+          "goal_differs_from_structured": true,
+          "context_differs_from_structured": true,
+          "same_error_structured_goal_characters": 500,
+          "same_error_structured_context_characters": 650,
+          "whole_goal_preserved": false
+        }
+      ],
+      "summarizer_job_count": 1,
+      "summary_fallback_count": 0,
+      "changed_feedback_exposures": 1,
+      "early_changed_feedback_exposures": 1
+    },
+    {
+      "trial_id": "P13-S-r2",
+      "problem_id": "P13",
+      "condition": "S",
+      "repetition": 2,
+      "max_proposals": 10,
+      "error_feedback_mode": "structured_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.16034438707807436,
+          "tokens": 489,
+          "raw_heartbeats": 5119935,
+          "code_sha256": "aa60d0a358802961b0500c889919aaf1affaec6c8640dcdd0fbdac276d5fe2a9"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.14814652151484378,
+          "tokens": 448,
+          "raw_heartbeats": 4978951,
+          "code_sha256": "8b5aa2a8e3895f4bb6fd01dfa741848447c101960ebcdeecaf9705c828cb2422"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.13735307460309923,
+          "tokens": 410,
+          "raw_heartbeats": 4966709,
+          "code_sha256": "f39d38df455f1d114811ef84ce5764baa44df5302546fc4cb92b8ea04a8f4daf"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 1769,
+          "raw_heartbeats": 115674908,
+          "code_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.1955884128471138,
+          "tokens": 598,
+          "raw_heartbeats": 6146124,
+          "code_sha256": "ecd2e2f54fe3cd05d2c5e2411c3d0a02a50b2e3eaf169afc00cb4979f105ce01"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.16034438707807436,
+          "tokens": 489,
+          "raw_heartbeats": 5119935,
+          "code_sha256": "aa60d0a358802961b0500c889919aaf1affaec6c8640dcdd0fbdac276d5fe2a9"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.16034438707807436,
+          "tokens": 489,
+          "raw_heartbeats": 5119935,
+          "code_sha256": "aa60d0a358802961b0500c889919aaf1affaec6c8640dcdd0fbdac276d5fe2a9"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.14814652151484378,
+          "tokens": 448,
+          "raw_heartbeats": 4978951,
+          "code_sha256": "8b5aa2a8e3895f4bb6fd01dfa741848447c101960ebcdeecaf9705c828cb2422"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.14814652151484378,
+          "tokens": 448,
+          "raw_heartbeats": 4978951,
+          "code_sha256": "8b5aa2a8e3895f4bb6fd01dfa741848447c101960ebcdeecaf9705c828cb2422"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.14814652151484378,
+          "tokens": 448,
+          "raw_heartbeats": 4978951,
+          "code_sha256": "8b5aa2a8e3895f4bb6fd01dfa741848447c101960ebcdeecaf9705c828cb2422"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.14814652151484378,
+          "tokens": 448,
+          "raw_heartbeats": 4978951,
+          "code_sha256": "8b5aa2a8e3895f4bb6fd01dfa741848447c101960ebcdeecaf9705c828cb2422"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.14814652151484378,
+          "tokens": 448,
+          "raw_heartbeats": 4978951,
+          "code_sha256": "8b5aa2a8e3895f4bb6fd01dfa741848447c101960ebcdeecaf9705c828cb2422"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.13735307460309923,
+          "tokens": 410,
+          "raw_heartbeats": 4966709,
+          "code_sha256": "f39d38df455f1d114811ef84ce5764baa44df5302546fc4cb92b8ea04a8f4daf"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:55:29\",\"message\":\"Application type mismatch: The argument\\n  Eq.symm (hr (j + m))\\nhas type\\n  (↑(u (j + m + 3)) + ↑(u (j + m + 2)) + ↑(u (j + m + 1)) * ↑(u (j + m))) /\\n      (↑(u (j + m + 3)) * ↑(u (j + m + 2)) + ↑(u (j + m + 1)) + ↑(u (j + m))) =\\n    ↑(u (j + m + 4))\\nbut is expected to have type\\n  (↑(u (i + m + 3)) + ↑(u (i + m + 2)) + ↑(u (i + m + 1)) * ↑(u (i + m))) /\\n      (↑(u (i + m + 3)) * ↑(u (i + m + 2)) + ↑(u (i + m + 1)) + ↑(u (i + m))) =\\n    ?m.761\\nin the application\\n  Eq.trans (hr (i + m)) (Eq.symm (hr (j + m)))\",\"truncated\":false}\n",
+          "details_characters": 660,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "b979a9b4143a3f4662029076c7c41f8065087354d9f4e86b98c5136fd73661d4"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6146124,
+            "tokens": 598
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "ecd2e2f54fe3cd05d2c5e2411c3d0a02a50b2e3eaf169afc00cb4979f105ce01"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5119935,
+            "tokens": 489
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "aa60d0a358802961b0500c889919aaf1affaec6c8640dcdd0fbdac276d5fe2a9"
+        },
+        {
+          "step": 4,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/004/evaluation/fixed/check.lean:44:33\",\"message\":\"Invalid argument name `R` for function `Int.cast_injective`\\n\\nHint: Perhaps you meant one of the following parameter names:\\n  • `α`: R̵α̲\\n  • `a₁`: R̵a̲₁̲\\n  • `a₂`: R̵a̲₂̲\",\"truncated\":false}\n",
+          "details_characters": 314,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "a281c90d695305b03c0f1679c78e2928756e6c60a1108eb397d31c4e67c3aba6"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4978951,
+            "tokens": 448
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "8b5aa2a8e3895f4bb6fd01dfa741848447c101960ebcdeecaf9705c828cb2422"
+        },
+        {
+          "step": 6,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/006/evaluation/fixed/check.lean:43:8\",\"message\":\"`simp` made no progress\",\"truncated\":false}\n",
+          "details_characters": 161,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "48d4a1c80e4714cc207502f9c28dc97d2ed4b6a045cd36352b46af7a459299f9"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 9183282,
+            "tokens": 387
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "be376093001d5a3dd31333141e949f5d184954cbe039b0b6f5e172102864ff4c"
+        },
+        {
+          "step": 8,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":\"a\",\"goal\":\"⊢ (↑(u (i + (m + 4) - 1)) + ↑(u (i + (m + 4) - 2)) + ↑(u (i + (m + 4) - 3)) * ↑(u (i + (m + 4) - 4))) /\\n      (↑(u (i + (m + 4) - 1)) * ↑(u (i + (m + 4) - 2)) + ↑(u (i + (m + 4) - 3)) + ↑(u (i + (m + 4) - 4))) =\\n    (↑(u (j + (m + 4) - 1)) + ↑(u (j + (m + 4) - 2)) + ↑(u (j + (m + 4) - 3)) * ↑(u (j + (m + 4) - 4))) /\\n      (↑(u (j + (m + 4) - 1)) * ↑(u (j + (m + 4) - 2)) + ↑(u (j + (m + 4) - 3)) + ↑(u (j + (m + 4) - 4)))\",\"local_context\":\"(↑(u (n - 1)) + ↑(u (n - 2)) + ↑(u (n - 3)) * ↑(u (n - 4))) /\\n          (↑(u (n - 1)) * ↑(u (n - 2)) + ↑(u (n - 3)) + ↑(u (n - 4))) ∧\\n      u (n - 1) * u (n - 2) + u (n - 3) + u (n - 4) ≠ 0\\nB T : ℤ\\nhB : ∀ (n : ℕ), B ≤ u n ∧ u n ≤ T\\nf : ℕ → Fin 4 → ℤ := fun n k => u (n + ↑k)\\nhf : (range f).Finite\\ni j : ℕ\\nhij : i < j\\nhe : f i = f j\\nm✝ m : ℕ\\nih : ∀ m_1 < m + 4, u (i + m_1) = u (j + m_1)\",\"location\":\"<RUN>/steps/008/evaluation/fixed/check.lean:38:12\",\"message\":\"unsolved goals\",\"truncated\":true}\n",
+          "details_characters": 972,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "91b4eee2f180549998e427f23cdf943c1e07a08801d34a4b5ac03e70ca32e444"
+        },
+        {
+          "step": 9,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/009/evaluation/fixed/check.lean:42:8\",\"message\":\"Tactic `simp` failed with a nested error:\\nmaximum recursion depth has been reached\\nuse `set_option maxRecDepth <num>` to increase limit\\nuse `set_option diagnostics true` to get diagnostic information\",\"truncated\":false}\n",
+          "details_characters": 340,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "3fd263d2efc067f12242ad414e51b5ef05a54eb09a50f1be43c787629e0fb20a"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4966709,
+            "tokens": 410
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "f39d38df455f1d114811ef84ce5764baa44df5302546fc4cb92b8ea04a8f4daf"
+        }
+      ],
+      "verified_proposals": 5,
+      "valid_first3": 2,
+      "improved_at3": true,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 2,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 5,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        },
+        {
+          "from_step": 4,
+          "next_valid": true
+        },
+        {
+          "from_step": 6,
+          "next_valid": true
+        },
+        {
+          "from_step": 8,
+          "next_valid": false
+        },
+        {
+          "from_step": 9,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 5
+      },
+      "selected": {
+        "rank_numerator": 56212820501,
+        "raw_heartbeats": 4966709,
+        "raw_samples": [
+          4966708,
+          4966709,
+          4966709
+        ],
+        "sha256": "f39d38df455f1d114811ef84ce5764baa44df5302546fc4cb92b8ea04a8f4daf",
+        "tokens": 410
+      },
+      "selected_local_cost": 0.13735307460309923,
+      "final": {
+        "raw_heartbeats": 4966709,
+        "raw_samples": [
+          4966708,
+          4966709,
+          4966709
+        ],
+        "tokens": 410
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 4966,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "returncode": 0,
+                "seconds": 75.584711,
+                "source": "check.lean",
+                "source_sha256": "4a2efe06271b3b225bdc0d85589f6ce68fc025d2823abb629e4555bb6b1fa8f9",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "2fbb0835a3adcb055c85b73e1c095a2c31f602d86a9b242402deb8a0f25a8d9d",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 4966708,
+                  "scaled": 4966,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 104.322958,
+                "source": "measure-1.lean",
+                "source_sha256": "b20bd8d5472f6b696abeb363d1ff7ee40b7302a788608ca53b5fe7de0f945a11",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "b6eefe3b24ec0592a5073bbe33b2221cd2077fa6704a1374ec51ef8e1668547e",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 4966709,
+                  "scaled": 4966,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 89.095758,
+                "source": "measure-2.lean",
+                "source_sha256": "26e606a3e6aecaea87c17c663c5fead2b39d93f83d2244856b98055b66b3deef",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-S-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "7a4a71d1f167cc4b52fab39ed946ca8faaccd003df7e20cd721b565bacb652d3",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 4966709,
+                  "scaled": 4966,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 80.96701,
+                "source": "measure-3.lean",
+                "source_sha256": "469900ed1c3cc7a66f6e05c886e792f9730f9315a8753cb730f5d650209de497",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 410,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "187af4814a09a6472285c6d430a9791e390a6ef97a3035795d069801e70a680b",
+      "final_compiler_invocations": 4,
+      "first_request_sha256": "dda888025d2788b9e365db3d6557ad072369b024f574ccad989ce3b712352adb",
+      "solver_dispatched_at": "2026-10-25T11:12:09.751466+00:00",
+      "solver_completion_observed_at": "2026-10-25T11:54:29.436329+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "summaries": [],
+      "summarizer_job_count": 0,
+      "summary_fallback_count": 0,
+      "changed_feedback_exposures": 0,
+      "early_changed_feedback_exposures": 0
+    },
+    {
+      "trial_id": "P13-M-r2",
+      "problem_id": "P13",
+      "condition": "M",
+      "repetition": 2,
+      "max_proposals": 10,
+      "error_feedback_mode": "semantic_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.1800344130751735,
+          "tokens": 585,
+          "raw_heartbeats": 3397779,
+          "code_sha256": "77118f1f3d5ebfd04b6c977df3962d1d1d26a101ea7c8f19229b4d405c178cf2"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.16614582651757076,
+          "tokens": 536,
+          "raw_heartbeats": 3388767,
+          "code_sha256": "a4527cd1248502802b9d3557d81d9042b89a2430a4df411a8b88de5bc3f9963c"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.15117572192293002,
+          "tokens": 486,
+          "raw_heartbeats": 3194936,
+          "code_sha256": "41242eb21fc1bf2561c79baa821c64f4580392f04f9ac29aea194da1bfe53696"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 1769,
+          "raw_heartbeats": 115674908,
+          "code_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.1800344130751735,
+          "tokens": 585,
+          "raw_heartbeats": 3397779,
+          "code_sha256": "77118f1f3d5ebfd04b6c977df3962d1d1d26a101ea7c8f19229b4d405c178cf2"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.1800344130751735,
+          "tokens": 585,
+          "raw_heartbeats": 3397779,
+          "code_sha256": "77118f1f3d5ebfd04b6c977df3962d1d1d26a101ea7c8f19229b4d405c178cf2"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.17373121387030457,
+          "tokens": 564,
+          "raw_heartbeats": 3312725,
+          "code_sha256": "e604d48ab41636353f5701cf68562ee4fa7e5b96ce77c97d2c6c29435be0dbfa"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.17373121387030457,
+          "tokens": 564,
+          "raw_heartbeats": 3312725,
+          "code_sha256": "e604d48ab41636353f5701cf68562ee4fa7e5b96ce77c97d2c6c29435be0dbfa"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.16614582651757076,
+          "tokens": 536,
+          "raw_heartbeats": 3388767,
+          "code_sha256": "a4527cd1248502802b9d3557d81d9042b89a2430a4df411a8b88de5bc3f9963c"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.15903623377483858,
+          "tokens": 512,
+          "raw_heartbeats": 3313324,
+          "code_sha256": "3175a8dc28da655db9fab714234523ce57d85ec63366ba5e74fe7eca28c7b156"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.15148690867947975,
+          "tokens": 487,
+          "raw_heartbeats": 3201539,
+          "code_sha256": "811bd30c244eb134e6fd18d988a7279647b96e4af6ba007860cb27f2e3c7d5da"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.15117572192293002,
+          "tokens": 486,
+          "raw_heartbeats": 3194936,
+          "code_sha256": "41242eb21fc1bf2561c79baa821c64f4580392f04f9ac29aea194da1bfe53696"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.15117572192293002,
+          "tokens": 486,
+          "raw_heartbeats": 3194936,
+          "code_sha256": "41242eb21fc1bf2561c79baa821c64f4580392f04f9ac29aea194da1bfe53696"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:51:6\",\"message\":\"Tactic `simp` failed with a nested error:\\nmaximum recursion depth has been reached\\nuse `set_option maxRecDepth <num>` to increase limit\\nuse `set_option diagnostics true` to get diagnostic information\",\"truncated\":false}\n",
+          "details_characters": 340,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "abea285e2d000145eb4383228c9b93a43f75dbdab63b94af248f648946de7db5"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3397779,
+            "tokens": 585
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "77118f1f3d5ebfd04b6c977df3962d1d1d26a101ea7c8f19229b4d405c178cf2"
+        },
+        {
+          "step": 3,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/003/evaluation/fixed/check.lean:48:33\",\"message\":\"Invalid argument name `R` for function `Int.cast_injective`\\n\\nHint: Perhaps you meant one of the following parameter names:\\n  • `α`: R̵α̲\\n  • `a₁`: R̵a̲₁̲\\n  • `a₂`: R̵a̲₂̲\",\"truncated\":false}\n",
+          "details_characters": 314,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "4f10c4f0e21c4a9feb59d574344078d08ef26515337672809f35ad559dd7a5c5"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3312725,
+            "tokens": 564
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "e604d48ab41636353f5701cf68562ee4fa7e5b96ce77c97d2c6c29435be0dbfa"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5061700,
+            "tokens": 561
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "0f3e3a82f600d04fe8c371a30689bbe412c6096d6b18a4862df1ba25225bf5c3"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3388767,
+            "tokens": 536
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "a4527cd1248502802b9d3557d81d9042b89a2430a4df411a8b88de5bc3f9963c"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3313324,
+            "tokens": 512
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "3175a8dc28da655db9fab714234523ce57d85ec63366ba5e74fe7eca28c7b156"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3201539,
+            "tokens": 487
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "811bd30c244eb134e6fd18d988a7279647b96e4af6ba007860cb27f2e3c7d5da"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3194936,
+            "tokens": 486
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "41242eb21fc1bf2561c79baa821c64f4580392f04f9ac29aea194da1bfe53696"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3204955,
+            "tokens": 486
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "988b8c3f861d62bf94553ffd57dbc52f2c830748023e12ee7123b0b323021286"
+        }
+      ],
+      "verified_proposals": 8,
+      "valid_first3": 1,
+      "improved_at3": true,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 2,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 2,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        },
+        {
+          "from_step": 3,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "selected": {
+        "rank_numerator": 61869847072,
+        "raw_heartbeats": 3194936,
+        "raw_samples": [
+          3194953,
+          3194932,
+          3194936
+        ],
+        "sha256": "41242eb21fc1bf2561c79baa821c64f4580392f04f9ac29aea194da1bfe53696",
+        "tokens": 486
+      },
+      "selected_local_cost": 0.15117572192293002,
+      "final": {
+        "raw_heartbeats": 3194936,
+        "raw_samples": [
+          3194953,
+          3194932,
+          3194936
+        ],
+        "tokens": 486
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 3194,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "37144bbebe0caeba774f09134cdb2c19c12ea86cc564fee63b385948efdeadbf",
+                "returncode": 0,
+                "seconds": 62.870959,
+                "source": "check.lean",
+                "source_sha256": "9d39c2d93d72dd9586c2bd5518bba28c6b33e5896e3f0dfeb14a61a4851c5dfd",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "9382b7a4f32a1d2da446cc67eb108569967512dbf8bc795dec90642b11dc7185",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3194953,
+                  "scaled": 3194,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 55.161188,
+                "source": "measure-1.lean",
+                "source_sha256": "26ee7c8ac40814d15b9462d970d7af2ca44bf024ca231c1d7ef5d9e17b135bfe",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "1695abe644f602f6f37d4c2689f063d2d11fada6dbecdbbd03ade5a9b247d337",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3194932,
+                  "scaled": 3194,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 52.085954,
+                "source": "measure-2.lean",
+                "source_sha256": "3e8078b9b91958c897cea8c02f171b454442533cf9e81f8b8c675a50ee1e3bb7",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P13-M-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "c1d412a8d9df01d45036bc9a528c4f61b7b210b1f51a114af5268bedc31c196c",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 3194936,
+                  "scaled": 3194,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 51.902994,
+                "source": "measure-3.lean",
+                "source_sha256": "85a7b893955da43acedda6960f96061f5a236d5249ed5c7aeb1b2a4091302ce1",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 486,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "89aad881ae59df275b3beea03a01803fcfffcc9878284098b0b37ffe4636ee9f",
+      "final_compiler_invocations": 4,
+      "first_request_sha256": "dda888025d2788b9e365db3d6557ad072369b024f574ccad989ce3b712352adb",
+      "solver_dispatched_at": "2026-10-25T11:24:12.857241+00:00",
+      "solver_completion_observed_at": "2026-10-25T12:14:41.018249+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "summaries": [
+        {
+          "step": 1,
+          "cost_usd": null,
+          "fallback": null,
+          "model_internal_calls": null,
+          "response_sha256": "921b2c9b32bc29bfee3b44928931cc21b2c3e1c26fb747a45f995c5ce0583e76",
+          "status": "accepted",
+          "wait_seconds": 19.142225,
+          "job_dispatched": true,
+          "request": {
+            "details_character_limit": 1600,
+            "diagnostic": {
+              "case": null,
+              "goal": null,
+              "local_context": "",
+              "location": "<RUN>/steps/001/evaluation/fixed/check.lean:51:6",
+              "message": "Tactic `simp` failed with a nested error:\nmaximum recursion depth has been reached\nuse `set_option maxRecDepth <num>` to increase limit\nuse `set_option diagnostics true` to get diagnostic information",
+              "truncated": false
+            },
+            "schema_version": 1,
+            "source_log_sha256": "7365d1a333f8927b3480907371d92092fd50f5aaea37887ff154b8772ac81172",
+            "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6"
+          },
+          "raw_response": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:51:6\",\"message\":\"Tactic `simp` failed with a nested error:\\nmaximum recursion depth has been reached\\nuse `set_option maxRecDepth <num>` to increase limit\\nuse `set_option diagnostics true` to get diagnostic information\",\"truncated\":false}\n",
+          "request_sha256": "5cd5a97b0f438c870f8a5a125b859b2b975ac0f4f54bdb4d39779860e90c5704",
+          "input_bytes": 586,
+          "output_bytes": 340,
+          "input_characters": 340,
+          "delivered_characters": 340,
+          "input_goal_characters": 0,
+          "delivered_goal_characters": 0,
+          "input_context_characters": 0,
+          "delivered_context_characters": 0,
+          "same_error_structured_characters": 340,
+          "same_error_structured_details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:51:6\",\"message\":\"Tactic `simp` failed with a nested error:\\nmaximum recursion depth has been reached\\nuse `set_option maxRecDepth <num>` to increase limit\\nuse `set_option diagnostics true` to get diagnostic information\",\"truncated\":false}\n",
+          "changed_from_structured": false,
+          "changed_payload_from_structured": false,
+          "changed_from_extracted": false,
+          "message_rewritten_from_source": false,
+          "goal_differs_from_structured": false,
+          "context_differs_from_structured": false,
+          "same_error_structured_goal_characters": 0,
+          "same_error_structured_context_characters": 0,
+          "whole_goal_preserved": true
+        },
+        {
+          "step": 3,
+          "cost_usd": null,
+          "fallback": null,
+          "model_internal_calls": null,
+          "response_sha256": "5fa138addc19c89ff24c5b98e37b8f466165028bf5e4798580009c6c4a71a9e4",
+          "status": "accepted",
+          "wait_seconds": 97.232789,
+          "job_dispatched": true,
+          "request": {
+            "details_character_limit": 1600,
+            "diagnostic": {
+              "case": null,
+              "goal": null,
+              "local_context": "",
+              "location": "<RUN>/steps/003/evaluation/fixed/check.lean:48:33",
+              "message": "Invalid argument name `R` for function `Int.cast_injective`\n\nHint: Perhaps you meant one of the following parameter names:\n  • `α`: R̵α̲\n  • `a₁`: R̵a̲₁̲\n  • `a₂`: R̵a̲₂̲",
+              "truncated": false
+            },
+            "schema_version": 1,
+            "source_log_sha256": "6caeaf23f8cadde0ba20da287e2fa1f0047e3d337da6f3caeda2c3b1cf4f57c5",
+            "summarizer_prompt_sha256": "c4bdb97abad992cf3ea73cb1883926f7d9f4ce9c750ebd28476cf38ea0dd36e6"
+          },
+          "raw_response": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/003/evaluation/fixed/check.lean:48:33\",\"message\":\"Invalid argument name `R` for function `Int.cast_injective`\\n\\nHint: Perhaps you meant one of the following parameter names:\\n  • `α`: R̵α̲\\n  • `a₁`: R̵a̲₁̲\\n  • `a₂`: R̵a̲₂̲\",\"truncated\":false}\n",
+          "request_sha256": "ca588c171bc714f7d971135521ba211d8a924562fbc3c48f6aef520cd451fbd5",
+          "input_bytes": 584,
+          "output_bytes": 338,
+          "input_characters": 314,
+          "delivered_characters": 314,
+          "input_goal_characters": 0,
+          "delivered_goal_characters": 0,
+          "input_context_characters": 0,
+          "delivered_context_characters": 0,
+          "same_error_structured_characters": 314,
+          "same_error_structured_details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/003/evaluation/fixed/check.lean:48:33\",\"message\":\"Invalid argument name `R` for function `Int.cast_injective`\\n\\nHint: Perhaps you meant one of the following parameter names:\\n  • `α`: R̵α̲\\n  • `a₁`: R̵a̲₁̲\\n  • `a₂`: R̵a̲₂̲\",\"truncated\":false}\n",
+          "changed_from_structured": false,
+          "changed_payload_from_structured": false,
+          "changed_from_extracted": false,
+          "message_rewritten_from_source": false,
+          "goal_differs_from_structured": false,
+          "context_differs_from_structured": false,
+          "same_error_structured_goal_characters": 0,
+          "same_error_structured_context_characters": 0,
+          "whole_goal_preserved": true
+        }
+      ],
+      "summarizer_job_count": 2,
+      "summary_fallback_count": 0,
+      "changed_feedback_exposures": 0,
+      "early_changed_feedback_exposures": 0
+    },
+    {
+      "trial_id": "P01-S-r2",
+      "problem_id": "P01",
+      "condition": "S",
+      "repetition": 2,
+      "max_proposals": 10,
+      "error_feedback_mode": "structured_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.955032573833627,
+          "tokens": 26,
+          "raw_heartbeats": 9451620,
+          "code_sha256": "32680f24d675a3f0c60de920b7ef9564daf15e61694f2629ea1247332811ae8d"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.33090678369320636,
+          "tokens": 38,
+          "raw_heartbeats": 2795695,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.33090678369320636,
+          "tokens": 38,
+          "raw_heartbeats": 2795695,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.955032573833627,
+          "tokens": 26,
+          "raw_heartbeats": 9451620,
+          "code_sha256": "32680f24d675a3f0c60de920b7ef9564daf15e61694f2629ea1247332811ae8d"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.3863094604341531,
+          "tokens": 38,
+          "raw_heartbeats": 3368925,
+          "code_sha256": "6ce172720feea34aeabf736051f7bf43ead31ce5420ea373c9d6303902a3bd60"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.33090678369320636,
+          "tokens": 38,
+          "raw_heartbeats": 2795695,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.33090678369320636,
+          "tokens": 38,
+          "raw_heartbeats": 2795695,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.33090678369320636,
+          "tokens": 38,
+          "raw_heartbeats": 2795695,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.33090678369320636,
+          "tokens": 38,
+          "raw_heartbeats": 2795695,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.33090678369320636,
+          "tokens": 38,
+          "raw_heartbeats": 2795695,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.33090678369320636,
+          "tokens": 38,
+          "raw_heartbeats": 2795695,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":\"fvar\",\"goal\":\"⊢ [name✝].Subset [name✝, h1]\",\"local_context\":\"h2 : Expression.Ident\\nm : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nh1 :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm✝ : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nname✝ :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\n\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3097:12\",\"message\":\"Tactic `split` failed: Could not split an `if` or `match` expression in the goal\\n\\nHint: Use `set_option trace.split.failure true` to display additional diagnostic information\",\"truncated\":true}\n",
+          "details_characters": 1004,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "eb36aa8b6faeca06d1af62a5ee948b8e9d970510434cde15356142446da246d9"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 15499832,
+            "tokens": 40
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "ac5984b2b50e1b458d7766f3bf33d201c0402abb75e6843fe77e51166e33c7d5"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 9451620,
+            "tokens": 26
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "32680f24d675a3f0c60de920b7ef9564daf15e61694f2629ea1247332811ae8d"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3368925,
+            "tokens": 38
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "6ce172720feea34aeabf736051f7bf43ead31ce5420ea373c9d6303902a3bd60"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2795695,
+            "tokens": 38
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3926566,
+            "tokens": 36
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "a36ec2d3215d64311f033d65f4f2c46f145f6fd67c82aba9e5ea9b9ddfa7d1b2"
+        },
+        {
+          "step": 7,
+          "valid": false,
+          "metrics": null,
+          "compiler_invocations": 1,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/007/evaluation/fixed/check.lean:3100:12\",\"message\":\"omega could not prove the goal:\\nNo usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.\",\"truncated\":false}\n",
+          "details_characters": 388,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "135b8fa24a5a9007703df938ba8698a9aec9f431514eee09bb4db4729446a92e"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5521689,
+            "tokens": 37
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "55feb8eeb2d7355a5aaff94e6304d467a1397fef378a76eecce361932672d737"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2675422,
+            "tokens": 61
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "f07b49524eb7dee131036fce6121f55f6eeb499b557efa795d1892581f6b3a17"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2991738,
+            "tokens": 45
+          },
+          "compiler_invocations": 4,
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "e91c9106506b98d15173b2cf0da46d3dd0b2a4cc17a915ada980bfc283477c86"
+        }
+      ],
+      "verified_proposals": 8,
+      "valid_first3": 2,
+      "improved_at3": true,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 3,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 2,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        },
+        {
+          "from_step": 7,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "selected": {
+        "rank_numerator": 1071638163,
+        "raw_heartbeats": 2795695,
+        "raw_samples": [
+          2795649,
+          2795695,
+          2795797
+        ],
+        "sha256": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5",
+        "tokens": 38
+      },
+      "selected_local_cost": 0.33090678369320636,
+      "final": {
+        "raw_heartbeats": 2795668,
+        "raw_samples": [
+          2795668,
+          2795572,
+          2795675
+        ],
+        "tokens": 38
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2795,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "aaee3c2279aef50a1fe75f5757e2acec73b7c3276848f92d552dc7227f514f61",
+                "returncode": 0,
+                "seconds": 16.387872,
+                "source": "check.lean",
+                "source_sha256": "f38de9afc2be80e8e011f0bd6ef5c2572d27eb357221e8a1b7ef68bc6bc918c7",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "784d46caabf777d32a3d2125b0ab276dedb28babdeb57308442570ac6b7872d3",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2795668,
+                  "scaled": 2795,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 19.262751,
+                "source": "measure-1.lean",
+                "source_sha256": "2d672f34c91a7b8bad7cf50a0f80f3526a462709be4fb2d9bc389ce22f6bf6f1",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "0cd43b7f35a2258bad79dc23ad64bcb049d782e0cf990752f60a997777b079ed",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2795572,
+                  "scaled": 2795,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 19.245338,
+                "source": "measure-2.lean",
+                "source_sha256": "f3d695634101f3259d91ccd4bafc6753741e4e9e2f99d113016a846f1775941a",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025/P01-S-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "7fc63f7308906a6b2075010acae33252132697909882e78897fe75339d479700",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 2795675,
+                  "scaled": 2795,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 18.263558,
+                "source": "measure-3.lean",
+                "source_sha256": "c80cebe078ff93980acd51328b05f42dc442f9842ba34eee945990b27679675f",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 38,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "a22332ca44fa0f8c849f0a1b0eaa1ea6bbc4ee7cba124ba0c34729841703584e",
+      "final_compiler_invocations": 4,
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "solver_dispatched_at": "2026-10-25T11:54:42.084898+00:00",
+      "solver_completion_observed_at": "2026-10-25T12:11:27.864836+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "summaries": [],
+      "summarizer_job_count": 0,
+      "summary_fallback_count": 0,
+      "changed_feedback_exposures": 0,
+      "early_changed_feedback_exposures": 0
+    }
+  ],
+  "aggregate": {
+    "P01": {
+      "S": {
+        "run_count": 2,
+        "usage_interrupted_runs": 0,
+        "improved_at3_count": 1,
+        "valid_first3_mean": 1,
+        "valid_first3_per_run": [
+          0,
+          2
+        ],
+        "first_valid_per_run": [
+          4,
+          2
+        ],
+        "first_improvement_per_run": [
+          7,
+          3
+        ],
+        "early_feedback_exposures_per_run": [
+          2,
+          1
+        ],
+        "final_valid_count": 2,
+        "checkpoints": {
+          "3": {
+            "mean_cost": 0.9775162869168135,
+            "min_cost": 0.955032573833627,
+            "max_cost": 1.0
+          },
+          "6": {
+            "mean_cost": 0.6654533918466032,
+            "min_cost": 0.33090678369320636,
+            "max_cost": 1.0
+          },
+          "10": {
+            "mean_cost": 0.5867509042848369,
+            "min_cost": 0.33090678369320636,
+            "max_cost": 0.8425950248764674
+          }
+        }
+      },
+      "M": {
+        "run_count": 2,
+        "usage_interrupted_runs": 0,
+        "improved_at3_count": 1,
+        "valid_first3_mean": 1.5,
+        "valid_first3_per_run": [
+          1,
+          2
+        ],
+        "first_valid_per_run": [
+          3,
+          2
+        ],
+        "first_improvement_per_run": [
+          4,
+          3
+        ],
+        "early_feedback_exposures_per_run": [
+          2,
+          1
+        ],
+        "final_valid_count": 2,
+        "checkpoints": {
+          "3": {
+            "mean_cost": 0.7618115783109847,
+            "min_cost": 0.5236231566219693,
+            "max_cost": 1.0,
+            "difference_from_S": -0.2157047086058288
+          },
+          "6": {
+            "mean_cost": 0.3469407409137249,
+            "min_cost": 0.3144013619292339,
+            "max_cost": 0.3794801198982159,
+            "difference_from_S": -0.31851265093287834
+          },
+          "10": {
+            "mean_cost": 0.30250159173278496,
+            "min_cost": 0.28082097171351816,
+            "max_cost": 0.32418221175205175,
+            "difference_from_S": -0.28424931255205194
+          }
+        }
+      }
+    },
+    "P13": {
+      "S": {
+        "run_count": 2,
+        "usage_interrupted_runs": 0,
+        "improved_at3_count": 2,
+        "valid_first3_mean": 2.5,
+        "valid_first3_per_run": [
+          3,
+          2
+        ],
+        "first_valid_per_run": [
+          1,
+          2
+        ],
+        "first_improvement_per_run": [
+          1,
+          2
+        ],
+        "early_feedback_exposures_per_run": [
+          0,
+          1
+        ],
+        "final_valid_count": 2,
+        "checkpoints": {
+          "3": {
+            "mean_cost": 0.16731800820910323,
+            "min_cost": 0.16034438707807436,
+            "max_cost": 0.1742916293401321
+          },
+          "6": {
+            "mean_cost": 0.13800412539442597,
+            "min_cost": 0.12786172927400818,
+            "max_cost": 0.14814652151484378
+          },
+          "10": {
+            "mean_cost": 0.12430504622521342,
+            "min_cost": 0.11125701784732761,
+            "max_cost": 0.13735307460309923
+          }
+        }
+      },
+      "M": {
+        "run_count": 2,
+        "usage_interrupted_runs": 0,
+        "improved_at3_count": 2,
+        "valid_first3_mean": 1.5,
+        "valid_first3_per_run": [
+          2,
+          1
+        ],
+        "first_valid_per_run": [
+          2,
+          2
+        ],
+        "first_improvement_per_run": [
+          2,
+          2
+        ],
+        "early_feedback_exposures_per_run": [
+          1,
+          1
+        ],
+        "final_valid_count": 2,
+        "checkpoints": {
+          "3": {
+            "mean_cost": 0.1925492078740447,
+            "min_cost": 0.1800344130751735,
+            "max_cost": 0.20506400267291588,
+            "difference_from_S": 0.025231199664941473
+          },
+          "6": {
+            "mean_cost": 0.17796278848002367,
+            "min_cost": 0.16614582651757076,
+            "max_cost": 0.18977975044247658,
+            "difference_from_S": 0.0399586630855977
+          },
+          "10": {
+            "mean_cost": 0.13942817011539455,
+            "min_cost": 0.12768061830785907,
+            "max_cost": 0.15117572192293002,
+            "difference_from_S": 0.015123123890181125
+          }
+        }
+      }
+    }
+  },
+  "recorded_peak_solver_parallelism": 2,
+  "first_requests_identical_across_conditions": true,
+  "recorded_peak_summarizer_parallelism": 1,
+  "summarizer_job_count": 8,
+  "summary_request_count": 8,
+  "summary_fallback_count": 0,
+  "summary_accepted_count": 8,
+  "summary_invalid_count": 0,
+  "summary_timeout_count": 0,
+  "summary_compliance_checked": true,
+  "semantic_review": {
+    "schema_version": 1,
+    "complete": true,
+    "method": "Coordinator inspects archived first diagnostics and output after delivery. Review never changes solver feedback. Exact-copy cases are also checked mechanically. No formal semantic-equivalence claim.",
+    "reviewer_backend_model_id": null,
+    "reviewer_internal_calls": null,
+    "reviewer_cost_usd": null,
+    "entries": [
+      {
+        "trial_id": "P13-M-r1",
+        "step": 1,
+        "response_sha256": "9395820894acf26a52bfd6859dec330ba86fe73113e3b0d769a9dfaf3da63e86",
+        "identical_to_extracted_diagnostic": true,
+        "added_repair_strategy_observed": false,
+        "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed.",
+        "semantic_fidelity_concern": false,
+        "compiler_advice_retained": false,
+        "advice_free_output_concern": false
+      },
+      {
+        "trial_id": "P13-M-r1",
+        "step": 5,
+        "response_sha256": "2810792b89ebcd476c05c07e41586050c2794da628741618d9e312c35cdaf1e4",
+        "identical_to_extracted_diagnostic": true,
+        "added_repair_strategy_observed": false,
+        "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed.",
+        "semantic_fidelity_concern": false,
+        "compiler_advice_retained": false,
+        "advice_free_output_concern": false
+      },
+      {
+        "trial_id": "P01-M-r1",
+        "step": 1,
+        "response_sha256": "b5a13ee8341c5e174a1212ba01d6044707c05fa6fd4f6b88d6af1b2b1d496492",
+        "identical_to_extracted_diagnostic": true,
+        "added_repair_strategy_observed": false,
+        "semantic_fidelity_concern": false,
+        "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed.",
+        "compiler_advice_retained": false,
+        "advice_free_output_concern": false
+      },
+      {
+        "trial_id": "P01-M-r1",
+        "step": 2,
+        "response_sha256": "12258295f3627a4fa9606ea82ea60e551967b86da0ce00b9069e465943a62c1d",
+        "identical_to_extracted_diagnostic": false,
+        "added_repair_strategy_observed": false,
+        "semantic_fidelity_concern": true,
+        "semantic_fidelity_review": "Goal and selected type lines are verbatim. Context omits the binder line name : while retaining its type continuation, creating orphan context lines. Source h is omitted, although its proposition remains in the copied goal diagnostics. Semantic preservation is not established.",
+        "compiler_advice_retained": false,
+        "advice_free_output_concern": false
+      },
+      {
+        "trial_id": "P01-M-r1",
+        "step": 7,
+        "response_sha256": "31c9c6031dcb74c3f8cf07f66f15eeb92b4b23d7d9d8a6e572c6ba20c54b0fb0",
+        "identical_to_extracted_diagnostic": true,
+        "added_repair_strategy_observed": false,
+        "semantic_fidelity_concern": false,
+        "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed relative to the extracted first diagnostic.",
+        "compiler_advice_retained": false,
+        "advice_free_output_concern": false
+      },
+      {
+        "trial_id": "P01-M-r2",
+        "step": 1,
+        "response_sha256": "35a21c5fefa448c2c98e27e1079bb39c9da6fb4ed1e623f99e67cd05a5727a0d",
+        "identical_to_extracted_diagnostic": false,
+        "added_repair_strategy_observed": false,
+        "semantic_fidelity_concern": false,
+        "information_omitted_by_budget": true,
+        "semantic_fidelity_review": "The oversized goal includes extensive grind diagnostics. Output retains a contiguous logical prefix ending after complete asserted propositions, the complete x binder, and special-case equalities h_2/h_3/h_4. Metadata declarations and later diagnostic sections are omitted. Message and selected terms are verbatim; no added claims or repair advice observed. This is a selection review, not a proof of full semantic equivalence.",
+        "compiler_advice_retained": false,
+        "advice_free_output_concern": false
+      },
+      {
+        "trial_id": "P13-M-r2",
+        "step": 1,
+        "response_sha256": "921b2c9b32bc29bfee3b44928931cc21b2c3e1c26fb747a45f995c5ce0583e76",
+        "identical_to_extracted_diagnostic": true,
+        "added_repair_strategy_observed": false,
+        "semantic_fidelity_concern": false,
+        "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed relative to the extracted first diagnostic. Source diagnostic includes set_option suggestions, copied verbatim into output. No advice was newly generated, but the output is not strictly advice-free.",
+        "compiler_advice_retained": true,
+        "advice_free_output_concern": true
+      },
+      {
+        "trial_id": "P13-M-r2",
+        "step": 3,
+        "response_sha256": "5fa138addc19c89ff24c5b98e37b8f466165028bf5e4798580009c6c4a71a9e4",
+        "identical_to_extracted_diagnostic": true,
+        "added_repair_strategy_observed": false,
+        "semantic_fidelity_concern": false,
+        "compiler_advice_retained": false,
+        "advice_free_output_concern": false,
+        "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed relative to the extracted first diagnostic."
+      }
+    ]
+  },
+  "semantic_review_sha256": "1ddf95b89a2b202f74fec76159153e71fbecf5ec31b0b5d61adb5d500011f746",
+  "semantic_fidelity_concern_count": 1,
+  "added_repair_strategy_observed_count": 0,
+  "compiler_advice_retained_count": 1,
+  "advice_free_output_concern_count": 1,
+  "compiler_invocations": {
+    "candidates": 260,
+    "final_validation": 32,
+    "readiness_including_imports": 10,
+    "excludes": "fingerprint --version/--print-prefix calls; historical baseline compiles are reused, not new invocations"
+  },
+  "runtime_checks": {
+    "P01": {
+      "artifacts_sha256": "2f256eb28f1b6e5234f1262f1f6192b21c726ad1d47e3ed93281c89776decc22",
+      "checked_at": "2026-10-25T12:14:17.527589+00:00",
+      "file_count": 11532,
+      "matches_historical_lock": true,
+      "phase": "after",
+      "seconds": 4.542024542111903
+    },
+    "P13": {
+      "artifacts_sha256": "fe014065676e0064bec1261026ad2d086c88733fb48c9f3f1f52a2d2050d3210",
+      "checked_at": "2026-10-25T12:14:37.859515+00:00",
+      "file_count": 95212,
+      "matches_historical_lock": true,
+      "phase": "after",
+      "seconds": 24.87355741590727
+    }
+  },
+  "observer_stopped": true,
+  "operational_incidents": [
+    {
+      "kind": "pre_dispatch_implementation_correction",
+      "solver_dispatch_count": 0,
+      "description": "queue.py renamed dispatch.py after stdlib queue shadowing prevented readiness launch; no Lean work in failed attempt. Explicit post-finish replay command added to frozen operations template before solver dispatch; active mapping is a dict."
+    }
+  ],
+  "design_sha256": "aafd05edf03d70b069592dd3f5413e09d6f490b6971ecb8b241f5a060291f99d",
+  "limitations": [
+    "Two fresh independent runs per condition are exploratory, not a significance test.",
+    "Exact backend model ID, sampling seed, hidden context, internal model calls and cost unobservable.",
+    "S and M receive the same extraction; M adds a model transformation and variable latency, so this does not isolate compression alone.",
+    "Both problems have already informed development; not held-out generalization.",
+    "Libraries are shared read-only by policy; no OS-level isolation.",
+    "Offline old-log formatter checks are manipulation checks, not extra solver trials or performance evidence.",
+    "Strategy-free semantic fidelity cannot be proved by deterministic schema/substring checks; preserve raw inputs and outputs for review.",
+    "Summarizer jobs are observable; exact internal model-call count, backend model ID and monetary cost remain unknown for both roles."
+  ]
+}

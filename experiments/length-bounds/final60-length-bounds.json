@@ -1,0 +1,1576 @@
+{
+  "schema_version": 1,
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "analysis_sha256": "1753de4d7c23ddefb2e9a966eb414c999ea03df4c86b38f6f9314215f01f1264",
+  "tokenizer_id": "lean-source-anchored-v1",
+  "tokenizer_sha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+  "units": "Lexical source tokens of the proof body, including by; not LLM/BPE tokens",
+  "scope": {
+    "static_only": true,
+    "model_api_calls": 0,
+    "lean_compilations": 0,
+    "proof_search_performed": false,
+    "official_worker_metric_verified": false
+  },
+  "interpretation": {
+    "floor": "Conditional on successful ordinary tactic proofs accepted by the current local by-only gate: the by keyword and at least one tactic token require at least two tokens.",
+    "not_attainability": "A floor of two does not show that any of the 60 problems has a two-token proof.",
+    "not_exact": "Existence of a shortest proof does not supply an algorithm or a certificate of its length. No problem-specific optimality is established here.",
+    "library": "Fixed source/version contexts are assumed. New free helper declarations and changes to imported libraries are not included.",
+    "lemma_calls": "by exact helper has three tokens only when helper elaborates without explicit arguments. This is the length of a proposed construction, not a universal lower bound. No such helper is assumed to exist.",
+    "official_scope": "The by-only floor is a local candidate-language restriction, not a verified competition-wide restriction. Allowing term proofs can admit one-token bodies.",
+    "reference": "Reference lengths are measurements of supplied proofs, not proven minima. Text-gate and token-metric differences are retained explicitly; no official-valid upper bounds are certified by this static analysis."
+  },
+  "overall": {
+    "dataset_reference_length": {
+      "count": 60,
+      "sum": 85453,
+      "mean": 1424.2166666666667,
+      "median": 1094.5,
+      "min": 4,
+      "max": 5538
+    },
+    "local_reference_length": {
+      "count": 60,
+      "sum": 85451,
+      "mean": 1424.1833333333334,
+      "median": 1094.5,
+      "min": 4,
+      "max": 5538
+    },
+    "conditional_tactic_syntax_lower_bound": {
+      "count": 60,
+      "sum": 120,
+      "mean": 2,
+      "median": 2.0,
+      "min": 2,
+      "max": 2
+    },
+    "exact_minima_established": 0
+  },
+  "by_source": {
+    "arklib": {
+      "dataset_reference_length": {
+        "count": 10,
+        "sum": 23027,
+        "mean": 2302.7,
+        "median": 1684.5,
+        "min": 546,
+        "max": 5538
+      },
+      "local_reference_length": {
+        "count": 10,
+        "sum": 23027,
+        "mean": 2302.7,
+        "median": 1684.5,
+        "min": 546,
+        "max": 5538
+      },
+      "conditional_tactic_syntax_lower_bound": {
+        "count": 10,
+        "sum": 20,
+        "mean": 2,
+        "median": 2.0,
+        "min": 2,
+        "max": 2
+      },
+      "exact_minima_established": 0
+    },
+    "cslib": {
+      "dataset_reference_length": {
+        "count": 10,
+        "sum": 4076,
+        "mean": 407.6,
+        "median": 399.0,
+        "min": 251,
+        "max": 623
+      },
+      "local_reference_length": {
+        "count": 10,
+        "sum": 4076,
+        "mean": 407.6,
+        "median": 399.0,
+        "min": 251,
+        "max": 623
+      },
+      "conditional_tactic_syntax_lower_bound": {
+        "count": 10,
+        "sum": 20,
+        "mean": 2,
+        "median": 2.0,
+        "min": 2,
+        "max": 2
+      },
+      "exact_minima_established": 0
+    },
+    "leanpool": {
+      "dataset_reference_length": {
+        "count": 10,
+        "sum": 17903,
+        "mean": 1790.3,
+        "median": 1727.5,
+        "min": 746,
+        "max": 2879
+      },
+      "local_reference_length": {
+        "count": 10,
+        "sum": 17903,
+        "mean": 1790.3,
+        "median": 1727.5,
+        "min": 746,
+        "max": 2879
+      },
+      "conditional_tactic_syntax_lower_bound": {
+        "count": 10,
+        "sum": 20,
+        "mean": 2,
+        "median": 2.0,
+        "min": 2,
+        "max": 2
+      },
+      "exact_minima_established": 0
+    },
+    "physlib": {
+      "dataset_reference_length": {
+        "count": 10,
+        "sum": 6057,
+        "mean": 605.7,
+        "median": 517.0,
+        "min": 4,
+        "max": 1372
+      },
+      "local_reference_length": {
+        "count": 10,
+        "sum": 6057,
+        "mean": 605.7,
+        "median": 517.0,
+        "min": 4,
+        "max": 1372
+      },
+      "conditional_tactic_syntax_lower_bound": {
+        "count": 10,
+        "sum": 20,
+        "mean": 2,
+        "median": 2.0,
+        "min": 2,
+        "max": 2
+      },
+      "exact_minima_established": 0
+    },
+    "putnambench": {
+      "dataset_reference_length": {
+        "count": 10,
+        "sum": 27324,
+        "mean": 2732.4,
+        "median": 2271.5,
+        "min": 1084,
+        "max": 5464
+      },
+      "local_reference_length": {
+        "count": 10,
+        "sum": 27322,
+        "mean": 2732.2,
+        "median": 2271.0,
+        "min": 1084,
+        "max": 5463
+      },
+      "conditional_tactic_syntax_lower_bound": {
+        "count": 10,
+        "sum": 20,
+        "mean": 2,
+        "median": 2.0,
+        "min": 2,
+        "max": 2
+      },
+      "exact_minima_established": 0
+    },
+    "strata": {
+      "dataset_reference_length": {
+        "count": 10,
+        "sum": 7066,
+        "mean": 706.6,
+        "median": 917.5,
+        "min": 209,
+        "max": 1200
+      },
+      "local_reference_length": {
+        "count": 10,
+        "sum": 7066,
+        "mean": 706.6,
+        "median": 917.5,
+        "min": 209,
+        "max": 1200
+      },
+      "conditional_tactic_syntax_lower_bound": {
+        "count": 10,
+        "sum": 20,
+        "mean": 2,
+        "median": 2.0,
+        "min": 2,
+        "max": 2
+      },
+      "exact_minima_established": 0
+    }
+  },
+  "metric_differences": [
+    {
+      "problem_id": "F053",
+      "dataset": 2162,
+      "local": 2161
+    },
+    {
+      "problem_id": "F056",
+      "dataset": 5464,
+      "local": 5463
+    }
+  ],
+  "reference_text_gate_rejections": [
+    "F030",
+    "F031",
+    "F034",
+    "F048"
+  ],
+  "problems": [
+    {
+      "problem_id": "F001",
+      "name": "Core.InitsUpdatesComm",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        },
+        {
+          "v4.26.0": "451e5f047bafa010d178856db76c00029bfa4d7f"
+        }
+      ],
+      "dataset_reference_length": 224,
+      "local_reference_length": 224,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F002",
+      "name": "Lambda.denote_suffix_irrel",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 904,
+      "local_reference_length": 904,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F003",
+      "name": "Lambda.denote_Denotes",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 931,
+      "local_reference_length": 931,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F004",
+      "name": "Lambda.callOfLFunc_eraseMetadata_congr",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 291,
+      "local_reference_length": 291,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F005",
+      "name": "Lambda.liftBVars_typeCheck",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 209,
+      "local_reference_length": 209,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F006",
+      "name": "Lambda.liftBVars_denote",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 972,
+      "local_reference_length": 972,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F007",
+      "name": "Lambda.LExpr.typeCheck_to_HasTypeA",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 429,
+      "local_reference_length": 429,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F008",
+      "name": "Lambda.callOfLFunc_constr_disjoint_denote",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 968,
+      "local_reference_length": 968,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F009",
+      "name": "Lambda.denote_replaceMetadata",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 938,
+      "local_reference_length": 938,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F010",
+      "name": "Lambda.denote_ext",
+      "source": "strata",
+      "required_versions": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "dataset_reference_length": 1200,
+      "local_reference_length": 1200,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F011",
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 4,
+      "local_reference_length": 4,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F012",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 12,
+      "local_reference_length": 12,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F013",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 12,
+      "local_reference_length": 12,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F014",
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 181,
+      "local_reference_length": 181,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F015",
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 183,
+      "local_reference_length": 183,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F016",
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 1372,
+      "local_reference_length": 1372,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F017",
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 1217,
+      "local_reference_length": 1217,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F018",
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 851,
+      "local_reference_length": 851,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F019",
+      "name": "HermitianMat.inv_convex",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 1025,
+      "local_reference_length": 1025,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F020",
+      "name": "cauchyBinet",
+      "source": "physlib",
+      "required_versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "dataset_reference_length": 1200,
+      "local_reference_length": 1200,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F021",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "dataset_reference_length": 408,
+      "local_reference_length": 408,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F022",
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "dataset_reference_length": 407,
+      "local_reference_length": 407,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F023",
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        }
+      ],
+      "dataset_reference_length": 251,
+      "local_reference_length": 251,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F024",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "dataset_reference_length": 391,
+      "local_reference_length": 391,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F025",
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "dataset_reference_length": 433,
+      "local_reference_length": 433,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F026",
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        }
+      ],
+      "dataset_reference_length": 623,
+      "local_reference_length": 623,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F027",
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "dataset_reference_length": 368,
+      "local_reference_length": 368,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F028",
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        },
+        {
+          "v4.30.0": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5"
+        }
+      ],
+      "dataset_reference_length": 312,
+      "local_reference_length": 312,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F029",
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "dataset_reference_length": 364,
+      "local_reference_length": 364,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F030",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "source": "cslib",
+      "required_versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "dataset_reference_length": 519,
+      "local_reference_length": 519,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": false,
+      "reference_text_gate_rejection": "Forbidden command, axiom, option or executable construct in proof",
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F031",
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.34.0": "fa14552d40e793f2ea26e65c440306aae0c08a26"
+        },
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 1353,
+      "local_reference_length": 1353,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": false,
+      "reference_text_gate_rejection": "Forbidden command, axiom, option or executable construct in proof",
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F032",
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 1906,
+      "local_reference_length": 1906,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F033",
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 1463,
+      "local_reference_length": 1463,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F034",
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 546,
+      "local_reference_length": 546,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": false,
+      "reference_text_gate_rejection": "Forbidden command, axiom, option or executable construct in proof",
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F035",
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 2440,
+      "local_reference_length": 2440,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F036",
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 5128,
+      "local_reference_length": 5128,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F037",
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 2122,
+      "local_reference_length": 2122,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F038",
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 5538,
+      "local_reference_length": 5538,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F039",
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 1426,
+      "local_reference_length": 1426,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F040",
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "required_versions": [
+        {
+          "v4.34.0": "fa14552d40e793f2ea26e65c440306aae0c08a26"
+        },
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "dataset_reference_length": 1105,
+      "local_reference_length": 1105,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F041",
+      "name": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 2030,
+      "local_reference_length": 2030,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F042",
+      "name": "CoxeterSystem.matsumoto_reduced_aux",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 1699,
+      "local_reference_length": 1699,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F043",
+      "name": "Vlasov.transportedIntegral_continuousOn",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 2413,
+      "local_reference_length": 2413,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F044",
+      "name": "ZetaZeros.step1_double",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 2315,
+      "local_reference_length": 2315,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F045",
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 1756,
+      "local_reference_length": 1756,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F046",
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 1645,
+      "local_reference_length": 1645,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F047",
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 1509,
+      "local_reference_length": 1509,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F048",
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 2879,
+      "local_reference_length": 2879,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": false,
+      "reference_text_gate_rejection": "Forbidden command, axiom, option or executable construct in proof",
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F049",
+      "name": "FirstOrder.Language.schemaTruthStage_imp",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 746,
+      "local_reference_length": 746,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F050",
+      "name": "RS.cechCount",
+      "source": "leanpool",
+      "required_versions": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "dataset_reference_length": 911,
+      "local_reference_length": 911,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F051",
+      "name": "putnam_1964_a4",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 1769,
+      "local_reference_length": 1769,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F052",
+      "name": "putnam_1995_a3",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 4085,
+      "local_reference_length": 4085,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F053",
+      "name": "putnam_1988_a2",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 2162,
+      "local_reference_length": 2161,
+      "reference_metric_difference": -1,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F054",
+      "name": "putnam_2001_b1",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 3178,
+      "local_reference_length": 3178,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F055",
+      "name": "putnam_1964_b2",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 1754,
+      "local_reference_length": 1754,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F056",
+      "name": "putnam_2007_a1",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 5464,
+      "local_reference_length": 5463,
+      "reference_metric_difference": -1,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F057",
+      "name": "putnam_1970_b5",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 2134,
+      "local_reference_length": 2134,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F058",
+      "name": "putnam_1968_a1",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 1084,
+      "local_reference_length": 1084,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F059",
+      "name": "putnam_1991_b1",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 3313,
+      "local_reference_length": 3313,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    },
+    {
+      "problem_id": "F060",
+      "name": "putnam_2019_a1",
+      "source": "putnambench",
+      "required_versions": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "dataset_reference_length": 2381,
+      "local_reference_length": 2381,
+      "reference_metric_difference": 0,
+      "reference_passes_local_text_gate": true,
+      "reference_text_gate_rejection": null,
+      "conditional_tactic_syntax_lower_bound": 2,
+      "exact_minimum_length": null,
+      "problem_specific_lower_bound_proved": false,
+      "two_token_proof_found_in_this_analysis": false
+    }
+  ]
+}

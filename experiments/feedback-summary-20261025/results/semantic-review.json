@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "complete": true,
+  "method": "Coordinator inspects archived first diagnostics and output after delivery. Review never changes solver feedback. Exact-copy cases are also checked mechanically. No formal semantic-equivalence claim.",
+  "reviewer_backend_model_id": null,
+  "reviewer_internal_calls": null,
+  "reviewer_cost_usd": null,
+  "entries": [
+    {
+      "trial_id": "P13-M-r1",
+      "step": 1,
+      "response_sha256": "9395820894acf26a52bfd6859dec330ba86fe73113e3b0d769a9dfaf3da63e86",
+      "identical_to_extracted_diagnostic": true,
+      "added_repair_strategy_observed": false,
+      "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed.",
+      "semantic_fidelity_concern": false,
+      "compiler_advice_retained": false,
+      "advice_free_output_concern": false
+    },
+    {
+      "trial_id": "P13-M-r1",
+      "step": 5,
+      "response_sha256": "2810792b89ebcd476c05c07e41586050c2794da628741618d9e312c35cdaf1e4",
+      "identical_to_extracted_diagnostic": true,
+      "added_repair_strategy_observed": false,
+      "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed.",
+      "semantic_fidelity_concern": false,
+      "compiler_advice_retained": false,
+      "advice_free_output_concern": false
+    },
+    {
+      "trial_id": "P01-M-r1",
+      "step": 1,
+      "response_sha256": "b5a13ee8341c5e174a1212ba01d6044707c05fa6fd4f6b88d6af1b2b1d496492",
+      "identical_to_extracted_diagnostic": true,
+      "added_repair_strategy_observed": false,
+      "semantic_fidelity_concern": false,
+      "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed.",
+      "compiler_advice_retained": false,
+      "advice_free_output_concern": false
+    },
+    {
+      "trial_id": "P01-M-r1",
+      "step": 2,
+      "response_sha256": "12258295f3627a4fa9606ea82ea60e551967b86da0ce00b9069e465943a62c1d",
+      "identical_to_extracted_diagnostic": false,
+      "added_repair_strategy_observed": false,
+      "semantic_fidelity_concern": true,
+      "semantic_fidelity_review": "Goal and selected type lines are verbatim. Context omits the binder line name : while retaining its type continuation, creating orphan context lines. Source h is omitted, although its proposition remains in the copied goal diagnostics. Semantic preservation is not established.",
+      "compiler_advice_retained": false,
+      "advice_free_output_concern": false
+    },
+    {
+      "trial_id": "P01-M-r1",
+      "step": 7,
+      "response_sha256": "31c9c6031dcb74c3f8cf07f66f15eeb92b4b23d7d9d8a6e572c6ba20c54b0fb0",
+      "identical_to_extracted_diagnostic": true,
+      "added_repair_strategy_observed": false,
+      "semantic_fidelity_concern": false,
+      "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed relative to the extracted first diagnostic.",
+      "compiler_advice_retained": false,
+      "advice_free_output_concern": false
+    },
+    {
+      "trial_id": "P01-M-r2",
+      "step": 1,
+      "response_sha256": "35a21c5fefa448c2c98e27e1079bb39c9da6fb4ed1e623f99e67cd05a5727a0d",
+      "identical_to_extracted_diagnostic": false,
+      "added_repair_strategy_observed": false,
+      "semantic_fidelity_concern": false,
+      "information_omitted_by_budget": true,
+      "semantic_fidelity_review": "The oversized goal includes extensive grind diagnostics. Output retains a contiguous logical prefix ending after complete asserted propositions, the complete x binder, and special-case equalities h_2/h_3/h_4. Metadata declarations and later diagnostic sections are omitted. Message and selected terms are verbatim; no added claims or repair advice observed. This is a selection review, not a proof of full semantic equivalence.",
+      "compiler_advice_retained": false,
+      "advice_free_output_concern": false
+    },
+    {
+      "trial_id": "P13-M-r2",
+      "step": 1,
+      "response_sha256": "921b2c9b32bc29bfee3b44928931cc21b2c3e1c26fb747a45f995c5ce0583e76",
+      "identical_to_extracted_diagnostic": true,
+      "added_repair_strategy_observed": false,
+      "semantic_fidelity_concern": false,
+      "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed relative to the extracted first diagnostic. Source diagnostic includes set_option suggestions, copied verbatim into output. No advice was newly generated, but the output is not strictly advice-free.",
+      "compiler_advice_retained": true,
+      "advice_free_output_concern": true
+    },
+    {
+      "trial_id": "P13-M-r2",
+      "step": 3,
+      "response_sha256": "5fa138addc19c89ff24c5b98e37b8f466165028bf5e4798580009c6c4a71a9e4",
+      "identical_to_extracted_diagnostic": true,
+      "added_repair_strategy_observed": false,
+      "semantic_fidelity_concern": false,
+      "compiler_advice_retained": false,
+      "advice_free_output_concern": false,
+      "semantic_fidelity_review": "Exact source diagnostic copied; no content added or removed relative to the extracted first diagnostic."
+    }
+  ]
+}

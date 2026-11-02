@@ -1,0 +1,139 @@
+{
+  "scope": "read-only saved-evidence integrity audit; no new Lean execution",
+  "P07": {
+    "candidate": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P07-2d273e0f5161/P07.lean",
+    "sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+    "pins": [
+      {
+        "pin": "v4.33.0-rc2",
+        "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-433/checkpoint-101.json",
+        "audit": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-433/receipt-audit-101.json",
+        "tokens": 101,
+        "raw_samples": [
+          7897617,
+          7897621,
+          7897605
+        ],
+        "raw_median": 7897617,
+        "baseline_tokens": 408,
+        "baseline_raw": 59808303,
+        "environment_identity": "a1d486d2cbdbd5276e71dffd3f85d0024ca93f7f2c6c4a46f15f129044c2eb05",
+        "saved_integrity_ok": true
+      },
+      {
+        "pin": "v4.32.0",
+        "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-432/checkpoint-101.json",
+        "audit": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-432/receipt-audit-101.json",
+        "tokens": 101,
+        "raw_samples": [
+          7932043,
+          7932040,
+          7932031
+        ],
+        "raw_median": 7932040,
+        "baseline_tokens": 408,
+        "baseline_raw": 61961505,
+        "environment_identity": "2a997f3f539dd78899e382fef5a1a6b87781076757eedeb37b01439ef7545b88",
+        "saved_integrity_ok": true
+      },
+      {
+        "pin": "v4.31.0",
+        "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-agent3-431/checkpoint.json",
+        "audit": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-agent3-431/receipt-audit-101.json",
+        "tokens": 101,
+        "raw_samples": [
+          7973762,
+          7973755,
+          7973749
+        ],
+        "raw_median": 7973755,
+        "baseline_tokens": 408,
+        "baseline_raw": 61920873,
+        "environment_identity": "4c1d333fa91c1a45ec571bc47555800ed58705f3247766876c8a5bc1db2940ed",
+        "saved_integrity_ok": true
+      }
+    ],
+    "candidate_hash_ok": true
+  },
+  "P08": {
+    "candidate": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round6/validated/P08.lean",
+    "sha256": "8b15f299a78a2444df2d0f92648f0562c38dabdedfd5a51c27e6a86bf0ad2b10",
+    "pins": [
+      {
+        "pin": "4.30.0",
+        "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round6/certificate/full430_fixed_certificate3/c13_join_elim_resolved_constants/result.json",
+        "tokens": 185,
+        "raw_samples": [
+          387757,
+          387755,
+          387760
+        ],
+        "raw_median": 387757,
+        "axioms": [],
+        "saved_integrity_ok": true
+      },
+      {
+        "pin": "4.31.0",
+        "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round6/certificate/full431_certificate3/c13_join_elim_resolved_constants/result.json",
+        "tokens": 185,
+        "raw_samples": [
+          383135,
+          383133,
+          383138
+        ],
+        "raw_median": 383135,
+        "axioms": [],
+        "saved_integrity_ok": true
+      },
+      {
+        "pin": "4.32.0",
+        "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round6/certificate/full432_certificate3/c13_join_elim_resolved_constants/result.json",
+        "tokens": 185,
+        "raw_samples": [
+          383072,
+          383070,
+          383074
+        ],
+        "raw_median": 383072,
+        "axioms": [],
+        "saved_integrity_ok": true
+      },
+      {
+        "pin": "4.33.0-rc2",
+        "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round6/certificate/full433_certificate3/c13_join_elim_resolved_constants/result.json",
+        "tokens": 185,
+        "raw_samples": [
+          383448,
+          383442,
+          383450
+        ],
+        "raw_median": 383448,
+        "axioms": [],
+        "saved_integrity_ok": true
+      }
+    ],
+    "candidate_hash_ok": true,
+    "primary_pin": "v4.33.0-rc2",
+    "fresh_primary_evidence": {
+      "candidate_receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p08-agent3-433/evaluations/seed-6681f917ea/result.json",
+      "baseline_receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p08-agent3-433/evaluations/original-e4e39e7ea1/result.json",
+      "candidate_sha256": "8b15f299a78a2444df2d0f92648f0562c38dabdedfd5a51c27e6a86bf0ad2b10",
+      "tokens": 185,
+      "raw_samples": [
+        383447,
+        383446,
+        383447
+      ],
+      "raw_median": 383447,
+      "baseline_tokens": 407,
+      "baseline_raw_samples": [
+        1381847,
+        1381831,
+        1381867
+      ],
+      "baseline_raw_median": 1381847,
+      "score": 75.59885976939384,
+      "saved_integrity_ok": true
+    }
+  }
+}

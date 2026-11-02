@@ -1,0 +1,20 @@
+{
+  "created_at": "2026-10-25T09:58:10.098423+00:00",
+  "worktree": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-feedback-summary-20261025",
+  "branch": "exp/feedback-followup-20261025",
+  "implementation_commit": "8101c9385360b0639361c8f44d0cce660f3a38aa",
+  "baseline_reference_commit": "93cc6bb",
+  "solver_fork_turns": "none",
+  "summarizer_fork_turns": "none",
+  "explicit_model_override": null,
+  "exact_backend_model_id": null,
+  "sampling_seed": null,
+  "internal_model_call_count": null,
+  "cost_usd": null,
+  "max_solver_parallelism": 2,
+  "max_concurrent_summarizers": 1,
+  "paid_api_backend_configured": false,
+  "local_historical_traces_read_only_by_policy": true,
+  "original_checkout_restored_to_branch": "exp/first-harness-jwkweon",
+  "user_selected_experiment": "structured extraction versus model semantic summary at common 1600-char limit"
+}

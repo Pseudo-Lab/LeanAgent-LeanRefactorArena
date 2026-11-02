@@ -1,0 +1,316 @@
+{
+  "schema_version": 1,
+  "dataset": "benchmarks/arena/final-d53690b057f9/benchmark_data_final.jsonl",
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "platform": "darwin_aarch64",
+  "environments": [
+    {
+      "id": "arklib-v4.30.0",
+      "source": "arklib",
+      "version": "v4.30.0",
+      "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+      "url": "https://github.com/Verified-zkEVM/ArkLib.git",
+      "project": "sources/final/checkouts/v4.30.0/Verified-zkEVM--ArkLib--e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+      "problem_rows": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    {
+      "id": "arklib-v4.31.0",
+      "source": "arklib",
+      "version": "v4.31.0",
+      "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "url": "https://github.com/Verified-zkEVM/ArkLib.git",
+      "project": "sources/final/checkouts/v4.31.0/Verified-zkEVM--ArkLib--c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "problem_rows": [
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40
+      ]
+    },
+    {
+      "id": "arklib-v4.33.1",
+      "source": "arklib",
+      "version": "v4.33.1",
+      "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+      "url": "https://github.com/Verified-zkEVM/ArkLib.git",
+      "project": "sources/final/checkouts/v4.33.1/Verified-zkEVM--ArkLib--3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+      "problem_rows": [
+        31,
+        34,
+        40
+      ]
+    },
+    {
+      "id": "arklib-v4.34.0",
+      "source": "arklib",
+      "version": "v4.34.0",
+      "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+      "url": "https://github.com/Verified-zkEVM/ArkLib.git",
+      "project": "sources/final/checkouts/v4.34.0/Verified-zkEVM--ArkLib--fa14552d40e793f2ea26e65c440306aae0c08a26",
+      "problem_rows": [
+        31,
+        40
+      ]
+    },
+    {
+      "id": "cslib-v4.30.0",
+      "source": "cslib",
+      "version": "v4.30.0",
+      "revision": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
+      "url": "https://github.com/leanprover/cslib.git",
+      "project": "sources/final/checkouts/v4.30.0/leanprover--cslib--c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
+      "problem_rows": [
+        28
+      ]
+    },
+    {
+      "id": "cslib-v4.31.0",
+      "source": "cslib",
+      "version": "v4.31.0",
+      "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+      "url": "https://github.com/leanprover/cslib.git",
+      "project": "sources/final/checkouts/v4.31.0/leanprover--cslib--8ea71c8df91acd63285515a04da952b23b78d266",
+      "problem_rows": [
+        23,
+        26,
+        28
+      ]
+    },
+    {
+      "id": "cslib-v4.33.1",
+      "source": "cslib",
+      "version": "v4.33.1",
+      "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+      "url": "https://github.com/leanprover/cslib.git",
+      "project": "sources/final/checkouts/v4.33.1/leanprover--cslib--98e395a701f2027a413ad24729e1a11a6c772eb4",
+      "problem_rows": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30
+      ]
+    },
+    {
+      "id": "cslib-v4.34.1",
+      "source": "cslib",
+      "version": "v4.34.1",
+      "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "url": "https://github.com/leanprover/cslib.git",
+      "project": "sources/final/checkouts/v4.34.1/leanprover--cslib--7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "problem_rows": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        27,
+        29,
+        30
+      ]
+    },
+    {
+      "id": "leanpool-v4.34.0",
+      "source": "leanpool",
+      "version": "v4.34.0",
+      "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+      "url": "https://github.com/Vilin97/lean-pool.git",
+      "project": "sources/final/checkouts/v4.34.0/Vilin97--lean-pool--38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+      "problem_rows": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ]
+    },
+    {
+      "id": "leanpool-v4.35.0-rc3",
+      "source": "leanpool",
+      "version": "v4.35.0-rc3",
+      "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "url": "https://github.com/Vilin97/lean-pool.git",
+      "project": "sources/final/checkouts/v4.35.0-rc3/Vilin97--lean-pool--630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "problem_rows": [
+        41,
+        42,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50
+      ]
+    },
+    {
+      "id": "physlib-v4.34.0",
+      "source": "physlib",
+      "version": "v4.34.0",
+      "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+      "url": "https://github.com/leanprover-community/physlib.git",
+      "project": "sources/final/checkouts/v4.34.0/leanprover-community--physlib--58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+      "problem_rows": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "id": "physlib-v4.34.1",
+      "source": "physlib",
+      "version": "v4.34.1",
+      "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "url": "https://github.com/leanprover-community/physlib.git",
+      "project": "sources/final/checkouts/v4.34.1/leanprover-community--physlib--9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "problem_rows": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ]
+    },
+    {
+      "id": "putnambench-v4.26.0",
+      "source": "putnambench",
+      "version": "v4.26.0",
+      "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+      "url": "https://github.com/leanprover-community/mathlib4.git",
+      "project": "sources/final/checkouts/v4.26.0/leanprover-community--mathlib4--2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+      "problem_rows": [
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        59,
+        60
+      ]
+    },
+    {
+      "id": "putnambench-v4.27.0",
+      "source": "putnambench",
+      "version": "v4.27.0",
+      "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "url": "https://github.com/leanprover-community/mathlib4.git",
+      "project": "sources/final/checkouts/v4.27.0/leanprover-community--mathlib4--a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "problem_rows": [
+        51,
+        52,
+        53,
+        54,
+        56,
+        57,
+        58,
+        59,
+        60
+      ]
+    },
+    {
+      "id": "strata-v4.26.0",
+      "source": "strata",
+      "version": "v4.26.0",
+      "revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+      "url": "https://github.com/strata-org/Strata.git",
+      "project": "sources/final/checkouts/v4.26.0/strata-org--Strata--451e5f047bafa010d178856db76c00029bfa4d7f",
+      "problem_rows": [
+        1
+      ]
+    },
+    {
+      "id": "strata-v4.27.0",
+      "source": "strata",
+      "version": "v4.27.0",
+      "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+      "url": "https://github.com/strata-org/Strata.git",
+      "project": "sources/final/checkouts/v4.27.0/strata-org--Strata--4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+      "problem_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    },
+    {
+      "id": "strata-v4.31.0",
+      "source": "strata",
+      "version": "v4.31.0",
+      "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "url": "https://github.com/strata-org/Strata.git",
+      "project": "sources/final/checkouts/v4.31.0/strata-org--Strata--33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "problem_rows": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
+    }
+  ],
+  "toolchain_versions": [
+    "v4.26.0",
+    "v4.27.0",
+    "v4.30.0",
+    "v4.31.0",
+    "v4.33.1",
+    "v4.34.0",
+    "v4.34.1",
+    "v4.35.0-rc3"
+  ],
+  "scope": "Environment preparation only; no model/API calls or proof search."
+}

@@ -1,0 +1,1462 @@
+{
+  "schema_version": 1,
+  "created_utc": "2026-10-28T07:37:45.189927+00:00",
+  "scope": "Read-only audit of existing archival proof/receipt files; only this evidence JSON is written. No Lean execution, no official submission.",
+  "selection_baseline": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/selection-baseline.json",
+  "selection_baseline_sha256": "1daee10ac70c3a16d3e181de0cbc3019ebf23d974761da783d0ba48258230736",
+  "benchmark": "/Users/zzu0203/projects/01_가짜연구소/LEArN/week3-experiments/corpus/data/arena/56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c/benchmark_data_warmup.jsonl",
+  "benchmark_sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
+  "tokenizer": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/evaluator/tokens.py",
+  "tokenizer_sha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+  "tokenizer_id": "lean-source-anchored-v1",
+  "evidence_policy": "Success evidence is not upgraded to fresh independent Check/Audit/Measure certification. Embedded axiom checks and unavailable remote raw logs are explicitly distinguished.",
+  "entries": [
+    {
+      "id": 1,
+      "name": "CallElimCorrect.substOldPostSubset",
+      "proof_path": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/candidate.lean",
+      "proof_sha256": "954dee0cdde6bebb35e0bd0cb8b2d691526facc46d4b5ab7b7d7ee3fb6e9b5f5",
+      "proof_tokens": 32,
+      "statement_preserved": true,
+      "required_versions": [
+        "v4.26.0"
+      ],
+      "required_revisions": {
+        "v4.26.0": "451e5f047bafa010d178856db76c00029bfa4d7f"
+      },
+      "pins": [
+        {
+          "version": "v4.26.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/result.json",
+          "receipt_sha256": "2a3b6bf9b623130456f239154e80322683ec275d160a9f0c2182f1ae614454cb",
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+          "source_revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/lean-4-26/check.lean",
+              "source_sha256": "8e5bd178aef3881ddeb60a9e576ff40949bd3fd860707b14688bd9db9d9aa5e7",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/lean-4-26/check.log",
+              "log_sha256": "1119baa3681ab2087305f641c1cdaa347e6a39fd4e98cb1a48ff9c9a9f411723",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/lean-4-26/measure-1.lean",
+              "source_sha256": "602d6bcfcf5c3958c004db1574a52eb77da60ac36f6a6300e5f28a94cfd7af0f",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/lean-4-26/measure-1.log",
+              "log_sha256": "6b1e46e2e49fc058786d51cd9d8a50c6c94afd54d679ea2f3d212535c2365b37",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 1320467,
+                "scaled": 1320,
+                "target": "CallElimCorrect.substOldPostSubset"
+              },
+              "fresh_marker": "13e04a689f5e485d82eda9b9c417b319"
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/lean-4-26/measure-2.lean",
+              "source_sha256": "499b04140f3691f52f1c795e726146ee764bc93ba3940d677813dca7a37543c7",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/lean-4-26/measure-2.log",
+              "log_sha256": "341e1aff599fac9f9a112a0c5fec5df80ac2592289a9c5d1934aca72a5105202",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 1320409,
+                "scaled": 1320,
+                "target": "CallElimCorrect.substOldPostSubset"
+              },
+              "fresh_marker": "26a06a02d01b414ba84f44465c63fcd2"
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/lean-4-26/measure-3.lean",
+              "source_sha256": "2eea2fcf2d58867cbf8d9407e0c9452a9fa5ea3df2bae933f7b6cb2cc8eb9ee3",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/lean-4-26/measure-3.log",
+              "log_sha256": "c4daf4f2623d5f0117282500a9a5e13a6195c0e286248676ac007bf66369c3cf",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 1320545,
+                "scaled": 1320,
+                "target": "CallElimCorrect.substOldPostSubset"
+              },
+              "fresh_marker": "59c7a6eb53144b209960a52d9e56cf77"
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms collected inside successful Measure process; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            1320467,
+            1320409,
+            1320545
+          ],
+          "evidence_level": "local source/log hashes reverified",
+          "measure_runs": 3
+        }
+      ],
+      "limitations": [
+        "Axiom checking is embedded in Measure, not a separate imported-olean Audit process."
+      ],
+      "selection_evidence": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/selection.json",
+      "all_required_versions_have_matching_success_evidence": true,
+      "all_required_versions_independent_audit": false,
+      "all_raw_source_log_hashes_reverified": true,
+      "all_recorded_measure_source_log_hashes_reverified": true
+    },
+    {
+      "id": 2,
+      "name": "CallElimCorrect.extractedOldExprInVars",
+      "proof_path": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/candidate.lean",
+      "proof_sha256": "9c73432c2f05c8ca0408716ae9bd45374ed724bd982ed43ffc34afd49ba5ce9d",
+      "proof_tokens": 19,
+      "statement_preserved": true,
+      "required_versions": [
+        "v4.26.0"
+      ],
+      "required_revisions": {
+        "v4.26.0": "451e5f047bafa010d178856db76c00029bfa4d7f"
+      },
+      "pins": [
+        {
+          "version": "v4.26.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/result.json",
+          "receipt_sha256": "84f2011d5acf2ff956249af056d4bf18154e4f806c7023419ed7dbd57666b05c",
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+          "source_revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/lean-4-26/check.lean",
+              "source_sha256": "c7194cccc847e3d00bf5f47617306e6c23d04b3b7e1de4c326652a9b27721ee4",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/lean-4-26/check.log",
+              "log_sha256": "7eb29995d98a782ca52bf476f984f9e6d7661f92a898c17752ee7a8ef1d5e385",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/lean-4-26/measure-1.lean",
+              "source_sha256": "2d4ca7c6af5309b1c7c722699b218d23228ca89d7878a1090ac498900b39b25a",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/lean-4-26/measure-1.log",
+              "log_sha256": "177c279dfcff692b84cf7b3eb3b4125a4ef296fcde8727f3bcf108df8e7391f4",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound"
+                ],
+                "raw": 326116,
+                "scaled": 326,
+                "target": "CallElimCorrect.extractedOldExprInVars"
+              },
+              "fresh_marker": "34fca8e554e6492bb9ac3d3f2e878f93"
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/lean-4-26/measure-2.lean",
+              "source_sha256": "d9419de15ea9cacbac4986e114f2c933a820d1bea8701b3e37e9e64be71ab2d4",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/lean-4-26/measure-2.log",
+              "log_sha256": "bd8ca8645e86638998a657f60a9e59690a53745eff5fe96baa409155da852aba",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound"
+                ],
+                "raw": 326124,
+                "scaled": 326,
+                "target": "CallElimCorrect.extractedOldExprInVars"
+              },
+              "fresh_marker": "15f41dfcd708482198fd999be5426acb"
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/lean-4-26/measure-3.lean",
+              "source_sha256": "3c890206eb836a17088bbd3d021f98f7e42e812cd655d507549f5ea66a16b1da",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/lean-4-26/measure-3.log",
+              "log_sha256": "dffc499f0b1a737bc2a8024d3e94c6fa1cb52a71d261a8f840b9e060ba429ae5",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound"
+                ],
+                "raw": 326111,
+                "scaled": 326,
+                "target": "CallElimCorrect.extractedOldExprInVars"
+              },
+              "fresh_marker": "86efd04d50724e25be6d3c82fb7da61a"
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms collected inside successful Measure process; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            326116,
+            326124,
+            326111
+          ],
+          "evidence_level": "local source/log hashes reverified",
+          "measure_runs": 3
+        }
+      ],
+      "limitations": [
+        "Axiom checking is embedded in Measure, not a separate imported-olean Audit process."
+      ],
+      "selection_evidence": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/selection.json",
+      "all_required_versions_have_matching_success_evidence": true,
+      "all_required_versions_independent_audit": false,
+      "all_raw_source_log_hashes_reverified": true,
+      "all_recorded_measure_source_log_hashes_reverified": true
+    },
+    {
+      "id": 3,
+      "name": "Core.InitsUpdatesComm",
+      "proof_path": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/candidate.lean",
+      "proof_sha256": "4422a08306c406fbf1cc8f63ea6aac6cb615f540e9d92fab67cd8cc1787cf2b3",
+      "proof_tokens": 78,
+      "statement_preserved": true,
+      "required_versions": [
+        "v4.29.1",
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "required_revisions": {
+        "v4.29.1": "384e22374e0872095ad9c6f74c5998c09cfd93a9",
+        "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+        "v4.26.0": "451e5f047bafa010d178856db76c00029bfa4d7f"
+      },
+      "pins": [
+        {
+          "version": "v4.26.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/result.json",
+          "receipt_sha256": "f7334b5f8c9dcb7e02c68d354f0a811ecac9514aaba58bb56a457543ae9bd4e7",
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+          "source_revision_matches": null,
+          "source_revision_evidence": "Archive project path and manifest identify benchmark revision; receipt git fingerprint is null.",
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Check.lean",
+              "source_sha256": "87178c2b72dd02f2770f1075b46badf9fa297abd34b082a5ade96725a6846405",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Check.log",
+              "log_sha256": "d3892f92f2f1cabf2532ea41a75c9c4b6423e78d6ffcd48922d2c5d4f58e97ad",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1
+            },
+            {
+              "stage": "Audit",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Audit.lean",
+              "source_sha256": "7a1e426383dec11a867a4d71a6a3e1a9cd6b5ee6cf16708480ca5737aa677cfc",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Audit.log",
+              "log_sha256": "3a2dbd877a8855acc7eb879bc99c01c0aab5a1fc4dd6a80a87f8178975df02cf",
+              "log_hash_verified": true,
+              "candidate_occurrences": null,
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ]
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Measure1.lean",
+              "source_sha256": "22a544f7a91ca1c8c259d82c09d5316f5f5b7ecacd7e4ec9a175af17aae0b18f",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Measure1.log",
+              "log_sha256": "b394dfdfd09dac278c4dd58ca7a0bab1a636e216c775d6c5842d92eb714ee263",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "raw": 230161,
+                "scaled": 230,
+                "target": "Core.InitsUpdatesComm"
+              },
+              "fresh_marker": "0ca54a8b64e94be2938aa2eee02e8fc7"
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Measure2.lean",
+              "source_sha256": "97579ac42b01f00e181e4344a22419a2d56916f1ea3faf379afacc88a5af5c80",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Measure2.log",
+              "log_sha256": "153821ca2401be71dd21e17c5399bba0a1455f30b2b1b29dc050177952ef4cf1",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "raw": 230155,
+                "scaled": 230,
+                "target": "Core.InitsUpdatesComm"
+              },
+              "fresh_marker": "c0101616e3b84469b7b2017088135539"
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Measure3.lean",
+              "source_sha256": "0a29ec22bd67401ce606aad4b3d8d72ae61aa352f379aedc34dd6ab33d5012d6",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.26.0/Measure3.log",
+              "log_sha256": "2c7f96eeec5ecb176f3a4c8f13ccf87140753b6f9c59afc88ab6d353682638bf",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "raw": 230156,
+                "scaled": 230,
+                "target": "Core.InitsUpdatesComm"
+              },
+              "fresh_marker": "e9fc473d4758442496dbac188004b246"
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "independent Audit imports Check.olean",
+          "independent_audit": true,
+          "axioms_allowed": true,
+          "raw_samples": [
+            230161,
+            230155,
+            230156
+          ],
+          "evidence_level": "local source/log hashes reverified",
+          "measure_runs": 3
+        },
+        {
+          "version": "v4.27.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.27.0/result.json",
+          "receipt_sha256": "744c0591c428b60428e4813bdb9e1b171670108dc151397247be257caa266a4e",
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.27.0, arm64-apple-darwin24.6.0, commit db93fe1608548721853390a10cd40580fe7d22ae, Release)",
+          "source_revision_matches": null,
+          "source_revision_evidence": "Archive project path and manifest identify benchmark revision; receipt git fingerprint is null.",
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.27.0/Check.lean",
+              "source_sha256": "5466d82d85ed07a58bfd1da9feb6d81fc4d540a63442efbb4de61fdbea6cddd1",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.27.0/Check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1
+            },
+            {
+              "stage": "Audit",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.27.0/Audit.lean",
+              "source_sha256": "7a1e426383dec11a867a4d71a6a3e1a9cd6b5ee6cf16708480ca5737aa677cfc",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.27.0/Audit.log",
+              "log_sha256": "3a2dbd877a8855acc7eb879bc99c01c0aab5a1fc4dd6a80a87f8178975df02cf",
+              "log_hash_verified": true,
+              "candidate_occurrences": null,
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ]
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.27.0/Measure1.lean",
+              "source_sha256": "fa9ceabc472030f6b3430219ea537c9e61c115b22cd10c3e944038e9dff86025",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.27.0/Measure1.log",
+              "log_sha256": "bcb0332eec6a14d663c5125200e2e894921e47a52a1ad7627d7c1539830b8e5e",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "raw": 243349,
+                "scaled": 243,
+                "target": "Core.InitsUpdatesComm"
+              },
+              "fresh_marker": "abf340f1f59847f5bd95264420f0e438"
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "independent Audit imports Check.olean",
+          "independent_audit": true,
+          "axioms_allowed": true,
+          "raw_samples": [
+            243349
+          ],
+          "evidence_level": "local source/log hashes reverified",
+          "measure_runs": 1
+        },
+        {
+          "version": "v4.29.1",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/result.json",
+          "receipt_sha256": "9addc7d161d1aa212f8f03de28e8eab9a6bb949aee24415309fc68899dc0d14c",
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.29.1, arm64-apple-darwin24.6.0, commit f72c35b3f637c8c6571d353742168ab66cc22c00, Release)",
+          "source_revision_matches": null,
+          "source_revision_evidence": "Archive project path and manifest identify benchmark revision; receipt git fingerprint is null.",
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Check.lean",
+              "source_sha256": "1bc537d069f336da39b7c8453403d2782040ce372bb0fe988fd51ad6164e62be",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1
+            },
+            {
+              "stage": "Audit",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Audit.lean",
+              "source_sha256": "7a1e426383dec11a867a4d71a6a3e1a9cd6b5ee6cf16708480ca5737aa677cfc",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Audit.log",
+              "log_sha256": "3a2dbd877a8855acc7eb879bc99c01c0aab5a1fc4dd6a80a87f8178975df02cf",
+              "log_hash_verified": true,
+              "candidate_occurrences": null,
+              "axioms": [
+                "propext",
+                "Quot.sound",
+                "Classical.choice"
+              ]
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Measure1.lean",
+              "source_sha256": "c755235bb206b426c8b51c4cfbb648061d0a43493e63d167b51e15f7aa4eccf4",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Measure1.log",
+              "log_sha256": "23daf9c817cdaa2dda0ab9fd8858344ae6ebfd82903cf19c1976b0e21884d195",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "raw": 271775,
+                "scaled": 271,
+                "target": "Core.InitsUpdatesComm"
+              },
+              "fresh_marker": "d339c8579aad4b6abf7b934afe17a8f9"
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Measure2.lean",
+              "source_sha256": "c3ba7bc4af3022d9f374369616fe59357d7285954ab4ca80f7be317fbdf81423",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Measure2.log",
+              "log_sha256": "7ae4e672d1f73b86e45bbfb187e84cca08bfc935de2fea9b92fca8c39c492188",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "raw": 271779,
+                "scaled": 271,
+                "target": "Core.InitsUpdatesComm"
+              },
+              "fresh_marker": "b488be2fe66f439c8fcb5d7feb6f1335"
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Measure3.lean",
+              "source_sha256": "fa9ba38bc73ea8dfeefb790ed2ee37e5612e37ca529cca7dbbb86b7a847ca0e5",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/Measure3.log",
+              "log_sha256": "63434afd38ca287a5ba5055ccf704bcb4d637521bdeecc28c5f53bae81616bd8",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "raw": 271774,
+                "scaled": 271,
+                "target": "Core.InitsUpdatesComm"
+              },
+              "fresh_marker": "63f36006cbba4d6aa858bbf81e4d023f"
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "independent Audit imports Check.olean",
+          "independent_audit": true,
+          "axioms_allowed": true,
+          "raw_samples": [
+            271775,
+            271779,
+            271774
+          ],
+          "evidence_level": "local source/log hashes reverified",
+          "measure_runs": 3
+        }
+      ],
+      "limitations": [
+        "Receipt git fingerprint is null for P03; version and all local source/log hashes are verified, while source revision is identified by manifest/project path rather than a recorded git head."
+      ],
+      "selection_evidence": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/validated/manifest.json",
+      "all_required_versions_have_matching_success_evidence": true,
+      "all_required_versions_independent_audit": true,
+      "all_raw_source_log_hashes_reverified": true,
+      "all_recorded_measure_source_log_hashes_reverified": true
+    },
+    {
+      "id": 13,
+      "name": "putnam_1964_a4",
+      "proof_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/best/P13.lean",
+      "proof_sha256": "6bf40078bbbbbafe922d313feb4228bc8c6262269d3a13231482b25c001feda9",
+      "proof_tokens": 259,
+      "statement_preserved": true,
+      "required_versions": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "required_revisions": {
+        "v4.25.0": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+        "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+        "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+      },
+      "pins": [
+        {
+          "version": "v4.25.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/verification-results.json",
+          "receipt_sha256": "6821a59610b34a8b70ae8c307e36169b55d2f016fc179ae332504e97e442e8db",
+          "json_pointer": "/problems/2/versions/v4.25.0/candidates/권주원-final",
+          "matching_candidate_labels": [
+            "권주원-final"
+          ],
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.25.0, x86_64-unknown-linux-gnu, commit cdd38ac5115bdeec5f609e9126cce00f51ae88b3, Release)",
+          "source_revision": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P13/6bf40078bbbbbafe/v4-25-0/check.lean",
+              "source_sha256": "eec246eba6a1e39238929c9baaec6263c94083b415b37b7b0e52edee17bb3d16",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P13/6bf40078bbbbbafe/v4-25-0/check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.25.0/candidates/권주원-final/result/environments/v4-25-0/runs/0"
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P13/6bf40078bbbbbafe/v4-25-0/measure-1.lean",
+              "source_sha256": "bb6ee5a0f4a5278257561c8553b4f37668aeb129459d7727242ef42b4cfbd713",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P13/6bf40078bbbbbafe/v4-25-0/measure-1.log",
+              "log_sha256": "c1d40269b555aa445a9a372f942f794c6d506fccd508e4257e699574638efc99",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.25.0/candidates/권주원-final/result/environments/v4-25-0/runs/1",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Classical.choice",
+                  "Quot.sound"
+                ],
+                "raw": 3661527,
+                "scaled": 3661,
+                "target": "putnam_1964_a4"
+              }
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P13/6bf40078bbbbbafe/v4-25-0/measure-2.lean",
+              "source_sha256": "9cb24c4fe4d3cb06e77e0010cfb1715ad6cd02eeac90266007c65505d2a53347",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P13/6bf40078bbbbbafe/v4-25-0/measure-2.log",
+              "log_sha256": "f0b492226fe21230a02cc3f1d4058fbcae26f18c5ffee8073580e47e8bc3abb3",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.25.0/candidates/권주원-final/result/environments/v4-25-0/runs/2",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Classical.choice",
+                  "Quot.sound"
+                ],
+                "raw": 3661351,
+                "scaled": 3661,
+                "target": "putnam_1964_a4"
+              }
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P13/6bf40078bbbbbafe/v4-25-0/measure-3.lean",
+              "source_sha256": "b8a84f46b8c4b9293e0e681f18bd47b982a5ff63d7ea840283fb9c5d551395b4",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P13/6bf40078bbbbbafe/v4-25-0/measure-3.log",
+              "log_sha256": "392d5113058cb274db2e3072a297cbc9068696a858d85e99ee354c412ee6dc82",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.25.0/candidates/권주원-final/result/environments/v4-25-0/runs/3",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Classical.choice",
+                  "Quot.sound"
+                ],
+                "raw": 3661333,
+                "scaled": 3661,
+                "target": "putnam_1964_a4"
+              }
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms recorded inside successful CI Measure; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            3661527,
+            3661351,
+            3661333
+          ],
+          "evidence_level": "archived CI structured receipt; original source/log files unavailable at recorded remote paths",
+          "measure_runs": 3
+        },
+        {
+          "version": "v4.26.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/verification-results.json",
+          "receipt_sha256": "6821a59610b34a8b70ae8c307e36169b55d2f016fc179ae332504e97e442e8db",
+          "json_pointer": "/problems/2/versions/v4.26.0/candidates/권주원-final",
+          "matching_candidate_labels": [
+            "권주원-final"
+          ],
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.26.0, x86_64-unknown-linux-gnu, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+          "source_revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P13/6bf40078bbbbbafe/v4-26-0/check.lean",
+              "source_sha256": "eec246eba6a1e39238929c9baaec6263c94083b415b37b7b0e52edee17bb3d16",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P13/6bf40078bbbbbafe/v4-26-0/check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.26.0/candidates/권주원-final/result/environments/v4-26-0/runs/0"
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P13/6bf40078bbbbbafe/v4-26-0/measure-1.lean",
+              "source_sha256": "269f3ce8a6f7471f45b15ae0dabe60d3a5864eea1a63cc61cc0f343c848f23ff",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P13/6bf40078bbbbbafe/v4-26-0/measure-1.log",
+              "log_sha256": "da2a4f651eeca2b27ed0941c48b5fed4f1635a8f8432246a3f550ed9ae1f020e",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.26.0/candidates/권주원-final/result/environments/v4-26-0/runs/1",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Classical.choice",
+                  "Quot.sound"
+                ],
+                "raw": 2931408,
+                "scaled": 2931,
+                "target": "putnam_1964_a4"
+              }
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P13/6bf40078bbbbbafe/v4-26-0/measure-2.lean",
+              "source_sha256": "3f0adcd4a80cbbc4bcf2339861d8c5764bd32b942e01850782930a267023e389",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P13/6bf40078bbbbbafe/v4-26-0/measure-2.log",
+              "log_sha256": "3921dd4faee37dfab1255dc795467d13a05f9ee743992aea2c77392276feea1c",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.26.0/candidates/권주원-final/result/environments/v4-26-0/runs/2",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Classical.choice",
+                  "Quot.sound"
+                ],
+                "raw": 2931232,
+                "scaled": 2931,
+                "target": "putnam_1964_a4"
+              }
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P13/6bf40078bbbbbafe/v4-26-0/measure-3.lean",
+              "source_sha256": "1c86ff40a25ebd86bb07aca3a5dabbeadf9f683c3c29774bf937dd8ded509ba0",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P13/6bf40078bbbbbafe/v4-26-0/measure-3.log",
+              "log_sha256": "6eff1a46b72a31d16d1e8189bcbb1830d4e9e4d34638dbaa24458339aa5f4cb1",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.26.0/candidates/권주원-final/result/environments/v4-26-0/runs/3",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Classical.choice",
+                  "Quot.sound"
+                ],
+                "raw": 2931214,
+                "scaled": 2931,
+                "target": "putnam_1964_a4"
+              }
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms recorded inside successful CI Measure; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            2931408,
+            2931232,
+            2931214
+          ],
+          "evidence_level": "archived CI structured receipt; original source/log files unavailable at recorded remote paths",
+          "measure_runs": 3
+        },
+        {
+          "version": "v4.27.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/verification-results.json",
+          "receipt_sha256": "6821a59610b34a8b70ae8c307e36169b55d2f016fc179ae332504e97e442e8db",
+          "json_pointer": "/problems/2/versions/v4.27.0/candidates/권주원-final",
+          "matching_candidate_labels": [
+            "권주원-final"
+          ],
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.27.0, x86_64-unknown-linux-gnu, commit db93fe1608548721853390a10cd40580fe7d22ae, Release)",
+          "source_revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/check.lean",
+              "source_sha256": "eec246eba6a1e39238929c9baaec6263c94083b415b37b7b0e52edee17bb3d16",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.27.0/candidates/권주원-final/result/environments/v4-27-0/runs/0"
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-1.lean",
+              "source_sha256": "251d50a07c9ec6342bcab69e5f2f1046e25cb670880eb57138db42645f6e51ac",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-1.log",
+              "log_sha256": "da3aaf0a1994e89be9ccfb8c8129590ec682e62625f44a0bf68687ed3d8e7c64",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.27.0/candidates/권주원-final/result/environments/v4-27-0/runs/1",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2876150,
+                "scaled": 2876,
+                "target": "putnam_1964_a4"
+              }
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-2.lean",
+              "source_sha256": "51a6b3c3bdd06b2da11657ff6f4bf4e980d5b8cb139943f225138fdfe3a58c72",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-2.log",
+              "log_sha256": "ee845a535dd92f881278fe0eb807a15377e61d08cdd6171394406ea2e369ba52",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.27.0/candidates/권주원-final/result/environments/v4-27-0/runs/2",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2875973,
+                "scaled": 2875,
+                "target": "putnam_1964_a4"
+              }
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-3.lean",
+              "source_sha256": "98af926cc44159d3d6cc34ad97a343fbcbef3ab1f2b790f39e7b27e649405567",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P13/6bf40078bbbbbafe/v4-27-0/measure-3.log",
+              "log_sha256": "f95d39e0c307abf3450e7808f4046042b2fd6e629e16d3176e109add3281b98d",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/2/versions/v4.27.0/candidates/권주원-final/result/environments/v4-27-0/runs/3",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2875955,
+                "scaled": 2875,
+                "target": "putnam_1964_a4"
+              }
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms recorded inside successful CI Measure; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            2876150,
+            2875973,
+            2875955
+          ],
+          "evidence_level": "archived CI structured receipt; original source/log files unavailable at recorded remote paths",
+          "measure_runs": 3
+        }
+      ],
+      "limitations": [
+        "Archived CI JSON binds exact candidate SHA to successful Check and Measure on every required pin. Original remote Check/Measure sources and logs are not present at recorded paths; their recorded hashes cannot be independently reverified here.",
+        "Axiom checking is embedded in Measure, not a separate imported-olean Audit process. No new Lean execution was performed."
+      ],
+      "selection_evidence": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/verification-results.json",
+      "all_required_versions_have_matching_success_evidence": true,
+      "all_required_versions_independent_audit": false,
+      "all_raw_source_log_hashes_reverified": false,
+      "all_recorded_measure_source_log_hashes_reverified": false
+    },
+    {
+      "id": 14,
+      "name": "putnam_1964_b2",
+      "proof_path": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full/candidate.lean",
+      "proof_sha256": "a10d02bb75d48da51f9b0edda5b7312b1c4a4c02971d9bafdb4f77c9c8a44b32",
+      "proof_tokens": 55,
+      "statement_preserved": true,
+      "required_versions": [
+        "v4.25.0",
+        "v4.26.0"
+      ],
+      "required_revisions": {
+        "v4.25.0": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+        "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+      },
+      "pins": [
+        {
+          "version": "v4.25.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.25.0-full/result.json",
+          "receipt_sha256": "b1c7b3e0eb092efc7592e6079df1952560c91f4bc754577c339b6a2fca8bd80d",
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.25.0, arm64-apple-darwin24.6.0, commit cdd38ac5115bdeec5f609e9126cce00f51ae88b3, Release)",
+          "source_revision": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.25.0-full/lean-4.25.0/measure-1.lean",
+              "source_sha256": "617252711469ed2d23c0fee6a329012bee455352348a17782a4f1767aa7cd8d4",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.25.0-full/lean-4.25.0/measure-1.log",
+              "log_sha256": "5bcdb96627f2eea50335a5e830f54b9e295cd4c886b31d3799b2c9b172875bfa",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 1048393,
+                "scaled": 1048,
+                "target": "putnam_1964_b2"
+              },
+              "fresh_marker": "99c45710b6f64b35865c9b21a814e0d5"
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms collected inside successful Measure process; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            1048393
+          ],
+          "evidence_level": "local source/log hashes reverified",
+          "plain_check": {
+            "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-plain-4.25.0.json",
+            "receipt_sha256": "a8f34a0650fd3f27788f5657a7cda7881288c20395110b02a0128ee882e9ac77",
+            "returncode": 0,
+            "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-final-full-context.lean",
+            "source_sha256": "d2e995c1223325d443541dc36c62cdc27a1fb0da4d308242c8c7b0b3ca58d8aa",
+            "source_hash_verified": true,
+            "candidate_occurrences": 1,
+            "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-plain-4.25.0.log",
+            "current_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "historical_log_hash_available": false,
+            "scope": "Exact original source replacement; no wrapper, added imports or options"
+          },
+          "measure_runs": 1
+        },
+        {
+          "version": "v4.26.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full/result.json",
+          "receipt_sha256": "fb859cd6c81981e822a42201eba298561f832e7426bb83e6f57a4762fb004b50",
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+          "source_revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full/lean-4.26.0/measure-1.lean",
+              "source_sha256": "a9321010dc2806f2a2eaae7556956a3b8682004ab49ddd31b43d7630a75d4836",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full/lean-4.26.0/measure-1.log",
+              "log_sha256": "b3b9fb61bdb9f15e3aa72e2960fa4ecbc785b77c0f5a69fee4e58c531a498586",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 885863,
+                "scaled": 885,
+                "target": "putnam_1964_b2"
+              },
+              "fresh_marker": "b435aec33aa44005ab75865a848ed219"
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms collected inside successful Measure process; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            885863
+          ],
+          "evidence_level": "local source/log hashes reverified",
+          "plain_check": {
+            "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-plain-4.26.0.json",
+            "receipt_sha256": "d103b9dc85ea1d6328b3cd26071e759b26271367c33707d06bad041a3ab1c190",
+            "returncode": 0,
+            "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-final-full-context.lean",
+            "source_sha256": "d2e995c1223325d443541dc36c62cdc27a1fb0da4d308242c8c7b0b3ca58d8aa",
+            "source_hash_verified": true,
+            "candidate_occurrences": 1,
+            "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-plain-4.26.0.log",
+            "current_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "historical_log_hash_available": false,
+            "scope": "Exact original source replacement; no wrapper, added imports or options"
+          },
+          "measure_runs": 1
+        }
+      ],
+      "limitations": [
+        "Axiom checking is embedded in Measure, not a separate imported-olean Audit process.",
+        "Separate plain Check receipts have verified source hashes, but do not record historical log hashes; current log hashes are observational only. Primary selection receipt has one measurement; extra primary repeat receipt is linked separately."
+      ],
+      "selection_evidence": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/selection.json",
+      "extra_primary_evidence": [
+        {
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full-repeat/result.json",
+          "receipt_sha256": "2188c962a9fca6515b2e0c186c3e3a70d3468127033bd016aac67d5dbba4dc39",
+          "version": "v4.26.0",
+          "jobs": [
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full-repeat/lean-4.26.0/measure-1.lean",
+              "source_sha256": "3a5fa782d45880e2e38a8ec0cab4768ced87f56c180accc601fd1ff073965375",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full-repeat/lean-4.26.0/measure-1.log",
+              "log_sha256": "d9f520dd81da6363b04cb46f0fd9163bcdfe0e6fe8b336d661059486eade9ffe",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 885788,
+                "scaled": 885,
+                "target": "putnam_1964_b2"
+              },
+              "fresh_marker": "0167e22b944147d5bf97dde14d0d332a"
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full-repeat/lean-4.26.0/measure-2.lean",
+              "source_sha256": "8ca727516b9a5a5a694f5fe6c916d2b66a85eae2c63356a89e66e978f739b1fe",
+              "source_hash_verified": true,
+              "log": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full-repeat/lean-4.26.0/measure-2.log",
+              "log_sha256": "e1d83d11723db556bb44cbb22cad46c6e6b91b78fdf17b46dc7951ad962aaeb1",
+              "log_hash_verified": true,
+              "candidate_occurrences": 1,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 885839,
+                "scaled": 885,
+                "target": "putnam_1964_b2"
+              },
+              "fresh_marker": "5d5ff07c209249209586433fabefe910"
+            }
+          ]
+        }
+      ],
+      "all_required_versions_have_matching_success_evidence": true,
+      "all_required_versions_independent_audit": false,
+      "all_raw_source_log_hashes_reverified": false,
+      "all_recorded_measure_source_log_hashes_reverified": true
+    },
+    {
+      "id": 15,
+      "name": "putnam_1995_a3",
+      "proof_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/best/P15.lean",
+      "proof_sha256": "df3d7440b9e416612f6ad85bb1311171baa6746aef7ad7d7951177254eed19dd",
+      "proof_tokens": 283,
+      "statement_preserved": true,
+      "required_versions": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "required_revisions": {
+        "v4.25.0": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+        "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+        "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+      },
+      "pins": [
+        {
+          "version": "v4.25.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/verification-results.json",
+          "receipt_sha256": "6821a59610b34a8b70ae8c307e36169b55d2f016fc179ae332504e97e442e8db",
+          "json_pointer": "/problems/4/versions/v4.25.0/candidates/박채원-final",
+          "matching_candidate_labels": [
+            "박채원-local-v426",
+            "박채원-final"
+          ],
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.25.0, x86_64-unknown-linux-gnu, commit cdd38ac5115bdeec5f609e9126cce00f51ae88b3, Release)",
+          "source_revision": "1ccd71f89cbbd82ae7d097723ce1722ca7b01c33",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P15/df3d7440b9e41661/v4-25-0/check.lean",
+              "source_sha256": "3fd2ca6f5c9ea199727ac2a00abc507c7878ad8d005c3a1c4746ebadcfdabce1",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P15/df3d7440b9e41661/v4-25-0/check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.25.0/candidates/박채원-final/result/environments/v4-25-0/runs/0"
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P15/df3d7440b9e41661/v4-25-0/measure-1.lean",
+              "source_sha256": "028fe77069e4d2cb7366054d637c87897e97db715a3a228268092eaa68d4aa41",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P15/df3d7440b9e41661/v4-25-0/measure-1.log",
+              "log_sha256": "7cf8315f735b6dbf0fe694b190bb98d52f34ab9294f06ca295824a29e885be71",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.25.0/candidates/박채원-final/result/environments/v4-25-0/runs/1",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2629205,
+                "scaled": 2629,
+                "target": "putnam_1995_a3"
+              }
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P15/df3d7440b9e41661/v4-25-0/measure-2.lean",
+              "source_sha256": "8a9144bfe22d871bdbc852c9fdf86ba49a25a0d484fee58d08813657b8b14d46",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P15/df3d7440b9e41661/v4-25-0/measure-2.log",
+              "log_sha256": "5d2dd2590f7f475cd6531922de653f1378fe47be0e9cca2e308ace4c0726ad79",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.25.0/candidates/박채원-final/result/environments/v4-25-0/runs/2",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2629185,
+                "scaled": 2629,
+                "target": "putnam_1995_a3"
+              }
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P15/df3d7440b9e41661/v4-25-0/measure-3.lean",
+              "source_sha256": "54fdc1fe5b37257cd3654663e9bd20024dfe4efe65d991e65607e604be8f71f7",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.25.0/P15/df3d7440b9e41661/v4-25-0/measure-3.log",
+              "log_sha256": "8d43f17631716377eee3a8c2437632d5b91783d73d96ea93a636406b9f924540",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.25.0/candidates/박채원-final/result/environments/v4-25-0/runs/3",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2629165,
+                "scaled": 2629,
+                "target": "putnam_1995_a3"
+              }
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms recorded inside successful CI Measure; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            2629205,
+            2629185,
+            2629165
+          ],
+          "evidence_level": "archived CI structured receipt; original source/log files unavailable at recorded remote paths",
+          "measure_runs": 3
+        },
+        {
+          "version": "v4.26.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/verification-results.json",
+          "receipt_sha256": "6821a59610b34a8b70ae8c307e36169b55d2f016fc179ae332504e97e442e8db",
+          "json_pointer": "/problems/4/versions/v4.26.0/candidates/박채원-final",
+          "matching_candidate_labels": [
+            "박채원-local-v426",
+            "박채원-final"
+          ],
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.26.0, x86_64-unknown-linux-gnu, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+          "source_revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P15/df3d7440b9e41661/v4-26-0/check.lean",
+              "source_sha256": "3fd2ca6f5c9ea199727ac2a00abc507c7878ad8d005c3a1c4746ebadcfdabce1",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P15/df3d7440b9e41661/v4-26-0/check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.26.0/candidates/박채원-final/result/environments/v4-26-0/runs/0"
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P15/df3d7440b9e41661/v4-26-0/measure-1.lean",
+              "source_sha256": "cecfcc386e3096e470c5711678b1ccc6e65563389180b2f3fac7f5ce8408d691",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P15/df3d7440b9e41661/v4-26-0/measure-1.log",
+              "log_sha256": "968e455929bbcf3fe4f640aa7cb3912b5920ec94bea9889dcd096a751edff5ec",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.26.0/candidates/박채원-final/result/environments/v4-26-0/runs/1",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2107956,
+                "scaled": 2107,
+                "target": "putnam_1995_a3"
+              }
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P15/df3d7440b9e41661/v4-26-0/measure-2.lean",
+              "source_sha256": "d1777d09cb9d3a9495189bfb9412b15745d000f67d94aa8ef55be359b9895990",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P15/df3d7440b9e41661/v4-26-0/measure-2.log",
+              "log_sha256": "4c342e32e6bff3be51d1a8acbdbef22a81a2d9471caad36a4966f7df9c004c27",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.26.0/candidates/박채원-final/result/environments/v4-26-0/runs/2",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2107936,
+                "scaled": 2107,
+                "target": "putnam_1995_a3"
+              }
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P15/df3d7440b9e41661/v4-26-0/measure-3.lean",
+              "source_sha256": "ed411aa2f7c5092d12c48dc42e75c0989d4ec9c5618e6ec87121673f06de8a1e",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.26.0/P15/df3d7440b9e41661/v4-26-0/measure-3.log",
+              "log_sha256": "62ae78aa07d7cdfa22c621e406dfbf1de2e3267cc28cd5c8ac651a79dd5cc90d",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.26.0/candidates/박채원-final/result/environments/v4-26-0/runs/3",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2107916,
+                "scaled": 2107,
+                "target": "putnam_1995_a3"
+              }
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms recorded inside successful CI Measure; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            2107956,
+            2107936,
+            2107916
+          ],
+          "evidence_level": "archived CI structured receipt; original source/log files unavailable at recorded remote paths",
+          "measure_runs": 3
+        },
+        {
+          "version": "v4.27.0",
+          "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/verification-results.json",
+          "receipt_sha256": "6821a59610b34a8b70ae8c307e36169b55d2f016fc179ae332504e97e442e8db",
+          "json_pointer": "/problems/4/versions/v4.27.0/candidates/박채원-final",
+          "matching_candidate_labels": [
+            "박채원-local-v426",
+            "박채원-final"
+          ],
+          "candidate_sha256_matches": true,
+          "tokens_match": true,
+          "fingerprint_version": "Lean (version 4.27.0, x86_64-unknown-linux-gnu, commit db93fe1608548721853390a10cd40580fe7d22ae, Release)",
+          "source_revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "source_revision_matches": true,
+          "jobs": [
+            {
+              "stage": "Check",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/df3d7440b9e41661/v4-27-0/check.lean",
+              "source_sha256": "3fd2ca6f5c9ea199727ac2a00abc507c7878ad8d005c3a1c4746ebadcfdabce1",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/df3d7440b9e41661/v4-27-0/check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.27.0/candidates/박채원-final/result/environments/v4-27-0/runs/0"
+            },
+            {
+              "stage": "Measure1",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/df3d7440b9e41661/v4-27-0/measure-1.lean",
+              "source_sha256": "cdb869e07251cd73f4d1bec6a32a7001837e2d419051517a6876eb2caac45d38",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/df3d7440b9e41661/v4-27-0/measure-1.log",
+              "log_sha256": "763dfec1589e6c5421964ac80a80a0e3b933a88370e334d9c961c4d2ce84b87d",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.27.0/candidates/박채원-final/result/environments/v4-27-0/runs/1",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2087154,
+                "scaled": 2087,
+                "target": "putnam_1995_a3"
+              }
+            },
+            {
+              "stage": "Measure2",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/df3d7440b9e41661/v4-27-0/measure-2.lean",
+              "source_sha256": "6a69121ca5c325c4fa1d4171499485f4018578227efc251741324cf8954ef994",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/df3d7440b9e41661/v4-27-0/measure-2.log",
+              "log_sha256": "6e609cb0c079c7f9a7d780c333d1e2690dedbda199760d5bd66fc445cf4bfb4c",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.27.0/candidates/박채원-final/result/environments/v4-27-0/runs/2",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2087114,
+                "scaled": 2087,
+                "target": "putnam_1995_a3"
+              }
+            },
+            {
+              "stage": "Measure3",
+              "returncode": 0,
+              "source": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/df3d7440b9e41661/v4-27-0/measure-3.lean",
+              "source_sha256": "13a137177c5e32f224e824e1a564e8eb96d671c7ae4d6b46dd184f476e045bfb",
+              "source_file_available": false,
+              "source_hash_reverified": false,
+              "log": "/home/runner/work/LeanAgent-LeanRefactorArena/LeanAgent-LeanRefactorArena/verification-results/putnambench-v4.27.0/P15/df3d7440b9e41661/v4-27-0/measure-3.log",
+              "log_sha256": "edfe7ad63769a8ad4a5f3dd2de01081bd4c69d55ca06b107736578875d83e535",
+              "log_file_available": false,
+              "log_hash_reverified": false,
+              "json_pointer": "/problems/4/versions/v4.27.0/candidates/박채원-final/result/environments/v4-27-0/runs/3",
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Quot.sound",
+                  "Classical.choice"
+                ],
+                "raw": 2087108,
+                "scaled": 2087,
+                "target": "putnam_1995_a3"
+              }
+            }
+          ],
+          "check_passed": true,
+          "audit_mode": "axioms recorded inside successful CI Measure; no independent Audit process",
+          "independent_audit": false,
+          "axioms_allowed": true,
+          "raw_samples": [
+            2087154,
+            2087114,
+            2087108
+          ],
+          "evidence_level": "archived CI structured receipt; original source/log files unavailable at recorded remote paths",
+          "measure_runs": 3
+        }
+      ],
+      "limitations": [
+        "Archived CI JSON binds exact candidate SHA to successful Check and Measure on every required pin. Original remote Check/Measure sources and logs are not present at recorded paths; their recorded hashes cannot be independently reverified here.",
+        "Axiom checking is embedded in Measure, not a separate imported-olean Audit process. No new Lean execution was performed."
+      ],
+      "selection_evidence": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/verification-results.json",
+      "all_required_versions_have_matching_success_evidence": true,
+      "all_required_versions_independent_audit": false,
+      "all_raw_source_log_hashes_reverified": false,
+      "all_recorded_measure_source_log_hashes_reverified": false
+    }
+  ]
+}

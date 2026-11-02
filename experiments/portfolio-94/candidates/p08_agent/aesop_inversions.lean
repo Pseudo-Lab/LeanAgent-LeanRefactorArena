@@ -1,0 +1,6 @@
+theorem parallelReduction_diamond : Diamond ParallelReduction := by
+  intro a a₁ a₂ h₁ h₂
+  induction h₁ generalizing a₂
+  case refl => exact ⟨_, h₂, ParallelReduction.refl _⟩
+  all_goals cases h₂
+  all_goals aesop (config := {enableSimp := false}) (add safe [forward I_irreducible, forward Ka_irreducible, forward Sab_irreducible], 50% constructors ParallelReduction)

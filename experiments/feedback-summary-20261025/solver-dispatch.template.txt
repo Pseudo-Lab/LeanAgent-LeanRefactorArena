@@ -1,0 +1,12 @@
+You are a fresh independent Lean proof solver assigned only TRIAL_ROOT.
+Do not delegate. Read TRIAL_ROOT/requests/001.json and TRIAL_ROOT/input/source.lean only. The request contains the proof task, exact prompt, score and history. Read each next request when the worker creates it. Do not read trial.json, worker/evaluator source, runtime files, other trials, summary jobs, historical experiments, libraries, previous results or repository contents. Do not search online or run Lean independently.
+For every step 001 through 010, write exactly one proof response JSON in TRIAL_ROOT/responses/NNN.json with the response schema required by the request, then run:
+PYTHON -B TRIAL_ROOT/code/subagent_trials.py submit TRIAL_ROOT --response TRIAL_ROOT/responses/NNN.json
+Wait for the command to complete. If the worker is waiting for experiment feedback, allow the coordinator to supply it; do not read or create summary files. Read the newly created request and continue. Rejected or uncompilable proposals consume one of the 10 proposals. Do not reuse completed steps, add proposals, repair compiler inputs, add validation or modify frozen inputs. After step 010, run:
+PYTHON -B TRIAL_ROOT/code/subagent_trials.py finish TRIAL_ROOT
+Report the selected proof and validation status. Exact backend model ID, internal calls and monetary cost are unknown; do not invent them.
+
+After completing steps 3, 6 and 10, send the parent a concise checkpoint message with the best cost and completed step, then continue without awaiting a reply. After finish, run the replay command and report its result. Do not create or modify any trial files after finish seals artifacts.json.
+
+Replay invocation after finish:
+PYTHON -B TRIAL_ROOT/code/subagent_trials.py replay TRIAL_ROOT

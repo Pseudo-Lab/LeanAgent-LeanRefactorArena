@@ -1,0 +1,30 @@
+{
+  "raw_cohort": "/Users/zzu0203/projects/01_\uac00\uc9dc\uc5f0\uad6c\uc18c/.worktrees/arena-feedback-summary-20261025/runs/feedback-summary-20261025",
+  "audited_summary_sha256": "3e480975a4289b0b5f462060795f1c97081854af128820ca71278c9add390f0a",
+  "files_sha256": {
+    "host-clock-observations.jsonl": "4ab7e9249dfa6a2e4979f126a2c637ba8829e2d7570c708064ea2acc8775a573",
+    "plots-provenance.json": "321505a22c5395aa1c52201d310e94a576b6b406a5727ffc34f243329349705a",
+    "execution-context.json": "731085e842becf2588811039db527bbb493285cb86f41047c82dab4313652d2a",
+    "semantic-review.json": "1ddf95b89a2b202f74fec76159153e71fbecf5ec31b0b5d61adb5d500011f746",
+    "results.json": "3e480975a4289b0b5f462060795f1c97081854af128820ca71278c9add390f0a",
+    "trial-results.csv": "d3e40df990f61dd131aa8df76266bfd9b22c617d9851f9b50c085a289e946371",
+    "P01-cost-ranges.svg": "13d349f7a4e33cac4e91693d2798e09c826cb578cb8c2d1c67f64a1724a75e3d",
+    "operator-incidents.jsonl": "757156d9fc0a2f2157ecdc38ef7112693c52bdfcdc4c6705d55291e1d26b9769",
+    "README.md": "69faef12c62acb11f4b25ab1ea58fa056c85f523a901b433cfb3d901ffc28521",
+    "cohort.frozen.json": "66b573c321f7374ffa0990b41d37a89ecc7e4392b5547da567e787da08a0b430",
+    "summary-dispatch.jsonl": "df0b7d411291b2cfdb4427e10ce0d8497e514908c8f7b438b38aea7d8f872491",
+    "dispatch.jsonl": "e6592770c8f0a4525e08bc3116b3f7010afbe7c2420aa62a4ec3aeaad3eb8ab0",
+    "execution-protocol.json": "516e4460b8bd85feb56660e07405c9352c4ad535a7e0ced091585f778e7768e1",
+    "runtime-checks.json": "ce88dc82c5d5afdcbcbf75419d3da15484f66162921225eeaba061b6dc984cad",
+    "P13-cost-ranges.svg": "1e93e49fbc55497dfc2298820cc8779329f06661054567801293f8647edf7bf4",
+    "design.frozen.json": "aafd05edf03d70b069592dd3f5413e09d6f490b6971ecb8b241f5a060291f99d",
+    "selected/P01-M-r2.lean": "b2325171af4dbe252583a5c009b0e3e77fe3335f7a3ed7ecd662a0f177193e06",
+    "selected/P13-M-r2.lean": "41242eb21fc1bf2561c79baa821c64f4580392f04f9ac29aea194da1bfe53696",
+    "selected/P13-S-r2.lean": "f39d38df455f1d114811ef84ce5764baa44df5302546fc4cb92b8ea04a8f4daf",
+    "selected/P01-S-r2.lean": "003282c7283e7bce404d13b33ae4ad31bb69067ed49d69d400895513698b42e5",
+    "selected/P01-S-r1.lean": "882b86bc71b259e60c49f310b6adc369bdd2407816ae1214ec034836dcd7e679",
+    "selected/P13-S-r1.lean": "043ae1dd4efd57099ec27e5eb07694e4716607ccd77aaf0bd2487ac2310b1617",
+    "selected/P13-M-r1.lean": "7be71d3ea9736f3f1615a0a6e22cc6e3b0c53557faabb1479b3ceeed4df3ef09",
+    "selected/P01-M-r1.lean": "fb5dca29c3b392ac214aefaa5f9da579a0da7424c9dcfa7cced837f7d5febe4d"
+  }
+}

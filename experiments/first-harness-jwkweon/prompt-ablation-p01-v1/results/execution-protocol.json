@@ -1,0 +1,37 @@
+{
+  "status": "frozen_before_solver_dispatch",
+  "problem": "P01",
+  "conditions": [
+    "A",
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+  ],
+  "repetitions_per_condition": 2,
+  "total_trials": 10,
+  "max_solver_parallelism": 2,
+  "proposal_budget": 10,
+  "checkpoints": [
+    3,
+    6,
+    10
+  ],
+  "lean_timeout_seconds": 420,
+  "timeout_chosen_before_calibration": true,
+  "timeout_rationale": "Reuse the fixed 420-second per-invocation ceiling from P13 for every condition, candidate and final validation. Chosen before current P01 readiness, with no per-arm adjustments or automatic retries.",
+  "baseline_mode": "frozen_historical_original_with_current_readiness_checks",
+  "baseline_model_input": {
+    "tokens": 313,
+    "raw_heartbeats": 5173306
+  },
+  "paid_api_calls": false,
+  "unit_tests_passed": 30,
+  "calibration_summaries_sha256": {
+    "1": "e7f8e366d640f847480eec004d0f67dd987e0b6c7088570a73247f8c485b421c",
+    "2": "dbec7a59f90adf6a08ec3a9ddf865eefb847a2d46286cdb33203acfe9d9b09fa"
+  },
+  "shared_runtime_inventory_sha256": "01bc345a25028d642ef9ccfd86051bc1ef8b1dd304f65fe04bbc2c0f6dfc3523",
+  "unit_tests_evidence": "30 passing worker/core tests from unchanged P13 snapshot; all seven worker/evaluator file hashes checked equal before this cohort.",
+  "calibration_diagnostic_correction": "Two original normal+3 evaluations passed. Initial full-context-minus-target diagnostic failed at downstream use of removed target. Kept those failure logs and original evaluations; separately compiled the actual import prefix. No solver proposals or original evaluations retried. See calibration-*/initial-readiness-summary.json and check_imports_only.py."
+}

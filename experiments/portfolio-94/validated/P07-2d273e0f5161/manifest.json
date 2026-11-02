@@ -1,0 +1,56 @@
+{
+  "created_utc": "2026-10-28T04:25:38.965115+00:00",
+  "target": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+  "candidate_sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+  "scope": "All three required pins verified locally; no official submission",
+  "primary_pin": "v4.33.0-rc2",
+  "estimated_score": 87.34673803175298,
+  "compatibility": "3/3",
+  "required_pin_evidence": [
+    {
+      "pin": "v4.33.0-rc2",
+      "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-433/checkpoint-101.json",
+      "audit": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-433/receipt-audit-101.json",
+      "tokens": 101,
+      "raw_samples": [
+        7897617,
+        7897621,
+        7897605
+      ],
+      "raw_median": 7897617,
+      "baseline_tokens": 408,
+      "baseline_raw": 59808303,
+      "environment_identity": "a1d486d2cbdbd5276e71dffd3f85d0024ca93f7f2c6c4a46f15f129044c2eb05"
+    },
+    {
+      "pin": "v4.32.0",
+      "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-432/checkpoint-101.json",
+      "audit": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-432/receipt-audit-101.json",
+      "tokens": 101,
+      "raw_samples": [
+        7932043,
+        7932040,
+        7932031
+      ],
+      "raw_median": 7932040,
+      "baseline_tokens": 408,
+      "baseline_raw": 61961505,
+      "environment_identity": "2a997f3f539dd78899e382fef5a1a6b87781076757eedeb37b01439ef7545b88"
+    },
+    {
+      "pin": "v4.31.0",
+      "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-agent3-431/checkpoint.json",
+      "audit": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-agent3-431/receipt-audit-101.json",
+      "tokens": 101,
+      "raw_samples": [
+        7973762,
+        7973755,
+        7973749
+      ],
+      "raw_median": 7973755,
+      "baseline_tokens": 408,
+      "baseline_raw": 61920873,
+      "environment_identity": "4c1d333fa91c1a45ec571bc47555800ed58705f3247766876c8a5bc1db2940ed"
+    }
+  ]
+}

@@ -1,0 +1,3383 @@
+{
+  "base_main": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+  "action_memory_head": "12d6cf38552b674666ecf6b83d1d991b57cfd967",
+  "feedback_summary_head": "709bda1a86e68f256e21e061659bd3f3307afd27",
+  "note": "Hashes record imported local files before integration fixes; runtime, credentials and dataset bytes excluded from commit.",
+  "files": [
+    {
+      "path": "experiments/final-environment/README.md",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "3e598596fc1ff1cdf64c266d365816ceb05c5e0f9f8b6bb0fd0bcd5c7663db40"
+    },
+    {
+      "path": "experiments/final-environment/bootstrap.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "ad0120ba8c24ba0c95973d74ef6975039ef85b116315f5480185eea4f75a653f"
+    },
+    {
+      "path": "experiments/final-environment/env.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "ad8db1c0191ea17495e5fae169042ecb47e90c91e72c73963a1f04af0ba07173"
+    },
+    {
+      "path": "experiments/final-environment/finalize.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "8462f2b9a76ae5f2ee6a8a1435b1d04b05145d800daf2e66465586ab6197fe59"
+    },
+    {
+      "path": "experiments/final-environment/preparation-results.json",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "67676c382e95bc73ee9f13c55ec79a29b052cb621b4e17e51caddc7a6e479f7f"
+    },
+    {
+      "path": "experiments/final-environment/prepare.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "49c078811c6d2d31640b48d3f30c2eeae75165dd9f45e45b999dc3b5c235396b"
+    },
+    {
+      "path": "experiments/final-environment/resolve.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "5a55d5e8efbc6e75c61e09bde9b5b4035146f0c413416337e4f5f56bd7ce1c84"
+    },
+    {
+      "path": "experiments/final-environment/setup.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "b2bc3dc93163bf063344bdc28ad1fd1c17472e1ce25b83358a59c3e2093821c2"
+    },
+    {
+      "path": "experiments/final-environment/toolchains.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "dce25ae2039e0cc7f70b49d16adcb20d1b0d637c6920c355c8a2696f2a21be9e"
+    },
+    {
+      "path": "experiments/final-batch/README.md",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "e75bc92420d9ef814a05b1355b79124f6a7ab4ca43e1c8f9aa46773c29f7e2f2"
+    },
+    {
+      "path": "experiments/final-batch/cache_rows.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "0e7ba4144e40985eefca9b93ab4a4cb031e2e6a678152053c732030d226cdedb"
+    },
+    {
+      "path": "experiments/final-batch/driver.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "f84bb96eaa6d0f6385104a1fa6a3f18d62bb9a66f40328104a65fb1d67bd7e7b"
+    },
+    {
+      "path": "experiments/final-batch/evaluator.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "3a87a78dbc16b11d1cc9520780ec12bbdd55630e2c71df2449ed9df25f6cceef"
+    },
+    {
+      "path": "experiments/final-batch/openai_transport.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "dcac31710a24b98aa3d7872b393dd9d59d15f882fac147c1851851a41095197e"
+    },
+    {
+      "path": "experiments/final-batch/policy.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "4b69591cda0571b3f1d611e0278c9a1c3b4bbc763f2c873971a577e2284915df"
+    },
+    {
+      "path": "experiments/final-batch/report.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "cb8c7923104ffbaa85b8d78039fb3e6af6928c021849823c149fead8d5e0b592"
+    },
+    {
+      "path": "experiments/final-batch/resources.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "d05557124f2053fa70e1025c7a5bc9a369afc55321cba454465a93eb2b679326"
+    },
+    {
+      "path": "experiments/final-batch/retrieval.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "9413ee7e943b2b02d6b6b8183ec36dc9d4f8bd56c8d5d50309723f617d467f94"
+    },
+    {
+      "path": "experiments/final-batch/test_driver.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "eccef35938219e470b2cecf94c7034cb07e918a474513681442d4246f6d329a2"
+    },
+    {
+      "path": "experiments/final-batch/test_evaluator.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "599e245b69d3711872ed7db24bb1abea9b8699c4089b83b1d360d8225ec3dcac"
+    },
+    {
+      "path": "experiments/final-batch/test_openai_transport.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "5d76e52d063ab0685f93204902748ff31c81297f7dece7fac92393b2b4e62c68"
+    },
+    {
+      "path": "experiments/final-batch/test_policy.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "2150d132cdeec3dff3ed3ffdb80615efec5d43b1e349db69f8edaf1f631c8c23"
+    },
+    {
+      "path": "experiments/final-batch/test_report.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "9f4e1a46c70f99d88104ef4d9f472a1d4c81d7c2dfe7cf5f9ca4affbffce85a8"
+    },
+    {
+      "path": "experiments/final-batch/test_retrieval.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "f56076270edfd11253d390862e9925d8084711d42d458851dd463b1100fde18f"
+    },
+    {
+      "path": "experiments/final-batch/test_transport_review.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "87e25b11343d8b2fe58cc62f8315fad073720b98fcbef14c8df30028187cfe45"
+    },
+    {
+      "path": "experiments/final-batch-next/README.md",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "530d56290d0d13ce6c4c2e8d5d61da0c11a8250e212d277c598151ae06294655"
+    },
+    {
+      "path": "experiments/final-batch-next/cache_rows.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "c1f691a3937a61b36ee5b514d12ec30b5de34588c4c8e25b8ce4b63c024e28a8"
+    },
+    {
+      "path": "experiments/final-batch-next/driver.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "39889962368dad1ffffdc70d692703ae3068f8c69037aea5621cefbdb6870853"
+    },
+    {
+      "path": "experiments/final-batch-next/evaluation_cache.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "b3253e21ea2ae0a6f3d4eaca4e2cbda21aacdad3005ce1213ceaa62e5316182c"
+    },
+    {
+      "path": "experiments/final-batch-next/evaluator.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "4961bfef847b12345d2a462ac3d114d1f8a5a56021c90bea41be88b493628e46"
+    },
+    {
+      "path": "experiments/final-batch-next/openai_transport.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "dcac31710a24b98aa3d7872b393dd9d59d15f882fac147c1851851a41095197e"
+    },
+    {
+      "path": "experiments/final-batch-next/policy.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "4b69591cda0571b3f1d611e0278c9a1c3b4bbc763f2c873971a577e2284915df"
+    },
+    {
+      "path": "experiments/final-batch-next/report.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "43cfaef657710c1e591c0dbac0f8266e99488cee92c65d274c406867ba8b36a4"
+    },
+    {
+      "path": "experiments/final-batch-next/resources.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "d05557124f2053fa70e1025c7a5bc9a369afc55321cba454465a93eb2b679326"
+    },
+    {
+      "path": "experiments/final-batch-next/retrieval.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "9413ee7e943b2b02d6b6b8183ec36dc9d4f8bd56c8d5d50309723f617d467f94"
+    },
+    {
+      "path": "experiments/final-batch-next/source-snapshot.json",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "525549bfbcfeb8c836801311f9a4bb7cb869c5900ff89c136096cc5dea21ec06"
+    },
+    {
+      "path": "experiments/final-batch-next/test_driver.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "1fc663b45488f1e6c897b9ccad72817409a38adc0ddbbd9da9c9588c523f253c"
+    },
+    {
+      "path": "experiments/final-batch-next/test_evaluation_cache.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "2ea23230ad1a0d0036150a8af43bc029a4bd521d61254397c288140ef63e6a3e"
+    },
+    {
+      "path": "experiments/final-batch-next/test_evaluator.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "4bdb1d061f59205a871c23a02c2a45bce0589e1be80b15aaa6b306f48fd12bcc"
+    },
+    {
+      "path": "experiments/final-batch-next/test_openai_transport.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "5d76e52d063ab0685f93204902748ff31c81297f7dece7fac92393b2b4e62c68"
+    },
+    {
+      "path": "experiments/final-batch-next/test_policy.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "2150d132cdeec3dff3ed3ffdb80615efec5d43b1e349db69f8edaf1f631c8c23"
+    },
+    {
+      "path": "experiments/final-batch-next/test_report.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "9f4e1a46c70f99d88104ef4d9f472a1d4c81d7c2dfe7cf5f9ca4affbffce85a8"
+    },
+    {
+      "path": "experiments/final-batch-next/test_retrieval.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "f56076270edfd11253d390862e9925d8084711d42d458851dd463b1100fde18f"
+    },
+    {
+      "path": "experiments/final-batch-next/test_transport_review.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "87e25b11343d8b2fe58cc62f8315fad073720b98fcbef14c8df30028187cfe45"
+    },
+    {
+      "path": "experiments/final-batch-next/validation.json",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "15bbae339d981d6062df72db5b1cf29496ccd263fe5c3cd2728217d374feba79"
+    },
+    {
+      "path": "experiments/length-bounds/analyze.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "1753de4d7c23ddefb2e9a966eb414c999ea03df4c86b38f6f9314215f01f1264"
+    },
+    {
+      "path": "experiments/length-bounds/final60-length-bounds.json",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "1974c5031fef0a661232a785385f6b801c70cc7aaf8055ab4916d0c91c2bf313"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/ANALYSIS_PLAN.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b9875b94b5c2807fd75a2989f32030bd635427e0aaf10fcfc565a5795464f423"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/INSIGHTS.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "43051a8f7e72afb9d98425aae7e30e4823a6a6b9c59790f59d064d8ad0c94786"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/ORDERING_FIX.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cf543fbbda662e4eb20f18b3e5a47d187d54276c52e4908c8b3cef9b5340f06b"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/PROGRESS.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "333fc3a2c89f195a48f650f3aa9990f898d8180e030a5327fa4b651d1ee2ec2d"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/README.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "24be48b18737501be699fee0a685076ed5c277ccea5b3c93ce8c2e8ee43ce228"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/SOLVER_DISPATCH.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0524772c36209f036b2bd964477bd9ff737616529bfd25badf43ff84e0c549a8"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/STORAGE_RECOVERY.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1296d0b600de51f3cacb1c7b8557d06613b8c3458968a2a880cab32c7f37bc14"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/STRATEGY_94.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e48688d06f0651383cbd705d58a7465287925737782a5fe8941b6dbfa9894d0f"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/canonical_order_bridge.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8636b48ec09a821004bf7ecd25132220b1fb6224144f86e2ecc158cf5c24b2d2"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/error_feedback.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d6330355349f22417d43495aace342c8d02e69cc9d81bfab622a4e498c428484"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/policy.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "dff57fe15ac54cee3132ccb09eb7399f759c9d8eaf11d32a6068d97b1c70947e"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/prepare.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0329b8e2bbd9c03847abcb932fbadfe30a4d22ac0d862d3ff7ce544067a497c1"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/prompts/control.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "824dc40978fb97776c8fc0bd33931ed91e0655db299cf4bb805a1e48bae944a0"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/prompts/treatment.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0af37de9a4e9e3eae378d1567aa0d85fabb0b24e0948b7bcea5937df8f05f0f0"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/report.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ee138ce748f6d285d56a25044b070201ebc35938d7f2fe171e5786ddb7cd36d3"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/resume_preflight.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c41df5bb044b5890bbf7c04ffa31e1428314d7e9b667a4b1b64bb2f8447bf98c"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/status.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "20ef6a73f1c2a1e573b4b20b6a839166a80c8760ae831f7c40db7344426f99c3"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/strategy94-analysis.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4d72499c11853727f96a261c6aa4c0da82ad1e36b46028dd0fb8102a01a723b1"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/test_policy.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "843ecd46ebbe55924564da194c578fa11b79fd30dcc4f3ec6ff1ee597fd207fd"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/test_report.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1359eec91d02c14fe0e32eb85aa6aee1c9b1e48cc0a6878ce8f2f8352326f468"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/test_resume_preflight.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "65fbfd3c122c693b182cfbd527dd01a9428de05b610eea1a72519f3360c34ea7"
+    },
+    {
+      "path": "experiments/cost-hypothesis-pipeline/worker.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3bbd38cc710b2cf704b02be148d647469e46f3d2ad03089ce73682d37989a636"
+    },
+    {
+      "path": "experiments/offline-proof-search/INSIGHTS.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3074ce3584c7fa96066438712e796fa7492c8cd4e7d755467ef3a4c2611ea0a4"
+    },
+    {
+      "path": "experiments/offline-proof-search/README.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0252349dfc46a38e73fa7c6037faf05c827ce6d3190191646471d0394e845052"
+    },
+    {
+      "path": "experiments/offline-proof-search/ROUND2-CANDIDATES.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8eee7a6d6608713bd700f98b1076670213382c0cd5f4dff9e2a73fd3d4316d89"
+    },
+    {
+      "path": "experiments/offline-proof-search/ROUND2.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8456acc3999b2cf1731567a915f92de2ce64b2e828a37d71ca852f4feab47856"
+    },
+    {
+      "path": "experiments/offline-proof-search/SOLVER_PROMPT.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5f1bd48ab54a7896bbeadc6b3157ed0a4e03da4327e935f869157fb23f1ea00a"
+    },
+    {
+      "path": "experiments/offline-proof-search/audit.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3ba15298b1a016dd0f37acbb48833670887670e2d8c0b4f81ce7db4558878989"
+    },
+    {
+      "path": "experiments/offline-proof-search/diagnose_p12.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bb5f7ae9d14c359691e18627e1d25aaf02f70775b13ba122a6135411b150a895"
+    },
+    {
+      "path": "experiments/offline-proof-search/lookup.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6544a1bd8f0ced46c48b235090959e83eabaefe80f16c55a27fce3ba25a21b17"
+    },
+    {
+      "path": "experiments/offline-proof-search/mutations.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a03c33d3cf42a5483bd0de9913c3b0ed78da8422f24e3ad174b53d3fb06b0620"
+    },
+    {
+      "path": "experiments/offline-proof-search/polish.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "302e4a27d3c12b86a368c8ec726b6c55482dc6fdc9c60d379e9178d21a48b3a1"
+    },
+    {
+      "path": "experiments/offline-proof-search/search.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f9ea435b1dffd9ea6df06afd91f54879ff572fa88ef6258bc13e311eedf25dd4"
+    },
+    {
+      "path": "experiments/offline-proof-search/summarize.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f2d3c73b8ef034fa154ff6c699347a644460eb2c3ff82c5ddc4c2a10b0643293"
+    },
+    {
+      "path": "experiments/offline-proof-search/test_lookup.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1dc1e3a265aac0f02b99d0f57f1598c280732c2493d29b597f0657312b9ab27e"
+    },
+    {
+      "path": "experiments/offline-proof-search/test_search.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "30d31be1242a8d8cad36176c4d53ca967c81fd3bc08e63d4d7f1c79874c777ad"
+    },
+    {
+      "path": "experiments/offline-proof-search/validated/20261028/P12.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1e3abf1f63b8b83265cc0e92fbd041997489be9855b84af4447b75a1b3809208"
+    },
+    {
+      "path": "experiments/offline-proof-search/validated/20261028/README.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "63deda74edaff107178d6f642eeb3026b72369686e2239dec6af9e789b9ffa52"
+    },
+    {
+      "path": "experiments/offline-proof-search/validated/20261028/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6cf3df6095c0ac3f09e6fbbc220055293c753d0d8c915d9ddbc11520cffe28b9"
+    },
+    {
+      "path": "experiments/offline-proof-search/validated/P12.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6d5d2254b5588f87a3f5a249840f1fef6c9f24d26d974d0a0d3c96846f35af38"
+    },
+    {
+      "path": "experiments/offline-proof-search/validated/README.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "686760ca46a560c7cd95d1f4ae7bb4973fc589561a96d23b4a8ebe9e5eebaed3"
+    },
+    {
+      "path": "experiments/offline-proof-search/validated/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8ca7237a8393cae031eef06ed5686e9222b25dfaba5d71b56de03f744fee4064"
+    },
+    {
+      "path": "experiments/offline-proof-search/verify_all_p12.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "448c6d1f0cba9cc29a89501506e5cc8d3ae294b108ef9bc43842ab3ad790795d"
+    },
+    {
+      "path": "experiments/portfolio-94/ASYNC_BOUNDARY.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4dbd7a42af6c36863b98c3e6f32fecaf0d9702e0e7ae54210ce0d755171075b0"
+    },
+    {
+      "path": "experiments/portfolio-94/FAST_SCREENING.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7ae07f671261d73abb110a6c89fe0c012b2763b41f23b384f00ad2426ccd67c7"
+    },
+    {
+      "path": "experiments/portfolio-94/HB-METRIC-AUDIT.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0c3a55207bd51d26e9bfc5eba53084252a3b3f04b6ed55b1dd062def4a06f983"
+    },
+    {
+      "path": "experiments/portfolio-94/NEXT_SEARCH_POLICY.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fa1d439067780fcf4cfae015b9a63e00e4360cbbd7a57b1f5d6e9471e912ba3e"
+    },
+    {
+      "path": "experiments/portfolio-94/P06-AGENT.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "99173abcb44cd8f22200a68e5182f966a2e7669f2164e099d64e717ab9afa027"
+    },
+    {
+      "path": "experiments/portfolio-94/P07-AGENT.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7cd293a2c084020efbd7c1e3b9f83c757e7e68412872d1d663449d1ae30d7389"
+    },
+    {
+      "path": "experiments/portfolio-94/P08-AGENT.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d3080f1501806b2f0a58c06962959f1b703dd90cf199cc68185d85f2d266daa6"
+    },
+    {
+      "path": "experiments/portfolio-94/P09-AGENT.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fad9e4644a7056c274aae3206a3353de7125b68ecdd0c1d509a375bb8668eadf"
+    },
+    {
+      "path": "experiments/portfolio-94/P10-AGENT.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d4d48cefa1e921405bbf305343e0a11b9630db17c2b17c3d2328c1520cf68bf2"
+    },
+    {
+      "path": "experiments/portfolio-94/P11-AGENT.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fe458ce8ebd61a10993ff89f56c26aa3ece364cab76a829b5820fb7b9a5c3892"
+    },
+    {
+      "path": "experiments/portfolio-94/PROGRESS.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "414ffd2eca5a3912c6ca193c7bcdb2937e26fbf7d8ae0f3647ff8de10af6484a"
+    },
+    {
+      "path": "experiments/portfolio-94/README.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "caa9e549c3f5b3da1aae64bad134efd835e54fc3215e45c784fcc78c438ad3fb"
+    },
+    {
+      "path": "experiments/portfolio-94/audit.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "102e0dbfab545aceb88c48a16479abeab8c06e05605e27d4206358de7149420f"
+    },
+    {
+      "path": "experiments/portfolio-94/audit_selected.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3627c5bd8c48f89b2024ed818d90f7acb4e7277c67f64c81b537344b56e3fda5"
+    },
+    {
+      "path": "experiments/portfolio-94/build_fsub.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4263de44b84e84d595f29cf2a7b967d95fdaed88303ffe9f7fa21dfda955e916"
+    },
+    {
+      "path": "experiments/portfolio-94/build_projects.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0f4dd586cde25af485431da01333add1d9383471c9aa7b1324afe9d09250e832"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/archived.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "06735ecd70cb47863403131a0a482604cee76669a19d55439c88c6855ac77fc5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/conv_simp_rw.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "090322f28103044b84594b5e5683434b63e95c5272de0a6c0c0fe6ce4114aaba"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/direct_gauss_certificate.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "200770ba08ef939d40d18a403461774380e120d10932c7882ec547725074b994"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/direct_gauss_certificate_outer.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8a9f89c0745c4aab451120f4d101365f5e9536f52088481564272da81cbe89c9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/direct_gauss_certificate_steps.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0919c146dbc588f8bf674c5c88801f72fd0955df206071a878c6c40d00d2e64a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/direct_gauss_outer_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8be511e481cf189370b363fd5d9d6c1c3a8fce4ff7ba3c2587f48dc060b163e6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish-congr2.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "52fc232816992d563c06ef06b15ff6db326f4326a2a7dabbe77af179982cf95e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish-congr3.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "61e46bad3942ed62832294b934d78944550d5bf5064a7928dcfc3bd4359eaaaf"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish-natural-denominator.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9aabe6f4d7499ed974d0eb341ec6c0ecc1b727edb79f203343d272719f98b4fa"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish-simp-cancel-directed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1f7bddc67cb81eee5a9ce0ff607b8586350c37c240fdc295faa72ccb748ad025"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish-simp-natural-order.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "370a5140a6efdc1bef8999dc561f1a5e0076afc4f3e2e2353e0a92e86a76cff8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish-simp-replay-bound.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "725e3c2ee3957022d986efb53fa9eafbc24f055c3ba29cc59e86d24e27ee1d56"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish-simp-replay.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9dbb7c8f65182332cbfa9e9ddb9078cba72ff00718841d7dc31ee4c8868a15c3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish_field.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e4199463cd045aa184a36dd1a585e4d3c4ebabe381498fd10f34dcd8f9f084cd"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish_field_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8d241f88c56d97933061038f1b07e3aa4470bc178995a92d476ebcae13cbabf1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish_ring.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e7e801d77fe5f36b53b0a914f4ff08d128e5a65fbad09db130d73d729e22ded3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/finish_simp_only.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2a40bce850babe48c520f3d2b11b43b68fc9e4bec47c91ab0f8c0a8fd02aabed"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss-rhs-smul-direct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "18f4a8d784d452a7eb65155d059cba7c3dd7a84cec82573382bd5b4f20a1da39"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss-rhs-smul-explicit.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "40ab3e45a3ef28bee87a01b7817cd495db285a1649938516a4c30a654c483ed4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss_dsimp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "874cd737488cee24784ff176a80b3a24cfbf08b00105b6dafd26d06af2eb0fc5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss_infer_functions.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bc0ba5c386508d7622b3fb17bad9a25136f2b9d1c52335f1a7df7ec7807c2394"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss_pointfree.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d82d292cce4b10655a7af989fc00c66d14c2e382c25bec3212e3a0d3c75ecb62"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss_pointwise_differentiability.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "95575df7158146a2fbef02de330d795770a4d3cd64a1e6aa9ed9d1ddf3bf4c84"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss_shape.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ff396325d7e2b8c3a394dfccc272cf7f52520f3cd5dfd2936ba7e76b495dfe02"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss_unfold_div.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "275ad3d22896f4af5853544658fdc886ef61db83bfbd31c4111d8aee9e0353af"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/gauss_unfold_shared.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "573d3a37569d39f85d69e46a328b3ac8329a705393826a3ce448ba1da427219b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/local_funprop_spatial.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8ae163a3740c352c0cb08159dadac402420a4d8789d967954da14347e77739f0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/local_funprop_temporal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ddaef16fa7ffb33b2cf3ab42917bd043b3fc095025769f38ca19e29fa01e6e91"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/rewrites-discharge-rules.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7b0aa2f48ac51db47e6acbaa7170dd55ccd93edb7ae05f1ef3f6eafe0a6bdf9c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/rewrites_then_funprop.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "33f59537a301b3328243bbf7456e56308ae0fc5c574ac61904d528e56ea28cc8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/shared_differentiability.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fcbba98915d7e303b859b5d985aa14aa6c40698d68645fb9f9489184721428c9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/submitted.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "294ddf305dee94ccf19c3974265b59ab5e4e354b48383555134f5e4e6b0a729c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/time-derivative-certificate.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "505f2dd9fe3854b0b35f76d217c294a388e5042940e92740f4f391037d5abe74"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p05/trim-unused.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4d549a130b9ca8c1edde80c2eb148880390bc018132e1cd61caf1c8017063f55"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/archived.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ec4cc5592472da208e8cf57ab24462e2ff491987b0b20ef83c1290c4a3724350"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/existential_factors.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1aaba752b2e46a43448ae74fed6eba31ecedf480d9a409657851d2aa8af885a0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/existential_factors_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "618cc07c9dae13099535beff81c0931576e2e23f772f5c804b4c0165b34e8ad0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/explicit_local_witness.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8437bdaee9fa6adcf5e69badbf071d7f5d5da8a602aa4fa83bd0255291c06092"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/linear_simp_hypotheses.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c685cfc21b5eb3faf6add88912a96ead255b28e32b8b06e7589ae8a8885e81f3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/linear_simp_then_assumption.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e78744bf8aa4568f9fd021f10b29fcc6423da28293977b35652cb579f956bda2"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/linear_singlepass_rightassoc_fixed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4d6854b11fc5216591115a2b3ba671243916a38ad457921e8d1917252eb7845c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/linear_singlepass_seed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2c0e06d118218ae04902db84fa65f17de03b8894b630b3933cc80af6a45c503f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/no_full_context_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d516c82d66a156eed29d456d4394bf860e1f091c81c3c68732f9a7954eefb296"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/right_assoc_erw.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0437f599faf74e92b65f7c9c61c07f5ca07d8a0f1a754dccf7500c743068a631"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/right_assoc_erw_nil.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "44d182950196253f5d39e42d6ae0767ae83f39940413b3e01f952b470aafcc4e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/right_assoc_witness.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4d00795b734a5f6ef8fc57cb236ad1e40ccc2bf547a9e4704e0f5462ea5f9862"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/single_pass_expansion.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fa2ad8be1d8e7e1cc754602e59a2466aa10c43567bbe462264355ffe4a7aa0dc"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/single_pass_linearity.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "53b9bd73260ea8675ea658be085a862328de293eed6123e7476df16ca473332c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/single_pass_local.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8df379b569a5112a9823df68e4f0e0aff021ae08db7f85667590be874243e036"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/submitted.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "13fa4d936f31ad00fb889421ab5d7c9ad3fdd602e5a2c7e9f28282d5253875f1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/unmeasured_before_erw/single_pass_linearity.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d0c15575fe7548bf6dddad97b65d56ace7d77e3d2ad284a30c05c5a0ee595c44"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06/unmeasured_before_erw/single_pass_local.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e000f1e97098a2788c80a140965686729cc82ab14f30ee26462100cabdd4f730"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/batch1.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6d9d98b418a84e7a96e85af250e8fb280117b83884612f0a13e32df09b626c93"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/batch2.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9445e050ff0f947354492cca50851069376ba25645ece10bce3f2dd584dadcce"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/batch3.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4ac623498bd88cd8f9232c87737bbebe3c048e1f312ccafdf51e2d06a9de64b6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/batch4.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "514e89b0aab18158eb253a0e31d35255fcce5e7173e1789f997475f294502875"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/batch5.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "869ecb643bb4aac8e0dcd2cf8db424002274810aae9d43525af57de96679dec6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_basis.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0477911ae39e39c61cb53915c28bb0c42c755d63cd2a5f84c7f53e561ae8c2c4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_basis_shape.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4c55a2749ef4a60cd9cdcb7bb597a2e0922b1da02dcb9e85c6219be57ab6652c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_basis_shape_unfold.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "59a32d70d02ad3b9ccc30af41452d65c69ecaa127651f87d6a6c76bab1511368"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_congr_arg.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d6862b99d7470d6b958a93082c6296f475dd94b9336a8bd4e4345e8a6be77134"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_congr_term.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0d1a11c728337b0b13a4c4bb5cbe3808982ec11c9696192fc3ee50d314fe4a80"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_direct_congr.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c1f4d5e0a2ef049a5b24c8d3179836717bf8b8072891ed7486b128e65048210e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_existential_placeholders.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b5dba0e5c863dd0c16d637369986c92c1eb5c4d3b62155f0931ac6e81a0fc14b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_ext_basis.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "888d6d65315cdfbdfb83b70fcba235299b763b9f617aa31386c80a8f952e1f8c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_ext_basis_change.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "58fe105e4e1e637a4a3f5d2d1a6618d9014bcd5afd01bc244372a2d7dbbebef9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_ext_basis_i_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2e345ab66c48e06b5df1e404a29771bc7debc8980854f598ef0b584e0bea10bd"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_ext_basis_scalar.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4fbe11f0514b13774cfc2efc0f7c7a2fbcaa282abca71197582a5bd288dc822e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_ext_basis_shape_unfold.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "76841f6edb261cddc4b78064163676f2945d7451227ebac468d0ec3263689afd"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_i_type.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "59b54054b33221f5d06b2a53841d23107c1b6fb22e52524cee64e6eb91ce9440"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_inline_maps.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ae870edb1b342e2b2c47eb09af032d7880e5b0ceef52dc52e49462c03115933d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_inline_maps_shape.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "77c73c537c43abb6f7b20217eade80dbb8f25831c6b98edec310ae41414dafe9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_inline_maps_shape_unfold.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "07163bcdf011341d0a6364f0cadc80389366b248bc15eb99a773e64d7c582a46"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_inline_time.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9099a7727e831729013cc0e80ed3d26cdef1a94f820f4b8d5ed9d63709178ae2"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_mul_sided.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d9fc0818052e938bdb3786e97b55ee6cddf3c1219a69c16ff6169de92d7389f3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_mul_sided_shape.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2f7c9d8f8d4cda493e6782d1efa7b9539ba3e7c6532b3e313dad6a574cad8916"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_mul_sided_shape_unfold.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e97441c6a6387f905c1b217eccb3d53b9e5fad1fb43a294c295d2e98240c827c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_no_change.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "62ba18997d926fe9652801d5d638da5867b5d5610898390ce70f08f488a34a83"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_scalar_anchors.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b677c088752cc5b5c764963e11d5dd387e9c4b782e8da25c57f0c9c65be4fc23"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_simp_apply.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4da381582a06683ab80c6499316335a20c916078e8974a7bf2a4b7a61f0e0603"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/bilinear_target_mul.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "20610032adb028dd851df982a8b6c648749cc11560ad8b1b87a15b4b0844ed4f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/checkpoint.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2ccce7f6337cc67ab0e100751727ebc5cc2804e5e20ec201329b04aa36f7a3f8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/closure_composed_map.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "89693f425d8bf7f3ee16a0f71678eb74b778a635bfe7cbd361a3add1bc197239"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/closure_congr.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0a7f5b03e339fc64b908972fa2ffa6dc6cf68855f06007dd47af478cd66dc687"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/closure_congr_compact.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "10e66f5561b39406fbb5ef06b83aecf8e118530e00a354da30347f6fbbb2cb3b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/closure_congr_map_mul_first.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0090a5a39a39397a925e706a8dc67c5eaa55d7fbad1db966c6422119487dde02"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/closure_map_mul_first.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ecc83c101532d1c7b44ae0d05424eaffcde5ade64935f8b712407bdf81d5d000"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/closure_specialized_maps.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "094e66df2bc791f6213196607302ecca858a058df054f5a3afc261d8eba9c199"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/confirmed-primary.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "07163bcdf011341d0a6364f0cadc80389366b248bc15eb99a773e64d7c582a46"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/diagnose.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e185a817cd6b4777457a181b8f66e3d2bee4358db4b7c7c0027ac441c7dae783"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/fast_batch6.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8ec4ee32921816f14d49fa7e18aae97bdfc7fbcc4684f8747a8e9cd70983eb14"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/fast_batch7.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d55167e5bf5109ebb870af67611cb6f470860d67d98bcd2a1804855edd9876b0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/fast_metric_refactor.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "16244224aa0c1db2d6452a9df2964cbe99af1b39bcd2dc8a21ed56982e614c07"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/init_and_batch.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e515ca2ed138e2c9d410a9c5554e353759a8abde0954198709a624dacb65da91"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/seed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "618cc07c9dae13099535beff81c0931576e2e23f772f5c804b4c0165b34e8ad0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p06_agent/submission-evidence-p07-p08.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f5971a5f7604f68a17f8afd1a5a2871b920894cc9a91b0b0d1ce8993ad84d96b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/aesop_forward.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9d6ca4e5227ec79cced1ca02be9ffb703f9ead1d441a911051af84580ea2032b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/aesop_forward_fixed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c71f64eac64644edd7b7f2aba587467994b02da89c97d507fe3b665d77df07e8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/aesop_forward_fixed_nocases.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "06574719a1b76c366b578d326eec011bb5e33c7f96da33cc9b37941be8c5f364"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/aesop_forward_nocases.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "002ac984bd6fe3304fde76ad4883a6f863a3b127f04e687dddc9c9054c07653e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/aesop_forward_percent.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ca59dd0aaab99ccb394d304aa30d8dcf71beedf59e97b7717fb65aa1f4756744"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/aesop_forward_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "42a90ff192881a736e9d77429a7bc60c74f306c671e58a718134dfc241aec6c9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/aesop_forward_typed_nocases.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "65a7a2b58576e8d61264cefbae55c2aa20c7554bf55fdbad15656e0f404fd253"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/app_tapp_grind.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d65087fc6cddb9778159289361561c45a279695f831f4fbb070060af2f877b2a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/aux_full.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "136dd8a9a79d209471c3f2679f040699f44a6af8f43cf5066ff3b3e356adf3d2"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/case_grind.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "454b24669ccc60ca57695a41da4c828dea75bce073e28d1487ad4c37a208f32f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/confirmed_101_snapshot.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/ending_aesop.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9928789335cd091de72b73b2b6218460db032127ce0c405d18442b55f9f9649e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/ending_aesop_percent.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "33c4190835c2f0876298bfdee157cc94ceb6f9913641cd82869848a5aaf1a58f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/ending_apply_rules.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "50ebc3f4259689ff84b8ef741f27b637142841775a5d8eb653561cbd1492246e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/ending_grind.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "917a9866359c7695a186d38c4214a2a5306e5ec891aab01ca951237e87a51fe3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/ending_solve.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a7660c08c34ff601ae17b5d306c39e275d9ee95276d5336311227ad1b0c3f305"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/grind_forward.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a24e5773edd50772881264a7a7955429f93090917099f562964d0200888cead0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/grind_forward_lc.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fa1ee669214da17471286950655213c7f204022450dca25ae8e3817e62bd5815"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/grind_forward_nocases.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cbdf4e782a101abf6c7797886fec8fc180f930a4770cb41fc6a37b6fe0601721"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/grind_global.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f144b07cfa6362b635f780b6a4d1787041f33134b32941e83c29237e9dbf7e22"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/grind_only.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ba245295cae7a9d43db6f4ad7a4c5213a798165ae088a26feda1f99dbb8f96ab"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/normal_form_aesop.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ee539caadeceec3d3080970cc71e5e03d9115945092da06d31a024b40df6a0ee"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/normal_form_manual.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "94fb6ae6f3130934eed38d0ef6cabcbbaca8f79759bbc101efd40591f774af63"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07/primary_best_103_snapshot.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "18d30702234a8f794e855986ef43d2f68d6398be70f5bad467620a092ebc8a15"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop-pinned-Options.lean.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c9a598f23a483403ba4e2897906c79d44641397b21a68d02233e5359195248f0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop-pinned-Public.lean.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9aa5555935aa919f0fbdf069de4b0a8ab81ddae629a4db13180dc6f3d7123aec"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop-pinned-README.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b092a9fd20cdaf59d719bfdcd9ef3a6cf7dde43bbb4095d730a12e61dc320bf5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_closure_destruct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cb68ca50d61b9756e14ce9508e7f3a5da58212a988239a9152cc5b4721c69f5d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_closure_only.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4e00affae203696753dff8227a70098d70546a7be1715b152a395e1cb87b7fc8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_compact.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b0927844ca1c0d596c4ffdc4ffa64f7fd9c97d4d0c8e0c96c446acada54b0877"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_compact_default.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "18d30702234a8f794e855986ef43d2f68d6398be70f5bad467620a092ebc8a15"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_compact_late.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "71adda25837852f85ba174be84d13e083e8d7b3de75cbfe36f3ae9393bda46ac"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_compact_late_default.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f6c0191d0745e5410396dbf4f9152e5232d9a9381fa8a264d02b5987250700e9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_compact_suggest.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6e60dd164d44dcbeb2aa268c58e5e8b1063112e49024668a213f02b5472fd464"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_compact_unsafe.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2dacf6e75169bfb2f12f5118c106a6ced28d0f86681125ac14fdf2eb5ffcca65"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_compact_unsafe_low.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "440773c985c7821fbd2818185f2e4d2106f3e66a35358cf9f00a81aa5fb52a84"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_destruct_canonical.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "06cbda022fafe8e64317e508a4ed0dfa4f60ec88b2ce283f7ba1e7fe313de3b0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_fast_depth.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b638b5a525589eaf5a3b2ea4fb98c2ba81d80e8994ee00b55b1827031a3d1dad"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_fast_novaluelc.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9cee8a850c50b84f0e7b05eba04cbc4e1ff4d5f6037e35069a1cbb038da62b66"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_fast_safeall.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9ec90857b93887e1120d8967db7fd23375c665dd4d8528ac1b16fed0f563717f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_fast_safevalue.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0eb95d9da85adbc486df76a08aa926fa5c5929e4c375cae322569bf45d8fe126"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_inverse.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "800c1854b5d0624f69d1957a68be49ee9944f8798c418450b82abba3ea4d8ecf"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_inverse_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3763b5d77bee85a5b1013ba3c734a6db447afc58be63f2b457e7417a0a3f4d2b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_late_cases.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "821baa84f7484481109f18c94b51f0afa6d5df363130f1f59069816319853069"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_late_cases_novaluelc.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2905576e0775eebb54f81a451cf5c19a56ad9c90fb00835c8fd722e84ac10163"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_nocase.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "222aca9c09c8e511d8413f0e6e463340818ca1ea3206aa2efa8a28c9be535c7a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_only.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e8daf285c42904f5ddd19da2f8c79087d023608996b25a85522bb2739be84a34"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_only_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "28f728a202ebca054635b5fac5f95569000693242470dde32957b212515436ed"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_only_simp_noforwardbody.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b3ce6ec2da07c08a941e9275e4e92539122184d1de030161130da724fdfaacf5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_parent_closure.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5c4f152e9599884850ebdca27accb2ce20f5dc2a4732138e2083ddbd2e701d70"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_parent_closure_destruct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_pattern.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "78bfae04a5d66d7b6bc896b47912a37b8f019168dec67548c461e71744d791ec"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_pattern_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f856896e242a4ff9d49231c1f3b7e7b58f6f6137c26537ceea98c77ec9b4ceef"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_pattern_clear_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ef65028cf6ea8cbcab7c7c16b8bb34c2f96be85905586547d7be48f254faf7b4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_pattern_nosimp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "37301003fe683d98d065aa39ed4c08534d4b1fc0ea201b039761d8f5ebcd695f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_pattern_simp_at.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "afb487fe9370c4e9228b289d9111e1492660a1a79d15c0194950e0cc095f914f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_plain_induction.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "15ffa1cb8b2fcd8550edf06e81825eaf222367b70c824ad3ac3307967c7d1f12"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_prepared_bodies.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e9b5e03f1fe2b9f655863d8e8516ce3e3372523bf9320184779d4143125f79c4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_prepared_fixed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "520be51f8773ac7dea9e4e9ff82f7b91defb218b92a36eb5ca1c7e2921255395"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_prepared_nosimp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "21fd80180b35401b78aeac0eeb4d1c14f20dd3a791d128e6adb69a7c85082da4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_reducible.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fecdcb37c7bc341fb928c65c2738203f970b3919b054e6fbadb7aacd1876c0e0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_simp_at_hyps.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9b1a28894a1dbf7a363e4bf8b42e1b6c9b20ff0e2c3ce5e496406685b8ecf5e3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_simp_atstar.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e5693e4c23eda1e35b445a924fdf9d226b545ddf2a9dc3f1f93ee30b21950170"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_small_simp_once.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "edf011f8fce17ac29242924ce470bb0f53c55d72d5bcc501060f991053104a57"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_small_simp_once_fixed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8ddaaf4a91d1e57cae33999f977ad9ab2f7688c4558b9a446a06461f3d0a4fa5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_small_simp_set.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "67c1b7624e5b7f5b133dfd414c548e083dda69ce429ad2f9ce4ab6467079974f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_small_simp_set_fixed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "df249b7a388eb4db6e1f5c272736e1d0e4b0f9762fb6cf25dd4e4c4a3d3a0734"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_terminal_constructor.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a13396bf7b3a45318cd092b1d59e5fb141c1056715110306fed88a1f357b30a7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_terminal_solve.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "145c5ae7086c044041b9079068dd1bb7c660cbbec5fc70d91fb72915a761a21f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_unsafe_cases.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9aaf56c55afb8fcdacec22f78bf5a110c28fdd92ffef922e0fd2a499092c6e88"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_unsafe_depth10.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8d34da946be4f6ebb028104bdf6acb6dc35578597c232fe33cc9e9ce91f1513b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_unsafe_depth15.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0242f915e068b0757ebab73c7fc926a6542dcd41cd51b56adfe534db8d68d2fe"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/aesop_unsafe_depth20.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1b4ca72dcb7d571640a49d9f5e0704962bdcc679e374daf958a0fcdf4aca7a0f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_aesop.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0cfebd6dc2f38f8e0ca76c8b673bd8706c35f343fbed595d07919df13c83f2c2"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_aesop_default.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ea20d05cbc47b0a46dd992921f43bb9e0a9753ef32b13635a7cfcd85dbb66aa6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_aesop_nosimp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "309a808aac5c71d3f9f932d4285ae40b5991dcf45067a753be8ce5e412ef4fa3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_aesop_prepared.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c2d1d53a8eaf6a1cb013d9f8abaf55d9388ba302d969084fa399e1e364c67b50"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_aesop_suggest.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fad1719cf5308b3407957ab253631e288dda3b02611316f867d5cbc686515735"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_dispatch.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5406941ae2973853f97a215cad8627b20cd426bb9ff7b29697e6b2e12c22e27d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_dispatch_fixed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3e4a020f41265273808de38d38f041321c71dd4e6e1c45924526bf5b619d64f4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_dispatch_short.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bfd81135326bd522651af6cc0d3d3e478b4ffe0cd23c3d1fb053b74b674ecf0e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_unfocused.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "eeb4521563322e1d421def9c42b6e1e727f5b9d7b701f2c98d9b12ec38bfde3e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/common_val_lc_solver.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "03063205511419902164cb39ce4ec018d1dc18b1c7930d20e71c654aafc72b8e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/confirmed-103.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "18d30702234a8f794e855986ef43d2f68d6398be70f5bad467620a092ebc8a15"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/confirmed-primary.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_by_case.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "146b7023f2f371564598c4ff95049c1b791102ce9f0f80f88cca8b488555793e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_fixed_sources.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b719c1949a9b1662f72abfd23ccc7d91a9f35ae02169d9e1abcde38e9791484f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_gen2.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "eafa34d9d21ba04b2c93e437e93bc9e40423a3964a28b55c0088488ffd9a563d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_gen3.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9ca4691d493dfa0e8055c339f6ce70fd35529ef2ed768e7160d80aaffc31d574"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_gen4.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7f38204e631e1b2ebe7785b6d52fd308627c933587854a9f04d090e3fe2b3ff8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_global_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f8a41e46893b3288513306b94bf37a8002bb10996f9377f41c0fc73c5b7225b0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_hybrid.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b2d9251197c04ea31c5ff252105d7759315b673081ae379debb52e18d9d180b4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_ih_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1a3a9c799096dc6a216cab947d222f59697d0e2dce70fa32dcf85e485b3b2456"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/grind_only_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b47bc44bc8d5de251675c73cf8c9eddd5ce280f8bf864ea3488b7d8b08e7d80c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/induction_prime.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "671a7f0370fc973a9dbdf0ee9c5e2563cd6945961f60194b162ea4a018c87d3c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/normal_form_manual.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "94fb6ae6f3130934eed38d0ef6cabcbbaca8f79759bbc101efd40591f774af63"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/parent_var_contradiction.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fa04320b7b2cea3717150a9821223558cedf7ac0a2cbaebb455f89c9e2671cc1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p07_agent/small_syntax.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bfdddcb7a764d9dbf370dd8789af2bee0875a4083fc9538c113912c29c09015b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_common_weighted.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "da86272427e25ef92502164146971e0145760c26fc625d437a12dc457f7b33db"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_inverse_destruct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4630b4885d948cb9dbcf3e774d5ec5c2e8632e420bdf2a68e6c4d26076911bf6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_inverse_destruct_unfold.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4e5772d33e072d65c04a80dce827f0f507aac3d93944052f64ab8415e71318e4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_inversions.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6731c0c3adc2519797e8354b8cdfb20f1067642e6e5288224a6c72c818c1ca4b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_inversions_unfold.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c8fd4e4255e9a52b1b228cbca08cc83c8f0d9fad16dce091dbb22bead849cbdd"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_prepared_destruct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fa6264aa3087a0c33f260ea2345ea9fb6b7dd5dd8f6284c82a7cfe167b0c20aa"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_prepared_ih.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a84698d0433e60ebd937f4d06a4c7ee18c3408e10946fb484e698bbb9d6633db"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_prepared_ih_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6bac758e472f14caeb6db3ed94752679cc7e4ac49d7d2e1737f5e4be86cc9dd5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/aesop_prepared_weighted.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4c50c3ae2a61d497b77abb10dd8184e784c30af53acdd70ac0e5b21ab6950545"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/batch2.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "73df034f6425360f3ce0cf42daa7ff3ba621424598f76ac4819813c1722fdb6d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/batch3.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3e58f80755b421de5a77b977158927d9119d95008873a25e19ba50e3dd6efc8a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/batch4.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "82fce016f3eeb26f70d5f337ee3c40597c38cd8655ef4f24abe51023628b302d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/batch5.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2cd11bc1cbd96f7d43bf9e46d93a4d2e579944b2d3ef9d1bf938c2dfbcd144a1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/batch6.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "864f5ea0a8d7209fc6fe22951eaaf558a1bc334a77f32527da768ca88594c650"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/batch_manual.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2e7660d6b19511703b51050eaeb8a36c908e4bb3ac26a82085dd78612e55c46d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_IK_only.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a3573b242ee6531e9a09b3419b837dbcde2785700dd9e03d91346ffa88829e3c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_aesop.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "25748fbca318b760683273ea9d58cdfa3cad08b5b6f939ded1cfb50a3b83d00e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_aesop_no_default.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2c873a4ffc9371a6ec6bf0f21ebec0cc55c9ddbf76f79affda9d06c85ac2cc0d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_aesop_unfold.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "902334f71aead972cf15e96460a6267981a04597aa9e6c0928fc73a4e7bdeb3f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_elim.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c7e044d4519b966b2ad156b9fb8ea3dd7d8d317875660f9dc78c43bf5fa872b1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_elim_backtrack.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c0587d1d677aac075e5147e62be217ea88d5e71ee00f896c3e0ffc89fe1c34aa"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_elim_depth3.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e9505414ab780a976e5f7701a810ca68c7e25b47adf034ddcc358faa3dc15ea8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_elim_depth3_backtrack.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3592f6dd15e42fbd3372f93cf167663f261b9c72d9c3fa03fe0f8058d8d8d2f1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_elim_star.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b17b520bd2cd15e7876cd7efb050e32cf8d96351384465f806c4c81cdbcb80d2"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_elim_star_depth12.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d61a84c6fa5a44dfc630f2dec08b429994621b063c2763edde0338db70aade8c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_elim_whole.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "070fff957bb4a1cf22022dca244375691db7f123b3386f1e11d2d43d7f18a8e8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_elim_whole_depth12.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "59474b0f0a9cc637e4b47b59bb8f1cddc16c7f10356b7249d0dac8f7f236a3f4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_terminal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "eefffa3d6ff108d0f0ba4082972ff6ba145ba9c49cc7df4d70dd95403837e296"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/common_terminal_backtrack.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "22a80b88c47737ca83ed5d04d67912364cbb1a6d2a44cb285b7fdae390efaee2"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/direct_I.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6be59efbfc6a77e474a5de21c3de85a7d95878f110a6c56852ff94d5e3b32399"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/init_and_batch.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8912425c48459272e098958fa3d2d151b9336f09395aec28b59b089cd98a94f3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/orient_direct_I.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4185ed60969a7f155d87547b28f69df494c7ef5a4a9481633848d2b265308dd1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/orient_symmetric.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b03e27d49e0918b4a1fdb4cae1a49abc09d770828194591d7f2d875490faa370"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/recursive_infer.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3d2940bfb85aaeb4b5e9e4423f906b72cd8747240cf3f1ce4a96e3cc9ede15da"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/recursive_shared.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a97ece8424e1e8b53d8ed1a46eb841aad3eeeefda43da087778047d26f8c44c3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/seed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8b15f299a78a2444df2d0f92648f0562c38dabdedfd5a51c27e6a86bf0ad2b10"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/structural_induction.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "099cc8611eda6dd53a2b11cc3e05775716abae45a06fef0d5ed66f4880cfbcec"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/structural_induction_infer.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d6c86f5da91daa08011573bcb32a3e59092d1ad7fe49dbfb69ae9f4bc45c6ab7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/use_discharge_IK.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2c95b169051952068b81974a313abb84883497d22703b0746bf20c6bef2e6a70"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p08_agent/use_discharge_all.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6aca5caa09262daae569a79e59651acee06ed229ab3c3a875d9f34eec50c3d20"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p09_agent/build_runtime.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2eac83732826e34b00f6d16c2828eb996ea9202806da2806fa69af69493e4fe5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p09_agent/build_runtime_pin_lease_snapshot.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "77462c18fc40cd0e563a715c57af699158410df9d16ac50b6fe08d32500f9321"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p09_agent/certification.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "306a0d698b063f19c22242764edfa0736eed2f69db5684ed59fc597ada85c4a9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p09_agent/certify.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0c3e4fb09252d531321f84c5e71f6341b1732c66ceffb86153afeb2d5cc7cc80"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p09_agent/finalize.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2305819078adc9393b822866fc26911f897104eb1968d15981531f7e9bbb9ab8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10/finish_apply_cast.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6b74b938e22388309ea02bd31e6284972a325ccc18d9d1dbc52d8f0f18f835e8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10/finish_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "56887ebb11bcbc35563b6b60d1eaa00e52677a705fe98629fb9cda18fd403d23"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10/finish_exact_cast.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "182bec5115df4383029b78f22be533fbe8340cc507cd07709a22f78c5b4d6118"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10/finish_simpa.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bccd2a223e169a54fe29bdd5de3113bace51875ee2ea3eb4ab19625c209b9f5a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10/finish_successor.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e5a088f1c24176f00e5c37143082236ab0b34d9bd7d07b700c97c568c2a622eb"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10/product_injection_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5373b262b5eb5015db298c3829a1dfdc9e204618430268cf0080aa68637e05bb"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/NOTES.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fcc5ce53de7f9fa54814e7a92e59e7288bcb8dddecbfa0fdb9be5dabf8c3e927"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/after_checkpoint.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5eebd577a9403e70a5c6e92ea2c6f3a8b202ab13379533b9ae892c54bba9201e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_conditional.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e3887ff5f4e3f90c92f7bd64cee752b8a2e2c66d7c9f05012556782ed9359a8d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_grind.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cf7b1d28c423273ec1f6e7ca02b697ba4a4da0cc22a711a744e994354df715b8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_grind_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "722b6994f8632e3de291a1d9f17329ce912e60a021e34ddd0e11f45c52b035ff"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_grind_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1388a46674668f65183e4fed70b596cdcbed479a694f382cf5476c621b2e317e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_simproc.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "439ad5152b7fa3b1c714d2f702187012277e6041d7e7b24278a151a8870fb814"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_simproc_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f835bd0c5b9aad0c91439a9a0590ff70b4db55b5fb1a1c60a199de668f46d66f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_simproc_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9267a6bb0105ba7169257cb5e6f38ce08ce09617e64968f2a782be31b241f5d8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_without_omega.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9bfd20ee2591ad818d8b5dba6426c96191ba52a3c6c1849727d70fd9ad83b4be"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_without_omega_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ffe0720abdb1a895134736ca0722bc2569c2ad65f8589b9223b887d10c0b2980"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/arith_without_omega_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ab6a72a8f5bdabbcb28742e7a32f363be049c12ea77801f8ff62196a128f5fda"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/batch.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "791cdab2f0b9745afc2179f149024e32fb3d36144c08fa196705e464300f6c18"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/batch4.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "de80fe91d75785853fadfbf17293ffc1a3aa64743786e3efc2a15e7b30679b03"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/bounds_by_term.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "78acf244daa6a3a1cc1c28f9c2cd75d4dd5e03d39907d8af80d4abf233f3fbd8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/castsucc.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "437aec63f5798631f2e3899420f5fbcdc644b436a5d3c33cbfe83e0345bce5b9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/checkpoint.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9c3c7e9d9fa743cf254f00a7eafe5f897d13c21b4c74b2ae037470011da12f9e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/checkpoint_cardinality.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6243f30b87e37ab3eef9cf4640bfc6323d2acd286672bf916377be6d7f4e8ce0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/checkpoint_conditional.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "18387497b8b828945ddd696992027585ecb0a821cf8c37541fe3a69d3f5b568d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_calc.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c2c221dca9ae987eba9f1f111ec30c0e1dde7ee85856ff511fbf5c3f667103a0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_calc_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "accd6af5e8eb55006a9e0ca83bc34701a59bc70fd325809268ed502a21c30794"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_calc_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6e2a5ab698ab805267a899cbba94b3c2038d4019d4507b6417e9b448b860c5d1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_calc_literal_typed_exact.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "41eaaf496dec33abb0af2c1e99d313b3927f7e8618528e84e366c2433f8a02f1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_infer_witness.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1c3f4773cd557e98dbde8910637cc67da0a25fe4a6d2ddddd571b5ac45d1fd5e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_infer_witness_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f431c68d59933d86fef1da85065a33ab7aad95ee2109fdbef2ee224c2ff3f850"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_infer_witness_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3e48e518f60e7b4901010d056582eb0ce1f34f8a757b8e0063d90ac0fb91ded8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_inline.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "80e0a2e622abe5660449fe486a7ed4c3d10a3c24ba4e303ed9069e799f44210a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_inline_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2a2200d1b43201bda64b8a5828db7522b69dabd828d07d4ecb2e846fc0d651f7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_minimum.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "289df1d6e094c6a823ab38235dd0bfc891593bf25073425a6b6bf4c31a75c5f1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_minimum_finish.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f97a4c778cbeddc6001ea4ec998672b2b2078d0dce9c823be1c3cc65f73864f0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_natcard.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9df4d5b3466dd77540b37ede1b7c4cf84bb3aade8e776a15def776be28985438"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_range.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "52fe438e4dc5ec794357cb24aa3cfe63349f6f55397ba982a3d86e59ce01769f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_range_min.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1f85296c4992c8ccdcae09f81604dafaf6f04bc3ebe3055757bfe97ad5cf7400"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_uncurry.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2c86b7be1c1b99d7c9b533d90afb204ec23f638a4c2258313dad6a4e0212e341"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_uncurry_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7d69b27cc111c9cfbc5f0f2c19382c27c67dac43ff0f4c099bbd714cd893c999"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_uncurry_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d4b506ad469242497e6bfa54069d0c49ab39d2932433c3735d8cf328a795c340"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/cover_uncurry_literal_typed_exact.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2096a87906f81846de5f132019e5bb68952ff2f0832d43920d8de5bf975207a7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/diagnose_exclusive.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4ecb9156f79a669ac1634647ec52f25f31f5f9d4d2521093e72edec7a443c2b3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/diagnose_exclusive_detail.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fb257ee45504f4ba73e1ac293d8b39d0730537131931401095178c7a46459afb"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/diagnose_exclusive_inspect.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5db326939dbf6d81212f591e5c26730b697b8ca4bdafb779e423f80f12c3cbd1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/diagnose_exclusive_showterm.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ee86d68af28b1443b476a716cb9e54c69439594c3956db878e7714b8771a5214"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/fast_batch.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6af11edd234a8bd422258d8c6e5654a60022eb9643ac144880873c8b985eafdc"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/fast_batch2.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "808c0ad8c1874e5ef0561c7a3565fc0799cc962291cd2fda680160e52b121d55"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/finish_apply_cast.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6b74b938e22388309ea02bd31e6284972a325ccc18d9d1dbc52d8f0f18f835e8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/finish_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "56887ebb11bcbc35563b6b60d1eaa00e52677a705fe98629fb9cda18fd403d23"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/finish_coe.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3d677e1964084c0bab71fbdbb25b50561bc5122779cd8167dbc2302050640814"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/finish_coe_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "eaeb20366bff6a86b73a889327007a37b50eb73e99f5d02964e39a7bb67e1ff9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/finish_coe_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e22c012303b9abee014e08f33b5be624714fe17be970c88fdb70bd8b1b5acc30"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/fw_context.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9fd0dade31c2e602b073cd6695aff7a8df0d20feb426d734128e57e0b79f2b74"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/infer_h3.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "75568380dafe8a9a19f58dd3129ab7d4fb8c9bf702dbb213d530dd8745d3cbd4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/infer_h3_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c5200dc495f3d208389636f42077e494292a56979783b643a6075bd5a349d927"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/infer_h3_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ad0b8842216f5adcdef499890bdddcc5d3975efa9da5167f605fbc4843d86127"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/infer_minimum.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "95a5278439fd5a35e992736e26a33c0825d52b5cabe4505b87528a60e4c7bb35"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/infer_minimum_finish.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "304493232973cffd340b385ccb50eadfcce30ae3dabdf68ff9a60178d5662bb2"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/minimum_lemma.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "79d8ecf4ecc48ebe62a0aefe17987a6bf7e983376ad2cb47808f0381a78d2f87"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/nat_finish_direct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d10aadcdbdbbe037a61da4e2d1f2545ce9cce6da36832d90898763cf87368c05"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/nat_finish_direct_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "523c0e55666624a6bad025dab6edd70ca18822974b8de9543f91d31bfdd7eb2c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/nat_finish_seed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "de5b98476b61cb6418093019184af30ae0ed35bf5e69cb71651f22e30861fbfb"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/no_classical.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9f3b0e37350a01165f0dd6578e27b27d8893c040f51b9dc37a1fa9393907afd8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/no_classical_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "23d19224c0a020001740f77c2d34bff257e9e3ae11bd20b42d51923a4c585b73"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/no_classical_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5ad5021e3c81f19f0ecf77e15e43b436f64d2eca7282d203ba3ea64e38c2985c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/nosimp_hd.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "09a8037f772cd3cb3256f3b90477eeb8bcf77aad99a375d977c7cf79b6a26335"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/nosimp_hd_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e1d46ff4e456a16349253227bae385242c61d5f16c23276a727b07f37e598a9f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/queue.after-checkpoint.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4c36173a974a4e9899b5a07827e9385584edbafe5f3153b1efe6b39a8d0909b3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/queue.after-second-checkpoint.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "59858dbc4e24b1ec6d7a0a563afe4f6ea7a4f7ee2003a8b12f570b6ca82e81a6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/queue.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ba6466dbe911e12e3430c271f97040ec491a994f7f499e94c36af9fbeb627a28"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_arith_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c321b7dd5357f8b7bedc6f0721599e5f11b3e9be874d99f3e6f2fec926ea3e5b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_conditional.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2e441ca2dfce920adb77fa116a358529e60c7b02ef655284e2bc9a41f107482a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_conditional_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d4cdbdc66634fbc625694485812e44a734cbbaf8e3b979e0808f1e32788cf549"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_constructive.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "75c02f8cb79504c6fa9338a79b18fbea8a55ff97b3063f897d9b7590690e8bfe"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_delay_bound_generic.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "786b0adeb7af0fb758c4298f591a8c97911c04dca81ec08f9cd91f5e39292f86"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_delay_bound_lemma.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "21335da88c89a53dc939aaa55f34669b41aee93cb399ee15546765f4cab8389a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_delay_direct_coe.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "08a9abd359278c8ef471bd5ab00c2c7e1d08398f593be01ea8295a141a6c8a4d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_delay_exact_normalize.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "363fbe237ea29b9457cbb89c01cf5ec9ea0ba25813a031b17553235a3d78572f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_delay_exact_normalize_pred.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "57ce123499dc21248c605fa56d25c06ca859e02f38cb5ed0c061ab8aeca8810e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_delay_explicit_bound.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cea30f3cbc08ff5a1cf674741af478cb1c22aaaab0490068462ef71ce2cb00b8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_delay_hg.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cfcb15dbf71a18189e727f38e602c3b091bff08c6fbfc558ac19a2d181948101"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_delay_noclassical.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ec80fcecaecbd6e4f7cec8ec2a0452b2bc552867c6b889699f2f59aa8c49af52"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_exact_ncard.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a4f70ed6ff71f14b0fc00cdabef59a2536ace5bbd6e9bc510b286782ac35feee"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_exact_ncard_classical.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6f666315c13f37878fdb8b2c7929c25ba2d9b1696ed7b06936f1e78e8b85a3d9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_exact_normalize.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f5c74c442396b6cb7fe6c83c846e585177a691130083b5dee22bfbc4d5bad3d3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_explicit_arithmetic_direct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1e42f4af5c80304abc382e371b3b5ae7ed1e3bef32291132e615afc26f48530a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_explicit_card_term.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "58ba41c671aa6a53f1dde3be1bc07d299e6502ba7871e3f2f8fc8b3b1768c909"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_explicit_card_term_infer.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "74e74d3a5a1b45d0d509b37aeacbf3a021c97879bca9a99cf206124db886d0a2"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_explicit_direct_coe.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c617f04451b737b39bcaa00366e92ba1b969bca536a3477ccb563f179c2eb5f4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_explicit_fiber_bound_lemma.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e740f5c6cec0aa47e22cd33a871b5240705809dd6acd47657481251574eade22"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_explicit_finish_nat.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2b7e40386c1921e13b8632a8f8bd96c0b4974e83ec5c6929e6f57a11fae664e9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_explicit_finish_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9901e09dc8ebf413cba30167f60592b8d26b6e67ed99f354777324416efd84fb"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_explicit_finite.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d81edbc9a6b9e9489c88fcb86007828fa4e780a7731af385793af33f5711dc44"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_finish_direct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "da6e9d301ae6465a378346eccf1310eb30598222d6f0c8f241fe466d09fb90a9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_finish_modcast.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5aff2dd0fe4559b93a924b01f0302a055e7975963b00b41e87fb2b3c73b2d5d8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_finish_simpa.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "dfb170c4eaa419e9c6099cf4477f4fe9c682697704ed0925152e444e3cba84a8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_finset_cover.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2880c5662e52b42fb79052df8b0204817c142ba63ae23ca72424269167999021"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_finset_cover_notation.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "00b1faa1dcbbf74c6aa7c17265e22619d014a267395b6db845f1d3f546f017f7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_generic_hamming_bound.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "844ee16d1387f834f8810fe6efe43e717808adbf5653ff1783f92222a52c783a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_infer_delta.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "87da7cb34cba19e30b7101ac016babac08794341f4c1babde57fb1648249acf1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_infer_delta_forward.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "59bff033b9ce359ca9c1d6a9f66692edd15eb99baf452da39eb150fbd5c71614"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_infer_delta_forward_classical.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c9a353d90942f85be2b2f7ff8a8d8cf37b4a95f7dab29c267804fe35a0de7dc6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_infer_delta_forward_mem.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7d6cc2e5e8e0672a6649dbef150be1ee510fa16767ca82e26125baa5a059f6aa"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_infer_delta_ncard.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "12259240741f9293300aa0834da689e4c722d539b458e82afb4c229563358b6d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_infer_delta_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3c4ee57e8c716d5a2d7fb8803ce1081607736668fc8f0e3b7cec5419b613c256"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_infer_forward_clear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b38aa550ef64f4a0e2895ec77039af3c8a06edf7b2bc0a192aa86f03cfb24f6b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_infer_forward_clear_bound.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a4c1071738771ca548bf0a4fd2535c3d55e56b7d95cbea79b433dae0da3abd6b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_inline.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "526f3f2bdddb491e7ebe13b27307a4a2a8d9024f12a79931519f273e865e4aa7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_inline_conditional.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bc47f9e12a6c306e7351d3387fc9f5ce18ce537f1f8752b57e66fbbe1d5c1eed"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_inline_conditional_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d54819ba36212b1eaced143471c3ee53a40d4f4873454bd0bb22366600db9613"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_inline_conditional_term.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2521ae1b41ce6ad64bfe7d0d31fa17e9b1ffceb6aa845228c774684d8ad532c3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_inline_constructive.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "05ea64a66a3ef089b7ded625d45a6b26f43a91315f271ba4fab7a3a7ed5a86fa"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_inline_delay_hg.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1993b166471a10ed17dc1b867e3a99c10e9d9856744ca682f740439e4186429d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_inline_delay_hg_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "222228323159c78d48a2ea5edfffd728f0916c08d6c29f8f9698f0a5ad028b33"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_lemma.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f20a897f843b705287e91b66f2430e936858a0eb9d63a79d6df9bdfbd5eb5015"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/range_natbounds.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "687a3e64ecaeb9bece8b50ff18f6f7dcf9d9036eabbfb7a823ed19815ef1230a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/singlepass.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c5db60332d3f83cdb90422ee3a6995ab45ac4a0d2aa3458d33a26e4f08dd4358"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/singlepass_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "196bd8b13efa3460afa6d47083cb094f09523fee8418447e57cc5e136e46e945"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/small_context.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9855f6d679bdf8f667ab188176cb9f792b83f67a1aca3867a4ff72e025aaa7b1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/small_context_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "362633558f16e9e365c491d21bbd18f79854309876dd5e6424a76584f4e67fc3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/surjective_cover.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4215e55e135ba62f447843313d17a98b7f88c779e78667a43b920cf88c6b56ae"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/surjective_cover_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e6e01ae56484c1e8a2f4b7bbf4cfe7f0f9755a9c33cb7e3c8b56dcbfff680130"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/witness_direct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "21af82030a62e1faf52dcefae1e487a63ea1a92fbf8b67cd323eb87ea98c88e7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/witness_direct_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5eb687d6bd31fa1a54f9b6e0ae85d24f5b0d42f5e099905319af2cce42e7d606"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/witness_unpack.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "aa8797e07582f28f3e8181f6f62c6ec3a9819e59acbd3f5692cd9f401659f72b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/witness_unpack_literal.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "44482002dd11decf9b9a87230f412ee7ff0c1a9f26e6ba2abcc455714fa54c54"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p10_agent/witness_unpack_literal_typed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f0cb262c7c5ceb14e3bedd2f3c3faab58ec8bb9defce8517259d075207e43ea7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/abstract_arithmetic.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6f9a3db48dfc3fdbcda10706b26b4441164a34036e869e10c3c0e2def2b04a0c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/aux_full.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2fc031d4a45814c9e0a05f08acb69502adc8c6c605d07f3ab00e7a773067f7d8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/composed_let_single_ring1.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "945c923d6a10f572178a0d58591376e51133a37d713bb16cbe28731701599595"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/fiber_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ce103a50290972453b770ea168715f3119544a9bd152a460f50a4eb551b7cdee"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/fiber_simp_fixed.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "875faf7b5dd2b3d5dbc8a9736d319e78a96eb514997b82102f914053b8ea1dbb"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/no_set_bang.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ab5748efcd3a108a03d741e0bd5c683cd64437edcd03c246c05067e76dc5d379"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/qmap_rw.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2f3562c61b8c78ec840985282ca274a5e4595db516aa35740a7514818a011abc"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/ring1.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b181135f0693652c4a3c606773eb29827885af6d9b76ac07dcde77ffd7fd2e9f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/single_0.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fbdd7ff8614f45a8f0ff4dc3cf3acd7b77551e55e47c49821e8f640450d363ba"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/single_1.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bd01d8bceef2a38976296de2a20c7a4d5aece97b61ecc018adad1a9ae8a7f4ba"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/single_2.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c56e9717e1d4e1917b210ec8dbbd96c53b54a0bcdae917aeccee00e0ed453b85"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/single_3.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e27c29237e5ded93c977becdee55ae5948ddeb575eb3abf567ef34d2e7c5d2c1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/single_pass.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "eeb3d7c271b788a5cb063615c1a0683bdeddb72827e633e9557c5926b29144cf"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11/sum_direct.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "440c0f20d30be72d2ef5535b9571a3f15eabae23ac7d082dc3f751dbe50de9e4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/batch1.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b3a6a574b768d85a87dd05a45da369accdcdb611b1dfefe7b51f1beb46c83cd1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/batch2_exclusive4.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "42fc64a939fb545e90b96e729b49a9346cb7c8af10a8be59abb3a0601ea5261a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/batch3_exclusive4.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ea6eaa6ed7710b9c5e2c6673434f0ca9c811612d92913ed38a8a73c8e76353a4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/batch3_fast.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c4744359f7a4403d1283a946a3614faaa24a6d576e80a9e53413f06f71ddf5d8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/batch_exclusive4.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a3a0533b6a16ee4022035b0881027d86ec10afc8d8a4451a8ce8b8359fa37a72"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/bounds_terms.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "dcc5af9a57487d9cba48d4183e7a67a1d2d82fd3158386dcdbf03b4f7e9ab354"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/bounds_terms.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5c747beebdd4959b1fee2bb83de997aa01421832ab97d3f58ff2e58462fdc2a8"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/change_mul_skeleton.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3e2d02a1400d7fe48f403d39de24daa126a454d2c10a0e493646cf8393cc580b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/change_mul_skeleton.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b13cfb7c3abb911babaad762fb0d7aaa16286b1af36d01662d36dba20e9b87d9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/change_skeleton.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "57aad95863858730e1111c0f7a6da6b4e51d0874f40c67985b19c56b8658486b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/change_skeleton.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f4a201e9952b44aa2d73db249b70ce876db6892d57b2abea554ba8c16239a3bc"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/change_typed_skeleton.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f04ea4cec4e82339d5b20749f5a1b21733e38d95e0a9318b7eb50be98b7a166f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/change_typed_skeleton.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "dc5b577e4382f52570d48952c56fb3202041e4e4060a193d160cf7c6b91d2a3f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/checkpoint.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "436662483026f2be4bd48ab3f1cbba109f3246d1943acd7b29f5138e3f5f4fd6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/checkpoint_next.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "922cbabb27dc34de694315db040bffe6c3fed9da4e978100dec9014eb6961ecb"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/compact_eval_inline.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5a1a98ef1ee148c51ed06eceb050f80e080ffdd44dc79fadc08315122256ac80"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/compact_eval_skeleton.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2151c7c3979f11b1c22f991d05e5baf0dd6e0f97c2f366e4cfc8edace87d1536"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/compact_fold_eta.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "dd6801f755cee624c5a5a92e0b05e580093a61096d4de1656f31246fde435867"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/compact_fold_simp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ae8c004f8a36a2acf4c4037795107d3dc278b3aee5631e4e37383b3dd8fcd94c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/compact_skeleton.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2dcdff2cb7a999f51ec696643b7d8df740315453844f3436c355f7fb690a05e7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/compact_skeleton_f.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ac8b7d825efdd288820b76815c85ddb6f98c40b95411005f72385b1c2971e299"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/compact_skeleton_f_eta.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ac4da0adb3b34984ec404271ad19f87364826d90de1ec37ae03c47e13b3acd2a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/diagnose.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ad708332912b888f5108c55ded09fd0edd260ebce7a91569cc3761ca7e1bf2cf"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/diagnose_boundaries.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0d119c29da8544c5ab0d8cb74d13a2bdc6145baf3a73d173a1d44c210dca25a1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/diagnose_declaration.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f9c0c7fdf6902ae0956c065b57c6785965e30cd4b19d69d0acaa03896c6905a6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_add.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cb4fb92e0694f41a66ea8543fee2a173e987187ff387617dab9bd61dbaa3a74e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_add.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4dab6aa29f172545d6a377a25b80b06e6a2051f4a189d1b703dcce4744435852"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_add_explicit.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5b6fa490bb6e7f696bc1c8825cfbfb8d070f0e159781d06a8aa21278c4dca6c9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_add_explicit.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fbabac9cb4034de1b13055ceb5ae5ff29986d462b5b300234a662dfd0d4c238c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_add_explicit_positional.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7f171e769c13f4781d523fad4eadcc4dc6067ed4af57741ef569953f767ee369"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_add_explicit_positional.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ad05732c891ac940e68db6cff8499658a0634d8925ee72c4d8ddc9def90d7c0d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_add_positional.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9b92cfb0497ecfeadb1dee0eb1d3aa64cf871366561cf6fda544ce4e024fe07d"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_add_positional_repaired.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "39c792e434d078012fb207b6313e9c7ce3e8fbff6fbc91f78f7dfacc5f6dcf09"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_aux.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "86f88570390687580ee81c7aad1b2047fc1fbd78d9cb54530603def8a4aad8c4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_aux.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5169357fe4bb87f75c236968699ce4022bd92dea13e3ce0d90542941d51af596"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_direct_algebra.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0428c8e869e774d048a0b1564740742040bfbaaa754e4e3db8f17fca78c3d345"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_direct_change.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "edec5e4069441d3a4f6af8b0697a60d009ba6b8bf21f29673eed7e1c57738dce"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_dsimp_stage.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "dda7f2046cad497523d2ab16a26d22916f838ac9e82bb2eb3e69a237419826b9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_eqrw_stage.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "941ec25a60a4ebadb1431a8c9c75c0ed5536837353f0256be4f2d5ae2ae5ad48"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_fixed_y.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "af37ffcf69321618bf66b51f9b340204181483ace092a50a2007f0728873ea64"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_onelevel_stage.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7fe5f6afd88aea72f62d5ff71f4273528eb42637d1b376fcc633aa3baefa6fd3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_rw.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d32714495478534e808217af04989e4a4a913bdc23bdefbe795db9b300fd93c4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_simp_default.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "13cb8a431919824609d67da9acd76bf6efe75939c090ce18484bfec39a233d48"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_simp_qmap.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ea0960ba9011675b0696838b107545e97c2007ef5259dad481341af025655863"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fiber_single_pass.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e0de2ab1f2e3005b744fd7027db13219045033f3dc12ef9897a24fb6cdfb5bb0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_ac_rfl.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7c4d70e84267a761053f51b51214b86bd3366fc91dfc69281819ff85ef3bbae5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_dot_product.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f6437586f3771c1302f5e2a6531119fa77e32760b0424c6a9284463b5c9dc180"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_dot_product_lambda.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "368442f030a75cad2e8e583900a36bfbb68fc678e34262a6481d1a99d510bdd4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_dot_product_unfold.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c65851b104d99d6060a35086bdc477461cd82f065fc1d88da0e3144f79ee986f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_dsimp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9b09d4e8f959e64055884b01183f733f9209bde9a406702675c03eaf1b4aae8e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_ring_linear.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b6995814393048613383e2ea7b8828e78dacdc08a5d7e4f0d174f6268793b09b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_simp_ac.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0fefd0e4cac68878b5f839fc55821281237f3917ad9b70a68cc561d15e07445b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_simp_ac_general.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2e1210578d355efa3650111ddbea26edc520909b54c3a847d7383864c39a89d9"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_simp_ac_general_both.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e01ee2b23b99082be1ed7fde02d8306271f7c256003385b47a29b6f6cdeab1e7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_simp_ac_staged.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "218f8d1f87d2c5b0bcf877a5bfb96c7b0382b30f0bdcc14eb5983ca8e9e9a3ed"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_simp_ac_staged_both.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1216781498be227017832bd418731fe31540b436b1ffeea6a18d2dd6471b3ea3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/final_simp_merge.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6e909736a4c275f5a41ee9a504cbe8bc1182547435863e064c8bd3a2aa0d5e7e"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fold_dsimp.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "18833ca226cf39fe9e09a2ad183388438c09dd5b2d2fe90bae5f8cbf1cb872ab"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fold_dsimp.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1450356e30c136ceb747028a3bfe39436fc42f14d9379f5e455f8bb06657e4c4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fold_simp_inline.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "689ce3136e2b4a37d34eee2dbcf471b69125a662ca91125c3858ac91c2a4a076"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/fold_simp_inline.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "05f27fb24103d32cb5ef83130b3209d6f38aebc3551c1544f37b43e37464cbd4"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/linarith_main.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "de49707921aa6b6082ea1384dddd87e2c1de512d716193732dcc90a9e6c0d3a6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/linarith_main.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0dfa54af04cfc6c047b29df7ef2225a0a99744c480f423d724c5d2bab7ac2a09"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/natural_coeff_compact.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1fd2bd4eb449f60b8e554857580999d9f7abf1727af3caa522df176a07a03e65"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/natural_coeff_compact_rfl.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c7968b607b27165f48d1a8f9ab79a672348f7390c6403e4630cca09d0cc626d7"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/natural_coeff_order.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "73a8fdd436a58b9af010fffb91a1942e637be209c86be421c697077b5c91a6b6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/no_first_calc.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ce68656832ba178cc6e99fa6e659ad1b6734971f8b7f36dd94e9a98d0f8e1c65"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/no_first_calc_simp_ac.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cd84683c5bb91db15612175e0cd91576bd2df5348d9776b4eb44cb11df5b8dc6"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/no_symm_apply.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "240e4ef1a0f0824cdb0ebaa343f2d16bcbc0350c18def2b1ec8412d8405d1a81"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/omega_short.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a65257324f95294a105f12e45d13a7094c2a10061b631de7ae191ed3566fc853"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/omega_short.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f88a4f88ccb000a41057ec5462cd8abe046abf8523bf61148bc1339ca8a0ad98"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/omit_fin_eta.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3d12bb4fb85ac1f0394c7f7acb5761d1684da854d92d6c8c6690565df5bf059a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/omit_fin_eta.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a48e6b02bf55dd71bfc2b4c5ef442c0b12145d9ec0910af23890da7e9ee417f3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/polynomial_generalize.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "610231fc9f51734e36519e3c5f955b21fe388c0a6c4a94b42aeea3aa1a0c3f6c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/positional_fiber.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "66626d58f3a82ed1d44bfa7a702a54e3bb8730c450e42809eeadac58d2ba228f"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/positional_fiber.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "519c7bb8e29c4460f0735d74eb0e176e90c6ef22318dcc0aefad3563732ca3d0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_aux.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f64448a733c4813664c05f8f78a614f683347f9586eeb44cee451358ba19a04c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_aux.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e459a8c5d8aca5c8281790545302b1692fe1577494cd2f98ca8e85991da1e4d1"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_compact.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5f1cc499b663a11630930855d391c4333902b02698b445f74494acc9e64dd8c5"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_infer_fiber.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "01e484039468d6c4fe41e1cf09d5988cc00eb5c0effa4f2a5c112823106ade56"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_infer_type.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8a33b2dfc5929fd9891ced00c71a0493b164d5e1f89e2eef30f086cef9a79c72"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_infer_type.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5e7a987ea77afa2582c713ae011c52bed7430c47981983507473a9c89867f78a"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_project_first.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1b56fa3261a4a68ebe9ed3f072cd0c56f0a81012479af915e29341c6b33d195b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_project_first.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6c0d1b3b7e63959d3e3a27e2cc26b6e351a5eb925c38a3fbe18353e120b55183"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_simp_using_inline.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f2e40c71cacd07e513ab351fdab603a5530c18390e37ec6d0266721a90858929"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_simp_using_inline.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3955e636286f929d19b2945cd428c0f05944d5a057309599f8c0fa69f8aedf06"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_simpa.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4c4841b32476d76510fe24a8553ce2432b992655a1a7adf9b8edc8b1449a95ee"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_untyped_binder.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d2a49714dfbb5f3c17885c7bf364d2b31afb54ae8ff0d35eafa36fb7271924fa"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/qmap_untyped_binder.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "aed6bfe98c53eaf8b973a9b409dcd4defe49553153c98b7fa623f713fba65f49"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/record_checkpoint.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b82ae21b6ed264ee10a87c6aa57b402aa333590e104935781776a9f8935afae3"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/ring_abstract.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bbb19046d05bfdfe57238d365495644aa3629d3d2e8101ad9c8b735f76664f6b"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/ring_abstract.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "83c9772308b551cf4e5b95b31e9c7b21098d1f72abc15f5af5327cc6e1c64993"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/ring_aux.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e1895841c4d44ed366ba24fd32bdac65fb639131a4409f9cbdb83f7f5091bcdb"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/ring_aux.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3779095d25b4c59c48aa337df8ef06b3fe754ff4fc8ade242f8470d400341531"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/ring_nf_main.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a12391b13a044642f2bf627ec14f882dc27993edcf5750c3c80060dadfdfa044"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/ring_nf_main.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b0201c1e34c898273deee4bd43a8fb723d2d0b7c011f209f48965b8cb5fd3c36"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/simp_first_single.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bcf8f9bb3d0538295e3790282d111f22a8943ef2e83da18164d819d5bee499e0"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/simp_first_single.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ca17bc43120cc6d1945cf93138b049dea57e8c75aed974ec15d0295205591a2c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/simp_nozeta.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ed3eb61296174238f7c77c8eafda1a46bbe56e6e54004d0d44525a10b3eb2b20"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/simp_nozeta.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "16610a9da2fe5058a406b01473430e9ed5e674385a655e51dc825e241f92ac72"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/split_bare.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "623005b1307bbfc4d0c80cf86231ebd7f51ab88ae88b924861d1dd6a8c5e690c"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/split_bare.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "939a4d939fd560e420e46ff2adc4ce0ec71b07a89389c2b1d568ebda9e996e60"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/split_inline.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "52b0bc7fa4836cebdb8fa5b5967b2c6ab773f52ae9fc67ffcef0bcee43fd2270"
+    },
+    {
+      "path": "experiments/portfolio-94/candidates/p11_agent/split_inline.lean.before_ac_repair.txt",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1fdbee632ed06012abbf0a111f09244506c52efa0aa4013a31795ded131b084f"
+    },
+    {
+      "path": "experiments/portfolio-94/diagnose.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "516598967e050c5dc1374dd98c8f0b141dfe35c2c15b464d31abf3b5186d368b"
+    },
+    {
+      "path": "experiments/portfolio-94/diagnose_p05.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8d0a00062b8d9da1c65aa7694ac76256b908fd5d37bf047c5bae0730963865ba"
+    },
+    {
+      "path": "experiments/portfolio-94/diagnose_phys.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "ec08c071bfb316707fcba7158d3aa35f5c475c4ced4da59d02526fe97f84ed8e"
+    },
+    {
+      "path": "experiments/portfolio-94/fast_probe.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "76e6f67ac90387e0697d270ac835dd75a42e50e625f1de9c270fb0bcc9ab7822"
+    },
+    {
+      "path": "experiments/portfolio-94/metric-audit/Realization.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "eeabdee02b0007db0047d4d511ccfef808c50f574ed6da5d6de824de764129b4"
+    },
+    {
+      "path": "experiments/portfolio-94/metric-audit/Realization2.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "fcc47b0f7d8b70f96069f6840f5c136c2c971828d3137096e4d8923bf1ca2749"
+    },
+    {
+      "path": "experiments/portfolio-94/metric-audit/Realization3.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0fbae1c29df5204426d558da8a362317d154817d4b3aa046aa432e1368e3d82d"
+    },
+    {
+      "path": "experiments/portfolio-94/metric-audit/p11_async_probe.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "798a5e6af74674ac455de28625e8994c336033a8669ebb1b63c72e61f48fe8eb"
+    },
+    {
+      "path": "experiments/portfolio-94/metric-audit/probe.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7b2bcb680bb4d53e4a52706a213ab5d5ab3fc3182d63fb7dce6f77cec7ddd992"
+    },
+    {
+      "path": "experiments/portfolio-94/metric-audit/public-filter-check.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "34d8f1661b0e2c757449a0ee6bdfa17a477bda5427f1e4b6fac0d343a26cfe86"
+    },
+    {
+      "path": "experiments/portfolio-94/mutations.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a03c33d3cf42a5483bd0de9913c3b0ed78da8422f24e3ad174b53d3fb06b0620"
+    },
+    {
+      "path": "experiments/portfolio-94/p05_adapter.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5806b97c2595c27e584e9a9e3e43610cf84452c7929693bfc47fe2d8fc21e228"
+    },
+    {
+      "path": "experiments/portfolio-94/p06_adapter.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c2f9d9684cc452f4275bd682734ff1dce9e8fe3389ba2a59a6b42a6469fc925c"
+    },
+    {
+      "path": "experiments/portfolio-94/p07_adapter.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a773497fe476d48ef4721b9d68fee96dd1fdc92086750894b59915367f87b40f"
+    },
+    {
+      "path": "experiments/portfolio-94/p08_agent_adapter.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "655423317e67fc201b7a4698545a8b7d56822a85a442522d20586b820e160c09"
+    },
+    {
+      "path": "experiments/portfolio-94/p09_agent_adapter.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c1fb6a92fd21b6519e52a396b3fea3b94a30cfa64250cd55f57fde75c1fc885f"
+    },
+    {
+      "path": "experiments/portfolio-94/p10-pin428.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "dad15580c3da3745fc84c6e11148ab0594dc61a3adc67fa41fdfa8d38d65df52"
+    },
+    {
+      "path": "experiments/portfolio-94/p10_adapter.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3e70c18915cc050e7b255607c5b88e3f7857c2f9618c9a839a665ec61cdc7ddf"
+    },
+    {
+      "path": "experiments/portfolio-94/p10_adapter428.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6cdd036a81ebc242fee83cf8bde6c6fafa9f3a1be2d34189dbe85a7fce01316b"
+    },
+    {
+      "path": "experiments/portfolio-94/p11_adapter.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "12425271b039403144bce8d9c181ac4c6e1acb3e987cee22af5546ab8a26405f"
+    },
+    {
+      "path": "experiments/portfolio-94/paused-score-snapshot.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8bf5c1840376f9e9e819f7adc0512967330b89f1261218985439362e8cf9fc35"
+    },
+    {
+      "path": "experiments/portfolio-94/phys_adapter_base.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f50807696f0620918355ea7013e1af8d04a5b9933b93cd910674420a3799efda"
+    },
+    {
+      "path": "experiments/portfolio-94/portfolio-estimate.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7dfde094b31ec5452917146573623d363edb53b1f7fb86a5a8be85d4df3b01c6"
+    },
+    {
+      "path": "experiments/portfolio-94/prepare_closure.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "05ad8b21183816f4b16af639a8b1a6bcaace36f98d5bddae2643fe1f891ddf83"
+    },
+    {
+      "path": "experiments/portfolio-94/primary-snapshot.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b8fe80f03c6c7de0c9852b96d647efada013da3264898a2238d8ca492da3509a"
+    },
+    {
+      "path": "experiments/portfolio-94/refresh_snapshot.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0614399dc971db54145c7eaedf15e60d161d34b280ac78921afda36ab961e263"
+    },
+    {
+      "path": "experiments/portfolio-94/resources.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d4a35f1993f67195854455df4db695613663cc3d2230c488ce520ff8806af7c3"
+    },
+    {
+      "path": "experiments/portfolio-94/resources_exclusive.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "5d1d73efffabc4e9c8ebfdf752ee260be2aac3d27220d8d215051c67dea43452"
+    },
+    {
+      "path": "experiments/portfolio-94/restore_dependencies.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f6c9edcc7185ddef658aaa224ab0820e4997f3892bd74b9aa49f38db89bbe885"
+    },
+    {
+      "path": "experiments/portfolio-94/root_physics_batch.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "556cc40eb307e0396fded8090d157697f914b0cf10b443ec99fbc5d3ab7588dd"
+    },
+    {
+      "path": "experiments/portfolio-94/rules/README.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "94bbfa5e4ca35035dc171dadcda13eaefc082bdf569b80ea69dd3ee547854ce3"
+    },
+    {
+      "path": "experiments/portfolio-94/rules/app.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7cac6c0e2d09c01cd1236954434f4dd59d99c51389ddfc8d428f4f4c7b08da95"
+    },
+    {
+      "path": "experiments/portfolio-94/rules/leaderboard.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "04475298b1058d74f945d07706f33c889926c40442eb388a828f5a30394f8e84"
+    },
+    {
+      "path": "experiments/portfolio-94/rules/sources.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "00070583f5ecba626791f856d93920e0f492afacbdc43d54b66238782c29d37a"
+    },
+    {
+      "path": "experiments/portfolio-94/search.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4514fafd95a905e1f322558e4e0c62a4079d8caff318639941209abf3e4479c0"
+    },
+    {
+      "path": "experiments/portfolio-94/search_agents.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6623ae55450cd5d90cdbc473a3dbd46e9de5fde49c2e0d803f0415ea01dcff59"
+    },
+    {
+      "path": "experiments/portfolio-94/search_agents3.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7ff0df3429e67bcf1c35c7291c25cdd01b699512439ee16ae6bef6c9ff916e76"
+    },
+    {
+      "path": "experiments/portfolio-94/search_exclusive4.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "402a84ba2afd626de058cb47fc4cbe840d0a35c0b0fc0ce207d8fdd701b25a72"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/README.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c6d003be730aec9fd43bb775da683bf3ea349b1cb6d43e6fe66eba05394f2473"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/archival-evidence.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d69bbe101b78dc01e75b7a0ef43e03c92cc7005f57a981e00709488c0b3e7b79"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/evidence_gate.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d574d424792d68ddbde425d7acbec6a1a2709b699c83cd56350ea51a4f380b78"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/export-negative-check.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "464861b4b4bbeef64a9cdc210a0ae2374ddc3fcfa0606f3bf81b0a3ece0db3ae"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/export-review.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f9e8ac1c6b1ddffe332d0107337efc50c089c577dfdabcb3953ad7ce70c54299"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/export_bundle.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0c2fc3da3f9e08b21273ee485e9e05d693a66f00eb34bf2b4f6385881c5cfdf3"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/final-export-review.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "a3f97c50044027040939760c4a3c21469ee74b29538483dbc108e3c91aa3d8e3"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/p05-selected-audit.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c203a41fc68d181f02741fe9534fd43ce8a32b90247fd66f5276b0ec3f2ffbc5"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/p06-selected-audit.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "06c6b12783d5cd9bdd97cf9fe07baf67c43e4956ceaf47a4b40e853f42f5bf29"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/p15-final-comparison.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b851ed7e5a037e86357240185c7cb7504597794ae22a9d42a754247edb1b7ab3"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/probe_small.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b12e703be94fadc5439eee2932a75ebad7c4297dcfc43c7d07ca6e9202bc2257"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/selection-baseline.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1daee10ac70c3a16d3e181de0cbc3019ebf23d974761da783d0ba48258230736"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/selection-current.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "bcbbd5ed79b7690da479d1dc2a23df2bf4d69136f3ae02485e51cb41ad598ba5"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/small-results-current.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7308c82027d53c0dee9f668fa9a2f9194556b0ededd59293ac405425e9dcf07c"
+    },
+    {
+      "path": "experiments/portfolio-94/submission-round/small_batch.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8944635cac786b84a3f880ec1d1b67cc313f1eb4876267a72b0c4dee84a2e4d5"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P05-d82d292cce4b/P05.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "d82d292cce4b10655a7af989fc00c66d14c2e382c25bec3212e3a0d3c75ecb62"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P05-d82d292cce4b/README.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "27a1aa611963477819456b481cdaff676b06cadcb0765b63813349a3d3049169"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P05-d82d292cce4b/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "de164b0348b50f15cc05cd9383bd46c2339cf312d1e07ec7228075d9f445f2fc"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P05-d82d292cce4b/selected-receipt-audit.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "830310c0e612cac59fe9b1c4904a2b1b78770d2681b3f0bf6fee552cfc8dd5b5"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P06-618cc07c9dae/P06.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "618cc07c9dae13099535beff81c0931576e2e23f772f5c804b4c0165b34e8ad0"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P06-618cc07c9dae/README.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0ab1feab08f9ed6a0977f5762607d85c0197b76fe44d6ab9397aeaec58883739"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P06-618cc07c9dae/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "6a6a9945bcc0c08106251de5b11ae240d1ae86c00c7ec344988f773aec6038c5"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P06-618cc07c9dae/selected-receipt-audit.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "613ed7e5ac6d785b04299c10df88fc69c1868476d61685f48fa9e908cf057f50"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P07-2d273e0f5161/P07.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P07-2d273e0f5161/README.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "4a2b8f154db8f1ea65fb1858d9bfd6cafcf282c021dc51aa83e9271e7fea1c3b"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P07-2d273e0f5161/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "cfd8042b726ae44b36b87330a9f57fc35de5d406717791717be221dc3774241a"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P09-12c49a5118cd/P09.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P09-12c49a5118cd/README.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "1c28c11c2c17ddc3362cbc109aee5c539a0a3864f00e7085ab71d1c5ea666250"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P09-12c49a5118cd/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "e17f235511bd9518658714761787f282364cacb1ad83921ff78f95e738f6a3bf"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-7f171e769c13/P11.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "7f171e769c13f4781d523fad4eadcc4dc6067ed4af57741ef569953f767ee369"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-7f171e769c13/README.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "da927a9abf4700b498ad1d772d89849146afcdeb7a73ce6010f4ea1e70238d24"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-7f171e769c13/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "3f4169d8a533aab3202e8982cb63eb8ce1c49133f1e27b7121df749c5a392723"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-7f171e769c13/selected-receipt-audit.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8aeebbea4622111195a7df8e51a6bdffc4ac5f1d710f63fa14b948e984563698"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-8a33b2dfc592/P11.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "8a33b2dfc5929fd9891ced00c71a0493b164d5e1f89e2eef30f086cef9a79c72"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-8a33b2dfc592/README.ko.md",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "9bcf0a233e9f75619a7447c49083910ff20b57e54c9b21a0a70c5036bc7700b7"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-8a33b2dfc592/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "aee0de293d49104d82175dfbfa389f464c37c0d2e154470a98dc5f1e57856e00"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-8a33b2dfc592/selected-receipt-audit.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "b8abeafda94f85aa0d77734986e00cc8dfbd2c6e2c2fe41a023f2d17ae087988"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-c7968b607b27/candidate.lean",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "c7968b607b27165f48d1a8f9ab79a672348f7390c6403e4630cca09d0cc626d7"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-c7968b607b27/manifest.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "0e16792447f10c2748368d78c4094dda6bf06442d92a0295b24585209d1ef809"
+    },
+    {
+      "path": "experiments/portfolio-94/validated/P11-c7968b607b27/selected-receipt-audit.json",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "38b8a5a0afff1d4e187ae1207e79e5fb6c70f4ab2abd7e49cc5ebc5472497e2f"
+    },
+    {
+      "path": "experiments/portfolio-94/verify_compat.py",
+      "source_worktree": ".worktrees/arena-cost-hypothesis-pipeline",
+      "sha256": "f03492945f1a3fbc8250ea3a390a28a532e5b5682c02e0c404f95f619868b869"
+    },
+    {
+      "path": "configs/final-environments.lock.json",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "207544a4a4d5050bc98fc99efe310ae5f6b694c4358b953ed8c7241cc8376462"
+    },
+    {
+      "path": "benchmarks/arena/final-d53690b057f9/snapshot.json",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "8a4ccf91951631cd6249d5ad1d63c69447c645bd88c6fb53e19e02685b0506d8"
+    },
+    {
+      "path": "benchmarks/arena/final-d53690b057f9/audit.py",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "3fba7228604e6a6e2d087ea54e0250fde368d18a3aa59df98db213eabc09748d"
+    },
+    {
+      "path": "benchmarks/arena/final-d53690b057f9/audit.json",
+      "source_worktree": "LeanAgent-LeanRefactorArena-action-memory",
+      "sha256": "c718e8fe6404bb1d94fe36ea45fdea1d3df842610b46f968908f81973a6deba9"
+    }
+  ]
+}

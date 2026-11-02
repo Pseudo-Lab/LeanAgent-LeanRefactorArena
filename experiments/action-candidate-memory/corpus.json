@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "entries": [
+    {
+      "name": "Nat.add_zero",
+      "source": "lean4:v4.26.0/src/lean/Init/Core.lean:737",
+      "text": "@[simp] protected theorem Nat.add_zero (n : Nat) : n + 0 = n := rfl"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "same_environment_pin": "v4.25.0",
+  "original_receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-original_reference-4.25.0-8089c72e/result.json",
+  "original_raw": 17948554,
+  "selected_decide": {
+    "tokens": 281,
+    "raw": 2499913,
+    "local_score": 93.06432036400948
+  },
+  "rfl_probe": {
+    "tokens": 280,
+    "raw": 2524608,
+    "local_score": 93.02661773695114
+  },
+  "note": "Local full-transfer estimate; rfl only primary pin checked. Selected decide has all3 required pins."
+}

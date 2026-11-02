@@ -1,0 +1,68 @@
+{
+  "created_utc": "2026-10-28T04:35:56.944703+00:00",
+  "scope": "All three required pins compiled and target axioms audited locally; primary HB x3; no official submission",
+  "candidate_sha256": "7f171e769c13f4781d523fad4eadcc4dc6067ed4af57741ef569953f767ee369",
+  "tokens": 306,
+  "primary_pin": "v4.31.0",
+  "primary_raw_median": 6946581,
+  "estimated_score": 89.55852631111364,
+  "compatibility": "3/3",
+  "required_pin_evidence": [
+    {
+      "pin": "v4.31.0",
+      "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p11-exclusive4-431/evaluations/checkpoint-after-5-more-ac4fc938d7/result.json",
+      "raw_samples": [
+        6946575,
+        6946581,
+        6946606
+      ],
+      "raw_median": 6946581,
+      "candidate_sha256": "7f171e769c13f4781d523fad4eadcc4dc6067ed4af57741ef569953f767ee369"
+    },
+    {
+      "pin": "v4.30.0",
+      "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/compat/p11-306-430/result.json",
+      "candidate_sha256": "7f171e769c13f4781d523fad4eadcc4dc6067ed4af57741ef569953f767ee369",
+      "compatibility_only": true
+    },
+    {
+      "pin": "v4.29.0",
+      "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/compat/p11-306-429/result.json",
+      "candidate_sha256": "7f171e769c13f4781d523fad4eadcc4dc6067ed4af57741ef569953f767ee369",
+      "compatibility_only": true
+    }
+  ],
+  "primary_run_receipt_audit": {
+    "receipts": 20,
+    "valid": 13,
+    "failed": 6,
+    "unique_measurement_nonces": 19,
+    "incomplete": [
+      "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p11-exclusive4-431/evaluations/bounds_terms-49529f3a10/result.json"
+    ],
+    "passed": false,
+    "scope": "saved source/log/hash/nonce/context/axiom/metric audit; no new Lean execution",
+    "environment_identity": "316d2f648cccf9b807b93d12124b59aa973f8f562cf45c802709e7dc97b14426"
+  },
+  "selected_receipt_audit": {
+    "passed": true,
+    "scope": "Selected completed receipt only; unfinished sibling candidates excluded",
+    "receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p11-exclusive4-431/evaluations/checkpoint-after-5-more-ac4fc938d7/result.json",
+    "receipt_sha256": "fac4ab1b99d1317e22f506cc483652227c8a894b3c5efaed3d43659fcdacfdb5",
+    "candidate_sha256": "7f171e769c13f4781d523fad4eadcc4dc6067ed4af57741ef569953f767ee369",
+    "tokens": 306,
+    "raw_samples": [
+      6946575,
+      6946581,
+      6946606
+    ],
+    "raw_median": 6946581,
+    "axioms": [
+      "propext",
+      "Classical.choice",
+      "Quot.sound"
+    ],
+    "environment_identity": "316d2f648cccf9b807b93d12124b59aa973f8f562cf45c802709e7dc97b14426"
+  },
+  "primary_run_receipt_audit_scope_note": "Search-wide audit can include unfinished sibling candidates; selected_receipt_audit independently passes for this artifact."
+}

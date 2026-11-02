@@ -1,0 +1,391 @@
+{
+  "created_utc": "2026-10-28T09:02:31.949727+00:00",
+  "status": "FINAL_EXPORT_REVIEW_PASSED",
+  "official_submission": false,
+  "official_score": null,
+  "scope": "Independent review of fixed 15-proof payload plus final manifest, all 36 required evidence pins, evidence snapshot hashes, and README. No new Lean execution.",
+  "submission_sha256": "6ac28ac0292fd20a522bffb51734c74c30a6b7163f97c3f6955fe59fd6efa212",
+  "reviewed_files": {
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup-hb-20261028/submission.jsonl": "6ac28ac0292fd20a522bffb51734c74c30a6b7163f97c3f6955fe59fd6efa212",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup-hb-20261028/proofs-readable.json": "f37b101e755aed00f5b3a433d32cbe56163841ea7cb8dc5083562d97a5776492",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup-hb-20261028/manifest.json": "920fdd549acc545a5b4b1a80194f34395779204f6e40aa8abc4261d6bae6e3dd",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/selection-current.json": "bcbbd5ed79b7690da479d1dc2a23df2bf4d69136f3ae02485e51cb41ad598ba5",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/rules/app.py": "7cac6c0e2d09c01cd1236954434f4dd59d99c51389ddfc8d428f4f4c7b08da95",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/evidence_gate.py": "d574d424792d68ddbde425d7acbec6a1a2709b699c83cd56350ea51a4f380b78",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/export_bundle.py": "0c2fc3da3f9e08b21273ee485e9e05d693a66f00eb34bf2b4f6385881c5cfdf3",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup-hb-20261028/README.ko.md": "045f414cdb387f84a1fabb32bb0c32c302c6ffb81c3351cb8e48b255763f5333",
+    "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/README.ko.md": "c6d003be730aec9fd43bb775da683bf3ea349b1cb6d43e6fe66eba05394f2473"
+  },
+  "benchmark_sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
+  "tokenizer_sha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+  "checks": {
+    "exactly_15_rows": true,
+    "unique_exact_benchmark_names": true,
+    "exact_original_statements": true,
+    "no_additional_top_level_helpers": true,
+    "public_filter_ast_only": true,
+    "selected_source_bundle_manifest_hash_chain": true,
+    "jsonl_equals_readable_array": true,
+    "token_counts_match": true,
+    "evidence_derived_pins_match_claims": true,
+    "evidence_snapshots_match_sources": true,
+    "evidence_derived_pins_match_all_required_pins": true,
+    "all_36_evidence_pins_verified": true,
+    "manifest_complete_pending_empty": true,
+    "readme_length_sum_and_arithmetic_mean_correct": true,
+    "readme_table_correct": true,
+    "readme_evidence_tiers_accurate": true
+  },
+  "pending": [],
+  "all_required_pins_complete": true,
+  "findings": [],
+  "problems": [
+    {
+      "id": 1,
+      "name": "CallElimCorrect.substOldPostSubset",
+      "proof_sha256": "954dee0cdde6bebb35e0bd0cb8b2d691526facc46d4b5ab7b7d7ee3fb6e9b5f5",
+      "tokens": 32,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.26.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.26.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 2,
+      "name": "CallElimCorrect.extractedOldExprInVars",
+      "proof_sha256": "9c73432c2f05c8ca0408716ae9bd45374ed724bd982ed43ffc34afd49ba5ce9d",
+      "tokens": 19,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.26.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.26.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 3,
+      "name": "Core.InitsUpdatesComm",
+      "proof_sha256": "4422a08306c406fbf1cc8f63ea6aac6cb615f540e9d92fab67cd8cc1787cf2b3",
+      "tokens": 78,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.29.1",
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.26.0",
+        "v4.27.0",
+        "v4.29.1"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 4,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "proof_sha256": "534b3f8929bc01e93d50fe36133ffc14ac729ff0eee74cacbc8cb03fe5ac0eb8",
+      "tokens": 123,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.32.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.32.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 5,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "proof_sha256": "9aabe6f4d7499ed974d0eb341ec6c0ecc1b727edb79f203343d272719f98b4fa",
+      "tokens": 427,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.32.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.32.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 6,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "proof_sha256": "07163bcdf011341d0a6364f0cadc80389366b248bc15eb99a773e64d7c582a46",
+      "tokens": 422,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.32.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.32.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 7,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "proof_sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+      "tokens": 101,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 8,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "proof_sha256": "8b15f299a78a2444df2d0f92648f0562c38dabdedfd5a51c27e6a86bf0ad2b10",
+      "tokens": 185,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.30.0",
+        "v4.31.0",
+        "v4.32.0",
+        "v4.33.0-rc2"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 9,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "proof_sha256": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
+      "tokens": 79,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 10,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "proof_sha256": "c617f04451b737b39bcaa00366e92ba1b969bca536a3477ccb563f179c2eb5f4",
+      "tokens": 257,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0",
+        "v4.28.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0",
+        "v4.28.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 11,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "proof_sha256": "c7968b607b27165f48d1a8f9ab79a672348f7390c6403e4630cca09d0cc626d7",
+      "tokens": 248,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 12,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "proof_sha256": "1e3abf1f63b8b83265cc0e92fbd041997489be9855b84af4447b75a1b3809208",
+      "tokens": 156,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 13,
+      "name": "putnam_1964_a4",
+      "proof_sha256": "956fd2d9d51127c890711c4c14e4aadf8798e73c78029cd6920b9489dbde6d4f",
+      "tokens": 259,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 14,
+      "name": "putnam_1964_b2",
+      "proof_sha256": "a10d02bb75d48da51f9b0edda5b7312b1c4a4c02971d9bafdb4f77c9c8a44b32",
+      "tokens": 55,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.25.0",
+        "v4.26.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.25.0",
+        "v4.26.0"
+      ],
+      "pending_pins": []
+    },
+    {
+      "id": 15,
+      "name": "putnam_1995_a3",
+      "proof_sha256": "fc7adf74804c25305b855198829de9da382edcbfff7626c24a4ccfa0c180efdc",
+      "tokens": 281,
+      "exact_original_statement": true,
+      "no_additional_top_level_declarations": true,
+      "public_filter_passed": true,
+      "proof_hash_chain_matches": true,
+      "evidence_snapshot_hashes_match": true,
+      "required_pins": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "evidence_derived_pins": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "pending_pins": []
+    }
+  ],
+  "limitations": [
+    "Existing archival evidence retains its documented limitations; P14 uses embedded axiom checking rather than a new independent Audit.",
+    "The public filter was checked using five isolated AST declarations; the Space app was never imported.",
+    "Fixed JSONL proof bytes were independently reviewed before P10 completion; final review rechecked all evidence pins and hashes against the unchanged payload. No new Lean execution was performed.",
+    "This is local evidence completeness and artifact integrity, not official worker acceptance or a score."
+  ],
+  "required_pin_count": 36,
+  "length": {
+    "total_tokens": 2722,
+    "original_total_tokens": 17595,
+    "arithmetic_mean_problem_reduction_percent": 79.84651203277649,
+    "documented_reduction_percent": "79.8465%",
+    "not_an_official_score": true
+  },
+  "evidence_tier_checks": {
+    "P01": "fresh independent Check/Audit confirmed on all required pins",
+    "P02": "fresh independent Check/Audit confirmed on all required pins",
+    "P03": {
+      "archival": true,
+      "independent_audit": true,
+      "limitations": [
+        "Receipt git fingerprint is null for P03; version and all local source/log hashes are verified, while source revision is identified by manifest/project path rather than a recorded git head."
+      ]
+    },
+    "P13": "fresh independent Check/Audit confirmed on all required pins",
+    "P14": {
+      "archival": true,
+      "independent_audit": false,
+      "limitations": [
+        "Axiom checking is embedded in Measure, not a separate imported-olean Audit process.",
+        "Separate plain Check receipts have verified source hashes, but do not record historical log hashes; current log hashes are observational only. Primary selection receipt has one measurement; extra primary repeat receipt is linked separately."
+      ]
+    },
+    "P15": "fresh independent Check/Audit confirmed on all required pins"
+  }
+}

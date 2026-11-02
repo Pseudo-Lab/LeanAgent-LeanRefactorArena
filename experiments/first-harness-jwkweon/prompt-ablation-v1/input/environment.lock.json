@@ -1,0 +1,77 @@
+{
+  "artifact_count": 95212,
+  "artifacts_sha256": "fe014065676e0064bec1261026ad2d086c88733fb48c9f3f1f52a2d2050d3210",
+  "commit": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+  "compiler": "/Users/zzu0203/.elan/toolchains/leanprover--lean4---v4.26.0/bin/lean",
+  "compiler_version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+  "dependencies": [
+    {
+      "commit": "160af9e8e7d4ae448f3c92edcc5b6a8522453f11",
+      "name": "plausible",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/plausible"
+    },
+    {
+      "commit": "3591c3f664ac3719c4c86e4483e21e228707bfa2",
+      "name": "LeanSearchClient",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/LeanSearchClient"
+    },
+    {
+      "commit": "e9f31324f15ead11048b1443e62c5deaddd055d2",
+      "name": "importGraph",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/importGraph"
+    },
+    {
+      "commit": "b4fb2aa5290ebf61bc5f80a5375ba642f0a49192",
+      "name": "proofwidgets",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/proofwidgets"
+    },
+    {
+      "commit": "2f6d238744c4cb07fdc91240feaf5d4221a27931",
+      "name": "aesop",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/aesop"
+    },
+    {
+      "commit": "9312503909aa8e8bb392530145cc1677a6298574",
+      "name": "Qq",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/Qq"
+    },
+    {
+      "commit": "24241822ef9d3e7f6a3bcc53ad136e12663db8f3",
+      "name": "batteries",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/batteries"
+    },
+    {
+      "commit": "933fce7e893f65969714c60cdb4bd8376786044e",
+      "name": "Cli",
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/Cli"
+    }
+  ],
+  "environment_id": "ee81db800669845e002e699fa3e6f715c7a5f57585f6a30ef600e657e037f1be",
+  "flags": [],
+  "label": "v4.26.0",
+  "lean_path": [
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/plausible/.lake/build/lib/lean",
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/LeanSearchClient/.lake/build/lib/lean",
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/importGraph/.lake/build/lib/lean",
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/proofwidgets/.lake/build/lib/lean",
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/aesop/.lake/build/lib/lean",
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/Qq/.lake/build/lib/lean",
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/batteries/.lake/build/lib/lean",
+    "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/build/lib/lean"
+  ],
+  "manifest_sha256": "b787693b47c8d434fcf5999f06b811e444a9fe83c88149476d6a5f64b770e9c1",
+  "project": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+  "runtime_roots": {
+    "compiler-bin": "/Users/zzu0203/.elan/toolchains/leanprover--lean4---v4.26.0/bin",
+    "compiler-lib": "/Users/zzu0203/.elan/toolchains/leanprover--lean4---v4.26.0/lib",
+    "dependency-LeanSearchClient": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/LeanSearchClient/.lake/build/lib/lean",
+    "dependency-Qq": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/Qq/.lake/build/lib/lean",
+    "dependency-aesop": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/aesop/.lake/build/lib/lean",
+    "dependency-batteries": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/batteries/.lake/build/lib/lean",
+    "dependency-importGraph": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/importGraph/.lake/build/lib/lean",
+    "dependency-plausible": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/plausible/.lake/build/lib/lean",
+    "dependency-proofwidgets": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/packages/proofwidgets/.lake/build/lib/lean",
+    "project-lib": "/Users/zzu0203/projects/01_가짜연구소/LEArN/.cache/mathlib-2df2f0150c275ad53cb3c90f7c98ec15a56a1a67/.lake/build/lib/lean"
+  },
+  "toolchain_sha256": "e8173aad377a6d70041e5f7a5d8895ed587628f5cab243c53a18c40a1b7b6bf8"
+}

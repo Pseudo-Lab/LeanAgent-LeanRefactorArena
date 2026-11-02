@@ -1,0 +1,90 @@
+{
+  "conditions": [
+    {
+      "ancestry": [],
+      "archive_count": null,
+      "baseline": {
+        "raw_heartbeats": 35018,
+        "tokens": 14
+      },
+      "candidate_evaluations": 4,
+      "condition": "whole",
+      "final": {
+        "raw_heartbeats": 23213,
+        "raw_samples": [
+          23207,
+          23213,
+          23213
+        ],
+        "tokens": 2
+      },
+      "final_valid": true,
+      "model_backend": "fixture",
+      "model_calls": 4,
+      "record_replay_passed": true,
+      "reported_cost_usd": "0",
+      "selected_sha256": "67ffb506b253529e70310fda7347974330524e1864525bfd30490f2d455b7cd5",
+      "stop_reason": "call_limit",
+      "wall_seconds": 20.224
+    },
+    {
+      "ancestry": [
+        {
+          "id": "c000",
+          "parent_id": null,
+          "valid": true
+        },
+        {
+          "id": "c004",
+          "parent_id": "c000",
+          "valid": false
+        },
+        {
+          "id": "c005",
+          "parent_id": "c004",
+          "valid": true
+        },
+        {
+          "id": "c006",
+          "parent_id": "c000",
+          "valid": true
+        },
+        {
+          "id": "c008",
+          "parent_id": "c006",
+          "valid": true
+        }
+      ],
+      "archive_count": 5,
+      "baseline": {
+        "raw_heartbeats": 35018,
+        "tokens": 14
+      },
+      "candidate_evaluations": 4,
+      "condition": "actions-memory",
+      "final": {
+        "raw_heartbeats": 23213,
+        "raw_samples": [
+          23206,
+          23213,
+          23213
+        ],
+        "tokens": 2
+      },
+      "final_valid": true,
+      "model_backend": "fixture",
+      "model_calls": 10,
+      "record_replay_passed": true,
+      "reported_cost_usd": "0",
+      "selected_sha256": "67ffb506b253529e70310fda7347974330524e1864525bfd30490f2d455b7cd5",
+      "stop_reason": "agent_finished",
+      "wall_seconds": 14.605
+    }
+  ],
+  "experiment": "action-candidate-memory",
+  "official_evaluation": false,
+  "purpose": "Scripted control-flow verification with real Lean; not evidence of model quality or cost savings.",
+  "same_proposals": true,
+  "same_selected_source": true,
+  "schema_version": 1
+}

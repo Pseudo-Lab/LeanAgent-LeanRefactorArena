@@ -1,0 +1,102 @@
+{
+  "updated_utc": "2026-10-28T05:33:23.415763+00:00",
+  "scope": "Single-pin local comparisons, not official LB; check compatibility against validated manifests",
+  "rows": [
+    {
+      "run": "p05-432",
+      "baseline_tokens": 1372,
+      "baseline_raw": 26982659,
+      "tokens": 419,
+      "raw": 8224894,
+      "local_all_compat_assumed_score": 79.65949786245739,
+      "samples": 1,
+      "label": "trim-unused",
+      "candidate_sha256": "4d549a130b9ca8c1edde80c2eb148880390bc018132e1cd61caf1c8017063f55",
+      "candidate_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p05-432/evaluations/trim-unused-0f5f7fdcba/candidate.lean"
+    },
+    {
+      "run": "p06-432",
+      "baseline_tokens": 1217,
+      "baseline_raw": 42056240,
+      "tokens": 422,
+      "raw": 11134816,
+      "local_all_compat_assumed_score": 79.61618486273741,
+      "samples": 1,
+      "label": "agent-bilinear_inline_maps_shape_unfold",
+      "candidate_sha256": "07163bcdf011341d0a6364f0cadc80389366b248bc15eb99a773e64d7c582a46",
+      "candidate_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/agent-bilinear_inline_maps_shape_unfold-31e13bd801/candidate.lean"
+    },
+    {
+      "run": "p07-agent3-431",
+      "baseline_tokens": 408,
+      "baseline_raw": 61920873,
+      "tokens": 101,
+      "raw": 7973755,
+      "local_all_compat_assumed_score": 87.45592276322732,
+      "samples": 3,
+      "label": "checkpoint-best",
+      "candidate_sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+      "candidate_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-agent3-431/evaluations/checkpoint-best-b861874e8b/candidate.lean"
+    },
+    {
+      "run": "p07-432",
+      "baseline_tokens": 408,
+      "baseline_raw": 61961505,
+      "tokens": 101,
+      "raw": 7932040,
+      "local_all_compat_assumed_score": 87.4811789372684,
+      "samples": 3,
+      "label": "parent-closure-101",
+      "candidate_sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+      "candidate_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-432/evaluations/parent-closure-101-a318655df6/candidate.lean"
+    },
+    {
+      "run": "p07-433",
+      "baseline_tokens": 408,
+      "baseline_raw": 59808303,
+      "tokens": 101,
+      "raw": 7897617,
+      "local_all_compat_assumed_score": 87.34673803175298,
+      "samples": 3,
+      "label": "parent-closure-101",
+      "candidate_sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+      "candidate_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p07-433/evaluations/parent-closure-101-f93b99d911/candidate.lean"
+    },
+    {
+      "run": "p08-agent3-433",
+      "baseline_tokens": 407,
+      "baseline_raw": 1381847,
+      "tokens": 185,
+      "raw": 383447,
+      "local_all_compat_assumed_score": 75.59885976939384,
+      "samples": 3,
+      "label": "seed",
+      "candidate_sha256": "8b15f299a78a2444df2d0f92648f0562c38dabdedfd5a51c27e6a86bf0ad2b10",
+      "candidate_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p08-agent3-433/evaluations/seed-6681f917ea/candidate.lean"
+    },
+    {
+      "run": "p10-exclusive4-431",
+      "baseline_tokens": 1463,
+      "baseline_raw": 15887701,
+      "tokens": 256,
+      "raw": 3285404,
+      "local_all_compat_assumed_score": 87.2742649944859,
+      "samples": 1,
+      "label": "range_delay_explicit_bound",
+      "candidate_sha256": "cea30f3cbc08ff5a1cf674741af478cb1c22aaaab0490068462ef71ce2cb00b8",
+      "candidate_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p10-exclusive4-431/evaluations/range_delay_explicit_bound-bb69ea3a80/candidate.lean"
+    },
+    {
+      "run": "p11-exclusive4-431",
+      "baseline_tokens": 1906,
+      "baseline_raw": 45492117,
+      "tokens": 280,
+      "raw": 6657136,
+      "local_all_compat_assumed_score": 90.22531511647246,
+      "samples": 1,
+      "label": "qmap_infer_type",
+      "candidate_sha256": "8a33b2dfc5929fd9891ced00c71a0493b164d5e1f89e2eef30f086cef9a79c72",
+      "candidate_path": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p11-exclusive4-431/evaluations/qmap_infer_type-41e3a6dd1c/candidate.lean"
+    }
+  ]
+}

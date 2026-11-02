@@ -1,0 +1,1716 @@
+{
+  "schema_version": 1,
+  "inspection_date_kst": "2026-11-01",
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "audit_code_sha256": "3fba7228604e6a6e2d087ea54e0250fde368d18a3aa59df98db213eabc09748d",
+  "warmup_sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
+  "local_tokenizer": "lean-source-anchored-v1",
+  "local_tokenizer_sha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+  "record_count": 60,
+  "unique_names": 60,
+  "duplicate_names": {},
+  "sources": {
+    "arklib": {
+      "count": 10,
+      "min_tokens": 546,
+      "median_tokens": 1684.5,
+      "max_tokens": 5538
+    },
+    "cslib": {
+      "count": 10,
+      "min_tokens": 251,
+      "median_tokens": 399.0,
+      "max_tokens": 623
+    },
+    "leanpool": {
+      "count": 10,
+      "min_tokens": 746,
+      "median_tokens": 1727.5,
+      "max_tokens": 2879
+    },
+    "physlib": {
+      "count": 10,
+      "min_tokens": 4,
+      "median_tokens": 517.0,
+      "max_tokens": 1372
+    },
+    "putnambench": {
+      "count": 10,
+      "min_tokens": 1084,
+      "median_tokens": 2271.5,
+      "max_tokens": 5464
+    },
+    "strata": {
+      "count": 10,
+      "min_tokens": 209,
+      "median_tokens": 917.5,
+      "max_tokens": 1200
+    }
+  },
+  "source_version_pairs": 17,
+  "problem_version_combinations": 127,
+  "pins": [
+    {
+      "source": "arklib",
+      "version": "v4.30.0",
+      "revisions": [
+        "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+      ]
+    },
+    {
+      "source": "arklib",
+      "version": "v4.31.0",
+      "revisions": [
+        "c1712f6c496d0aef04f09bae42aec13811b3273f"
+      ]
+    },
+    {
+      "source": "arklib",
+      "version": "v4.33.1",
+      "revisions": [
+        "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+      ]
+    },
+    {
+      "source": "arklib",
+      "version": "v4.34.0",
+      "revisions": [
+        "fa14552d40e793f2ea26e65c440306aae0c08a26"
+      ]
+    },
+    {
+      "source": "cslib",
+      "version": "v4.30.0",
+      "revisions": [
+        "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5"
+      ]
+    },
+    {
+      "source": "cslib",
+      "version": "v4.31.0",
+      "revisions": [
+        "8ea71c8df91acd63285515a04da952b23b78d266"
+      ]
+    },
+    {
+      "source": "cslib",
+      "version": "v4.33.1",
+      "revisions": [
+        "98e395a701f2027a413ad24729e1a11a6c772eb4"
+      ]
+    },
+    {
+      "source": "cslib",
+      "version": "v4.34.1",
+      "revisions": [
+        "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+      ]
+    },
+    {
+      "source": "leanpool",
+      "version": "v4.34.0",
+      "revisions": [
+        "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+      ]
+    },
+    {
+      "source": "leanpool",
+      "version": "v4.35.0-rc3",
+      "revisions": [
+        "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+      ]
+    },
+    {
+      "source": "physlib",
+      "version": "v4.34.0",
+      "revisions": [
+        "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+      ]
+    },
+    {
+      "source": "physlib",
+      "version": "v4.34.1",
+      "revisions": [
+        "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+      ]
+    },
+    {
+      "source": "putnambench",
+      "version": "v4.26.0",
+      "revisions": [
+        "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+      ]
+    },
+    {
+      "source": "putnambench",
+      "version": "v4.27.0",
+      "revisions": [
+        "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+      ]
+    },
+    {
+      "source": "strata",
+      "version": "v4.26.0",
+      "revisions": [
+        "451e5f047bafa010d178856db76c00029bfa4d7f"
+      ]
+    },
+    {
+      "source": "strata",
+      "version": "v4.27.0",
+      "revisions": [
+        "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+      ]
+    },
+    {
+      "source": "strata",
+      "version": "v4.31.0",
+      "revisions": [
+        "33faa3268be189ae1891bd7c061471e1fa8aad82"
+      ]
+    }
+  ],
+  "pin_conflicts": [],
+  "warmup_overlap": [
+    {
+      "final_row": 1,
+      "warmup_row": 3,
+      "name": "Core.InitsUpdatesComm",
+      "changed_fields": [
+        "end_line",
+        "start_line",
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 16,
+      "warmup_row": 5,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "changed_fields": [
+        "end_line",
+        "start_line",
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 17,
+      "warmup_row": 6,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "changed_fields": [
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 18,
+      "warmup_row": 4,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "changed_fields": [
+        "end_line",
+        "src",
+        "start_line",
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 21,
+      "warmup_row": 7,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "changed_fields": [
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 22,
+      "warmup_row": 8,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "changed_fields": [
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 23,
+      "warmup_row": 9,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "changed_fields": [
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 31,
+      "warmup_row": 12,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "changed_fields": [
+        "end_line",
+        "start_line",
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 32,
+      "warmup_row": 11,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "changed_fields": [
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 33,
+      "warmup_row": 10,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "changed_fields": [
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 51,
+      "warmup_row": 13,
+      "name": "putnam_1964_a4",
+      "changed_fields": [
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 52,
+      "warmup_row": 15,
+      "name": "putnam_1995_a3",
+      "changed_fields": [
+        "version_info"
+      ]
+    },
+    {
+      "final_row": 55,
+      "warmup_row": 14,
+      "name": "putnam_1964_b2",
+      "changed_fields": [
+        "version_info"
+      ]
+    }
+  ],
+  "new_problem_count": 47,
+  "missing_warmup": [
+    {
+      "warmup_row": 1,
+      "name": "CallElimCorrect.substOldPostSubset"
+    },
+    {
+      "warmup_row": 2,
+      "name": "CallElimCorrect.extractedOldExprInVars"
+    }
+  ],
+  "issue_counts": {
+    "current_harness_gate_rejection": 4,
+    "reference_exceeds_prior_p02_candidate_character_limit": 6,
+    "local_token_metric_difference": 2
+  },
+  "issues": [
+    {
+      "kind": "current_harness_gate_rejection",
+      "row": 30,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "error": "Forbidden command, axiom, option or executable construct in proof",
+      "matches": [
+        {
+          "token": "#",
+          "context": "sts (t'' ^* x) ^ t'\n        constructor\n        · #adaptation_note\n           \n\n          grind [subst_intro]\n        · apply Paral"
+        }
+      ],
+      "note": "Conservative text gate only; Lean compilation has not been attempted."
+    },
+    {
+      "kind": "current_harness_gate_rejection",
+      "row": 31,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "error": "Forbidden command, axiom, option or executable construct in proof",
+      "matches": [
+        {
+          "token": "#",
+          "context": "          (a := (ε : ENNReal))\n            (b := (#(filter (fun r => r ∈ R_star_set) Finset.univ)))\n            (c := (Fintype.card"
+        }
+      ],
+      "note": "Conservative text gate only; Lean compilation has not been attempted."
+    },
+    {
+      "kind": "current_harness_gate_rejection",
+      "row": 34,
+      "name": "Combine.master_lemma",
+      "error": "Forbidden command, axiom, option or executable construct in proof",
+      "matches": [
+        {
+          "token": "unsafe",
+          "context": " ⟨j ,hj⟩).natDegree)\n        aesop\n          (add unsafe (by rw [add_comm]))\n          (add unsafe forward [Nat.add_lt_add_right])\n     "
+        },
+        {
+          "token": "unsafe",
+          "context": "   (add unsafe (by rw [add_comm]))\n          (add unsafe forward [Nat.add_lt_add_right])\n          (add simp [Polynomial.natDegree_lt_if"
+        }
+      ],
+      "note": "Conservative text gate only; Lean compilation has not been attempted."
+    },
+    {
+      "kind": "reference_exceeds_prior_p02_candidate_character_limit",
+      "row": 36,
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "characters": 23861,
+      "prior_limit": 12000
+    },
+    {
+      "kind": "reference_exceeds_prior_p02_candidate_character_limit",
+      "row": 38,
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "characters": 27242,
+      "prior_limit": 12000
+    },
+    {
+      "kind": "reference_exceeds_prior_p02_candidate_character_limit",
+      "row": 43,
+      "name": "Vlasov.transportedIntegral_continuousOn",
+      "characters": 12994,
+      "prior_limit": 12000
+    },
+    {
+      "kind": "current_harness_gate_rejection",
+      "row": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "error": "Forbidden command, axiom, option or executable construct in proof",
+      "matches": [
+        {
+          "token": "#",
+          "context": "      obtain rfl : i = 0 := by\n        have h1 : (#[v] : Array Nat).size = 1 := rfl; omega\n      simpa using hdv.self_of\n    obtain"
+        }
+      ],
+      "note": "Conservative text gate only; Lean compilation has not been attempted."
+    },
+    {
+      "kind": "reference_exceeds_prior_p02_candidate_character_limit",
+      "row": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "characters": 12579,
+      "prior_limit": 12000
+    },
+    {
+      "kind": "reference_exceeds_prior_p02_candidate_character_limit",
+      "row": 52,
+      "name": "putnam_1995_a3",
+      "characters": 13801,
+      "prior_limit": 12000
+    },
+    {
+      "kind": "local_token_metric_difference",
+      "row": 53,
+      "name": "putnam_1988_a2",
+      "dataset": 2162,
+      "local": 2161,
+      "note": "Local metric difference; not a claim that the dataset or current official metric is wrong."
+    },
+    {
+      "kind": "local_token_metric_difference",
+      "row": 56,
+      "name": "putnam_2007_a1",
+      "dataset": 5464,
+      "local": 5463,
+      "note": "Local metric difference; not a claim that the dataset or current official metric is wrong."
+    },
+    {
+      "kind": "reference_exceeds_prior_p02_candidate_character_limit",
+      "row": 56,
+      "name": "putnam_2007_a1",
+      "characters": 19300,
+      "prior_limit": 12000
+    }
+  ],
+  "records": [
+    {
+      "row": 1,
+      "name": "Core.InitsUpdatesComm",
+      "source": "strata",
+      "proof_length": 224,
+      "src_characters": 1990,
+      "num_lines": 55,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        },
+        {
+          "v4.26.0": "451e5f047bafa010d178856db76c00029bfa4d7f"
+        }
+      ],
+      "statement_sha256": "41a26124e76466c175b98877cc661020bca7fa7ea1d9119e2100ea067f14a6ce",
+      "src_sha256": "0bd9a59f8ee210f7aa33326b61e40934872abaced72cb270dd62288ee1cb1973",
+      "local_proof_tokens": 224,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 2,
+      "name": "Lambda.denote_suffix_irrel",
+      "source": "strata",
+      "proof_length": 904,
+      "src_characters": 5120,
+      "num_lines": 99,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "4b0ffab23a43bd06fe504afdfb2bfd11cb0ec5ebc04af3980ff733e1b3273455",
+      "src_sha256": "857536ed5def04d6905a3f1154dbc4d70a927c9be8dcd52b71e98f3963377871",
+      "local_proof_tokens": 904,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 3,
+      "name": "Lambda.denote_Denotes",
+      "source": "strata",
+      "proof_length": 931,
+      "src_characters": 6183,
+      "num_lines": 149,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "ecb4efadb763394a32d2a20b566093d2f5bd6f01ecdd054003bbdefc095cd2ed",
+      "src_sha256": "5b640984fce466613ce6a520c58aecc3459437941d7d34c1039cefd40cea8ad5",
+      "local_proof_tokens": 931,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 4,
+      "name": "Lambda.callOfLFunc_eraseMetadata_congr",
+      "source": "strata",
+      "proof_length": 291,
+      "src_characters": 2458,
+      "num_lines": 51,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "5c0e8c23c81b3d2768fd20656172444037ffbe76b085b4362c00d2bec9dbac2b",
+      "src_sha256": "8fdb8ae764d8d314559dc608943b256da5e5984b7028ba5abd7d5f0bea5b2410",
+      "local_proof_tokens": 291,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 5,
+      "name": "Lambda.liftBVars_typeCheck",
+      "source": "strata",
+      "proof_length": 209,
+      "src_characters": 1462,
+      "num_lines": 46,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "1714cef9de5377d867368660988824426c379d432e865e95a09efe172314c051",
+      "src_sha256": "b42793776ffa2b5d3af1567828e15bbf8b72a47fc507603b5da70ca046efe898",
+      "local_proof_tokens": 209,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 6,
+      "name": "Lambda.liftBVars_denote",
+      "source": "strata",
+      "proof_length": 972,
+      "src_characters": 6281,
+      "num_lines": 129,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "9fe8ee21906748c4dc917db6b7ceddeff6f73169ac24104fcba028c16124513e",
+      "src_sha256": "5738c65dda15e712890dc31dec7de2ae01bd0712f7c0943eb2074313ad2de840",
+      "local_proof_tokens": 972,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 7,
+      "name": "Lambda.LExpr.typeCheck_to_HasTypeA",
+      "source": "strata",
+      "proof_length": 429,
+      "src_characters": 2191,
+      "num_lines": 70,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "62cef5da08bbe4796b6b3cdd301270f54323f437f38f968100578cea9bfbb31c",
+      "src_sha256": "b7162fb2d3da5109aee0a76d03c4be63b321ca1902c371c3120775095695eb8f",
+      "local_proof_tokens": 429,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 8,
+      "name": "Lambda.callOfLFunc_constr_disjoint_denote",
+      "source": "strata",
+      "proof_length": 968,
+      "src_characters": 7762,
+      "num_lines": 131,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "281b3aea3559faae72e05d672ab0f343e871100b6b499e1b5f09ed4e66472d4f",
+      "src_sha256": "110723a3c5f920a0f1b9ea722b054ab5bfa7a8a0b96b2e1bc4c2bb5e0359021b",
+      "local_proof_tokens": 968,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 9,
+      "name": "Lambda.denote_replaceMetadata",
+      "source": "strata",
+      "proof_length": 938,
+      "src_characters": 6287,
+      "num_lines": 117,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "d3ce1217972db627b721c5c4eea5512a681b9ffbd2d9123ee4f59b0f8e638b82",
+      "src_sha256": "e1ec255391ce023abd248711691eca984ac250472f19b8bfdc190c33719dd40d",
+      "local_proof_tokens": 938,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 10,
+      "name": "Lambda.denote_ext",
+      "source": "strata",
+      "proof_length": 1200,
+      "src_characters": 7049,
+      "num_lines": 124,
+      "version_info": [
+        {
+          "v4.31.0": "33faa3268be189ae1891bd7c061471e1fa8aad82"
+        },
+        {
+          "v4.27.0": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d"
+        }
+      ],
+      "statement_sha256": "f11889fc987b05f56df289f41f9ca8417f18edbabb9b813f4d02e75fab9d2569",
+      "src_sha256": "f2eaf998e6f640a39429b3563327a5374d3159468433c735415a0792f6a3215e",
+      "local_proof_tokens": 1200,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 11,
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "source": "physlib",
+      "proof_length": 4,
+      "src_characters": 241,
+      "num_lines": 5,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "a7eaba1f881ffa0e7f71477dd077aba7dd4ee7023bcc1a8d679048bf5d9254ba",
+      "src_sha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
+      "local_proof_tokens": 4,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 12,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "source": "physlib",
+      "proof_length": 12,
+      "src_characters": 222,
+      "num_lines": 5,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "587ce7127d248ee127d8f909fd21dec758f08ab9824bc56015a5213f7dbde008",
+      "src_sha256": "5d5ec4e8188e296a6504c12906bad9574ecb21354def05c2cc6562dfcb549a09",
+      "local_proof_tokens": 12,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 13,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "source": "physlib",
+      "proof_length": 12,
+      "src_characters": 222,
+      "num_lines": 5,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "006221e5b214442a1685f8339b2f309d43330682116a9bf38e22343c30737ab7",
+      "src_sha256": "847028f55ca688f2aedece86f71654a5af77a765c27f15681d27d3f92b0b1406",
+      "local_proof_tokens": 12,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 14,
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "source": "physlib",
+      "proof_length": 181,
+      "src_characters": 1600,
+      "num_lines": 27,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "7e092e854afae8d375d820e987c2f95bd7d268beada64607da0162677a07d69e",
+      "src_sha256": "80f1722a4735cf2546eeabd5724f07682f10903d7fc9f978342aed5aaa3840d4",
+      "local_proof_tokens": 181,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 15,
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "source": "physlib",
+      "proof_length": 183,
+      "src_characters": 1560,
+      "num_lines": 27,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "8f475d7fa8be48270b253e1dfb5602ae59485467553791f255999a1a03bb642e",
+      "src_sha256": "13a7b6e73c3d7d0eaba531809654eb931b3851f2d25275ccdc0ba49e22cfd667",
+      "local_proof_tokens": 183,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 16,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "source": "physlib",
+      "proof_length": 1372,
+      "src_characters": 6238,
+      "num_lines": 126,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "d38791803eb224e92cf358ff6c2966e75bcc09137c7cf10bfc8e6baa12b0c0ae",
+      "src_sha256": "9839fbd7f2dedf9c22190403722dc98210c990a14188a042ddf41ab5e050496c",
+      "local_proof_tokens": 1372,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 17,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "source": "physlib",
+      "proof_length": 1217,
+      "src_characters": 6553,
+      "num_lines": 117,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "ca5fa592c760062fc6b01bd72f19580be9e0776cac504b534069bb2a93c79298",
+      "src_sha256": "b0b0bdda4094c15be7cfd13caee9f73b03ddf22c9de85a90567a1291cc6f0306",
+      "local_proof_tokens": 1217,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 18,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "source": "physlib",
+      "proof_length": 851,
+      "src_characters": 6661,
+      "num_lines": 126,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "851df2b7bf3a5d24535c37b94bcd12339ae43438267de736e793664214c500b6",
+      "src_sha256": "88fd5fd92db61b8c08e5d861cdfdb959fac1e343b60401d76e76f8956c2ef1d7",
+      "local_proof_tokens": 851,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 19,
+      "name": "HermitianMat.inv_convex",
+      "source": "physlib",
+      "proof_length": 1025,
+      "src_characters": 5961,
+      "num_lines": 88,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "e4313e24a0c132a0cacc649cf76a9ee7a5bf495dfe49d15959203e99e6b005bd",
+      "src_sha256": "337495a06d7c58056fbff562d51a13f0bffd9c0ab8af1a35cc3ffedb7c302a6c",
+      "local_proof_tokens": 1025,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 20,
+      "name": "cauchyBinet",
+      "source": "physlib",
+      "proof_length": 1200,
+      "src_characters": 5957,
+      "num_lines": 83,
+      "version_info": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "statement_sha256": "22dd84023e3bd73f8a665fa6e700705ddb847621517392b6cb890b4168deecb5",
+      "src_sha256": "5e77c0a363d830b4c829493520753ec5831b578bfc3ea28f011200b0440b4485",
+      "local_proof_tokens": 1200,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 21,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "source": "cslib",
+      "proof_length": 408,
+      "src_characters": 2080,
+      "num_lines": 83,
+      "version_info": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "statement_sha256": "6cdeb5edd2f98ceb080c58f55f7135047c08871f17d66b4a03a0a8508f2b123e",
+      "src_sha256": "e8b89255b06b284c8a4f4ba9a140c458d8c4640f63014c9c0037585855039be7",
+      "local_proof_tokens": 408,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 22,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "source": "cslib",
+      "proof_length": 407,
+      "src_characters": 1904,
+      "num_lines": 64,
+      "version_info": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "statement_sha256": "9cb4dc36d6c498241273c239a94dea74e5458b82269929233367800b0725b588",
+      "src_sha256": "35f528e8e77dceff098e735cfb0ee98ea989fecca8258a7d59632f211cc5ffdc",
+      "local_proof_tokens": 407,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 23,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "source": "cslib",
+      "proof_length": 251,
+      "src_characters": 1727,
+      "num_lines": 62,
+      "version_info": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        }
+      ],
+      "statement_sha256": "d22365e14ae095e15e8706b4c0e7a3f37de57a00d5eda6fa2a40580c8a60650b",
+      "src_sha256": "90ec3fb53d6c4e9485868b3d1f1bceac5de6abc8b429d456281744fd1b0fa828",
+      "local_proof_tokens": 251,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 24,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "source": "cslib",
+      "proof_length": 391,
+      "src_characters": 1670,
+      "num_lines": 36,
+      "version_info": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "statement_sha256": "8fedc190e3790a5cec7ddb055d5d49740f51f82a30dbe74da71338602deeb713",
+      "src_sha256": "cd3326e6962c0989a1af0b1b625c932f5d9493b580dd4c9cfaebeacf3fa0f7a6",
+      "local_proof_tokens": 391,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 25,
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "source": "cslib",
+      "proof_length": 433,
+      "src_characters": 2221,
+      "num_lines": 44,
+      "version_info": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "statement_sha256": "68c38b9ebe7de0ae8e55511be32e95a381c5466416c9c14fb9499d6d6b065394",
+      "src_sha256": "e8ea4b43e120b125b1001db6d40f3a06fb2ae6ea078631b47d9914c0064bbb21",
+      "local_proof_tokens": 433,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 26,
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "source": "cslib",
+      "proof_length": 623,
+      "src_characters": 2771,
+      "num_lines": 52,
+      "version_info": [
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        }
+      ],
+      "statement_sha256": "2603cbd576c6912e0da8562165e8e005af03a94906e1950399d15fb3e99060e6",
+      "src_sha256": "8bbae709173e505bffb0cfc737042fc349f97067387f5f62a62924f3beb9f50b",
+      "local_proof_tokens": 623,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 27,
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "source": "cslib",
+      "proof_length": 368,
+      "src_characters": 1873,
+      "num_lines": 42,
+      "version_info": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "statement_sha256": "d97fcb202211dbd5bfc3f32a223b0e85e0b43b75595589dd0986aedeb2badbeb",
+      "src_sha256": "b32c6230a23e675921a867a7c1b5b4ff3d78c55bc944d8adade36377ae08b0af",
+      "local_proof_tokens": 368,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 28,
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "source": "cslib",
+      "proof_length": 312,
+      "src_characters": 1828,
+      "num_lines": 36,
+      "version_info": [
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        },
+        {
+          "v4.30.0": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5"
+        }
+      ],
+      "statement_sha256": "f720951f1d5f11ca0c20ee12893b270d22e4c05cba689cdbc55a07b9f3d640c3",
+      "src_sha256": "f5d19e4e3d4c7b8b3855cbcd7f6406a9886f76d5e7b225fc2988e0351eaeedab",
+      "local_proof_tokens": 312,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 29,
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "source": "cslib",
+      "proof_length": 364,
+      "src_characters": 1896,
+      "num_lines": 40,
+      "version_info": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "statement_sha256": "fb8b5237e41733629076ba74edad5d988dde331b05bd961ab657f547aeab3496",
+      "src_sha256": "f30aacc80b142837c1b24c2d51f4ebde3430d75548ecda849704d832aba9a9de",
+      "local_proof_tokens": 364,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 30,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "source": "cslib",
+      "proof_length": 519,
+      "src_characters": 2511,
+      "num_lines": 61,
+      "version_info": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "statement_sha256": "7c1b67eb4a034fa62c504db1d6a98b5ba7f78d9bc20b34e813fbc777a2b8c311",
+      "src_sha256": "596f54a91cd38f82f018771f60067f7b5607fc188de3c550f2e84fcaab7fe4ba",
+      "local_proof_tokens": 519,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": false
+    },
+    {
+      "row": 31,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "proof_length": 1353,
+      "src_characters": 10254,
+      "num_lines": 177,
+      "version_info": [
+        {
+          "v4.34.0": "fa14552d40e793f2ea26e65c440306aae0c08a26"
+        },
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "a5fa44f5255cfd05d237fcee036ff87fa7f71b4a2a875ff514d48290bc3047fe",
+      "src_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+      "local_proof_tokens": 1353,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": false
+    },
+    {
+      "row": 32,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "proof_length": 1906,
+      "src_characters": 9795,
+      "num_lines": 184,
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "6dda39aa2f444a80a0cb7e89ddef7e06938f863b7e9eff67b80b4cedf033fe57",
+      "src_sha256": "67401740132ca27612c5a143c6dd3a90205f5d84a7c0850182c9391592a0752f",
+      "local_proof_tokens": 1906,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 33,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "proof_length": 1463,
+      "src_characters": 11388,
+      "num_lines": 209,
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "88119a0eafcfa81dc315b5a0c042e135f473795b2dedf88296fae3cef8dfb3ef",
+      "src_sha256": "561da2e1599d85a33fddbdbdb9eca3f05f504c3dfaa7e32d367eef4eba532033",
+      "local_proof_tokens": 1463,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 34,
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "proof_length": 546,
+      "src_characters": 3409,
+      "num_lines": 93,
+      "version_info": [
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "7302772bcf6fe74e9468d46aa9a4eb6898a9f4091f8b5e6125bb5c184a967669",
+      "src_sha256": "9bd964e1df9b474cee4c4a0d14ba8d3e8a9fbc85bbe7790544932292df270cfa",
+      "local_proof_tokens": 546,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": false
+    },
+    {
+      "row": 35,
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "proof_length": 2440,
+      "src_characters": 11658,
+      "num_lines": 199,
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "33127b48a00071f83113b9f0a63020e4a805670ce63dcb17566cbc2fdc7a7030",
+      "src_sha256": "762d9c0342f6ad7b06dcbaa3e18a475614b61fff262d85cc7433a7ce1d9d3c44",
+      "local_proof_tokens": 2440,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 36,
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "proof_length": 5128,
+      "src_characters": 23861,
+      "num_lines": 495,
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "c319c7637112ecbe790161817d7f0f346b29b0cfd862492b504cb9d878fbb41f",
+      "src_sha256": "81afc259bab2d5268fc8e907ac6cf301de625c35067e3be1f081cd6c849ccf5c",
+      "local_proof_tokens": 5128,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 37,
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "proof_length": 2122,
+      "src_characters": 8544,
+      "num_lines": 211,
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "da0c3313957c56e20b41b9dbe9cf02c61cac7a9ebc64d1b2f063c4c6909e5a8d",
+      "src_sha256": "4ad1a29e5ef91b442667c9b171deb6f3ed28c96ca9709e59911f7cbbbb16a2f4",
+      "local_proof_tokens": 2122,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 38,
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "proof_length": 5538,
+      "src_characters": 27242,
+      "num_lines": 542,
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "b48c6953eee4f45ca53d01b58590661fbd5a13f4f6cc0d023cc4011924beb0f2",
+      "src_sha256": "1901501cdd37e5592f25590cce58688d20049ca2c5dce6d23529eb148902e9ed",
+      "local_proof_tokens": 5538,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 39,
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "proof_length": 1426,
+      "src_characters": 10702,
+      "num_lines": 216,
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "f5eb65b1ff0f0687f82b202f87d539b28ed1e1ee892ba93fefeabee1c1addfcf",
+      "src_sha256": "e6acb4f7de76b3d013c869c5a72bc86428b2587b4080e59d1b6261d395198dde",
+      "local_proof_tokens": 1426,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 40,
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "proof_length": 1105,
+      "src_characters": 5374,
+      "num_lines": 86,
+      "version_info": [
+        {
+          "v4.34.0": "fa14552d40e793f2ea26e65c440306aae0c08a26"
+        },
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ],
+      "statement_sha256": "ea15eaa382feafc790a08147892b67fd45b65b3361a6516152146c54d09733c3",
+      "src_sha256": "17eafc75486d1b6fc4f1bf5f3a9cfc825d675c4d6ae7172548ce46aee5da4b68",
+      "local_proof_tokens": 1105,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 41,
+      "name": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+      "source": "leanpool",
+      "proof_length": 2030,
+      "src_characters": 10267,
+      "num_lines": 207,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "3ae65ce34da1da0a692cf80e24438abf5c45626d67f14941ee5b79054e562b00",
+      "src_sha256": "1c3a303594e864c1626c69c7cc1f96b354da68f3048ebe7ba6d2ef7647db9240",
+      "local_proof_tokens": 2030,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 42,
+      "name": "CoxeterSystem.matsumoto_reduced_aux",
+      "source": "leanpool",
+      "proof_length": 1699,
+      "src_characters": 10494,
+      "num_lines": 203,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "e121085529a6d380aee473f611755b0043afff954eb5fccd56bf265373836d5b",
+      "src_sha256": "2a9442d902db86229559552b4b8c19626d3e9cf7d9870e717f42be0b9fe5b857",
+      "local_proof_tokens": 1699,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 43,
+      "name": "Vlasov.transportedIntegral_continuousOn",
+      "source": "leanpool",
+      "proof_length": 2413,
+      "src_characters": 12994,
+      "num_lines": 239,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "961b6f0a30ccc5ea0ed43de107485b8016119bf87c32ee9e1a6bbaef0fdf50de",
+      "src_sha256": "d13dc916a9c31834a4ea34a3bec6b162a3c7e709cd5182b5a5ae531e6b92830c",
+      "local_proof_tokens": 2413,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 44,
+      "name": "ZetaZeros.step1_double",
+      "source": "leanpool",
+      "proof_length": 2315,
+      "src_characters": 11425,
+      "num_lines": 222,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "a5bebe1d712880da1d7e1427ec725561133c3ba6ddb4cbffa9cfbe8b6823dbd8",
+      "src_sha256": "cf20514cf5a94d2b7aef9e6583b55e79617195a21f5a6c8afc1d08dee51eef0c",
+      "local_proof_tokens": 2315,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 45,
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "source": "leanpool",
+      "proof_length": 1756,
+      "src_characters": 9507,
+      "num_lines": 212,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "4bfe74adc2acfa1cd9cf5140998c179de38be434c3ebbf5c1c3f04b0231c9dd2",
+      "src_sha256": "54b559c330d77a8f38462bf60551d5affb4aca06270eae9197f829bf7d23cd0f",
+      "local_proof_tokens": 1756,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 46,
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+      "source": "leanpool",
+      "proof_length": 1645,
+      "src_characters": 9081,
+      "num_lines": 213,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "ec976b120f4b349992e19edb4abd3dc556e34ac4a6f9bc5f84e84cc75327bc57",
+      "src_sha256": "0b00e26efe74c4754f2f694508535386d4f90ca8267d0a2f8c59b1060189eff7",
+      "local_proof_tokens": 1645,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 47,
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+      "source": "leanpool",
+      "proof_length": 1509,
+      "src_characters": 8312,
+      "num_lines": 203,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "261d9ab3db5f671318e0472418b45568979fa289f8d0212cacff104991781405",
+      "src_sha256": "2ca32f321bffb175e737cce673d0eb0f3e4df2d62bc773ae10f7fb832e7e5b48",
+      "local_proof_tokens": 1509,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "source": "leanpool",
+      "proof_length": 2879,
+      "src_characters": 12579,
+      "num_lines": 208,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "05116bb0699ddcf75f6fd5b5c0a3454fff71fcd53cdf08c00b882bf3b1f86356",
+      "src_sha256": "502416c2b27c38eae98d8f93388c840b99ee0027d4f1718fb821e69a0b541c6c",
+      "local_proof_tokens": 2879,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": false
+    },
+    {
+      "row": 49,
+      "name": "FirstOrder.Language.schemaTruthStage_imp",
+      "source": "leanpool",
+      "proof_length": 746,
+      "src_characters": 4725,
+      "num_lines": 93,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "c63572a4fb81beff8dd52b87406ad3c1da14d4d010bfdc68bcc0255b92c9f525",
+      "src_sha256": "e8f17a86908e5806ae6de52e275a1efa68418f69379ba6e1b8043ea49902039a",
+      "local_proof_tokens": 746,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 50,
+      "name": "RS.cechCount",
+      "source": "leanpool",
+      "proof_length": 911,
+      "src_characters": 4651,
+      "num_lines": 89,
+      "version_info": [
+        {
+          "v4.35.0-rc3": "630eb920bd1ec60f18dbd4e70f2d942f45725b04"
+        },
+        {
+          "v4.34.0": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f"
+        }
+      ],
+      "statement_sha256": "cdbd54825ef9bd41f9138416d6747c075cbbd9826828da065f3ce0efcc57735e",
+      "src_sha256": "de8882eec0fa1f98739e146ddce6f79e559905702a7f631cb6dc60322c561aa7",
+      "local_proof_tokens": 911,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 51,
+      "name": "putnam_1964_a4",
+      "source": "putnambench",
+      "proof_length": 1769,
+      "src_characters": 6934,
+      "num_lines": 186,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "5442bd74af96c3d4168989c8bb594450efbd900f8972cea98386c602dc69eff5",
+      "src_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669",
+      "local_proof_tokens": 1769,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 52,
+      "name": "putnam_1995_a3",
+      "source": "putnambench",
+      "proof_length": 4085,
+      "src_characters": 13801,
+      "num_lines": 282,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "8f4f5a301da40d280f1ed5199c0a556f57dde7aeca8402fdf2867bcbf4648cc0",
+      "src_sha256": "56dcc03e9f1d22a0655aeb46aa929c75efddb21f2fa73d7504b648792b6e8329",
+      "local_proof_tokens": 4085,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 53,
+      "name": "putnam_1988_a2",
+      "source": "putnambench",
+      "proof_length": 2162,
+      "src_characters": 9455,
+      "num_lines": 176,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "3ee8a71f6e5bc0f15436e98a5c9aaf465c1c7ca7e61d1485b4c07b1d4f75e009",
+      "src_sha256": "7edb936f360026703509e49c688e19198bb7ffc47fce507061a752b0c1c28d37",
+      "local_proof_tokens": 2161,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 54,
+      "name": "putnam_2001_b1",
+      "source": "putnambench",
+      "proof_length": 3178,
+      "src_characters": 10289,
+      "num_lines": 206,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "cbee4b2b5a322771f42e565f51fb72f4a534abd55ccc6cc356bcc705b049b7ef",
+      "src_sha256": "a1c3112e1b7b1d282cf20b9eb593ae4beb94cf111ce9c66291282edcc622311d",
+      "local_proof_tokens": 3178,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 55,
+      "name": "putnam_1964_b2",
+      "source": "putnambench",
+      "proof_length": 1754,
+      "src_characters": 8829,
+      "num_lines": 294,
+      "version_info": [
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "0381f251cce9fb3152ff0ab1de4076977b31c29ee29d66c82778086046ae9b2b",
+      "src_sha256": "16f0c2b3e008d0002b83f9550e553fb9acd22cbb4daf5ec813ecd68282738892",
+      "local_proof_tokens": 1754,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 56,
+      "name": "putnam_2007_a1",
+      "source": "putnambench",
+      "proof_length": 5464,
+      "src_characters": 19300,
+      "num_lines": 408,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "3d4b84d80be55c9b8ea0ed3a538acbc618d7b52368ff24286540569d613ba703",
+      "src_sha256": "1f1ed2d17fe9d826122e560d362c3e3bc1e663f8c221fe72c91e6e0b3cd70d59",
+      "local_proof_tokens": 5463,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 57,
+      "name": "putnam_1970_b5",
+      "source": "putnambench",
+      "proof_length": 2134,
+      "src_characters": 9316,
+      "num_lines": 231,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "4d2431ba436bc0493a16496c2a653e101d2d8bdd2c325b84602d380fd744a712",
+      "src_sha256": "98f8c3392204185d91a6da33134262ce2f20483eb68ee1f8603546dc3e0ac925",
+      "local_proof_tokens": 2134,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 58,
+      "name": "putnam_1968_a1",
+      "source": "putnambench",
+      "proof_length": 1084,
+      "src_characters": 3597,
+      "num_lines": 111,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "fc674d59e9b9d43edb25138c7f949d44f8c77d449001eafbcd0fdbadc3b9770b",
+      "src_sha256": "6891b2eb59e599021de5242ee92284ac579d1b6f8c77f3b61035071cbb74cdcb",
+      "local_proof_tokens": 1084,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 59,
+      "name": "putnam_1991_b1",
+      "source": "putnambench",
+      "proof_length": 3313,
+      "src_characters": 11741,
+      "num_lines": 363,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "14c3c493a520ca02903749ef3f1ec501fa9e01fb13727f76b5942a73ca45b453",
+      "src_sha256": "7096b03c290ab3a35e17fd18e5e1544d24662cfd5198849dac44d5650ca38d5e",
+      "local_proof_tokens": 3313,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    },
+    {
+      "row": 60,
+      "name": "putnam_2019_a1",
+      "source": "putnambench",
+      "proof_length": 2381,
+      "src_characters": 8407,
+      "num_lines": 233,
+      "version_info": [
+        {
+          "v4.27.0": "a3a10db0e9d66acbebf76c5e6a135066525ac900"
+        },
+        {
+          "v4.26.0": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67"
+        }
+      ],
+      "statement_sha256": "3a718aaaa4f3858bc845a86e7b22dd0eba12156a6e19bfe3ad4fb4d922bffd2c",
+      "src_sha256": "3031af87d604126642e540e391bfc0549f127ce45ddc8f2c28e054965fe3f893",
+      "local_proof_tokens": 2381,
+      "statement_boundary_valid": true,
+      "current_harness_gate_passed": true
+    }
+  ],
+  "scope": {
+    "static_only": true,
+    "lean_compilations": 0,
+    "paid_api_calls": 0,
+    "remote_provenance_verified": false,
+    "heartbeat_baselines_in_this_file": false
+  },
+  "notes": [
+    "Putnam rows use header + src and Mathlib revisions; empty file_path/url and absent line ranges are expected.",
+    "Project rows require full repository context at each declared revision.",
+    "Warmup IDs and heartbeat baselines must not be reused by final row position."
+  ]
+}

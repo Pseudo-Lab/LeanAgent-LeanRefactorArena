@@ -1,0 +1,824 @@
+{
+  "authorization": {
+    "last_call_may_overshoot": true,
+    "max_calls": null,
+    "mode": "threshold",
+    "stop_at_usd": "0.20",
+    "total_target_usd": "0.40"
+  },
+  "base_main": "ba3de4f",
+  "budget_ok": true,
+  "conditions": [
+    {
+      "actions": {
+        "proof": 11
+      },
+      "baseline": {
+        "raw_heartbeats": 2695022,
+        "tokens": 222
+      },
+      "calls": 11,
+      "candidate_evaluations": 11,
+      "condition": "whole",
+      "cost_usd": "0.2062915",
+      "final": {
+        "raw_heartbeats": 1309350,
+        "raw_samples": [
+          1309350,
+          1309346,
+          1309363
+        ],
+        "tokens": 203
+      },
+      "full_module_passed": true,
+      "local_ratio_score": "0.700127302108102264835679257",
+      "replay_passed": true,
+      "status": "completed",
+      "steps": [
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 2421654,
+          "best_tokens": 210,
+          "candidate_valid": true,
+          "cost_usd_after": "0.017551",
+          "metrics": {
+            "raw_heartbeats": 2421654,
+            "raw_samples": [
+              2421541,
+              2421699,
+              2421654
+            ],
+            "tokens": 210
+          },
+          "rejection": null,
+          "step": 1,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1620419,
+          "best_tokens": 237,
+          "candidate_valid": true,
+          "cost_usd_after": "0.0343898",
+          "metrics": {
+            "raw_heartbeats": 1620419,
+            "raw_samples": [
+              1620419,
+              1620408,
+              1620434
+            ],
+            "tokens": 237
+          },
+          "rejection": null,
+          "step": 2,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1620419,
+          "best_tokens": 237,
+          "candidate_valid": false,
+          "cost_usd_after": "0.0572361",
+          "metrics": null,
+          "rejection": null,
+          "step": 3,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [
+            "type_mismatch"
+          ],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1620419,
+          "best_tokens": 237,
+          "candidate_valid": true,
+          "cost_usd_after": "0.0676624",
+          "metrics": {
+            "raw_heartbeats": 4014059,
+            "raw_samples": [
+              4014119,
+              4014059,
+              4014046
+            ],
+            "tokens": 235
+          },
+          "rejection": null,
+          "step": 4,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1620419,
+          "best_tokens": 237,
+          "candidate_valid": false,
+          "cost_usd_after": "0.0972237",
+          "metrics": null,
+          "rejection": null,
+          "step": 5,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [
+            "type_mismatch"
+          ],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1627835,
+          "best_tokens": 202,
+          "candidate_valid": true,
+          "cost_usd_after": "0.1088325",
+          "metrics": {
+            "raw_heartbeats": 1627835,
+            "raw_samples": [
+              1627829,
+              1627835,
+              1627845
+            ],
+            "tokens": 202
+          },
+          "rejection": null,
+          "step": 6,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1627835,
+          "best_tokens": 202,
+          "candidate_valid": false,
+          "cost_usd_after": "0.1239838",
+          "metrics": null,
+          "rejection": null,
+          "step": 7,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [
+            "unsolved_goals"
+          ],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1309350,
+          "best_tokens": 203,
+          "candidate_valid": true,
+          "cost_usd_after": "0.1501101",
+          "metrics": {
+            "raw_heartbeats": 1309350,
+            "raw_samples": [
+              1309350,
+              1309346,
+              1309363
+            ],
+            "tokens": 203
+          },
+          "rejection": null,
+          "step": 8,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1309350,
+          "best_tokens": 203,
+          "candidate_valid": true,
+          "cost_usd_after": "0.1764039",
+          "metrics": {
+            "raw_heartbeats": 1333876,
+            "raw_samples": [
+              1333868,
+              1333876,
+              1333889
+            ],
+            "tokens": 252
+          },
+          "rejection": null,
+          "step": 9,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1309350,
+          "best_tokens": 203,
+          "candidate_valid": true,
+          "cost_usd_after": "0.1960702",
+          "metrics": {
+            "raw_heartbeats": 1320307,
+            "raw_samples": [
+              1320314,
+              1320297,
+              1320307
+            ],
+            "tokens": 213
+          },
+          "rejection": null,
+          "step": 10,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "proof",
+          "best_raw_heartbeats": 1309350,
+          "best_tokens": 203,
+          "candidate_valid": true,
+          "cost_usd_after": "0.2062915",
+          "metrics": {
+            "raw_heartbeats": 1309350,
+            "raw_samples": [
+              1309350,
+              1309346,
+              1309363
+            ],
+            "tokens": 203
+          },
+          "rejection": null,
+          "step": 11,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        }
+      ],
+      "stop_reason": "cost_limit",
+      "valid_candidates": 8,
+      "wall_seconds": 853.568,
+      "selected_sha256": "65c239c2c527879abd19a2b223ab6fa3a96e9166c8ed961320b26004a39aca72",
+      "usage_summary": {
+        "reported_cost_known_subtotal_usd": "0.2062915",
+        "reported_cost_usd": "0.2062915",
+        "responses": 11,
+        "schema_version": 1,
+        "source": "model_response_usage",
+        "token_scope": "cache reads/writes included in input; reasoning included in output; not added twice",
+        "tokens": {
+          "cache_write_tokens": {
+            "known_records": 11,
+            "known_subtotal": 27541,
+            "mean": 2503.7272727272725,
+            "median": 1941,
+            "missing_records": 0,
+            "total": 27541
+          },
+          "cached_input_tokens": {
+            "known_records": 11,
+            "known_subtotal": 23030,
+            "mean": 2093.6363636363635,
+            "median": 2303,
+            "missing_records": 0,
+            "total": 23030
+          },
+          "input_tokens": {
+            "known_records": 11,
+            "known_subtotal": 50604,
+            "mean": 4600.363636363636,
+            "median": 4190,
+            "missing_records": 0,
+            "total": 50604
+          },
+          "output_tokens": {
+            "known_records": 11,
+            "known_subtotal": 13507,
+            "mean": 1227.909090909091,
+            "median": 1040,
+            "missing_records": 0,
+            "total": 13507
+          },
+          "reasoning_tokens": {
+            "known_records": 11,
+            "known_subtotal": 8434,
+            "mean": 766.7272727272727,
+            "median": 596,
+            "missing_records": 0,
+            "total": 8434
+          }
+        },
+        "unknown_cost_responses": 0
+      },
+      "candidate_branches": [],
+      "error_kinds": {
+        "type_mismatch": 2,
+        "unsolved_goals": 1
+      }
+    },
+    {
+      "actions": {
+        "propose": 7,
+        "read_candidate": 1,
+        "rejected": 1,
+        "repair": 3,
+        "search": 2
+      },
+      "baseline": {
+        "raw_heartbeats": 2695022,
+        "tokens": 222
+      },
+      "calls": 14,
+      "candidate_evaluations": 10,
+      "condition": "actions-memory",
+      "cost_usd": "0.2112618",
+      "final": {
+        "raw_heartbeats": 437002,
+        "raw_samples": [
+          437002,
+          437008,
+          436989
+        ],
+        "tokens": 144
+      },
+      "full_module_passed": true,
+      "local_ratio_score": "0.4054001003291213167050915314",
+      "replay_passed": true,
+      "status": "completed",
+      "steps": [
+        {
+          "action": "rejected",
+          "best_raw_heartbeats": 2695022,
+          "best_tokens": 222,
+          "candidate_valid": null,
+          "cost_usd_after": "0.022781",
+          "metrics": null,
+          "rejection": "Extra data: line 4 column 1 (char 944)",
+          "step": 1,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "propose",
+          "best_raw_heartbeats": 2695022,
+          "best_tokens": 222,
+          "candidate_valid": false,
+          "cost_usd_after": "0.0294201",
+          "metrics": null,
+          "rejection": null,
+          "step": 2,
+          "parent_id": "c000",
+          "strategy": "Induct on normalization evidence and use structural append monotonicity, avoiding simp_all.",
+          "error_kinds": [
+            "lean_error"
+          ],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "repair",
+          "best_raw_heartbeats": 2695022,
+          "best_tokens": 222,
+          "candidate_valid": false,
+          "cost_usd_after": "0.0379242",
+          "metrics": null,
+          "rejection": null,
+          "step": 3,
+          "parent_id": "c002",
+          "strategy": "Repair normalization induction by removing base-case tags already solved by nil_subset; preserve append monotonicity and app split.",
+          "error_kinds": [
+            "unsolved_goals",
+            "type_mismatch"
+          ],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "search",
+          "best_raw_heartbeats": 2695022,
+          "best_tokens": 222,
+          "candidate_valid": null,
+          "cost_usd_after": "0.0453558",
+          "metrics": null,
+          "rejection": null,
+          "step": 4,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": "List.Subset append subset_append"
+        },
+        {
+          "action": "repair",
+          "best_raw_heartbeats": 675381,
+          "best_tokens": 171,
+          "candidate_valid": true,
+          "cost_usd_after": "0.0638749",
+          "metrics": {
+            "raw_heartbeats": 675381,
+            "raw_samples": [
+              675422,
+              675381,
+              675362
+            ],
+            "tokens": 171
+          },
+          "rejection": null,
+          "step": 5,
+          "parent_id": "c003",
+          "strategy": "Preserve normalization induction; replace unavailable append monotonicity with a local elementary proof, solve reflexive subset explicitly, and let apply infer the impossible-match binders.",
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "read_candidate",
+          "best_raw_heartbeats": 675381,
+          "best_tokens": 171,
+          "candidate_valid": null,
+          "cost_usd_after": "0.0732565",
+          "metrics": null,
+          "rejection": null,
+          "step": 6,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": "c003",
+          "query": null
+        },
+        {
+          "action": "propose",
+          "best_raw_heartbeats": 504017,
+          "best_tokens": 160,
+          "candidate_valid": true,
+          "cost_usd_after": "0.0968381",
+          "metrics": {
+            "raw_heartbeats": 504017,
+            "raw_samples": [
+              504017,
+              504027,
+              504014
+            ],
+            "tokens": 160
+          },
+          "rejection": null,
+          "step": 7,
+          "parent_id": "c005",
+          "strategy": "Use definitional reduction rather than simplification at every induction case; retain the verified normalization induction and append helper.",
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "propose",
+          "best_raw_heartbeats": 504017,
+          "best_tokens": 160,
+          "candidate_valid": true,
+          "cost_usd_after": "0.1169922",
+          "metrics": {
+            "raw_heartbeats": 862951,
+            "raw_samples": [
+              862951,
+              862956,
+              862941
+            ],
+            "tokens": 150
+          },
+          "rejection": null,
+          "step": 8,
+          "parent_id": "c007",
+          "strategy": "Factor the non-application normalization induction cases into type-directed exact branches, retaining the verified append helper and app split.",
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "search",
+          "best_raw_heartbeats": 504017,
+          "best_tokens": 160,
+          "candidate_valid": null,
+          "cost_usd_after": "0.1292163",
+          "metrics": null,
+          "rejection": null,
+          "step": 9,
+          "parent_id": null,
+          "strategy": null,
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": "List.Subset.append"
+        },
+        {
+          "action": "propose",
+          "best_raw_heartbeats": 449372,
+          "best_tokens": 158,
+          "candidate_valid": true,
+          "cost_usd_after": "0.1509504",
+          "metrics": {
+            "raw_heartbeats": 449372,
+            "raw_samples": [
+              449372,
+              449374,
+              449362
+            ],
+            "tokens": 158
+          },
+          "rejection": null,
+          "step": 10,
+          "parent_id": "c007",
+          "strategy": "Avoid failed definitional-reduction attempts on every constructor by explicitly grouping the four empty cases; combine the identical binary cases and eliminate the temporary normalization witness.",
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "propose",
+          "best_raw_heartbeats": 449372,
+          "best_tokens": 158,
+          "candidate_valid": false,
+          "cost_usd_after": "0.1651245",
+          "metrics": null,
+          "rejection": null,
+          "step": 11,
+          "parent_id": "c010",
+          "strategy": "Replace the append helper's tactic branching with direct transport of append membership through Or.imp, retaining the verified structural normalization induction.",
+          "error_kinds": [
+            "type_mismatch"
+          ],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "repair",
+          "best_raw_heartbeats": 443084,
+          "best_tokens": 153,
+          "candidate_valid": true,
+          "cost_usd_after": "0.1782286",
+          "metrics": {
+            "raw_heartbeats": 443084,
+            "raw_samples": [
+              443084,
+              443091,
+              443070
+            ],
+            "tokens": 153
+          },
+          "rejection": null,
+          "step": 12,
+          "parent_id": "c011",
+          "strategy": "Repair the append helper by eta-expanding subset proofs so Or.imp receives membership implications rather than implicitly quantified subset functions.",
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "propose",
+          "best_raw_heartbeats": 443264,
+          "best_tokens": 147,
+          "candidate_valid": true,
+          "cost_usd_after": "0.1956252",
+          "metrics": {
+            "raw_heartbeats": 443264,
+            "raw_samples": [
+              443264,
+              443271,
+              443250
+            ],
+            "tokens": 147
+          },
+          "rejection": null,
+          "step": 13,
+          "parent_id": "c012",
+          "strategy": "Shorten the verified append-membership transport using placeholder eta expansion while preserving the structural normalization induction and application cases.",
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        },
+        {
+          "action": "propose",
+          "best_raw_heartbeats": 437002,
+          "best_tokens": 144,
+          "candidate_valid": true,
+          "cost_usd_after": "0.2112618",
+          "metrics": {
+            "raw_heartbeats": 437002,
+            "raw_samples": [
+              437002,
+              437008,
+              436989
+            ],
+            "tokens": 144
+          },
+          "rejection": null,
+          "step": 14,
+          "parent_id": "c013",
+          "strategy": "Replace the constructor tactic for the old-predicate witness with its directly elaborated constructor, retaining the verified induction and append transport.",
+          "error_kinds": [],
+          "candidate_id": null,
+          "query": null
+        }
+      ],
+      "stop_reason": "cost_limit",
+      "valid_candidates": 7,
+      "wall_seconds": 705.23,
+      "selected_sha256": "e994798af7a141ce235ca4a9cc1758f2657696aa44735f6d381ad4838da0f414",
+      "usage_summary": {
+        "reported_cost_known_subtotal_usd": "0.2112618",
+        "reported_cost_usd": "0.2112618",
+        "responses": 14,
+        "schema_version": 1,
+        "source": "model_response_usage",
+        "token_scope": "cache reads/writes included in input; reasoning included in output; not added twice",
+        "tokens": {
+          "cache_write_tokens": {
+            "known_records": 14,
+            "known_subtotal": 52243,
+            "mean": 3731.6428571428573,
+            "median": 3576.5,
+            "missing_records": 0,
+            "total": 52243
+          },
+          "cached_input_tokens": {
+            "known_records": 14,
+            "known_subtotal": 31603,
+            "mean": 2257.3571428571427,
+            "median": 2431.0,
+            "missing_records": 0,
+            "total": 31603
+          },
+          "input_tokens": {
+            "known_records": 14,
+            "known_subtotal": 83888,
+            "mean": 5992,
+            "median": 5974.5,
+            "missing_records": 0,
+            "total": 83888
+          },
+          "output_tokens": {
+            "known_records": 14,
+            "known_subtotal": 7741,
+            "mean": 552.9285714285714,
+            "median": 612.5,
+            "missing_records": 0,
+            "total": 7741
+          },
+          "reasoning_tokens": {
+            "known_records": 14,
+            "known_subtotal": 4136,
+            "mean": 295.42857142857144,
+            "median": 313.0,
+            "missing_records": 0,
+            "total": 4136
+          }
+        },
+        "unknown_cost_responses": 0
+      },
+      "candidate_branches": [
+        {
+          "step": 2,
+          "action": "propose",
+          "parent_id": "c000",
+          "parent_valid": true,
+          "parent_was_best": true
+        },
+        {
+          "step": 3,
+          "action": "repair",
+          "parent_id": "c002",
+          "parent_valid": false,
+          "parent_was_best": false
+        },
+        {
+          "step": 5,
+          "action": "repair",
+          "parent_id": "c003",
+          "parent_valid": false,
+          "parent_was_best": false
+        },
+        {
+          "step": 7,
+          "action": "propose",
+          "parent_id": "c005",
+          "parent_valid": true,
+          "parent_was_best": true
+        },
+        {
+          "step": 8,
+          "action": "propose",
+          "parent_id": "c007",
+          "parent_valid": true,
+          "parent_was_best": true
+        },
+        {
+          "step": 10,
+          "action": "propose",
+          "parent_id": "c007",
+          "parent_valid": true,
+          "parent_was_best": true
+        },
+        {
+          "step": 11,
+          "action": "propose",
+          "parent_id": "c010",
+          "parent_valid": true,
+          "parent_was_best": true
+        },
+        {
+          "step": 12,
+          "action": "repair",
+          "parent_id": "c011",
+          "parent_valid": false,
+          "parent_was_best": false
+        },
+        {
+          "step": 13,
+          "action": "propose",
+          "parent_id": "c012",
+          "parent_valid": true,
+          "parent_was_best": true
+        },
+        {
+          "step": 14,
+          "action": "propose",
+          "parent_id": "c013",
+          "parent_valid": true,
+          "parent_was_best": true
+        }
+      ],
+      "error_kinds": {
+        "lean_error": 1,
+        "unsolved_goals": 1,
+        "type_mismatch": 2
+      }
+    }
+  ],
+  "generation_context": "same original short task packet; no optimized proofs",
+  "limitations": "One run per condition. Threshold permits the final call to overshoot; strict caps may leave budget unused. Not an official score.",
+  "model": {
+    "backend": "openrouter",
+    "id": "openai/gpt-6.1-sol",
+    "max_price": {
+      "completion": 10,
+      "prompt": 2.5
+    },
+    "max_tokens": 4096,
+    "provider": "openai",
+    "reasoning_effort": "high",
+    "seed": 42,
+    "timeout_seconds": 180
+  },
+  "problem": "P02",
+  "reported_total_usd": "0.4175533",
+  "schema_version": 1,
+  "secret_in_evidence": false,
+  "source_sha256": "1c5e76014548db4a380b5c225f561c726a0db1184dcddfefb7191052e67dd79a",
+  "audit": {
+    "unique_generation_ids": 25,
+    "transport_matches_native": true,
+    "root_inventory_verified": true,
+    "threshold_transitions": [
+      {
+        "condition": "whole",
+        "spent_before_last": "0.1960702",
+        "final_spend": "0.2062915",
+        "target_usd": "0.20",
+        "overshoot_usd": "0.0062915",
+        "no_dispatch_after_threshold": true,
+        "runtime_commit": "183ddf41f64059c66332b67ff536f2275a508382"
+      },
+      {
+        "condition": "actions-memory",
+        "spent_before_last": "0.1956252",
+        "final_spend": "0.2112618",
+        "target_usd": "0.20",
+        "overshoot_usd": "0.0112618",
+        "no_dispatch_after_threshold": true,
+        "runtime_commit": "183ddf41f64059c66332b67ff536f2275a508382"
+      }
+    ]
+  },
+  "comparison": {
+    "token_reduction_vs_whole": "0.2906403940886699507389162562",
+    "raw_heartbeat_reduction_vs_whole": "0.6662450834383472715469507771"
+  },
+  "experiment_commit": "183ddf4",
+  "run_directory": "runs/action-candidate-memory/20261029-p02-threshold020-r1"
+}

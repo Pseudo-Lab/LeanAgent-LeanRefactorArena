@@ -1,0 +1,279 @@
+{
+  "benchmark": "/Users/zzu0203/projects/01_가짜연구소/LEArN/week3-experiments/corpus/data/arena/56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c/benchmark_data_warmup.jsonl",
+  "problems": {
+    "1": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P01-confirmed/candidate.lean",
+      "sha256": "954dee0cdde6bebb35e0bd0cb8b2d691526facc46d4b5ab7b7d7ee3fb6e9b5f5",
+      "verified_pins": [
+        "v4.26.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P01-baseline-4.26.0-af9e8483/result.json"
+      ],
+      "strategy": "함수 귀납 원리 재사용, 제한된 simp/grind로 종료",
+      "note": "기존 32-token 후보와 동일 SHA를 이번 실행 plain Check + 독립 Audit + HB 1회로 재검증. 과거 3회 측정도 archival-evidence에 보존."
+    },
+    "2": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/strata/P02-confirmed/candidate.lean",
+      "sha256": "9c73432c2f05c8ca0408716ae9bd45374ed724bd982ed43ffc34afd49ba5ce9d",
+      "verified_pins": [
+        "v4.26.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P02-baseline-4.26.0-4a8c510e/result.json"
+      ],
+      "strategy": "함수 귀납 및 Sublist 생성자 재사용",
+      "note": "기존 19-token 후보와 동일 SHA를 이번 실행 plain Check + 독립 Audit + HB 1회로 재검증. 과거 3회 측정도 archival-evidence에 보존."
+    },
+    "3": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round2/core/module-archived_flat-4.29.1/candidate.lean",
+      "sha256": "4422a08306c406fbf1cc8f63ea6aac6cb615f540e9d92fab67cd8cc1787cf2b3",
+      "verified_pins": [
+        "v4.29.1",
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/archival-evidence.json"
+      ],
+      "strategy": "store 갱신 정리로 상태별 직접 증명",
+      "note": "기존 동일 SHA 검증 기록. 상세 검증 방식과 원격 로그 보존 여부는 evidence 참조."
+    },
+    "4": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/submissions/warmup/best/P04.lean",
+      "sha256": "534b3f8929bc01e93d50fe36133ffc14ac729ff0eee74cacbc8cb03fe5ac0eb8",
+      "verified_pins": [
+        "v4.32.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P04-baseline-primary-4a8567a1/result.json"
+      ],
+      "strategy": "연속 함수의 거의 모든 곳 동등성과 적분 정리 재사용",
+      "note": "이번 실행 plain Check + 별도 Audit + HB 1회; 이전 동일 후보 공식 채점 기록도 있음."
+    },
+    "5": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p05-432/evaluations/submit-confirm-natural-denominator-943b28cfcd/candidate.lean",
+      "sha256": "9aabe6f4d7499ed974d0eb341ec6c0ecc1b727edb79f203343d272719f98b4fa",
+      "verified_pins": [
+        "v4.32.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p05-432/evaluations/submit-confirm-natural-denominator-943b28cfcd/result.json",
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/p05-selected-audit.json"
+      ],
+      "strategy": "분모·역원 정규화를 실제 항의 순서에 맞춤",
+      "metrics": {
+        "tokens": 427,
+        "raw_hb": 5482832,
+        "raw_samples": [
+          5482838,
+          5482832,
+          5482822
+        ],
+        "pin": "v4.32.0",
+        "original_tokens": 1372,
+        "original_raw_hb": 26982659,
+        "baseline_receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p05-432/evaluations/original-1a29a44ccb/result.json",
+        "length_reduction_pct": 68.87755102040816,
+        "heartbeat_reduction_pct": 79.68016421213343,
+        "local_score": 82.85257174418052
+      },
+      "note": "유일한 요구 버전: plain Check + 별도 Audit + HB 3회 + receipt 무결성 검사."
+    },
+    "6": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/agent-final-checkpoint-6fac5d43df/candidate.lean",
+      "sha256": "07163bcdf011341d0a6364f0cadc80389366b248bc15eb99a773e64d7c582a46",
+      "verified_pins": [
+        "v4.32.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/agent-final-checkpoint-6fac5d43df/result.json",
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/p06-selected-audit.json"
+      ],
+      "strategy": "쌍선형 기저 extensionality와 map 전개를 직접 지정",
+      "metrics": {
+        "tokens": 422,
+        "raw_hb": 11134816,
+        "raw_samples": [
+          11134816,
+          11134736,
+          11134877
+        ],
+        "pin": "v4.32.0",
+        "original_tokens": 1217,
+        "original_raw_hb": 42056240,
+        "baseline_receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p06-432/evaluations/original-4a8747b2c4/result.json",
+        "length_reduction_pct": 65.32456861133934,
+        "heartbeat_reduction_pct": 73.52398597687288,
+        "local_score": 79.61618486273741
+      },
+      "note": "유일한 요구 버전: plain Check + 별도 Audit + HB 3회 + receipt 무결성 검사."
+    },
+    "7": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P07-2d273e0f5161/P07.lean",
+      "sha256": "2d273e0f5161bea7e0b5fc556123c1258a07ff606f7a4f678e50b6163dcbe08b",
+      "verified_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/candidates/p06_agent/submission-evidence-p07-p08.json"
+      ],
+      "strategy": "타이핑 귀납의 공통 분기를 압축",
+      "note": "기존 전체 요구 버전 × HB 3회 검증의 증명·소스·로그 해시를 이번에 재확인."
+    },
+    "8": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round6/validated/P08.lean",
+      "sha256": "8b15f299a78a2444df2d0f92648f0562c38dabdedfd5a51c27e6a86bf0ad2b10",
+      "verified_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/candidates/p06_agent/submission-evidence-p07-p08.json"
+      ],
+      "strategy": "다이아몬드 증명에서 join witness와 상수 적용을 명시",
+      "note": "기존 전체 요구 버전 × HB 3회 검증의 증명·소스·로그 해시를 이번에 재확인."
+    },
+    "9": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P09-12c49a5118cd/P09.lean",
+      "sha256": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
+      "verified_pins": [
+        "v4.33.0-rc2",
+        "v4.32.0",
+        "v4.31.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P09-12c49a5118cd/manifest.json"
+      ],
+      "strategy": "bisimulation 관계와 transition 분기 재사용",
+      "note": "이번 실행: 전체 3개 요구 버전 plain Check + 별도 Audit. 4.33 HB 3회, 4.32/4.31 HB 각 1회."
+    },
+    "10": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p10-export-20261028/candidate.lean",
+      "sha256": "c617f04451b737b39bcaa00366e92ba1b969bca536a3477ccb563f179c2eb5f4",
+      "verified_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0",
+        "v4.28.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/p10-export-20261028/manifest.json"
+      ],
+      "strategy": "유한 집합의 card 범위 및 ENat coercion을 명시",
+      "note": "4개 요구 버전 모두 plain Check + 독립 Audit. 4.31 HB 3회, 추가 버전은 호환성 검증. 4.28 의존성 복구 후 동일 SHA 후보로 최종 통과."
+    },
+    "11": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P11-c7968b607b27/candidate.lean",
+      "sha256": "c7968b607b27165f48d1a8f9ab79a672348f7390c6403e4630cca09d0cc626d7",
+      "verified_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/validated/P11-c7968b607b27/manifest.json"
+      ],
+      "strategy": "자연스러운 계수 순서와 rfl로 다항식 변환 최소화",
+      "note": "전체 3개 요구 버전 Check/Audit, 4.31 HB 3회."
+    },
+    "12": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/offline-proof-search/validated/20261028/P12.lean",
+      "sha256": "1e3abf1f63b8b83265cc0e92fbd041997489be9855b84af4447b75a1b3809208",
+      "verified_pins": [
+        "v4.31.0",
+        "v4.30.0",
+        "v4.29.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/offline-proof-search/validated/20261028/manifest.json"
+      ],
+      "strategy": "기존 tensor gap 정리를 필요한 가정에 직접 연결",
+      "note": "전체 3개 요구 버전 Check/Audit 및 HB 3회. 추가 최상위 helper 없는 156-token 후보."
+    },
+    "13": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-confirm_implicit_index-4.25.0-ad2b7d12/candidate.lean",
+      "sha256": "956fd2d9d51127c890711c4c14e4aadf8798e73c78029cd6920b9489dbde6d4f",
+      "verified_pins": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-confirm_implicit_index-4.25.0-ad2b7d12/result.json",
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-confirm_implicit_index-4.26.0-9b652ebc/result.json",
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P13-confirm_implicit_index-4.27.0-6b8d1add/result.json"
+      ],
+      "strategy": "pigeonhole witness와 강한 귀납을 재사용하고 Nat.sub_lt 증명에 필요한 인덱스는 Lean이 추론",
+      "note": "이번 개선: 동일 259 tokens로 감소 조건을 명시하고 인덱스는 추론. 전체 3개 요구 버전 plain Check + 독립 Audit, 4.25 HB 3회/나머지 각 1회.",
+      "metrics": {
+        "pin": "v4.25.0",
+        "tokens": 259,
+        "raw_hb": 3522969,
+        "raw_samples": [
+          3522785,
+          3522969,
+          3523217
+        ],
+        "comparison_baseline": "previous selected 259-token candidate in same fresh environment",
+        "previous_tokens": 259,
+        "previous_raw_hb": 3659724,
+        "heartbeat_reduction_vs_previous_pct": 3.7367571980837955
+      }
+    },
+    "14": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/insights-20261024-round3/putnam/P14-compatible_grind-4.26.0-full/candidate.lean",
+      "sha256": "a10d02bb75d48da51f9b0edda5b7312b1c4a4c02971d9bafdb4f77c9c8a44b32",
+      "verified_pins": [
+        "v4.25.0",
+        "v4.26.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/experiments/portfolio-94/submission-round/archival-evidence.json"
+      ],
+      "strategy": "기존 intersecting-family 극댓값 정리 재사용",
+      "note": "기존 동일 SHA 검증 기록. 상세 검증 방식과 원격 로그 보존 여부는 evidence 참조."
+    },
+    "15": {
+      "source": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-confirm_decide_ring1-4.25.0-9ca50891/candidate.lean",
+      "sha256": "fc7adf74804c25305b855198829de9da382edcbfff7626c24a4ccfa0c180efdc",
+      "verified_pins": [
+        "v4.25.0",
+        "v4.26.0",
+        "v4.27.0"
+      ],
+      "evidence": [
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-confirm_decide_ring1-4.25.0-9ca50891/result.json",
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-confirm_decide_ring1-4.26.0-6c70aa24/result.json",
+        "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-confirm_decide_ring1-4.27.0-655cae7a/result.json"
+      ],
+      "strategy": "유한합 항등식과 정수 나눗셈 witness 재사용, 닫힌 목표는 decide 및 직접 ring1",
+      "note": "이번 개선: 283→281 tokens. 전체 3개 요구 버전 plain Check + 독립 Audit, 4.25 HB 3회/나머지 각 1회.",
+      "metrics": {
+        "pin": "v4.25.0",
+        "tokens": 281,
+        "raw_hb": 2499913,
+        "raw_samples": [
+          2499909,
+          2499961,
+          2499913
+        ],
+        "comparison_baseline": "previous selected 283-token candidate in same fresh environment",
+        "previous_tokens": 283,
+        "previous_raw_hb": 2628784,
+        "heartbeat_reduction_vs_previous_pct": 4.9023046397117405,
+        "original_tokens": 4085,
+        "original_raw_hb": 17948554,
+        "baseline_receipt": "/Users/zzu0203/projects/01_가짜연구소/.worktrees/arena-cost-hypothesis-pipeline/runs/portfolio-94/submission-round/P15-original_reference-4.25.0-8089c72e/result.json",
+        "baseline_receipt_sha256": "4a52d3d34a41f5ad85c83024a07a3d7c498002b39964e5ecc47c5d3a8eefe00c",
+        "length_reduction_pct": 93.12117503059976,
+        "heartbeat_reduction_pct": 86.07178606142868,
+        "local_score": 93.06432036400948
+      }
+    }
+  }
+}

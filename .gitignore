@@ -1,5 +1,7 @@
 # Local upstream checkouts and centrally managed build links
 /sources/
+# Prepared source roots may also be local symlinks.
+/sources
 __pycache__/
 *.py[cod]
 .DS_Store
@@ -40,3 +42,15 @@ __pycache__/
 /runs/api-comparison/
 /runs/usage-cost/
 /runs/environment-verification/
+
+# Common harness experiments: publish source and concise evidence, not raw runs.
+/runs/action-candidate-memory/
+/runs/first-harness-jwkweon
+/runs/feedback-summary-20261025/
+/runs/cost-hypothesis-pipeline/
+/runs/offline-proof-search/
+/runs/portfolio-94/
+/runs/final-batch/
+/runs/final-batch-next/
+/runs/final-batch-preflight-smoke/
+/runs/verification-profile/
