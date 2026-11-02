@@ -47,9 +47,22 @@ def implementations():
 
 
 def report(root, markdown):
-    records = [json.loads(p.read_text()) for p in sorted(root.glob("F*/record.json"))]
+    protocol = json.loads((root / "protocol.json").read_text())
+    indexed = {}
+    for history in protocol.get("history_records", []):
+        path = Path(history["path"])
+        if sha(path.read_bytes()) != history["sha256"]:
+            raise ValueError("Historical record changed")
+        record = json.loads(path.read_text())
+        evidence = Path(record.get("evidence_root", str(path.parent))) / "evaluation/result.json"
+        if sha(evidence.read_bytes()) != record["result_sha256"]:
+            raise ValueError("Historical result changed")
+        record["evidence_root"] = str(evidence.parent.parent)
+        indexed[record["id"]] = record
+    indexed.update({p.parent.name: json.loads(p.read_text()) for p in sorted(root.glob("F*/record.json"))})
+    records = [indexed[key] for key in sorted(indexed)]
     progress = json.loads((root / "progress.json").read_text())
-    repetitions = json.loads((root / "protocol.json").read_text())["repetitions"]
+    repetitions = protocol["repetitions"]
     text = ["# Final 60문제 원본 Length·HB 측정", "",
             f"갱신: {now()}", "",
             f"원본 dataset SHA256: `{DATASET_SHA}`. 모델 API 호출 0회.", "",
@@ -76,6 +89,23 @@ def report(root, markdown):
         text += [f"- 기존 증거: `{source}`", ""]
     markdown.parent.mkdir(parents=True, exist_ok=True)
     markdown.write_text("\n".join(text))
+    lengths = json.loads((root / "lengths.json").read_text())
+    for item in lengths:
+        record = indexed.get(item["id"])
+        if record:
+            item.update({k: record[k] for k in ["status", "primary_environment", "environments", "measured_at",
+                                               "seconds", "result_sha256", "environment_state_sha256"]})
+            for value in item["environments"].values():
+                value["measurement_count"] = len(value["raw_samples"])
+        else:
+            item.update(status="pending_environment", environments={})
+    write(markdown.with_suffix(".json"), {
+        "schema_version": 1, "dataset_sha256": DATASET_SHA,
+        "scope": "Local original-reference measurements; not official worker scores",
+        "tokenizer": "lean-source-anchored-v1", "default_hb_repetitions": repetitions,
+        "measurement_policy": "One fresh HB sample per environment for new measurements; retain historical counts.",
+        "total_problems": 60, "measured_problems": len(records), "next_problem": progress.get("next_problem"),
+        "model_api_calls": 0, "problems": lengths})
 
 
 def main():
@@ -84,12 +114,17 @@ def main():
     parser.add_argument("--compiler-lock", type=Path, required=True)
     parser.add_argument("--markdown", type=Path, default=REPO / "docs/measurements/final60-baselines.md")
     parser.add_argument("--limit", type=int, default=60)
+    parser.add_argument("--start", type=int, default=1)
     parser.add_argument("--repetitions", type=int, default=1)
     parser.add_argument("--carry-forward", type=Path,
                         help="Retain verified completed evidence from an older frozen run")
+    parser.add_argument("--history-root", type=Path, action="append", default=[],
+                        help="Display earlier problem measurements in their original frozen environments")
     args = parser.parse_args()
     if not 1 <= args.limit <= 60:
         parser.error("--limit must be within 1..60")
+    if not 1 <= args.start <= args.limit:
+        parser.error("--start must be within 1..limit")
     if args.repetitions < 1:
         parser.error("--repetitions must be positive")
     root = args.output.resolve()
@@ -101,8 +136,27 @@ def main():
     registry = json.loads((REPO / "configs/final-environments.local.json").read_text())
     protocol = {"schema_version": 1, "dataset_sha256": DATASET_SHA,
                 "repetitions": args.repetitions, "all_versions": True, "fresh": True,
+                "first_problem": args.start,
                 "ordering": "F001..F060, one problem at a time",
                 "implementation_sha256": implementations(), "model_api_calls": 0}
+    history = []
+    for history_root in args.history_root:
+        historical_protocol = json.loads((history_root / "protocol.json").read_text())
+        if historical_protocol["dataset_sha256"] != DATASET_SHA or not historical_protocol["all_versions"]:
+            raise ValueError("Historical dataset/scope differs")
+        for path in sorted(history_root.glob("F*/record.json")):
+            value = json.loads(path.read_text())
+            index = int(value["id"][1:])
+            if index >= args.start:
+                raise ValueError("Historical record overlaps the requested fresh measurement range")
+            row = rows[index - 1]
+            expected_envs = {row["source"] + "-" + version for pin in row["version_info"] for version in pin}
+            if (value["reference_sha256"] != sha(row["src"].encode()) or value["status"] != "measured"
+                    or set(value["environments"]) != expected_envs):
+                raise ValueError("Historical reference/environment coverage differs")
+            history.append({"path": str(path.resolve()), "sha256": sha(path.read_bytes())})
+    if history:
+        protocol["history_records"] = history
     if args.carry_forward:
         previous_root = args.carry_forward.resolve()
         if previous_root == root:
@@ -128,9 +182,9 @@ def main():
                for i, row in enumerate(rows, 1)]
     write(root / "lengths.json", lengths)
     evaluator = FinalEvaluator(repo_root=REPO, global_lock_path=args.compiler_lock)
-    progress = {"status": "running", "updated_at": now(), "next_problem": "F001"}
+    progress = {"status": "running", "updated_at": now(), "next_problem": f"F{args.start:03d}"}
     write(root / "progress.json", progress)
-    for index, row in enumerate(rows[:args.limit], 1):
+    for index, row in enumerate(rows[args.start - 1:args.limit], args.start):
         item = lengths[index - 1]
         problem = evaluator.load_problem(index)
         missing = []

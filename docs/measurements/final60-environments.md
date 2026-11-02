@@ -1,49 +1,59 @@
 # Final 환경 준비 현황
 
-기준: 2026-11-02T07:20:09.450676+00:00
+갱신: 2026-11-02T07:48:17.082418+00:00
 
-Final 60문제는 출처·revision·Lean 버전 조합 17개와 compiler 버전 8개, 문제·버전 조합 127개를 사용한다. 기존 환경을 읽기 전용으로 재사용해 F001을 먼저 측정했다. 이 세 환경의 현재 봉인 범위는 F001이며 전체 Strata 10문제 준비 완료를 뜻하지 않는다.
+환경은 출처·revision·Lean 버전 조합 17개, compiler 버전 8개다. 문제·버전 조합은 127개다. 버전이 다른 빌드 산출물은 공유하지 않는다.
 
-현재 디스크 여유: 6.30 GiB. 기존 `prepare.py`의 새 빌드 최소 여유 기준은 15 GiB다. 이 기준을 낮추거나 원본 증거·다른 작업의 환경을 삭제하지 않았다.
+Strata 4.31·4.27은 기존 소스와 빌드의 APFS copy-on-write 복제본에서 필요한 전체 10문제 모듈을 증분 빌드하고 별도 manifest로 봉인했다. 원래 F001 환경·빌드·측정 표본은 유지한다. 고정한 환경을 재사용해 F002부터 한 문제씩 처리한다.
 
-| 환경 | 전체 대상 문제 수 | 재사용해 봉인된 문제 | 현재 상태 |
-| --- | ---: | --- | --- |
-| arklib-v4.30.0 | 10 | 없음 | 준비 대기 |
-| arklib-v4.31.0 | 10 | 없음 | 준비 대기 |
-| arklib-v4.33.1 | 3 | 없음 | 준비 대기 |
-| arklib-v4.34.0 | 2 | 없음 | 준비 대기 |
-| cslib-v4.30.0 | 1 | 없음 | 준비 대기 |
-| cslib-v4.31.0 | 3 | 없음 | 준비 대기 |
-| cslib-v4.33.1 | 10 | 없음 | 준비 대기 |
-| cslib-v4.34.1 | 8 | 없음 | 준비 대기 |
-| leanpool-v4.34.0 | 10 | 없음 | 준비 대기 |
-| leanpool-v4.35.0-rc3 | 10 | 없음 | 준비 대기 |
-| physlib-v4.34.0 | 10 | 없음 | 준비 대기 |
-| physlib-v4.34.1 | 10 | 없음 | 준비 대기 |
-| putnambench-v4.26.0 | 10 | 없음 | 준비 대기 |
-| putnambench-v4.27.0 | 9 | 없음 | 준비 대기 |
-| strata-v4.26.0 | 1 | F001 | F001 문맥 재사용 |
-| strata-v4.27.0 | 10 | F001 | F001 문맥 재사용 |
-| strata-v4.31.0 | 10 | F001 | F001 문맥 재사용 |
+| 환경 | 전체 대상 문제 수 | 봉인된 문제 수 | 상태 |
+| --- | ---: | ---: | --- |
+| arklib-v4.30.0 | 10 | 0 | 준비 대기 |
+| arklib-v4.31.0 | 10 | 0 | 준비 대기 |
+| arklib-v4.33.1 | 3 | 0 | 준비 대기 |
+| arklib-v4.34.0 | 2 | 0 | 준비 대기 |
+| cslib-v4.30.0 | 1 | 0 | 준비 대기 |
+| cslib-v4.31.0 | 3 | 0 | 준비 대기 |
+| cslib-v4.33.1 | 10 | 0 | 준비 대기 |
+| cslib-v4.34.1 | 8 | 0 | 준비 대기 |
+| leanpool-v4.34.0 | 10 | 0 | 준비 대기 |
+| leanpool-v4.35.0-rc3 | 10 | 0 | 준비 대기 |
+| physlib-v4.34.0 | 10 | 0 | 준비 대기 |
+| physlib-v4.34.1 | 10 | 0 | 준비 대기 |
+| putnambench-v4.26.0 | 10 | 0 | 준비 대기 |
+| putnambench-v4.27.0 | 9 | 0 | 준비 대기 |
+| strata-v4.26.0 | 1 | 1 | 준비됨 |
+| strata-v4.27.0 | 10 | 10 | 준비됨 |
+| strata-v4.31.0 | 10 | 10 | 준비됨 |
 
-## 다음 처리
+## 저장과 자원 제한
 
-1. 필요한 디스크 여유를 확보한다. 신규 compiler가 없는 버전은 4.30.0·4.34.0·4.34.1·4.35.0-rc3이다.
-2. 실행 중인 다른 작업의 봉인된 라이브러리를 변경하지 않는 별도 빌드 경로에서, 부족한 환경·모듈만 준비한다. compiler는 중앙 env, 빌드·다운로드 캐시는 중앙 cache 경로를 사용한다.
-3. 전체 환경을 봉인한 뒤 F002부터 순서대로 측정한다. 재빌드로 F001의 봉인 환경이 바뀌면 과거 결과를 새 환경 결과로 재사용하지 않고 재측정한다.
-4. 신규 문제는 각 지정 버전에서 HB 1회만 측정한다. 대표 HB는 첫 지정 버전의 값이며, 완료된 F001은 실제 3회 표본과 중앙값을 그대로 유지한다.
+- 소스 snapshot은 `sources/final-expanded/checkouts/`에 두고, `.lake/build`는 이 워크트리의 중앙 `$PROJECT_CACHE_DIR/lean-build/`를 가리킨다.
+- 기존 소스의 compiler·라이브러리 bytes를 변경하지 않는다. 소스 revision·manifest·추적 파일 무변경을 확인하고 `prepared-expanded.json`으로 봉인한다.
+- 이번 로컬 증분 경로는 compiler 설치·다운로드 없이 기존 캐시만 사용한다. 처음 4 GiB 이상, 실행 중 3 GiB 여유와 최대 2 GiB 추가 사용 제한을 적용한다. 전체 17환경 신규 설치기의 15 GiB 기준은 변경하지 않았다.
+- 빌드와 측정은 같은 compiler lock을 사용한다. 측정은 원문 컴파일·공리 확인 후 버전별 fresh HB 1회다.
+- F001의 과거 세 표본과 그 중앙값은 원래 환경 기준의 역사적 증거로 표시한다. 새 확장 환경에서 다시 측정한 것처럼 취급하지 않는다.
+- 마지막 확인 디스크 여유: 14.59 GiB. 새 compiler 네 버전과 다른 출처 환경의 준비는 별도 공간 검토가 필요하다.
 
-## 실행과 재개
+## 재사용 가능한 환경 준비
 
 ```sh
 source /Users/jwkweon/00_work/00_project/env/use.sh 05_pseudolab/.worktrees/arena-final60-baselines
 BASELINE_PYTHON=/Users/jwkweon/00_work/00_project/env/05_pseudolab/LeanAgent-LeanRefactorArena/integration-py313/bin/python3.13
-"$BASELINE_PYTHON" -B scripts/measure_final_baselines.py \
-  --output runs/manual/final60-baselines-once-20261102 \
-  --carry-forward runs/manual/final60-baselines-20261102 \
+"$BASELINE_PYTHON" -B scripts/prepare_final_cached.py \
+  --environment strata-v4.31.0 --environment strata-v4.27.0 \
   --compiler-lock /Users/jwkweon/00_work/00_project/05_pseudolab/.worktrees/arena-final-f001-20/runs/manual/final-f001-subagent-20/compiler.lock
 ```
 
-동일 소스·환경·측정 코드의 완료 결과만 유지하며 다음 문제로 넘어간다. 환경이 없으면 exit 2로 대기 상태를 기록한다. 프로토콜이나 봉인 환경이 달라지면 새 실행 폴더를 사용해야 한다. 모델 API는 호출하지 않는다.
+이미 전체 문맥을 봉인한 환경은 검증 후 재사용하며 빌드를 반복하지 않는다.
 
-사용자 요청으로 후속 측정 횟수를 버전별 1회로 줄였다. 기존 3회 실행의 protocol·결과·표본은 수정하지 않고 새 실행 폴더에서 검증 후 계승한다. 반복 측정은 불일치 조사나 중요한 후보의 최종 확인 시 별도로 수행한다.
+## F002부터 순차 측정·재개
+
+```sh
+"$BASELINE_PYTHON" -B scripts/measure_final_baselines.py --start 2 \
+  --output runs/manual/final60-baselines-expanded-20261102 \
+  --history-root runs/manual/final60-baselines-20261102 \
+  --compiler-lock /Users/jwkweon/00_work/00_project/05_pseudolab/.worktrees/arena-final-f001-20/runs/manual/final-f001-subagent-20/compiler.lock
+```
+
+실행 중인 protocol과 구현은 변경하지 않는다. 동일 소스·환경·구현의 완료 결과만 유지하고 다음 문제로 넘어간다. 환경이 없으면 exit 2, 실제 측정이 실패하면 exit 1로 상태를 저장한다. 모델 API는 호출하지 않는다.

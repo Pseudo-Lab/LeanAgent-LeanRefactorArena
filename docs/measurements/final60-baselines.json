@@ -3,9 +3,11 @@
   "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
   "scope": "Local original-reference measurements; not official worker scores",
   "tokenizer": "lean-source-anchored-v1",
+  "default_hb_repetitions": 1,
+  "measurement_policy": "One fresh HB sample per environment for new measurements; retain historical counts.",
   "total_problems": 60,
-  "measured_problems": 1,
-  "next_problem": "F002",
+  "measured_problems": 10,
+  "next_problem": "F011",
   "model_api_calls": 0,
   "problems": [
     {
@@ -16,6 +18,7 @@
       "local_length": 224,
       "reference_sha256": "0bd9a59f8ee210f7aa33326b61e40934872abaced72cb270dd62288ee1cb1973",
       "status": "measured",
+      "primary_environment": "strata-v4.31.0",
       "environments": {
         "strata-v4.31.0": {
           "valid": true,
@@ -51,7 +54,6 @@
           "measurement_count": 3
         }
       },
-      "primary_environment": "strata-v4.31.0",
       "measured_at": "2026-11-02T07:17:53.990685+00:00",
       "seconds": 128.42,
       "result_sha256": "efeabb2e932b860c2f059a2a83f61ce65cb7c23a99bf852efaca8f39087cb6bd",
@@ -68,8 +70,35 @@
       "provided_length": 904,
       "local_length": 904,
       "reference_sha256": "857536ed5def04d6905a3f1154dbc4d70a927c9be8dcd52b71e98f3963377871",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            4367942
+          ],
+          "median_raw_heartbeats": 4367942,
+          "median_heartbeats": 4367,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            4816051
+          ],
+          "median_raw_heartbeats": 4816051,
+          "median_heartbeats": 4816,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:47:43.044306+00:00",
+      "seconds": 68.633,
+      "result_sha256": "4e08f3be2fbd8ea8164329e5b47f081ef0fe4518d00bd88fd84392487d2bd169",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F003",
@@ -78,8 +107,35 @@
       "provided_length": 931,
       "local_length": 931,
       "reference_sha256": "5b640984fce466613ce6a520c58aecc3459437941d7d34c1039cefd40cea8ad5",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            10925062
+          ],
+          "median_raw_heartbeats": 10925062,
+          "median_heartbeats": 10925,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            12476761
+          ],
+          "median_raw_heartbeats": 12476761,
+          "median_heartbeats": 12476,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:48:58.140685+00:00",
+      "seconds": 75.093,
+      "result_sha256": "46f1eeae1abc4c8f65ac23fc045b230cd883b48e4945e9706593957ffc281eda",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F004",
@@ -88,8 +144,35 @@
       "provided_length": 291,
       "local_length": 291,
       "reference_sha256": "8fdb8ae764d8d314559dc608943b256da5e5984b7028ba5abd7d5f0bea5b2410",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            21349356
+          ],
+          "median_raw_heartbeats": 21349356,
+          "median_heartbeats": 21349,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            63449865
+          ],
+          "median_raw_heartbeats": 63449865,
+          "median_heartbeats": 63449,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:51:23.300173+00:00",
+      "seconds": 145.157,
+      "result_sha256": "5e7d808af24824ec6cd366a1a272a42bee498ce3df042eeb1299a9b02ba6644b",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F005",
@@ -98,8 +181,35 @@
       "provided_length": 209,
       "local_length": 209,
       "reference_sha256": "b42793776ffa2b5d3af1567828e15bbf8b72a47fc507603b5da70ca046efe898",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            17630192
+          ],
+          "median_raw_heartbeats": 17630192,
+          "median_heartbeats": 17630,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            23917585
+          ],
+          "median_raw_heartbeats": 23917585,
+          "median_heartbeats": 23917,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:52:40.462926+00:00",
+      "seconds": 77.159,
+      "result_sha256": "3812d37d032a5b694b912f6525866caac17301e956b800713062493ca27ee480",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F006",
@@ -108,8 +218,35 @@
       "provided_length": 972,
       "local_length": 972,
       "reference_sha256": "5738c65dda15e712890dc31dec7de2ae01bd0712f7c0943eb2074313ad2de840",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            8898513
+          ],
+          "median_raw_heartbeats": 8898513,
+          "median_heartbeats": 8898,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            11988265
+          ],
+          "median_raw_heartbeats": 11988265,
+          "median_heartbeats": 11988,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:53:54.187251+00:00",
+      "seconds": 73.721,
+      "result_sha256": "100a8ec73db1fa5768db1e73e8a4e6da8cd8101977eb74e839d3955732c174b6",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F007",
@@ -118,8 +255,35 @@
       "provided_length": 429,
       "local_length": 429,
       "reference_sha256": "b7162fb2d3da5109aee0a76d03c4be63b321ca1902c371c3120775095695eb8f",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            7093908
+          ],
+          "median_raw_heartbeats": 7093908,
+          "median_heartbeats": 7093,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            9080928
+          ],
+          "median_raw_heartbeats": 9080928,
+          "median_heartbeats": 9080,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:54:55.244462+00:00",
+      "seconds": 61.053,
+      "result_sha256": "0c71feb2006465ddc57e86bcb0f378dc14d3409592e1d1c6af7336b13cce0516",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F008",
@@ -128,8 +292,35 @@
       "provided_length": 968,
       "local_length": 968,
       "reference_sha256": "110723a3c5f920a0f1b9ea722b054ab5bfa7a8a0b96b2e1bc4c2bb5e0359021b",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            7351450
+          ],
+          "median_raw_heartbeats": 7351450,
+          "median_heartbeats": 7351,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            7718944
+          ],
+          "median_raw_heartbeats": 7718944,
+          "median_heartbeats": 7718,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:55:56.617181+00:00",
+      "seconds": 61.369,
+      "result_sha256": "6d6feb8ac522d21f03d4abb0cbc12819259fdb0fabdbb075fd01103b3b95862d",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F009",
@@ -138,8 +329,35 @@
       "provided_length": 938,
       "local_length": 938,
       "reference_sha256": "e1ec255391ce023abd248711691eca984ac250472f19b8bfdc190c33719dd40d",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            7275281
+          ],
+          "median_raw_heartbeats": 7275281,
+          "median_heartbeats": 7275,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            8309077
+          ],
+          "median_raw_heartbeats": 8309077,
+          "median_heartbeats": 8309,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:57:14.906120+00:00",
+      "seconds": 78.284,
+      "result_sha256": "1a2e8053dc816014d546e760bf5d94578ea13cdacb926660eea332ea232d0eb9",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F010",
@@ -148,8 +366,35 @@
       "provided_length": 1200,
       "local_length": 1200,
       "reference_sha256": "f2eaf998e6f640a39429b3563327a5374d3159468433c735415a0792f6a3215e",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            4667076
+          ],
+          "median_raw_heartbeats": 4667076,
+          "median_heartbeats": 4667,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            5257943
+          ],
+          "median_raw_heartbeats": 5257943,
+          "median_heartbeats": 5257,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:58:25.786930+00:00",
+      "seconds": 70.876,
+      "result_sha256": "9361eb171206f3e911df203873892af57d2eff24a46ff23e3c27613690d0e130",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
     },
     {
       "id": "F011",
@@ -651,7 +896,5 @@
       "status": "pending_environment",
       "environments": {}
     }
-  ],
-  "default_hb_repetitions": 1,
-  "measurement_policy": "One fresh HB sample per environment for new measurements; F001 retains its three historical samples."
+  ]
 }
