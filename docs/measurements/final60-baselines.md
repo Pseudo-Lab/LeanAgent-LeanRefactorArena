@@ -215,3 +215,5 @@ Length는 제공 기준값과 로컬 tokenizer 결과를 구분한다. raw HB와
 최종 추가 감사에서 60개 결과와 127개 문제·버전 조합의 원시 소스·로그·compiler setup 해시를 확인했다. 실제 HB 표본은 133개이며 F001의 기존 3회 표본을 유지한 결과다. 추가 감사는 HB를 다시 측정하지 않았다. 17개 현재 고정 환경의 전체 라이브러리 bytes·127개 입력 문맥과 8개 compiler의 Lean/Lake 바이너리 해시·버전을 확인했다. 초기 Strata setup은 앞서 보존한 원래 setup 해시와 감사 자료로 대조한다.
 
 최종 감사 기록: `runs/manual/final60-completion-audit-20261102/receipt.json`, SHA256 `0760355f08b529d4793b7352ffc4c65fdb75f80579de7578cd149dfd19e4bc58`. 환경 구성·캐시 재개·Strata setup 경로 감사는 [환경 준비 문서](final60-environments.md)에 설명한다.
+
+기존 main의 대표 버전 기록(3회 표본 48문제·1회 표본 12문제)은 [별도 기록](final60-primary-history.md)에 보존한다. 현재 표는 이번 전체 지정 버전 계측의 결과이며 기존 실행과 표본을 합산하지 않았다.

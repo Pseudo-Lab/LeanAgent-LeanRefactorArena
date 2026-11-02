@@ -9,6 +9,8 @@ const luminance = (channels: number[]) => channels.map(channel => {
 
 export const scoreGradient = `linear-gradient(to right, ${rgb(light)}, ${rgb(dark)})`;
 
+export const scoreTone = (value: number | null) => value === null ? 'tone-unknown' : value <= 60 ? 'tone-warning' : '';
+
 export function scoreColors(value: number | null) {
   if (value === null || value <= 60) return undefined;
   const position = Math.min(1, (value - 60) / 40);

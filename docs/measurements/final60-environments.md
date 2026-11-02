@@ -65,6 +65,8 @@ BASELINE_PYTHON=/Users/jwkweon/00_work/00_project/env/05_pseudolab/LeanAgent-Lea
 
 실행 중인 측정 protocol과 구현은 변경하지 않는다. 동일 소스·환경·구현의 완료 결과만 유지하고 다음 문제로 넘어간다. 기본 실행은 환경이 없으면 exit 2로 종료하며, 위 명령의 `--wait-for-environments`는 봉인이 끝날 때까지 기다린다. 실제 측정 실패는 exit 1로 저장한다. 모델 API는 호출하지 않는다.
 
+위 출력 폴더는 당시 구현 snapshot과 함께 보존한 완료 기록이다. 측정 후 main의 검증 최적화(#51)를 통합했으므로 현재 코드로 새 실행을 만들 때는 다른 `--output`을 지정한다. 기존 폴더에 다른 구현을 섞으면 실행기가 거부한다. 이번 127개 조합을 새 구현으로 다시 측정하지 않았으며, 새 실행기는 최적화 검증기 소스도 구현 해시에 포함한다.
+
 ## PhysLib 이후 환경과 캐시
 
 `prepare_final_environment.py`는 lock의 정확한 source revision·의존성·compiler를 설치하고 필요한 전체 문제 문맥을 한 번 빌드한다. 이후 봉인된 라이브러리와 setup을 읽기 전용 측정에 재사용한다. 새 환경 준비 전 15 GiB, 빌드 중 5 GiB 여유를 확인한다. compiler 단독 설치는 공식 배포 파일 SHA256과 실제 압축 해제 크기를 확인하고 8 GiB 여유를 유지한다.

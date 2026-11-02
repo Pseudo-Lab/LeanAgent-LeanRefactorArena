@@ -1,0 +1,4552 @@
+{
+  "schemaVersion": 1,
+  "dataset": "final-baselines",
+  "datasetSha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "generatedAt": "2026-11-02T15:10:16.088908+00:00",
+  "runId": "final60-baselines-final-20261102",
+  "measurementPolicy": "all-pins-local-samples",
+  "verification": {
+    "status": "passed",
+    "problemVersions": 127,
+    "environments": 17,
+    "compilerVersions": 8,
+    "auditSha256": "0760355f08b529d4793b7352ffc4c65fdb75f80579de7578cd149dfd19e4bc58"
+  },
+  "problems": [
+    {
+      "id": "F001",
+      "row": 1,
+      "name": "Core.InitsUpdatesComm",
+      "source": "strata",
+      "providedLength": 224,
+      "referenceSha256": "0bd9a59f8ee210f7aa33326b61e40934872abaced72cb270dd62288ee1cb1973",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 4182543,
+          "scaledHeartbeats": 4182,
+          "rawSamples": [
+            4182544,
+            4182543,
+            4182543
+          ],
+          "sampleCount": 3,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 4699579,
+          "scaledHeartbeats": 4699,
+          "rawSamples": [
+            4699579,
+            4699579,
+            4699579
+          ],
+          "sampleCount": 3,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+          "rawHeartbeats": 4683842,
+          "scaledHeartbeats": 4683,
+          "rawSamples": [
+            4683842,
+            4683844,
+            4683842
+          ],
+          "sampleCount": 3,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-20261102",
+        "sampleCount": 3,
+        "tokens": 224,
+        "auditTokens": 224,
+        "rawHeartbeats": 4182543,
+        "scaledHeartbeats": 4182,
+        "rawSamples": [
+          4182544,
+          4182543,
+          4182543
+        ],
+        "measuredAt": "2026-11-02T07:16:36.705188+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/record.json",
+            "sha256": "0358545841bb021f5bf300100a068d1a0d761c106ee96197b2cd57e562295e0e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/result.json",
+            "sha256": "efeabb2e932b860c2f059a2a83f61ce65cb7c23a99bf852efaca8f39087cb6bd"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "227aa501dd72743ad8710489b0bb1ed25eeacd4aa2afceded1434854a731043e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "61b71cbd474d543c4985c4b97f487ab2a34028adff4232dc69763be83def5830"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "9dd224c44de11ff76aaed78234523608a3bbd1bce17c1f4bebcc8bf63afe26e7"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/strata-v4.31.0/measure-2.lean",
+            "sha256": "48e9b820abce85db5a9abea3271181088ae11b74d7c8fbb5250cdb05c9121bd4"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/strata-v4.31.0/measure-2.log",
+            "sha256": "c9d57a236098ba741d7a0379a8243e81bf65ccf5ccf4c894a7e77d9da2353b53"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/strata-v4.31.0/measure-3.lean",
+            "sha256": "9cca2aae5af6d3c50f6dd957193a5c086d26e6a0f00947f41336724486dc2cea"
+          },
+          {
+            "path": "runs/manual/final60-baselines-20261102/F001/evaluation/strata-v4.31.0/measure-3.log",
+            "sha256": "7c111861bb53ff3a7a43d227e4b0aed4c9fe52389d3a1ad27eb252870d4890a5"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F002",
+      "row": 2,
+      "name": "Lambda.denote_suffix_irrel",
+      "source": "strata",
+      "providedLength": 904,
+      "referenceSha256": "857536ed5def04d6905a3f1154dbc4d70a927c9be8dcd52b71e98f3963377871",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 4367942,
+          "scaledHeartbeats": 4367,
+          "rawSamples": [
+            4367942
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 4816051,
+          "scaledHeartbeats": 4816,
+          "rawSamples": [
+            4816051
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 904,
+        "auditTokens": 904,
+        "rawHeartbeats": 4367942,
+        "scaledHeartbeats": 4367,
+        "rawSamples": [
+          4367942
+        ],
+        "measuredAt": "2026-11-02T07:47:05.279526+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F002/record.json",
+            "sha256": "54d12502ad100136ad07e91a8d6729f77106af73aafb81cef2025d1b7a37c88b"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F002/evaluation/result.json",
+            "sha256": "4e08f3be2fbd8ea8164329e5b47f081ef0fe4518d00bd88fd84392487d2bd169"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F002/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "c1bac979b72ab54eeabec9a95ed5e2002c3768900104aceb811af2385498a756"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F002/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F002/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "994660b162479ce2d40298241cc8c9915ffb68f08fada0d08a8ed0370efc5176"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F002/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "0e58dc7e4e7f0057a1c8d64f3f1f8ef7760689105b8e1abdd54802d3e92b12c1"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F003",
+      "row": 3,
+      "name": "Lambda.denote_Denotes",
+      "source": "strata",
+      "providedLength": 931,
+      "referenceSha256": "5b640984fce466613ce6a520c58aecc3459437941d7d34c1039cefd40cea8ad5",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 10925062,
+          "scaledHeartbeats": 10925,
+          "rawSamples": [
+            10925062
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 12476761,
+          "scaledHeartbeats": 12476,
+          "rawSamples": [
+            12476761
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 931,
+        "auditTokens": 931,
+        "rawHeartbeats": 10925062,
+        "scaledHeartbeats": 10925,
+        "rawSamples": [
+          10925062
+        ],
+        "measuredAt": "2026-11-02T07:48:16.483296+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F003/record.json",
+            "sha256": "c0a7fa8874bbd2c963b769d49e1ab79ce23f1c68e55ecb051a7260435f7038fe"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F003/evaluation/result.json",
+            "sha256": "46f1eeae1abc4c8f65ac23fc045b230cd883b48e4945e9706593957ffc281eda"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F003/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "241ba6f776504d40147f11d53452e60d3c41bf60cd8e1b52bf841ce33ae2c60f"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F003/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F003/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "84bf21816bc4ac0d0bd73290a2ef9f03aa3260ed0b0d6b0e30f9a31304f77f14"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F003/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "b0e97a0ea4dd833465cfa359f92208eb31dec39419eb2bea88ac3aa6657f0064"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F004",
+      "row": 4,
+      "name": "Lambda.callOfLFunc_eraseMetadata_congr",
+      "source": "strata",
+      "providedLength": 291,
+      "referenceSha256": "8fdb8ae764d8d314559dc608943b256da5e5984b7028ba5abd7d5f0bea5b2410",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 21349356,
+          "scaledHeartbeats": 21349,
+          "rawSamples": [
+            21349356
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 63449865,
+          "scaledHeartbeats": 63449,
+          "rawSamples": [
+            63449865
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 291,
+        "auditTokens": 291,
+        "rawHeartbeats": 21349356,
+        "scaledHeartbeats": 21349,
+        "rawSamples": [
+          21349356
+        ],
+        "measuredAt": "2026-11-02T07:49:53.932022+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F004/record.json",
+            "sha256": "21ceb144f9697e1280922db9ede440fe9bae74f9a27807edbb98495e13604474"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F004/evaluation/result.json",
+            "sha256": "5e7d808af24824ec6cd366a1a272a42bee498ce3df042eeb1299a9b02ba6644b"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F004/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "e9a145c34fada4d1154d3679a0352831516455af39c1ca4b4c8e045c47bb1f5d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F004/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F004/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "186581bbb441b043fcb151c9fe62cf9d4939f26436248753f3783bbd05db82ad"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F004/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "32fe65594e45cbf40fb6a5827115e564c873185dfd259aff774beca92e83d534"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F005",
+      "row": 5,
+      "name": "Lambda.liftBVars_typeCheck",
+      "source": "strata",
+      "providedLength": 209,
+      "referenceSha256": "b42793776ffa2b5d3af1567828e15bbf8b72a47fc507603b5da70ca046efe898",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 17630192,
+          "scaledHeartbeats": 17630,
+          "rawSamples": [
+            17630192
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 23917585,
+          "scaledHeartbeats": 23917,
+          "rawSamples": [
+            23917585
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 209,
+        "auditTokens": 209,
+        "rawHeartbeats": 17630192,
+        "scaledHeartbeats": 17630,
+        "rawSamples": [
+          17630192
+        ],
+        "measuredAt": "2026-11-02T07:51:58.545903+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F005/record.json",
+            "sha256": "6381e4b4503e4fffe2ca82d22d4084be47fa35c358da3a35d4e5345e81b5ef6e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F005/evaluation/result.json",
+            "sha256": "3812d37d032a5b694b912f6525866caac17301e956b800713062493ca27ee480"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F005/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "fe6e8e46ddf7b3c72219d3ba88d9023e4a7866b18d5ce44cf26a8dc36332be3e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F005/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F005/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "3321e7ff45d43a1f068413e9e795ae435b5a9b900d9be575d2c3bfc8cc7586c6"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F005/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "aa1cc7ec7a7a2ae2d8c9865bdbf86fffae2913c1e65db956ae3e1662bfac5f0c"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F006",
+      "row": 6,
+      "name": "Lambda.liftBVars_denote",
+      "source": "strata",
+      "providedLength": 972,
+      "referenceSha256": "5738c65dda15e712890dc31dec7de2ae01bd0712f7c0943eb2074313ad2de840",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 8898513,
+          "scaledHeartbeats": 8898,
+          "rawSamples": [
+            8898513
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 11988265,
+          "scaledHeartbeats": 11988,
+          "rawSamples": [
+            11988265
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 972,
+        "auditTokens": 972,
+        "rawHeartbeats": 8898513,
+        "scaledHeartbeats": 8898,
+        "rawSamples": [
+          8898513
+        ],
+        "measuredAt": "2026-11-02T07:53:15.250909+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F006/record.json",
+            "sha256": "dfb38201be3bc4e3ec781a220da9ad83ee2e88cd3ec8a3473c9ce3a5ed5ded13"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F006/evaluation/result.json",
+            "sha256": "100a8ec73db1fa5768db1e73e8a4e6da8cd8101977eb74e839d3955732c174b6"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F006/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "fe6e8e46ddf7b3c72219d3ba88d9023e4a7866b18d5ce44cf26a8dc36332be3e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F006/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F006/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "123c59049472907694992d5156d324434aae56cfce4ecef40350f75279a23d61"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F006/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "26783aa718dbe7a917d9f2c74f389bf2291d23414d75a6fc795b64f73b434f20"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F007",
+      "row": 7,
+      "name": "Lambda.LExpr.typeCheck_to_HasTypeA",
+      "source": "strata",
+      "providedLength": 429,
+      "referenceSha256": "b7162fb2d3da5109aee0a76d03c4be63b321ca1902c371c3120775095695eb8f",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 7093908,
+          "scaledHeartbeats": 7093,
+          "rawSamples": [
+            7093908
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 9080928,
+          "scaledHeartbeats": 9080,
+          "rawSamples": [
+            9080928
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 429,
+        "auditTokens": 429,
+        "rawHeartbeats": 7093908,
+        "scaledHeartbeats": 7093,
+        "rawSamples": [
+          7093908
+        ],
+        "measuredAt": "2026-11-02T07:54:22.494391+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F007/record.json",
+            "sha256": "016160de533273dee37c986a93a23b40eabfb03419217e83a1170e9e33246ee8"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F007/evaluation/result.json",
+            "sha256": "0c71feb2006465ddc57e86bcb0f378dc14d3409592e1d1c6af7336b13cce0516"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F007/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "dba2ade07e916fd06afafcecc2ef093f7617fd469efa26f207639a50ae80378c"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F007/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F007/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "f727b971727258c38c365ee8b22afd414c728d6581231c64586567b177f93b6c"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F007/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "3e20457863e4147741a9b88a86c738d24381e3beee1c8ef3a4ef53c272be6dc3"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F008",
+      "row": 8,
+      "name": "Lambda.callOfLFunc_constr_disjoint_denote",
+      "source": "strata",
+      "providedLength": 968,
+      "referenceSha256": "110723a3c5f920a0f1b9ea722b054ab5bfa7a8a0b96b2e1bc4c2bb5e0359021b",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 7351450,
+          "scaledHeartbeats": 7351,
+          "rawSamples": [
+            7351450
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 7718944,
+          "scaledHeartbeats": 7718,
+          "rawSamples": [
+            7718944
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 968,
+        "auditTokens": 968,
+        "rawHeartbeats": 7351450,
+        "scaledHeartbeats": 7351,
+        "rawSamples": [
+          7351450
+        ],
+        "measuredAt": "2026-11-02T07:55:23.794613+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F008/record.json",
+            "sha256": "fd7a7e86e4927ece4f4f9855b7cff719fd4fddc6f929bc78f3c031fce7c4be4d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F008/evaluation/result.json",
+            "sha256": "6d6feb8ac522d21f03d4abb0cbc12819259fdb0fabdbb075fd01103b3b95862d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F008/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "2f78df4c9cc04ca25ef4c53afce120921d1abf946f142b1eb471507b8bf9c173"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F008/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F008/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "007621b8c3658fe46eac1950a5ce8dbd92d987829d77eab44d1fed65629907e1"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F008/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "cb3b2fd437ca4eb3ffb0ca9b97a03b4e869a173ec9e99a836e50fb4f46e91549"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F009",
+      "row": 9,
+      "name": "Lambda.denote_replaceMetadata",
+      "source": "strata",
+      "providedLength": 938,
+      "referenceSha256": "e1ec255391ce023abd248711691eca984ac250472f19b8bfdc190c33719dd40d",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 7275281,
+          "scaledHeartbeats": 7275,
+          "rawSamples": [
+            7275281
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 8309077,
+          "scaledHeartbeats": 8309,
+          "rawSamples": [
+            8309077
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 938,
+        "auditTokens": 938,
+        "rawHeartbeats": 7275281,
+        "scaledHeartbeats": 7275,
+        "rawSamples": [
+          7275281
+        ],
+        "measuredAt": "2026-11-02T07:56:27.218949+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F009/record.json",
+            "sha256": "d63926750a4e89d76570b07c56093405f3090abe7dfe1d973fb61b0946a43bca"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F009/evaluation/result.json",
+            "sha256": "1a2e8053dc816014d546e760bf5d94578ea13cdacb926660eea332ea232d0eb9"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F009/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "c1bac979b72ab54eeabec9a95ed5e2002c3768900104aceb811af2385498a756"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F009/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F009/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "210b16ad7504cee5c05ac03fb7efdd093f5268c5d0d8e5e62fba5c6365861854"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F009/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "d517d8f2f386ad191734e394ca88f09e3d53b6855b36d2f7f08d38c66ac7cbb8"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F010",
+      "row": 10,
+      "name": "Lambda.denote_ext",
+      "source": "strata",
+      "providedLength": 1200,
+      "referenceSha256": "f2eaf998e6f640a39429b3563327a5374d3159468433c735415a0792f6a3215e",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.27.0"
+      ],
+      "references": [
+        {
+          "environment": "strata-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "33faa3268be189ae1891bd7c061471e1fa8aad82",
+          "rawHeartbeats": 4667076,
+          "scaledHeartbeats": 4667,
+          "rawSamples": [
+            4667076
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "strata-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "4348c65a93a3b57b1a4541991ed2d2fcdd9fa35d",
+          "rawHeartbeats": 5257943,
+          "scaledHeartbeats": 5257,
+          "rawSamples": [
+            5257943
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-expanded-20261102",
+        "sampleCount": 1,
+        "tokens": 1200,
+        "auditTokens": 1200,
+        "rawHeartbeats": 4667076,
+        "scaledHeartbeats": 4667,
+        "rawSamples": [
+          4667076
+        ],
+        "measuredAt": "2026-11-02T07:57:48.144197+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F010/record.json",
+            "sha256": "778dfedf15eb78f9e5ae7ae7b1259d7a7b28782262979c3bdcd26f0ace504759"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F010/evaluation/result.json",
+            "sha256": "9361eb171206f3e911df203873892af57d2eff24a46ff23e3c27613690d0e130"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F010/evaluation/strata-v4.31.0/check.lean",
+            "sha256": "c1bac979b72ab54eeabec9a95ed5e2002c3768900104aceb811af2385498a756"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F010/evaluation/strata-v4.31.0/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F010/evaluation/strata-v4.31.0/measure-1.lean",
+            "sha256": "8350247383bf72795d4cc46645d29d8dc48d558aecff3ca0f7ae8785915ad25c"
+          },
+          {
+            "path": "runs/manual/final60-baselines-expanded-20261102/F010/evaluation/strata-v4.31.0/measure-1.log",
+            "sha256": "4e72dbd8420b72e959b9ec7eac685f73c925414e270e77420a7df5b9bf66bb52"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F011",
+      "row": 11,
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "source": "physlib",
+      "providedLength": 4,
+      "referenceSha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 64051730,
+          "scaledHeartbeats": 64051,
+          "rawSamples": [
+            64051730
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 64051730,
+          "scaledHeartbeats": 64051,
+          "rawSamples": [
+            64051730
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 4,
+        "auditTokens": 4,
+        "rawHeartbeats": 64051730,
+        "scaledHeartbeats": 64051,
+        "rawSamples": [
+          64051730
+        ],
+        "measuredAt": "2026-11-02T09:03:56.672937+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F011/record.json",
+            "sha256": "8298da66f80a0ffe4b0db01a18c29457fee13e2410bb1202a15b8d2e8ff3f71f"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F011/evaluation/result.json",
+            "sha256": "bfec6c153a69f97e82a7acbf6a8521c53458454533262c1e04c484a2dcbd3914"
+          },
+          {
+            "path": "runs/manual/final60-primary-20261102/F011-attempt-001/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "79e8d4c6dcc17799909619a41338997e717263b5d2f0ad7eb4e39e99eeddb413"
+          },
+          {
+            "path": "runs/manual/final60-primary-20261102/F011-attempt-001/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-primary-20261102/F011-attempt-001/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "5dbc0ccbe1ccafab035ec780f10ead86a575da46d385e4d929907b5eee5e4314"
+          },
+          {
+            "path": "runs/manual/final60-primary-20261102/F011-attempt-001/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "fb963fe938a8d1fac237f0310732e592b9104feceec8b68f1928e4492dedd292"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F012",
+      "row": 12,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "source": "physlib",
+      "providedLength": 12,
+      "referenceSha256": "5d5ec4e8188e296a6504c12906bad9574ecb21354def05c2cc6562dfcb549a09",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 74041515,
+          "scaledHeartbeats": 74041,
+          "rawSamples": [
+            74041515
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 74041515,
+          "scaledHeartbeats": 74041,
+          "rawSamples": [
+            74041515
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 12,
+        "auditTokens": 12,
+        "rawHeartbeats": 74041515,
+        "scaledHeartbeats": 74041,
+        "rawSamples": [
+          74041515
+        ],
+        "measuredAt": "2026-11-02T09:44:53.590563+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F012/record.json",
+            "sha256": "45d4a9a63ed62e3c69e81eb041adfd23b054c75ae49150a8e35ce89b51a4a220"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F012/evaluation/result.json",
+            "sha256": "23a59f1ffb291163ccf1d15692ab2b09725ca291ecfa49a0c094625fc6dd2c56"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F012/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "79e8d4c6dcc17799909619a41338997e717263b5d2f0ad7eb4e39e99eeddb413"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F012/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F012/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "91288f4a13e185a72c7a8a9ae40a3856f5aca1ccd75af535a7408bf88b2e0d7e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F012/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "277b20f83554fd2aa068f207d3b4bb51f1a0228dc5457f39009bc7c50405b633"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F013",
+      "row": 13,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "source": "physlib",
+      "providedLength": 12,
+      "referenceSha256": "847028f55ca688f2aedece86f71654a5af77a765c27f15681d27d3f92b0b1406",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 79108905,
+          "scaledHeartbeats": 79108,
+          "rawSamples": [
+            79108905
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 79108905,
+          "scaledHeartbeats": 79108,
+          "rawSamples": [
+            79108905
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 12,
+        "auditTokens": 12,
+        "rawHeartbeats": 79108905,
+        "scaledHeartbeats": 79108,
+        "rawSamples": [
+          79108905
+        ],
+        "measuredAt": "2026-11-02T09:47:06.938210+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F013/record.json",
+            "sha256": "b9a35450c083fb325e2d387c2e02ccd83e7d1678d9982f167a6e3b7dc32a93ae"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F013/evaluation/result.json",
+            "sha256": "1cc78c7aef3dbd38aa5e2100556f2110cc24f497a9f975a3692f721b02070468"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F013/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "79e8d4c6dcc17799909619a41338997e717263b5d2f0ad7eb4e39e99eeddb413"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F013/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F013/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "ac97d5e7c7e210429a9007a586b0b22e660c677eeeec8a6e6d1f00b633a3c9de"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F013/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "bb0d74babe6e2a067fc5734959fb66fb2e356e8c6d949a83c8c3f244f465e3e8"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F014",
+      "row": 14,
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "source": "physlib",
+      "providedLength": 181,
+      "referenceSha256": "80f1722a4735cf2546eeabd5724f07682f10903d7fc9f978342aed5aaa3840d4",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 212379390,
+          "scaledHeartbeats": 212379,
+          "rawSamples": [
+            212379390
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 212379390,
+          "scaledHeartbeats": 212379,
+          "rawSamples": [
+            212379390
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 181,
+        "auditTokens": 181,
+        "rawHeartbeats": 212379390,
+        "scaledHeartbeats": 212379,
+        "rawSamples": [
+          212379390
+        ],
+        "measuredAt": "2026-11-02T09:49:30.565118+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F014/record.json",
+            "sha256": "6f6d134e9ec271003235f0d86368c0f2ede8307419a95b759781019a1271eb13"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F014/evaluation/result.json",
+            "sha256": "ffc190bc1b2eccf78fa103441f518da46986ce1bd0ff4b6d4f084bb7e5030e55"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F014/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "d3f10434c2aee7707b3fa39bafdf67096f13b3931618973c2d09cbe89a42b5c1"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F014/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F014/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "aa6906fb388b43cd644d48286b025b9574280096b55d6b83bc19e2cfd336653f"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F014/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "0644b2d3602ca9cb01634134667c5e9609a006f893328c48fd1d39b3eac7d984"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F015",
+      "row": 15,
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "source": "physlib",
+      "providedLength": 183,
+      "referenceSha256": "13a7b6e73c3d7d0eaba531809654eb931b3851f2d25275ccdc0ba49e22cfd667",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 136539444,
+          "scaledHeartbeats": 136539,
+          "rawSamples": [
+            136539444
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 136539444,
+          "scaledHeartbeats": 136539,
+          "rawSamples": [
+            136539444
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 183,
+        "auditTokens": 183,
+        "rawHeartbeats": 136539444,
+        "scaledHeartbeats": 136539,
+        "rawSamples": [
+          136539444
+        ],
+        "measuredAt": "2026-11-02T09:52:03.666408+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F015/record.json",
+            "sha256": "867521515346c235a85f99254e289eebde744036eaee5d8f5140c1c9c33f1b9f"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F015/evaluation/result.json",
+            "sha256": "03f6cfa095647fbf37185581b2eb3406298a7d0784efd170fb670f12ea1b4ebc"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F015/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "d3f10434c2aee7707b3fa39bafdf67096f13b3931618973c2d09cbe89a42b5c1"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F015/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F015/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "3884158f2d929ae595bac91dfeddf7ca605b18d32e7fd915467edc1f41408981"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F015/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "35a879ad7fbae8107bd5bf58b032de2ca9edd327b37c2a14bd2707da1c784edd"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F016",
+      "row": 16,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "source": "physlib",
+      "providedLength": 1372,
+      "referenceSha256": "9839fbd7f2dedf9c22190403722dc98210c990a14188a042ddf41ab5e050496c",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 23941357,
+          "scaledHeartbeats": 23941,
+          "rawSamples": [
+            23941357
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 23941357,
+          "scaledHeartbeats": 23941,
+          "rawSamples": [
+            23941357
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 1372,
+        "auditTokens": 1372,
+        "rawHeartbeats": 23941357,
+        "scaledHeartbeats": 23941,
+        "rawSamples": [
+          23941357
+        ],
+        "measuredAt": "2026-11-02T09:53:54.246680+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F016/record.json",
+            "sha256": "50b726cddf5a8a0a01677a66a08d69fb6eb2eecca467dafe06700c94f0eff54b"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F016/evaluation/result.json",
+            "sha256": "47fd731ae3dec91a195151e18c25c77dcba8ae9a144d1339378593f878e959b6"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F016/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "34cd164a78e93f5774ddd13c8415f7018d661a5d360766ea0966d43b9a33b55c"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F016/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F016/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "36b9f2d948eeaf51050d4f53924992b3b46a9032fc8f2f1e3ffe41b2b3c04bca"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F016/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "af612684d21f67a4194cb5496f466e750977fb258f3c47790ad9928f490daa40"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F017",
+      "row": 17,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "source": "physlib",
+      "providedLength": 1217,
+      "referenceSha256": "b0b0bdda4094c15be7cfd13caee9f73b03ddf22c9de85a90567a1291cc6f0306",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 35774573,
+          "scaledHeartbeats": 35774,
+          "rawSamples": [
+            35774573
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 35774569,
+          "scaledHeartbeats": 35774,
+          "rawSamples": [
+            35774569
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 1217,
+        "auditTokens": 1217,
+        "rawHeartbeats": 35774573,
+        "scaledHeartbeats": 35774,
+        "rawSamples": [
+          35774573
+        ],
+        "measuredAt": "2026-11-02T09:55:01.795718+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F017/record.json",
+            "sha256": "ba5c9ad99095210d9949505a014ede2223c964609c2b01ffb0d9046933a6f3bb"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F017/evaluation/result.json",
+            "sha256": "a61e3ac382f9743662728f28c77297dfeada451c826017fa34d6178384f61c48"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F017/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "2ab44deadd39542905d5dfd1b1f705f8c9e183f48e7d43c47205bcabd946bcc4"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F017/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F017/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "70330625a9dbeefc0dedf457c000b8a856610411ab307156487a554826ba538e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F017/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "7f30b8e1ea079ee9510b6886e9da1b5e1f0a5e16d9d16609c562f048b8685fb6"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F018",
+      "row": 18,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "source": "physlib",
+      "providedLength": 851,
+      "referenceSha256": "88fd5fd92db61b8c08e5d861cdfdb959fac1e343b60401d76e76f8956c2ef1d7",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 10202611,
+          "scaledHeartbeats": 10202,
+          "rawSamples": [
+            10202611
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 10202612,
+          "scaledHeartbeats": 10202,
+          "rawSamples": [
+            10202612
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 851,
+        "auditTokens": 851,
+        "rawHeartbeats": 10202611,
+        "scaledHeartbeats": 10202,
+        "rawSamples": [
+          10202611
+        ],
+        "measuredAt": "2026-11-02T09:56:00.075725+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F018/record.json",
+            "sha256": "3af05e05aacce9c52731a09c36131614e525ed114ce50db1f968962fd64c467d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F018/evaluation/result.json",
+            "sha256": "3f662a929acb80bc18f0f138dcd09b812eb3c735e14493469c35bb151bc76c82"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F018/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "687377588878d425fe9f34b3991e28a29223052a2dc137b529ca333d7c4b3300"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F018/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F018/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "252e96e3395eba3b3684651fc66415f43424cb9889f70144ef57c259ce511be9"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F018/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "f0fba8777b064767d7e8de93fadb0e8515d8bb30b1ea11842c08ee439a412df8"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F019",
+      "row": 19,
+      "name": "HermitianMat.inv_convex",
+      "source": "physlib",
+      "providedLength": 1025,
+      "referenceSha256": "337495a06d7c58056fbff562d51a13f0bffd9c0ab8af1a35cc3ffedb7c302a6c",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 211678390,
+          "scaledHeartbeats": 211678,
+          "rawSamples": [
+            211678390
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 211678433,
+          "scaledHeartbeats": 211678,
+          "rawSamples": [
+            211678433
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 1025,
+        "auditTokens": 1025,
+        "rawHeartbeats": 211678390,
+        "scaledHeartbeats": 211678,
+        "rawSamples": [
+          211678390
+        ],
+        "measuredAt": "2026-11-02T09:57:18.979641+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F019/record.json",
+            "sha256": "8fb8743ef9c7022a31fb641d4ac613643df7e9e4490010383ebb6be2c4963141"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F019/evaluation/result.json",
+            "sha256": "eb56a7de6c253a05a24179cbdcbd766b3bfe249e39588f3be4ff465fb986f935"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F019/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "b9d1f7aa3b3b4542615b9268ecfd02da633c58bf2dd921af23d5e1038711d146"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F019/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F019/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "061aeea3c87b14a49b14c0256e61d946f6dbb22e49f1bc7eb69aa0f32fd6f6f0"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F019/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "b92b8ae26840cd22ecc3c93d9e80a7c9dd8f1b9307cf2121e8b86447892c4815"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F020",
+      "row": 20,
+      "name": "cauchyBinet",
+      "source": "physlib",
+      "providedLength": 1200,
+      "referenceSha256": "5e77c0a363d830b4c829493520753ec5831b578bfc3ea28f011200b0440b4485",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "physlib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "rawHeartbeats": 143389537,
+          "scaledHeartbeats": 143389,
+          "rawSamples": [
+            143389537
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "physlib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "rawHeartbeats": 143389673,
+          "scaledHeartbeats": 143389,
+          "rawSamples": [
+            143389673
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cached-20261102",
+        "sampleCount": 1,
+        "tokens": 1200,
+        "auditTokens": 1200,
+        "rawHeartbeats": 143389537,
+        "scaledHeartbeats": 143389,
+        "rawSamples": [
+          143389537
+        ],
+        "measuredAt": "2026-11-02T09:59:17.937433+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F020/record.json",
+            "sha256": "3d69d4aad84b488bcc52273309cc6963591dc4bd8f2b29710d3220d07e678962"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F020/evaluation/result.json",
+            "sha256": "106afaf0eedd30eacd1d6fe7c2faf706282926a0292986934116f7b2eff99fdc"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F020/evaluation/physlib-v4.34.1/check.lean",
+            "sha256": "5807bc2794c074ce46b16a249371a20e1e03c9d23aa25c78a3e21b764c2e98f8"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F020/evaluation/physlib-v4.34.1/check.log",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F020/evaluation/physlib-v4.34.1/measure-1.lean",
+            "sha256": "ba18221aebb334c3b03c30888265b4401dfaec4c4d92adf4fcd82d29f5e3323d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cached-20261102/F020/evaluation/physlib-v4.34.1/measure-1.log",
+            "sha256": "0293b0ad2bd95f579a741c10fa8f728252280307e06731ef50066949bed17848"
+          }
+        ],
+        "referenceSinglePass": false
+      }
+    },
+    {
+      "id": "F021",
+      "row": 21,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "source": "cslib",
+      "providedLength": 408,
+      "referenceSha256": "e8b89255b06b284c8a4f4ba9a140c458d8c4640f63014c9c0037585855039be7",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "rawHeartbeats": 59936725,
+          "scaledHeartbeats": 59936,
+          "rawSamples": [
+            59936725
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 60093800,
+          "scaledHeartbeats": 60093,
+          "rawSamples": [
+            60093800
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-20261102",
+        "sampleCount": 1,
+        "tokens": 408,
+        "auditTokens": 408,
+        "rawHeartbeats": 59936725,
+        "scaledHeartbeats": 59936,
+        "rawSamples": [
+          59936725
+        ],
+        "measuredAt": "2026-11-02T10:16:19.831370+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-20261102/F021/record.json",
+            "sha256": "47afd23c7d666a9c46a6a404d0d6a85c71412558c5597a573fb21c4346bf6f71"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-20261102/F021/evaluation/result.json",
+            "sha256": "994d7398ce1c9d85a90067e8a0d44dcb5d3fce301ab07c294547eca1f9e81cb6"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-20261102/F021/evaluation/cslib-v4.34.1/measure-1.lean",
+            "sha256": "786a097c4bc08988d50a4fbd7d72f6fd0064953070716b5b44a981f85aa31532"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-20261102/F021/evaluation/cslib-v4.34.1/measure-1.log",
+            "sha256": "1e200ef9db3259f609afa5af443ded40e9549f3a18cf5d0306e7d3acfd9cbc8d"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F022",
+      "row": 22,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "source": "cslib",
+      "providedLength": 407,
+      "referenceSha256": "35f528e8e77dceff098e735cfb0ee98ea989fecca8258a7d59632f211cc5ffdc",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "rawHeartbeats": 1500541,
+          "scaledHeartbeats": 1500,
+          "rawSamples": [
+            1500541
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 1499947,
+          "scaledHeartbeats": 1499,
+          "rawSamples": [
+            1499947
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-20261102",
+        "sampleCount": 1,
+        "tokens": 407,
+        "auditTokens": 407,
+        "rawHeartbeats": 1500541,
+        "scaledHeartbeats": 1500,
+        "rawSamples": [
+          1500541
+        ],
+        "measuredAt": "2026-11-02T10:16:38.147625+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-20261102/F022/record.json",
+            "sha256": "aa3433eb67bf649a6d8427437736395738e5d12010f9e67439a3eb0865dafbed"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-20261102/F022/evaluation/result.json",
+            "sha256": "f0c1fb9c3b29d5ed17f65e3a2e0fcf55cd1f646867d0c24509244fce8e35172a"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-20261102/F022/evaluation/cslib-v4.34.1/measure-1.lean",
+            "sha256": "9c5f063104e27456d2aec5faffa962c9e81daf6183e4a60b409c9338004c7cce"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-20261102/F022/evaluation/cslib-v4.34.1/measure-1.log",
+            "sha256": "4471fa5fed18cb7a12a4083d55488627c6cb655647fd53bbe25e907d8c04ce25"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F023",
+      "row": 23,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "source": "cslib",
+      "providedLength": 251,
+      "referenceSha256": "90ec3fb53d6c4e9485868b3d1f1bceac5de6abc8b429d456281744fd1b0fa828",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1",
+        "v4.31.0"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "rawHeartbeats": 3940867,
+          "scaledHeartbeats": 3940,
+          "rawSamples": [
+            3940867
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 3923913,
+          "scaledHeartbeats": 3923,
+          "rawSamples": [
+            3923913
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "rawHeartbeats": 3927323,
+          "scaledHeartbeats": 3927,
+          "rawSamples": [
+            3927323
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-hygiene-20261102",
+        "sampleCount": 1,
+        "tokens": 251,
+        "auditTokens": 251,
+        "rawHeartbeats": 3940867,
+        "scaledHeartbeats": 3940,
+        "rawSamples": [
+          3940867
+        ],
+        "measuredAt": "2026-11-02T10:39:01.615040+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F023/record.json",
+            "sha256": "825088f4c46e8dd342079a869d13dabdc7c08d6861ef3642061e0952719e3f62"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F023/evaluation/result.json",
+            "sha256": "c80cf33186b658d40a92fb9f82f015dc555f4b987dee0007bd52693713defa2a"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F023/evaluation/cslib-v4.34.1/measure-1.lean",
+            "sha256": "1c9395624a595f78fbb19fe57149ac8016cc562d2fc1ec39f94cc248f2cd97cb"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F023/evaluation/cslib-v4.34.1/measure-1.log",
+            "sha256": "6daf94a10d15608038e749fc58e3813ba0fd91712950b442285d9a4156549dc1"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F024",
+      "row": 24,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "source": "cslib",
+      "providedLength": 391,
+      "referenceSha256": "cd3326e6962c0989a1af0b1b625c932f5d9493b580dd4c9cfaebeacf3fa0f7a6",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "rawHeartbeats": 38100120,
+          "scaledHeartbeats": 38100,
+          "rawSamples": [
+            38100120
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 38313227,
+          "scaledHeartbeats": 38313,
+          "rawSamples": [
+            38313227
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-hygiene-20261102",
+        "sampleCount": 1,
+        "tokens": 391,
+        "auditTokens": 391,
+        "rawHeartbeats": 38100120,
+        "scaledHeartbeats": 38100,
+        "rawSamples": [
+          38100120
+        ],
+        "measuredAt": "2026-11-02T10:39:30.769836+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F024/record.json",
+            "sha256": "395d2d88a113bbf6a56b7f74bc8dd60c483d428e83dc61e7c0a35285ca1894de"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F024/evaluation/result.json",
+            "sha256": "a8696f0a56f8715036a53cf2e7be609c1fcc7595a4fc80b30b888ec2c68ce6c4"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F024/evaluation/cslib-v4.34.1/measure-1.lean",
+            "sha256": "818dba4c4492a54dfbfcc00a978a43c4e6316739e3e24a09483dab1353131df5"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F024/evaluation/cslib-v4.34.1/measure-1.log",
+            "sha256": "c7f593f69e9a2bce51ed3df1f253c487580be81cd9ac78415b059f01d27bd2cb"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F025",
+      "row": 25,
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "source": "cslib",
+      "providedLength": 433,
+      "referenceSha256": "e8ea4b43e120b125b1001db6d40f3a06fb2ae6ea078631b47d9914c0064bbb21",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "rawHeartbeats": 11623232,
+          "scaledHeartbeats": 11623,
+          "rawSamples": [
+            11623232
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 12051112,
+          "scaledHeartbeats": 12051,
+          "rawSamples": [
+            12051112
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-hygiene-20261102",
+        "sampleCount": 1,
+        "tokens": 433,
+        "auditTokens": 433,
+        "rawHeartbeats": 11623232,
+        "scaledHeartbeats": 11623,
+        "rawSamples": [
+          11623232
+        ],
+        "measuredAt": "2026-11-02T10:39:50.281514+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F025/record.json",
+            "sha256": "79f7e64b16320e3fe161a4daa6db77c8024bd74e40c91240023f3bcebe3a800f"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F025/evaluation/result.json",
+            "sha256": "e52448a7a8ee51d4bae4caa25a37baba3dae8b4e90714969bfd5a4e58fd7e6fd"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F025/evaluation/cslib-v4.34.1/measure-1.lean",
+            "sha256": "5f85d7dacba0c1ae2b50d453adb29c3afc03508452e866234d2ba73bd5b40b1a"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F025/evaluation/cslib-v4.34.1/measure-1.log",
+            "sha256": "c948f806db9272ea65dd41b690daccd63f9d06e070520c90ee7d6e402becf112"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F026",
+      "row": 26,
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "source": "cslib",
+      "providedLength": 623,
+      "referenceSha256": "8bbae709173e505bffb0cfc737042fc349f97067387f5f62a62924f3beb9f50b",
+      "primaryVersion": "v4.33.1",
+      "primaryRevision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+      "requiredVersions": [
+        "v4.33.1",
+        "v4.31.0"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 56935331,
+          "scaledHeartbeats": 56935,
+          "rawSamples": [
+            56935331
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "rawHeartbeats": 77902172,
+          "scaledHeartbeats": 77902,
+          "rawSamples": [
+            77902172
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-hygiene-20261102",
+        "sampleCount": 1,
+        "tokens": 623,
+        "auditTokens": 623,
+        "rawHeartbeats": 56935331,
+        "scaledHeartbeats": 56935,
+        "rawSamples": [
+          56935331
+        ],
+        "measuredAt": "2026-11-02T10:39:59.984777+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F026/record.json",
+            "sha256": "55a6cc0a6bf2cc4a6e0aa00ed10ecfddff3b4e87fd681da9c357152f46bcd082"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F026/evaluation/result.json",
+            "sha256": "0300f53bbc511fe4dfa9730f75c80fc3fd9b6d40ffb1e76d51b4e4b3b5047f05"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F026/evaluation/cslib-v4.33.1/measure-1.lean",
+            "sha256": "77b6e8ebb0f00c660f351f77ddd16ec7bc1e989190b940036f1ccce11a30b4da"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F026/evaluation/cslib-v4.33.1/measure-1.log",
+            "sha256": "6da6931ac2a17f627fc98abf83cbaf97234d91afb08929f2175b29e7292f5b6b"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F027",
+      "row": 27,
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "source": "cslib",
+      "providedLength": 368,
+      "referenceSha256": "b32c6230a23e675921a867a7c1b5b4ff3d78c55bc944d8adade36377ae08b0af",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "rawHeartbeats": 39339312,
+          "scaledHeartbeats": 39339,
+          "rawSamples": [
+            39339312
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 37257043,
+          "scaledHeartbeats": 37257,
+          "rawSamples": [
+            37257043
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-hygiene-20261102",
+        "sampleCount": 1,
+        "tokens": 368,
+        "auditTokens": 368,
+        "rawHeartbeats": 39339312,
+        "scaledHeartbeats": 39339,
+        "rawSamples": [
+          39339312
+        ],
+        "measuredAt": "2026-11-02T10:40:16.657392+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F027/record.json",
+            "sha256": "108c3b741f19f635419f5c4444ec489412ecc1832579a12e527af81f0718e73d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F027/evaluation/result.json",
+            "sha256": "28c78194bc55a5af1038e644aa9c7bc7d4cb6e23435ba6f04ae285741eb22d9e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F027/evaluation/cslib-v4.34.1/measure-1.lean",
+            "sha256": "f6fda39fba919aca74fe32addc6fa38441c11b453e2aa65eb8e2abec96b239c5"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-hygiene-20261102/F027/evaluation/cslib-v4.34.1/measure-1.log",
+            "sha256": "e33db1b751da725952cec5d31d679eca570638084f2176ac4da3e3db5c69e1b3"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F028",
+      "row": 28,
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "source": "cslib",
+      "providedLength": 312,
+      "referenceSha256": "f5d19e4e3d4c7b8b3855cbcd7f6406a9886f76d5e7b225fc2988e0351eaeedab",
+      "primaryVersion": "v4.33.1",
+      "primaryRevision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+      "requiredVersions": [
+        "v4.33.1",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 27607488,
+          "scaledHeartbeats": 27607,
+          "rawSamples": [
+            27607488
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "rawHeartbeats": 32182165,
+          "scaledHeartbeats": 32182,
+          "rawSamples": [
+            32182165
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
+          "rawHeartbeats": 35212723,
+          "scaledHeartbeats": 35212,
+          "rawSamples": [
+            35212723
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-final-20261102",
+        "sampleCount": 1,
+        "tokens": 312,
+        "auditTokens": 312,
+        "rawHeartbeats": 27607488,
+        "scaledHeartbeats": 27607,
+        "rawSamples": [
+          27607488
+        ],
+        "measuredAt": "2026-11-02T10:44:29.823979+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F028/record.json",
+            "sha256": "c6ed6e384fcee0d9917f4611c92683c569dc97b16d95107270abac1e96ba67e3"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F028/evaluation/result.json",
+            "sha256": "b1595575d59c9f1f76c98a843c4f44be58b1a49c61d6c763b9f37641edd36544"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F028/evaluation/cslib-v4.33.1/measure-1.lean",
+            "sha256": "3efc796f22bf6771cd052c46f0bca61bf9e1b95bcce7fd820b18694ee6f43843"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F028/evaluation/cslib-v4.33.1/measure-1.log",
+            "sha256": "7e4490450ebd9420f0a1257b9b0d512f4474f811ded16bc72e0fa897418c0dc9"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F029",
+      "row": 29,
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "source": "cslib",
+      "providedLength": 364,
+      "referenceSha256": "f30aacc80b142837c1b24c2d51f4ebde3430d75548ecda849704d832aba9a9de",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "rawHeartbeats": 33199270,
+          "scaledHeartbeats": 33199,
+          "rawSamples": [
+            33199270
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 29186712,
+          "scaledHeartbeats": 29186,
+          "rawSamples": [
+            29186712
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-final-20261102",
+        "sampleCount": 1,
+        "tokens": 364,
+        "auditTokens": 364,
+        "rawHeartbeats": 33199270,
+        "scaledHeartbeats": 33199,
+        "rawSamples": [
+          33199270
+        ],
+        "measuredAt": "2026-11-02T10:45:39.589769+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F029/record.json",
+            "sha256": "889fdfe70faf4d0199c85f3f9d82190dab65eece3020de0a990ef372d0c23a65"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F029/evaluation/result.json",
+            "sha256": "323da95c8739e18d3bf1c0e5446b61e4f61496ad0c2b4a856c69d135181a6cba"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F029/evaluation/cslib-v4.34.1/measure-1.lean",
+            "sha256": "fbe441618514065d41949dd897d0ec48598c955828185ca31e9db488d172f778"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F029/evaluation/cslib-v4.34.1/measure-1.log",
+            "sha256": "b169830b9e4d36946a7e60395d1b6107c43191541eb50c09391155811925ac97"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F030",
+      "row": 30,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "source": "cslib",
+      "providedLength": 519,
+      "referenceSha256": "596f54a91cd38f82f018771f60067f7b5607fc188de3c550f2e84fcaab7fe4ba",
+      "primaryVersion": "v4.34.1",
+      "primaryRevision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+      "requiredVersions": [
+        "v4.34.1",
+        "v4.33.1"
+      ],
+      "references": [
+        {
+          "environment": "cslib-v4.34.1",
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "rawHeartbeats": 8589142,
+          "scaledHeartbeats": 8589,
+          "rawSamples": [
+            8589142
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "cslib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "rawHeartbeats": 8709469,
+          "scaledHeartbeats": 8709,
+          "rawSamples": [
+            8709469
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-cslib-final-20261102",
+        "sampleCount": 1,
+        "tokens": 519,
+        "auditTokens": 519,
+        "rawHeartbeats": 8589142,
+        "scaledHeartbeats": 8589,
+        "rawSamples": [
+          8589142
+        ],
+        "measuredAt": "2026-11-02T10:45:57.571475+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F030/record.json",
+            "sha256": "887bda3be6c86d9e335a74c50f8bc2523e9ff64dc0bcfff40ee6e15d987a155c"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F030/evaluation/result.json",
+            "sha256": "121a95bfa56e1c274ce524a19aeccc5469b3405fc65f6719c4fde3d4736faab4"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F030/evaluation/cslib-v4.34.1/measure-1.lean",
+            "sha256": "00c43025bd2fa396f3155839d98af576ceb4276a35dfa321670d0d4e05366f98"
+          },
+          {
+            "path": "runs/manual/final60-baselines-cslib-final-20261102/F030/evaluation/cslib-v4.34.1/measure-1.log",
+            "sha256": "f9af13638625672e041090e7ac328956a86b0c92816009a2a7d91d3742d335f9"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F031",
+      "row": 31,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "providedLength": 1353,
+      "referenceSha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+      "primaryVersion": "v4.34.0",
+      "primaryRevision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+      "requiredVersions": [
+        "v4.34.0",
+        "v4.33.1",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+          "rawHeartbeats": 7774574,
+          "scaledHeartbeats": 7774,
+          "rawSamples": [
+            7774574
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "rawHeartbeats": 7829037,
+          "scaledHeartbeats": 7829,
+          "rawSamples": [
+            7829037
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 10226033,
+          "scaledHeartbeats": 10226,
+          "rawSamples": [
+            10226033
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 10227365,
+          "scaledHeartbeats": 10227,
+          "rawSamples": [
+            10227365
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1353,
+        "auditTokens": 1353,
+        "rawHeartbeats": 7774574,
+        "scaledHeartbeats": 7774,
+        "rawSamples": [
+          7774574
+        ],
+        "measuredAt": "2026-11-02T12:22:05.129376+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F031/record.json",
+            "sha256": "180e9002f31ea75e6e6bafdde75c78f291442461e9f3fc8ca067376fb14545ec"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F031/evaluation/result.json",
+            "sha256": "b95be43b1c6d98a27919057cae0c5597bfd30113b7521b84575e0d511cc208c0"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F031/evaluation/arklib-v4.34.0/measure-1.lean",
+            "sha256": "3496e5ffe80e870b2be6afe6cc4c49ef5284ecb34c69c9556a89c96c50998caa"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F031/evaluation/arklib-v4.34.0/measure-1.log",
+            "sha256": "b552b05d052fab7d76f32994a38399fac19850193bf83a537d54d60bb201d4c1"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F032",
+      "row": 32,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "providedLength": 1906,
+      "referenceSha256": "67401740132ca27612c5a143c6dd3a90205f5d84a7c0850182c9391592a0752f",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 47701818,
+          "scaledHeartbeats": 47701,
+          "rawSamples": [
+            47701818
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 49156465,
+          "scaledHeartbeats": 49156,
+          "rawSamples": [
+            49156465
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1906,
+        "auditTokens": 1906,
+        "rawHeartbeats": 47701818,
+        "scaledHeartbeats": 47701,
+        "rawSamples": [
+          47701818
+        ],
+        "measuredAt": "2026-11-02T12:24:35.410058+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F032/record.json",
+            "sha256": "354f97bba7f533a8318730571605979c46aa49d311ae68aa489661c81a472c03"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F032/evaluation/result.json",
+            "sha256": "0e00958eaab298124e1a09dc970f4a8f13bf3bd533ebd5ee678ad843791afb8b"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F032/evaluation/arklib-v4.31.0/measure-1.lean",
+            "sha256": "92b8e41ed25ad1a24765e1501915f17d0029a69ef4ef80f148de600d5b0939db"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F032/evaluation/arklib-v4.31.0/measure-1.log",
+            "sha256": "330bb847ef323f8e9afccb0a7126a4b390dfd3d220bae9d28864d818d8349520"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F033",
+      "row": 33,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "providedLength": 1463,
+      "referenceSha256": "561da2e1599d85a33fddbdbdb9eca3f05f504c3dfaa7e32d367eef4eba532033",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 16839602,
+          "scaledHeartbeats": 16839,
+          "rawSamples": [
+            16839602
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 18274665,
+          "scaledHeartbeats": 18274,
+          "rawSamples": [
+            18274665
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1463,
+        "auditTokens": 1463,
+        "rawHeartbeats": 16839602,
+        "scaledHeartbeats": 16839,
+        "rawSamples": [
+          16839602
+        ],
+        "measuredAt": "2026-11-02T12:25:41.139731+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F033/record.json",
+            "sha256": "591fe80cd912564537a3dbf682c7d630a2f1fe069b1b4c4777ca7f492af791cf"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F033/evaluation/result.json",
+            "sha256": "65939ba18cb1ca9c2861ad520ee01ef3774ed360e699159238651e00959d31fa"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F033/evaluation/arklib-v4.31.0/measure-1.lean",
+            "sha256": "ea43a216bbe763b4d83b29ccf9faf5e50714534181cc41b62d979e4bfb28b612"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F033/evaluation/arklib-v4.31.0/measure-1.log",
+            "sha256": "f6bc84fb61b649ad7db78a455c6aa816d5557814f972ce6a64dc60c8bf33e2b4"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F034",
+      "row": 34,
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "providedLength": 546,
+      "referenceSha256": "9bd964e1df9b474cee4c4a0d14ba8d3e8a9fbc85bbe7790544932292df270cfa",
+      "primaryVersion": "v4.33.1",
+      "primaryRevision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+      "requiredVersions": [
+        "v4.33.1",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "rawHeartbeats": 190043613,
+          "scaledHeartbeats": 190043,
+          "rawSamples": [
+            190043613
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 282353782,
+          "scaledHeartbeats": 282353,
+          "rawSamples": [
+            282353782
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 310005663,
+          "scaledHeartbeats": 310005,
+          "rawSamples": [
+            310005663
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 546,
+        "auditTokens": 546,
+        "rawHeartbeats": 190043613,
+        "scaledHeartbeats": 190043,
+        "rawSamples": [
+          190043613
+        ],
+        "measuredAt": "2026-11-02T12:26:57.130926+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F034/record.json",
+            "sha256": "6f40182e57ded624f4481b2b295ad81f2152f36a09229ba481f507fa96600592"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F034/evaluation/result.json",
+            "sha256": "6cd040bf4b0fcf8eeee75aff94c8c3ed7075598d9fb4b5944a3d67f260abbf0d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F034/evaluation/arklib-v4.33.1/measure-1.lean",
+            "sha256": "2409c9cb9ac72c40d34d2eb12d4c1fa4e5aadad698deccb9bfbfc5e1281d2ae6"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F034/evaluation/arklib-v4.33.1/measure-1.log",
+            "sha256": "b040f4c2325407aaa07be0bf5893700d70ea07013b233f204528aae43629ac13"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F035",
+      "row": 35,
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "providedLength": 2440,
+      "referenceSha256": "762d9c0342f6ad7b06dcbaa3e18a475614b61fff262d85cc7433a7ce1d9d3c44",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 84743834,
+          "scaledHeartbeats": 84743,
+          "rawSamples": [
+            84743834
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 95208808,
+          "scaledHeartbeats": 95208,
+          "rawSamples": [
+            95208808
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2440,
+        "auditTokens": 2440,
+        "rawHeartbeats": 84743834,
+        "scaledHeartbeats": 84743,
+        "rawSamples": [
+          84743834
+        ],
+        "measuredAt": "2026-11-02T12:29:10.872677+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F035/record.json",
+            "sha256": "54f9d5e28be2a194ceb3125df7d55cedfce7d013df1a3b52d95856c8bb9e56dc"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F035/evaluation/result.json",
+            "sha256": "9b8f36459d7911416e4546c0f09760f7c85e04acba92cfed6458ddfee6d9757b"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F035/evaluation/arklib-v4.31.0/measure-1.lean",
+            "sha256": "3c314a3eb47ee0db18f8d3adfaebf1ce64732bf14c77e222b23447b5fb45504a"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F035/evaluation/arklib-v4.31.0/measure-1.log",
+            "sha256": "b626e64e3252d13ccd7f3870c3701e06fabcf26e506147688622c06d09422ce3"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F036",
+      "row": 36,
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "providedLength": 5128,
+      "referenceSha256": "81afc259bab2d5268fc8e907ac6cf301de625c35067e3be1f081cd6c849ccf5c",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 106464364,
+          "scaledHeartbeats": 106464,
+          "rawSamples": [
+            106464364
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 106965202,
+          "scaledHeartbeats": 106965,
+          "rawSamples": [
+            106965202
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 5128,
+        "auditTokens": 5128,
+        "rawHeartbeats": 106464364,
+        "scaledHeartbeats": 106464,
+        "rawSamples": [
+          106464364
+        ],
+        "measuredAt": "2026-11-02T12:30:11.446013+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F036/record.json",
+            "sha256": "0ca682fe2d3e8c9310c1892dcfeef37c45f280dbf13e7e5df137d44eefc84373"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F036/evaluation/result.json",
+            "sha256": "2c40278135e29dbba3881db514be980535ab63dceb2425edca1402ab5b057d84"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F036/evaluation/arklib-v4.31.0/measure-1.lean",
+            "sha256": "39259515a8e30b3051f6687187a0fee6f94444ad846a1cf6309480a9af80abea"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F036/evaluation/arklib-v4.31.0/measure-1.log",
+            "sha256": "bb1bf284ae37786592412c45af2138419f579d5f2d33b490cf936643ac7f23f7"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F037",
+      "row": 37,
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "providedLength": 2122,
+      "referenceSha256": "4ad1a29e5ef91b442667c9b171deb6f3ed28c96ca9709e59911f7cbbbb16a2f4",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 163948549,
+          "scaledHeartbeats": 163948,
+          "rawSamples": [
+            163948549
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 167280056,
+          "scaledHeartbeats": 167280,
+          "rawSamples": [
+            167280056
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2122,
+        "auditTokens": 2122,
+        "rawHeartbeats": 163948549,
+        "scaledHeartbeats": 163948,
+        "rawSamples": [
+          163948549
+        ],
+        "measuredAt": "2026-11-02T12:31:17.853349+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F037/record.json",
+            "sha256": "fe02fbaf25fc42515bd6debbaf00d8c815f5d8bc432245ec0f610a6562dacee2"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F037/evaluation/result.json",
+            "sha256": "1ac994cf8899f9ff0663c7d3eed37182fbf0fb6befa602ba5ac825f717812649"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F037/evaluation/arklib-v4.31.0/measure-1.lean",
+            "sha256": "a4b02b5446f1b3cae1055d1d83df1f92c8f5b7bed79301c3f99a116f06aa1b11"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F037/evaluation/arklib-v4.31.0/measure-1.log",
+            "sha256": "dd5dae1ca8000f5f85d2f8db2008079811e567f984375a2e48bc1709724959fb"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F038",
+      "row": 38,
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "providedLength": 5538,
+      "referenceSha256": "1901501cdd37e5592f25590cce58688d20049ca2c5dce6d23529eb148902e9ed",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 62515166,
+          "scaledHeartbeats": 62515,
+          "rawSamples": [
+            62515166
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 70404926,
+          "scaledHeartbeats": 70404,
+          "rawSamples": [
+            70404926
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 5538,
+        "auditTokens": 5538,
+        "rawHeartbeats": 62515166,
+        "scaledHeartbeats": 62515,
+        "rawSamples": [
+          62515166
+        ],
+        "measuredAt": "2026-11-02T12:32:18.568337+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F038/record.json",
+            "sha256": "2b790854a724d843ccc3a41468c10ce7b6d3100477f3845aa796177dc877b08f"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F038/evaluation/result.json",
+            "sha256": "506429dbab05d27c6839eb98cc9e95cf1984fd64128cf3fb80bc56f4bd5a25bb"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F038/evaluation/arklib-v4.31.0/measure-1.lean",
+            "sha256": "53ab21741a960332a4eb3fb043dbe0d1eae548f4b8be262fc6204be32a8a2812"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F038/evaluation/arklib-v4.31.0/measure-1.log",
+            "sha256": "1a08751b1d3ad467a26ac9c24ce38bb60546c4ba39e4cc73cd1091069227f0e9"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F039",
+      "row": 39,
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "providedLength": 1426,
+      "referenceSha256": "e6acb4f7de76b3d013c869c5a72bc86428b2587b4080e59d1b6261d395198dde",
+      "primaryVersion": "v4.31.0",
+      "primaryRevision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "requiredVersions": [
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 44522173,
+          "scaledHeartbeats": 44522,
+          "rawSamples": [
+            44522173
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 45724728,
+          "scaledHeartbeats": 45724,
+          "rawSamples": [
+            45724728
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1426,
+        "auditTokens": 1426,
+        "rawHeartbeats": 44522173,
+        "scaledHeartbeats": 44522,
+        "rawSamples": [
+          44522173
+        ],
+        "measuredAt": "2026-11-02T12:33:14.934207+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F039/record.json",
+            "sha256": "fc8889c4582b6114b7ea7561164bd6d5f79dfd85868dff320b2101f3c7466242"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F039/evaluation/result.json",
+            "sha256": "1ff27165fe90215789224a39125b14c2018653020241289c7f5844cc9d19edef"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F039/evaluation/arklib-v4.31.0/measure-1.lean",
+            "sha256": "1f71d66271bcd29ad909817dc3fe57a4bc90d530af182353572b6855cf1c4109"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F039/evaluation/arklib-v4.31.0/measure-1.log",
+            "sha256": "c74cbfb3702d20ff80c2b1c359d51ba3bf9bf0736a77a494885ffe6b56ed2f5e"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F040",
+      "row": 40,
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "providedLength": 1105,
+      "referenceSha256": "17eafc75486d1b6fc4f1bf5f3a9cfc825d675c4d6ae7172548ce46aee5da4b68",
+      "primaryVersion": "v4.34.0",
+      "primaryRevision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+      "requiredVersions": [
+        "v4.34.0",
+        "v4.33.1",
+        "v4.31.0",
+        "v4.30.0"
+      ],
+      "references": [
+        {
+          "environment": "arklib-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+          "rawHeartbeats": 38031288,
+          "scaledHeartbeats": 38031,
+          "rawSamples": [
+            38031288
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.33.1",
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "rawHeartbeats": 40063756,
+          "scaledHeartbeats": 40063,
+          "rawSamples": [
+            40063756
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.31.0",
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "rawHeartbeats": 44381008,
+          "scaledHeartbeats": 44381,
+          "rawSamples": [
+            44381008
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "arklib-v4.30.0",
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "rawHeartbeats": 46665599,
+          "scaledHeartbeats": 46665,
+          "rawSamples": [
+            46665599
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1105,
+        "auditTokens": 1105,
+        "rawHeartbeats": 38031288,
+        "scaledHeartbeats": 38031,
+        "rawSamples": [
+          38031288
+        ],
+        "measuredAt": "2026-11-02T12:34:15.180469+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F040/record.json",
+            "sha256": "b5b156d935354923503c0535e75c2b94e697b250dbdadf5480176258c2c4acdc"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F040/evaluation/result.json",
+            "sha256": "38dd9b562e2eee01c0f9bf40029b27ece724d07577de1e6b8570c8034cd7b83e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F040/evaluation/arklib-v4.34.0/measure-1.lean",
+            "sha256": "abc72f009a7b83e5e1b5b3d1563444fcf5d19e72698569dca1512307563c48c2"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F040/evaluation/arklib-v4.34.0/measure-1.log",
+            "sha256": "0002810a5a0c9bad8113772b2f0c067bd180a3bb5c38e367de6acde794714f4e"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F041",
+      "row": 41,
+      "name": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+      "source": "leanpool",
+      "providedLength": 2030,
+      "referenceSha256": "1c3a303594e864c1626c69c7cc1f96b354da68f3048ebe7ba6d2ef7647db9240",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 49681455,
+          "scaledHeartbeats": 49681,
+          "rawSamples": [
+            49681455
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 54162272,
+          "scaledHeartbeats": 54162,
+          "rawSamples": [
+            54162272
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2030,
+        "auditTokens": 2030,
+        "rawHeartbeats": 49681455,
+        "scaledHeartbeats": 49681,
+        "rawSamples": [
+          49681455
+        ],
+        "measuredAt": "2026-11-02T13:05:25.329194+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F041/record.json",
+            "sha256": "f4db52ef86a8eb6821db007479bb944f58defb578878510b47f2d012a77bad3a"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F041/evaluation/result.json",
+            "sha256": "4b0868d77f79d2fcaeae6bed611b7dae66f66d680d639fe7b505bbd6b1c95791"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F041/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "60666a44aac0deb62aca09e4f0aac985425eca9bf8177165f0bee6a9686e8eb0"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F041/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "ccd63141fb4a2d33bfc5c343d47c4789a837a4269cc8a8c91305669efc5c0d47"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F042",
+      "row": 42,
+      "name": "CoxeterSystem.matsumoto_reduced_aux",
+      "source": "leanpool",
+      "providedLength": 1699,
+      "referenceSha256": "2a9442d902db86229559552b4b8c19626d3e9cf7d9870e717f42be0b9fe5b857",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 3091286,
+          "scaledHeartbeats": 3091,
+          "rawSamples": [
+            3091286
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 3247359,
+          "scaledHeartbeats": 3247,
+          "rawSamples": [
+            3247359
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1699,
+        "auditTokens": 1699,
+        "rawHeartbeats": 3091286,
+        "scaledHeartbeats": 3091,
+        "rawSamples": [
+          3091286
+        ],
+        "measuredAt": "2026-11-02T13:06:05.755356+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F042/record.json",
+            "sha256": "8372b813a2d0e3be825e6d9313a4a7cea1fcbe3a2ed78cc3d3d8790259e205ac"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F042/evaluation/result.json",
+            "sha256": "5cfa1f582a27ff4701843a33d9bea2fdb659bf6cd587f8889534784ca8769736"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F042/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "2921cf7224f84f1c88c768a45ac94eb3744eb9c66bba41e28e554cc0a6333fe7"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F042/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "e89ac9d6e53ae50f1f61d31cad300f91274ea65519a549aecec1b505d5749651"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F043",
+      "row": 43,
+      "name": "Vlasov.transportedIntegral_continuousOn",
+      "source": "leanpool",
+      "providedLength": 2413,
+      "referenceSha256": "d13dc916a9c31834a4ea34a3bec6b162a3c7e709cd5182b5a5ae531e6b92830c",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 9943703,
+          "scaledHeartbeats": 9943,
+          "rawSamples": [
+            9943703
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 10672287,
+          "scaledHeartbeats": 10672,
+          "rawSamples": [
+            10672287
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2413,
+        "auditTokens": 2413,
+        "rawHeartbeats": 9943703,
+        "scaledHeartbeats": 9943,
+        "rawSamples": [
+          9943703
+        ],
+        "measuredAt": "2026-11-02T13:07:02.469426+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F043/record.json",
+            "sha256": "a9c0c756d72364b3a3de2713038bb349b54175ba4dc551df521f4b01099f6dfb"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F043/evaluation/result.json",
+            "sha256": "7575b740e8cfe95731512804733154a3ec4d79a47f1ef0c6b1e19e9b270a47a3"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F043/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "c7a87a885825d17680ee951e60a7144ec56a7baa3d4c4852fd08f765b08a9007"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F043/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "caafaf4d4945288486ac117501bbae970e67d695510d11e4fbdf5f4bf2a69907"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F044",
+      "row": 44,
+      "name": "ZetaZeros.step1_double",
+      "source": "leanpool",
+      "providedLength": 2315,
+      "referenceSha256": "cf20514cf5a94d2b7aef9e6583b55e79617195a21f5a6c8afc1d08dee51eef0c",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 13000252,
+          "scaledHeartbeats": 13000,
+          "rawSamples": [
+            13000252
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 13790729,
+          "scaledHeartbeats": 13790,
+          "rawSamples": [
+            13790729
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2315,
+        "auditTokens": 2315,
+        "rawHeartbeats": 13000252,
+        "scaledHeartbeats": 13000,
+        "rawSamples": [
+          13000252
+        ],
+        "measuredAt": "2026-11-02T13:08:05.764221+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F044/record.json",
+            "sha256": "db64b2118156f7fb52e12f00abcaf51acecdd4885a0ccc9a058565a7b7214244"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F044/evaluation/result.json",
+            "sha256": "95c76d3a33ee859a03fe5cf92fc12d1f6f4de57d07c75d66c4c544a5b29915a7"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F044/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "f6fc1642b0160416ae30c5949c65d136aeffe8819b9b124fa9cdf28228e14fa1"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F044/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "7c2e17624386e9a75d39b9a86577b4e68ad243a6b2f25d80fe4d3280f5a9f092"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F045",
+      "row": 45,
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "source": "leanpool",
+      "providedLength": 1756,
+      "referenceSha256": "54b559c330d77a8f38462bf60551d5affb4aca06270eae9197f829bf7d23cd0f",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 53089873,
+          "scaledHeartbeats": 53089,
+          "rawSamples": [
+            53089873
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 53805764,
+          "scaledHeartbeats": 53805,
+          "rawSamples": [
+            53805764
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1756,
+        "auditTokens": 1756,
+        "rawHeartbeats": 53089873,
+        "scaledHeartbeats": 53089,
+        "rawSamples": [
+          53089873
+        ],
+        "measuredAt": "2026-11-02T13:08:41.541016+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F045/record.json",
+            "sha256": "2909938b27b809bb2b1f51e931eef49a5846780d9337760ea96596a110b5e314"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F045/evaluation/result.json",
+            "sha256": "932defda226a9aaefc0b0c2395e2c6ac6ee92217af015e0b1f7780a4fccc3989"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F045/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "b84de99f298fa750eca9b2a39a646d3ece7c6af7a8ff4f14bac42d63ac6b18e5"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F045/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "4dae17ed2c5ccc8f77cd21f8fad217472713d99ce18da2b4732ef60a1c94f23c"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F046",
+      "row": 46,
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+      "source": "leanpool",
+      "providedLength": 1645,
+      "referenceSha256": "0b00e26efe74c4754f2f694508535386d4f90ca8267d0a2f8c59b1060189eff7",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 11484649,
+          "scaledHeartbeats": 11484,
+          "rawSamples": [
+            11484649
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 11865100,
+          "scaledHeartbeats": 11865,
+          "rawSamples": [
+            11865100
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1645,
+        "auditTokens": 1645,
+        "rawHeartbeats": 11484649,
+        "scaledHeartbeats": 11484,
+        "rawSamples": [
+          11484649
+        ],
+        "measuredAt": "2026-11-02T13:09:26.084539+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F046/record.json",
+            "sha256": "8399ae05d48e8e58fcbbe95b392fedb8818eb8d17fd50b28545290db0c89d42d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F046/evaluation/result.json",
+            "sha256": "b9cc66b6405334129b0e5aa85c94bd4b1daeae6620448b3ad1648cf3fda6b804"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F046/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "1128846bc961a9feb908c4329b1b5737874fb1a517a226fb0fcfacf96d9a80b0"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F046/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "9ec9c302cb11ae46bc185f6edcd668438bbab7a7cc1e8b8bfb99000326ad3264"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F047",
+      "row": 47,
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+      "source": "leanpool",
+      "providedLength": 1509,
+      "referenceSha256": "2ca32f321bffb175e737cce673d0eb0f3e4df2d62bc773ae10f7fb832e7e5b48",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 6122522,
+          "scaledHeartbeats": 6122,
+          "rawSamples": [
+            6122522
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 6380698,
+          "scaledHeartbeats": 6380,
+          "rawSamples": [
+            6380698
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1509,
+        "auditTokens": 1509,
+        "rawHeartbeats": 6122522,
+        "scaledHeartbeats": 6122,
+        "rawSamples": [
+          6122522
+        ],
+        "measuredAt": "2026-11-02T13:10:13.347656+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F047/record.json",
+            "sha256": "4a1f1aae7414135fc53e045b8999412bf43ea0fe3791dfb90d6423e54d6ffddf"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F047/evaluation/result.json",
+            "sha256": "226ada5ea1bb2ef2f1c95891348707728715523a6501d2e7a071296a0bbf7a5d"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F047/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "b15133d2dc29e2ab5079df6027fc7b8cf41d964a9047c41a10cb288e309e0ed4"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F047/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "0532c2d388594800c6fdef200cd118fbdcb7a7e6c279ec810901de1a87a9b613"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F048",
+      "row": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "source": "leanpool",
+      "providedLength": 2879,
+      "referenceSha256": "502416c2b27c38eae98d8f93388c840b99ee0027d4f1718fb821e69a0b541c6c",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 4193446,
+          "scaledHeartbeats": 4193,
+          "rawSamples": [
+            4193446
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 4730011,
+          "scaledHeartbeats": 4730,
+          "rawSamples": [
+            4730011
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2879,
+        "auditTokens": 2879,
+        "rawHeartbeats": 4193446,
+        "scaledHeartbeats": 4193,
+        "rawSamples": [
+          4193446
+        ],
+        "measuredAt": "2026-11-02T13:10:44.631453+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F048/record.json",
+            "sha256": "e844e9e034f228da5102a3d61e0c2fd2bd1ddd79fb139ded531a61485588f86b"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F048/evaluation/result.json",
+            "sha256": "e8d40ae6c3cb36bb2302b8a486c05cb3a0efb12425cd4847c2e51d7944a566e8"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F048/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "ec3291aa8f3381693be64ffdb98290bcff467bc0d7609d5414f8595f9783b611"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F048/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "d4c572e18c2c7fae0b12408a532f7484b59f60591ddfc81c36fb30efaf2d6e27"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F049",
+      "row": 49,
+      "name": "FirstOrder.Language.schemaTruthStage_imp",
+      "source": "leanpool",
+      "providedLength": 746,
+      "referenceSha256": "e8f17a86908e5806ae6de52e275a1efa68418f69379ba6e1b8043ea49902039a",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 194028210,
+          "scaledHeartbeats": 194028,
+          "rawSamples": [
+            194028210
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 197885515,
+          "scaledHeartbeats": 197885,
+          "rawSamples": [
+            197885515
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 746,
+        "auditTokens": 746,
+        "rawHeartbeats": 194028210,
+        "scaledHeartbeats": 194028,
+        "rawSamples": [
+          194028210
+        ],
+        "measuredAt": "2026-11-02T13:11:30.042051+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F049/record.json",
+            "sha256": "c179009e3fcb1ebb269b17949ccc11755895892df79daea7186edd73e3acc255"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F049/evaluation/result.json",
+            "sha256": "ec62e5ec914b7fd7cafb27185d838768f15fd3d57fc1b34e312417436cc0ccbd"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F049/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "37c474a6346b607f7ebd201ebfb3c9450b1795d0d9141b8f8673dbdd0b85ac70"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F049/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "aeb790289be556b3970aca229a92385fa5c2e663fd35fdb0812d0651f4d28d21"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F050",
+      "row": 50,
+      "name": "RS.cechCount",
+      "source": "leanpool",
+      "providedLength": 911,
+      "referenceSha256": "de8882eec0fa1f98739e146ddce6f79e559905702a7f631cb6dc60322c561aa7",
+      "primaryVersion": "v4.35.0-rc3",
+      "primaryRevision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+      "requiredVersions": [
+        "v4.35.0-rc3",
+        "v4.34.0"
+      ],
+      "references": [
+        {
+          "environment": "leanpool-v4.35.0-rc3",
+          "version": "v4.35.0-rc3",
+          "revision": "630eb920bd1ec60f18dbd4e70f2d942f45725b04",
+          "rawHeartbeats": 157420889,
+          "scaledHeartbeats": 157420,
+          "rawSamples": [
+            157420889
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "leanpool-v4.34.0",
+          "version": "v4.34.0",
+          "revision": "38b8ba36899903cb7d3a42bb9f8a3f5c70fdb05f",
+          "rawHeartbeats": 186364554,
+          "scaledHeartbeats": 186364,
+          "rawSamples": [
+            186364554
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 911,
+        "auditTokens": 911,
+        "rawHeartbeats": 157420889,
+        "scaledHeartbeats": 157420,
+        "rawSamples": [
+          157420889
+        ],
+        "measuredAt": "2026-11-02T13:12:20.369926+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F050/record.json",
+            "sha256": "4977fee9d46d9ea3761a39bbf85788176d10b85fb184e80f50aa01ce466edcb0"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F050/evaluation/result.json",
+            "sha256": "2093417657798e97cec5493d8a58c4007fd05df22ee15917d640528d6de7e0ef"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F050/evaluation/leanpool-v4.35.0-rc3/measure-1.lean",
+            "sha256": "f6f7effae0ad91b84bbcd1c70a1c3a8e4e6b74387911594534aa3e19be496584"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F050/evaluation/leanpool-v4.35.0-rc3/measure-1.log",
+            "sha256": "a1af4289365e60d7e2967ab87db859202b0f322a81048c158bf2924d06be5324"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F051",
+      "row": 51,
+      "name": "putnam_1964_a4",
+      "source": "putnambench",
+      "providedLength": 1769,
+      "referenceSha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 111471011,
+          "scaledHeartbeats": 111471,
+          "rawSamples": [
+            111471011
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 115677592,
+          "scaledHeartbeats": 115677,
+          "rawSamples": [
+            115677592
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1769,
+        "auditTokens": 1769,
+        "rawHeartbeats": 111471011,
+        "scaledHeartbeats": 111471,
+        "rawSamples": [
+          111471011
+        ],
+        "measuredAt": "2026-11-02T14:30:25.436850+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F051/record.json",
+            "sha256": "17e50682b7b854452c981c67462ee9afc4d105df0cf2a35723375a82044de42e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F051/evaluation/result.json",
+            "sha256": "f85be436bc147c7bce37fa8301ff4aaf850f5123454e23cd2e4202f83fafb01e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F051/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "ae011baa7c1666fde943cf145d50da84194c350c71e96c3c58e87bcb024f84ea"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F051/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "0b2a2924c56b4d5b8cf2b3d547c61f96da461edac7117055d9286b2b4969b144"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F052",
+      "row": 52,
+      "name": "putnam_1995_a3",
+      "source": "putnambench",
+      "providedLength": 4085,
+      "referenceSha256": "56dcc03e9f1d22a0655aeb46aa929c75efddb21f2fa73d7504b648792b6e8329",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 14127586,
+          "scaledHeartbeats": 14127,
+          "rawSamples": [
+            14127586
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 14303829,
+          "scaledHeartbeats": 14303,
+          "rawSamples": [
+            14303829
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 4085,
+        "auditTokens": 4085,
+        "rawHeartbeats": 14127586,
+        "scaledHeartbeats": 14127,
+        "rawSamples": [
+          14127586
+        ],
+        "measuredAt": "2026-11-02T14:34:33.917280+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F052/record.json",
+            "sha256": "2be3f9e9650f6401c8490fbcf0ab6c98fd259716070dbc4d2ae8349a18872b1b"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F052/evaluation/result.json",
+            "sha256": "fc442a953c32335cbc244fd9bfaca1feeeb876a0cf0d92c8f246ec07c73f5c4e"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F052/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "66759b6696da5c6c40b492ca678c26fbdce1e0e002b053f03d5fdb69147d885b"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F052/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "a5d195652e6cf4d04f7efc4b0f100dbcc7977dc1f6c121d16ec3ad1068df3dfb"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F053",
+      "row": 53,
+      "name": "putnam_1988_a2",
+      "source": "putnambench",
+      "providedLength": 2162,
+      "referenceSha256": "7edb936f360026703509e49c688e19198bb7ffc47fce507061a752b0c1c28d37",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 58090725,
+          "scaledHeartbeats": 58090,
+          "rawSamples": [
+            58090725
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 60689837,
+          "scaledHeartbeats": 60689,
+          "rawSamples": [
+            60689837
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2162,
+        "auditTokens": 2161,
+        "rawHeartbeats": 58090725,
+        "scaledHeartbeats": 58090,
+        "rawSamples": [
+          58090725
+        ],
+        "measuredAt": "2026-11-02T14:38:31.287873+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F053/record.json",
+            "sha256": "e6a33f05b6d4ce52350df37c62147c6e2905598185cf7fb1dbc68d968bff74c2"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F053/evaluation/result.json",
+            "sha256": "6f32915b519b40e0f43386df104bd7acab6fa7fb0874d62707e4a023a515aaf0"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F053/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "dad170ee44b1e7e3a5b5fd098572cca58f28393f5e2541953866fa8c04827ee6"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F053/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "f91a30969cea7c250c6ed75e8516ce917ff8f320b6beb82b66cca62a8366a52a"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F054",
+      "row": 54,
+      "name": "putnam_2001_b1",
+      "source": "putnambench",
+      "providedLength": 3178,
+      "referenceSha256": "a1c3112e1b7b1d282cf20b9eb593ae4beb94cf111ce9c66291282edcc622311d",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 50251248,
+          "scaledHeartbeats": 50251,
+          "rawSamples": [
+            50251248
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 50745938,
+          "scaledHeartbeats": 50745,
+          "rawSamples": [
+            50745938
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 3178,
+        "auditTokens": 3178,
+        "rawHeartbeats": 50251248,
+        "scaledHeartbeats": 50251,
+        "rawSamples": [
+          50251248
+        ],
+        "measuredAt": "2026-11-02T14:42:27.860697+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F054/record.json",
+            "sha256": "ca806d483ad31e3406f0b441b37b559d9aeba58613808c7534d159dc91793d9a"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F054/evaluation/result.json",
+            "sha256": "6bea47e6ad9f9de4e0ac6e8e49662f27342c20c9f62d1d258ceb0462b483bd31"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F054/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "51ac5a258b2d62ecef2d85784ed2aa6e7cdd3ed0769c483f14405ec442fad9bc"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F054/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "6032756af9da766b5611a29dc5543ccc065d11321caa6176ce9ddd662748fee3"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F055",
+      "row": 55,
+      "name": "putnam_1964_b2",
+      "source": "putnambench",
+      "providedLength": 1754,
+      "referenceSha256": "16f0c2b3e008d0002b83f9550e553fb9acd22cbb4daf5ec813ecd68282738892",
+      "primaryVersion": "v4.26.0",
+      "primaryRevision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+      "requiredVersions": [
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 134489542,
+          "scaledHeartbeats": 134489,
+          "rawSamples": [
+            134489542
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1754,
+        "auditTokens": 1754,
+        "rawHeartbeats": 134489542,
+        "scaledHeartbeats": 134489,
+        "rawSamples": [
+          134489542
+        ],
+        "measuredAt": "2026-11-02T14:46:26.823578+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F055/record.json",
+            "sha256": "c499cc1de42d9e73e0850116e00c91ad116bad5438aa327bb1b23ed1035e1bd0"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F055/evaluation/result.json",
+            "sha256": "24108cb9b2df93460040b2473953c24b7967afd51fc64b2aed2be381e3fc284f"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F055/evaluation/putnambench-v4.26.0/measure-1.lean",
+            "sha256": "8ff52a3820b0a9a4690adec009d062d5ad11dbc5075bdd5fb198dee3313dcd73"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F055/evaluation/putnambench-v4.26.0/measure-1.log",
+            "sha256": "15cb2b7468e2520b2d0c4fd466495b649a0575661a1ec3ebf1b9523b183df873"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F056",
+      "row": 56,
+      "name": "putnam_2007_a1",
+      "source": "putnambench",
+      "providedLength": 5464,
+      "referenceSha256": "1f1ed2d17fe9d826122e560d362c3e3bc1e663f8c221fe72c91e6e0b3cd70d59",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 528106440,
+          "scaledHeartbeats": 528106,
+          "rawSamples": [
+            528106440
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 551645096,
+          "scaledHeartbeats": 551645,
+          "rawSamples": [
+            551645096
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 5464,
+        "auditTokens": 5463,
+        "rawHeartbeats": 528106440,
+        "scaledHeartbeats": 528106,
+        "rawSamples": [
+          528106440
+        ],
+        "measuredAt": "2026-11-02T14:48:39.904737+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F056/record.json",
+            "sha256": "0753ccaa374abd85d498397ac01e9bb5d91df120710b8a735e0fb8fadf5f46c5"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F056/evaluation/result.json",
+            "sha256": "bd8afa330f76e185b30eb3f31586b5e6cbafe06906284a5fe9b8fe0145c622cc"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F056/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "609414f7fdd1c0429f441939360cf842274d9aee849c42c1b3a63ecebf26bd57"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F056/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "fde22b90b17c129b3f74850bb9a8c53bcefa36dfb44a120b64eebd6e1ff5eed9"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F057",
+      "row": 57,
+      "name": "putnam_1970_b5",
+      "source": "putnambench",
+      "providedLength": 2134,
+      "referenceSha256": "98f8c3392204185d91a6da33134262ce2f20483eb68ee1f8603546dc3e0ac925",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 288824885,
+          "scaledHeartbeats": 288824,
+          "rawSamples": [
+            288824885
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 299472901,
+          "scaledHeartbeats": 299472,
+          "rawSamples": [
+            299472901
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2134,
+        "auditTokens": 2134,
+        "rawHeartbeats": 288824885,
+        "scaledHeartbeats": 288824,
+        "rawSamples": [
+          288824885
+        ],
+        "measuredAt": "2026-11-02T14:52:59.570011+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F057/record.json",
+            "sha256": "5554ffb08bf6866a2e7b053425141264abafcadfb91d46d9c9c2b3e935244d03"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F057/evaluation/result.json",
+            "sha256": "67f60c1ad6f062e256f8613f5b915a1af23122de7c5d0b284bc06261e0397784"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F057/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "7acaf9c886f4be533c4b09f61a900ac1cb7e080d2973af700459cc02fc946833"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F057/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "626a80c53fff670bff690094f669975ff79f539610252c8bb916fb3add31d7f4"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F058",
+      "row": 58,
+      "name": "putnam_1968_a1",
+      "source": "putnambench",
+      "providedLength": 1084,
+      "referenceSha256": "6891b2eb59e599021de5242ee92284ac579d1b6f8c77f3b61035071cbb74cdcb",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 60254798,
+          "scaledHeartbeats": 60254,
+          "rawSamples": [
+            60254798
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 63206600,
+          "scaledHeartbeats": 63206,
+          "rawSamples": [
+            63206600
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 1084,
+        "auditTokens": 1084,
+        "rawHeartbeats": 60254798,
+        "scaledHeartbeats": 60254,
+        "rawSamples": [
+          60254798
+        ],
+        "measuredAt": "2026-11-02T14:57:06.962511+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F058/record.json",
+            "sha256": "09e982b4062aa733b727ec894cbf688eb8294acdfd3e661cefc8dc049f485f65"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F058/evaluation/result.json",
+            "sha256": "c87c68fcd6d64d57798f2d0dd28a090917222d48c40fd08acf365d233c43367c"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F058/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "e14decd9cf1d7f4e70c796a59aab2de15515cc8ff2dd6fdecb0163d5ff4d9f60"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F058/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "8c757575a0fa4437a08d5091512fff1bceb19639a37be993b703cbc230e29c23"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F059",
+      "row": 59,
+      "name": "putnam_1991_b1",
+      "source": "putnambench",
+      "providedLength": 3313,
+      "referenceSha256": "7096b03c290ab3a35e17fd18e5e1544d24662cfd5198849dac44d5650ca38d5e",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 342798486,
+          "scaledHeartbeats": 342798,
+          "rawSamples": [
+            342798486
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 351967827,
+          "scaledHeartbeats": 351967,
+          "rawSamples": [
+            351967827
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 3313,
+        "auditTokens": 3313,
+        "rawHeartbeats": 342798486,
+        "scaledHeartbeats": 342798,
+        "rawSamples": [
+          342798486
+        ],
+        "measuredAt": "2026-11-02T15:01:21.707935+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F059/record.json",
+            "sha256": "165f65e0db69ec517824b24ec9852d7052d712d8fe009a34e708d5ee1d9766a2"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F059/evaluation/result.json",
+            "sha256": "d22e849222fc03f8c5519c9cedd514e4348001373b17ad64e4411c852298e8d1"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F059/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "e481d2cd3946d5a61e19b2208f42d38ce2f98a9c647c6f8c9e6b403cddba0c58"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F059/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "fe7b8108ea5dcf3128f2935063a888bfae861eeefd176e8d9f0b4a81f2a5c64d"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    },
+    {
+      "id": "F060",
+      "row": 60,
+      "name": "putnam_2019_a1",
+      "source": "putnambench",
+      "providedLength": 2381,
+      "referenceSha256": "3031af87d604126642e540e391bfc0549f127ce45ddc8f2c28e054965fe3f893",
+      "primaryVersion": "v4.27.0",
+      "primaryRevision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+      "requiredVersions": [
+        "v4.27.0",
+        "v4.26.0"
+      ],
+      "references": [
+        {
+          "environment": "putnambench-v4.27.0",
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "rawHeartbeats": 3223874343,
+          "scaledHeartbeats": 3223874,
+          "rawSamples": [
+            3223874343
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        },
+        {
+          "environment": "putnambench-v4.26.0",
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "rawHeartbeats": 3448431931,
+          "scaledHeartbeats": 3448431,
+          "rawSamples": [
+            3448431931
+          ],
+          "sampleCount": 1,
+          "status": "pass"
+        }
+      ],
+      "local": {
+        "runId": "final60-baselines-final-20261102",
+        "sampleCount": 1,
+        "tokens": 2381,
+        "auditTokens": 2381,
+        "rawHeartbeats": 3223874343,
+        "scaledHeartbeats": 3223874,
+        "rawSamples": [
+          3223874343
+        ],
+        "measuredAt": "2026-11-02T15:06:48.564012+00:00",
+        "evidence": [
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F060/record.json",
+            "sha256": "99098c59fdc46fa4fcbc75f7e69aea227b22640492f34d006d14b9ea5a9432bc"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F060/evaluation/result.json",
+            "sha256": "ec0ab78a22783695c7697fba0689621c66626aec5173186493484e9035a2ff07"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F060/evaluation/putnambench-v4.27.0/measure-1.lean",
+            "sha256": "cb295e1981f7ece6d2d9aeb35c3e55ba753ccca17758146e896fbafab54b60c0"
+          },
+          {
+            "path": "runs/manual/final60-baselines-final-20261102/F060/evaluation/putnambench-v4.27.0/measure-1.log",
+            "sha256": "0abff70ea09e97375c2522fc775567c2196d314f4bb90665df58d16f6f3b44cc"
+          }
+        ],
+        "referenceSinglePass": true
+      }
+    }
+  ]
+}

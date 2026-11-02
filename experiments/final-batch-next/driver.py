@@ -28,12 +28,12 @@ from lean_agent import accounting, actions, artifacts as a, diagnostics, harness
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 import openai_transport as transport
+from evaluation_cache import VERIFICATION_POLICY
 DATASET_SHA = "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682"
 MODEL = {"backend": "openai", "id": "gpt-6.1-sol", "provider": "openai",
          "reasoning_effort": "high", "max_tokens": 8192, "timeout_seconds": 900,
          "seed": 42}
 TARGET = Decimal("1.00")
-VERIFICATION_POLICY = "candidate-cache-final-compatibility-v1"
 
 
 def now():

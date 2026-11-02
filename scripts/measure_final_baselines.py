@@ -41,7 +41,7 @@ def write(path, value):
 
 def implementations():
     names = ["scripts/measure_final_baselines.py", "experiments/final-batch-next/evaluator.py",
-             "experiments/final-batch-next/policy.py", "experiments/final-batch-next/resources.py",
+             "experiments/final-batch-next/fast_prepared.py", "experiments/final-batch-next/policy.py", "experiments/final-batch-next/resources.py",
              "src/lean_agent/prepared.py", "src/lean_agent/evaluator/lean.py",
              "src/lean_agent/evaluator/tokens.py"]
     return {name: sha((REPO / name).read_bytes()) for name in names}

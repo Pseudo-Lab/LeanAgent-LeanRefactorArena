@@ -11,7 +11,7 @@ from pathlib import Path
 
 from policy import validate_declaration
 from openai_transport import compute_cost, normalize
-from evaluation_cache import EvaluationCache
+from evaluation_cache import EvaluationCache, VERIFICATION_POLICY
 from lean_agent import portfolio
 
 
@@ -199,6 +199,8 @@ def main():
     parser.add_argument("--require-complete", action="store_true")
     parser.add_argument("--export", action="store_true")
     args = parser.parse_args()
+    if read(args.root / "authorization.json").get("verification_policy") != VERIFICATION_POLICY:
+        raise ValueError("Different verification policy: do not write reports into an existing batch")
     report = build_report(args.root, require_complete=args.require_complete or args.export)
     (args.root / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
     if args.export and report["audit_passed"] and report["all_completed"]:

@@ -48,6 +48,24 @@ class SinglePassReferenceTests(unittest.TestCase):
         self.assertEqual(result['environments']['test-env']['median_raw_heartbeats'], 12345)
         self.assertEqual(len(result['environments']['test-env']['runs']), 1)
 
+    def test_warm_cache_keeps_single_pass_identity_without_waiting_for_compiler(self):
+        self.problem['row'] = 1
+        state = {'id': 'test-env'}
+        self.evaluator._states = {'test-env': state}
+        self.evaluator._contexts = {(1, 'test-env'): {'prefix': 'import Lean\n', 'suffix': ''}}
+        self.evaluator._prepared = {'test-env': Mock()}
+        self.evaluator._cache_identity = Mock(return_value={'fixed': 'identity'})
+        self.evaluator.cache = Mock()
+        self.evaluator.cache.contains.side_effect = lambda identity: identity.get('reference_single_pass') is True
+        self.evaluator.cache.load.return_value = {'valid': True, 'runs': [], 'cache': {'hit': True},
+                                                  'median_raw_heartbeats': 12345, 'median_heartbeats': 12}
+        self.evaluator._compiler_lock = Mock(side_effect=AssertionError('Warm cache must not wait for compiler'))
+        result = self.evaluate()
+        self.assertTrue(result['valid'])
+        self.evaluator.cache.contains.assert_called_once_with({'fixed': 'identity', 'reference_single_pass': True})
+        self.evaluator._invoke.assert_not_called()
+        self.evaluator._compiler_lock.assert_not_called()
+
     def test_actual_compiler_failure_is_not_hidden_by_omitting_the_duplicate_check(self):
         self.evaluator._invoke.side_effect = None
         self.evaluator._invoke.return_value = ({'returncode': 1, 'timed_out': False}, 'Lean type error')

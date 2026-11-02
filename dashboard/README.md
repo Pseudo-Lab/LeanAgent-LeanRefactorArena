@@ -1,6 +1,12 @@
 # 팀 대시보드
 
-Final F001–F060의 원본 Length·HB와 후보 검증 진행을 기본으로 보여줍니다. 실험 기록 선택기에서 웜업 P01–P15를 따로 확인할 수 있습니다.
+기본 화면은 **최종 F001–F060의 원본 length·HB**입니다. 상단에서 웜업 팀 결과로 전환합니다.
+기존 문제 타일·상세 패널 양식을 사용합니다. 개선 결과가 없으면 회색이며, 점수가 있으면
+60점 이하 빨강, 60점 초과 초록 농도로 표시합니다. 원본 측정값을 개선 점수로 취급하지 않습니다.
+타일 하단은 원본 length·raw HB이고, 원본 표본·실행 근거는 상세 패널에서 펼칩니다.
+현재 최종 원본 스냅샷은 60문제·127개 지정 버전 조합을 모두 포함합니다. 신규 HB는 버전별 1회이며 F001의 기존 3회 표본을 유지합니다. 대표 버전 기준으로 3회 중앙값 1문제·단일 표본 59문제입니다. 이전 대표 버전 3회 기록 48문제·1회 기록 12문제는 `../docs/measurements/final60-primary-history.md`에 보존합니다. 후보 탐색 완료 여부와 원본 측정 여부는 별개입니다.
+
+웜업 P01–P15의 팀원 후보와 공통 환경에서 재검증한 결과를 보여줍니다.
 공식 제출 성적이 아니며 자료 미확보·환경 준비 실패·검증기 지원 대기·증명 실패를 구분합니다.
 일부 버전만 통과한 후보는 대표 환경의 측정값과 미완료 호환성을 구분해 표시합니다.
 
@@ -24,8 +30,40 @@ npm run dev
 
 ## 데이터
 
+### 최종 원본 기준값
+
+`public/data/final-baselines.json`은 `src/lib/final-baselines.ts`의 별도 계약을 사용합니다.
+length는 SHA-256 `d53690b057f9…` 데이터셋의 `proof_length`, 로컬 length·HB는
+`20261101-final60-usd1-r1`과 아래 추가 실행의 `problems/Fxxx/baseline/result.json`에서 가져왔습니다.
+추가 실행은 `20261102-speed-pilot`, `20261102-remaining22`, `20261102-provisional12`입니다.
+HB는 첫 지정 버전에서 측정한 값입니다. `sampleCount: 3`은 raw 표본 3회의 중앙값,
+`sampleCount: 1`은 실제 단일 계측 표본을 뜻합니다. scaled 값(`raw // 1000`)과 실제 표본도
+상세 화면에 표시합니다. 원본 기준값이며 개선 점수나 공식 Linux worker 성적이 아닙니다.
+전체 지정 버전 통과 여부나 유료 후보 실행의 비용 정산 완료를 이 화면에서 판정하지 않습니다.
+
+저장소 루트에서 다음 명령으로 기존 기록만 다시 가져옵니다. Lean·모델·네트워크를 실행하지 않으며
+원본 실행 폴더를 수정하지 않습니다. 두 입력 경로는 실제 로컬 기록 위치로 지정합니다.
+
+```sh
+python3 dashboard/scripts/export_final_baselines.py \
+  --dataset /ABSOLUTE/PATH/benchmark_data_final.jsonl \
+  --run-root /ABSOLUTE/PATH/20261101-final60-usd1-r1
+```
+
+원본 전용 실행기로 추가한 측정은 `--supplement /ABSOLUTE/PATH/BASELINE-RUN`으로 합칩니다.
+옵션은 반복할 수 있습니다. 그룹 시작·끝 전체 환경 검증을 통과한 문제만 받아들이며,
+각 문제에 실제 실행 ID를 기록합니다. 측정 중인 그룹이나 실패한 문제는 미측정으로 남습니다.
+
+가져오기는 데이터셋 SHA, 문제의 원본·명제·이름, 정상 종료, 저장된 소스·로그 해시,
+로그 측정값·실제 표본 수·집계값을 확인합니다. 완료 기록이 없으면 미측정으로 남기고,
+있는 기록이 잘못됐으면 내보내기를 중단합니다. 원본 길이를 HB나 0점으로 대체하지 않습니다.
+내보낸 파일은 실행 루트 상대 경로와 해시만 포함하며 절대 경로·API 응답·자격 증명은 포함하지 않습니다.
+갱신한 JSON을 검토하고 아래 검사·빌드를 거친 뒤 배포하면 반영됩니다. 브라우저 자동 수집은 없습니다.
+
+### 웜업·기존 대회 형식
+
 결과 JSON은 `public/data/`에 두고 `index.json`에 파일 이름을 적습니다.
-파일 형식은 `src/lib/model.ts`에 있습니다. `final`은 60문제, `warmup`은 15문제, 기존 `competition` 기록은 50문제를 받습니다. Final ID는 F001–F060이며 웜업과 같은 번호로 연결하지 않습니다.
+파일 형식은 `src/lib/model.ts`에 있습니다. `warmup`은 15문제, `competition`은 50문제를 받습니다.
 P10·P11·P13·P14·P15의 웜업 JSON은 `scripts/publish_warmup_verification.py`로 검증 artifact에서 갱신하며 점수를 직접 편집하지 않습니다. 나머지 문제는 기존 측정 결과를 유지합니다. 확인하지 않은 결과는 대기로 표시합니다.
 JSON 불러오기는 현재 화면에서만 적용됩니다.
 
@@ -51,7 +89,7 @@ npm run build
 
 Cloudflare Pages의 Direct Upload 프로젝트 `lean-arena-dashboard`를 사용합니다. GitHub Actions 저장소 변수 `DASHBOARD_URL`에도 이 주소를 설정합니다.
 
-`.github/workflows/dashboard-ci.yml`이 main의 `dashboard/**`, Final 측정 JSON, 환경 lock 또는 해당 워크플로 변경을 처리합니다. PR에서는 테스트·데이터 검사·빌드만 실행하며, main에서는 검사 성공 후 **같은 실행에서 검증한 `dist/` artifact**를 Cloudflare Pages로 배포합니다. Actions의 수동 실행도 main에서만 운영 배포합니다. Cloudflare의 별도 Git 연결이나 팀원별 유료 좌석은 필요하지 않습니다.
+`.github/workflows/dashboard-ci.yml`이 main의 `dashboard/**` 또는 해당 워크플로 변경을 처리합니다. PR에서는 테스트·데이터 검사·빌드만 실행하며, main에서는 검사 성공 후 **같은 실행에서 검증한 `dist/` artifact**를 Cloudflare Pages로 배포합니다. Actions의 수동 실행도 main에서만 운영 배포합니다. Cloudflare의 별도 Git 연결이나 팀원별 유료 좌석은 필요하지 않습니다.
 
 ### 최초 연결
 
@@ -82,18 +120,12 @@ DASHBOARD_URL=https://lean-arena-dashboard.pages.dev npm run deploy:check
 
 Cloudflare에서 운영 확인을 마친 후 기존 Vercel 자동 배포용 Secret과 변수를 정리할 수 있습니다. 이전 Vercel 프로젝트는 전환 확인 전까지 복구용으로 유지합니다.
 
-## Final 원본 데이터 갱신
+## 지정 버전 전체의 확정 원본 기준값
 
-고정 dataset SHA256은 `d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682`입니다. 60문제의 127개 지정 버전 조합을 검증하며, 원본과 후보의 검증 목록은 별도로 보존합니다. 대표 원본 HB는 dataset 첫 번째 지정 버전이고, 상세 화면에서 모든 버전의 raw HB·환산 HB·실제 표본 수를 확인할 수 있습니다. 환산 HB는 각 raw 표본의 `raw // 1000` 중앙값입니다.
+`final-baselines.json`은 60문제·127개 지정 버전 조합의 완료 결과를 사용합니다. Final 전용 화면과 웜업 전환은 유지하며, 상세 화면에서 버전별 raw HB·환산 HB·실제 표본 수·revision을 확인합니다. 신규 표본은 버전별 1회이고 F001의 기존 3회는 보존합니다. 단일 표본 수와 환경 무결성·컴파일·공리 검증 완료 여부를 구분하며, 원본을 개선 후보 결과로 집계하지 않습니다.
 
-원본 기준은 `../docs/measurements/final60-baselines.json`에서 내보냅니다. 신규 HB는 버전별 1회이며, F001의 기존 3회 표본은 그대로 유지합니다. 원본 측정만 완료된 문제의 후보는 미실행 상태로 남고 개선 점수·호환성·전체 종합에 0 또는 통과로 집계하지 않습니다. 비교 Length는 Final 평가기의 `arena-paper-compatible-v1` 계산과 60문제 모두 일치하는 dataset 제공값을 사용합니다. F053·F056은 별도 `lean-source-anchored-v1` tokenizer의 감사 값이 1토큰 달라 상세 화면에 두 값을 보존합니다.
+비교 Length는 Final 평가기의 `arena-paper-compatible-v1`과 60문제 모두 일치하는 제공값입니다. 별도 `lean-source-anchored-v1` 감사 값도 보존하며 F053·F056은 1토큰 차이를 표시합니다. 최신 표와 환경 준비 설명은 `../docs/measurements/final60-baselines.md`, `final60-environments.md`에 있습니다.
 
-저장소 루트에서 다음 명령을 실행합니다. 원본 JSONL은 `benchmarks/arena/final-d53690b057f9/`에 고정한 로컬 원본을 사용합니다.
+저장소 루트에서 `python3 -B dashboard/scripts/publish_final_baselines.py`를 실행하면 완료된 측정 문서와 원시 증거를 검증해 기존 공개 파일을 갱신합니다. 60/60 완료·종료 해시 검사·17개 환경과 8개 compiler의 최종 감사가 통과해야 합니다. 다른 실행은 `--run-root`, `--audit`로 지정합니다. 기존 `export_final_baselines.py`는 대표 버전의 과거 기록을 읽는 용도로 유지합니다. 공개 CI는 전체 지정 버전의 완료·identity·Length·HB 표본을 측정 JSON과 환경 lock에 대조합니다.
 
-```sh
-python3 -B dashboard/scripts/publish_final_baselines.py
-```
-
-전체 60문제와 환경 종료 bytes 검사가 통과한 경우에만 게시 파일을 생성합니다. `--allow-incomplete`는 로컬 화면 확인에만 사용하며, 미완료 파일은 `npm run data:check`와 PR CI에서 거부합니다. 데이터 검사는 공개 JSON의 정리명·원본 해시·Length·필수 버전/revision·HB 표본을 측정 문서와 환경 lock에 대조합니다. JSON 가져오기·내보내기에서도 원본 값과 후보 값을 분리합니다.
-
-PR의 테스트·데이터 검사·빌드 통과 후 main에 병합하면 기존 Cloudflare Pages 배포가 실행됩니다. PR 생성은 운영 배포 완료를 뜻하지 않습니다. 배포 후 `deploy:check`가 Final과 웜업 공개 JSON을 모두 대조합니다.
+PR은 검사·빌드만 실행하고, main 병합 시 기존 Cloudflare Pages 운영 배포가 실행됩니다. Final 측정 JSON·환경 lock 변경도 Dashboard CI를 실행합니다.
