@@ -65,3 +65,6 @@ __pycache__/
 /experiments/feedback-summary-20261025/
 /experiments/offline-proof-search/
 /experiments/length-bounds/
+
+# Regenerable static-analysis views; retain analyzer, JSON and Markdown summaries.
+/experiments/proof-analyze/results/*_focus.lean
