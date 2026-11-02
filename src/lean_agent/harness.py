@@ -14,14 +14,14 @@ import statistics
 import subprocess
 import sys
 
-from . import accounting, diagnostics, models, prepared, status
+from . import accounting, actions, budgeting, diagnostics, models, prepared, status
 from .artifacts import canonical, inventory, read, sha as digest, write
 from .evaluator.lean import LeanEvaluator, validate_template
 from .evaluator.tokens import TOKENIZER_ID, proof_body
 
 BASE = Path(__file__).resolve().parent
 CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
-              "artifacts.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py",
+              "artifacts.py", "actions.py", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py",
               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
 SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
 
@@ -57,6 +57,13 @@ def load_config(path):
             raise ValueError("Unlimited calls require an OpenRouter cost_stop_usd")
     elif not positive(limits["max_calls"]):
         raise ValueError("Expected positive integer max_calls or null with cost_stop_usd")
+    if "cost_cap_usd" in limits:
+        try:
+            cap = Decimal(str(limits["cost_cap_usd"]))
+        except InvalidOperation as exc:
+            raise ValueError("Expected positive finite cost_cap_usd") from exc
+        if not cap.is_finite() or cap <= 0 or model.get("backend") != "openrouter" or "max_price" not in model:
+            raise ValueError("cost_cap_usd requires positive finite cap and OpenRouter price ceilings")
     if not positive(lean["repetitions"]) or lean["repetitions"] % 2 != 1:
         raise ValueError("Lean repetitions must be a positive odd integer")
     if not positive(lean["timeout_seconds"]):
@@ -81,6 +88,10 @@ def load_config(path):
                     or any(type(v) not in (int, float) or not Decimal(str(v)).is_finite() or v < 0 for v in prices.values())):
                 raise ValueError("Expected finite prompt/completion price ceilings")
     paths = {key: (path.parent / config[key]).resolve() for key in ("problem", "template", "project", "prompt")}
+    if "agent" in config:
+        actions.validate_config(config["agent"])
+        paths["action_corpus"] = (path.parent / config["agent"]["corpus"]).resolve()
+        actions.validate_corpus(read(paths["action_corpus"]))
     if "prepared_environment" in lean:
         if not isinstance(lean["prepared_environment"], str) or not lean["prepared_environment"]:
             raise ValueError("Set a prepared_environment manifest path")
@@ -131,7 +142,8 @@ def snapshot_code(output):
 
 def snapshot(output, config_path, paths):
     for key, filename in {"problem": "problem.json", "template": "context.lean.in", "prompt": "prompt.txt",
-                          "responses": "responses.json", "prepared_environment": "prepared-environment.json"}.items():
+                          "responses": "responses.json", "prepared_environment": "prepared-environment.json",
+                          "action_corpus": "action-corpus.json"}.items():
         if key in paths:
             dest = output / "input" / filename
             dest.parent.mkdir(parents=True, exist_ok=True)
@@ -187,13 +199,16 @@ def ranking(value):
     return value["rank_numerator"], value["tokens"], value["sha256"]
 
 
-def initial_state(problem, result):
+def initial_state(problem, result, config=None):
     baseline = metrics(result)
     if baseline is None or baseline["raw_heartbeats"] <= 0:
         raise ValueError("Original must verify with positive baseline measurements")
-    return {"step": 0, "calls": 0, "cost_usd": "0", "unknown_cost": False,
+    state = {"step": 0, "calls": 0, "cost_usd": "0", "unknown_cost": False,
             "baseline": {k: baseline[k] for k in ("tokens", "raw_heartbeats")},
             "best": candidate(problem["reference"], result, baseline), "latest": None}
+    if actions.enabled(config or {}):
+        actions.initialize(state)
+    return state
 
 
 def make_request(state, problem, config, prompt):
@@ -204,12 +219,26 @@ def make_request(state, problem, config, prompt):
               "best": {k: v for k, v in state["best"].items() if k != "raw_samples"}, "latest": latest,
               "step": state["step"] + 1,
               "remaining_calls": None if config["limits"]["max_calls"] is None else config["limits"]["max_calls"] - state["calls"]}
+    if actions.enabled(config):
+        packet["exploration"] = actions.view(state, config)
+        repair = packet["exploration"].get("repair_context")
+        if repair and latest and latest["code"] == repair["code"]:
+            packet["latest"] = {"candidate_id": repair["candidate_id"],
+                                "feedback_ref": "exploration.repair_context.feedback"}
+        elif latest:
+            packet["latest"]["feedback"] = actions.compact_feedback(latest["feedback"])
+        if packet["best"]["code"] == problem["reference"]:
+            packet["best"].pop("code")
+            packet["best"]["code_ref"] = "problem.reference"
     threshold = config["limits"].get("cost_stop_usd")
     if threshold is not None:
         spent = Decimal(state["cost_usd"])
         packet["budget"] = {"stop_at_usd": str(threshold), "spent_usd": str(spent),
                             "remaining_usd": str(max(Decimal(0), Decimal(str(threshold)) - spent)),
                             "mode": "stop after the response reaching the threshold; last call may overshoot"}
+    if "cost_cap_usd" in config["limits"]:
+        packet["hard_budget"] = {"cap_usd": str(config["limits"]["cost_cap_usd"]),
+                                 "spent_usd": state["cost_usd"], "mode": "next maximum request must fit; no overshoot"}
     body = models.payload([{"role": "system", "content": prompt},
                            {"role": "user", "content": canonical(packet)}], config["model"])
     if len(canonical(body)) > config["limits"]["max_request_characters"]:
@@ -256,7 +285,35 @@ def feedback(result, rejection, limit, run_directory):
             "details": canonical(details).replace(run_directory, "<RUN>")[:limit]}
 
 
-def advance(state, raw, code, result, rejection, baseline, config, run_directory, diagnosis=None):
+def prepare_response(raw, state, problem, config, output):
+    action, code, observation, rejection = None, None, None, None
+    try:
+        if actions.enabled(config):
+            action, code, observation = actions.prepare(raw, state, problem, config,
+                read(output / "input/action-corpus.json"), parse_proof)
+        else:
+            code = parse_proof(raw, problem, config["limits"]["max_proof_characters"])
+    except (ValueError, TypeError) as exc:
+        rejection = str(exc)
+    return action, code, observation, rejection
+
+
+def step_event(state, rejection, config, action, observation):
+    event = {"state_after": state, "rejection": rejection}
+    if actions.enabled(config):
+        event.update(action=action, observation=observation)
+    return event
+
+
+def step_diagnosis(raw, rejection, result, folder, output, config):
+    report = diagnostics.step(raw, rejection, result, folder, output)
+    if report and rejection and actions.enabled(config):
+        report["guidance"] = "Return one supported JSON action object using exploration.actions and known candidate IDs."
+    return report
+
+
+def advance(state, raw, code, result, rejection, baseline, config, run_directory, diagnosis=None,
+            *, action=None, observation=None):
     state = json.loads(canonical(state))
     bill = models.receipt(raw)
     state["step"] += 1
@@ -268,8 +325,15 @@ def advance(state, raw, code, result, rejection, baseline, config, run_directory
     if proposal and ranking(proposal) < ranking(state["best"]):
         state["best"] = proposal
     limit = config["limits"]["max_feedback_characters"]
-    state["latest"] = {"code": code, "feedback": diagnostics.enrich(
-        feedback(result, rejection, limit, run_directory), diagnosis, limit, run_directory)}
+    if action and code is None and rejection is None:
+        response_feedback = {"status": "tool_result", "valid": None,
+                             "details": canonical(observation)[:limit]}
+    else:
+        response_feedback = diagnostics.enrich(
+            feedback(result, rejection, limit, run_directory), diagnosis, limit, run_directory)
+    state["latest"] = {"code": code, "feedback": response_feedback}
+    if actions.enabled(config):
+        actions.advance(state, action, code, proposal, rejection, observation)
     return state
 
 
@@ -277,19 +341,26 @@ def seal(output):
     write(output / "artifacts.json", inventory(output))
 
 
-def stopping_reason(state, problem, config, prompt):
+def stopping_reason(state, problem, config, prompt, output=None):
     if state["unknown_cost"]:
         return "unknown_cost"
     if state["latest"] and state["latest"]["feedback"]["status"] == "environment_failed":
         return "environment_failed"
+    if actions.finished(state):
+        return "agent_finished"
     if cost_threshold_reached(state, config):
         return "cost_limit"
     if config["limits"]["max_calls"] is not None and state["calls"] >= config["limits"]["max_calls"]:
         return "call_limit"
     try:
-        make_request(state, problem, config, prompt)
+        body = make_request(state, problem, config, prompt)
     except ValueError:
         return "context_limit"
+    reserved = budgeting.reservation(body, state, config)
+    if reserved is not None and not reserved["allowed"]:
+        if output is None or read(output / "budget-stop.json") != reserved:
+            raise ValueError("Budget stop differs from replayed reservation")
+        return "budget_reservation"
     raise ValueError("Recorded run ended before a stopping condition")
 
 
@@ -300,7 +371,7 @@ def cost_threshold_reached(state, config):
 
 def summarize(state, baseline, final, config, stop):
     measured = metrics(final)
-    return {"status": "completed" if final["valid"] and stop in ("call_limit", "context_limit", "cost_limit") else "stopped",
+    return {"status": "completed" if final["valid"] and stop in ("call_limit", "context_limit", "cost_limit", "agent_finished", "budget_reservation") else "stopped",
             "stop_reason": stop, "backend": config["model"]["backend"],
             "state": state, "baseline": baseline, "final": measured,
             "final_valid": final["valid"], "official_evaluation": False,
@@ -379,7 +450,7 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
         reference = output / "baseline.lean"
         reference.write_text(problem["reference"], encoding="utf-8")
         baseline_result = evaluate(problem["reference"], output / "baseline", "baseline", reference)
-        state = initial_state(problem, baseline_result)
+        state = initial_state(problem, baseline_result, config)
         baseline = metrics(baseline_result)
         write(output / "initial-state.json", state)
         stop = "call_limit"
@@ -397,6 +468,11 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
             except ValueError:
                 stop = "context_limit"
                 break
+            reserved = budgeting.reservation(body, state, config)
+            if reserved is not None and not reserved["allowed"]:
+                write(output / "budget-stop.json", reserved)
+                stop = "budget_reservation"
+                break
             progress.enter("model", attempt=step)
             write(folder / "request.json", body)
             progress.calls += 1  # A dispatched call may have an unknown outcome.
@@ -408,26 +484,27 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
             receipt_error = diagnostics.response(raw, None, folder / "response.json", output)
             progress.finish("failed" if receipt_error else "passed", [folder / "request.json", folder / "response.json"])
             progress.enter("response", attempt=step)
-            code, result, rejection = None, None, None
-            try:
-                code = parse_proof(raw, problem, config["limits"]["max_proof_characters"])
-            except (ValueError, TypeError) as exc:
-                rejection = str(exc)
+            action, code, observation, rejection = prepare_response(raw, state, problem, config, output)
+            result = None
             progress.finish("failed" if rejection else "passed", [folder / "response.json"])
             if code is not None:
                 source = folder / "candidate.lean"
                 source.write_text(code, encoding="utf-8")
                 result = evaluate(code, folder / "evaluation", "candidate", source, attempt=step)
-            report = diagnostics.step(raw, rejection, result, folder, output)
+            report = step_diagnosis(raw, rejection, result, folder, output, config)
             if report and report["stage"] == "model":
                 recorder.save(f"model-{step:03}", report)
-            state = advance(state, raw, code, result, rejection, baseline, config, str(output), report)
-            write(folder / "event.json", {"state_after": state, "rejection": rejection})
+            state = advance(state, raw, code, result, rejection, baseline, config, str(output), report,
+                            action=action, observation=observation)
+            write(folder / "event.json", step_event(state, rejection, config, action, observation))
             if state["unknown_cost"]:
                 stop = "unknown_cost"
                 break
             if result and environment_failed(result):
                 stop = "environment_failed"
+                break
+            if actions.finished(state):
+                stop = "agent_finished"
                 break
         selected = output / "selected.lean"
         selected.write_text(state["best"]["code"], encoding="utf-8")
@@ -518,36 +595,37 @@ def replay_records(output):
     problem = read(output / "input/problem.json")
     prompt = (output / "input/prompt.txt").read_text()
     baseline_result = read(output / "baseline/result.json")
-    state = initial_state(problem, baseline_result)
+    state = initial_state(problem, baseline_result, config)
     baseline = metrics(baseline_result)
     if read(output / "initial-state.json") != state:
         raise ValueError("Initial state differs")
     steps = sorted((output / "steps").iterdir(), key=lambda p: int(p.name)) if (output / "steps").exists() else []
     usage_records = []
     for index, folder in enumerate(steps, 1):
-        if (folder.name != f"{index:03}" or state["unknown_cost"] or cost_threshold_reached(state, config)
+        if (folder.name != f"{index:03}" or state["unknown_cost"] or actions.finished(state) or cost_threshold_reached(state, config)
                 or config["limits"]["max_calls"] is not None and index > config["limits"]["max_calls"]
                 or state["latest"] and state["latest"]["feedback"]["status"] == "environment_failed"):
             raise ValueError("Invalid step sequence")
         if read(folder / "request.json") != make_request(state, problem, config, prompt):
             raise ValueError("Request does not match the recorded state")
+        reserved = budgeting.reservation(read(folder / "request.json"), state, config)
+        if reserved is not None and not reserved["allowed"]:
+            raise ValueError("Recorded request exceeded cost reservation")
         raw = read(folder / "response.json")
         usage = accounting.response_record(raw)
         if read(folder / "usage.json") != usage:
             raise ValueError("Usage receipt differs from saved response")
         usage_records.append(usage)
-        code, result, rejection = None, None, None
-        try:
-            code = parse_proof(raw, problem, config["limits"]["max_proof_characters"])
-        except (ValueError, TypeError) as exc:
-            rejection = str(exc)
+        action, code, observation, rejection = prepare_response(raw, state, problem, config, output)
+        result = None
         if code is not None:
             if (folder / "candidate.lean").read_text() != code:
                 raise ValueError("Candidate differs from model response")
             result = read(folder / "evaluation/result.json")
-        report = diagnostics.step(raw, rejection, result, folder, output)
-        state = advance(state, raw, code, result, rejection, baseline, config, manifest["run_directory"], report)
-        if read(folder / "event.json") != {"state_after": state, "rejection": rejection}:
+        report = step_diagnosis(raw, rejection, result, folder, output, config)
+        state = advance(state, raw, code, result, rejection, baseline, config, manifest["run_directory"], report,
+                        action=action, observation=observation)
+        if read(folder / "event.json") != step_event(state, rejection, config, action, observation):
             raise ValueError("State transition differs")
     summary = read(output / "summary.json")
     if read(output / "usage-summary.json") != accounting.response_summary(usage_records):
@@ -555,7 +633,7 @@ def replay_records(output):
     if state != summary["state"] or (output / "selected.lean").read_text() != state["best"]["code"]:
         raise ValueError("Final selection differs")
     final = read(output / "final/result.json")
-    expected = summarize(state, baseline, final, config, stopping_reason(state, problem, config, prompt))
+    expected = summarize(state, baseline, final, config, stopping_reason(state, problem, config, prompt, output))
     if summary != expected:
         raise ValueError("Final summary differs")
     if read(output / "usage-cost.json") != accounting.native_report(output):
