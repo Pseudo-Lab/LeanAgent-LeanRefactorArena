@@ -103,8 +103,9 @@ def report(root, markdown):
     text = ["# Final 60문제 원본 Length·HB 측정", "",
             f"갱신: {now()}", "",
             f"원본 dataset SHA256: `{DATASET_SHA}`. 모델 API 호출 0회.", "",
-            "문제를 F001부터 순서대로 처리한다. 각 지정 버전에서 원문 컴파일·공리 확인 후 "
-            f"새 Lean 프로세스 {repetitions}회로 HB를 측정한다. 이미 완료한 복수 표본은 "
+            "문제를 F001부터 순서대로 처리한다. 각 지정 버전의 새 Lean 프로세스에서 "
+            f"원문 컴파일·공리 확인과 HB {repetitions}회 계측을 수행한다. 원본 단일 컴파일 모드는 "
+            "protocol에 기록하며 이전의 별도 사전 컴파일 증거도 보존한다. 이미 완료한 복수 표본은 "
             "실제 횟수와 중앙값을 그대로 보존한다. 버전별 결과를 따로 보존하고, "
             "대표 HB는 dataset의 첫 번째 지정 버전 값을 사용한다. 공식 worker 점수는 아니다.", "",
             "Length는 제공 기준값과 로컬 tokenizer 결과를 구분한다. "
@@ -160,6 +161,8 @@ def main():
     parser.add_argument("--verification-boundary", choices=["run", "problem"], default="run")
     parser.add_argument("--evaluation-cache", type=Path,
                         help="Reuse verified identical problem/environment evidence; measure cache misses once")
+    parser.add_argument("--separate-reference-check", action="store_true",
+                        help="Compile the reference separately before its instrumented compile (legacy protocol)")
     parser.add_argument("--carry-forward", type=Path,
                         help="Retain verified completed evidence from an older frozen run")
     parser.add_argument("--history-root", type=Path, action="append", default=[],
@@ -181,6 +184,7 @@ def main():
     protocol = {"schema_version": 1, "dataset_sha256": DATASET_SHA,
                 "repetitions": args.repetitions, "all_versions": True, "fresh": args.evaluation_cache is None,
                 "evaluation_cache": str(args.evaluation_cache.resolve()) if args.evaluation_cache else None,
+                "reference_single_pass": not args.separate_reference_check,
                 "first_problem": args.start,
                 "verification_boundary": args.verification_boundary,
                 "ordering": "F001..F060, one problem at a time",
@@ -297,7 +301,8 @@ def main():
             initial = evaluator.verify_environments(problem, full=args.verification_boundary == "problem")
             result = evaluator.evaluate(row["src"], problem, record_path.parent / "evaluation",
                                         repetitions=args.repetitions, all_versions=True, trusted_reference=True,
-                                        fresh=args.evaluation_cache is None)
+                                        fresh=args.evaluation_cache is None,
+                                        reference_single_pass=not args.separate_reference_check)
             final = evaluator.verify_environments(problem, full=args.verification_boundary == "problem")
             assert initial == final, "Prepared environment changed during measurement"
             if not result["valid"]:

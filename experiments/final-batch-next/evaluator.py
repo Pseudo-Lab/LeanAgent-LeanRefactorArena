@@ -407,13 +407,17 @@ class FinalEvaluator:
         return record, resolved, error
 
     def evaluate(self, code, problem, output_folder, *, repetitions=1, all_versions=False,
-                 trusted_reference=False, fresh=False):
+                 trusted_reference=False, fresh=False, reference_single_pass=False):
         if type(repetitions) is not int or repetitions < 1:
             raise ValueError("Expected a positive measurement count")
+        if reference_single_pass and not trusted_reference:
+            raise ValueError("Single-pass compilation is only for an exact frozen reference")
         problem = self.load_problem(problem)
         output = Path(output_folder)
         output.mkdir(parents=True, exist_ok=False)
         result = {"valid": False, "tokens": None, "environments": {}, "error": None}
+        if reference_single_pass:
+            result["reference_compile_mode"] = "instrumented-compile-and-axioms"
         try:
             result["tokens"] = proof_tokens(code, problem["statement"])
             result["tokenizer"] = {"id": TOKENIZER_ID, "source_sha256": digest(Path(_token_spec.origin).read_bytes())}
@@ -442,13 +446,19 @@ class FinalEvaluator:
                     if self.cache is not None and not fresh:
                         cache_identity = self._cache_identity(code, problem, state, context,
                                                               repetitions, trusted_reference)
+                        if reference_single_pass:
+                            cache_identity = {**cache_identity, "reference_single_pass": True}
                         if self.cache.contains(cache_identity):
                             self._prepared[environment_id].verify(full=False)
                             cached = self.cache.load(cache_identity, folder)
                             result["environments"][environment_id] = cached
                             continue
                     prefix, suffix = context["prefix"], context["suffix"]
-                    jobs = [("check", None)] + [(f"measure-{i+1}", uuid.uuid4().hex) for i in range(repetitions)]
+                    # The unchanged wrapper calls elabCommand, checks the created
+                    # target, and collects axioms. For exact original references
+                    # this is also the compile check; no synthetic check record.
+                    jobs = ([] if reference_single_pass else [("check", None)]) + [
+                        (f"measure-{i+1}", uuid.uuid4().hex) for i in range(repetitions)]
                     raw = []
                     for label, nonce in jobs:
                         if nonce is None:
