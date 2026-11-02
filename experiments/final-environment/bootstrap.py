@@ -172,7 +172,7 @@ def fetch_all(lock):
     fetch_widget_tags()
 
 
-def fetch_widget_tags():
+def fetch_widget_tags(checkout_root=None):
     """Lake's ProofWidgets release lookup needs the real tag at the locked SHA."""
     url = "https://github.com/leanprover-community/ProofWidgets4"
     output = command(["git", "ls-remote", "--tags", url])
@@ -186,7 +186,7 @@ def fetch_widget_tags():
             tags[tag] = revision
     tags.update(peeled)
     records = []
-    for project in sorted((ROOT / "checkouts").glob("*/leanprover-community--ProofWidgets4--*")):
+    for project in sorted((checkout_root or ROOT / "checkouts").glob("*/leanprover-community--ProofWidgets4--*")):
         revision = project.name.rsplit("--", 1)[1]
         candidates = sorted(tag for tag, commit in tags.items() if commit == revision)
         if not candidates:
@@ -200,7 +200,11 @@ def fetch_widget_tags():
             raise ValueError("ProofWidgets tag does not resolve to the locked SHA")
         records.append({"path": str(project.relative_to(REPO)), "revision": revision, "tag": tag})
         print("RELEASE TAG READY", project.parent.name, tag, flush=True)
-    write(ROOT / "proofwidgets-tags.json", records)
+    receipt = ROOT / "proofwidgets-tags.json"
+    previous = json.loads(receipt.read_text()) if receipt.exists() else []
+    merged = {r["path"]: r for r in previous}
+    merged.update({r["path"]: r for r in records})
+    write(receipt, sorted(merged.values(), key=lambda r: r["path"]))
 
 
 def normalize_package_links():

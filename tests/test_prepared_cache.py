@@ -35,6 +35,22 @@ class PreparedCacheTests(unittest.TestCase):
             evaluator.verify()
             self.assertEqual(read.call_count, 1)
 
+    def test_nested_roots_hash_each_pinned_file_once_without_changing_inventory(self):
+        root = self.root / 'compiled'
+        leaf = root / 'lean'
+        leaf.mkdir(parents=True)
+        artifact = leaf / 'Dependency.olean'
+        artifact.write_bytes(b'pinned')
+        for policy in ['full', 'stat-cache']:
+            manifest = self.root / ('nested-' + policy + '.json')
+            prepared.freeze([root, leaf], 'fixed', manifest, verification=policy)
+            evaluator = prepared.PreparedLeanEvaluator(manifest)
+            original = Path.read_bytes
+            with patch.object(Path, 'read_bytes', autospec=True, side_effect=original) as read:
+                evaluator.verify(full=True)
+                self.assertEqual(read.call_count, 1)
+            self.assertEqual(set(evaluator.settings['files']), {str(artifact)})
+
     def test_cache_is_local_to_each_evaluator(self):
         evaluator = self.evaluator()
         evaluator.verify()

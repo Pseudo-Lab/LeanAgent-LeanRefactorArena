@@ -77,6 +77,17 @@ def write(path, value):
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
 
 
+def artifact_paths(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for child in value.values():
+            yield from artifact_paths(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from artifact_paths(child)
+
+
 def _comment_mask(text, *, module_docs_are_commands=False):
     """Mask comments without moving any source boundary (nested comments work)."""
     chars, i = list(text), 0
@@ -204,6 +215,30 @@ class FinalEvaluator:
         self._contexts = {}
         self.cache = EvaluationCache(cache_root) if cache_root is not None else None
 
+    def _compiler_setup(self, state, context):
+        if not context['module']:
+            return None, None
+        project = self.repo / state['project']
+        path = project / '.lake/build/ir' / (context['module'].replace('.', '/') + '.setup.json')
+        content = path.read_bytes()
+        checksum = digest(content)
+        if context.setdefault('setup_sha256', checksum) != checksum:
+            raise ValueError('Pinned Lake compiler setup changed')
+        data = json.loads(content)
+        if not isinstance(data, dict):
+            raise ValueError('Pinned Lake compiler setup must be an object')
+        for field in ['importArts', 'plugins', 'dynlibs']:
+            for raw in artifact_paths(data.get(field)):
+                artifact = Path(raw)
+                if not artifact.is_absolute():
+                    artifact = project / artifact
+                # Resolve checkout/build-directory aliases while retaining a
+                # final file symlink that the manifest itself already pins.
+                artifact = artifact.parent.resolve() / artifact.name
+                if str(artifact) not in self._prepared[state['id']].settings['files']:
+                    raise ValueError('Compiler setup imports an unpinned artifact: ' + str(artifact))
+        return path, checksum
+
     def _cache_identity(self, code, problem, state, context, repetitions, trusted_reference):
         """Bind reuse to exact input, full context, toolchain and evaluator policy."""
         environment_file = self.root / "environments" / state["id"] / "environment.json"
@@ -218,12 +253,7 @@ class FinalEvaluator:
         if context["location"].get("file_path"):
             if digest((project / context["location"]["file_path"]).read_bytes()) != context["source_sha256"]:
                 raise ValueError("Original full-context source changed")
-        setup = None
-        if context["module"]:
-            path = project / ".lake/build/ir" / (context["module"].replace(".", "/") + ".setup.json")
-            setup = digest(path.read_bytes())
-            if context.setdefault("setup_sha256", setup) != setup:
-                raise ValueError("Pinned Lake compiler setup changed")
+        _, setup = self._compiler_setup(state, context)
         implementation = [Path(__file__), Path(__file__).with_name("evaluation_cache.py"),
                           Path(__file__).with_name("policy.py"), Path(_token_spec.origin),
                           self.repo / "src/lean_agent/prepared.py",
@@ -312,15 +342,8 @@ class FinalEvaluator:
         saved.write_text(source)
         compiler = self.root / "toolchains" / state["version"] / "bin"
         command = [str(compiler / "lean"), str(saved), "-j1", "-M4096"]
-        setup = None
-        if context["module"]:
-            setup = project / ".lake/build/ir" / (context["module"].replace(".", "/") + ".setup.json")
-            if not setup.is_file():
-                raise ValueError("Pinned Lake compiler setup missing: " + str(setup))
-            setup_hash = digest(setup.read_bytes())
-            known = context.setdefault("setup_sha256", setup_hash)
-            if setup_hash != known:
-                raise ValueError("Pinned Lake compiler setup changed")
+        setup, setup_hash = self._compiler_setup(state, context)
+        if setup:
             command.extend(["--setup", str(setup)])
         sandbox = shutil.which("sandbox-exec")
         if not sandbox:

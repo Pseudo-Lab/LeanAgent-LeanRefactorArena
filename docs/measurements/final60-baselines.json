@@ -5,9 +5,20 @@
   "tokenizer": "lean-source-anchored-v1",
   "default_hb_repetitions": 1,
   "measurement_policy": "One fresh HB sample per environment for new measurements; retain historical counts.",
+  "environment_verification": {
+    "status": "passed",
+    "policy": "run",
+    "finished_at": "2026-11-02T10:47:26.548935+00:00",
+    "environments": {
+      "cslib-v4.33.1": "3e2be850c331e0c0398915605d240de145aebca45b079e7d371c614dfc83bf0e",
+      "cslib-v4.31.0": "a0d8fb61623f31dc08d993992ee9fe44192eca88c9e3dcc1612a6e19cf142799",
+      "cslib-v4.30.0": "609e053445d53b5dc195e658b0d5f1ff21bda065ace4beace0f4a11b7c73cb68",
+      "cslib-v4.34.1": "bd2fa30c23e4d88d6ede1a684b213a2e3ccf45fccbbf4ea4fe57fff6153eade3"
+    }
+  },
   "total_problems": 60,
-  "measured_problems": 10,
-  "next_problem": "F011",
+  "measured_problems": 30,
+  "next_problem": "F031",
   "model_api_calls": 0,
   "problems": [
     {
@@ -403,9 +414,26 @@
       "provided_length": 4,
       "local_length": 4,
       "reference_sha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
-      "status": "partial",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
       "environments": {
         "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            64051730
+          ],
+          "median_raw_heartbeats": 64051730,
+          "median_heartbeats": 64051,
+          "cache": {
+            "hit": true,
+            "key": "ee0a179f6c8d0ef2803bc780e72f555480555803758919749c3f2d086a5fd969",
+            "origin": "/Users/jwkweon/00_work/00_project/05_pseudolab/.worktrees/arena-final60-baselines/runs/manual/final60-primary-20261102/F011-attempt-001/evaluation/physlib-v4.34.1",
+            "compiler_invocations": 0,
+            "execution_seconds": 0
+          },
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
           "valid": true,
           "raw_samples": [
             64051730
@@ -415,10 +443,13 @@
           "measurement_count": 1
         }
       },
-      "primary_environment": "physlib-v4.34.1",
-      "pending_environments": [
-        "physlib-v4.34.0"
-      ]
+      "measured_at": "2026-11-02T09:43:46.482033+00:00",
+      "seconds": 159.889,
+      "result_sha256": "bfec6c153a69f97e82a7acbf6a8521c53458454533262c1e04c484a2dcbd3914",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F012",
@@ -427,8 +458,35 @@
       "provided_length": 12,
       "local_length": 12,
       "reference_sha256": "5d5ec4e8188e296a6504c12906bad9574ecb21354def05c2cc6562dfcb549a09",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            74041515
+          ],
+          "median_raw_heartbeats": 74041515,
+          "median_heartbeats": 74041,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            74041515
+          ],
+          "median_raw_heartbeats": 74041515,
+          "median_heartbeats": 74041,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:45:59.775199+00:00",
+      "seconds": 133.281,
+      "result_sha256": "23a59f1ffb291163ccf1d15692ab2b09725ca291ecfa49a0c094625fc6dd2c56",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F013",
@@ -437,8 +495,35 @@
       "provided_length": 12,
       "local_length": 12,
       "reference_sha256": "847028f55ca688f2aedece86f71654a5af77a765c27f15681d27d3f92b0b1406",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            79108905
+          ],
+          "median_raw_heartbeats": 79108905,
+          "median_heartbeats": 79108,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            79108905
+          ],
+          "median_raw_heartbeats": 79108905,
+          "median_heartbeats": 79108,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:48:13.977180+00:00",
+      "seconds": 134.189,
+      "result_sha256": "1cc78c7aef3dbd38aa5e2100556f2110cc24f497a9f975a3692f721b02070468",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F014",
@@ -447,8 +532,35 @@
       "provided_length": 181,
       "local_length": 181,
       "reference_sha256": "80f1722a4735cf2546eeabd5724f07682f10903d7fc9f978342aed5aaa3840d4",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            212379390
+          ],
+          "median_raw_heartbeats": 212379390,
+          "median_heartbeats": 212379,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            212379390
+          ],
+          "median_raw_heartbeats": 212379390,
+          "median_heartbeats": 212379,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:50:47.659467+00:00",
+      "seconds": 153.668,
+      "result_sha256": "ffc190bc1b2eccf78fa103441f518da46986ce1bd0ff4b6d4f084bb7e5030e55",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F015",
@@ -457,8 +569,35 @@
       "provided_length": 183,
       "local_length": 183,
       "reference_sha256": "13a7b6e73c3d7d0eaba531809654eb931b3851f2d25275ccdc0ba49e22cfd667",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            136539444
+          ],
+          "median_raw_heartbeats": 136539444,
+          "median_heartbeats": 136539,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            136539444
+          ],
+          "median_raw_heartbeats": 136539444,
+          "median_heartbeats": 136539,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:53:19.475231+00:00",
+      "seconds": 151.956,
+      "result_sha256": "03f6cfa095647fbf37185581b2eb3406298a7d0784efd170fb670f12ea1b4ebc",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F016",
@@ -467,8 +606,35 @@
       "provided_length": 1372,
       "local_length": 1372,
       "reference_sha256": "9839fbd7f2dedf9c22190403722dc98210c990a14188a042ddf41ab5e050496c",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            23941357
+          ],
+          "median_raw_heartbeats": 23941357,
+          "median_heartbeats": 23941,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            23941357
+          ],
+          "median_raw_heartbeats": 23941357,
+          "median_heartbeats": 23941,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:54:29.763130+00:00",
+      "seconds": 70.277,
+      "result_sha256": "47fd731ae3dec91a195151e18c25c77dcba8ae9a144d1339378593f878e959b6",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F017",
@@ -477,8 +643,35 @@
       "provided_length": 1217,
       "local_length": 1217,
       "reference_sha256": "b0b0bdda4094c15be7cfd13caee9f73b03ddf22c9de85a90567a1291cc6f0306",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            35774573
+          ],
+          "median_raw_heartbeats": 35774573,
+          "median_heartbeats": 35774,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            35774569
+          ],
+          "median_raw_heartbeats": 35774569,
+          "median_heartbeats": 35774,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:55:34.685667+00:00",
+      "seconds": 64.911,
+      "result_sha256": "a61e3ac382f9743662728f28c77297dfeada451c826017fa34d6178384f61c48",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F018",
@@ -487,8 +680,35 @@
       "provided_length": 851,
       "local_length": 851,
       "reference_sha256": "88fd5fd92db61b8c08e5d861cdfdb959fac1e343b60401d76e76f8956c2ef1d7",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            10202611
+          ],
+          "median_raw_heartbeats": 10202611,
+          "median_heartbeats": 10202,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            10202612
+          ],
+          "median_raw_heartbeats": 10202612,
+          "median_heartbeats": 10202,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:56:26.025187+00:00",
+      "seconds": 51.327,
+      "result_sha256": "3f662a929acb80bc18f0f138dcd09b812eb3c735e14493469c35bb151bc76c82",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F019",
@@ -497,8 +717,35 @@
       "provided_length": 1025,
       "local_length": 1025,
       "reference_sha256": "337495a06d7c58056fbff562d51a13f0bffd9c0ab8af1a35cc3ffedb7c302a6c",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            211678390
+          ],
+          "median_raw_heartbeats": 211678390,
+          "median_heartbeats": 211678,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            211678433
+          ],
+          "median_raw_heartbeats": 211678433,
+          "median_heartbeats": 211678,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:58:12.826470+00:00",
+      "seconds": 106.791,
+      "result_sha256": "eb56a7de6c253a05a24179cbdcbd766b3bfe249e39588f3be4ff465fb986f935",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F020",
@@ -507,8 +754,35 @@
       "provided_length": 1200,
       "local_length": 1200,
       "reference_sha256": "5e77c0a363d830b4c829493520753ec5831b578bfc3ea28f011200b0440b4485",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            143389537
+          ],
+          "median_raw_heartbeats": 143389537,
+          "median_heartbeats": 143389,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            143389673
+          ],
+          "median_raw_heartbeats": 143389673,
+          "median_heartbeats": 143389,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:00:25.476227+00:00",
+      "seconds": 132.641,
+      "result_sha256": "106afaf0eedd30eacd1d6fe7c2faf706282926a0292986934116f7b2eff99fdc",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
     },
     {
       "id": "F021",
@@ -517,8 +791,35 @@
       "provided_length": 408,
       "local_length": 408,
       "reference_sha256": "e8b89255b06b284c8a4f4ba9a140c458d8c4640f63014c9c0037585855039be7",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            59936725
+          ],
+          "median_raw_heartbeats": 59936725,
+          "median_heartbeats": 59936,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            60093800
+          ],
+          "median_raw_heartbeats": 60093800,
+          "median_heartbeats": 60093,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:16:32.543052+00:00",
+      "seconds": 85.98,
+      "result_sha256": "994d7398ce1c9d85a90067e8a0d44dcb5d3fce301ab07c294547eca1f9e81cb6",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
     },
     {
       "id": "F022",
@@ -527,8 +828,35 @@
       "provided_length": 407,
       "local_length": 407,
       "reference_sha256": "35f528e8e77dceff098e735cfb0ee98ea989fecca8258a7d59632f211cc5ffdc",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            1500541
+          ],
+          "median_raw_heartbeats": 1500541,
+          "median_heartbeats": 1500,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            1499947
+          ],
+          "median_raw_heartbeats": 1499947,
+          "median_heartbeats": 1499,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:16:42.438009+00:00",
+      "seconds": 9.88,
+      "result_sha256": "f0c1fb9c3b29d5ed17f65e3a2e0fcf55cd1f646867d0c24509244fce8e35172a",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
     },
     {
       "id": "F023",
@@ -537,8 +865,45 @@
       "provided_length": 251,
       "local_length": 251,
       "reference_sha256": "90ec3fb53d6c4e9485868b3d1f1bceac5de6abc8b429d456281744fd1b0fa828",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            3940867
+          ],
+          "median_raw_heartbeats": 3940867,
+          "median_heartbeats": 3940,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            3923913
+          ],
+          "median_raw_heartbeats": 3923913,
+          "median_heartbeats": 3923,
+          "measurement_count": 1
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            3927323
+          ],
+          "median_raw_heartbeats": 3927323,
+          "median_heartbeats": 3927,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:39:19.813438+00:00",
+      "seconds": 103.035,
+      "result_sha256": "c80cf33186b658d40a92fb9f82f015dc555f4b987dee0007bd52693713defa2a",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc",
+        "cslib-v4.31.0": "1da48e739a66b4e13ce9c8cd137aab1fd4c564787fec33e596a949a960edcec8"
+      }
     },
     {
       "id": "F024",
@@ -547,8 +912,35 @@
       "provided_length": 391,
       "local_length": 391,
       "reference_sha256": "cd3326e6962c0989a1af0b1b625c932f5d9493b580dd4c9cfaebeacf3fa0f7a6",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            38100120
+          ],
+          "median_raw_heartbeats": 38100120,
+          "median_heartbeats": 38100,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            38313227
+          ],
+          "median_raw_heartbeats": 38313227,
+          "median_heartbeats": 38313,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:39:44.291442+00:00",
+      "seconds": 24.465,
+      "result_sha256": "a8696f0a56f8715036a53cf2e7be609c1fcc7595a4fc80b30b888ec2c68ce6c4",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
     },
     {
       "id": "F025",
@@ -557,8 +949,35 @@
       "provided_length": 433,
       "local_length": 433,
       "reference_sha256": "e8ea4b43e120b125b1001db6d40f3a06fb2ae6ea078631b47d9914c0064bbb21",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            11623232
+          ],
+          "median_raw_heartbeats": 11623232,
+          "median_heartbeats": 11623,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            12051112
+          ],
+          "median_raw_heartbeats": 12051112,
+          "median_heartbeats": 12051,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:39:54.733827+00:00",
+      "seconds": 10.432,
+      "result_sha256": "e52448a7a8ee51d4bae4caa25a37baba3dae8b4e90714969bfd5a4e58fd7e6fd",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
     },
     {
       "id": "F026",
@@ -567,8 +986,35 @@
       "provided_length": 623,
       "local_length": 623,
       "reference_sha256": "8bbae709173e505bffb0cfc737042fc349f97067387f5f62a62924f3beb9f50b",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.33.1",
+      "environments": {
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            56935331
+          ],
+          "median_raw_heartbeats": 56935331,
+          "median_heartbeats": 56935,
+          "measurement_count": 1
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            77902172
+          ],
+          "median_raw_heartbeats": 77902172,
+          "median_heartbeats": 77902,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:40:08.522060+00:00",
+      "seconds": 13.781,
+      "result_sha256": "0300f53bbc511fe4dfa9730f75c80fc3fd9b6d40ffb1e76d51b4e4b3b5047f05",
+      "environment_state_sha256": {
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc",
+        "cslib-v4.31.0": "1da48e739a66b4e13ce9c8cd137aab1fd4c564787fec33e596a949a960edcec8"
+      }
     },
     {
       "id": "F027",
@@ -577,8 +1023,35 @@
       "provided_length": 368,
       "local_length": 368,
       "reference_sha256": "b32c6230a23e675921a867a7c1b5b4ff3d78c55bc944d8adade36377ae08b0af",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            39339312
+          ],
+          "median_raw_heartbeats": 39339312,
+          "median_heartbeats": 39339,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            37257043
+          ],
+          "median_raw_heartbeats": 37257043,
+          "median_heartbeats": 37257,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:40:23.240978+00:00",
+      "seconds": 14.709,
+      "result_sha256": "28c78194bc55a5af1038e644aa9c7bc7d4cb6e23435ba6f04ae285741eb22d9e",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
     },
     {
       "id": "F028",
@@ -587,8 +1060,45 @@
       "provided_length": 312,
       "local_length": 312,
       "reference_sha256": "f5d19e4e3d4c7b8b3855cbcd7f6406a9886f76d5e7b225fc2988e0351eaeedab",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.33.1",
+      "environments": {
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            27607488
+          ],
+          "median_raw_heartbeats": 27607488,
+          "median_heartbeats": 27607,
+          "measurement_count": 1
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            32182165
+          ],
+          "median_raw_heartbeats": 32182165,
+          "median_heartbeats": 32182,
+          "measurement_count": 1
+        },
+        "cslib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            35212723
+          ],
+          "median_raw_heartbeats": 35212723,
+          "median_heartbeats": 35212,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:44:46.006213+00:00",
+      "seconds": 62.588,
+      "result_sha256": "b1595575d59c9f1f76c98a843c4f44be58b1a49c61d6c763b9f37641edd36544",
+      "environment_state_sha256": {
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc",
+        "cslib-v4.31.0": "1da48e739a66b4e13ce9c8cd137aab1fd4c564787fec33e596a949a960edcec8",
+        "cslib-v4.30.0": "6024b6dc033010f7743d9d7c9b73a06e4f4c005cc9d581983d37821d69b74c2d"
+      }
     },
     {
       "id": "F029",
@@ -597,8 +1107,35 @@
       "provided_length": 364,
       "local_length": 364,
       "reference_sha256": "f30aacc80b142837c1b24c2d51f4ebde3430d75548ecda849704d832aba9a9de",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            33199270
+          ],
+          "median_raw_heartbeats": 33199270,
+          "median_heartbeats": 33199,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            29186712
+          ],
+          "median_raw_heartbeats": 29186712,
+          "median_heartbeats": 29186,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:45:49.929550+00:00",
+      "seconds": 63.914,
+      "result_sha256": "323da95c8739e18d3bf1c0e5446b61e4f61496ad0c2b4a856c69d135181a6cba",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
     },
     {
       "id": "F030",
@@ -607,8 +1144,35 @@
       "provided_length": 519,
       "local_length": 519,
       "reference_sha256": "596f54a91cd38f82f018771f60067f7b5607fc188de3c550f2e84fcaab7fe4ba",
-      "status": "pending_environment",
-      "environments": {}
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            8589142
+          ],
+          "median_raw_heartbeats": 8589142,
+          "median_heartbeats": 8589,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            8709469
+          ],
+          "median_raw_heartbeats": 8709469,
+          "median_heartbeats": 8709,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:46:04.361279+00:00",
+      "seconds": 14.415,
+      "result_sha256": "121a95bfa56e1c274ce524a19aeccc5469b3405fc65f6719c4fde3d4736faab4",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
     },
     {
       "id": "F031",
@@ -910,6 +1474,5 @@
       "status": "pending_environment",
       "environments": {}
     }
-  ],
-  "partial_problems": 1
+  ]
 }

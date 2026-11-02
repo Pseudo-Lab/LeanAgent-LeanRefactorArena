@@ -81,6 +81,9 @@ def verification_session(evaluator, root, markdown, boundary):
 def report(root, markdown):
     protocol = json.loads((root / "protocol.json").read_text())
     indexed = {}
+    for boundary in protocol.get('history_boundaries', []):
+        if sha(Path(boundary['path']).read_bytes()) != boundary['sha256']:
+            raise ValueError('Historical environment verification changed')
     for history in protocol.get("history_records", []):
         path = Path(history["path"])
         if sha(path.read_bytes()) != history["sha256"]:
@@ -163,6 +166,9 @@ def main():
                         help="Reuse verified identical problem/environment evidence; measure cache misses once")
     parser.add_argument("--separate-reference-check", action="store_true",
                         help="Compile the reference separately before its instrumented compile (legacy protocol)")
+    parser.add_argument('--wait-for-environments', action='store_true',
+                        help='Keep one verified evaluator session while the operator seals missing environments')
+    parser.add_argument('--environment-wait-seconds', type=int, default=7200)
     parser.add_argument("--carry-forward", type=Path,
                         help="Retain verified completed evidence from an older frozen run")
     parser.add_argument("--history-root", type=Path, action="append", default=[],
@@ -174,6 +180,8 @@ def main():
         parser.error("--start must be within 1..limit")
     if args.repetitions < 1:
         parser.error("--repetitions must be positive")
+    if args.environment_wait_seconds < 1:
+        parser.error('Environment wait must be positive')
     root = args.output.resolve()
     root.mkdir(parents=True, exist_ok=True)
     data = REPO / "benchmarks/arena/final-d53690b057f9/benchmark_data_final.jsonl"
@@ -185,15 +193,25 @@ def main():
                 "repetitions": args.repetitions, "all_versions": True, "fresh": args.evaluation_cache is None,
                 "evaluation_cache": str(args.evaluation_cache.resolve()) if args.evaluation_cache else None,
                 "reference_single_pass": not args.separate_reference_check,
+                "wait_for_environments": args.wait_for_environments,
+                "environment_wait_seconds": args.environment_wait_seconds,
                 "first_problem": args.start,
                 "verification_boundary": args.verification_boundary,
                 "ordering": "F001..F060, one problem at a time",
                 "implementation_sha256": implementations(), "model_api_calls": 0}
     history = []
+    history_boundaries = []
     for history_root in args.history_root:
         historical_protocol = json.loads((history_root / "protocol.json").read_text())
         if historical_protocol["dataset_sha256"] != DATASET_SHA or not historical_protocol["all_versions"]:
             raise ValueError("Historical dataset/scope differs")
+        boundary = history_root / 'environment-verification.json'
+        if boundary.exists():
+            if json.loads(boundary.read_text()).get('status') != 'passed':
+                raise ValueError('Historical run has not passed final environment verification')
+            history_boundaries.append({'path': str(boundary.resolve()), 'sha256': sha(boundary.read_bytes())})
+        elif historical_protocol.get('verification_boundary') == 'run':
+            raise ValueError('Historical run is missing its final environment verification')
         for path in sorted(history_root.glob("F*/record.json")):
             value = json.loads(path.read_text())
             index = int(value["id"][1:])
@@ -207,6 +225,7 @@ def main():
             history.append({"path": str(path.resolve()), "sha256": sha(path.read_bytes())})
     if history:
         protocol["history_records"] = history
+        protocol['history_boundaries'] = history_boundaries
     if args.carry_forward:
         previous_root = args.carry_forward.resolve()
         if previous_root == root:
@@ -248,20 +267,31 @@ def main():
         for index, row in enumerate(rows[args.start - 1:args.limit], args.start):
             item = lengths[index - 1]
             problem = evaluator.load_problem(index)
-            missing = []
-            for env in problem["environments"]:
-                state_file = REPO / "sources/final/environments" / env / "environment.json"
-                state = json.loads(state_file.read_text()) if state_file.exists() else {}
-                if (env not in registry["environments"] or state.get("status") != "ready"
-                        or not any(loc["row"] == index for loc in state.get("locations", []))):
-                    missing.append(env)
-            if missing:
+            wait_started, notified = time.monotonic(), None
+            while True:
+                registry = json.loads((REPO / 'configs/final-environments.local.json').read_text())
+                missing = []
+                for env in problem['environments']:
+                    state_file = REPO / 'sources/final/environments' / env / 'environment.json'
+                    state = json.loads(state_file.read_text()) if state_file.exists() else {}
+                    if (env not in registry['environments'] or state.get('status') != 'ready'
+                            or not state.get('prepared_environment') or not state.get('prepared_manifest_sha256')
+                            or not any(loc['row'] == index for loc in state.get('locations', []))):
+                        missing.append(env)
+                if not missing:
+                    break
                 reason = f"{item['id']}의 고정 문맥 준비 필요: " + ", ".join(missing)
-                write(root / "progress.json", {"status": "blocked_environment", "updated_at": now(),
+                waiting = args.wait_for_environments and time.monotonic() - wait_started < args.environment_wait_seconds
+                marker = (tuple(missing), waiting)
+                if marker != notified:
+                    write(root / "progress.json", {"status": "waiting_environment" if waiting else "blocked_environment", "updated_at": now(),
                                                "next_problem": item["id"], "reason": reason})
-                report(root, args.markdown)
-                print(reason, flush=True)
-                return 2
+                    report(root, args.markdown)
+                    print(reason, flush=True)
+                    notified = marker
+                if not waiting:
+                    return 2
+                time.sleep(5)
             fingerprints = {env: sha((REPO / "sources/final/environments" / env /
                                       "environment.json").read_bytes()) for env in problem["environments"]}
             record_path = root / item["id"] / "record.json"

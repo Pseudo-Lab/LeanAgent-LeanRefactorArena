@@ -3,15 +3,18 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import nullcontext
 import fcntl
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import signal
 import subprocess
 import sys
 import time
+import uuid
 
 REPO = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(REPO / "src"), str(REPO / "experiments/final-environment"),
@@ -29,6 +32,91 @@ ENV = Path(os.environ["PROJECT_ENV_DIR"])
 SHARED = Path(os.environ["PROJECT_STORAGE_ROOT"]) / "cache/_shared"
 ACCOUNT = "/Users/jwkweon/00_work/00_project/.git-accounts/account.py"
 GIB = 1024 ** 3
+INCREMENTAL_BUDGET = None
+INITIAL_FREE = None
+NAMESPACE = None
+original_checkout_path = bootstrap.checkout_path
+original_widget_tags = bootstrap.fetch_widget_tags
+
+
+def checkout_path(url, version, revision):
+    original = original_checkout_path(url, version, revision)
+    return (bootstrap.ROOT / 'isolated-checkouts' / NAMESPACE / version / original.name
+            if NAMESPACE else original)
+
+
+def cache_path(version, name):
+    base = CACHE / 'lean-build'
+    return (base / NAMESPACE if NAMESPACE else base) / version / name
+
+
+def strings(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for child in value.values():
+            yield from strings(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from strings(child)
+
+
+def clone_seed(url, version, revision, destination):
+    """Fork matching source/build bytes before extending a sealed dependency."""
+    seed = original_checkout_path(url, version, revision)
+    if not NAMESPACE or destination.exists() or not (seed / '.git').is_dir():
+        return
+    if (bootstrap.command(['git', '-C', seed, 'rev-parse', 'HEAD']).strip() != revision or
+            bootstrap.command(['git', '-C', seed, 'diff', '--name-only', 'HEAD', '--']).strip()):
+        raise ValueError('Seed source pin/bytes differ; original preserved')
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    stage = destination.parent / ('.clone-' + uuid.uuid4().hex)
+    cached = cache_path(version, destination.name)
+    try:
+        subprocess.run(['/bin/cp', '-cR', str(seed), str(stage)], check=True)
+        if (stage / '.lake').is_symlink():
+            raise ValueError('Unexpected shared .lake container; original preserved')
+        manifest = stage / 'lake-manifest.json'
+        if manifest.exists():
+            data = json.loads(manifest.read_text())
+            packages = stage / data.get('packagesDir', '.lake/packages')
+            if packages.is_symlink():
+                raise ValueError('Unexpected shared packages container; original preserved')
+            for entry in data.get('packages', []):
+                link = packages / bootstrap.package_name(entry['name'])
+                if link.is_symlink():
+                    link.unlink()  # only the new APFS clone; bootstrap reconnects its dependencies
+                elif link.exists():
+                    raise ValueError('Copied dependency is not a managed link; preserved')
+        source_build = seed / '.lake/build'
+        if not cached.exists():
+            cached.parent.mkdir(parents=True, exist_ok=True)
+            if source_build.is_dir():
+                staging_build = cached.parent / ('.clone-' + uuid.uuid4().hex)
+                try:
+                    subprocess.run(['/bin/cp', '-cR', str(source_build.resolve()), str(staging_build)], check=True)
+                    staging_build.rename(cached)
+                finally:
+                    if staging_build.exists():
+                        shutil.rmtree(staging_build)
+            else:
+                cached.mkdir()
+        link = stage / '.lake/build'
+        if link.is_symlink():
+            link.unlink()
+        elif link.exists():
+            raise ValueError('Copied build is not a managed link; preserved')
+        link.parent.mkdir(parents=True, exist_ok=True)
+        link.symlink_to(cached, target_is_directory=True)
+        stage.rename(destination)
+    finally:
+        if stage.exists():
+            shutil.rmtree(stage)
+    subprocess.run(['/usr/bin/python3', ACCOUNT, 'setup', 'personal'], cwd=destination,
+                   check=True, stdout=subprocess.DEVNULL)
+    subprocess.run(['/usr/bin/python3', ACCOUNT, 'verify-login'], cwd=destination,
+                   check=True, stdout=subprocess.DEVNULL)
+    print('COW SEED', version, destination.name, flush=True)
 
 
 def ensure_toolchain(version):
@@ -66,6 +154,7 @@ original_fetch = bootstrap.fetch
 
 def managed_fetch(url, version, revision):
     path = bootstrap.checkout_path(url, version, revision)
+    clone_seed(url, version, revision, path)
     if not (path / ".git").exists():
         subprocess.run(["/usr/bin/python3", ACCOUNT, "init", "personal", str(path)], check=True,
                        stdout=subprocess.DEVNULL)
@@ -73,7 +162,7 @@ def managed_fetch(url, version, revision):
                        stdout=subprocess.DEVNULL)
         bootstrap.command(["git", "-C", path, "remote", "add", "origin", url])
     path = original_fetch(url, version, revision)
-    cached = CACHE / "lean-build" / version / path.name
+    cached = cache_path(version, path.name)
     build = path / ".lake/build"
     if build.is_symlink():
         if build.resolve() != cached.resolve():
@@ -112,13 +201,18 @@ def bounded_invoke(argv, project, child, log, *, timeout=7200):
     wait_for_memory(log_path=log.with_suffix(".memory.json"))
     started = time.monotonic()
     print("RUN", log.name, flush=True)
-    with log.open("w") as stream:
+    split_errors = '--json' in argv and 'query' in argv
+    error_path = log.with_suffix('.stderr.log')
+    with log.open("w") as stream, (error_path.open('w') if split_errors else nullcontext(subprocess.STDOUT)) as errors:
         process = subprocess.Popen(list(map(str, argv)), cwd=project, env=child, stdout=stream,
-                                   stderr=subprocess.STDOUT, start_new_session=True)
+                                   stderr=errors, start_new_session=True)
         try:
             while process.poll() is None:
-                if shutil.disk_usage(REPO).free < 5 * GIB:
+                free = shutil.disk_usage(REPO).free
+                if free < 5 * GIB:
                     raise RuntimeError("Environment preparation reached the 5 GiB disk reserve")
+                if INCREMENTAL_BUDGET is not None and INITIAL_FREE - free > INCREMENTAL_BUDGET:
+                    raise RuntimeError("Bounded incremental preparation exceeded its disk budget; unsealed outputs retained")
                 if time.monotonic() - started > timeout:
                     raise RuntimeError("Environment preparation command timed out")
                 time.sleep(1)
@@ -133,22 +227,40 @@ def bounded_invoke(argv, project, child, log, *, timeout=7200):
     receipt = {"command": list(map(str, argv)), "cwd": str(project), "returncode": process.returncode,
                "seconds": round(time.monotonic() - started, 3),
                "log": str(log.relative_to(REPO)), "log_sha256": bootstrap.digest(log)}
+    if split_errors:
+        receipt.update(stderr_log=str(error_path.relative_to(REPO)), stderr_sha256=bootstrap.digest(error_path))
     bootstrap.write(log.with_suffix(".receipt.json"), receipt)
     if process.returncode:
-        raise RuntimeError(log.name + " failed:\n" + log.read_text(errors="replace")[-5000:])
+        raise RuntimeError(log.name + " failed:\n" + log.read_text(errors="replace")[-5000:] +
+                           (error_path.read_text(errors='replace')[-2000:] if split_errors else ''))
+    free = shutil.disk_usage(REPO).free
+    if free < 5 * GIB or (INCREMENTAL_BUDGET is not None and INITIAL_FREE - free > INCREMENTAL_BUDGET):
+        raise RuntimeError("Preparation command finished beyond its disk reserve/budget; outputs remain unsealed")
     return receipt
 
 
 def prepare_one(env, registry, lock):
+    global INITIAL_FREE
     state_path = bootstrap.ROOT / "environments" / env["id"] / "environment.json"
     old = json.loads(state_path.read_text()) if state_path.exists() else {}
     if old.get("status") == "ready" and old.get("prepared_environment"):
+        if NAMESPACE and old['project'] != env['project']:
+            raise ValueError('Existing sealed environment has a different source namespace; preserved')
         PreparedLeanEvaluator(REPO / old["prepared_environment"]).verify()
         print("REUSE SEALED", env["id"], flush=True)
         return
+    if INCREMENTAL_BUDGET is not None:
+        version = env["version"]
+        installed = [bootstrap.ROOT / "toolchains" / version, ENV / "toolchains" / version,
+                     Path.home() / ".elan/toolchains" / ("leanprover--lean4---" + version)]
+        if not any((p / 'lib/lean/libLean.a').is_file() for p in installed):
+            raise RuntimeError("Incremental mode requires a full compiler already installed separately")
     ensure_toolchain(env["version"])
-    if shutil.disk_usage(REPO).free < 15 * GIB:
+    INITIAL_FREE = shutil.disk_usage(REPO).free
+    if INCREMENTAL_BUDGET is None and INITIAL_FREE < 15 * GIB:
         raise RuntimeError("Less than 15 GiB free before new environment preparation")
+    if INCREMENTAL_BUDGET is not None and INITIAL_FREE < 5 * GIB + INCREMENTAL_BUDGET:
+        raise RuntimeError("Insufficient space for incremental budget plus 5 GiB reserve")
     source_lock = bootstrap.ROOT / "source-lock.json"
     previous = json.loads(source_lock.read_text()) if source_lock.exists() else {"checkouts": []}
     try:
@@ -161,6 +273,26 @@ def prepare_one(env, registry, lock):
                                       "checkouts": list(combined.values())})
     rows = bootstrap.dataset()
     state = prepare.prepare_one(env, rows)
+    if NAMESPACE:
+        # Cached setup files contain absolute paths. Ask Lake for the relocated
+        # setup after building dependencies rather than reusing seed paths.
+        project = REPO / state['project']
+        lake = bootstrap.ROOT / 'toolchains' / env['version'] / 'bin/lake'
+        state['relocated_setups'] = []
+        for module in sorted({loc['module'] for loc in state['locations'] if loc['module']}):
+            log = state_path.parent / (module + '.setup.log')
+            receipt = bounded_invoke([lake, '--quiet', '--no-build', '--json', 'query', '+' + module + ':setup'],
+                                     project, central_process_env(env['version']), log)
+            setup = json.loads(log.read_text())
+            if not isinstance(setup, dict) or setup.get('name') != module or 'importArts' not in setup:
+                raise ValueError('Lake did not produce the expected relocated module setup')
+            path = project / '.lake/build/ir' / (module.replace('.', '/') + '.setup.json')
+            bootstrap.write(path, setup)
+            state['relocated_setups'].append({**receipt, 'setup_sha256': bootstrap.digest(path)})
+    if INCREMENTAL_BUDGET is not None:
+        state['preparation_resource_policy'] = {'incremental_budget_bytes': INCREMENTAL_BUDGET,
+                                                'minimum_free_bytes': 5 * GIB,
+                                                'initial_free_bytes': INITIAL_FREE}
     for loc in state["locations"]:
         if loc["kind"] == "whitespace_src":
             canonical_whitespace_check(env, loc, rows)
@@ -180,6 +312,15 @@ def prepare_one(env, registry, lock):
         if parent not in paths and any(p.suffix in {".a", ".so", ".dylib"}
                                        for p in parent.iterdir() if p.is_file()):
             paths.append(parent)
+    if NAMESPACE:
+        for module in {loc['module'] for loc in state['locations'] if loc['module']}:
+            setup_path = project / '.lake/build/ir' / (module.replace('.', '/') + '.setup.json')
+            setup = json.loads(setup_path.read_text())
+            for field in ['importArts', 'plugins', 'dynlibs']:
+                for value in strings(setup.get(field)):
+                    artifact = Path(value)
+                    if artifact.is_absolute() and not any(artifact.resolve().is_relative_to(root) for root in paths):
+                        raise ValueError('Relocated compiler setup escapes the prepared library roots: ' + value)
     manifest = state_path.parent / "prepared-environment.json"
     freeze(paths, env["revision"], manifest, sandbox="macos-readonly", verification="stat-cache")
     state.update(prepared_environment=str(manifest.relative_to(REPO)),
@@ -191,10 +332,22 @@ def prepare_one(env, registry, lock):
 
 
 def main():
+    global INCREMENTAL_BUDGET, NAMESPACE
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--environment", action="append", required=True)
     parser.add_argument("--compiler-lock", type=Path, required=True)
+    parser.add_argument("--incremental-budget-gib", type=float,
+                        help="Use an already installed compiler; bound new disk growth and retain 5 GiB free")
+    parser.add_argument('--namespace', help='Fork matching pinned seeds before extending their sealed dependency builds')
     args = parser.parse_args()
+    if args.incremental_budget_gib is not None:
+        if not 0 < args.incremental_budget_gib <= 8:
+            parser.error('Incremental budget must be greater than 0 and at most 8 GiB')
+        INCREMENTAL_BUDGET = int(args.incremental_budget_gib * GIB)
+    if args.namespace is not None:
+        if not re.fullmatch(r'[a-z][a-z0-9-]{0,40}', args.namespace):
+            parser.error('Namespace must be a short lowercase identifier')
+        NAMESPACE = args.namespace
     downloads = SHARED / "lean-releases"
     downloads.mkdir(parents=True, exist_ok=True)
     link = bootstrap.ROOT / "downloads"
@@ -208,9 +361,14 @@ def main():
     finalize.process_env = central_process_env
     finalize.invoke = bounded_invoke
     lock = bootstrap.plan()
+    bootstrap.checkout_path = checkout_path
+    if NAMESPACE:
+        bootstrap.fetch_widget_tags = lambda: original_widget_tags(bootstrap.ROOT / 'isolated-checkouts' / NAMESPACE)
     registry = json.loads((REPO / "configs/final-environments.local.json").read_text())
     for name in args.environment:
         env = next(e for e in lock["environments"] if e["id"] == name)
+        if NAMESPACE:
+            env = {**env, 'project': str(checkout_path(env['url'], env['version'], env['revision']).relative_to(REPO))}
         with args.compiler_lock.open("a+") as stream:
             fcntl.flock(stream, fcntl.LOCK_EX)
             try:

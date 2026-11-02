@@ -44,6 +44,11 @@ def compress(root):
         raise ValueError("Cache path is outside the allowed project roots")
     if (root / ".git").exists():
         raise ValueError("Source repositories are not cache targets")
+    opened = subprocess.run(['lsof', '-t', '+D', str(root)], capture_output=True, text=True)
+    if opened.returncode == 0 and opened.stdout.strip():
+        raise ValueError('Cache is currently open; original preserved: ' + str(root))
+    if opened.returncode not in (0, 1):
+        raise ValueError('Could not verify cache is unused; original preserved')
     before = inventory(root)
     old_bytes = allocated(root)
     staging = CACHE / "compression-staging" / uuid.uuid4().hex
@@ -71,8 +76,13 @@ def compress(root):
     root.rename(backup)
     try:
         staging.rename(root)
-        if inventory(root) != before:
+        if inventory(root) != before or inventory(backup) != before:
             raise ValueError("Installed compressed cache failed verification")
+        opened = subprocess.run(['lsof', '-t', '+D', str(backup)], capture_output=True, text=True)
+        if opened.returncode == 0 and opened.stdout.strip():
+            raise ValueError('A process opened the original during compression; restoring it')
+        if opened.returncode not in (0, 1):
+            raise ValueError('Could not verify backup is unused; restoring it')
     except BaseException:
         if root.exists():
             root.rename(staging)
