@@ -1,0 +1,653 @@
+{
+  "schema_version": 1,
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "scope": "Local original-reference measurements; not official worker scores",
+  "tokenizer": "lean-source-anchored-v1",
+  "hb_repetitions": 3,
+  "total_problems": 60,
+  "measured_problems": 1,
+  "next_problem": "F002",
+  "model_api_calls": 0,
+  "problems": [
+    {
+      "id": "F001",
+      "name": "Core.InitsUpdatesComm",
+      "source": "strata",
+      "provided_length": 224,
+      "local_length": 224,
+      "reference_sha256": "0bd9a59f8ee210f7aa33326b61e40934872abaced72cb270dd62288ee1cb1973",
+      "status": "measured",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            4182544,
+            4182543,
+            4182543
+          ],
+          "median_raw_heartbeats": 4182543,
+          "median_heartbeats": 4182
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            4699579,
+            4699579,
+            4699579
+          ],
+          "median_raw_heartbeats": 4699579,
+          "median_heartbeats": 4699
+        },
+        "strata-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            4683842,
+            4683844,
+            4683842
+          ],
+          "median_raw_heartbeats": 4683842,
+          "median_heartbeats": 4683
+        }
+      },
+      "primary_environment": "strata-v4.31.0",
+      "measured_at": "2026-11-02T07:17:53.990685+00:00",
+      "seconds": 128.42,
+      "result_sha256": "efeabb2e932b860c2f059a2a83f61ce65cb7c23a99bf852efaca8f39087cb6bd",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "87bf22780bc7d7d7fef7236ed30b94f5d671a24c42cd731691b1d562e94726df",
+        "strata-v4.27.0": "d9fe8160d1365a3cb832d693c7f2eeb5a69e71a016290fd404a5419b4696717a",
+        "strata-v4.26.0": "f23f55c79a75852d010d721ccdadafb19f5136bd079bfeacf1c38ac99ae5f3f8"
+      }
+    },
+    {
+      "id": "F002",
+      "name": "Lambda.denote_suffix_irrel",
+      "source": "strata",
+      "provided_length": 904,
+      "local_length": 904,
+      "reference_sha256": "857536ed5def04d6905a3f1154dbc4d70a927c9be8dcd52b71e98f3963377871",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F003",
+      "name": "Lambda.denote_Denotes",
+      "source": "strata",
+      "provided_length": 931,
+      "local_length": 931,
+      "reference_sha256": "5b640984fce466613ce6a520c58aecc3459437941d7d34c1039cefd40cea8ad5",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F004",
+      "name": "Lambda.callOfLFunc_eraseMetadata_congr",
+      "source": "strata",
+      "provided_length": 291,
+      "local_length": 291,
+      "reference_sha256": "8fdb8ae764d8d314559dc608943b256da5e5984b7028ba5abd7d5f0bea5b2410",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F005",
+      "name": "Lambda.liftBVars_typeCheck",
+      "source": "strata",
+      "provided_length": 209,
+      "local_length": 209,
+      "reference_sha256": "b42793776ffa2b5d3af1567828e15bbf8b72a47fc507603b5da70ca046efe898",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F006",
+      "name": "Lambda.liftBVars_denote",
+      "source": "strata",
+      "provided_length": 972,
+      "local_length": 972,
+      "reference_sha256": "5738c65dda15e712890dc31dec7de2ae01bd0712f7c0943eb2074313ad2de840",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F007",
+      "name": "Lambda.LExpr.typeCheck_to_HasTypeA",
+      "source": "strata",
+      "provided_length": 429,
+      "local_length": 429,
+      "reference_sha256": "b7162fb2d3da5109aee0a76d03c4be63b321ca1902c371c3120775095695eb8f",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F008",
+      "name": "Lambda.callOfLFunc_constr_disjoint_denote",
+      "source": "strata",
+      "provided_length": 968,
+      "local_length": 968,
+      "reference_sha256": "110723a3c5f920a0f1b9ea722b054ab5bfa7a8a0b96b2e1bc4c2bb5e0359021b",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F009",
+      "name": "Lambda.denote_replaceMetadata",
+      "source": "strata",
+      "provided_length": 938,
+      "local_length": 938,
+      "reference_sha256": "e1ec255391ce023abd248711691eca984ac250472f19b8bfdc190c33719dd40d",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F010",
+      "name": "Lambda.denote_ext",
+      "source": "strata",
+      "provided_length": 1200,
+      "local_length": 1200,
+      "reference_sha256": "f2eaf998e6f640a39429b3563327a5374d3159468433c735415a0792f6a3215e",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F011",
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "source": "physlib",
+      "provided_length": 4,
+      "local_length": 4,
+      "reference_sha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F012",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "source": "physlib",
+      "provided_length": 12,
+      "local_length": 12,
+      "reference_sha256": "5d5ec4e8188e296a6504c12906bad9574ecb21354def05c2cc6562dfcb549a09",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F013",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "source": "physlib",
+      "provided_length": 12,
+      "local_length": 12,
+      "reference_sha256": "847028f55ca688f2aedece86f71654a5af77a765c27f15681d27d3f92b0b1406",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F014",
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "source": "physlib",
+      "provided_length": 181,
+      "local_length": 181,
+      "reference_sha256": "80f1722a4735cf2546eeabd5724f07682f10903d7fc9f978342aed5aaa3840d4",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F015",
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "source": "physlib",
+      "provided_length": 183,
+      "local_length": 183,
+      "reference_sha256": "13a7b6e73c3d7d0eaba531809654eb931b3851f2d25275ccdc0ba49e22cfd667",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F016",
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "source": "physlib",
+      "provided_length": 1372,
+      "local_length": 1372,
+      "reference_sha256": "9839fbd7f2dedf9c22190403722dc98210c990a14188a042ddf41ab5e050496c",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F017",
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "source": "physlib",
+      "provided_length": 1217,
+      "local_length": 1217,
+      "reference_sha256": "b0b0bdda4094c15be7cfd13caee9f73b03ddf22c9de85a90567a1291cc6f0306",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F018",
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "source": "physlib",
+      "provided_length": 851,
+      "local_length": 851,
+      "reference_sha256": "88fd5fd92db61b8c08e5d861cdfdb959fac1e343b60401d76e76f8956c2ef1d7",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F019",
+      "name": "HermitianMat.inv_convex",
+      "source": "physlib",
+      "provided_length": 1025,
+      "local_length": 1025,
+      "reference_sha256": "337495a06d7c58056fbff562d51a13f0bffd9c0ab8af1a35cc3ffedb7c302a6c",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F020",
+      "name": "cauchyBinet",
+      "source": "physlib",
+      "provided_length": 1200,
+      "local_length": 1200,
+      "reference_sha256": "5e77c0a363d830b4c829493520753ec5831b578bfc3ea28f011200b0440b4485",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F021",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "source": "cslib",
+      "provided_length": 408,
+      "local_length": 408,
+      "reference_sha256": "e8b89255b06b284c8a4f4ba9a140c458d8c4640f63014c9c0037585855039be7",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F022",
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "source": "cslib",
+      "provided_length": 407,
+      "local_length": 407,
+      "reference_sha256": "35f528e8e77dceff098e735cfb0ee98ea989fecca8258a7d59632f211cc5ffdc",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F023",
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "source": "cslib",
+      "provided_length": 251,
+      "local_length": 251,
+      "reference_sha256": "90ec3fb53d6c4e9485868b3d1f1bceac5de6abc8b429d456281744fd1b0fa828",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F024",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "source": "cslib",
+      "provided_length": 391,
+      "local_length": 391,
+      "reference_sha256": "cd3326e6962c0989a1af0b1b625c932f5d9493b580dd4c9cfaebeacf3fa0f7a6",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F025",
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "source": "cslib",
+      "provided_length": 433,
+      "local_length": 433,
+      "reference_sha256": "e8ea4b43e120b125b1001db6d40f3a06fb2ae6ea078631b47d9914c0064bbb21",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F026",
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "source": "cslib",
+      "provided_length": 623,
+      "local_length": 623,
+      "reference_sha256": "8bbae709173e505bffb0cfc737042fc349f97067387f5f62a62924f3beb9f50b",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F027",
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "source": "cslib",
+      "provided_length": 368,
+      "local_length": 368,
+      "reference_sha256": "b32c6230a23e675921a867a7c1b5b4ff3d78c55bc944d8adade36377ae08b0af",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F028",
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "source": "cslib",
+      "provided_length": 312,
+      "local_length": 312,
+      "reference_sha256": "f5d19e4e3d4c7b8b3855cbcd7f6406a9886f76d5e7b225fc2988e0351eaeedab",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F029",
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "source": "cslib",
+      "provided_length": 364,
+      "local_length": 364,
+      "reference_sha256": "f30aacc80b142837c1b24c2d51f4ebde3430d75548ecda849704d832aba9a9de",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F030",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "source": "cslib",
+      "provided_length": 519,
+      "local_length": 519,
+      "reference_sha256": "596f54a91cd38f82f018771f60067f7b5607fc188de3c550f2e84fcaab7fe4ba",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F031",
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "provided_length": 1353,
+      "local_length": 1353,
+      "reference_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F032",
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "provided_length": 1906,
+      "local_length": 1906,
+      "reference_sha256": "67401740132ca27612c5a143c6dd3a90205f5d84a7c0850182c9391592a0752f",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F033",
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "provided_length": 1463,
+      "local_length": 1463,
+      "reference_sha256": "561da2e1599d85a33fddbdbdb9eca3f05f504c3dfaa7e32d367eef4eba532033",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F034",
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "provided_length": 546,
+      "local_length": 546,
+      "reference_sha256": "9bd964e1df9b474cee4c4a0d14ba8d3e8a9fbc85bbe7790544932292df270cfa",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F035",
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "provided_length": 2440,
+      "local_length": 2440,
+      "reference_sha256": "762d9c0342f6ad7b06dcbaa3e18a475614b61fff262d85cc7433a7ce1d9d3c44",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F036",
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "provided_length": 5128,
+      "local_length": 5128,
+      "reference_sha256": "81afc259bab2d5268fc8e907ac6cf301de625c35067e3be1f081cd6c849ccf5c",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F037",
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "provided_length": 2122,
+      "local_length": 2122,
+      "reference_sha256": "4ad1a29e5ef91b442667c9b171deb6f3ed28c96ca9709e59911f7cbbbb16a2f4",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F038",
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "provided_length": 5538,
+      "local_length": 5538,
+      "reference_sha256": "1901501cdd37e5592f25590cce58688d20049ca2c5dce6d23529eb148902e9ed",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F039",
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "provided_length": 1426,
+      "local_length": 1426,
+      "reference_sha256": "e6acb4f7de76b3d013c869c5a72bc86428b2587b4080e59d1b6261d395198dde",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F040",
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "provided_length": 1105,
+      "local_length": 1105,
+      "reference_sha256": "17eafc75486d1b6fc4f1bf5f3a9cfc825d675c4d6ae7172548ce46aee5da4b68",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F041",
+      "name": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+      "source": "leanpool",
+      "provided_length": 2030,
+      "local_length": 2030,
+      "reference_sha256": "1c3a303594e864c1626c69c7cc1f96b354da68f3048ebe7ba6d2ef7647db9240",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F042",
+      "name": "CoxeterSystem.matsumoto_reduced_aux",
+      "source": "leanpool",
+      "provided_length": 1699,
+      "local_length": 1699,
+      "reference_sha256": "2a9442d902db86229559552b4b8c19626d3e9cf7d9870e717f42be0b9fe5b857",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F043",
+      "name": "Vlasov.transportedIntegral_continuousOn",
+      "source": "leanpool",
+      "provided_length": 2413,
+      "local_length": 2413,
+      "reference_sha256": "d13dc916a9c31834a4ea34a3bec6b162a3c7e709cd5182b5a5ae531e6b92830c",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F044",
+      "name": "ZetaZeros.step1_double",
+      "source": "leanpool",
+      "provided_length": 2315,
+      "local_length": 2315,
+      "reference_sha256": "cf20514cf5a94d2b7aef9e6583b55e79617195a21f5a6c8afc1d08dee51eef0c",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F045",
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "source": "leanpool",
+      "provided_length": 1756,
+      "local_length": 1756,
+      "reference_sha256": "54b559c330d77a8f38462bf60551d5affb4aca06270eae9197f829bf7d23cd0f",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F046",
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+      "source": "leanpool",
+      "provided_length": 1645,
+      "local_length": 1645,
+      "reference_sha256": "0b00e26efe74c4754f2f694508535386d4f90ca8267d0a2f8c59b1060189eff7",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F047",
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+      "source": "leanpool",
+      "provided_length": 1509,
+      "local_length": 1509,
+      "reference_sha256": "2ca32f321bffb175e737cce673d0eb0f3e4df2d62bc773ae10f7fb832e7e5b48",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F048",
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "source": "leanpool",
+      "provided_length": 2879,
+      "local_length": 2879,
+      "reference_sha256": "502416c2b27c38eae98d8f93388c840b99ee0027d4f1718fb821e69a0b541c6c",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F049",
+      "name": "FirstOrder.Language.schemaTruthStage_imp",
+      "source": "leanpool",
+      "provided_length": 746,
+      "local_length": 746,
+      "reference_sha256": "e8f17a86908e5806ae6de52e275a1efa68418f69379ba6e1b8043ea49902039a",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F050",
+      "name": "RS.cechCount",
+      "source": "leanpool",
+      "provided_length": 911,
+      "local_length": 911,
+      "reference_sha256": "de8882eec0fa1f98739e146ddce6f79e559905702a7f631cb6dc60322c561aa7",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F051",
+      "name": "putnam_1964_a4",
+      "source": "putnambench",
+      "provided_length": 1769,
+      "local_length": 1769,
+      "reference_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F052",
+      "name": "putnam_1995_a3",
+      "source": "putnambench",
+      "provided_length": 4085,
+      "local_length": 4085,
+      "reference_sha256": "56dcc03e9f1d22a0655aeb46aa929c75efddb21f2fa73d7504b648792b6e8329",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F053",
+      "name": "putnam_1988_a2",
+      "source": "putnambench",
+      "provided_length": 2162,
+      "local_length": 2161,
+      "reference_sha256": "7edb936f360026703509e49c688e19198bb7ffc47fce507061a752b0c1c28d37",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F054",
+      "name": "putnam_2001_b1",
+      "source": "putnambench",
+      "provided_length": 3178,
+      "local_length": 3178,
+      "reference_sha256": "a1c3112e1b7b1d282cf20b9eb593ae4beb94cf111ce9c66291282edcc622311d",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F055",
+      "name": "putnam_1964_b2",
+      "source": "putnambench",
+      "provided_length": 1754,
+      "local_length": 1754,
+      "reference_sha256": "16f0c2b3e008d0002b83f9550e553fb9acd22cbb4daf5ec813ecd68282738892",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F056",
+      "name": "putnam_2007_a1",
+      "source": "putnambench",
+      "provided_length": 5464,
+      "local_length": 5463,
+      "reference_sha256": "1f1ed2d17fe9d826122e560d362c3e3bc1e663f8c221fe72c91e6e0b3cd70d59",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F057",
+      "name": "putnam_1970_b5",
+      "source": "putnambench",
+      "provided_length": 2134,
+      "local_length": 2134,
+      "reference_sha256": "98f8c3392204185d91a6da33134262ce2f20483eb68ee1f8603546dc3e0ac925",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F058",
+      "name": "putnam_1968_a1",
+      "source": "putnambench",
+      "provided_length": 1084,
+      "local_length": 1084,
+      "reference_sha256": "6891b2eb59e599021de5242ee92284ac579d1b6f8c77f3b61035071cbb74cdcb",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F059",
+      "name": "putnam_1991_b1",
+      "source": "putnambench",
+      "provided_length": 3313,
+      "local_length": 3313,
+      "reference_sha256": "7096b03c290ab3a35e17fd18e5e1544d24662cfd5198849dac44d5650ca38d5e",
+      "status": "pending_environment",
+      "environments": {}
+    },
+    {
+      "id": "F060",
+      "name": "putnam_2019_a1",
+      "source": "putnambench",
+      "provided_length": 2381,
+      "local_length": 2381,
+      "reference_sha256": "3031af87d604126642e540e391bfc0549f127ce45ddc8f2c28e054965fe3f893",
+      "status": "pending_environment",
+      "environments": {}
+    }
+  ]
+}
