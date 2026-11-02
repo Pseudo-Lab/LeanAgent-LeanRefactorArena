@@ -99,6 +99,20 @@ LeanAgent-LeanRefactorArena/
 증명 단축 작업(예산 제한 API 탐색 → 로컬 golf → 지정 버전 전체 검증)을 에이전트가 따라 할 수 있도록
 [lean-proof-shortening skill](skills/lean-proof-shortening/SKILL.md)에 절차와 알려진 실패 원인을 정리했습니다.
 
+공식 JSONL에서 여러 출처의 작업을 준비할 때는
+[lean-arena-harness skill](skills/lean-arena-harness/SKILL.md)을 사용합니다. 에이전트에 해당
+`SKILL.md`를 읽도록 요청하면 입력에서 지정 환경 목록을 만들고, 현재 증명 구조에 맞는 편집과
+기존 단축·검증 도구로 이어갑니다. 외부 플러그인 설치는 필요하지 않습니다.
+
+```sh
+python3 skills/lean-arena-harness/scripts/plan.py \
+  --benchmark /path/to/benchmark_data_final.jsonl \
+  --source physlib --source cslib --output runs/manual/arena-plan/plan.json
+```
+
+이 명령은 실행 계획만 만들며 Lean·모델을 호출하지 않습니다. 개발 자료가 있으면
+`--development /path/to/development.jsonl`로 선언 중복을 검사할 수 있습니다.
+
 ```text
 experiments/
 └── <실험명>/
