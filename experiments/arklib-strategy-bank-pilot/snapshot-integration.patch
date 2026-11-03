@@ -1,0 +1,1107 @@
+diff --git a/src/lean_agent/harness.py b/src/lean_agent/harness.py
+--- a/src/lean_agent/harness.py
++++ b/src/lean_agent/harness.py
+@@ -14,14 +14,14 @@
+ import subprocess
+ import sys
+ 
+-from . import accounting, actions, budgeting, diagnostics, models, portfolio, prepared, search_policy, status
++from . import accounting, actions, budgeting, diagnostics, models, portfolio, prepared, search_policy, status, strategy_bank
+ from .artifacts import canonical, inventory, read, sha as digest, write
+ from .evaluator.lean import LeanEvaluator, validate_template
+ from .evaluator.tokens import TOKENIZER_ID, proof_body
+ 
+ BASE = Path(__file__).resolve().parent
+ CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
+-              "artifacts.py", "actions.py", "portfolio.py", "search_policy.py", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py",
++              "artifacts.py", "actions.py", "strategy_bank.py", "strategy_signals.py", "portfolio.py", "search_policy.py", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py", "openai_direct.py",
+               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
+ SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
+ 
+@@ -53,7 +53,7 @@
+         if not amount.is_finite() or amount <= 0:
+             raise ValueError("Expected a positive finite cost_stop_usd")
+     if limits.get("max_calls") is None:
+-        if model["backend"] != "openrouter" or threshold is None:
++        if model["backend"] not in ("openrouter", "openai") or threshold is None:
+             raise ValueError("Unlimited calls require an OpenRouter cost_stop_usd")
+     elif not positive(limits["max_calls"]):
+         raise ValueError("Expected positive integer max_calls or null with cost_stop_usd")
+@@ -62,7 +62,7 @@
+             cap = Decimal(str(limits["cost_cap_usd"]))
+         except InvalidOperation as exc:
+             raise ValueError("Expected positive finite cost_cap_usd") from exc
+-        if not cap.is_finite() or cap <= 0 or model.get("backend") != "openrouter" or "max_price" not in model:
++        if not cap.is_finite() or cap <= 0 or model.get("backend") not in ("openrouter", "openai") or "max_price" not in model:
+             raise ValueError("cost_cap_usd requires positive finite cap and OpenRouter price ceilings")
+     if not positive(lean["repetitions"]) or lean["repetitions"] % 2 != 1:
+         raise ValueError("Lean repetitions must be a positive odd integer")
+@@ -70,9 +70,9 @@
+         raise ValueError("Expected positive Lean timeout")
+     if not lean["command"] or not all(isinstance(x, str) and x for x in lean["command"]):
+         raise ValueError("Lean command must be an argument list")
+-    if model["backend"] not in ("fixture", "openrouter"):
++    if model["backend"] not in ("fixture", "openrouter", "openai"):
+         raise ValueError("Unknown model backend")
+-    if model["backend"] == "openrouter":
++    if model["backend"] in ("openrouter", "openai"):
+         for key in ("id", "provider"):
+             if not isinstance(model[key], str) or not model[key] or "REPLACE" in model[key]:
+                 raise ValueError("Set explicit model " + key)
+@@ -250,6 +250,9 @@
+     if search_policy.enabled(config):
+         packet["approach_policy"] = search_policy.packet(state, config, context)
+         prompt += "\n" + search_policy.GUIDANCE
++    bank_settings = config.get("agent", {}).get("strategy_bank")
++    if bank_settings is not None:
++        packet["strategy_bank"] = strategy_bank.for_request(problem, bank_settings, packet, hidden=hidden)
+     threshold = config["limits"].get("cost_stop_usd")
+     if threshold is not None:
+         spent = Decimal(state["cost_usd"])
+@@ -263,6 +266,9 @@
+                            {"role": "user", "content": canonical(packet)}], config["model"])
+     if len(canonical(body)) > config["limits"]["max_request_characters"]:
+         raise ValueError("Request exceeds max_request_characters")
++    if "cost_cap_usd" in config["limits"]:
++        # Treat an unreservable request as a context boundary before dispatch.
++        budgeting.request_cost(body)
+     return body
+ 
+ 
+@@ -373,7 +379,7 @@
+     if state["latest"] and state["latest"]["feedback"]["status"] == "environment_failed":
+         return "environment_failed"
+     if portfolio.finished(state):
+-        return portfolio.stop_reason(state, config)
++        return "portfolio_complete"
+     if actions.finished(state):
+         return "agent_finished"
+     if cost_threshold_reached(state, config):
+@@ -447,12 +453,15 @@
+         config, paths = load_config(config_path)
+         evaluator = evaluator or (prepared.PreparedLeanEvaluator(paths["prepared_environment"])
+                                   if "prepared_environment" in paths else LeanEvaluator())
+-        if config["model"]["backend"] == "openrouter":
++        key_name = "OPENAI_API_KEY" if config["model"]["backend"] == "openai" else "OPENROUTER_API_KEY"
++        previous_key = os.environ.get(key_name)
++        if config["model"]["backend"] in ("openrouter", "openai"):
+             if dotenv is not None:
+-                os.environ["OPENROUTER_API_KEY"] = models.load_key(dotenv)
++                names = ("OPENAI_API_KEY", "OPENROUTER_API_KEY") if key_name == "OPENAI_API_KEY" else ("OPENROUTER", "OPENROUTER_API_KEY")
++                os.environ[key_name] = models.load_key(dotenv, names)
+                 key_loaded = True
+-            if not os.environ.get("OPENROUTER_API_KEY"):
+-                raise ValueError("Export OPENROUTER_API_KEY before running a live experiment")
++            if not os.environ.get(key_name):
++                raise ValueError("Export " + key_name + " before running a live experiment")
+         manifest = snapshot(output, config_path, paths)
+         if "prepared_environment" in paths and isinstance(evaluator, prepared.PreparedLeanEvaluator):
+             evaluator = prepared.PreparedLeanEvaluator(output / "input/prepared-environment.json", evaluator._executor)
+@@ -490,7 +499,7 @@
+         usage_records = []
+         for step in count(1):
+             if portfolio.finished(state):
+-                stop = portfolio.stop_reason(state, config)
++                stop = "portfolio_complete"
+                 break
+             if cost_threshold_reached(state, config):
+                 stop = "cost_limit"
+@@ -540,7 +549,7 @@
+                 stop = "environment_failed"
+                 break
+             if portfolio.finished(state):
+-                stop = portfolio.stop_reason(state, config)
++                stop = "portfolio_complete"
+                 break
+             if actions.finished(state):
+                 stop = "agent_finished"
+@@ -583,9 +592,9 @@
+                                                        "reason": "usage_report_unavailable"})
+         if key_loaded:
+             if previous_key is None:
+-                os.environ.pop("OPENROUTER_API_KEY", None)
++                os.environ.pop(key_name, None)
+             else:
+-                os.environ["OPENROUTER_API_KEY"] = previous_key
++                os.environ[key_name] = previous_key
+         outcome.update(model_requests=progress.calls, diagnostics=recorder.records)
+         write(output / "result.json", outcome)
+         progress.journal.seal(outcome["status"])
+diff --git a/src/lean_agent/strategy_signals.py b/src/lean_agent/strategy_signals.py
+new file mode 100644
+--- /dev/null
++++ b/src/lean_agent/strategy_signals.py
+@@ -0,0 +1,76 @@
++"""Versioned structural/domain cues for v2 retrieval; no theorem-name routing.
++
++Signals are lexical evidence, not semantic truth or an AST. Keep concrete match
++locations so a user can inspect why a strategy was proposed. Match only inputs,
++never candidate answers or per-case evidence stored in the offline review.
++"""
++import re
++from .evaluator.tokens import without_comments
++
++# Each tuple is an AND of regexes; alternatives inside a regex are OR.
++RULES = {
++    'state_relation_recursion': (r'UpdateStates|InitStates', r'\binduction\b'),
++    'typing_recursion': (r'HasType|Typing|Denotes|typeCheck', r'\binduction\b|\bmatch\b|_inv\b'),
++    'trace_recursion': (r'CanReach|MTr|Execution|ParallelReduction|parallel', r'\binduction\b|Nat\.find|\.extract|\.length'),
++    'branch_duplication': (r'\bcase\b|\bcases\b|\binduction\b|\bsplit\b', r'\bsimp\b|\bgrind\b|\bconstructor\b'),
++    'broad_search': (r'\b(?:grind|aesop)\b(?!\s+only)',),
++    'proof_wrapper': (r':=\s*by\s+exact\b|\bby\s+exact\b',),
++    'finite_decision': (r'\bdecide\b', r'\brevert\b|\bcases\b|\bFin\b|→|∀'),
++    'homomorphic_representation': (r'GaussianInt|RingHom|AlgHom|toComplex', r'map_add|map_mul|map_neg|ofGaussianInt'),
++    'linear_basis': (r'LinearMap|Multilinear|Basis|span_induction|ofCrAnList|Matrix\.det|\.det\b', r'\bsum\b|∑|\bspan\b|span_induction|\bmap_\w+|ofCrAnList'),
++    'positive_matrix': (r'HermitianMat|Matrix', r'PosDef|PosSemidef'),
++    'set_cardinality': (r'\.card\b|Fintype\.card|hammingDist|distFromCode', r'biUnion|\.image|union|fiber|[Ff]iber|Injective|card_le|card_bij'),
++    'probability_implication': (r'Pr_|Pr\s|prob|Probability', r'≤|<|implies|R_star'),
++    'rational_algebra': (r'\bfield_simp\b|\bnlinarith\b|\bring_nf\b|\bring\b|\blinear_combination\b', r'/|\^|Polynomial|ℚ|ℝ|ℤ'),
++    'cast_roundtrip': (r'WithBot|WithTop|ENat|ℕ∞|exact_mod_cast|norm_cast', r'≤|<|degree|natDegree|\.card'),
++    'derivative_expression': (r'HasDerivAt|HasFDerivAt|\bderiv\b|\bfderiv\b|∂ₜ|∂\[',),
++    'finite_sum_counts': (r'∑|Finset\.sum', r'\.card|filter|if\b|sum_comm|sum_bij|sum_filter|det_apply'),
++    'symmetry_context': (r'inter_comm|sqDist_comm|integral_comp_neg|extremalTest_even|compl_compl|braidWord',),
++    'test_function_zero': (r'IsTestFunction', r'Continuous|ContDiff', r'∫|integral'),
++    'continuity_control': (r'Continuous|UniformContinuous|ContinuousAt', r'IsCompact|[Cc]ompact|infDist|[Ll]ipschitz|ramp|\bmin\b|\bmax\b|intervalIntegrable'),
++    'finite_state_sequence': (r'ℕ\s*→\s*ℤ|ℕ\s*→\s*ℝ', r'Finite|finite|[Bb]ounded|Set\.Icc', r'\+\s*1|\+\s*2'),
++    'stateful_support': (r'simulateQ', r'support|probFailure', r'StateT'),
++    'polynomial_degree': (r'Polynomial|[A-Z]\[X\]|\.natDegree', r'natDegree|degree|degreeX|degreeY'),
++    'modular_integer_cases': (r'Int\.ModEq|Int\.emod|%\s*9|ZMod', r'ℤ|intCast'),
++}
++
++
++def clean(text):
++    text = without_comments(text)
++    return re.sub(r'"(?:\\.|[^"\\])*"', '""', text)
++
++
++def extract(statement, declaration):
++    stmt = clean(statement)
++    # Exclude the current theorem/lemma name from routing signals.
++    stmt = re.sub(r'^\s*(?:theorem|lemma)\s+\S+', '', stmt)
++    body_raw = declaration[len(statement):] if statement and declaration.startswith(statement) else declaration
++    body = re.sub(r'^\s*(?:theorem|lemma)\s+\S+', '', clean(body_raw))
++    text = stmt + '\n' + body
++    matches = {}
++    for name, patterns in RULES.items():
++        hits = [re.search(pattern, text) for pattern in patterns]
++        if all(hits):
++            matches[name] = {'components': [h.group(0) for h in hits],
++                             'locations': [{'section': 'statement' if h.start() < len(stmt) else 'body',
++                                            'line': (stmt[:h.start()].count('\n') + 1 if h.start() < len(stmt)
++                                                     else body[:max(0,h.start()-len(stmt)-1)].count('\n')+1)} for h in hits]}
++    lines = [s.strip() for s in body.splitlines() if len(s.strip()) >= 18]
++    repeated = sorted({s for s in lines if lines.count(s) >= 2})
++    # Repeated nontrivial lemma invocations, excluding the theorem declaration.
++    names = re.findall(r'(?:\b(?:apply|exact|using)\s+|:=\s*)([\w.\']{10,})', body)
++    shared = sorted({s for s in names if names.count(s) >= 2})
++    if repeated or shared:
++        matches['repeated_derivation'] = {'components': ['repeated nontrivial lines' if repeated else 'repeated lemma invocations'],
++                                          'locations': [], 'line_groups': len(repeated), 'lemma_groups': len(shared)}
++    # A named have with exactly one occurrence after its declaration is an inlining
++    # candidate, not proven unused: later automation can use local hypotheses.
++    locals_ = []
++    for m in re.finditer(r'\bhave\s+([A-Za-z_][\w\']*)\s*(?::|:=)', body):
++        name = m.group(1)
++        if len(re.findall(r'(?<![\w\'])'+re.escape(name)+r'(?![\w\'])',body[m.end():])) <= 1:
++            locals_.append(body[:m.start()].count('\n')+1)
++    if locals_:
++        matches['single_use_fact'] = {'components': ['named local fact with at most one explicit later use'],
++                                      'locations': [{'section':'body','line':n} for n in locals_[:3]]}
++    return matches
+diff --git a/src/lean_agent/models.py b/src/lean_agent/models.py
+--- a/src/lean_agent/models.py
++++ b/src/lean_agent/models.py
+@@ -8,7 +8,7 @@
+ ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
+ 
+ 
+-def load_key(path):
++def load_key(path, names=("OPENROUTER", "OPENROUTER_API_KEY")):
+     """Read an explicitly supplied dotenv file literally; never run shell text."""
+     values = []
+     for line in path.read_text().splitlines():
+@@ -16,7 +16,7 @@
+         if not line or line.startswith("#") or "=" not in line:
+             continue
+         name, value = line.split("=", 1)
+-        if name.strip() in {"OPENROUTER", "OPENROUTER_API_KEY"}:
++        if name.strip() in names:
+             parts = shlex.split(value, comments=True)
+             if len(parts) != 1 or not parts[0]:
+                 raise ValueError("Invalid OpenRouter dotenv entry")
+@@ -27,6 +27,9 @@
+ 
+ 
+ def payload(messages, model):
++    if model["backend"] == "openai":
++        from . import openai_direct
++        return openai_direct.payload(messages, model)
+     result = {"model": model.get("id", "fixture-v1"), "messages": messages,
+               "max_tokens": model.get("max_tokens", 1024),
+               "stream": False, "response_format": {"type": "json_object"}}
+@@ -46,6 +49,9 @@
+ 
+ 
+ def query(body, model, step, fixtures=None):
++    if model["backend"] == "openai":
++        from . import openai_direct
++        return openai_direct.normalize(openai_direct.query(body, model, step))
+     if model["backend"] == "fixture":
+         return {"id": f"fixture-{step}", "model": "fixture-v1", "provider": "fixture",
+                 "choices": [{"message": {"role": "assistant", "content": fixtures[step - 1]}}],
+diff --git a/src/lean_agent/openai_direct.py b/src/lean_agent/openai_direct.py
+--- a/src/lean_agent/openai_direct.py
++++ b/src/lean_agent/openai_direct.py
+@@ -1,147 +1,197 @@
+-"""Text-only Responses adapter with explicit pricing and no automatic retries.
++"""OpenAI direct Chat Completions transport and auditable public-price receipts.
+ 
+-Normalized receipts fit the existing experiment loop; openai_response preserves
+-the actual response. cost_usd is a usage-based estimate, never an invoice.
++The untouched provider JSON is archived separately by the driver. A normalized
++copy supplies the common harness's usage.cost field; this is a calculation from
++provider token usage and frozen public list prices, not an invoice receipt.
+ """
+-from decimal import Decimal, ROUND_FLOOR
++from copy import deepcopy
++from decimal import Decimal
+ import json
+ import os
+-import re
++from pathlib import Path
+ import shlex
+-from urllib import request, error
++from urllib import error, request
+ 
+-ENDPOINT = 'https://api.openai.com/v1/responses'
+-MODEL = 'gpt-6.1-sol'
+-PRICING = {
+-    'model':MODEL, 'as_of':'2026-10-29', 'service_tier':'default',
+-    'cache_ttl':'30m', 'input_per_million':'2', 'cached_input_per_million':'0.10',
+-    'cache_write_per_million':'2.50', 'output_per_million':'10',
+-    'max_input_bound':200000, 'long_context_threshold':272000,
+-    'source':'https://developers.openai.com/api/docs/models/gpt-6.1-sol',
+-    'cache_source':'https://developers.openai.com/api/docs/guides/prompt-caching',
+-}
++from lean_agent import artifacts as a
++
++MODEL_ID = "gpt-6.1-sol"
++ENDPOINT = "https://api.openai.com/v1/chat/completions"
++PRICING = {"model": MODEL_ID, "provider": "OpenAI", "service_tier": "default",
++           "currency": "USD", "unit": "per_million_tokens", "input": "2", "cached_input": "0.10",
++           "cache_write_30m": "2.50", "output_including_reasoning": "10", "long_context_threshold": 272000,
++           "source": "https://developers.openai.com/api/docs/pricing",
++           "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
++           "verified_date": "2026-11-01"}
+ 
+ 
+-def load_key(path=None):
+-    if path is None:
+-        key=os.environ.get('OPENAI_API_KEY')
+-        if not key:raise ValueError('Set OPENAI_API_KEY or supply --dotenv PATH')
+-        return key
+-    values=[]
+-    for line in path.read_text().splitlines():
+-        line=line.strip().removeprefix('export ')
+-        if not line or line.startswith('#') or '=' not in line:continue
+-        name,value=line.split('=',1)
+-        if name.strip()!='OPENAI_API_KEY':continue
+-        parts=shlex.split(value,comments=True)
+-        if len(parts)!=1 or not parts[0]:raise ValueError('Invalid OpenAI dotenv entry')
+-        values.append(parts[0])
+-    if not values or len(set(values))!=1:raise ValueError('Missing or conflicting OpenAI dotenv entries')
++class NoRedirect(request.HTTPRedirectHandler):
++    def redirect_request(self, req, fp, code, msg, headers, newurl):
++        return None
++
++
++def load_key(path):
++    values = []
++    for line in Path(path).read_text().splitlines():
++        line = line.strip().removeprefix("export ")
++        if not line or line.startswith("#") or "=" not in line:
++            continue
++        name, value = line.split("=", 1)
++        if name.strip() == "OPENAI_API_KEY":
++            parts = shlex.split(value, comments=True)
++            if len(parts) != 1 or not parts[0]:
++                raise ValueError("Invalid OpenAI dotenv entry")
++            values.append(parts[0])
++    if not values or len(set(values)) != 1:
++        raise ValueError("Missing or conflicting OpenAI dotenv entries")
+     return values[0]
+ 
+ 
+-def payload(messages, output=16384):
+-    if len(messages)!=2 or any(not isinstance(m.get('content'),str) for m in messages):
+-        raise ValueError('Expected two text-only messages')
+-    return {'model':MODEL,'input':[{'role':'developer','content':messages[0]['content']},
+-                                   {'role':'user','content':messages[1]['content']}],
+-        'reasoning':{'effort':'high'},'max_output_tokens':output,
+-        'service_tier':'default','store':False,'stream':False,'tools':[],'tool_choice':'none',
+-        'prompt_cache_options':{'mode':'implicit','ttl':'30m'},
+-        'text':{'format':{'type':'json_schema','name':'lean_proof','strict':True,
+-            'schema':{'type':'object','properties':{'proof':{'type':'string'}},
+-                      'required':['proof'],'additionalProperties':False}}}}
++def payload(messages, model):
++    if model["id"] != MODEL_ID or model["backend"] != "openai":
++        raise ValueError("Expected pinned direct OpenAI model")
++    if (not isinstance(messages, list) or len(messages) != 2 or
++            any(not isinstance(message, dict) or set(message) != {"role", "content"} or
++                not isinstance(message["content"], str) for message in messages) or
++            messages[0]["role"] != "system" or messages[1]["role"] != "user"):
++        raise ValueError("Expected exactly two plain-text system/user messages")
++    wire_messages = [{"role": "system", "content": [{"type": "text", "text": messages[0]["content"],
++                        "prompt_cache_breakpoint": {"mode": "explicit"}}]},
++                     {"role": "user", "content": messages[1]["content"]}]
++    return {"model": MODEL_ID, "messages": wire_messages,
++            "max_completion_tokens": model["max_tokens"], "reasoning_effort": model["reasoning_effort"],
++            "seed": model["seed"], "response_format": {"type": "json_object"},
++            "service_tier": "default", "prompt_cache_options": {"mode": "explicit", "ttl": "30m"},
++            "n": 1, "stream": False, "store": False}
+ 
+ 
+-def plan_request(messages, remaining, prices):
+-    if prices!=PRICING:raise ValueError('Unrecognized direct-API price snapshot')
+-    body=payload(messages)
+-    n=len(json.dumps(body,ensure_ascii=False,separators=(',',':')).encode())+4096
+-    if n>=prices['max_input_bound']:raise ValueError('Input exceeds conservative token bound')
+-    ip=max(Decimal(prices[k]) for k in ['input_per_million','cached_input_per_million','cache_write_per_million'])/1000000
+-    op=Decimal(prices['output_per_million'])/1000000
+-    out=min(16384,int(((remaining-n*ip-Decimal('.005'))/op).to_integral_value(rounding=ROUND_FLOOR))-256)
+-    if out<4096:return None
+-    body['max_output_tokens']=out
+-    bound=n*ip+(out+256)*op+Decimal('.005')
+-    assert bound<=remaining
+-    return body,bound,n
++def request_cost(body):
++    allowed = {"model", "messages", "max_completion_tokens", "reasoning_effort", "seed", "response_format",
++               "service_tier", "prompt_cache_options", "n", "stream", "store"}
++    messages = body.get("messages")
++    valid_messages = (isinstance(messages, list) and len(messages) == 2 and
++        all(isinstance(message, dict) and set(message) == {"role", "content"} for message in messages))
++    if valid_messages:
++        system, user = messages
++        parts = system["content"]
++        valid_messages = (system["role"] == "system" and user["role"] == "user" and isinstance(user["content"], str) and
++            isinstance(parts, list) and len(parts) == 1 and isinstance(parts[0], dict) and
++            set(parts[0]) == {"type", "text", "prompt_cache_breakpoint"} and parts[0]["type"] == "text" and
++            isinstance(parts[0]["text"], str) and parts[0]["prompt_cache_breakpoint"] == {"mode": "explicit"})
++    if (set(body) != allowed or body["model"] != MODEL_ID or body["service_tier"] != "default" or
++            body["prompt_cache_options"] != {"mode": "explicit", "ttl": "30m"} or
++            body["stream"] is not False or body["n"] != 1 or not valid_messages):
++        raise ValueError("Cost bound requires pinned direct OpenAI plain-text request")
++    count = len(json.dumps(body, ensure_ascii=False).encode()) + 4096
++    if count >= 240000:
++        raise ValueError("Request must remain conservatively below the 272K pricing tier")
++    maximum = (Decimal(count) * Decimal(PRICING["cache_write_30m"]) +
++               Decimal(body["max_completion_tokens"]) * Decimal(PRICING["output_including_reasoning"])) / 1000000
++    return {"request_sha256": a.sha(a.canonical(body)), "input_token_bound": count,
++            "output_token_bound": body["max_completion_tokens"], "reserved_usd": str(maximum),
++            "basis": "public-list-price upper bound; all input conservatively charged as 30m cache writes"}
+ 
+ 
+-def _tokens(value):
+-    if type(value) is not int or value<0:raise ValueError('Missing or invalid token usage')
++def model_metadata():
++    call = request.Request("https://api.openai.com/v1/models/" + MODEL_ID,
++                           headers={"Authorization": "Bearer " + os.environ["OPENAI_API_KEY"]})
++    with request.build_opener(NoRedirect).open(call, timeout=30) as response:
++        data = json.loads(response.read())
++    if data.get("id") != MODEL_ID:
++        raise ValueError("Pinned direct OpenAI model unavailable")
++    return data
++
++
++def query(body, model, step):
++    key = os.environ.get("OPENAI_API_KEY")
++    if not key:
++        raise ValueError("Missing explicitly configured OpenAI credentials")
++    call = request.Request(ENDPOINT, data=json.dumps(body, ensure_ascii=False).encode(),
++                           headers={"Content-Type": "application/json", "Authorization": "Bearer " + key})
++    try:
++        with request.build_opener(NoRedirect).open(call, timeout=model["timeout_seconds"]) as response:
++            return json.loads(response.read())
++    except error.HTTPError as exc:
++        result = {"transport_error": "HTTPError", "http_status": exc.code}
++        try:
++            failure = json.loads(exc.read()).get("error", {})
++            result["error"] = {key: failure.get(key) for key in ("type", "code", "param")}
++        except (ValueError, TypeError, AttributeError):
++            pass
++        return result
++    except (error.URLError, TimeoutError, OSError, ValueError) as exc:
++        # No retry, no exception strings or headers that could expose credentials.
++        return {"transport_error": type(exc).__name__, "http_status": getattr(exc, "code", None)}
++
++
++def integer(value, label):
++    if type(value) is not int or value < 0:
++        raise ValueError("Missing/invalid token counter: " + label)
+     return value
+ 
+ 
+-def normalize(raw,prices):
+-    """Account all output including reasoning even for incomplete responses."""
+-    content=None;amount=None;usage={};why=None
+-    try:
+-        if prices!=PRICING:raise ValueError('Unrecognized pricing')
+-        if not isinstance(raw,dict):raise ValueError('Invalid response')
+-        if not re.fullmatch(r'gpt-6\.1-sol(?:-\d{4}-\d{2}-\d{2})?',raw.get('model','')):
+-            raise ValueError('Unpriced response model')
+-        if raw.get('service_tier')!='default':raise ValueError('Unpriced service tier')
+-        u=raw['usage'];details=u['input_tokens_details']
+-        inp=_tokens(u.get('input_tokens'));out=_tokens(u.get('output_tokens'))
+-        cached=_tokens(details.get('cached_tokens'));writes=_tokens(details.get('cache_write_tokens'))
+-        reasoning=_tokens(u['output_tokens_details'].get('reasoning_tokens'))
+-        if inp>=prices['max_input_bound'] or cached+writes>inp or reasoning>out:
+-            raise ValueError('Usage exceeds priced scope')
+-        if u.get('total_tokens',inp+out)!=inp+out:raise ValueError('Inconsistent total token usage')
+-        # No audio/image/tool usage is priced by this text-only adapter.
+-        for d in [details,u['output_tokens_details']]:
+-            if any(v for k,v in d.items() if k in {'audio_tokens','image_tokens','video_tokens'}):
+-                raise ValueError('Non-text usage is not priced')
+-        amount=str(((inp-cached-writes)*Decimal(prices['input_per_million'])
+-             +cached*Decimal(prices['cached_input_per_million'])
+-             +writes*Decimal(prices['cache_write_per_million'])
+-             +out*Decimal(prices['output_per_million']))/1000000)
+-        usage={'cost':amount,'prompt_tokens':inp,'completion_tokens':out,
+-               'prompt_tokens_details':{'cached_tokens':cached,'cache_write_tokens':writes},
+-               'completion_tokens_details':{'reasoning_tokens':reasoning}}
+-    except (KeyError,TypeError,ValueError) as exc:
+-        why=str(exc) if isinstance(exc,ValueError) else 'Missing usage fields'
+-    if isinstance(raw,dict) and raw.get('status')=='completed':
+-        texts=[];valid=True
+-        items=raw.get('output',[])
+-        if not isinstance(items,list):items=[];valid=False
+-        for item in items:
+-            if not isinstance(item,dict):valid=False;continue
+-            if item.get('type')=='reasoning':continue
+-            if item.get('type')!='message' or item.get('role')!='assistant':valid=False;continue
+-            parts=item.get('content',[])
+-            if not isinstance(parts,list):valid=False;continue
+-            for part in parts:
+-                if not isinstance(part,dict):valid=False;continue
+-                if part.get('type')!='output_text' or not isinstance(part.get('text'),str):valid=False
+-                else:texts.append(part['text'])
+-        if valid and texts:content=''.join(texts)
+-    raw=raw if isinstance(raw,dict) else {}
+-    return {'id':raw.get('id'),'model':raw.get('model'),'provider':'OpenAI-direct',
+-        'choices':[{'message':{'role':'assistant','content':content}}], 'usage':usage,
+-        'cost_basis':'usage_estimate' if amount is not None else 'unknown',
+-        'accounting_error':why,'openai_response':raw}
++def compute_cost(raw):
++    if not isinstance(raw, dict) or raw.get("error") or raw.get("transport_error"):
++        raise ValueError("Missing successful provider response")
++    if raw.get("model") != MODEL_ID or raw.get("service_tier") != "default":
++        raise ValueError("Unexpected returned model/service tier")
++    usage = raw.get("usage")
++    if not isinstance(usage, dict):
++        raise ValueError("Provider usage missing")
++    prompt = integer(usage.get("prompt_tokens"), "prompt_tokens")
++    completion = integer(usage.get("completion_tokens"), "completion_tokens")
++    if integer(usage.get("total_tokens"), "total_tokens") != prompt + completion:
++        raise ValueError("Provider usage totals disagree")
++    if prompt > PRICING["long_context_threshold"]:
++        raise ValueError("Unexpected long-context price tier")
++    details = usage.get("prompt_tokens_details")
++    if details is None:
++        details = {}
++    if not isinstance(details, dict):
++        raise ValueError("Invalid prompt token details")
++    cached = integer(details.get("cached_tokens", 0), "cached_tokens")
++    written = integer(details.get("cache_write_tokens", 0), "cache_write_tokens")
++    ordinary = prompt - cached - written
++    if ordinary < 0:
++        raise ValueError("Cache reads/writes exceed total input tokens")
++    lifetimes = details.get("cache_write_tokens_details")
++    if lifetimes is not None:
++        if not isinstance(lifetimes, dict) or integer(lifetimes.get("ttl_12h_tokens", 0), "ttl_12h_tokens") != 0:
++            raise ValueError("Unexpected non-30m cache writes")
++        if integer(lifetimes.get("ttl_30m_tokens", 0), "ttl_30m_tokens") != written:
++            raise ValueError("Cache-write lifetime counts disagree")
++    completion_details = usage.get("completion_tokens_details")
++    if completion_details is None:
++        completion_details = {}
++    if not isinstance(completion_details, dict):
++        raise ValueError("Invalid completion token details")
++    reasoning = integer(completion_details.get("reasoning_tokens", 0), "reasoning_tokens")
++    if reasoning > completion:
++        raise ValueError("Reasoning tokens exceed total completion tokens")
++    for label, counters in (("prompt", details), ("completion", completion_details)):
++        for modality in ("audio_tokens", "image_tokens"):
++            if integer(counters.get(modality, 0), label + "." + modality):
++                raise ValueError("Unexpected non-text token pricing")
++    cost = (Decimal(ordinary) * Decimal(PRICING["input"]) +
++            Decimal(cached) * Decimal(PRICING["cached_input"]) +
++            Decimal(written) * Decimal(PRICING["cache_write_30m"]) +
++            Decimal(completion) * Decimal(PRICING["output_including_reasoning"])) / 1000000
++    return {"cost_usd": str(cost), "basis": "provider-token-usage-times-frozen-public-list-prices",
++            "invoice_verified": False, "ordinary_input_tokens": ordinary, "cached_input_tokens": cached,
++            "cache_write_30m_tokens": written, "completion_tokens_including_reasoning": completion,
++            "reasoning_tokens_already_included": reasoning, "pricing": PRICING,
++            "provider_response_sha256": a.sha(a.canonical(raw))}
+ 
+ 
+-class NoRedirect(request.HTTPRedirectHandler):
+-    def redirect_request(self,*args,**kwargs):return None
+-
+-
+-def query(body,prices,timeout=600):
+-    if prices!=PRICING:raise ValueError('Unrecognized pricing')
+-    inp=body.get('input',[])
+-    out=body.get('max_output_tokens')
+-    if (type(out) is not int or not 4096<=out<=16384 or len(inp)!=2
+-        or body!=payload([{'content':i.get('content')} for i in inp],out)):
+-        raise ValueError('Unexpected direct API request options')
+-    key=load_key()
+-    call=request.Request(ENDPOINT,data=json.dumps(body,ensure_ascii=False).encode(),
+-        headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'})
++def normalize(raw):
++    normalized = deepcopy(raw) if isinstance(raw, dict) else {"invalid_provider_response_type": type(raw).__name__}
+     try:
+-        with request.build_opener(NoRedirect).open(call,timeout=timeout) as response:
+-            raw=json.loads(response.read())
+-    except (error.URLError,TimeoutError,OSError,ValueError) as exc:
+-        # A request may have been processed: preserve uncertainty and never retry.
+-        raw={'transport_error':type(exc).__name__,'http_status':getattr(exc,'code',None)}
+-    return normalize(raw,prices)
++        receipt = compute_cost(raw)
++    except (ValueError, TypeError, KeyError) as exc:
++        receipt = {"cost_usd": None, "basis": "unknown", "invoice_verified": False,
++                   "error": str(exc), "provider_response_sha256": a.sha(a.canonical(raw))}
++    if not isinstance(normalized.get("usage"), dict):
++        normalized["usage"] = {}
++    normalized["usage"]["cost"] = receipt["cost_usd"]
++    normalized["provider"] = "OpenAI"
++    normalized["_cost_receipt"] = receipt
++    return normalized
+diff --git a/src/lean_agent/budgeting.py b/src/lean_agent/budgeting.py
+--- a/src/lean_agent/budgeting.py
++++ b/src/lean_agent/budgeting.py
+@@ -10,6 +10,9 @@
+ 
+ def request_cost(body):
+     """Maximum request cost, independent of a stopping policy."""
++    if body.get("model") == "gpt-6.1-sol":
++        from . import openai_direct
++        return openai_direct.request_cost(body)
+     if (body["model"] != "openai/gpt-6.1-sol" or body.get("plugins") != []
+             or "tools" in body or len(body["messages"]) != 2
+             or any(not isinstance(m.get("content"), str) for m in body["messages"])
+diff --git a/src/lean_agent/actions.py b/src/lean_agent/actions.py
+--- a/src/lean_agent/actions.py
++++ b/src/lean_agent/actions.py
+@@ -7,7 +7,7 @@
+ import re
+ from collections import Counter
+ 
+-from . import diagnostics, models, portfolio, search_policy
++from . import diagnostics, models, portfolio, search_policy, strategy_bank
+ from .artifacts import canonical, sha
+ from .evaluator.tokens import proof_body
+ 
+@@ -18,8 +18,8 @@
+     "analyze": {"action": "analyze", "candidate_id": "c000"},
+     "read_candidate": {"action": "read_candidate", "candidate_id": "c000", "offset": 0},
+     "propose": {"action": "propose", "parent_id": "c000", "strategy": "approach", "proof": "by ...",
+-                "source_candidate_ids": ["c001", "c002"]},
+-    "repair": {"action": "repair", "parent_id": "failed candidate id", "strategy": "fix", "proof": "by ..."},
++                "source_candidate_ids": ["c001", "c002"], "strategy_ids": ["bank card ID"]},
++    "repair": {"action": "repair", "parent_id": "failed candidate id", "strategy": "fix", "proof": "by ...", "strategy_ids": ["bank card ID"]},
+     "finish": {"action": "finish"},
+ }
+ PAGE_CHARACTERS = 3000
+@@ -32,12 +32,14 @@
+ def validate_config(settings):
+     if (not isinstance(settings, dict) or settings.get("mode") != MODE
+             or set(settings) - {"mode", "corpus", "history_limit", "candidate_limit", "allow_finish",
+-                                 "portfolio", "approach_policy"}):
++                                 "portfolio", "approach_policy", "strategy_bank"}):
+         raise ValueError("Expected actions-v1 agent settings")
+     if not isinstance(settings.get("corpus"), str) or not settings["corpus"]:
+         raise ValueError("Actions require an explicit corpus file (an empty corpus is allowed)")
+     if type(settings.get("allow_finish", True)) is not bool:
+         raise ValueError("Expected boolean allow_finish")
++    if "strategy_bank" in settings:
++        strategy_bank.validate_settings(settings["strategy_bank"])
+     if "portfolio" in settings:
+         portfolio.validate(settings["portfolio"])
+     if "approach_policy" in settings:
+@@ -107,9 +109,6 @@
+             "feedback": compact_feedback(fb),
+             "instructions": ["Repair the reported errors while preserving working branches. Return repair with this parent_id; the included parent source uses 1-based candidate_line numbering.",
+                              *[diagnostics.REPAIR_HINTS[k] for k in kinds if k in diagnostics.REPAIR_HINTS]]}
+-    guard = portfolio.progress(state, config)
+-    if guard and guard["force_candidate"]:
+-        result["actions"] = {k: v for k, v in result["actions"].items() if k in {"propose", "repair"}}
+     return result
+ 
+ 
+@@ -142,12 +141,18 @@
+     if not isinstance(value, dict) or not isinstance(value.get("action"), str) or value["action"] not in PROTOCOL:
+         raise ValueError("Expected a supported action object")
+     kind = value["action"]
+-    required = set(PROTOCOL[kind]) - {"offset", "source_candidate_ids"}
++    required = set(PROTOCOL[kind]) - {"offset", "source_candidate_ids", "strategy_ids"}
+     if not required <= set(value) or set(value) - set(PROTOCOL[kind]):
+         raise ValueError("Unexpected or missing action fields")
+     for key in required - {"action", "proof"}:
+         if not isinstance(value[key], str) or not value[key].strip() or len(value[key]) > 300:
+             raise ValueError("Invalid action field: " + key)
++    if "strategy_ids" in value:
++        ids = value["strategy_ids"]
++        if (not isinstance(ids, list) or len(ids) > 3
++                or any(not isinstance(x, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,60}", x) for x in ids)
++                or len(set(ids)) != len(ids)):
++            raise ValueError("Invalid strategy_ids")
+     if "offset" in value and (type(value["offset"]) is not int or value["offset"] < 0):
+         raise ValueError("Expected a nonnegative integer offset")
+     if "source_candidate_ids" in value:
+@@ -171,9 +176,11 @@
+     """Return the parsed action, optional code, and deterministic observation."""
+     action = response_object(raw, config["limits"]["max_proof_characters"])
+     kind, candidates = action["action"], state["exploration"]["candidates"]
+-    guard = portfolio.progress(state, config)
+-    if guard and guard["force_candidate"] and kind not in {"propose", "repair"}:
+-        raise ValueError("Research limit reached: submit a complete propose/repair using collected evidence")
++    if action.get("strategy_ids"):
++        settings = config.get("agent", {}).get("strategy_bank")
++        known = {c["id"] for c in settings["bank"]["strategies"]} if settings else set()
++        if set(action["strategy_ids"]) - known:
++            raise ValueError("Unknown or unconfigured strategy ID")
+     if kind == "finish" and (not config["agent"].get("allow_finish", True) or portfolio.enabled(config)):
+         raise ValueError("finish is disabled for this run; the controller stops at the configured budget/call limit")
+     cid = action.get("candidate_id", action.get("parent_id"))
+@@ -240,6 +247,8 @@
+             "strategy": action["strategy"], "step": state["step"], "valid": proposal is not None,
+             "feedback": state["latest"]["feedback"], **(proposal or {}),
+         }
++        if "strategy_ids" in action:
++            memory["candidates"][cid]["strategy_ids"] = action["strategy_ids"]
+         if action.get("source_candidate_ids"):
+             memory["candidates"][cid]["source_candidate_ids"] = action["source_candidate_ids"]
+         if proposal and proposal == state["best"]:
+diff --git a/src/lean_agent/strategy_bank.py b/src/lean_agent/strategy_bank.py
+new file mode 100644
+--- /dev/null
++++ b/src/lean_agent/strategy_bank.py
+@@ -0,0 +1,186 @@
++"""Optional, deterministic strategy hints. No model/Lean calls or external I/O.
++
++Rule scoring adapts Chaewon Park's PR #50 Strategy Retriever (all/any tags,
++tactic minima, stable ties). Evidence stays offline; requests contain generic
++cards only. Final-derived banks describe benchmark adaptation, not generalization.
++"""
++import re
++
++from .artifacts import canonical, sha
++from .evaluator.tokens import without_comments
++from . import strategy_signals
++
++TACTICS = ("have", "calc", "cases", "rcases", "induction", "obtain", "simp",
++           "simp_all", "grind", "aesop", "rw", "exact", "apply", "refine")
++
++
++def features(code):
++    # A lexical signal, never an AST, tactic cost estimate, or official tokenizer.
++    clean = without_comments(code)
++    clean = re.sub(r'"(?:\\.|[^"\\])*"', '""', clean)
++    counts = {w: len(re.findall(r"(?<![\w.])" + w + r"(?![\w'])", clean)) for w in TACTICS}
++    return {"counts": counts, "tags": ["repeated_automation"] if
++            sum(counts[w] for w in ("simp", "simp_all", "grind", "aesop")) >= 3 else []}
++
++
++def validate(bank):
++    if (not isinstance(bank, dict) or set(bank) != {"schema_version", "version", "scope", "strategies"}
++            or type(bank["schema_version"]) is not int or bank["schema_version"] not in (1, 2) or not isinstance(bank["version"], str)
++            or not 1 <= len(bank["version"]) <= 100 or bank["scope"] not in ("warmup", "final-adaptation")
++            or not isinstance(bank["strategies"], list) or not 1 <= len(bank["strategies"]) <= 30
++            or len(canonical(bank)) > 100000):
++        raise ValueError("Invalid strategy bank")
++    ids = set()
++    for card in bank["strategies"]:
++        if (not isinstance(card, dict) or set(card) - {"metadata"} != ({"id", "title", "match", "guide", "risks", "evidence"} |
++                   ({"title_ko", "mechanism", "status", "constraints", "recipes"} if bank["schema_version"] == 2 else set()))
++                or not isinstance(card["id"], str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,60}", card["id"])
++                or card["id"] in ids):
++            raise ValueError("Invalid or duplicate strategy card")
++        ids.add(card["id"])
++        if "metadata" in card:
++            m = card["metadata"]
++            if (not isinstance(m, dict) or set(m) != {"description", "when_to_apply", "objectives", "review_status", "attribution"}
++                    or any(not isinstance(m[k], str) or not 1 <= len(m[k]) <= 2000 for k in ("description", "when_to_apply"))
++                    or m["review_status"] not in ("review_required", "approved", "rejected")
++                    or m["attribution"] not in ("joint", "isolated", "unmeasured")
++                    or not isinstance(m["objectives"], list) or any(x not in ("hb", "tokens", "compatibility") for x in m["objectives"])):
++                raise ValueError("Invalid strategy metadata")
++        if any(not isinstance(card[k], str) or not 1 <= len(card[k]) <= 1500 for k in ("title", "guide", "risks")):
++            raise ValueError("Invalid strategy text")
++        match = card["match"]
++        if bank["schema_version"] == 2:
++            if (not isinstance(match, dict) or set(match) != {"requires", "optional"}
++                    or not isinstance(match["requires"], list) or not match["requires"]
++                    or not isinstance(match["optional"], list)):
++                raise ValueError("Expected v2 signal gates")
++            known = set(strategy_signals.RULES) | {"repeated_derivation", "single_use_fact"}
++            if any(not isinstance(group, list) or not group or any(not isinstance(t,str) or t not in known for t in group)
++                   for group in match["requires"]) or any(not isinstance(t,str) or t not in known for t in match["optional"]):
++                raise ValueError("Unknown v2 signal")
++            if (card["status"] not in ("observed-multiple-problems", "observed-single-problem")
++                    or any(not isinstance(card[k],str) or not 1 <= len(card[k]) <= 1800
++                           for k in ("title_ko", "mechanism", "constraints"))
++                    or not isinstance(card["recipes"],list) or not card["recipes"]
++                    or any(not isinstance(v,str) or not 1 <= len(v) <= 1500 for v in card["recipes"])):
++                raise ValueError("Invalid v2 strategy semantics")
++        elif not isinstance(match, dict) or set(match) - {"all_tags", "any_tags", "tactic_min"}:
++            raise ValueError("Invalid strategy match")
++        for key in ("all_tags", "any_tags"):
++            if key in match and (not isinstance(match[key], list) or
++                                any(t != "repeated_automation" for t in match[key])):
++                raise ValueError("Unknown strategy tag")
++        minima = match.get("tactic_min", {})
++        if (not isinstance(minima, dict) or any(k not in TACTICS or type(v) is not int or not 1 <= v <= 100
++                                                for k, v in minima.items())):
++            raise ValueError("Invalid tactic minimum")
++        if (not isinstance(card["evidence"], list) or not card["evidence"] or
++                any(not isinstance(e, dict) or set(e) != {"problem", "candidate_sha256"}
++                    or not isinstance(e["problem"], str) or not 1 <= len(e["problem"]) <= 1000
++                    or not isinstance(e["candidate_sha256"], str)
++                    or not re.fullmatch(r"[0-9a-f]{64}", e["candidate_sha256"]) for e in card["evidence"])):
++            raise ValueError("Invalid strategy evidence identity")
++
++
++def validate_settings(settings):
++    if (not isinstance(settings, dict) or not {"bank", "top_k"} <= set(settings) or set(settings) - {"bank", "top_k", "contextual"}
++            or type(settings["top_k"]) is not int or not 1 <= settings["top_k"] <= 3):
++        raise ValueError("Strategy bank requires bank and top_k (1..3)")
++    if "contextual" in settings and type(settings["contextual"]) is not bool:
++        raise ValueError("contextual must be boolean")
++    validate(settings["bank"])
++
++
++def score(match, feat):
++    if "requires" in match:
++        signals = set(feat["signals"])
++        if any(not signals.intersection(group) for group in match["requires"]):
++            return None
++        optional = match["optional"]
++        # All hard gates are mandatory. Optional coverage is normalized so cards
++        # with longer condition lists do not get more points merely for length.
++        generic = {"repeated_derivation", "single_use_fact", "proof_wrapper", "branch_duplication",
++                   "broad_search", "rational_algebra", "cast_roundtrip"}
++        required_hits = {t for group in match["requires"] for t in group if t in signals}
++        specificity = 2 if required_hits - generic else 1
++        return specificity + 0.5 * (sum(t in signals for t in optional) / len(optional) if optional else 0)
++    tags, counts = set(feat["tags"]), feat["counts"]
++    if not set(match.get("all_tags", [])) <= tags:
++        return None
++    hits = [t for t in match.get("any_tags", []) if t in tags]
++    hits += [w for w, n in match.get("tactic_min", {}).items() if counts.get(w, 0) >= n]
++    if (match.get("any_tags") or match.get("tactic_min")) and not hits:
++        return None
++    return len(match.get("all_tags", [])) + len(hits)
++
++
++def packet(problem, settings, *, hidden=False, current_proof=None, objective=None, excluded_ids=()):
++    validate_settings(settings)
++    bank = settings["bank"]
++    identity = {"bank_version": bank["version"], "bank_sha256": sha(canonical(bank)),
++                "scope": bank["scope"], "policy": ("signal-gated-other-problem-evidence-v2" if bank["schema_version"] == 2
++                           else "generic-cards-other-problem-evidence-v1")}
++    # No reference-derived signals, excluded IDs or retrieved cards in hidden scout.
++    if hidden:
++        return {**identity, "status": "withheld_hidden_original", "strategies": []}
++    if objective not in (None, "hb", "tokens", "compatibility"):
++        raise ValueError("Unknown strategy objective")
++    code = problem["reference"] if current_proof is None else current_proof
++    feat = features(code)
++    if bank["schema_version"] == 2:
++        feat["signals"] = strategy_signals.extract(problem.get("statement", ""), code)
++    ranked = []
++    for index, card in enumerate(bank["strategies"]):
++        if card["id"] in excluded_ids or card.get("metadata", {}).get("review_status") == "rejected":
++            continue
++        # Remove this problem's evidence even when a card also has other examples.
++        other = {e["problem"] for e in card["evidence"] if e["problem"] != problem["name"]}
++        value = score(card["match"], feat)
++        if other and value is not None:
++            if objective in card.get("metadata", {}).get("objectives", []):
++                value += 0.25
++            ranked.append((-value, index, card, len(other)))
++    cards = [{"id": c["id"], "title": c["title"], "guide": c["guide"], "risks": c["risks"],
++              "match_score": -s, "other_evidence_problems": n}
++             for s, _, c, n in sorted(ranked, key=lambda x: (x[0], x[1]))[:settings["top_k"]]]
++    if bank["schema_version"] == 2:
++        for result in cards:
++            card = next(c for c in bank["strategies"] if c["id"] == result["id"])
++            relevant = {s for group in card["match"]["requires"] for s in group} | set(card["match"]["optional"])
++            result.update(title_ko=card["title_ko"], constraints=card["constraints"],
++                          matched_signals={s: feat["signals"][s] for s in sorted(relevant & set(feat["signals"]))})
++    return {**identity, "status": "retrieved" if cards else "no_match", "strategies": cards,
++            "note": "Optional hypotheses, not verified edits. Do not treat match scores as proof quality. "
++                    "Evidence describes complete candidate changes; individual tactic effects are not isolated."}
++
++
++def hints(value):
++    """Proposal-compatible generic hints; no source answers or evidence excerpts."""
++    return [{"strategy_id": c["id"], "title": c["title"],
++             "application_guide": [c["guide"]], "risk_notes": [c["risks"]],
++             "match_score": c["match_score"], "why": c.get("matched_signals", {})}
++            for c in value["strategies"]]
++
++
++def for_request(problem, settings, request, *, hidden=False):
++    """Use only visible snapshotted request data; reproducible by the auditor."""
++    if not settings.get("contextual", False) or hidden:
++        return packet(problem, settings, hidden=hidden)
++    best = request["best"]
++    code = best.get("code", problem["reference"])
++    baseline = request["baseline"]
++    objective = max(("tokens", "hb"), key=lambda key:
++        best.get("tokens" if key == "tokens" else "raw_heartbeats", 0) /
++        max(1, baseline.get("tokens" if key == "tokens" else "raw_heartbeats", 0)))
++    failed = set()
++    for row in request.get("exploration", {}).get("recent_actions", []):
++        action = row.get("action") or {}
++        feedback = row.get("outcome") or {}
++        if feedback.get("valid") is False and feedback.get("status") == "proof_rejected":
++            failed.update(action.get("strategy_ids", []))
++    result = packet(problem, settings, current_proof=code, objective=objective, excluded_ids=failed)
++    result["context"] = {"proof_sha256": sha(code), "objective": objective,
++                         "excluded_ids": sorted(failed), "history_scope": "visible recent actions"}
++    result["strategy_hints"] = hints(result)
++    result["tracking"] = "On propose/repair, report selected Bank IDs in optional strategy_ids (0..3). This declares selection only; actual edits require review. Unmatched strategies may be chosen explicitly."
++    return result
+diff --git a/src/lean_agent/search_policy.py b/src/lean_agent/search_policy.py
+--- a/src/lean_agent/search_policy.py
++++ b/src/lean_agent/search_policy.py
+@@ -14,7 +14,6 @@
+     "Return only the configured action object; only the harness verifies a complete proof."
+ )
+ INSTRUCTIONS = {
+-    "submit_candidate": "Research is bounded. Return propose or repair now with a complete proof based on collected evidence. Do not search, inspect, or repeat a failed read. Compiler feedback from an imperfect candidate is useful.",
+     "explore": "Compare proof routes by obligations removed and bridge cost. Inspect actual theorem types before spending attempts on an uncertain bridge.",
+     "merge": "Compare scout parents, failed bridges and Pareto candidates. Combine useful ideas into a complete proof, not concatenated scripts. Revalidate the whole result.",
+     "reduce_length": "Length is the larger residual axis. Prefer direct lemmas, compositional internal properties, shared obligations and omission of inferred work. Measure any HB increase.",
+@@ -68,10 +67,7 @@
+     latest = state.get("latest")
+     failed = latest and latest["feedback"].get("valid") is False
+     dominance = "length" if length >= heartbeat else "heartbeat"
+-    guard = context.get("progress_guard") if context else None
+-    if guard and guard["force_candidate"]:
+-        approach = "submit_candidate"
+-    elif failed:
++    if failed:
+         approach = "repair_or_reconsider"
+     elif context and context["branch"].startswith("scout") and context["evaluated"] < 2:
+         approach = "explore"
+diff --git a/src/lean_agent/portfolio.py b/src/lean_agent/portfolio.py
+--- a/src/lean_agent/portfolio.py
++++ b/src/lean_agent/portfolio.py
+@@ -21,34 +21,14 @@
+ 
+ def validate(settings):
+     if (not isinstance(settings, dict) or set(settings) - {
+-            "scout_evaluations", "merger_evaluations", "hide_original_first_scout", "progress_guard",
+-            "rounds", "merger_until_budget"}):
++            "scout_evaluations", "merger_evaluations", "hide_original_first_scout"}):
+         raise ValueError("Expected portfolio evaluation quotas")
+     for key, default in (("scout_evaluations", 6), ("merger_evaluations", 22)):
+         value = settings.get(key, default)
+         if type(value) is not int or not 1 <= value <= 100:
+             raise ValueError("Expected portfolio " + key + " between 1 and 100")
+-    if "progress_guard" in settings and settings["progress_guard"] != "bounded-v1":
+-        raise ValueError("Expected progress_guard bounded-v1")
+     if type(settings.get("hide_original_first_scout", True)) is not bool:
+         raise ValueError("Expected boolean hide_original_first_scout")
+-    if type(settings.get("rounds", 1)) is not int or not 1 <= settings.get("rounds", 1) <= 10:
+-        raise ValueError("Expected portfolio rounds between 1 and 10")
+-    if type(settings.get("merger_until_budget", False)) is not bool:
+-        raise ValueError("Expected boolean merger_until_budget")
+-
+-
+-def extended(config):
+-    """Rounds or budget-ended merging requested; otherwise state and summaries keep their shape."""
+-    settings = config["agent"]["portfolio"]
+-    return settings.get("rounds", 1) > 1 or settings.get("merger_until_budget", False)
+-
+-
+-def budget_phase(scope, config):
+-    """The last round's merger runs until the shared per-problem budget instead of a count."""
+-    settings = config["agent"]["portfolio"]
+-    return (settings.get("merger_until_budget", False) and scope["active"] == "merge"
+-            and scope.get("round", 1) == settings.get("rounds", 1))
+ 
+ 
+ def quotas(config):
+@@ -65,99 +45,6 @@
+             "best_ids": dict.fromkeys(BRANCHES, "c000"),
+             "latest": dict.fromkeys(BRANCHES, None),
+         }
+-
+-        if guarded(config):
+-            state["portfolio"].update(stalled_calls=dict.fromkeys(BRANCHES, 0), exits={})
+-        if extended(config):
+-            state["portfolio"].update(round=1, completed_rounds=[])
+-
+-
+-def guarded(config):
+-    return config.get("agent", {}).get("portfolio", {}).get("progress_guard") == "bounded-v1"
+-
+-
+-def progress(state, config):
+-    """Bound research even when errors/duplicates never produce an evaluation."""
+-    if not guarded(config):
+-        return None
+-    scope = state["portfolio"]
+-    branch = scope["active"]
+-    recent = []
+-    for row in reversed(state["exploration"]["history"]):
+-        if row.get("branch") != branch:
+-            continue
+-        if row.get("candidate_id"):
+-            break
+-        if row.get("action"):
+-            recent.append(row["action"])
+-    repeated = [action for i, action in enumerate(recent)
+-                if action in recent[i + 1:] and action not in recent[:i]]
+-    stalled = scope["stalled_calls"][branch]
+-    return {"mode": "bounded-v1", "consecutive_unevaluated_calls": stalled,
+-            "force_candidate": stalled >= 4 or bool(repeated),
+-            "max_consecutive_unevaluated_calls": 8,
+-            "max_branch_calls": None if budget_phase(scope, config) else 3 * quotas(config)[branch] + 8,
+-            "repeated_actions": repeated[:3],
+-            "instruction": "After four calls without an evaluation or a repeated read, submit a complete propose/repair using collected evidence. Reads cannot advance the evaluation quota. Never repeat the listed actions. A stalled branch is closed without claiming its quota was completed."}
+-
+-
+-def record_progress(state, config, evaluated):
+-    """Shared deterministic routing for execution and receipt-based auditing."""
+-    scope = state["portfolio"]
+-    branch = scope["active"]
+-    scope["calls"][branch] += 1
+-    if evaluated:
+-        scope["evaluations"][branch] += 1
+-    open_ended = budget_phase(scope, config)
+-    reason = "quota" if not open_ended and scope["evaluations"][branch] == quotas(config)[branch] else None
+-    if guarded(config):
+-        scope["stalled_calls"][branch] = 0 if evaluated else scope["stalled_calls"][branch] + 1
+-        if reason is None and scope["stalled_calls"][branch] >= 8:
+-            reason = "stalled"
+-        if reason is None and not open_ended and scope["calls"][branch] >= 3 * quotas(config)[branch] + 8:
+-            reason = "call_limit"
+-        if reason:
+-            scope["exits"][branch] = reason
+-    if reason:
+-        index = BRANCHES.index(branch) + 1
+-        if index < len(BRANCHES):
+-            scope["active"] = BRANCHES[index]
+-        elif scope.get("round", 1) < config["agent"]["portfolio"].get("rounds", 1):
+-            start_round(state, config)
+-        else:
+-            scope["active"] = "complete"
+-
+-
+-def start_round(state, config):
+-    """Archive this round's counts and restart the scouts from the incumbent (seed)."""
+-    scope = state["portfolio"]
+-    scope["completed_rounds"].append({"evaluations": dict(scope["evaluations"]), "calls": dict(scope["calls"]),
+-                                      **({"exits": dict(scope["exits"])} if guarded(config) else {})})
+-    scope["round"] += 1
+-    scope["evaluations"] = dict.fromkeys(BRANCHES, 0)
+-    scope["calls"] = dict.fromkeys(BRANCHES, 0)
+-    if guarded(config):
+-        scope["stalled_calls"] = dict.fromkeys(BRANCHES, 0)
+-        scope["exits"] = {}
+-    scope["active"] = BRANCHES[0]
+-    seed = state.get("exploration", {}).get("best_candidate_id")
+-    if seed is not None:  # the receipt-only audit has no candidates; routing does not depend on the seed
+-        scope["seed_id"] = seed
+-        for scout in BRANCHES[:-1]:
+-            scope["best_ids"][scout] = seed
+-
+-
+-def completed(state, config):
+-    scope, limits = state["portfolio"], quotas(config)
+-    earlier = all(row["evaluations"][b] == n for row in scope.get("completed_rounds", []) for b, n in limits.items())
+-    if budget_phase(scope, config):
+-        # Every scout quota was met; the open-ended merger ends only at the budget.
+-        return earlier and all(scope["evaluations"][b] == limits[b] for b in BRANCHES[:-1])
+-    return finished(state) and earlier and all(scope["evaluations"][b] == n for b, n in limits.items())
+-
+-
+-def stop_reason(state, config):
+-    return "portfolio_complete" if completed(state, config) else "portfolio_stalled"
+ 
+ 
+ def finished(state):
+@@ -187,8 +74,6 @@
+     memory = view["exploration"]
+     if branch != "merge":
+         allowed = {cid for cid, owner in scope["owners"].items() if owner in ("baseline", branch)}
+-        if scope.get("seed_id"):
+-            allowed.add(scope["seed_id"])
+         memory["candidates"] = {cid: row for cid, row in memory["candidates"].items() if cid in allowed}
+         memory["history"] = [row for row in memory["history"] if row.get("branch") == branch]
+         cid = scope["best_ids"][branch]
+@@ -204,24 +89,13 @@
+     branch = scope["active"]
+     if branch == "complete":
+         raise ValueError("Portfolio evaluation quotas are complete")
+-    open_ended = budget_phase(scope, config)
+-    value = {"branch": branch, "route": ROUTES[branch], "quota": None if open_ended else limits[branch],
++    value = {"branch": branch, "route": ROUTES[branch], "quota": limits[branch],
+              "evaluated": scope["evaluations"][branch],
+-             "remaining_evaluations": None if open_ended else limits[branch] - scope["evaluations"][branch],
++             "remaining_evaluations": limits[branch] - scope["evaluations"][branch],
+              "branch_calls": scope["calls"][branch],
+              "original_proof_hidden": hidden_original(state, config),
+              "execution": "serial dispatch with separate scout-visible contexts; one shared budget",
+              "credit_policy": "Valid and invalid evaluated proofs consume credits; queries, format errors and duplicates still consume model calls/cost."}
+-    if guarded(config):
+-        value["progress_guard"] = progress(state, config)
+-        value["branch_exits"] = dict(scope["exits"])
+-    if extended(config):
+-        value["round"] = scope["round"]
+-        value["rounds"] = config["agent"]["portfolio"].get("rounds", 1)
+-        if open_ended:
+-            value["stops_at"] = "shared per-problem budget"
+-        if scope.get("seed_id") and branch != "merge":
+-            value["seed_candidate_id"] = scope["seed_id"]
+     if branch == "merge":
+         value["scout_results"] = [{"branch": scout, "evaluated": scope["evaluations"][scout],
+                                     "best_candidate_id": scope["best_ids"][scout],
+@@ -237,6 +111,7 @@
+         return
+     scope = state["portfolio"]
+     branch = scope["active"]
++    scope["calls"][branch] += 1
+     scope["latest"][branch] = deepcopy(state["latest"])
+     state["exploration"]["history"][-1]["branch"] = branch
+     if code is not None:
+@@ -246,18 +121,17 @@
+         previous = state["exploration"]["candidates"][scope["best_ids"][branch]]
+         if row["valid"] and ranking(row) < ranking(previous):
+             scope["best_ids"][branch] = cid
+-    record_progress(state, config, code is not None and result is not None)
++    if code is not None and result is not None:
++        scope["evaluations"][branch] += 1
++    if scope["evaluations"][branch] == quotas(config)[branch]:
++        index = BRANCHES.index(branch) + 1
++        scope["active"] = BRANCHES[index] if index < len(BRANCHES) else "complete"
+ 
+ 
+ def summary(state, config):
+     if not enabled(config):
+         return None
+     scope = state["portfolio"]
+-    return {"complete": completed(state, config), "active": scope["active"],
++    return {"complete": finished(state), "active": scope["active"],
+             "quotas": quotas(config), "evaluations": scope["evaluations"],
+-            "calls": scope["calls"], "execution": "serial-scoped-scouts-then-merger",
+-            **({"exits": scope["exits"], "stalled_calls": scope["stalled_calls"]} if guarded(config) else {}),
+-            **({"round": scope["round"], "rounds": config["agent"]["portfolio"].get("rounds", 1),
+-                "completed_rounds": scope["completed_rounds"],
+-                "merger_until_budget": config["agent"]["portfolio"].get("merger_until_budget", False)}
+-               if extended(config) else {})}
++            "calls": scope["calls"], "execution": "serial-scoped-scouts-then-merger"}

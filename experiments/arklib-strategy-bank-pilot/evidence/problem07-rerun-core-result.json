@@ -1,0 +1,460 @@
+{
+  "generated_at": "2026-11-03T21:35:28+09:00",
+  "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+  "run_status": "completed",
+  "stop_reason": "call_limit",
+  "selection_policy": "common core h.run, unchanged",
+  "selected_candidate_ids": [
+    "c039"
+  ],
+  "selected_sha256": "41b7cbc95a439aaafce13910e6b88f5c3d121027f50f25d335fa4c6b63c6da24",
+  "tokens": 715,
+  "baseline_tokens": 2122,
+  "cost_usd": "1.6292248",
+  "cost_basis": "provider token usage times frozen prices, not invoice verified",
+  "api_calls": 40,
+  "new_budget_usd": "2.50",
+  "historical_problem_cost_usd": "1.6265804",
+  "versions": [
+    {
+      "version": "v4.31.0",
+      "source_revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+      "baseline": {
+        "valid": true,
+        "tokens": 2122,
+        "environments": {
+          "v4.31.0": {
+            "valid": true,
+            "runs": [
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/v4.31.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/v4.31.0/check.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 15.426197,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "9460fc292f6fc72eb823824950bfe1ff703ce25c28532a584974b826ca9d645e",
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/v4.31.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/v4.31.0/measure-1.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 14.963539,
+                "stderr": "",
+                "source": "measure-1.lean",
+                "source_sha256": "9472240acf33a278e5fb7f2ede9d4472e32b9434a0f03e10993884b04f005b3c",
+                "log": "measure-1.log",
+                "log_sha256": "229f2e5cb366155754763520b338dfe09c244be3c95030dd70e5d436aaefdb56",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 163599734,
+                  "scaled": 163599,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/v4.31.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/v4.31.0/measure-2.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 13.612665,
+                "stderr": "",
+                "source": "measure-2.lean",
+                "source_sha256": "8e4ab791b498066e08bbe3b1a45f568c9ad13d382f95b2ed5d079658195572de",
+                "log": "measure-2.log",
+                "log_sha256": "466672ed5b960fcb90c4923596b5f1be34c2b657ed6368d0d7285f5a15dc353a",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 163599882,
+                  "scaled": 163599,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/v4.31.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/v4.31.0/measure-3.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 13.830289,
+                "stderr": "",
+                "source": "measure-3.lean",
+                "source_sha256": "290288a760fd04923dae583c7bf5356850d91aab4712684a109ec5abb696b354",
+                "log": "measure-3.log",
+                "log_sha256": "17aa70d2373e71cfa27a255b3232d8671783c767d5c01367bce05fe08c060181",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 163599706,
+                  "scaled": 163599,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              }
+            ],
+            "median_heartbeats": 163599,
+            "error": null
+          }
+        },
+        "error": null
+      },
+      "candidate": {
+        "valid": true,
+        "tokens": 715,
+        "environments": {
+          "v4.31.0": {
+            "valid": true,
+            "runs": [
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.31.0/candidate/v4.31.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.31.0/candidate/v4.31.0/check.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 8.493901,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "54cbcae9ee65cc2334de8eb7ad9549c66bb61f1a8c19b635d2df8cf51292ff41",
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.31.0/candidate/v4.31.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.31.0/candidate/v4.31.0/measure-1.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 8.306086,
+                "stderr": "",
+                "source": "measure-1.lean",
+                "source_sha256": "0e2cada0feb0cf5ff4c962120288299e54da5bcd69f97947e239e76e7f4e530a",
+                "log": "measure-1.log",
+                "log_sha256": "c5d0adde65149a7c3254560d31f758be45281a30ad0f0bdc103b87b3f06f2ca3",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 9592481,
+                  "scaled": 9592,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.31.0/candidate/v4.31.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.31.0/candidate/v4.31.0/measure-2.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 8.331985,
+                "stderr": "",
+                "source": "measure-2.lean",
+                "source_sha256": "777540260e744254767b4ed625a2463c0df46d447111b67105752a8a631fab24",
+                "log": "measure-2.log",
+                "log_sha256": "e9ce1892b91d854a65ae148eac4a84290abd397b62af53741128a78484e3ff87",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 9592415,
+                  "scaled": 9592,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.31.0/candidate/v4.31.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.31.0/candidate/v4.31.0/measure-3.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 8.837522,
+                "stderr": "",
+                "source": "measure-3.lean",
+                "source_sha256": "8aba1c5037ac4e3e4dce9289e9477cd944585994a6cbfaacd571ef271c85b240",
+                "log": "measure-3.log",
+                "log_sha256": "f3c1105b2a949e08536042d50f2619b98cb4751f5c6f2fcc01a1f5eb014a1d25",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 9592547,
+                  "scaled": 9592,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              }
+            ],
+            "median_heartbeats": 9592,
+            "error": null
+          }
+        },
+        "error": null
+      }
+    },
+    {
+      "version": "v4.30.0",
+      "source_revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+      "baseline": {
+        "valid": true,
+        "tokens": 2122,
+        "environments": {
+          "v4.30.0": {
+            "valid": true,
+            "runs": [
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/v4.30.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/v4.30.0/check.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 32.327432,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "83f09d3ac29f20dfa243b94c2b87fc5e195ebab86bab6cca4e2192e53d2a780f",
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/v4.30.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/v4.30.0/measure-1.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 15.289437,
+                "stderr": "",
+                "source": "measure-1.lean",
+                "source_sha256": "e5eb17b2be9e7005218191551c157aa9b3c922d807e47a4a169c37d86911d2b9",
+                "log": "measure-1.log",
+                "log_sha256": "f359310f7e4ba4a302e0e042f7b243ea9d549505705e0ae60e6d44864cfe37e5",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 166943973,
+                  "scaled": 166943,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/v4.30.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/v4.30.0/measure-2.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 15.277719,
+                "stderr": "",
+                "source": "measure-2.lean",
+                "source_sha256": "71ef148ad34263a64883a5fff9b77591f8325fe28571521a0a25f0bceb6fbbff",
+                "log": "measure-2.log",
+                "log_sha256": "ed3e1c19f67e8e6b334e677063a5cbdeee8e9b6589f17ed8b5547b8aabddc3a0",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 166942547,
+                  "scaled": 166942,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              },
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/v4.30.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/v4.30.0/measure-3.lean"
+                ],
+                "returncode": 0,
+                "timed_out": false,
+                "seconds": 14.253379,
+                "stderr": "",
+                "source": "measure-3.lean",
+                "source_sha256": "c4854adb3c7abf3c4089148926640410be53d110141dda5aea78ab63859f22bd",
+                "log": "measure-3.log",
+                "log_sha256": "675ecece03aadf2c43485fce934ad00862751f31df1ed39b48638afe81d04126",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 166942851,
+                  "scaled": 166942,
+                  "target": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one"
+                }
+              }
+            ],
+            "median_heartbeats": 166942,
+            "error": null
+          }
+        },
+        "error": null
+      },
+      "candidate": {
+        "valid": false,
+        "tokens": 715,
+        "environments": {
+          "v4.30.0": {
+            "valid": false,
+            "runs": [
+              {
+                "command": [
+                  "/usr/bin/sandbox-exec",
+                  "-p",
+                  "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+                  "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+                  "-j1",
+                  "-M8192",
+                  "-DautoImplicit=false",
+                  "--root=<PROBLEM07_RERUN>/version-checks/v4.30.0/candidate/v4.30.0",
+                  "<PROBLEM07_RERUN>/version-checks/v4.30.0/candidate/v4.30.0/check.lean"
+                ],
+                "returncode": 1,
+                "timed_out": false,
+                "seconds": 8.764395,
+                "stderr": "",
+                "source": "check.lean",
+                "source_sha256": "7d86523cf92a041b06ec17b0d1bbc073fb536a50aac31fae0b35220492e3b637",
+                "log": "check.log",
+                "log_sha256": "c525a1ab904597cc9900a98d020434542fda8aaa8c7915039b8cffc34339de95"
+              }
+            ],
+            "median_heartbeats": null,
+            "error": {
+              "kind": "compile",
+              "message": "<PROBLEM07_RERUN>/version-checks/v4.30.0/candidate/v4.30.0/check.lean:1007:57: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : r < n → ¬P (r + 1)\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+            }
+          }
+        },
+        "error": {
+          "kind": "lean",
+          "message": "One or more required environments failed"
+        }
+      }
+    }
+  ],
+  "passed_versions": 1,
+  "required_versions": 2,
+  "version_checks_change_selection": false,
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "provider": "OpenAI direct",
+  "bank": "20 contextual top-1"
+}

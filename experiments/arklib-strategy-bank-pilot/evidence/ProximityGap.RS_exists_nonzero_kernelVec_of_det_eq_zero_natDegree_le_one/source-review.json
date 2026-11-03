@@ -1,0 +1,11 @@
+{
+  "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+  "selected_candidate": "baseline",
+  "review_status": "agent-verification-receipt-comparison",
+  "human_approved": false,
+  "attribution": "not_established",
+  "observed_bank_mechanisms": [],
+  "additional_observed_transformations_ko": [],
+  "compatibility_observation_ko": "탐색 버전에서 개선된 15개 후보를 최종 순위에 따라 검사했으나 필수 버전 검사에 실패하여 원본을 유지했다. 따라서 채택된 증명의 Bank 적용이나 개선 성과를 주장하지 않는다. 일부 후보의 v4.30.0 로그에는 lambda 안의 a j를 rewrite하지 못한 오류가 있다. 이 오류만으로 전술 차이의 근본 원인을 단정하지 않는다.",
+  "interpretation": "Primary-version gains did not survive required-version checks; canonical selected proof is the original."
+}

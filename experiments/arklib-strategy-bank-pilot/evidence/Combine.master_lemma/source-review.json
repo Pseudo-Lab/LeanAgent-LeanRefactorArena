@@ -1,0 +1,34 @@
+{
+  "problem": "Combine.master_lemma",
+  "selected_candidate": "c023",
+  "review_status": "agent-source-comparison",
+  "human_approved": false,
+  "attribution": "joint",
+  "observed_bank_mechanisms": [
+    {
+      "strategy_id": "M19",
+      "observation_ko": "WithBot 차수 연산의 상쇄 정리를 직접 사용하고, 0 다항식 분기와 natDegree로의 왕복 전환을 제거한다."
+    },
+    {
+      "strategy_id": "M04",
+      "observation_ko": "광범위한 aesop 탐색을 명시적 rate 모순, degree 덧셈 상쇄, 평가 등식 재작성과 ring으로 대체한다."
+    }
+  ],
+  "additional_observed_transformations_ko": [
+    "j와 귀납 단계에 무관한 hcard를 귀납 밖으로 이동한다.",
+    "X * p 대신 p * X 방향으로 등식을 세워 오른쪽 덧셈 상쇄 정리에 맞춘다."
+  ],
+  "compatibility_observation": {
+    "screening_best": "c040",
+    "screening_best_tokens": 255,
+    "selected_all_versions": "c023",
+    "selected_tokens": 406,
+    "rejected_better_ranked_candidates": 8,
+    "observed_failure": "v4.33.1 leaves evaluation equality unsolved under a generic partial hv_eval simp rule; exact source/log retained.",
+    "isolated_root_cause_tested": false
+  },
+  "attempted_not_selected_ko": [
+    "후속 Fin.reverseInduction 변형은 대표 버전에서 통과했지만 해당 최상위 후보들은 전체 버전 검사를 통과하지 못했다. Fin.reverseInduction 자체가 원인이라는 인과 검증은 하지 않았다."
+  ],
+  "interpretation": "Whole-candidate joint gain only; screening success is not all-version compatibility. No automatic strategy approval."
+}

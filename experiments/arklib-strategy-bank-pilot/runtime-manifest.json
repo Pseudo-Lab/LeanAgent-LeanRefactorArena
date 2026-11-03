@@ -1,0 +1,187 @@
+{
+  "origin": "identical frozen common-code snapshots across initial 10 runs and problem07 rerun",
+  "runtime_src_is_byte_exact": true,
+  "historical_experiment_scripts_local_home_redacted": true,
+  "files": {
+    "runtime/evaluator-adapter/temp3_lean.py": {
+      "sha256": "4a1c11d45b780dd4e302167fd9af7442f69778f4d52b98ffcbda56b44e7f6e62",
+      "bytes": 12839
+    },
+    "runtime/evaluator-adapter/temp3_tokens.py": {
+      "sha256": "0bfba3e5f22cc24c86de7f436ccc4c102b2e29e48cf82435e0b1833c755fce7a",
+      "bytes": 4585
+    },
+    "runtime/examples/actions/README.md": {
+      "sha256": "7a9d0d9af40cfabdde54dcea76fd662090233d58b21dee1765c2e01e68d3b2de",
+      "bytes": 1236
+    },
+    "runtime/examples/actions/corpus.json": {
+      "sha256": "98dfd0254874fe41f26dd4229ab065f26d9cf8b7f27866572ac3c92f48140852",
+      "bytes": 233
+    },
+    "runtime/examples/actions/prompt.txt": {
+      "sha256": "569efa3c8145cd0658858fc8011dff27c7208c290d93b0abafbf95fb38819fcb",
+      "bytes": 1453
+    },
+    "runtime/examples/actions/responses.json": {
+      "sha256": "e7832369eca9e57969867ea40c0c545bedc170c20b92a2579919665deab82372",
+      "bytes": 973
+    },
+    "runtime/experiments/strategy-bank-pilot/README.md": {
+      "sha256": "5100a1457c960fe9a60a9f4dd5f422f38393204526037acc6cd368dc5e75a37b",
+      "bytes": 5867
+    },
+    "runtime/experiments/strategy-bank-pilot/audit.py": {
+      "sha256": "002c52434c9977891fd791680a5f518c15b3812b7844cce82c92de01aa40d3e1",
+      "bytes": 4381
+    },
+    "runtime/experiments/strategy-bank-pilot/package.py": {
+      "sha256": "498c64c6d4f1d2b9813e64c2b442458a93f828f9e54c0594476f9d7d8d4288cd",
+      "bytes": 3088
+    },
+    "runtime/experiments/strategy-bank-pilot/report.py": {
+      "sha256": "0a475ca47e5d0c84d4f149c93354f1b820cbfb9a1556bbd4ef8ab7435481b141",
+      "bytes": 10689
+    },
+    "runtime/experiments/strategy-bank-pilot/report_problem07_rerun.py": {
+      "sha256": "e1ad1990eeaaa2b7b3e8683f461a94e2df94b1b38c9cc0cf578ce3943d7847a4",
+      "bytes": 8255
+    },
+    "runtime/experiments/strategy-bank-pilot/rerun_problem07.py": {
+      "sha256": "93525c2ccf38cef90f3d99a7c2fe707b219ff88ddd27d5f48e2e6260077ec10c",
+      "bytes": 6353
+    },
+    "runtime/experiments/strategy-bank-pilot/reverify_core.py": {
+      "sha256": "66b2e08a9e0078ce0648fc4e4896348fddd764c68f26b061bf3fd4377a41e593",
+      "bytes": 6166
+    },
+    "runtime/experiments/strategy-bank-pilot/run.py": {
+      "sha256": "8652dbe2b2e235b96510045b4dae836134b8524203c27f99a0338ede27aad772",
+      "bytes": 23132
+    },
+    "runtime/experiments/strategy-bank-pilot/select_problem07_compatible.py": {
+      "sha256": "e549e6aa8f701ec3a0e82e9f23c323f43d8ea409cb23741842f51688abdabc76",
+      "bytes": 9542
+    },
+    "runtime/experiments/strategy-bank-pilot/test_budget.py": {
+      "sha256": "26e3bff4f8982155a584d62be951c85ce2cc39d68f8d74a35ff48b112ac0e0ad",
+      "bytes": 1922
+    },
+    "runtime/experiments/strategy-bank-pilot/test_verification_cache.py": {
+      "sha256": "261d727994d4c0939322f4132e83a1d149a710586ac79077c240079fcf2ea0b0",
+      "bytes": 3845
+    },
+    "runtime/scripts/build_strategy_bank.py": {
+      "sha256": "5a84fdc59fcf936c76c4c58801443b0e8f3b7d32794b04539ab869963ba47c29",
+      "bytes": 11524
+    },
+    "runtime/scripts/build_strategy_bank_team.py": {
+      "sha256": "d5fa7b9a3fe2cf039eec9a04eb61c6db85bd29b01cb342af4c613165790be208",
+      "bytes": 1982
+    },
+    "runtime/scripts/build_strategy_bank_v2.py": {
+      "sha256": "f5b49c0385c9c0b13502d8c44f9ef5d3ffc4dc3e35deb414d0eaa4a995ad4297",
+      "bytes": 9174
+    },
+    "runtime/scripts/configure_strategy_bank.py": {
+      "sha256": "02d01476ca21404db4383e74f23aa1bb194c45af9b3e245ef43ef6fc93353e48",
+      "bytes": 1906
+    },
+    "runtime/scripts/export_strategy_trace.py": {
+      "sha256": "66ba1253b5521f5cb1e56f3d5fb75a69cff983593f368b4134e89cc708974c61",
+      "bytes": 3039
+    },
+    "runtime/src/lean_agent/__init__.py": {
+      "sha256": "9cd399170b43e79e6135afe023a5462b2a4cd4329bf4dff761ebce9952958400",
+      "bytes": 46
+    },
+    "runtime/src/lean_agent/__main__.py": {
+      "sha256": "f30e39b7432a423762327b9868a4ec0d5a95acec2025adf1c753fea40321355f",
+      "bytes": 173
+    },
+    "runtime/src/lean_agent/accounting.py": {
+      "sha256": "461b70c0c70da603081a6369b56859b236ad549ca54f149a10ce172dc9c2046d",
+      "bytes": 23786
+    },
+    "runtime/src/lean_agent/actions.py": {
+      "sha256": "bc53c7062b879ea823613c6920cc392443cceb5b4c417a3d67deedfa59944ca4",
+      "bytes": 15061
+    },
+    "runtime/src/lean_agent/artifacts.py": {
+      "sha256": "b32c126c0c17df322f1d9455bfb315099fb43c1fe95f93fcd5ea669db748dff4",
+      "bytes": 1367
+    },
+    "runtime/src/lean_agent/budgeting.py": {
+      "sha256": "ecf19b53fa16c8fa9248d577972e69ac3feefe237f3dc16f94ce6b8d252cdb0b",
+      "bytes": 1867
+    },
+    "runtime/src/lean_agent/diagnostics.py": {
+      "sha256": "e071c6a62811cb8480c95fc05ea6f0a964c93d0034447104f669000b8efeddc2",
+      "bytes": 12871
+    },
+    "runtime/src/lean_agent/evaluator/__init__.py": {
+      "sha256": "0eab47670182910a6f889d4f5bf1712d73b159bfffe499d63c6a1a94e8abacd7",
+      "bytes": 97
+    },
+    "runtime/src/lean_agent/evaluator/lean.py": {
+      "sha256": "b4fa9f8b1a3b61365a6c1b65c732355a150e0cbc1af6299b2721a6253eb76a42",
+      "bytes": 12194
+    },
+    "runtime/src/lean_agent/evaluator/provenance.json": {
+      "sha256": "b5a61820afb043091f175ff2ff071ff1554a155e026d8f6093ecf470ce982c0b",
+      "bytes": 629
+    },
+    "runtime/src/lean_agent/evaluator/tokens.py": {
+      "sha256": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+      "bytes": 4215
+    },
+    "runtime/src/lean_agent/harness.py": {
+      "sha256": "6301f119c8664ed7e7a216bce6bc1090ac62e72351d243aa68f3863b5edbfefb",
+      "bytes": 40129
+    },
+    "runtime/src/lean_agent/models.py": {
+      "sha256": "6ca12c284a04b5e0d750d36c12d6a9fb82856f193dfc2e8d554347a56506360b",
+      "bytes": 4530
+    },
+    "runtime/src/lean_agent/openai_direct.py": {
+      "sha256": "dcac31710a24b98aa3d7872b393dd9d59d15f882fac147c1851851a41095197e",
+      "bytes": 10614
+    },
+    "runtime/src/lean_agent/portfolio.py": {
+      "sha256": "2e154932862756a4133e974c79f67ca9ddbb3fdc9b772805beb7422256e8b413",
+      "bytes": 6532
+    },
+    "runtime/src/lean_agent/preflight.py": {
+      "sha256": "636b8efc6409c171efc09e7657793271e0dcc874bffd6d0597261ab8379dfbe7",
+      "bytes": 8792
+    },
+    "runtime/src/lean_agent/prepared.py": {
+      "sha256": "9a0a9e8544caf0cf897c6028560f20336648faaed51889c364d3415fd988722c",
+      "bytes": 6584
+    },
+    "runtime/src/lean_agent/provenance.json": {
+      "sha256": "b6b64e979cd67125555124fd22c71c243c3f4a815274476add0cfdfac26a589b",
+      "bytes": 846
+    },
+    "runtime/src/lean_agent/search_policy.py": {
+      "sha256": "3665cc77e3bfd9b30390b09dc80295ea4073fd470593c1f8814bc5517a837f12",
+      "bytes": 6685
+    },
+    "runtime/src/lean_agent/status.py": {
+      "sha256": "3429fd5d531a2871940db94e778690db918d6c2c8dca8f3ec8e0764884b66b08",
+      "bytes": 11411
+    },
+    "runtime/src/lean_agent/strategy_bank.py": {
+      "sha256": "b272423121b1669c3e067ed78db562c77e6ff9ca241adfc43ea4a1828378f44c",
+      "bytes": 11682
+    },
+    "runtime/src/lean_agent/strategy_signals.py": {
+      "sha256": "c24843e4e24a4656530940d2ecb4be3e2ba7d5c90ad58780261fa40f16678d00",
+      "bytes": 5254
+    },
+    "runtime/src/lean_agent/usage_cost.py": {
+      "sha256": "58051772ef305ce532c18035c6d9473fa15835ea5f27b63a4ce5e969e31075be",
+      "bytes": 528
+    }
+  }
+}

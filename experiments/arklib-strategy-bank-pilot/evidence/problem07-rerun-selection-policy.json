@@ -1,0 +1,14 @@
+{
+  "upstream_commit": "a517db26b8eee1b58f30810dca5d66000c810748",
+  "identical_functions": [
+    "metrics",
+    "candidate",
+    "ranking",
+    "initial_state",
+    "advance"
+  ],
+  "identical_final_selected_write": true,
+  "core_file_sha256": "6301f119c8664ed7e7a216bce6bc1090ac62e72351d243aa68f3863b5edbfefb",
+  "version_checks_role": "diagnostic only; no reranking or fallback",
+  "new_budget_usd": "2.50"
+}
