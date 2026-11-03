@@ -21,6 +21,8 @@ CORE = (
     "test_final_*.py", "test_strategy_bank.py", "test_strategy_mixed.py", "test_strategy_retriever.py",
     # Submission gates (PR #64 rules, PR #70 OpenRouter/$3 provenance).
     "test_submission_rules.py", "test_submission_provenance.py",
+    # The frozen warm-up experiment pin must match the published dashboard snapshot.
+    "test_warmup_experiment_pin.py",
 )
 EXPERIMENTS = (
     "api-comparison", "usage-cost", "final-batch-next",
