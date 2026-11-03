@@ -4,6 +4,8 @@ import { parseSnapshot } from '../src/lib/model.ts';
 import { parseSummaryResults } from '../src/lib/final-summary-results.ts';
 import { parseFinalResults } from '../src/lib/final-results.ts';
 import { parseFinalBaselines } from '../src/lib/final-baselines.ts';
+import { parseSharedResults, selectTeamBest } from '../src/lib/team-best-results.ts';
+import { mergeFinalResults } from '../src/lib/final-summary-results.ts';
 
 const root = new URL('../public/data/', import.meta.url);
 const files: unknown = JSON.parse(readFileSync(new URL('index.json', root), 'utf8'));
@@ -59,8 +61,11 @@ console.log('Verified Final identity, paper Length and all 127 pinned version sa
 
 const results = parseFinalResults(JSON.parse(readFileSync(new URL('final-results.json', root), 'utf8')), final);
 const summary = parseSummaryResults(JSON.parse(readFileSync(new URL('physlib-cslib-results.json', root), 'utf8')), final);
-for (const p of [...results.problems, ...summary]) {
+const shared = parseSharedResults(JSON.parse(readFileSync(new URL('team-shared-results.json', root), 'utf8')), final);
+for (const p of [...results.problems, ...summary, ...shared.problems]) {
   const saved = readFileSync(new URL(`../../${p.proofPath}`, import.meta.url), 'utf8');
   if ((p.evidenceLevel === 'published-summary' ? (saved !== p.proof && saved !== p.proof + '\n') || createHash('sha256').update(saved).digest('hex') !== p.proofFileHash : saved !== p.proof) || createHash('sha256').update(p.proof).digest('hex') !== p.candidateHash) throw new Error(`F${p.row}: proof hash mismatch`);
 }
-console.log(`Validated final-results.json: ${results.problems.length + summary.length} verified proofs, $${results.costUsd}`);
+const best = selectTeamBest(mergeFinalResults(results, summary), shared);
+if (best.problems.length !== 60) throw new Error('Expected 60 selected team results');
+console.log(`Validated ${results.problems.length + summary.length + shared.problems.length} source candidates; 60 selected best results; no new measurements`);

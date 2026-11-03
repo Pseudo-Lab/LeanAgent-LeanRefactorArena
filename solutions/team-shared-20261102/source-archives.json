@@ -1,0 +1,15 @@
+{
+  "importedAt": "2026-11-03T01:51:22.867936+00:00",
+  "sources": {
+    "seongwoo": {
+      "author": "남성우",
+      "filename": "LRA_physlib_cslib_20261102.zip",
+      "sha256": "5be42b953d5a6d8c473fd8aac5bf5b4ab5a58ad934a186beaf9fd66d028405e3"
+    },
+    "jiyeon": {
+      "author": "손지연",
+      "filename": "LeanRefactor_Report_2026-11-02_v4.zip",
+      "sha256": "b8df9af472fec085a62c19226c266f479570ec7361a21c96f6852843076939e2"
+    }
+  }
+}

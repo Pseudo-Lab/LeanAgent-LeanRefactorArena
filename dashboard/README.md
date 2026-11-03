@@ -1,5 +1,9 @@
 # 팀 대시보드
 
+Final 화면은 기존 40개 결과와 남성우·손지연님의 공유 후보 40개를 비교해 전체 60문제의 최고 점수를 표시합니다. Strata·LeanPool 20문제의 기존 결과는 유지합니다. PhysLib·CSLib은 정소미·남성우님의 후보를 문제별로 비교하고, ArkLib·PutnamBench는 손지연님의 결과를 연결합니다. 상세 화면의 후보 비교표에서 선택 출처와 다른 후보의 점수를 확인할 수 있습니다.
+
+`public/data/team-shared-results.json`은 `scripts/publish_team_shared_results.py`로 공유 자료에서 생성합니다. 이번 업데이트에서 Lean 측정이나 API 호출을 실행하지 않습니다. 각 출처의 paired 토큰·HB로 대회식 종합 점수를 계산하며, 원자료와 비용 범위는 `../solutions/team-shared-20261102/README.md`에 기록합니다. CI와 배포 검사는 새 공유 결과 JSON도 대조합니다.
+
 기본 화면은 **최종 F001–F060의 원본 기준값과 Strata·PhysLib·CSLib·LeanPool 40문제 검증 풀이**입니다. 상단에서 웜업 팀 결과로 전환합니다.
 기존 문제 타일·상세 패널 양식을 사용합니다. 개선 결과가 없으면 회색이며, 점수가 있으면
 60점 이하 빨강, 60점 초과 초록 농도로 표시합니다. 원본 측정값을 개선 점수로 취급하지 않습니다.

@@ -6,7 +6,9 @@ export type FinalResult = {
   candidateHash: string; baseline: FinalMeasurement; candidate: FinalMeasurement;
   versions: (VersionCheck & { environment: string; fingerprint: string | null })[];
   baselineCompatibility: number | null; measuredAt: string | null; score: number; currentRunCostUsd: string;
-  evidenceLevel?: 'published-summary'; proofFileHash?: string;
+  evidenceLevel?: 'published-summary' | 'shared-report'; proofFileHash?: string;
+  author?: string; measurementEnvironment?: string; measurementNote?: string; reportedCostUsd?: number | null;
+  comparisons?: {author: string; runId: string; score: number; candidateHash: string; proofPath: string; selected: boolean}[];
   alternatives: {runId: string; score: number; candidateHash: string}[];
   evidence: {path: string; sha256: string}[];
 };
