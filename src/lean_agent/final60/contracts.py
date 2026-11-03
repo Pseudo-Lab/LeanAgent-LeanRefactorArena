@@ -8,7 +8,7 @@ SCHEMA = "final60-v1"
 CAP_USD = Decimal("2.99")                      # per-problem hard cap, every call counted
 OPENROUTER_ENDPOINT = "https://openrouter.ai/api/v1/chat/completions"
 RowStatus = Literal["waiting_env", "ready", "prepared", "preflighted", "exploring", "salvage",
-                    "golfing", "validating", "done", "fallback", "published"]
+                    "golfing", "validating", "done", "fallback"]
 
 @dataclass(frozen=True)
 class ModelSpec:
