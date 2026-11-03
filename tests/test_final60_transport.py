@@ -579,6 +579,18 @@ class DispatchTests(unittest.TestCase):
         repeat = self.work.dispatch(body, again)
         self.assertEqual((again.http_calls, repeat.normalized), (0, result.normalized))
 
+    def test_resume_after_the_last_allowed_lost_attempt_sends_nothing(self):
+        body = body_for()
+        bound = t.request_bound(body, primary())
+        with mock.patch.object(money, "_finish", side_effect=OSError("killed before closing the step")):
+            with self.assertRaises(OSError):
+                self.work.dispatch(body, t.MockOpenRouter([t.MockOpenRouter.timeout()] * 3))
+        restart = t.MockOpenRouter(ACTION)
+        result = self.work.dispatch(body, restart)
+        self.assertEqual((restart.http_calls, result.stopped, result.lost), (0, "lost_limit", True))
+        self.assertEqual(result.step_cost_usd, 3 * bound.reserved_usd)
+        self.assert_clean(body, result)
+
     def test_real_transport_requires_a_key_before_reserving(self):
         with self.assertRaises(ValueError):
             money.dispatch_guarded(body_for(), primary(), ledger=self.work.ledger, problem="F017",
@@ -730,6 +742,36 @@ class AdapterTests(unittest.TestCase):
         third = self.adapter.payload([MESSAGES[0], {"role": "user", "content": "3"}], self.model)
         with mock.patch("builtins.print"), self.assertRaises(self.adapter.BudgetExceeded):
             self.adapter.dispatch(self.root, 17, 3, third, self.model, self.step_dir(3), driver=self.driver)
+
+    def test_sealed_prior_spend_counts_against_the_target(self):
+        authorization = read(self.root / "authorization.json")
+        authorization.update(self.adapter.seal_fields(cost_ledger_path="../../final60.sqlite", prior_usd=Decimal("2.90")))
+        (self.root / "authorization.json").write_text(json.dumps(authorization))
+        self.adapter.use_transport(t.MockOpenRouter(ACTION), sleep=no_sleep)
+        body = self.adapter.payload(deepcopy(MESSAGES), self.model)
+        with mock.patch("builtins.print"), self.assertRaises(self.adapter.BudgetExceeded):
+            self.adapter.dispatch(self.root, 17, 1, body, self.model, self.step_dir(1), driver=self.driver)
+        self.assertEqual(self.adapter.ledger_for_root(self.root).prior("F017"), Decimal("2.90"))
+        self.assertEqual(self.ledger_json()["attempts"], {})
+        self.assertEqual(self.adapter.config_cap(Decimal("2.99"), Decimal("2.90")), "0.09")
+        with self.assertRaises(ValueError):
+            self.adapter.seal_fields(cost_ledger_path="x.sqlite", prior_usd=Decimal("3"))
+
+    def test_smoke_summary_and_offline_cli(self):
+        self.adapter.use_transport(t.MockOpenRouter([t.MockOpenRouter.http_error(429), ACTION]), sleep=no_sleep)
+        body = self.adapter.payload(deepcopy(MESSAGES), self.model)
+        with mock.patch("builtins.print"):
+            self.adapter.dispatch(self.root, 17, 1, body, self.model, self.step_dir(1), driver=self.driver)
+        summary = self.adapter.smoke_summary(self.root)
+        self.assertEqual((summary["completed_calls"], summary["all_json_objects"], summary["within_max_tokens"]),
+                         (1, True, True))
+        self.assertEqual(summary["providers"], ["OpenAI"])
+        self.assertEqual(summary["calls"][0]["sub_attempt_statuses"], ["unbilled", "settled"])
+        self.assertEqual(summary["audit_errors"], [])
+        with mock.patch("builtins.print") as printed:
+            self.assertEqual(self.adapter.main(["audit", "--root", str(self.root)]), 0)
+            self.assertEqual(self.adapter.main(["ledger-summary", "--ledger", str(self.base / "final60.sqlite")]), 0)
+        self.assertNotIn("sk-or-", "".join(str(call) for call in printed.call_args_list))
 
     def test_non_openrouter_root_is_refused(self):
         authorization = read(self.root / "authorization.json")

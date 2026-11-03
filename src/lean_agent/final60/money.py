@@ -265,6 +265,8 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
         if subs and subs[-1].record["outcome"] == "ok":
             return close()                         # resumed after a crash: reuse, never resend
         unbilled, lost = _trailing(subs, "unbilled"), _trailing(subs, "lost")
+        if lost >= policy.max_lost:
+            return close("lost_limit")             # resumed after the last allowed lost sub-attempt
         while True:
             found = disabled(run_root, global_marker=marker)
             if found:

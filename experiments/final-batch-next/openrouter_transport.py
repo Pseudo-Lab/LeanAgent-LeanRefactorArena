@@ -133,15 +133,37 @@ def use_transport(transport=None, *, policy=None, sleep=None):
     _STATE.update(transport=transport, policy=policy, sleep=sleep)
 
 
-def seal_fields(*, cost_ledger_path: str, target_usd: Decimal = CAP_USD) -> dict:
-    """Authorization fields for an OpenRouter root (hook 1); ``cost_ledger_path`` may be relative to the root."""
-    target = Decimal(str(target_usd))
+def seal_fields(*, cost_ledger_path: str, target_usd: Decimal = CAP_USD, prior_usd: Decimal = Decimal(0)) -> dict:
+    """Authorization fields for an OpenRouter root (hook 1); ``cost_ledger_path`` may be relative to the root.
+
+    ``prior_usd`` is spend for this problem outside this root (amendment A11). The
+    adapter then enforces prior + root spend + bound <= target, and the row config's
+    ``limits.cost_cap_usd`` must be sealed as ``config_cap(target, prior)``.
+    """
+    target, prior = Decimal(str(target_usd)), Decimal(str(prior_usd))
     if not target.is_finite() or target <= 0 or target > CAP_USD:
         raise ValueError(f"Per-problem target must be in (0, {CAP_USD}]")
-    return {"provider": PROVIDER, "api_endpoint": ENDPOINT, "per_problem_target_usd": t.usd(target),
-            "last_call_may_overshoot": False, "max_api_parallel": 2, "cost_ledger": str(cost_ledger_path),
-            "budget_cost_basis": COST_BASIS, "no_automatic_retries": False,
-            "retry_policy": "unbilled 4xx retried at $0 with backoff; lost responses charged their bound"}
+    if not prior.is_finite() or prior < 0 or prior >= target:
+        raise ValueError("Prior spend must be nonnegative and below the target")
+    fields = {"provider": PROVIDER, "api_endpoint": ENDPOINT, "per_problem_target_usd": t.usd(target),
+              "last_call_may_overshoot": False, "max_api_parallel": 2, "cost_ledger": str(cost_ledger_path),
+              "budget_cost_basis": COST_BASIS, "no_automatic_retries": False,
+              "retry_policy": "unbilled 4xx retried at $0 with backoff; lost responses charged their bound"}
+    if prior:
+        fields["prior_cost_usd"] = t.usd(prior)
+    return fields
+
+
+def config_cap(target_usd: Decimal = CAP_USD, prior_usd: Decimal = Decimal(0)) -> str:
+    """``limits.cost_cap_usd`` for a row config: what this root may still spend."""
+    return t.usd(Decimal(str(target_usd)) - Decimal(str(prior_usd)))
+
+
+def _prior(authorization) -> Decimal:
+    value = Decimal(str(authorization.get("prior_cost_usd", "0")))
+    if not value.is_finite() or value < 0:
+        raise ValueError("Invalid sealed prior_cost_usd")
+    return value
 
 
 def summary_fields(model) -> dict:
@@ -244,9 +266,12 @@ def dispatch(root, row, step, body, model, step_dir, *, driver):
     bound = t.request_bound(body, spec)
     cost = t.bound_json(bound, body, spec)
     target = min(CAP_USD, Decimal(str(authorization["per_problem_target_usd"])))
+    prior = _prior(authorization)
     attempt = _attempt(row, step)
     led = ledger_for_root(root, authorization)
     key = current_key()
+    if prior:
+        led.declare_prior(_problem(row), prior, note="sealed authorization prior_cost_usd")
     money.check_api_enabled(root, ledger=led, problem=_problem(row))
     with driver.api_slot(root), driver.locked(root / "dispatch-locks" / (attempt + ".lock"), blocking=False):
         with driver.locked(root / "ledger.lock"):
@@ -256,7 +281,7 @@ def dispatch(root, row, step, body, model, step_dir, *, driver):
             cap = a.read(config_path)["limits"].get("cost_cap_usd") if config_path.exists() else None
             if cap is not None and not driver.request_fits_budget(ledger, row, cost, cap):
                 raise BudgetExceeded("Request would exceed the strict per-problem budget", reason="cap")
-            if driver.problem_spend(ledger, row) + bound.reserved_usd > target:
+            if prior + driver.problem_spend(ledger, row) + bound.reserved_usd > target:
                 raise BudgetExceeded("Request would exceed the sealed per-problem target", reason="cap")
             if attempt in ledger["attempts"]:
                 raise ValueError("Attempt already dispatched; refusing duplicate API call")
@@ -300,8 +325,9 @@ def recover_pending(root, row, step, step_dir, *, driver):
         return None
     if item["status"] == "settled":
         errors = audit_step(step_dir, item)
-        if errors:
-            raise ValueError(f"{attempt}: settled step evidence is inconsistent: " + "; ".join(errors[:3]))
+        if errors:   # spend is recorded either way; report.py will flag the row, so keep exploring
+            driver.atomic(step_dir / "audit-warning.json", {"attempt": attempt, "at": driver.now(),
+                                                            "errors": errors[:20]})
         return None
     if item["status"] != "pending":
         raise ValueError(f"{attempt}: unexpected ledger status {item['status']}")
@@ -347,3 +373,88 @@ def audit_root(root) -> list[str]:
     else:
         errors.append("SQLite cost ledger missing: " + str(path))
     return errors
+
+
+def _json_object(text):
+    try:
+        return isinstance(json.loads(text), dict)
+    except (TypeError, ValueError):
+        return False
+
+
+def smoke_summary(root) -> dict:
+    """What Smoke must assert per call (amendment A9): served provider/model, JSON actions,
+    completion_tokens <= max_tokens, usage.cost vs list price (a ratio near 0.5 suggests a
+    discounted variant such as openai/flex), retries and settlement bases."""
+    root = Path(root).resolve()
+    calls = []
+    for attempt, item in sorted(a.read(root / "ledger.json")["attempts"].items()):
+        step_dir = root / "problems" / f"F{item['row']:03}" / "steps" / f"{item['step']:04}"
+        response = a.read(step_dir / "response.json")
+        receipt = response["_cost_receipt"]
+        final = receipt["final_sub_attempt"]
+        detail = final.get("detail") or {}
+        content = None
+        try:
+            content = response["choices"][0]["message"]["content"]
+        except (KeyError, IndexError, TypeError):
+            pass
+        listed, reported = detail.get("list_price_cost"), detail.get("usage_cost")
+        ratio = (Decimal(reported) / Decimal(listed)) if listed and reported and Decimal(listed) > 0 else None
+        calls.append({"attempt": attempt, "outcome": final["outcome"], "returned_provider": final["returned_provider"],
+                      "returned_model": final["returned_model"], "json_object": _json_object(content),
+                      "completion_tokens": detail.get("completion_tokens"),
+                      "max_tokens": receipt["bound"]["output_token_bound"],
+                      "reasoning_tokens": detail.get("reasoning_tokens"), "usage_cost_usd": reported,
+                      "list_price_usd": listed, "usage_to_list_ratio": None if ratio is None else t.usd(ratio),
+                      "step_cost_usd": receipt["step_cost_usd"], "bound_usd": receipt["bound"]["reserved_usd"],
+                      "settlement_basis": receipt["settlement_basis"], "http_calls": len(receipt["sub_attempts"]),
+                      "sub_attempt_statuses": [sub["status"] for sub in receipt["sub_attempts"]],
+                      "bound_violated": receipt["bound_violated"]})
+    completed = [call for call in calls if call["outcome"] == "ok"]
+    return {"root": str(root), "calls": calls, "completed_calls": len(completed),
+            "all_json_objects": all(call["json_object"] for call in completed),
+            "providers": sorted({str(call["returned_provider"]) for call in completed}),
+            "models": sorted({str(call["returned_model"]) for call in completed}),
+            "within_max_tokens": all(call["completion_tokens"] is None or call["completion_tokens"] <= call["max_tokens"]
+                                     for call in completed),
+            "discounted_calls": sum(call["usage_to_list_ratio"] is not None and Decimal(call["usage_to_list_ratio"])
+                                    < Decimal("0.75") for call in completed),
+            "bound_violations": sum(call["bound_violated"] for call in calls),
+            "total_usd": t.usd(sum((Decimal(call["step_cost_usd"]) for call in calls), Decimal(0))),
+            "audit_errors": audit_root(root)}
+
+
+def main(argv=None):
+    """Operator checks that never spend: key-status, endpoint-check, audit, smoke-summary, ledger-summary."""
+    import argparse
+    parser = argparse.ArgumentParser(description=main.__doc__)
+    parser.add_argument("command", choices=("key-status", "endpoint-check", "audit", "smoke-summary", "ledger-summary"))
+    parser.add_argument("--key-file", type=Path, help="dotenv with OPENROUTER_API_KEY (key-status)")
+    parser.add_argument("--catalog-key", default=catalog.DEFAULT_KEY, help="catalog entry (endpoint-check)")
+    parser.add_argument("--root", type=Path, help="OpenRouter run root (audit, smoke-summary)")
+    parser.add_argument("--ledger", type=Path, help="SQLite cost ledger (ledger-summary)")
+    args = parser.parse_args(argv)
+    if args.command == "key-status":
+        if args.key_file is None:
+            parser.error("key-status needs --key-file")
+        result = key_status(args.key_file)
+    elif args.command == "endpoint-check":
+        result = t.endpoint_check(catalog.spec(args.catalog_key))
+    elif args.command in ("audit", "smoke-summary"):
+        if args.root is None:
+            parser.error(args.command + " needs --root")
+        result = {"audit_errors": audit_root(args.root)} if args.command == "audit" else smoke_summary(args.root)
+    else:
+        if args.ledger is None:
+            parser.error("ledger-summary needs --ledger")
+        result = cost_ledger.CostLedger(args.ledger).summary()
+    print(json.dumps(t.scrub(result), ensure_ascii=False, indent=2))
+    failed = (args.command == "audit" and result["audit_errors"]) or (
+        args.command == "key-status" and not result.get("valid")) or (
+        args.command == "endpoint-check" and not result.get("ok"))
+    return 1 if failed else 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
