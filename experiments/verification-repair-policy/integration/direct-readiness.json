@@ -1,0 +1,274 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-11-01",
+  "base_commit": "d49707e0917729b52a802fee951ec6541dd8e709",
+  "execution_tree_dirty": true,
+  "revision": "single-repair-5-openai-personal",
+  "scope": "Personal OpenAI-direct P02 run; one repair-enabled optimization; no competition API routing claim",
+  "main_reference": {
+    "commit": "7f9508a85d44c5369f9461222f9904d6a9c01486",
+    "experiment": "experiments/openrouter-budget-trial --backend openai",
+    "shared_adapter": "src/lean_agent/openai_direct.py",
+    "shared_http": "request_once extracted from query; same endpoint, no retry, same response normalizer",
+    "differences": [
+      "Hidden terminal key passed in memory, not file/environment credentials",
+      "Planner/Worker role-specific schemas and prompts; explicit static-prefix cache boundary"
+    ]
+  },
+  "source_files": {
+    "experiments/verification-repair-policy/generation.py": "e196b8f65f7fe77172b07a6dc2b9ee1eb3dc66ca2bdccac04d89820e2af3684b",
+    "experiments/verification-repair-policy/generation_transport.py": "cd296ce2dbdbdc0c0e073eb46977e72368b43f0eff1d7a839458780f3316e160",
+    "experiments/verification-repair-policy/generation_records.py": "96ded181e4e8a6a53d59e6ca4285b30a8cc047474ce356dcae1a67d1a3408a22",
+    "experiments/verification-repair-policy/generation_runtime.py": "8b89e30496148ef722e6f4b7690841c7900dd6c539539c366fd6c28fb010d00f",
+    "experiments/verification-repair-policy/openrouter_transport.py": "3ef71cec4d2d0285484b08d8dcc1c4968ea2bccf4b73eb85f43c463ddf3dde35",
+    "experiments/verification-repair-policy/competition.py": "ff728eac1ca6d62200bb8925b6677c32fce6907dc313100eb741e2151c869691",
+    "experiments/verification-repair-policy/test_direct_generation.py": "96f46e73532bb1b1244afbfb41f3202168c7c9892f506cc3c75d13ca65a7abc2",
+    "experiments/verification-repair-policy/test_generation.py": "e337be4c0ecdb18539e83c37f17b2f54fbbe60b77c99a88e95c6eb2aab261f2d",
+    "experiments/verification-repair-policy/test_generation_lean.py": "48450cd09d782d336159f379c2adc637332165193511e50a06ff5cc55134dcde",
+    "src/lean_agent/openai_direct.py": "c5e01c5d312d98842d568e0349f595a13462969f16fe62ce78bde162adb2a219",
+    "src/lean_agent/recorded_usage.py": "89945b6a60e8c2790abd7beb616cc43275ec1f63682faa13ca2e2132c660cd33"
+  },
+  "tests": {
+    "main": {
+      "discovered": 144,
+      "passed": 140,
+      "skipped": 4,
+      "log_sha256": "06cffe1fdb9f7fd958a2c1d1f8631bcd869db80778e0bf0c8f15082accd482f3"
+    },
+    "budget": {
+      "discovered": 24,
+      "passed": 24,
+      "skipped": 0,
+      "log_sha256": "be1aaee4a718264035972240d160ca6692237b399f95236279e14327daade37b"
+    },
+    "offline": {
+      "discovered": 77,
+      "passed": 66,
+      "skipped": 11,
+      "log_sha256": "3548765974860e3bc8e608a75d0ea1830deea77546eca93d936500513db90964"
+    },
+    "native": {
+      "discovered": 2,
+      "passed": 2,
+      "skipped": 0,
+      "log_sha256": "f921d339c42e1230b3442986d569187eb9156113291e77788e2fd36577980edd"
+    }
+  },
+  "passed_distinct_tests": 232,
+  "commands": {
+    "main": "PYTHONPATH=src PROJECT_CACHE_DIR=/private/tmp TMPDIR=/private/tmp python3 -m unittest discover -s tests -v",
+    "budget": "PYTHONPATH=src PROJECT_CACHE_DIR=/private/tmp python3 -m unittest discover -s experiments/openrouter-budget-trial -v",
+    "offline": "python3 -m unittest discover -s experiments/verification-repair-policy -v",
+    "native": "REPAIR_RUN_LEAN_TESTS=1 REPAIR_EVIDENCE_DIR=/path/to/new-evidence python3 -m unittest discover -s experiments/verification-repair-policy -p test_generation_lean.py -v"
+  },
+  "prepared_suite": {
+    "path": "/Users/hellokitsch/Desktop/스터디/leanAgent스터디/LeanAgent-LeanRefactorArena/runs/manual/p02-repair-openai-single-250-20261101",
+    "revision": "single-repair-5-openai-personal",
+    "backend": "openai",
+    "execution_scope": "personal-experiment",
+    "condition_order": [
+      [
+        "repair-r1",
+        "recursive-repair-v1"
+      ]
+    ],
+    "run_budget_usd": "2.50",
+    "suite_budget_usd": "2.50",
+    "planner_budget_usd": "0.50",
+    "pricing": {
+      "model": "gpt-6.1-sol",
+      "as_of": "2026-10-29",
+      "service_tier": "default",
+      "cache_ttl": "30m",
+      "input_per_million": "2",
+      "cached_input_per_million": "0.10",
+      "cache_write_per_million": "2.50",
+      "output_per_million": "10",
+      "max_input_bound": 200000,
+      "long_context_threshold": 272000,
+      "source": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+      "cache_source": "https://developers.openai.com/api/docs/guides/prompt-caching"
+    },
+    "credential_input": "hidden-terminal-only",
+    "compatibility": {
+      "benchmark_profile": "warmup",
+      "benchmark_revision": "56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c",
+      "benchmark_sha256": "6209680cf00cde0765b77b24834cd72c64dd585b2f7e3f2a58209980ab59a804",
+      "source_url": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/resolve/56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c/benchmark_data_warmup.jsonl",
+      "problem_name": "CallElimCorrect.extractedOldExprInVars",
+      "source_file": "Strata/Transform/CallElimCorrect.lean",
+      "library_url": "https://github.com/strata-org/Strata",
+      "required_environments": [
+        {
+          "lean_version": "v4.26.0",
+          "library_revision": "451e5f047bafa010d178856db76c00029bfa4d7f",
+          "environment_id": "strata-v4.26.0"
+        }
+      ],
+      "candidate_policy": "same selected declaration; no per-version edits",
+      "official_evaluation": false
+    },
+    "frozen_inputs_sha256": "f9a96f191e0f0a5b04d8d270a17a88b1362cc4287216925e18d099c2bedb216c",
+    "check_passed": true,
+    "paid_gate_passed": true,
+    "already_started": false,
+    "actual_api_calls": 0
+  },
+  "pricing_verification": {
+    "verified_on": "2026-11-01",
+    "sources": [
+      "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+      "https://developers.openai.com/api/docs/guides/prompt-caching"
+    ],
+    "matches_main_pricing": true,
+    "pricing": {
+      "model": "gpt-6.1-sol",
+      "as_of": "2026-10-29",
+      "service_tier": "default",
+      "cache_ttl": "30m",
+      "input_per_million": "2",
+      "cached_input_per_million": "0.10",
+      "cache_write_per_million": "2.50",
+      "output_per_million": "10",
+      "max_input_bound": 200000,
+      "long_context_threshold": 272000,
+      "source": "https://developers.openai.com/api/docs/models/gpt-6.1-sol",
+      "cache_source": "https://developers.openai.com/api/docs/guides/prompt-caching"
+    },
+    "automatic_live_price_lookup": false,
+    "cost_basis": "usage_estimate_not_invoice"
+  },
+  "calibration": {
+    "reused": true,
+    "measurement_sources_verified_unchanged": true,
+    "measurement_sources": {
+      "experiments/verification-repair-policy/Support.lean": "824c547a3de68a916f06cdb916dcd0616a9d56c03f4d81a827a6f7e91b1a47b3",
+      "experiments/verification-repair-policy/native.py": "34434a8c303b47a91f47b04e11f3f27282877115b397cf4a46fab8d7fd9c4a16",
+      "src/lean_agent/evaluator/lean.py": "b4fa9f8b1a3b61365a6c1b65c732355a150e0cbc1af6299b2721a6253eb76a42"
+    },
+    "artifact_manifest_sha256": "1eefcda16579aa7a1de557e6a0d5fbcc55e2a564b7e95fc71925406c2f9c53f5"
+  },
+  "mock_http_checks": [
+    "All three roles use main shared HTTP path and normalize original Responses usage",
+    "No key file or environment lookup; no key in output records",
+    "Single direct run preparation, paid gate, completion, compatibility and record replay",
+    "Known estimates, missing usage, wrong model/tier, incomplete responses, timeout and pending requests",
+    "Normalized-receipt tampering, frozen backend/scope/pricing tampering, no replay network"
+  ],
+  "native_single_fixture": {
+    "actual_api_calls": 0,
+    "actual_api_cost_usd": "0",
+    "arms": {
+      "planner-worker-v1": {
+        "completed": 0,
+        "distinct_selected_sources": 0,
+        "final_q": [],
+        "final_verified": 0,
+        "original_returns": 0,
+        "proof_tokens": [],
+        "raw_heartbeats": [],
+        "repair_entries": 0,
+        "runs": 0,
+        "verified_repairs": 0
+      },
+      "recursive-repair-v1": {
+        "completed": 1,
+        "distinct_selected_sources": 1,
+        "final_q": [
+          1.2672309225061045
+        ],
+        "final_verified": 1,
+        "original_returns": 0,
+        "proof_tokens": [
+          23
+        ],
+        "raw_heartbeats": [
+          52735
+        ],
+        "repair_entries": 1,
+        "runs": 1,
+        "verified_repairs": 1
+      }
+    },
+    "backend": "fixture",
+    "budget_debit_usd": "0.04",
+    "change": {
+      "raw_heartbeats": {
+        "after": 52735,
+        "before": 79664,
+        "delta": -26929,
+        "reduction_percent": 33.80322353886323
+      },
+      "tokens": {
+        "after": 23,
+        "before": 38,
+        "delta": -15,
+        "reduction_percent": 39.473684210526315
+      }
+    },
+    "compatibility": {
+      "official_evaluation": false,
+      "status": "fixture_only"
+    },
+    "cost_basis": "simulated_fixture",
+    "estimated_api_cost_usd": null,
+    "evidence_kind": "fixture_contract_only",
+    "execution_scope": "fixture-only",
+    "experiment": "fixture_contract",
+    "final": {
+      "raw_heartbeats": 52735,
+      "raw_samples": [
+        52744,
+        52735,
+        52735
+      ],
+      "tokens": 23
+    },
+    "final_q": 1.2672309225061045,
+    "original": {
+      "raw_heartbeats": 79664,
+      "raw_samples": [
+        79673,
+        79664,
+        79664
+      ],
+      "tokens": 38
+    },
+    "reference_reason": null,
+    "reference_status": "completed",
+    "repair_activity": {
+      "entered_candidates": 1,
+      "selected_from_repair": true,
+      "verified_candidates": 1
+    },
+    "run_ids": [
+      "repair-r1"
+    ],
+    "selected_origin": "repaired",
+    "status": "completed",
+    "stop_reason": "step_limit",
+    "unknown_cost": false
+  },
+  "relocated_archive_checks": {
+    "record_replay_passed": true,
+    "common_status_completed_and_sealed": true,
+    "common_cost_actual_api_calls": 0,
+    "common_cost_actual_usd": "0"
+  },
+  "archive": {
+    "path": "direct-evidence.tar.gz",
+    "bytes": 513395,
+    "sha256": "ef4227870f7f7c4e5c9bf57d65414fdd2733e0bc993205bdf0d7c17882e95f90"
+  },
+  "actual_api_calls": 0,
+  "actual_api_cost_usd": "0",
+  "limitations": [
+    "No real API request or key/account/model-access acceptance test has run.",
+    "Direct API is a personal experiment and does not satisfy competition OpenRouter routing.",
+    "Cost estimates use frozen public prices and original usage; actual invoice cost remains null after direct calls.",
+    "Native fixture gains do not establish live P02 performance.",
+    "Single run does not isolate repair effectiveness or establish independent-run repeatability.",
+    "Official Lean/library compatibility is still checked; this is not an official server evaluation.",
+    "Prior OpenRouter freezes and archives are preserved and are not the current execution command."
+  ]
+}

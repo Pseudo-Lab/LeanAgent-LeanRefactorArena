@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-11-01",
+  "base_commit": "bdd83448de0a14a5bc0494a557e3f18673c33d09",
+  "execution_tree_dirty": true,
+  "revision": "planner-worker-repair-2-openrouter",
+  "scope": "OpenRouter-only P02 preparation; no live model request or performance result",
+  "python": "3.12.13",
+  "lean": "leanprover/lean4:v4.26.0",
+  "platform": "Darwin arm64",
+  "source_files": {
+    "experiments/verification-repair-policy/generation.py": "bd80a6be2e63a981326cbb520d8a8058472206d3a8dd3f2ae934737ac970ef28",
+    "experiments/verification-repair-policy/generation_runtime.py": "e6a412f30c57ed90c2dd58f0c51b0788b622a5fc655d2d063d7d78a77e521008",
+    "experiments/verification-repair-policy/openrouter_transport.py": "6b9636307d1d592d0e652f75e61f312154e164ad313fd4995d0a8ab8a4173ccc",
+    "experiments/verification-repair-policy/test_openrouter_generation.py": "4a01062454288c5da0a068e0a029646fbe12b9be7135fbbdb135d85fab883af4",
+    "experiments/verification-repair-policy/test_generation_lean.py": "8b5eea99210e55bb9f7c4d6aad426607b87e13480e889d6a415c3b3d500f440f",
+    "experiments/verification-repair-policy/native.py": "34434a8c303b47a91f47b04e11f3f27282877115b397cf4a46fab8d7fd9c4a16",
+    "experiments/verification-repair-policy/Support.lean": "824c547a3de68a916f06cdb916dcd0616a9d56c03f4d81a827a6f7e91b1a47b3"
+  },
+  "budget": {
+    "suite_usd": "2.50",
+    "per_run_usd": "0.625",
+    "planner_per_run_usd": "0.125",
+    "condition_order": [
+      [
+        "baseline-r1",
+        "planner-worker-v1"
+      ],
+      [
+        "repair-r1",
+        "recursive-repair-v1"
+      ],
+      [
+        "repair-r2",
+        "recursive-repair-v1"
+      ],
+      [
+        "baseline-r2",
+        "planner-worker-v1"
+      ]
+    ],
+    "debit": "maximum of provider-reported cost and frozen public-list-price calculation",
+    "roles": [
+      "planner",
+      "root",
+      "repair"
+    ],
+    "automatic_retries": false,
+    "provider_fallbacks": false
+  },
+  "tests": {
+    "offline": {
+      "discovered": 55,
+      "passed": 45,
+      "skipped": 10,
+      "log_sha256": "f2a4106f86500347986f21f130e0c4da6a81d058881c416636b12737f06c3e03"
+    },
+    "native_generation": {
+      "discovered": 1,
+      "passed": 1,
+      "four_runs": true,
+      "record_replay_passed": true,
+      "log_sha256": "334ee79f1e1e6240b184546c04ed1432318a2e6cbd908f2158d6a8b910a2cd58"
+    }
+  },
+  "commands": {
+    "offline": "python3 -m unittest discover -s experiments/verification-repair-policy -v",
+    "native": "REPAIR_RUN_LEAN_TESTS=1 REPAIR_EVIDENCE_DIR=/path/to/new-evidence python3 -m unittest discover -s experiments/verification-repair-policy -p 'test_generation_lean.py' -v"
+  },
+  "rules": {
+    "url": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/blob/main/app.py",
+    "snapshot_sha256": "5beb19d4575c90eef15e2c2a61a8ae0bc88cd16ca7b94659ae95848c2d85b9ec",
+    "required_route": "OpenRouter for every closed-source model call",
+    "problem_budget_usd": "3",
+    "scope": "Local comparison on warm-up P02, not final competition submission"
+  },
+  "endpoint": {
+    "url": "https://openrouter.ai/api/v1/models/openai/gpt-6.1-sol/endpoints",
+    "snapshot": "openrouter-endpoint.json",
+    "sha256": "6d976cfe27b61f9e4470631239881d2052615440b28374712d54b02c13ea2001",
+    "model": "openai/gpt-6.1-sol",
+    "provider": "openai",
+    "service_tier": "default"
+  },
+  "prepared_suite": {
+    "path": "/Users/hellokitsch/Desktop/스터디/leanAgent스터디/LeanAgent-LeanRefactorArena/runs/manual/p02-repair-openrouter-250-20261101-v2",
+    "frozen_inputs_sha256": "3fea2e1ae4861df5582a7d023c7615af1a3c40e268a9109c480655f8d3300b9b",
+    "protocol_sha256": "e5c83996333d8dee94a0c4174ffa351f5f4030b9cd47241e5a154f761ea92319",
+    "check_passed": true,
+    "paid_gate_passed": true,
+    "started": false
+  },
+  "calibration": {
+    "reused": true,
+    "reason": "Measurement source hashes and environment match the prior validated calibration",
+    "result_sha256": "70cba3718a1589b993f176eb140a3391351e2ed513282baa36e8722c428fbda7",
+    "ready": true
+  },
+  "initial_request_probes": {
+    "description": "Empty planner history; root with maximum allowed route strategy and lessons, after reserving the entire planner allowance. Future calls are checked individually.",
+    "requests": {
+      "planner": {
+        "reserved_usd": "0.1030225",
+        "input_token_upper_bound": 21801,
+        "max_tokens": 4096
+      },
+      "root": {
+        "reserved_usd": "0.2511425",
+        "input_token_upper_bound": 31897,
+        "max_tokens": 16384
+      }
+    }
+  },
+  "actual_api_calls": 0,
+  "actual_api_cost_usd": "0",
+  "archive_replay_passed": true,
+  "key_status_at_check": "local file exists but entry is empty; credentials are excluded from all archives",
+  "archive": {
+    "path": "openrouter-readiness-evidence.tar.gz",
+    "bytes": 307191,
+    "sha256": "d3a996f2692d048ac1954b2808e85134cd4ead1e8d8af03625f999902564489d"
+  },
+  "limitations": [
+    "Production API acceptance has not been tested.",
+    "No evidence yet of live proof-token/HB or generation-repeatability improvement.",
+    "The local reservation guard is not a provider-side credit lock; use a dedicated key with USD 2.50 total limit and no reset.",
+    "Historical validation.json and evidence.tar.gz describe the previous revision and remain unchanged."
+  ]
+}

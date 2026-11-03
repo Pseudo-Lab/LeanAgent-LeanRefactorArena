@@ -158,7 +158,7 @@ class Runtime:
         if left <= 0:
             return {'command': command, 'returncode': -1, 'timed_out': True, 'seconds': 0,
                     'output': 'Controller deadline reached before subprocess', 'stderr': ''}
-        return execute(command, cwd, min(timeout, left))
+        return execute(command, cwd, min(timeout, left), lean_path=self.environment.get('lean_path'))
 
     def inspect(self, code):
         self.check_time(repair=True)

@@ -82,15 +82,19 @@ def normalize(raw,prices):
         if not re.fullmatch(r'gpt-6\.1-sol(?:-\d{4}-\d{2}-\d{2})?',raw.get('model','')):
             raise ValueError('Unpriced response model')
         if raw.get('service_tier')!='default':raise ValueError('Unpriced service tier')
-        u=raw['usage'];details=u['input_tokens_details']
+        u=raw['usage']
+        if not isinstance(u,dict):raise ValueError('Missing usage fields')
+        details=u.get('input_tokens_details');outputs=u.get('output_tokens_details')
+        if not isinstance(details,dict) or not isinstance(outputs,dict):
+            raise ValueError('Missing usage details')
         inp=_tokens(u.get('input_tokens'));out=_tokens(u.get('output_tokens'))
         cached=_tokens(details.get('cached_tokens'));writes=_tokens(details.get('cache_write_tokens'))
-        reasoning=_tokens(u['output_tokens_details'].get('reasoning_tokens'))
+        reasoning=_tokens(outputs.get('reasoning_tokens'))
         if inp>=prices['max_input_bound'] or cached+writes>inp or reasoning>out:
             raise ValueError('Usage exceeds priced scope')
         if u.get('total_tokens',inp+out)!=inp+out:raise ValueError('Inconsistent total token usage')
         # No audio/image/tool usage is priced by this text-only adapter.
-        for d in [details,u['output_tokens_details']]:
+        for d in [details,outputs]:
             if any(v for k,v in d.items() if k in {'audio_tokens','image_tokens','video_tokens'}):
                 raise ValueError('Non-text usage is not priced')
         amount=str(((inp-cached-writes)*Decimal(prices['input_per_million'])
@@ -135,7 +139,21 @@ def query(body,prices,timeout=600):
     if (type(out) is not int or not 4096<=out<=16384 or len(inp)!=2
         or body!=payload([{'content':i.get('content')} for i in inp],out)):
         raise ValueError('Unexpected direct API request options')
-    key=load_key()
+    return request_once(body,prices,key=load_key(),timeout=timeout)
+
+
+def request_once(body,prices,*,key,timeout=600):
+    """Shared HTTP/receipt path; callers validate their role-specific payload first.
+
+    The explicit key stays in memory. No environment/file lookup or retry here.
+    """
+    if prices!=PRICING:raise ValueError('Unrecognized pricing')
+    if not isinstance(key,str) or not key:raise ValueError('Missing API key')
+    output=body.get('max_output_tokens')
+    if (body.get('model')!=MODEL or body.get('service_tier')!='default'
+        or body.get('tools')!=[] or body.get('store') is not False
+        or body.get('stream') is not False or type(output) is not int or not 1024<=output<=16384):
+        raise ValueError('Unexpected direct API request options')
     call=request.Request(ENDPOINT,data=json.dumps(body,ensure_ascii=False).encode(),
         headers={'Authorization':'Bearer '+key,'Content-Type':'application/json'})
     try:

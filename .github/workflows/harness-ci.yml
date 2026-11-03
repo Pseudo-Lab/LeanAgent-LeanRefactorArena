@@ -2,7 +2,7 @@ name: Harness CI
 
 on:
   pull_request:
-    branches: [main, codex/verification-repair-design]
+    branches: [main, codex/verification-repair-design, codex/verification-repair-policy]
     paths:
       - 'src/**'
       - 'configs/**'
@@ -113,7 +113,7 @@ jobs:
       - name: Verify native goals, recursive repair and replay without model APIs
         env:
           REPAIR_EVIDENCE_DIR: ${{ runner.temp }}/recursive-repair-evidence
-        run: python -m unittest discover -s experiments/verification-repair-policy -p 'test_recursive_lean.py' -v
+        run: python -m unittest discover -s experiments/verification-repair-policy -p 'test_*lean.py' -v
       - name: Preserve native verification evidence
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

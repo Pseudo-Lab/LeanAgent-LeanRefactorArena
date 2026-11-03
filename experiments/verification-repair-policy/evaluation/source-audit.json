@@ -1,0 +1,49 @@
+{
+  "checked_on": "2026-11-01",
+  "primary_source": {
+    "issue": "https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/issues/37",
+    "updated_at": "2026-10-30T05:01:46Z",
+    "status": "raw_records_not_shared",
+    "reported_failures": 99,
+    "acquired_failures": null,
+    "v5_path": "runs/team-openai-v5-p02-20261030/",
+    "note": "The issue explicitly calls the v5 path local and unshared. Aggregate counts are not a recovered corpus."
+  },
+  "other_inspected_sources": [
+    {
+      "commit": "394ed9dfc58d6278a946517f96b504907eee0296",
+      "path": "experiments/analyze-prompts/README.md",
+      "availability": "aggregate results only in this result commit"
+    },
+    {
+      "commit": "d90cf1147c8ed20783c3fbe923512a92d36530b8",
+      "path": "experiments/pattern-prompts/p01-openai-results.html",
+      "availability": "aggregate comparison page; not candidate-level source"
+    }
+  ],
+  "selected_source": {
+    "repository": "Pseudo-Lab/LeanAgent",
+    "commit": "e302e89eadf2c7eb2b65f0035f7dbba0b8e09130",
+    "run": "20261024T000653+0900",
+    "family": "P_A",
+    "problems": [
+      "P01",
+      "P02",
+      "P03"
+    ],
+    "histories": 36,
+    "generated_candidates": 88,
+    "nonpassing_candidates": 49,
+    "unique_nonpassing_candidates": 44,
+    "proof_and_full_source_hashes_verified": true,
+    "all_config_candidate_terminal_git_blobs_verified": 160,
+    "selection_reason": "All conditions/repeats for the Lean 4.26.0 Strata problems supported by PR B. Selected before new repair outcomes."
+  },
+  "excluded_from_performance": [
+    "Week 4 V_A/V_B intentional damage fixtures",
+    "PR B toy fixtures",
+    "P04/P05 and other Lean versions outside this first 4.26.0 evaluation",
+    "unshared API histories from issue #37"
+  ],
+  "prior_exposure": "The report and warmup problems were already inspected during design. This is retrospective reuse, not an unseen generalization sample."
+}
