@@ -1,6 +1,8 @@
 """Read-only resource checks for the final batch's serial Lean worker."""
 from __future__ import annotations
 
+import fcntl
+from contextlib import contextmanager
 import json
 import os
 from pathlib import Path
@@ -63,3 +65,55 @@ def wait_for_memory(log_path=None, *, min_free_percent=15, max_wait_seconds=300)
         if time.monotonic() - start >= max_wait_seconds:
             raise RuntimeError("Memory pressure stayed above the launch threshold; no Lean process started")
         time.sleep(5)
+
+
+@contextmanager
+def compiler_slot(lock_path, *, slots=2, min_free_percent=15, headroom_per_active=10):
+    """Bound read-only compilers across processes; coexist with legacy exclusive users.
+
+    An admission lock serializes slot reservations and memory checks. Held slot
+    locks reserve capacity before a compiler starts and are released on crashes.
+    Additional active compilers require additional free-memory headroom.
+    """
+    if type(slots) is not int or not 1 <= slots <= 3:
+        raise ValueError("Compiler slots must be between 1 and 3")
+    lock_path = Path(lock_path)
+    lock_path.parent.mkdir(parents=True, exist_ok=True)
+    with lock_path.open("a+") as compatibility:
+        fcntl.flock(compatibility, fcntl.LOCK_SH)
+        lease = None
+        try:
+            start = time.monotonic()
+            while lease is None:
+                with Path(str(lock_path) + ".admission").open("a+") as admission:
+                    fcntl.flock(admission, fcntl.LOCK_EX)
+                    available = []
+                    try:
+                        active = 0
+                        for number in range(3):
+                            stream = Path(str(lock_path) + f".slot-{number}").open("a+")
+                            try:
+                                fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                            except BlockingIOError:
+                                active += 1
+                                stream.close()
+                            else:
+                                available.append(stream)
+                        snapshot = memory_snapshot()
+                        free = snapshot["free_percent"]
+                        if free is None:
+                            raise RuntimeError("Memory monitor unavailable; no compiler admitted")
+                        if active < slots and available and free >= min_free_percent + headroom_per_active * active:
+                            lease = available.pop(0)
+                    finally:
+                        for stream in available:
+                            stream.close()
+                if lease is None:
+                    if time.monotonic() - start >= 1200:
+                        raise RuntimeError("Timed out waiting for safe compiler capacity")
+                    time.sleep(0.25)
+            yield
+        finally:
+            if lease is not None:
+                lease.close()
+            fcntl.flock(compatibility, fcntl.LOCK_UN)
