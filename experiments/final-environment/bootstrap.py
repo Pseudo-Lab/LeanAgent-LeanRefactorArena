@@ -100,21 +100,6 @@ def plan():
     return lock
 
 
-def fetch_missing_blobs(path, revision):
-    local=dict(os.environ,GIT_NO_LAZY_FETCH="1")
-    tree=command(["git","-C",path,"ls-tree","-r",revision],env=local)
-    needed={entry.split()[2] for entry in tree.splitlines() if entry.split(maxsplit=3)[1]=="blob"}
-    present=command(["git","-C",path,"cat-file","--batch-all-objects","--unordered","--batch-check=%(objectname)"],env=local)
-    missing=sorted(needed-set(present.splitlines()))
-    # Git normally sends all missing blobs in one pack. A disconnected pack
-    # cannot resume. Keep completed batches when a later transfer fails.
-    for i in range(0,len(missing),180):
-        command(["git","-c","http.version=HTTP/1.1","-c","fetch.negotiationAlgorithm=noop","-c","gc.auto=0","-C",path,
-                 "fetch","--no-tags","--no-write-fetch-head","--no-recurse-submodules","--filter=blob:none",
-                 "origin",*missing[i:i+180]],timeout=360)
-        print("BLOBS",min(i+180,len(missing)),"/",len(missing),flush=True)
-
-
 def fetch(url, version, revision):
     path = checkout_path(url, version, revision)
     if not (path / ".git").exists():
@@ -127,31 +112,8 @@ def fetch(url, version, revision):
     head = subprocess.run(["git", "-C", path, "rev-parse", "HEAD"], capture_output=True, text=True)
     if head.returncode or head.stdout.strip() != revision:
         print("FETCH", version, url, revision[:12], flush=True)
-        fetch_options = []
-        source="origin"
-        for sibling in (ROOT/"checkouts").glob("*/"+path.name):
-            if sibling!=path and (sibling/".git/HEAD").is_file() and (sibling/".git/HEAD").read_text().strip()==revision:
-                # Exact detached revision from another version's verified checkout.
-                if command(["git","-C",sibling,"remote","get-url","origin"]).strip().removesuffix(".git").lower()==remote.removesuffix(".git").lower():
-                    source=str(sibling)
-                    break
-        if source=="origin" and url.removesuffix(".git").lower().endswith("/mathlib4"):
-            siblings = (ROOT / "checkouts").glob("*/leanprover-community--mathlib4--*")
-            available = next((p for p in siblings if p != path and (p / "Mathlib.lean").is_file()), None)
-            if available:
-                # Borrow already verified Git objects across versions. Each revision still
-                # has its own worktree, Lean toolchain, build outputs and dependency manifest.
-                alternate = path / ".git/objects/info/alternates"
-                alternate.parent.mkdir(exist_ok=True)
-                if not alternate.exists():
-                    alternate.write_text(str((available / ".git/objects").resolve()) + "\n")
-                command(["git", "-C", path, "config", "remote.origin.promisor", "true"])
-                command(["git", "-C", path, "config", "remote.origin.partialclonefilter", "blob:none"])
-                fetch_options = ["--filter=blob:none"]
-        command(["git", "-c", "http.version=HTTP/1.1", "-C", path, "fetch", "--depth=1", *fetch_options, source, revision], timeout=1200)
-        if fetch_options:
-            fetch_missing_blobs(path,revision)
-        command(["git", "-c", "http.version=HTTP/1.1", "-C", path, "checkout", "--detach", "-q", "FETCH_HEAD"], timeout=1800)
+        command(["git", "-C", path, "fetch", "--depth=1", "origin", revision], timeout=1200)
+        command(["git", "-C", path, "checkout", "--detach", "-q", "FETCH_HEAD"])
     if command(["git", "-C", path, "rev-parse", "HEAD"]).strip() != revision:
         raise ValueError("Checkout revision mismatch")
     if command(["git", "-C", path, "diff", "--name-only", "HEAD", "--"]).strip():
