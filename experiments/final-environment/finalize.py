@@ -5,6 +5,7 @@ from datetime import datetime
 from zoneinfo import ZoneInfo
 import json
 import os
+import re
 import shutil
 import subprocess
 
@@ -54,7 +55,8 @@ def preserve_and_clean_probes(env, locations):
         if not folder.exists():
             continue
         for source in sorted(folder.glob("*.lean")):
-            if not (source.name in {"Imports.lean", "ImportsAll.lean"}
+            if not (source.name in {"Imports.lean", "ImportsAll.lean", "Headers.lean"}
+                    or re.fullmatch(r'Header\d{3}\.lean', source.name)
                     or source.name.startswith(("Reference", "Canonical"))):
                 raise ValueError("Unexpected file in managed checker folder; preserved")
             saved = out / name / source.name

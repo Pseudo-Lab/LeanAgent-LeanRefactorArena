@@ -4,9 +4,7 @@
 기존 문제 타일·상세 패널 양식을 사용합니다. 개선 결과가 없으면 회색이며, 점수가 있으면
 60점 이하 빨강, 60점 초과 초록 농도로 표시합니다. 원본 측정값을 개선 점수로 취급하지 않습니다.
 타일 하단은 원본 length·raw HB이고, 원본 표본·실행 근거는 상세 패널에서 펼칩니다.
-현재 최종 원본 스냅샷은 length·HB 모두 60개를 포함합니다. HB는 3회 중앙값 48개와
-1회 잠정값 12개이며, 기존 로컬 배치 37개에 별도 원본 측정 23개를 추가했습니다. 없는 HB는
-`null`/미측정으로 표시합니다. 후보 탐색 완료 여부와 원본 측정 여부는 별개입니다.
+현재 최종 원본 스냅샷은 60문제·127개 지정 버전 조합을 모두 포함합니다. 신규 HB는 버전별 1회이며 F001의 기존 3회 표본을 유지합니다. 대표 버전 기준으로 3회 중앙값 1문제·단일 표본 59문제입니다. 이전 대표 버전 3회 기록 48문제·1회 기록 12문제는 `../docs/measurements/final60-primary-history.md`에 보존합니다. 후보 탐색 완료 여부와 원본 측정 여부는 별개입니다.
 
 웜업 P01–P15의 팀원 후보와 공통 환경에서 재검증한 결과를 보여줍니다.
 공식 제출 성적이 아니며 자료 미확보·환경 준비 실패·검증기 지원 대기·증명 실패를 구분합니다.
@@ -39,7 +37,7 @@ length는 SHA-256 `d53690b057f9…` 데이터셋의 `proof_length`, 로컬 lengt
 `20261101-final60-usd1-r1`과 아래 추가 실행의 `problems/Fxxx/baseline/result.json`에서 가져왔습니다.
 추가 실행은 `20261102-speed-pilot`, `20261102-remaining22`, `20261102-provisional12`입니다.
 HB는 첫 지정 버전에서 측정한 값입니다. `sampleCount: 3`은 raw 표본 3회의 중앙값,
-`sampleCount: 1`은 속도를 우선한 잠정값입니다. scaled 값(`raw // 1000`)과 실제 표본도
+`sampleCount: 1`은 실제 단일 계측 표본을 뜻합니다. scaled 값(`raw // 1000`)과 실제 표본도
 상세 화면에 표시합니다. 원본 기준값이며 개선 점수나 공식 Linux worker 성적이 아닙니다.
 전체 지정 버전 통과 여부나 유료 후보 실행의 비용 정산 완료를 이 화면에서 판정하지 않습니다.
 
@@ -121,3 +119,13 @@ DASHBOARD_URL=https://lean-arena-dashboard.pages.dev npm run deploy:check
 재배포는 GitHub Actions의 **Dashboard CI and Production → Run workflow → main**에서 실행합니다. `check` 성공만으로 운영 배포가 끝난 것은 아니며, `deploy`의 데이터 확인까지 성공했는지 확인합니다. PR·다른 브랜치에서 수동 실행하면 검증만 수행합니다.
 
 Cloudflare에서 운영 확인을 마친 후 기존 Vercel 자동 배포용 Secret과 변수를 정리할 수 있습니다. 이전 Vercel 프로젝트는 전환 확인 전까지 복구용으로 유지합니다.
+
+## 지정 버전 전체의 확정 원본 기준값
+
+`final-baselines.json`은 60문제·127개 지정 버전 조합의 완료 결과를 사용합니다. Final 전용 화면과 웜업 전환은 유지하며, 상세 화면에서 버전별 raw HB·환산 HB·실제 표본 수·revision을 확인합니다. 신규 표본은 버전별 1회이고 F001의 기존 3회는 보존합니다. 단일 표본 수와 환경 무결성·컴파일·공리 검증 완료 여부를 구분하며, 원본을 개선 후보 결과로 집계하지 않습니다.
+
+비교 Length는 Final 평가기의 `arena-paper-compatible-v1`과 60문제 모두 일치하는 제공값입니다. 별도 `lean-source-anchored-v1` 감사 값도 보존하며 F053·F056은 1토큰 차이를 표시합니다. 최신 표와 환경 준비 설명은 `../docs/measurements/final60-baselines.md`, `final60-environments.md`에 있습니다.
+
+저장소 루트에서 `python3 -B dashboard/scripts/publish_final_baselines.py`를 실행하면 완료된 측정 문서와 원시 증거를 검증해 기존 공개 파일을 갱신합니다. 60/60 완료·종료 해시 검사·17개 환경과 8개 compiler의 최종 감사가 통과해야 합니다. 다른 실행은 `--run-root`, `--audit`로 지정합니다. 기존 `export_final_baselines.py`는 대표 버전의 과거 기록을 읽는 용도로 유지합니다. 공개 CI는 전체 지정 버전의 완료·identity·Length·HB 표본을 측정 JSON과 환경 lock에 대조합니다.
+
+PR은 검사·빌드만 실행하고, main 병합 시 기존 Cloudflare Pages 운영 배포가 실행됩니다. Final 측정 JSON·환경 lock 변경도 Dashboard CI를 실행합니다.

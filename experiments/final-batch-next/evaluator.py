@@ -24,20 +24,24 @@ import uuid
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "src"))
-from lean_agent.evaluator.lean import ALLOWED_AXIOMS, WRAPPER
+from lean_agent.evaluator.lean import ALLOWED_AXIOMS, WRAPPER as COMMON_WRAPPER
 from lean_agent.evaluator.tokens import proof_body, without_comments
 from fast_prepared import FastPreparedLeanEvaluator as PreparedLeanEvaluator
 from evaluation_cache import EvaluationCache
 
+# A source section may bind `Name : Type`, shadowing Lean.Name. This helper is
+# elaborated before the target counter starts; qualify its metaprogramming type.
+WRAPPER = COMMON_WRAPPER.replace("Name.toString", "_root_.Lean.Name.toString")
+
 # Use this variant only for immutable source prefixes carrying a private target
-# modifier. Public targets retain the common wrapper byte-for-byte.
+# modifier. The target counter and axiom collection are the common algorithm.
 PRIVATE_WRAPPER = WRAPPER.replace(
     '    let name := target.getString.toName\n'
     '    if (← getEnv).contains name then\n',
     '    let semanticName := target.getString.toName\n'
-    '    let findTargets (env : Environment) : Array Name :=\n'
+    '    let findTargets (env : _root_.Lean.Environment) : _root_.Array _root_.Lean.Name :=\n'
     '      env.checked.get.constants.fold (fun names name _ =>\n'
-    '        if name == semanticName || privateToUserName? name == some semanticName then\n'
+    '        if name == semanticName || _root_.Lean.privateToUserName? name == some semanticName then\n'
     '          names.push name\n'
     '        else names) #[]\n'
     '    unless (findTargets (← getEnv)).isEmpty do\n'
@@ -71,6 +75,17 @@ def write(path, value):
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + "\n")
+
+
+def artifact_paths(value):
+    if isinstance(value, str):
+        yield value
+    elif isinstance(value, dict):
+        for child in value.values():
+            yield from artifact_paths(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from artifact_paths(child)
 
 
 def _comment_mask(text, *, module_docs_are_commands=False):
@@ -201,6 +216,30 @@ class FinalEvaluator:
         self.cache = EvaluationCache(cache_root) if cache_root is not None else None
         self.timing_records = []
 
+    def _compiler_setup(self, state, context):
+        if not context['module']:
+            return None, None
+        project = self.repo / state['project']
+        path = project / '.lake/build/ir' / (context['module'].replace('.', '/') + '.setup.json')
+        content = path.read_bytes()
+        checksum = digest(content)
+        if context.setdefault('setup_sha256', checksum) != checksum:
+            raise ValueError('Pinned Lake compiler setup changed')
+        data = json.loads(content)
+        if not isinstance(data, dict):
+            raise ValueError('Pinned Lake compiler setup must be an object')
+        for field in ['importArts', 'plugins', 'dynlibs']:
+            for raw in artifact_paths(data.get(field)):
+                artifact = Path(raw)
+                if not artifact.is_absolute():
+                    artifact = project / artifact
+                # Resolve checkout/build-directory aliases while retaining a
+                # final file symlink that the manifest itself already pins.
+                artifact = artifact.parent.resolve() / artifact.name
+                if str(artifact) not in self._prepared[state['id']].settings['files']:
+                    raise ValueError('Compiler setup imports an unpinned artifact: ' + str(artifact))
+        return path, checksum
+
     def _cache_identity(self, code, problem, state, context, repetitions, trusted_reference):
         """Bind reuse to exact input, full context, toolchain and evaluator policy."""
         environment_file = self.root / "environments" / state["id"] / "environment.json"
@@ -215,12 +254,7 @@ class FinalEvaluator:
         if context["location"].get("file_path"):
             if digest((project / context["location"]["file_path"]).read_bytes()) != context["source_sha256"]:
                 raise ValueError("Original full-context source changed")
-        setup = None
-        if context["module"]:
-            path = project / ".lake/build/ir" / (context["module"].replace(".", "/") + ".setup.json")
-            setup = digest(path.read_bytes())
-            if context.setdefault("setup_sha256", setup) != setup:
-                raise ValueError("Pinned Lake compiler setup changed")
+        _, setup = self._compiler_setup(state, context)
         implementation = [Path(__file__), Path(__file__).with_name("evaluation_cache.py"),
                           Path(__file__).with_name("policy.py"), Path(__file__).with_name("fast_prepared.py"), Path(_token_spec.origin),
                           self.repo / "src/lean_agent/prepared.py",
@@ -234,8 +268,10 @@ class FinalEvaluator:
                 "repetitions": repetitions, "trusted_reference": trusted_reference,
                 "platform": platform.platform(), "machine": platform.machine()}
 
-    def _cached_result(self, code, problem, state, context, folder, repetitions, trusted_reference):
+    def _cached_result(self, code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass=False):
         identity = self._cache_identity(code, problem, state, context, repetitions, trusted_reference)
+        if reference_single_pass:
+            identity = {**identity, "reference_single_pass": True}
         if not self.cache.contains(identity):
             return identity, None, 0
         started = time.monotonic()
@@ -324,15 +360,8 @@ class FinalEvaluator:
         saved.write_text(source)
         compiler = self.root / "toolchains" / state["version"] / "bin"
         command = [str(compiler / "lean"), str(saved), "-j1", "-M4096"]
-        setup = None
-        if context["module"]:
-            setup = project / ".lake/build/ir" / (context["module"].replace(".", "/") + ".setup.json")
-            if not setup.is_file():
-                raise ValueError("Pinned Lake compiler setup missing: " + str(setup))
-            setup_hash = digest(setup.read_bytes())
-            known = context.setdefault("setup_sha256", setup_hash)
-            if setup_hash != known:
-                raise ValueError("Pinned Lake compiler setup changed")
+        setup, setup_hash = self._compiler_setup(state, context)
+        if setup:
             command.extend(["--setup", str(setup)])
         sandbox = shutil.which("sandbox-exec")
         if not sandbox:
@@ -429,15 +458,19 @@ class FinalEvaluator:
         return record, resolved, error
 
     def evaluate(self, code, problem, output_folder, *, repetitions=1, all_versions=False,
-                 trusted_reference=False, fresh=False):
+                 trusted_reference=False, fresh=False, reference_single_pass=False):
         if type(repetitions) is not int or repetitions < 1:
             raise ValueError("Expected a positive measurement count")
+        if reference_single_pass and not trusted_reference:
+            raise ValueError("Single-pass compilation is only for an exact frozen reference")
         evaluation_started = time.monotonic()
         first_timing = len(getattr(self, "timing_records", []))
         problem = self.load_problem(problem)
         output = Path(output_folder)
         output.mkdir(parents=True, exist_ok=False)
         result = {"valid": False, "tokens": None, "environments": {}, "error": None}
+        if reference_single_pass:
+            result["reference_compile_mode"] = "instrumented-compile-and-axioms"
         try:
             result["tokens"] = proof_tokens(code, problem["statement"])
             result["tokenizer"] = {"id": TOKENIZER_ID, "source_sha256": digest(Path(_token_spec.origin).read_bytes())}
@@ -472,7 +505,7 @@ class FinalEvaluator:
                     state = self._states[environment_id]
                     context = self._contexts[context_key]
                     _, cached, seconds = self._cached_result(
-                        code, problem, state, context, folder, repetitions, trusted_reference)
+                        code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass)
                     cache_verification_seconds += seconds
                     if cached is not None:
                         result["environments"][environment_id] = cached
@@ -482,13 +515,17 @@ class FinalEvaluator:
                     context = self._context(problem, environment_id)
                     if self.cache is not None and not fresh:
                         cache_identity, cached, seconds = self._cached_result(
-                            code, problem, state, context, folder, repetitions, trusted_reference)
+                            code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass)
                         cache_verification_seconds += seconds
                         if cached is not None:
                             result["environments"][environment_id] = cached
                             continue
                     prefix, suffix = context["prefix"], context["suffix"]
-                    jobs = [("check", None)] + [(f"measure-{i+1}", uuid.uuid4().hex) for i in range(repetitions)]
+                    # The unchanged wrapper calls elabCommand, checks the created
+                    # target, and collects axioms. For exact original references
+                    # this is also the compile check; no synthetic check record.
+                    jobs = ([] if reference_single_pass else [("check", None)]) + [
+                        (f"measure-{i+1}", uuid.uuid4().hex) for i in range(repetitions)]
                     raw = []
                     for label, nonce in jobs:
                         if nonce is None:

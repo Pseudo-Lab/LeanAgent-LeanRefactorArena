@@ -1,0 +1,2332 @@
+{
+  "schema_version": 1,
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "scope": "Local original-reference measurements; not official worker scores",
+  "tokenizer": "lean-source-anchored-v1",
+  "default_hb_repetitions": 1,
+  "measurement_policy": "One fresh HB sample per environment for new measurements; retain historical counts.",
+  "environment_verification": {
+    "status": "passed",
+    "policy": "run",
+    "finished_at": "2026-11-02T15:14:11.084954+00:00",
+    "environments": {
+      "arklib-v4.34.0": "e61995fb2b26b1740a295d22730d6190ce9020df72f50c6de7efa170feeccc98",
+      "arklib-v4.33.1": "22596c01b0c1802f44974d0e9c32b0c3e03c340f62dd8626f3af84f3740aaad6",
+      "arklib-v4.31.0": "75da0da5e7aee1d83906d31c3855cfdaf9812f4689f4fb751d7cdbb274824f5a",
+      "arklib-v4.30.0": "db906491a09b171ec3a4524d0ea4fc3897010195b2733db684334804691de3ae",
+      "leanpool-v4.35.0-rc3": "d7c44f655853f61480229a63e1f2f7e947a8a3f662dfca0dc029e99564f104a2",
+      "leanpool-v4.34.0": "179221748af7b9269b4503f03cd0dd72375844e901c88c370ed9af54fc5d5eac",
+      "putnambench-v4.27.0": "5b16ad4db7f6fd602239d588d22a23a3b58a682822e376830babf994a7e2cd7a",
+      "putnambench-v4.26.0": "60fb180c44b28a8ba770c47e5b1454eed356975f7dc68fdf65b350cbdc0a4716"
+    }
+  },
+  "total_problems": 60,
+  "measured_problems": 60,
+  "next_problem": null,
+  "model_api_calls": 0,
+  "problems": [
+    {
+      "id": "F001",
+      "name": "Core.InitsUpdatesComm",
+      "source": "strata",
+      "provided_length": 224,
+      "local_length": 224,
+      "reference_sha256": "0bd9a59f8ee210f7aa33326b61e40934872abaced72cb270dd62288ee1cb1973",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            4182544,
+            4182543,
+            4182543
+          ],
+          "median_raw_heartbeats": 4182543,
+          "median_heartbeats": 4182,
+          "measurement_count": 3
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            4699579,
+            4699579,
+            4699579
+          ],
+          "median_raw_heartbeats": 4699579,
+          "median_heartbeats": 4699,
+          "measurement_count": 3
+        },
+        "strata-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            4683842,
+            4683844,
+            4683842
+          ],
+          "median_raw_heartbeats": 4683842,
+          "median_heartbeats": 4683,
+          "measurement_count": 3
+        }
+      },
+      "measured_at": "2026-11-02T07:17:53.990685+00:00",
+      "seconds": 128.42,
+      "result_sha256": "efeabb2e932b860c2f059a2a83f61ce65cb7c23a99bf852efaca8f39087cb6bd",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "87bf22780bc7d7d7fef7236ed30b94f5d671a24c42cd731691b1d562e94726df",
+        "strata-v4.27.0": "d9fe8160d1365a3cb832d693c7f2eeb5a69e71a016290fd404a5419b4696717a",
+        "strata-v4.26.0": "f23f55c79a75852d010d721ccdadafb19f5136bd079bfeacf1c38ac99ae5f3f8"
+      }
+    },
+    {
+      "id": "F002",
+      "name": "Lambda.denote_suffix_irrel",
+      "source": "strata",
+      "provided_length": 904,
+      "local_length": 904,
+      "reference_sha256": "857536ed5def04d6905a3f1154dbc4d70a927c9be8dcd52b71e98f3963377871",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            4367942
+          ],
+          "median_raw_heartbeats": 4367942,
+          "median_heartbeats": 4367,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            4816051
+          ],
+          "median_raw_heartbeats": 4816051,
+          "median_heartbeats": 4816,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:47:43.044306+00:00",
+      "seconds": 68.633,
+      "result_sha256": "4e08f3be2fbd8ea8164329e5b47f081ef0fe4518d00bd88fd84392487d2bd169",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F003",
+      "name": "Lambda.denote_Denotes",
+      "source": "strata",
+      "provided_length": 931,
+      "local_length": 931,
+      "reference_sha256": "5b640984fce466613ce6a520c58aecc3459437941d7d34c1039cefd40cea8ad5",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            10925062
+          ],
+          "median_raw_heartbeats": 10925062,
+          "median_heartbeats": 10925,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            12476761
+          ],
+          "median_raw_heartbeats": 12476761,
+          "median_heartbeats": 12476,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:48:58.140685+00:00",
+      "seconds": 75.093,
+      "result_sha256": "46f1eeae1abc4c8f65ac23fc045b230cd883b48e4945e9706593957ffc281eda",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F004",
+      "name": "Lambda.callOfLFunc_eraseMetadata_congr",
+      "source": "strata",
+      "provided_length": 291,
+      "local_length": 291,
+      "reference_sha256": "8fdb8ae764d8d314559dc608943b256da5e5984b7028ba5abd7d5f0bea5b2410",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            21349356
+          ],
+          "median_raw_heartbeats": 21349356,
+          "median_heartbeats": 21349,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            63449865
+          ],
+          "median_raw_heartbeats": 63449865,
+          "median_heartbeats": 63449,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:51:23.300173+00:00",
+      "seconds": 145.157,
+      "result_sha256": "5e7d808af24824ec6cd366a1a272a42bee498ce3df042eeb1299a9b02ba6644b",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F005",
+      "name": "Lambda.liftBVars_typeCheck",
+      "source": "strata",
+      "provided_length": 209,
+      "local_length": 209,
+      "reference_sha256": "b42793776ffa2b5d3af1567828e15bbf8b72a47fc507603b5da70ca046efe898",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            17630192
+          ],
+          "median_raw_heartbeats": 17630192,
+          "median_heartbeats": 17630,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            23917585
+          ],
+          "median_raw_heartbeats": 23917585,
+          "median_heartbeats": 23917,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:52:40.462926+00:00",
+      "seconds": 77.159,
+      "result_sha256": "3812d37d032a5b694b912f6525866caac17301e956b800713062493ca27ee480",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F006",
+      "name": "Lambda.liftBVars_denote",
+      "source": "strata",
+      "provided_length": 972,
+      "local_length": 972,
+      "reference_sha256": "5738c65dda15e712890dc31dec7de2ae01bd0712f7c0943eb2074313ad2de840",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            8898513
+          ],
+          "median_raw_heartbeats": 8898513,
+          "median_heartbeats": 8898,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            11988265
+          ],
+          "median_raw_heartbeats": 11988265,
+          "median_heartbeats": 11988,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:53:54.187251+00:00",
+      "seconds": 73.721,
+      "result_sha256": "100a8ec73db1fa5768db1e73e8a4e6da8cd8101977eb74e839d3955732c174b6",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F007",
+      "name": "Lambda.LExpr.typeCheck_to_HasTypeA",
+      "source": "strata",
+      "provided_length": 429,
+      "local_length": 429,
+      "reference_sha256": "b7162fb2d3da5109aee0a76d03c4be63b321ca1902c371c3120775095695eb8f",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            7093908
+          ],
+          "median_raw_heartbeats": 7093908,
+          "median_heartbeats": 7093,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            9080928
+          ],
+          "median_raw_heartbeats": 9080928,
+          "median_heartbeats": 9080,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:54:55.244462+00:00",
+      "seconds": 61.053,
+      "result_sha256": "0c71feb2006465ddc57e86bcb0f378dc14d3409592e1d1c6af7336b13cce0516",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F008",
+      "name": "Lambda.callOfLFunc_constr_disjoint_denote",
+      "source": "strata",
+      "provided_length": 968,
+      "local_length": 968,
+      "reference_sha256": "110723a3c5f920a0f1b9ea722b054ab5bfa7a8a0b96b2e1bc4c2bb5e0359021b",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            7351450
+          ],
+          "median_raw_heartbeats": 7351450,
+          "median_heartbeats": 7351,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            7718944
+          ],
+          "median_raw_heartbeats": 7718944,
+          "median_heartbeats": 7718,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:55:56.617181+00:00",
+      "seconds": 61.369,
+      "result_sha256": "6d6feb8ac522d21f03d4abb0cbc12819259fdb0fabdbb075fd01103b3b95862d",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F009",
+      "name": "Lambda.denote_replaceMetadata",
+      "source": "strata",
+      "provided_length": 938,
+      "local_length": 938,
+      "reference_sha256": "e1ec255391ce023abd248711691eca984ac250472f19b8bfdc190c33719dd40d",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            7275281
+          ],
+          "median_raw_heartbeats": 7275281,
+          "median_heartbeats": 7275,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            8309077
+          ],
+          "median_raw_heartbeats": 8309077,
+          "median_heartbeats": 8309,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:57:14.906120+00:00",
+      "seconds": 78.284,
+      "result_sha256": "1a2e8053dc816014d546e760bf5d94578ea13cdacb926660eea332ea232d0eb9",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F010",
+      "name": "Lambda.denote_ext",
+      "source": "strata",
+      "provided_length": 1200,
+      "local_length": 1200,
+      "reference_sha256": "f2eaf998e6f640a39429b3563327a5374d3159468433c735415a0792f6a3215e",
+      "status": "measured",
+      "primary_environment": "strata-v4.31.0",
+      "environments": {
+        "strata-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            4667076
+          ],
+          "median_raw_heartbeats": 4667076,
+          "median_heartbeats": 4667,
+          "measurement_count": 1
+        },
+        "strata-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            5257943
+          ],
+          "median_raw_heartbeats": 5257943,
+          "median_heartbeats": 5257,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T07:58:25.786930+00:00",
+      "seconds": 70.876,
+      "result_sha256": "9361eb171206f3e911df203873892af57d2eff24a46ff23e3c27613690d0e130",
+      "environment_state_sha256": {
+        "strata-v4.31.0": "7a75bcf3dcae0b999d51020238ab260724e31f89a8f55ec89d90ee9f59fd21cb",
+        "strata-v4.27.0": "c18dddb125b9fa2d82bd1b585d2c05e5047e72d4d638537dfdeee698450a38b6"
+      }
+    },
+    {
+      "id": "F011",
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "source": "physlib",
+      "provided_length": 4,
+      "local_length": 4,
+      "reference_sha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            64051730
+          ],
+          "median_raw_heartbeats": 64051730,
+          "median_heartbeats": 64051,
+          "cache": {
+            "hit": true,
+            "key": "ee0a179f6c8d0ef2803bc780e72f555480555803758919749c3f2d086a5fd969",
+            "origin": "/Users/jwkweon/00_work/00_project/05_pseudolab/.worktrees/arena-final60-baselines/runs/manual/final60-primary-20261102/F011-attempt-001/evaluation/physlib-v4.34.1",
+            "compiler_invocations": 0,
+            "execution_seconds": 0
+          },
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            64051730
+          ],
+          "median_raw_heartbeats": 64051730,
+          "median_heartbeats": 64051,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:43:46.482033+00:00",
+      "seconds": 159.889,
+      "result_sha256": "bfec6c153a69f97e82a7acbf6a8521c53458454533262c1e04c484a2dcbd3914",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F012",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "source": "physlib",
+      "provided_length": 12,
+      "local_length": 12,
+      "reference_sha256": "5d5ec4e8188e296a6504c12906bad9574ecb21354def05c2cc6562dfcb549a09",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            74041515
+          ],
+          "median_raw_heartbeats": 74041515,
+          "median_heartbeats": 74041,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            74041515
+          ],
+          "median_raw_heartbeats": 74041515,
+          "median_heartbeats": 74041,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:45:59.775199+00:00",
+      "seconds": 133.281,
+      "result_sha256": "23a59f1ffb291163ccf1d15692ab2b09725ca291ecfa49a0c094625fc6dd2c56",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F013",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "source": "physlib",
+      "provided_length": 12,
+      "local_length": 12,
+      "reference_sha256": "847028f55ca688f2aedece86f71654a5af77a765c27f15681d27d3f92b0b1406",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            79108905
+          ],
+          "median_raw_heartbeats": 79108905,
+          "median_heartbeats": 79108,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            79108905
+          ],
+          "median_raw_heartbeats": 79108905,
+          "median_heartbeats": 79108,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:48:13.977180+00:00",
+      "seconds": 134.189,
+      "result_sha256": "1cc78c7aef3dbd38aa5e2100556f2110cc24f497a9f975a3692f721b02070468",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F014",
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "source": "physlib",
+      "provided_length": 181,
+      "local_length": 181,
+      "reference_sha256": "80f1722a4735cf2546eeabd5724f07682f10903d7fc9f978342aed5aaa3840d4",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            212379390
+          ],
+          "median_raw_heartbeats": 212379390,
+          "median_heartbeats": 212379,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            212379390
+          ],
+          "median_raw_heartbeats": 212379390,
+          "median_heartbeats": 212379,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:50:47.659467+00:00",
+      "seconds": 153.668,
+      "result_sha256": "ffc190bc1b2eccf78fa103441f518da46986ce1bd0ff4b6d4f084bb7e5030e55",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F015",
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "source": "physlib",
+      "provided_length": 183,
+      "local_length": 183,
+      "reference_sha256": "13a7b6e73c3d7d0eaba531809654eb931b3851f2d25275ccdc0ba49e22cfd667",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            136539444
+          ],
+          "median_raw_heartbeats": 136539444,
+          "median_heartbeats": 136539,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            136539444
+          ],
+          "median_raw_heartbeats": 136539444,
+          "median_heartbeats": 136539,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:53:19.475231+00:00",
+      "seconds": 151.956,
+      "result_sha256": "03f6cfa095647fbf37185581b2eb3406298a7d0784efd170fb670f12ea1b4ebc",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F016",
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "source": "physlib",
+      "provided_length": 1372,
+      "local_length": 1372,
+      "reference_sha256": "9839fbd7f2dedf9c22190403722dc98210c990a14188a042ddf41ab5e050496c",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            23941357
+          ],
+          "median_raw_heartbeats": 23941357,
+          "median_heartbeats": 23941,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            23941357
+          ],
+          "median_raw_heartbeats": 23941357,
+          "median_heartbeats": 23941,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:54:29.763130+00:00",
+      "seconds": 70.277,
+      "result_sha256": "47fd731ae3dec91a195151e18c25c77dcba8ae9a144d1339378593f878e959b6",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F017",
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "source": "physlib",
+      "provided_length": 1217,
+      "local_length": 1217,
+      "reference_sha256": "b0b0bdda4094c15be7cfd13caee9f73b03ddf22c9de85a90567a1291cc6f0306",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            35774573
+          ],
+          "median_raw_heartbeats": 35774573,
+          "median_heartbeats": 35774,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            35774569
+          ],
+          "median_raw_heartbeats": 35774569,
+          "median_heartbeats": 35774,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:55:34.685667+00:00",
+      "seconds": 64.911,
+      "result_sha256": "a61e3ac382f9743662728f28c77297dfeada451c826017fa34d6178384f61c48",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F018",
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "source": "physlib",
+      "provided_length": 851,
+      "local_length": 851,
+      "reference_sha256": "88fd5fd92db61b8c08e5d861cdfdb959fac1e343b60401d76e76f8956c2ef1d7",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            10202611
+          ],
+          "median_raw_heartbeats": 10202611,
+          "median_heartbeats": 10202,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            10202612
+          ],
+          "median_raw_heartbeats": 10202612,
+          "median_heartbeats": 10202,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:56:26.025187+00:00",
+      "seconds": 51.327,
+      "result_sha256": "3f662a929acb80bc18f0f138dcd09b812eb3c735e14493469c35bb151bc76c82",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F019",
+      "name": "HermitianMat.inv_convex",
+      "source": "physlib",
+      "provided_length": 1025,
+      "local_length": 1025,
+      "reference_sha256": "337495a06d7c58056fbff562d51a13f0bffd9c0ab8af1a35cc3ffedb7c302a6c",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            211678390
+          ],
+          "median_raw_heartbeats": 211678390,
+          "median_heartbeats": 211678,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            211678433
+          ],
+          "median_raw_heartbeats": 211678433,
+          "median_heartbeats": 211678,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T09:58:12.826470+00:00",
+      "seconds": 106.791,
+      "result_sha256": "eb56a7de6c253a05a24179cbdcbd766b3bfe249e39588f3be4ff465fb986f935",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F020",
+      "name": "cauchyBinet",
+      "source": "physlib",
+      "provided_length": 1200,
+      "local_length": 1200,
+      "reference_sha256": "5e77c0a363d830b4c829493520753ec5831b578bfc3ea28f011200b0440b4485",
+      "status": "measured",
+      "primary_environment": "physlib-v4.34.1",
+      "environments": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            143389537
+          ],
+          "median_raw_heartbeats": 143389537,
+          "median_heartbeats": 143389,
+          "measurement_count": 1
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            143389673
+          ],
+          "median_raw_heartbeats": 143389673,
+          "median_heartbeats": 143389,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:00:25.476227+00:00",
+      "seconds": 132.641,
+      "result_sha256": "106afaf0eedd30eacd1d6fe7c2faf706282926a0292986934116f7b2eff99fdc",
+      "environment_state_sha256": {
+        "physlib-v4.34.1": "5a9bf85e2dce90d95ce2ebe62414d16e5363004d1a1a3d7b856077e53fb0af1f",
+        "physlib-v4.34.0": "09fa4a41a0b559de6c7f7e8dbc5a2a67a618f2dbb80b053bd7122e01451f1a22"
+      }
+    },
+    {
+      "id": "F021",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "source": "cslib",
+      "provided_length": 408,
+      "local_length": 408,
+      "reference_sha256": "e8b89255b06b284c8a4f4ba9a140c458d8c4640f63014c9c0037585855039be7",
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            59936725
+          ],
+          "median_raw_heartbeats": 59936725,
+          "median_heartbeats": 59936,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            60093800
+          ],
+          "median_raw_heartbeats": 60093800,
+          "median_heartbeats": 60093,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:16:32.543052+00:00",
+      "seconds": 85.98,
+      "result_sha256": "994d7398ce1c9d85a90067e8a0d44dcb5d3fce301ab07c294547eca1f9e81cb6",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
+    },
+    {
+      "id": "F022",
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "source": "cslib",
+      "provided_length": 407,
+      "local_length": 407,
+      "reference_sha256": "35f528e8e77dceff098e735cfb0ee98ea989fecca8258a7d59632f211cc5ffdc",
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            1500541
+          ],
+          "median_raw_heartbeats": 1500541,
+          "median_heartbeats": 1500,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            1499947
+          ],
+          "median_raw_heartbeats": 1499947,
+          "median_heartbeats": 1499,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:16:42.438009+00:00",
+      "seconds": 9.88,
+      "result_sha256": "f0c1fb9c3b29d5ed17f65e3a2e0fcf55cd1f646867d0c24509244fce8e35172a",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
+    },
+    {
+      "id": "F023",
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "source": "cslib",
+      "provided_length": 251,
+      "local_length": 251,
+      "reference_sha256": "90ec3fb53d6c4e9485868b3d1f1bceac5de6abc8b429d456281744fd1b0fa828",
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            3940867
+          ],
+          "median_raw_heartbeats": 3940867,
+          "median_heartbeats": 3940,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            3923913
+          ],
+          "median_raw_heartbeats": 3923913,
+          "median_heartbeats": 3923,
+          "measurement_count": 1
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            3927323
+          ],
+          "median_raw_heartbeats": 3927323,
+          "median_heartbeats": 3927,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:39:19.813438+00:00",
+      "seconds": 103.035,
+      "result_sha256": "c80cf33186b658d40a92fb9f82f015dc555f4b987dee0007bd52693713defa2a",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc",
+        "cslib-v4.31.0": "1da48e739a66b4e13ce9c8cd137aab1fd4c564787fec33e596a949a960edcec8"
+      }
+    },
+    {
+      "id": "F024",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "source": "cslib",
+      "provided_length": 391,
+      "local_length": 391,
+      "reference_sha256": "cd3326e6962c0989a1af0b1b625c932f5d9493b580dd4c9cfaebeacf3fa0f7a6",
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            38100120
+          ],
+          "median_raw_heartbeats": 38100120,
+          "median_heartbeats": 38100,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            38313227
+          ],
+          "median_raw_heartbeats": 38313227,
+          "median_heartbeats": 38313,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:39:44.291442+00:00",
+      "seconds": 24.465,
+      "result_sha256": "a8696f0a56f8715036a53cf2e7be609c1fcc7595a4fc80b30b888ec2c68ce6c4",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
+    },
+    {
+      "id": "F025",
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "source": "cslib",
+      "provided_length": 433,
+      "local_length": 433,
+      "reference_sha256": "e8ea4b43e120b125b1001db6d40f3a06fb2ae6ea078631b47d9914c0064bbb21",
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            11623232
+          ],
+          "median_raw_heartbeats": 11623232,
+          "median_heartbeats": 11623,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            12051112
+          ],
+          "median_raw_heartbeats": 12051112,
+          "median_heartbeats": 12051,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:39:54.733827+00:00",
+      "seconds": 10.432,
+      "result_sha256": "e52448a7a8ee51d4bae4caa25a37baba3dae8b4e90714969bfd5a4e58fd7e6fd",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
+    },
+    {
+      "id": "F026",
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "source": "cslib",
+      "provided_length": 623,
+      "local_length": 623,
+      "reference_sha256": "8bbae709173e505bffb0cfc737042fc349f97067387f5f62a62924f3beb9f50b",
+      "status": "measured",
+      "primary_environment": "cslib-v4.33.1",
+      "environments": {
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            56935331
+          ],
+          "median_raw_heartbeats": 56935331,
+          "median_heartbeats": 56935,
+          "measurement_count": 1
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            77902172
+          ],
+          "median_raw_heartbeats": 77902172,
+          "median_heartbeats": 77902,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:40:08.522060+00:00",
+      "seconds": 13.781,
+      "result_sha256": "0300f53bbc511fe4dfa9730f75c80fc3fd9b6d40ffb1e76d51b4e4b3b5047f05",
+      "environment_state_sha256": {
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc",
+        "cslib-v4.31.0": "1da48e739a66b4e13ce9c8cd137aab1fd4c564787fec33e596a949a960edcec8"
+      }
+    },
+    {
+      "id": "F027",
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "source": "cslib",
+      "provided_length": 368,
+      "local_length": 368,
+      "reference_sha256": "b32c6230a23e675921a867a7c1b5b4ff3d78c55bc944d8adade36377ae08b0af",
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            39339312
+          ],
+          "median_raw_heartbeats": 39339312,
+          "median_heartbeats": 39339,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            37257043
+          ],
+          "median_raw_heartbeats": 37257043,
+          "median_heartbeats": 37257,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:40:23.240978+00:00",
+      "seconds": 14.709,
+      "result_sha256": "28c78194bc55a5af1038e644aa9c7bc7d4cb6e23435ba6f04ae285741eb22d9e",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
+    },
+    {
+      "id": "F028",
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "source": "cslib",
+      "provided_length": 312,
+      "local_length": 312,
+      "reference_sha256": "f5d19e4e3d4c7b8b3855cbcd7f6406a9886f76d5e7b225fc2988e0351eaeedab",
+      "status": "measured",
+      "primary_environment": "cslib-v4.33.1",
+      "environments": {
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            27607488
+          ],
+          "median_raw_heartbeats": 27607488,
+          "median_heartbeats": 27607,
+          "measurement_count": 1
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            32182165
+          ],
+          "median_raw_heartbeats": 32182165,
+          "median_heartbeats": 32182,
+          "measurement_count": 1
+        },
+        "cslib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            35212723
+          ],
+          "median_raw_heartbeats": 35212723,
+          "median_heartbeats": 35212,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:44:46.006213+00:00",
+      "seconds": 62.588,
+      "result_sha256": "b1595575d59c9f1f76c98a843c4f44be58b1a49c61d6c763b9f37641edd36544",
+      "environment_state_sha256": {
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc",
+        "cslib-v4.31.0": "1da48e739a66b4e13ce9c8cd137aab1fd4c564787fec33e596a949a960edcec8",
+        "cslib-v4.30.0": "6024b6dc033010f7743d9d7c9b73a06e4f4c005cc9d581983d37821d69b74c2d"
+      }
+    },
+    {
+      "id": "F029",
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "source": "cslib",
+      "provided_length": 364,
+      "local_length": 364,
+      "reference_sha256": "f30aacc80b142837c1b24c2d51f4ebde3430d75548ecda849704d832aba9a9de",
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            33199270
+          ],
+          "median_raw_heartbeats": 33199270,
+          "median_heartbeats": 33199,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            29186712
+          ],
+          "median_raw_heartbeats": 29186712,
+          "median_heartbeats": 29186,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:45:49.929550+00:00",
+      "seconds": 63.914,
+      "result_sha256": "323da95c8739e18d3bf1c0e5446b61e4f61496ad0c2b4a856c69d135181a6cba",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
+    },
+    {
+      "id": "F030",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "source": "cslib",
+      "provided_length": 519,
+      "local_length": 519,
+      "reference_sha256": "596f54a91cd38f82f018771f60067f7b5607fc188de3c550f2e84fcaab7fe4ba",
+      "status": "measured",
+      "primary_environment": "cslib-v4.34.1",
+      "environments": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "raw_samples": [
+            8589142
+          ],
+          "median_raw_heartbeats": 8589142,
+          "median_heartbeats": 8589,
+          "measurement_count": 1
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            8709469
+          ],
+          "median_raw_heartbeats": 8709469,
+          "median_heartbeats": 8709,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T10:46:04.361279+00:00",
+      "seconds": 14.415,
+      "result_sha256": "121a95bfa56e1c274ce524a19aeccc5469b3405fc65f6719c4fde3d4736faab4",
+      "environment_state_sha256": {
+        "cslib-v4.34.1": "a188a654c64db46a824a4bd2fe0d0ce90b9a03b8d79abc0b7a95f507acd2c327",
+        "cslib-v4.33.1": "b32686c21af05278d9aba785ea0d8b0279499aa479f80f498bb749e5b5a124fc"
+      }
+    },
+    {
+      "id": "F031",
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "provided_length": 1353,
+      "local_length": 1353,
+      "reference_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+      "status": "measured",
+      "primary_environment": "arklib-v4.34.0",
+      "environments": {
+        "arklib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            7774574
+          ],
+          "median_raw_heartbeats": 7774574,
+          "median_heartbeats": 7774,
+          "measurement_count": 1
+        },
+        "arklib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            7829037
+          ],
+          "median_raw_heartbeats": 7829037,
+          "median_heartbeats": 7829,
+          "measurement_count": 1
+        },
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            10226033
+          ],
+          "median_raw_heartbeats": 10226033,
+          "median_heartbeats": 10226,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            10227365
+          ],
+          "median_raw_heartbeats": 10227365,
+          "median_heartbeats": 10227,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:24:02.582039+00:00",
+      "seconds": 323.411,
+      "result_sha256": "b95be43b1c6d98a27919057cae0c5597bfd30113b7521b84575e0d511cc208c0",
+      "environment_state_sha256": {
+        "arklib-v4.34.0": "0aa8aa3fe156a898f957d8eabe3c3403b255ee2bd43aa60821d775079a67d223",
+        "arklib-v4.33.1": "1ae7ce30d8659b13db9192e05cd54cf3904d497cdcfd50c1387c00c6b5f457ce",
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F032",
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "provided_length": 1906,
+      "local_length": 1906,
+      "reference_sha256": "67401740132ca27612c5a143c6dd3a90205f5d84a7c0850182c9391592a0752f",
+      "status": "measured",
+      "primary_environment": "arklib-v4.31.0",
+      "environments": {
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            47701818
+          ],
+          "median_raw_heartbeats": 47701818,
+          "median_heartbeats": 47701,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            49156465
+          ],
+          "median_raw_heartbeats": 49156465,
+          "median_heartbeats": 49156,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:25:09.382786+00:00",
+      "seconds": 66.774,
+      "result_sha256": "0e00958eaab298124e1a09dc970f4a8f13bf3bd533ebd5ee678ad843791afb8b",
+      "environment_state_sha256": {
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F033",
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "provided_length": 1463,
+      "local_length": 1463,
+      "reference_sha256": "561da2e1599d85a33fddbdbdb9eca3f05f504c3dfaa7e32d367eef4eba532033",
+      "status": "measured",
+      "primary_environment": "arklib-v4.31.0",
+      "environments": {
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            16839602
+          ],
+          "median_raw_heartbeats": 16839602,
+          "median_heartbeats": 16839,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            18274665
+          ],
+          "median_raw_heartbeats": 18274665,
+          "median_heartbeats": 18274,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:26:15.122551+00:00",
+      "seconds": 65.722,
+      "result_sha256": "65939ba18cb1ca9c2861ad520ee01ef3774ed360e699159238651e00959d31fa",
+      "environment_state_sha256": {
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F034",
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "provided_length": 546,
+      "local_length": 546,
+      "reference_sha256": "9bd964e1df9b474cee4c4a0d14ba8d3e8a9fbc85bbe7790544932292df270cfa",
+      "status": "measured",
+      "primary_environment": "arklib-v4.33.1",
+      "environments": {
+        "arklib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            190043613
+          ],
+          "median_raw_heartbeats": 190043613,
+          "median_heartbeats": 190043,
+          "measurement_count": 1
+        },
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            282353782
+          ],
+          "median_raw_heartbeats": 282353782,
+          "median_heartbeats": 282353,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            310005663
+          ],
+          "median_raw_heartbeats": 310005663,
+          "median_heartbeats": 310005,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:28:43.759356+00:00",
+      "seconds": 148.614,
+      "result_sha256": "6cd040bf4b0fcf8eeee75aff94c8c3ed7075598d9fb4b5944a3d67f260abbf0d",
+      "environment_state_sha256": {
+        "arklib-v4.33.1": "1ae7ce30d8659b13db9192e05cd54cf3904d497cdcfd50c1387c00c6b5f457ce",
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F035",
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "provided_length": 2440,
+      "local_length": 2440,
+      "reference_sha256": "762d9c0342f6ad7b06dcbaa3e18a475614b61fff262d85cc7433a7ce1d9d3c44",
+      "status": "measured",
+      "primary_environment": "arklib-v4.31.0",
+      "environments": {
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            84743834
+          ],
+          "median_raw_heartbeats": 84743834,
+          "median_heartbeats": 84743,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            95208808
+          ],
+          "median_raw_heartbeats": 95208808,
+          "median_heartbeats": 95208,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:29:38.516848+00:00",
+      "seconds": 54.738,
+      "result_sha256": "9b8f36459d7911416e4546c0f09760f7c85e04acba92cfed6458ddfee6d9757b",
+      "environment_state_sha256": {
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F036",
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "provided_length": 5128,
+      "local_length": 5128,
+      "reference_sha256": "81afc259bab2d5268fc8e907ac6cf301de625c35067e3be1f081cd6c849ccf5c",
+      "status": "measured",
+      "primary_environment": "arklib-v4.31.0",
+      "environments": {
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            106464364
+          ],
+          "median_raw_heartbeats": 106464364,
+          "median_heartbeats": 106464,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            106965202
+          ],
+          "median_raw_heartbeats": 106965202,
+          "median_heartbeats": 106965,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:30:44.438754+00:00",
+      "seconds": 65.907,
+      "result_sha256": "2c40278135e29dbba3881db514be980535ab63dceb2425edca1402ab5b057d84",
+      "environment_state_sha256": {
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F037",
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "provided_length": 2122,
+      "local_length": 2122,
+      "reference_sha256": "4ad1a29e5ef91b442667c9b171deb6f3ed28c96ca9709e59911f7cbbbb16a2f4",
+      "status": "measured",
+      "primary_environment": "arklib-v4.31.0",
+      "environments": {
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            163948549
+          ],
+          "median_raw_heartbeats": 163948549,
+          "median_heartbeats": 163948,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            167280056
+          ],
+          "median_raw_heartbeats": 167280056,
+          "median_heartbeats": 167280,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:31:52.082280+00:00",
+      "seconds": 67.624,
+      "result_sha256": "1ac994cf8899f9ff0663c7d3eed37182fbf0fb6befa602ba5ac825f717812649",
+      "environment_state_sha256": {
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F038",
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "provided_length": 5538,
+      "local_length": 5538,
+      "reference_sha256": "1901501cdd37e5592f25590cce58688d20049ca2c5dce6d23529eb148902e9ed",
+      "status": "measured",
+      "primary_environment": "arklib-v4.31.0",
+      "environments": {
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            62515166
+          ],
+          "median_raw_heartbeats": 62515166,
+          "median_heartbeats": 62515,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            70404926
+          ],
+          "median_raw_heartbeats": 70404926,
+          "median_heartbeats": 70404,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:32:45.346851+00:00",
+      "seconds": 53.245,
+      "result_sha256": "506429dbab05d27c6839eb98cc9e95cf1984fd64128cf3fb80bc56f4bd5a25bb",
+      "environment_state_sha256": {
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F039",
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "provided_length": 1426,
+      "local_length": 1426,
+      "reference_sha256": "e6acb4f7de76b3d013c869c5a72bc86428b2587b4080e59d1b6261d395198dde",
+      "status": "measured",
+      "primary_environment": "arklib-v4.31.0",
+      "environments": {
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            44522173
+          ],
+          "median_raw_heartbeats": 44522173,
+          "median_heartbeats": 44522,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            45724728
+          ],
+          "median_raw_heartbeats": 45724728,
+          "median_heartbeats": 45724,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:33:44.516725+00:00",
+      "seconds": 59.148,
+      "result_sha256": "1ff27165fe90215789224a39125b14c2018653020241289c7f5844cc9d19edef",
+      "environment_state_sha256": {
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F040",
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "provided_length": 1105,
+      "local_length": 1105,
+      "reference_sha256": "17eafc75486d1b6fc4f1bf5f3a9cfc825d675c4d6ae7172548ce46aee5da4b68",
+      "status": "measured",
+      "primary_environment": "arklib-v4.34.0",
+      "environments": {
+        "arklib-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            38031288
+          ],
+          "median_raw_heartbeats": 38031288,
+          "median_heartbeats": 38031,
+          "measurement_count": 1
+        },
+        "arklib-v4.33.1": {
+          "valid": true,
+          "raw_samples": [
+            40063756
+          ],
+          "median_raw_heartbeats": 40063756,
+          "median_heartbeats": 40063,
+          "measurement_count": 1
+        },
+        "arklib-v4.31.0": {
+          "valid": true,
+          "raw_samples": [
+            44381008
+          ],
+          "median_raw_heartbeats": 44381008,
+          "median_heartbeats": 44381,
+          "measurement_count": 1
+        },
+        "arklib-v4.30.0": {
+          "valid": true,
+          "raw_samples": [
+            46665599
+          ],
+          "median_raw_heartbeats": 46665599,
+          "median_heartbeats": 46665,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T12:35:31.920995+00:00",
+      "seconds": 107.385,
+      "result_sha256": "38dd9b562e2eee01c0f9bf40029b27ece724d07577de1e6b8570c8034cd7b83e",
+      "environment_state_sha256": {
+        "arklib-v4.34.0": "0aa8aa3fe156a898f957d8eabe3c3403b255ee2bd43aa60821d775079a67d223",
+        "arklib-v4.33.1": "1ae7ce30d8659b13db9192e05cd54cf3904d497cdcfd50c1387c00c6b5f457ce",
+        "arklib-v4.31.0": "3856b9cb0d12b7c56a6a713166eb31d5dfc7bda848a3b1d9f8de149e8464a5fe",
+        "arklib-v4.30.0": "332834648ef8d545a3b6d8bab94bf0e15e5c3872add185c95979098a2412212a"
+      }
+    },
+    {
+      "id": "F041",
+      "name": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+      "source": "leanpool",
+      "provided_length": 2030,
+      "local_length": 2030,
+      "reference_sha256": "1c3a303594e864c1626c69c7cc1f96b354da68f3048ebe7ba6d2ef7647db9240",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            49681455
+          ],
+          "median_raw_heartbeats": 49681455,
+          "median_heartbeats": 49681,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            54162272
+          ],
+          "median_raw_heartbeats": 54162272,
+          "median_heartbeats": 54162,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:05:51.659123+00:00",
+      "seconds": 111.463,
+      "result_sha256": "4b0868d77f79d2fcaeae6bed611b7dae66f66d680d639fe7b505bbd6b1c95791",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F042",
+      "name": "CoxeterSystem.matsumoto_reduced_aux",
+      "source": "leanpool",
+      "provided_length": 1699,
+      "local_length": 1699,
+      "reference_sha256": "2a9442d902db86229559552b4b8c19626d3e9cf7d9870e717f42be0b9fe5b857",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            3091286
+          ],
+          "median_raw_heartbeats": 3091286,
+          "median_heartbeats": 3091,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            3247359
+          ],
+          "median_raw_heartbeats": 3247359,
+          "median_heartbeats": 3247,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:06:21.929227+00:00",
+      "seconds": 30.241,
+      "result_sha256": "5cfa1f582a27ff4701843a33d9bea2fdb659bf6cd587f8889534784ca8769736",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F043",
+      "name": "Vlasov.transportedIntegral_continuousOn",
+      "source": "leanpool",
+      "provided_length": 2413,
+      "local_length": 2413,
+      "reference_sha256": "d13dc916a9c31834a4ea34a3bec6b162a3c7e709cd5182b5a5ae531e6b92830c",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            9943703
+          ],
+          "median_raw_heartbeats": 9943703,
+          "median_heartbeats": 9943,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            10672287
+          ],
+          "median_raw_heartbeats": 10672287,
+          "median_heartbeats": 10672,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:07:48.226237+00:00",
+      "seconds": 86.275,
+      "result_sha256": "7575b740e8cfe95731512804733154a3ec4d79a47f1ef0c6b1e19e9b270a47a3",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F044",
+      "name": "ZetaZeros.step1_double",
+      "source": "leanpool",
+      "provided_length": 2315,
+      "local_length": 2315,
+      "reference_sha256": "cf20514cf5a94d2b7aef9e6583b55e79617195a21f5a6c8afc1d08dee51eef0c",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            13000252
+          ],
+          "median_raw_heartbeats": 13000252,
+          "median_heartbeats": 13000,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            13790729
+          ],
+          "median_raw_heartbeats": 13790729,
+          "median_heartbeats": 13790,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:08:23.799763+00:00",
+      "seconds": 35.551,
+      "result_sha256": "95c76d3a33ee859a03fe5cf92fc12d1f6f4de57d07c75d66c4c544a5b29915a7",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F045",
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "source": "leanpool",
+      "provided_length": 1756,
+      "local_length": 1756,
+      "reference_sha256": "54b559c330d77a8f38462bf60551d5affb4aca06270eae9197f829bf7d23cd0f",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            53089873
+          ],
+          "median_raw_heartbeats": 53089873,
+          "median_heartbeats": 53089,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            53805764
+          ],
+          "median_raw_heartbeats": 53805764,
+          "median_heartbeats": 53805,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:08:59.993676+00:00",
+      "seconds": 36.17,
+      "result_sha256": "932defda226a9aaefc0b0c2395e2c6ac6ee92217af015e0b1f7780a4fccc3989",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F046",
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+      "source": "leanpool",
+      "provided_length": 1645,
+      "local_length": 1645,
+      "reference_sha256": "0b00e26efe74c4754f2f694508535386d4f90ca8267d0a2f8c59b1060189eff7",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            11484649
+          ],
+          "median_raw_heartbeats": 11484649,
+          "median_heartbeats": 11484,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            11865100
+          ],
+          "median_raw_heartbeats": 11865100,
+          "median_heartbeats": 11865,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:09:56.087835+00:00",
+      "seconds": 56.07,
+      "result_sha256": "b9cc66b6405334129b0e5aa85c94bd4b1daeae6620448b3ad1648cf3fda6b804",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F047",
+      "name": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+      "source": "leanpool",
+      "provided_length": 1509,
+      "local_length": 1509,
+      "reference_sha256": "2ca32f321bffb175e737cce673d0eb0f3e4df2d62bc773ae10f7fb832e7e5b48",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            6122522
+          ],
+          "median_raw_heartbeats": 6122522,
+          "median_heartbeats": 6122,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            6380698
+          ],
+          "median_raw_heartbeats": 6380698,
+          "median_heartbeats": 6380,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:10:33.826460+00:00",
+      "seconds": 37.716,
+      "result_sha256": "226ada5ea1bb2ef2f1c95891348707728715523a6501d2e7a071296a0bbf7a5d",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F048",
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "source": "leanpool",
+      "provided_length": 2879,
+      "local_length": 2879,
+      "reference_sha256": "502416c2b27c38eae98d8f93388c840b99ee0027d4f1718fb821e69a0b541c6c",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            4193446
+          ],
+          "median_raw_heartbeats": 4193446,
+          "median_heartbeats": 4193,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            4730011
+          ],
+          "median_raw_heartbeats": 4730011,
+          "median_heartbeats": 4730,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:10:58.808987+00:00",
+      "seconds": 24.959,
+      "result_sha256": "e8d40ae6c3cb36bb2302b8a486c05cb3a0efb12425cd4847c2e51d7944a566e8",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F049",
+      "name": "FirstOrder.Language.schemaTruthStage_imp",
+      "source": "leanpool",
+      "provided_length": 746,
+      "local_length": 746,
+      "reference_sha256": "e8f17a86908e5806ae6de52e275a1efa68418f69379ba6e1b8043ea49902039a",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            194028210
+          ],
+          "median_raw_heartbeats": 194028210,
+          "median_heartbeats": 194028,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            197885515
+          ],
+          "median_raw_heartbeats": 197885515,
+          "median_heartbeats": 197885,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:12:05.046949+00:00",
+      "seconds": 66.23,
+      "result_sha256": "ec62e5ec914b7fd7cafb27185d838768f15fd3d57fc1b34e312417436cc0ccbd",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F050",
+      "name": "RS.cechCount",
+      "source": "leanpool",
+      "provided_length": 911,
+      "local_length": 911,
+      "reference_sha256": "de8882eec0fa1f98739e146ddce6f79e559905702a7f631cb6dc60322c561aa7",
+      "status": "measured",
+      "primary_environment": "leanpool-v4.35.0-rc3",
+      "environments": {
+        "leanpool-v4.35.0-rc3": {
+          "valid": true,
+          "raw_samples": [
+            157420889
+          ],
+          "median_raw_heartbeats": 157420889,
+          "median_heartbeats": 157420,
+          "measurement_count": 1
+        },
+        "leanpool-v4.34.0": {
+          "valid": true,
+          "raw_samples": [
+            186364554
+          ],
+          "median_raw_heartbeats": 186364554,
+          "median_heartbeats": 186364,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T13:12:40.301038+00:00",
+      "seconds": 35.247,
+      "result_sha256": "2093417657798e97cec5493d8a58c4007fd05df22ee15917d640528d6de7e0ef",
+      "environment_state_sha256": {
+        "leanpool-v4.35.0-rc3": "c207e1829f6e74e61bae9ab68f12e9060dc3e781b0bd65e8433d106e5a06a767",
+        "leanpool-v4.34.0": "defe34285b8de8f8171f47fb19be6960d438c3f7ca22bfcce9272e5c3593ecb2"
+      }
+    },
+    {
+      "id": "F051",
+      "name": "putnam_1964_a4",
+      "source": "putnambench",
+      "provided_length": 1769,
+      "local_length": 1769,
+      "reference_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            111471011
+          ],
+          "median_raw_heartbeats": 111471011,
+          "median_heartbeats": 111471,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            115677592
+          ],
+          "median_raw_heartbeats": 115677592,
+          "median_heartbeats": 115677,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T14:32:43.934612+00:00",
+      "seconds": 303.935,
+      "result_sha256": "f85be436bc147c7bce37fa8301ff4aaf850f5123454e23cd2e4202f83fafb01e",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F052",
+      "name": "putnam_1995_a3",
+      "source": "putnambench",
+      "provided_length": 4085,
+      "local_length": 4085,
+      "reference_sha256": "56dcc03e9f1d22a0655aeb46aa929c75efddb21f2fa73d7504b648792b6e8329",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            14127586
+          ],
+          "median_raw_heartbeats": 14127586,
+          "median_heartbeats": 14127,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            14303829
+          ],
+          "median_raw_heartbeats": 14303829,
+          "median_heartbeats": 14303,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T14:36:37.726906+00:00",
+      "seconds": 233.743,
+      "result_sha256": "fc442a953c32335cbc244fd9bfaca1feeeb876a0cf0d92c8f246ec07c73f5c4e",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F053",
+      "name": "putnam_1988_a2",
+      "source": "putnambench",
+      "provided_length": 2162,
+      "local_length": 2161,
+      "reference_sha256": "7edb936f360026703509e49c688e19198bb7ffc47fce507061a752b0c1c28d37",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            58090725
+          ],
+          "median_raw_heartbeats": 58090725,
+          "median_heartbeats": 58090,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            60689837
+          ],
+          "median_raw_heartbeats": 60689837,
+          "median_heartbeats": 60689,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T14:40:34.480528+00:00",
+      "seconds": 236.724,
+      "result_sha256": "6f32915b519b40e0f43386df104bd7acab6fa7fb0874d62707e4a023a515aaf0",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F054",
+      "name": "putnam_2001_b1",
+      "source": "putnambench",
+      "provided_length": 3178,
+      "local_length": 3178,
+      "reference_sha256": "a1c3112e1b7b1d282cf20b9eb593ae4beb94cf111ce9c66291282edcc622311d",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            50251248
+          ],
+          "median_raw_heartbeats": 50251248,
+          "median_heartbeats": 50251,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            50745938
+          ],
+          "median_raw_heartbeats": 50745938,
+          "median_heartbeats": 50745,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T14:44:37.327943+00:00",
+      "seconds": 242.817,
+      "result_sha256": "6bea47e6ad9f9de4e0ac6e8e49662f27342c20c9f62d1d258ceb0462b483bd31",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F055",
+      "name": "putnam_1964_b2",
+      "source": "putnambench",
+      "provided_length": 1754,
+      "local_length": 1754,
+      "reference_sha256": "16f0c2b3e008d0002b83f9550e553fb9acd22cbb4daf5ec813ecd68282738892",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.26.0",
+      "environments": {
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            134489542
+          ],
+          "median_raw_heartbeats": 134489542,
+          "median_heartbeats": 134489,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T14:46:28.849690+00:00",
+      "seconds": 111.482,
+      "result_sha256": "24108cb9b2df93460040b2473953c24b7967afd51fc64b2aed2be381e3fc284f",
+      "environment_state_sha256": {
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F056",
+      "name": "putnam_2007_a1",
+      "source": "putnambench",
+      "provided_length": 5464,
+      "local_length": 5463,
+      "reference_sha256": "1f1ed2d17fe9d826122e560d362c3e3bc1e663f8c221fe72c91e6e0b3cd70d59",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            528106440
+          ],
+          "median_raw_heartbeats": 528106440,
+          "median_heartbeats": 528106,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            551645096
+          ],
+          "median_raw_heartbeats": 551645096,
+          "median_heartbeats": 551645,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T14:50:59.554696+00:00",
+      "seconds": 270.691,
+      "result_sha256": "bd8afa330f76e185b30eb3f31586b5e6cbafe06906284a5fe9b8fe0145c622cc",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F057",
+      "name": "putnam_1970_b5",
+      "source": "putnambench",
+      "provided_length": 2134,
+      "local_length": 2134,
+      "reference_sha256": "98f8c3392204185d91a6da33134262ce2f20483eb68ee1f8603546dc3e0ac925",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            288824885
+          ],
+          "median_raw_heartbeats": 288824885,
+          "median_heartbeats": 288824,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            299472901
+          ],
+          "median_raw_heartbeats": 299472901,
+          "median_heartbeats": 299472,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T14:55:09.846735+00:00",
+      "seconds": 250.263,
+      "result_sha256": "67f60c1ad6f062e256f8613f5b915a1af23122de7c5d0b284bc06261e0397784",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F058",
+      "name": "putnam_1968_a1",
+      "source": "putnambench",
+      "provided_length": 1084,
+      "local_length": 1084,
+      "reference_sha256": "6891b2eb59e599021de5242ee92284ac579d1b6f8c77f3b61035071cbb74cdcb",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            60254798
+          ],
+          "median_raw_heartbeats": 60254798,
+          "median_heartbeats": 60254,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            63206600
+          ],
+          "median_raw_heartbeats": 63206600,
+          "median_heartbeats": 63206,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T14:59:17.005440+00:00",
+      "seconds": 247.128,
+      "result_sha256": "c87c68fcd6d64d57798f2d0dd28a090917222d48c40fd08acf365d233c43367c",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F059",
+      "name": "putnam_1991_b1",
+      "source": "putnambench",
+      "provided_length": 3313,
+      "local_length": 3313,
+      "reference_sha256": "7096b03c290ab3a35e17fd18e5e1544d24662cfd5198849dac44d5650ca38d5e",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            342798486
+          ],
+          "median_raw_heartbeats": 342798486,
+          "median_heartbeats": 342798,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            351967827
+          ],
+          "median_raw_heartbeats": 351967827,
+          "median_heartbeats": 351967,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T15:03:31.939871+00:00",
+      "seconds": 254.919,
+      "result_sha256": "d22e849222fc03f8c5519c9cedd514e4348001373b17ad64e4411c852298e8d1",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    },
+    {
+      "id": "F060",
+      "name": "putnam_2019_a1",
+      "source": "putnambench",
+      "provided_length": 2381,
+      "local_length": 2381,
+      "reference_sha256": "3031af87d604126642e540e391bfc0549f127ce45ddc8f2c28e054965fe3f893",
+      "status": "measured",
+      "primary_environment": "putnambench-v4.27.0",
+      "environments": {
+        "putnambench-v4.27.0": {
+          "valid": true,
+          "raw_samples": [
+            3223874343
+          ],
+          "median_raw_heartbeats": 3223874343,
+          "median_heartbeats": 3223874,
+          "measurement_count": 1
+        },
+        "putnambench-v4.26.0": {
+          "valid": true,
+          "raw_samples": [
+            3448431931
+          ],
+          "median_raw_heartbeats": 3448431931,
+          "median_heartbeats": 3448431,
+          "measurement_count": 1
+        }
+      },
+      "measured_at": "2026-11-02T15:10:16.088908+00:00",
+      "seconds": 404.121,
+      "result_sha256": "ec0ab78a22783695c7697fba0689621c66626aec5173186493484e9035a2ff07",
+      "environment_state_sha256": {
+        "putnambench-v4.27.0": "6da9c850a83e9fb75e9d56eff38edd388f824ce7154aba3458e95c31b72fc871",
+        "putnambench-v4.26.0": "dec6ef1fcce24ffe67575e1e039c844d5925cb6ed86e2d85e8e104e6bd121a37"
+      }
+    }
+  ]
+}
