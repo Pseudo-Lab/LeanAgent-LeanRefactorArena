@@ -255,6 +255,10 @@ class Hints(unittest.TestCase):
         self.assertEqual(combined.split("<original_context>\n", 1)[1], "ctx\n</original_context>\n")
         self.assertEqual(routing.split_addendum(combined), (prompt, addendum))
         self.assertEqual(routing.split_addendum(prompt), (prompt, ""))
+        # The driver hook inserts `addendum.rstrip("\n") + "\n"` before the marker: the same bytes.
+        head, tail = prompt.split("<original_context>\n", 1)
+        self.assertEqual(head + addendum.rstrip("\n") + "\n" + "<original_context>\n" + tail, combined)
+        self.assertNotIn("original_context>", addendum)
         self.assertEqual(routing.insert_addendum(prompt, ""), prompt)
         with self.assertRaises(ValueError):
             routing.insert_addendum(combined, addendum)
