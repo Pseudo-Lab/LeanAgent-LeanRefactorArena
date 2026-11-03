@@ -554,7 +554,7 @@ def seal_inputs(root, rows):
             authorization.update(provider=FINAL60_PROVIDER, api_endpoint=wire.ENDPOINT,
                                  budget_cost_basis=FINAL60_COST_BASIS, final60_schema=FINAL60_SCHEMA,
                                  cap_usd=settings[0]["cap_usd"], prior_cost_usd=settings[0]["prior_cost_usd"],
-                                 cost_ledger=settings[0].get("cost_ledger"),
+                                 cost_ledger=settings[0].get("cost_ledger"), dry_run=bool(settings[0].get("dry_run")),
                                  compiler_slots=compiler_parallelism(root), max_lean_parallel=compiler_parallelism(root),
                                  no_automatic_retries=False,
                                  retry_policy="unbilled HTTP errors only, recorded as $0 sub-attempts; billed or unknown outcomes are never re-sent")
@@ -875,13 +875,33 @@ def final60_settle(root, row, step, bound, normalized, result, model):
     return normalized
 
 
+def final60_dry_responder(body):
+    """Dry-run model: searches, then re-proposes the visible original with a marker comment."""
+    packet = json.loads(body["messages"][-1]["content"])
+    reference = packet.get("problem", {}).get("reference")
+    statement = packet.get("problem", {}).get("statement", "")
+    if reference and reference.startswith(statement) and packet.get("step", 1) % 3 == 0:
+        proof = reference[len(statement):].strip()
+        proof = proof[2:].strip() if proof.startswith(":=") else proof
+        return json.dumps({"action": "propose", "parent_id": "c000", "strategy": "dry-run replay",
+                           "proof": proof + "\n  -- dry run " + str(packet.get("step"))})
+    return json.dumps({"action": "search", "query": statement.split(":", 1)[0][-60:] or "theorem"})
+
+
 def final60_dispatch(root, row, step, body, model, step_dir):
     """final60 hook 2: reserve in ledger.json, then money.dispatch_guarded (SQLite mirror)."""
     from lean_agent.final60 import catalog, money
     from lean_agent.final60.ledger import BudgetExceeded
     root = Path(root)
     wire = transport_for(model)
-    key = os.environ.get("OPENROUTER_API_KEY")
+    options = {}
+    if a.read(root / "authorization.json").get("dry_run"):
+        # Sealed dry-run roots only ever use the no-network mock; assembly never submits them.
+        from lean_agent.final60 import transport as router
+        options["transport"] = router.MockOpenRouter(final60_dry_responder)
+        key = "dry-run"
+    else:
+        key = os.environ.get("OPENROUTER_API_KEY")
     if not key:
         raise ValueError("Missing explicitly configured OpenRouter credentials")
     bound = wire.request_cost(body)
@@ -906,7 +926,7 @@ def final60_dispatch(root, row, step, body, model, step_dir):
         try:
             result = money.dispatch_guarded(body, catalog.spec_for_model(model), ledger=final60_ledger(root),
                                             problem=f"F{row:03}", attempt_id=attempt, run_root=root,
-                                            step_dir=step_dir, key=key)
+                                            step_dir=step_dir, key=key, **options)
         except BudgetExceeded as exc:
             final60_release(root, attempt)
             raise Final60Stop("ledger_budget_exceeded", str(exc)[:500]) from None
