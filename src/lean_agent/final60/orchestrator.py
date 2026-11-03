@@ -520,7 +520,15 @@ def status(run_dir):
             entry["supervisor"] = read_json(control)
         rows.append(entry)
     spend = [Decimal(entry["spent_usd"]) for entry in rows]
+    done = sorted(datetime.fromisoformat(entry["published_at"]) for entry in rows if entry.get("published_at"))
+    eta = None
+    if len(done) >= 2 and done[-1] > done[0]:
+        # Estimate only: recent publication rate extrapolated to the rows not yet terminal.
+        rate = (len(done) - 1) / (done[-1] - done[0]).total_seconds()
+        remaining = sum(entry["status"] not in TERMINAL for entry in rows)
+        eta = (datetime.now(timezone.utc) + timedelta(seconds=remaining / rate)).isoformat() if remaining else None
     value = {"at": now_iso(), "run_dir": str(layout.run_dir), "frozen_code_ok": not frozen_errors,
+             "eta_estimate": eta,
              "frozen_errors": frozen_errors, "rows": rows,
              "counts": {name: sum(entry["status"] == name for entry in rows)
                         for name in sorted({entry["status"] for entry in rows})},

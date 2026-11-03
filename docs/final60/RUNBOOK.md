@@ -54,6 +54,11 @@ PYTHONPATH=src $PY -m lean_agent.final60 plan --run-dir "$RUN" \
     --non-openrouter "<codex/team run trees>" ...
 ```
 
+`--prepared-repo` names the checkout whose `configs/final-environments.local.json` registry is
+newest (the environment stage updates its own checkout); readiness is read from it, while Lean
+always runs from this checkout's `sources/`. Pass the same `--prepared-repo` to `run`.
+Row workers prepend `<repo>/sources/final/bin` (the shipped bwrap) to `PATH` when it exists.
+
 Writes `plan.json` (coverage per row, routes, priority order), `non-openrouter.jsonl` (every
 known non-OpenRouter proof, flattened from nested dashboard JSON, `.lean` files and run states;
 critic A3) and an all-original `submission.jsonl` with both checks. `same_sources: false` in the
