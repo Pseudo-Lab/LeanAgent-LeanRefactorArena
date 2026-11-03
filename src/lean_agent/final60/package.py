@@ -16,7 +16,9 @@ import zipfile
 
 EXCLUDED = re.compile(r"(^|/)(declaration-indexes|quarantine|competitors?|competitor-artifacts|third-party-indexes)(/|$)"
                       r"|hrushi|lean-refactor-arena-indexes|vexorium|coco-refactor", re.IGNORECASE)
-SECRET = re.compile(rb"sk-or-v1-[0-9a-f]{16,}|OPENROUTER_API_KEY\s*=\s*['\"]?sk-|OPENAI_API_KEY\s*=\s*['\"]?sk-", re.IGNORECASE)
+# Real key shapes only (OpenRouter sk-or-v1-<64 hex>, OpenAI sk-...): a hit names the file; leave a
+# fixture-only file out with --exclude rather than packing it.
+SECRET = re.compile(rb"sk-or-v1-[0-9a-f]{32,}|sk-(?:proj-)?[A-Za-z0-9_-]{40,}")
 README = "README.md"
 
 
