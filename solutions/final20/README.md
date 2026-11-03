@@ -1,3 +1,7 @@
+# Current best-record archive
+
+Updated with 8 verified improvements from the 2026-11-03 scout→merger run. Selected 20 mean **76.863606**; this combines runs and is **not a single submitted harness score**. The new harness alone scores **75.124957**. See [run analysis and provenance](../../experiments/main-scout20/README.md). The historical account below describes the prior export.
+
 # Final20 verified proof selection
 
 Contains F001–F010 (Strata) and F041–F050 (LeanPool) from final dataset
@@ -5,7 +9,7 @@ Contains F001–F010 (Strata) and F041–F050 (LeanPool) from final dataset
 Each `.lean` file is the exact verified replacement declaration, **not a standalone module**.
 `submission.jsonl` is a local export only; it has not been submitted to the competition.
 
-The $3 run completed all20 problems in approximately 6h28m, using 2–3 concurrent
+The $3 run completed all 20 problems in approximately 6h28m, using 2–3 concurrent
 problem workers, two shared API slots and one shared Lean compiler slot. The
 memory manager allowed up to four workers but did not find conditions for four.
 All 2,141 API attempts settled. Usage × frozen list-price cost is **$55.7459113**
@@ -30,7 +34,7 @@ paired baseline and candidate samples, current-run costs and comparison scores.
 Current and historical frozen implementation hashes are recorded separately.
 Private API transcripts and machine paths are excluded.
 
-Before export, the current harness receipt audit passed for all20 rows. The
+Before export, the current harness receipt audit passed for all 20 rows. The
 exporter independently checks selected source hashes, saved compiler sources and
 logs, complete required-version results, baseline compatibility, unchanged full
 content fingerprints at both run boundaries, and **three fresh primary-version
@@ -97,6 +101,6 @@ are not a substitute for running Lean.
 | F050 | 911 → 315 | 157,420,890 → 7,264,137 | 86.94 | $3 run |
 
 The dashboard preserves the original60 baseline dataset and warmup results.
-Its default is the competition-style combined score: five of these20 tiles are
+Its default is the competition-style combined score: five of these 20 tiles are
 red (≤60), fifteen green (>60); the other40 remain gray without invented results.
-The displayed74.47 is the mean of these20, not an overall60 score.
+The displayed74.47 is the mean of these 20, not an overall60 score.

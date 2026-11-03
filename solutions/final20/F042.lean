@@ -4,54 +4,44 @@ theorem matsumoto_reduced_aux [MatsumotoCondition cs] (p : ℕ) (l l' : List B)
   ∃ bms : List (cs.BraidMove), cs.applyBraidMoveSequence bms l = l' := by
   induction p generalizing l l' with
   | zero =>
-    obtain rfl := List.length_eq_zero_iff.mp len_l_eq_p
-    obtain rfl := List.length_eq_zero_iff.mp len_l'_eq_p
+    rw [List.length_eq_zero_iff.mp len_l_eq_p, List.length_eq_zero_iff.mp len_l'_eq_p]
     exact ⟨[], rfl⟩
   | succ p ih =>
-    have link {a : B} {x y : List B}
-        (hx : cs.IsReduced (a :: x)) (hy : cs.IsReduced (a :: y))
-        (he : π (a :: x) = π (a :: y))
-        (hl : x.length = p ∨ y.length = p) :
-        ∃ bms, cs.applyBraidMoveSequence bms (a :: x) = a :: y := by
-      have hxy := Nat.succ.inj (cs.eq_length_of_isReduced (a :: x) (a :: y) he hx hy)
-      have hxlen : x.length = p := hl.elim id (fun h => hxy.trans h)
-      exact cs.matsumoto_reduced_inductionStep_of_firstLetterEq p x y a
-        hxlen (hxy.symm.trans hxlen) he hx hy ih
-    rcases cons_of_length_succ l len_l_eq_p with ⟨i, x, rfl, hxlen⟩
-    rcases cons_of_length_succ l' len_l'_eq_p with ⟨j, y, rfl, hylen⟩
+    obtain ⟨i, u, rfl, hu⟩ := cons_of_length_succ l len_l_eq_p
+    obtain ⟨j, v, rfl, hv⟩ := cons_of_length_succ l' len_l'_eq_p
+    have step := fun a x y hx hy =>
+      cs.matsumoto_reduced_inductionStep_of_firstLetterEq p x y a
+        (Nat.succ.inj hx) (Nat.succ.inj hy) (ih := ih)
     by_cases hij : i = j
     · subst j
-      exact cs.matsumoto_reduced_inductionStep_of_firstLetterEq p x y i
-        hxlen hylen h_eq l_reduced l'_reduced ih
-    · have bridge {u v a b : List B} :
-          π (i :: x) = π u → π u = π v →
-          cs.IsReduced u → cs.IsReduced v →
-          (∃ bms, cs.applyBraidMoveSequence bms u = v) →
-          u = i :: a → v = j :: b →
-          ∃ bms, cs.applyBraidMoveSequence bms (i :: x) = j :: y := by
-        rintro hu hs hru hrv hmv rfl rfl
-        exact cs.concatenate_braidMove_sequences _ _ _
-          (link l_reduced hru hu (Or.inl hxlen))
-          (cs.concatenate_braidMove_sequences _ _ _ hmv
-            (link hrv l'_reduced (hs.symm.trans (hu.symm.trans h_eq)) (Or.inr hylen)))
-      obtain ⟨m, hm⟩ : ∃ m : ℕ, M i j = m + 1 :=
-        ⟨M i j - 1, (Nat.sub_add_cancel (MatsumotoCondition.one_le_M cs i j)).symm⟩
-      obtain ⟨t, hu, hru⟩ := cs.prefix_braidWord x y i j hij h_eq l_reduced l'_reduced
-      have hs : π (braidWord M i j ++ t) = π (braidWord M j i ++ t) := by
-        rw [wordProd_append, wordProd_append, cs.wordProd_braidWord_eq i j]
-      have hrv : cs.IsReduced (braidWord M j i ++ t) :=
-        cs.isReduced_of_eq_length _ _
-          (by simp only [List.length_append, length_alternatingWord]; rw [M.symmetric]) hs hru
-      have move (a b : B) : ∃ bms, cs.applyBraidMoveSequence bms
-          (braidWord M a b ++ t) = braidWord M b a ++ t := by
-        refine ⟨[BraidMove.mk a b 0], ?_⟩
-        change cs.applyBraidMove (BraidMove.mk a b 0) (braidWord M a b ++ t) = _
-        rw [applyBraidMove, ← length_alternatingWord a b (M a b),
-          List.take_left, if_pos rfl, List.drop_left]
-      by_cases he : Even m
-      · exact bridge (hu.trans hs) hs.symm hrv hru (move j i)
-          (by rw [braidWord, M.symmetric j i, hm, alternatingWord_succ', if_pos he, List.cons_append])
-          (by rw [braidWord, hm, alternatingWord_succ', if_pos he, List.cons_append])
-      · exact bridge hu hs hru hrv (move i j)
-          (by rw [braidWord, hm, alternatingWord_succ', if_neg he, List.cons_append])
-          (by rw [braidWord, M.symmetric j i, hm, alternatingWord_succ', if_neg he, List.cons_append])
+      exact step i u v len_l_eq_p len_l'_eq_p h_eq l_reduced l'_reduced
+    · have bridge (a b : B) (t x y : List B)
+          (ht : π (i :: u) = π (braidWord M a b ++ t))
+          (hr : cs.IsReduced (braidWord M a b ++ t))
+          (hx : braidWord M a b ++ t = i :: x)
+          (hy : braidWord M b a ++ t = j :: y) :
+          ∃ bms, cs.applyBraidMoveSequence bms (i :: u) = j :: v := by
+        have he : π (braidWord M a b ++ t) = π (braidWord M b a ++ t) := by
+          rw [wordProd_append, wordProd_append, cs.wordProd_braidWord_eq a b]
+        have hs := cs.isReduced_of_eq_length _ _
+          (by simp only [List.length_append, length_alternatingWord, M.symmetric a b]) he hr
+        simp only [hx, hy] at ht hr he hs
+        have la := (cs.eq_length_of_isReduced _ _ ht l_reduced hr).symm.trans len_l_eq_p
+        have hb := he.symm.trans (ht.symm.trans h_eq)
+        have lb := (cs.eq_length_of_isReduced _ _ hb hs l'_reduced).trans len_l'_eq_p
+        obtain ⟨bs, hs₁⟩ := step i u x len_l_eq_p la ht l_reduced hr
+        obtain ⟨bs', hs₂⟩ := step j y v lb len_l'_eq_p hb hs l'_reduced
+        refine ⟨bs' ++ BraidMove.mk a b 0 :: bs, ?_⟩
+        rw [apply_braidMove_sequence_append, apply_braidMoveSequence_cons, hs₁, ← hx,
+          applyBraidMove, ← length_alternatingWord a b (M a b), List.take_left,
+          if_pos rfl, List.drop_left, hy, hs₂]
+      obtain ⟨n, hn⟩ : ∃ n, M i j = n + 1 :=
+        ⟨M i j - 1, by simp [MatsumotoCondition.one_le_M cs i j]⟩
+      have hn' := (M.symmetric j i).trans hn
+      by_cases hnEven : Even n
+      · obtain ⟨t, ht, hr⟩ := cs.prefix_braidWord v u j i (Ne.symm hij) h_eq.symm l'_reduced l_reduced
+        apply bridge j i t (alternatingWord j i n ++ t) (alternatingWord i j n ++ t) (h_eq.trans ht) hr <;>
+          simp only [braidWord, hn, hn', alternatingWord_succ', if_pos hnEven, List.cons_append]
+      · obtain ⟨t, ht, hr⟩ := cs.prefix_braidWord u v i j hij h_eq l_reduced l'_reduced
+        apply bridge i j t (alternatingWord i j n ++ t) (alternatingWord j i n ++ t) ht hr <;>
+          simp only [braidWord, hn, hn', alternatingWord_succ', if_neg hnEven, List.cons_append]

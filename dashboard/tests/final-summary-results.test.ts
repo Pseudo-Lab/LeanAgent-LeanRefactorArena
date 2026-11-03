@@ -15,7 +15,7 @@ test('40 disjoint rows preserve scores and missing samples without a whole-set s
  assert.equal(combined.problems.length,40);assert.equal(snapshot.problems.filter(p=>p.candidate).length,40);
  assert.equal('auditPassed' in combined,false);assert.equal('apiCalls' in combined,false);
  assert.equal(aggregate(snapshot.problems,'combined').value,null);
- assert.ok(Math.abs(combined.problems.reduce((s,p)=>s+p.score,0)/40-64.08158686687594)<1e-9);
+ assert.ok(Math.abs(combined.problems.reduce((s,p)=>s+p.score,0)/40-65.27889040403838)<1e-9);
  for(const row of second){
   assert.equal(row.baseline.raw_samples,null);assert.equal(row.candidate.raw_samples,null);
   assert.ok(row.versions.every(v=>v.fingerprint===null));
