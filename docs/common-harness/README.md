@@ -1,5 +1,8 @@
 # 공통 하네스 실행 기반
 
+선택적 Strategy Bank와 free/guided 교대 설정·실행·추적은
+[`../strategy-bank.md`](../strategy-bank.md)를 따른다.
+
 prompt·환경 캐시·탐색 제어·탐색 정책·평가 상태 관리와 scout→merger·환율 피드백은
 PR #46으로 main에 반영했다. PR #44의 MD 스킬·도구 참고도 main에 반영했다.
 이 기반 위에 [native AutoSolver](autosolver.md)를 선택 설정으로 연결한다.

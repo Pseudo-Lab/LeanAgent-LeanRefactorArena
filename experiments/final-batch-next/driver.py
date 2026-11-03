@@ -41,6 +41,7 @@ DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22, "progress
 # Explicit None selects the single-context path (--no-portfolio) and
 # preserves legacy single-context inputs during validation.
 UNSPECIFIED_PORTFOLIO = object()
+UNSPECIFIED_STRATEGY = object()
 
 
 def now():
@@ -232,7 +233,8 @@ def evaluate_automatic(ev, code, problem, destination):
 INPUT_FILES = ("problem.json", "config.json", "action-corpus.json", "context-metadata.json", "prompt.txt", "warm-start.json", "prompt-policy.json")
 
 
-def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_settings=None, *, strict_cap=False):
+def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_settings=None,
+                  strategy_settings=None, *, strict_cap=False):
     if portfolio_settings is UNSPECIFIED_PORTFOLIO:
         portfolio_settings = DEFAULT_PORTFOLIO
     model = {**MODEL, "max_tokens": 16384 if len(problem["reference"]) > 12000 else 8192}
@@ -250,6 +252,9 @@ def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_
     if autosolver_settings is not None:
         h.autosolver.validate(autosolver_settings)
         config["agent"]["autosolver"] = dict(autosolver_settings)
+    if strategy_settings is not None:
+        h.strategy_bank.validate_settings(strategy_settings)
+        config["agent"]["strategy_bank"] = json.loads(a.canonical(strategy_settings))
     return config
 
 
@@ -267,7 +272,7 @@ def validate_inputs(root, row):
     if policy != prompt_variants.policy(**policy):
         raise ValueError("Invalid frozen prompt policy")
     expected = configuration(problem, config.get("agent", {}).get("portfolio"), config.get("agent", {}).get("autosolver"),
-                             strict_cap=policy["strict_cap"])
+                             config.get("agent", {}).get("strategy_bank"), strict_cap=policy["strict_cap"])
     timeout = config.get("model", {}).get("timeout_seconds")
     if timeout not in (300, 900):
         raise ValueError(f"F{row:03} unexpected prelaunch timeout")
@@ -304,8 +309,8 @@ def requested_prompt_policy(saved, variant, strict_cap):
                                   defaults["strict_cap"] if strict_cap is None else strict_cap)
 
 
-def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_settings=None, *,
-                   warm_start_manifest=None, cold_start=False,
+def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_settings=None,
+                   strategy_settings=UNSPECIFIED_STRATEGY, *, warm_start_manifest=None, cold_start=False,
                    prompt_variant=None, strict_cap=None):
     """Prepare disjoint row inputs only; no authorization, API ledger or seal."""
     if workers not in (1, 2):
@@ -346,6 +351,8 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
                     raise ValueError("Existing AutoSolver policy differs; use a fresh batch root")
                 if (warm_start_manifest is not None or cold_start) and a.read(inputs / "warm-start.json") != warm_start.snapshot(manifest, problem, reason=seed_reason):
                     raise ValueError("Existing warm-start differs; use a fresh batch root")
+                if strategy_settings is not UNSPECIFIED_STRATEGY and a.read(inputs / "config.json")["agent"].get("strategy_bank") != strategy_settings:
+                    raise ValueError("Existing inputs have a different Bank; use a fresh batch root")
                 return {"row": row, "input_status": "reused"}
             inputs.mkdir(parents=True, exist_ok=True)
             problem = ev.load_problem(row)
@@ -359,7 +366,9 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
                 raise ValueError("Initial context exceeds bounded 40000 characters")
             atomic(inputs / "problem.json", problem)
             atomic(inputs / "warm-start.json", warm_start.snapshot(manifest, problem, reason=seed_reason))
-            atomic(inputs / "config.json", configuration(problem, portfolio_settings, autosolver_settings, strict_cap=new_policy["strict_cap"]))
+            atomic(inputs / "config.json", configuration(problem, portfolio_settings, autosolver_settings,
+                   None if strategy_settings is UNSPECIFIED_STRATEGY else strategy_settings,
+                   strict_cap=new_policy["strict_cap"]))
             atomic(inputs / "prompt-policy.json", new_policy)
             atomic(inputs / "action-corpus.json", corpus)
             atomic(inputs / "context-metadata.json", context.get("metadata", {}))
@@ -420,8 +429,8 @@ def seal_inputs(root, rows):
     print(json.dumps({"prepared": str(root), "rows": rows, "api_calls": 0}), flush=True)
 
 
-def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_settings=None, *,
-            warm_start_manifest=None, cold_start=False,
+def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_settings=None,
+            strategy_settings=UNSPECIFIED_STRATEGY, *, warm_start_manifest=None, cold_start=False,
             prompt_variant=None, strict_cap=None):
     require_policy(root)
     if (Path(root) / "frozen.json").exists():
@@ -441,10 +450,15 @@ def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO, aut
                 config = a.read(folder(root, row) / "input/config.json")
                 if config.get("agent", {}).get("portfolio") != portfolio_settings:
                     raise ValueError("Sealed policy differs; use a fresh batch root")
+        if strategy_settings is not UNSPECIFIED_STRATEGY:
+            for row in rows:
+                config = a.read(folder(root, row) / "input/config.json")
+                if config.get("agent", {}).get("strategy_bank") != strategy_settings:
+                    raise ValueError("Sealed Bank differs; use a fresh batch root")
         seal_inputs(root, rows)
         return
     prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings,
-                   autosolver_settings=autosolver_settings,
+                   autosolver_settings=autosolver_settings, strategy_settings=strategy_settings,
                    warm_start_manifest=warm_start_manifest, cold_start=cold_start,
                    prompt_variant=prompt_variant, strict_cap=strict_cap)
     seal_inputs(root, rows)
@@ -956,6 +970,11 @@ def main():
     parser.add_argument("--cold-start", action="store_true", help="Explicitly start from originals for a comparison run")
     parser.add_argument("--prompt-variant", choices=tuple(prompt_variants.VARIANTS), default=None)
     parser.add_argument("--strict-cap", action="store_true", default=None, help="Reserve every next request within the $1 cap")
+    parser.add_argument("--strategy-bank", type=Path,
+                        help="Freeze an optional Bank JSON in new prepare/inputs configurations")
+    parser.add_argument("--strategy-top-k", type=int, choices=(1, 2, 3), default=None)
+    parser.add_argument("--strategy-contextual", action="store_true")
+    parser.add_argument("--strategy-search-policy", choices=("guided", "alternating-v1"), default=None)
     args = parser.parse_args()
     if args.autosolver and args.command not in ("prepare", "inputs"):
         parser.error("--autosolver is a frozen prepare/inputs setting; use a fresh batch root")
@@ -963,6 +982,15 @@ def main():
         parser.error("Prompt/budget policy flags apply only to prepare/inputs")
     if (args.warm_start_manifest or args.cold_start) and args.command not in ("prepare", "inputs"):
         parser.error("Warm-start options apply only to prepare/inputs on a fresh root")
+    bank_settings = UNSPECIFIED_STRATEGY
+    if args.strategy_bank or args.strategy_top_k is not None or args.strategy_contextual or args.strategy_search_policy:
+        if args.command not in ("prepare", "inputs") or args.strategy_bank is None:
+            parser.error("Bank settings require --strategy-bank and fresh prepare/inputs")
+        bank_settings = {"bank": a.read(args.strategy_bank),
+                         "top_k": 3 if args.strategy_top_k is None else args.strategy_top_k,
+                         "contextual": args.strategy_contextual,
+                         "search_policy": args.strategy_search_policy or "guided"}
+        h.strategy_bank.validate_settings(bank_settings)
     settings = UNSPECIFIED_PORTFOLIO
     custom_quotas = (args.scout_evaluations is not None or args.merger_evaluations is not None
                      or args.rounds is not None or args.merger_until_budget)
@@ -987,12 +1015,12 @@ def main():
     rows = rows_from(args)
     if args.command == "prepare":
         prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings,
-                autosolver_settings={} if args.autosolver else None,
+                autosolver_settings={} if args.autosolver else None, strategy_settings=bank_settings,
                 warm_start_manifest=args.warm_start_manifest, cold_start=args.cold_start,
                 prompt_variant=args.prompt_variant, strict_cap=args.strict_cap)
     elif args.command == "inputs":
         prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings,
-                       autosolver_settings={} if args.autosolver else None,
+                       autosolver_settings={} if args.autosolver else None, strategy_settings=bank_settings,
                        warm_start_manifest=args.warm_start_manifest, cold_start=args.cold_start,
                        prompt_variant=args.prompt_variant, strict_cap=args.strict_cap)
     elif args.command == "seal":

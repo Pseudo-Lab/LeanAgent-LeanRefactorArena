@@ -1,0 +1,448 @@
+{
+  "all_required_version_combinations": 4,
+  "bank": {
+    "file": "configs/strategy-bank/team-v1.json",
+    "file_sha256": "bf3197e116088eb8d85c50d8b09f159747653f8a09ecb19b971b38e2e5da8e45",
+    "scope": "final-adaptation",
+    "strict_leave_one_out": false
+  },
+  "base_revision": "a517db26b8eee1b58f30810dca5d66000c810748",
+  "cases": [
+    {
+      "all_required_versions_passed": true,
+      "fixture_origin": "Existing PR #69/#71 replacement proof body, with a distinct comment suffix for each candidate; no new proof generation.",
+      "fixture_responses": 8,
+      "name": "putnam_1964_a4",
+      "record_replay_passed": true,
+      "reference_matches_official": true,
+      "reference_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669",
+      "request_modes": [
+        "withheld",
+        "withheld",
+        "free",
+        "guided",
+        "free",
+        "guided",
+        "free",
+        "guided"
+      ],
+      "requests": [
+        {
+          "application_status": "not_established",
+          "mode": "withheld",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "001",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "withheld",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "002",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "free",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "003",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "guided",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "004",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "free",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "005",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "guided",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "006",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "free",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "007",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "guided",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "008",
+          "verified_primary": true
+        }
+      ],
+      "run_manifest_sha256": "a434995a0faa8147a88a8bf4c83f08f4a44b018d0f338f51eb637f3ebb899533",
+      "runtime_snapshot_matches_integrated_source": true,
+      "selected_sha256": "0ec1bbf61f10d9fd68104bafcc45b24b87c5fb066b6cee2f9a3de00206c9634a",
+      "selected_tokens": 186,
+      "source": "putnambench",
+      "standalone_frozen_code_replay_passed": true,
+      "statement_matches_official": true,
+      "statement_sha256": "5442bd74af96c3d4168989c8bb594450efbd900f8972cea98386c602dc69eff5",
+      "status": "completed",
+      "stop_reason": "portfolio_complete",
+      "versions": [
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "compiler": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+          "compiler_sha256": "2974847fff2e2621502841f4c2dbac4035b4847d6060a4f2087cbc0d04005e37",
+          "evidence": [
+            {
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "returncode": 0,
+              "source_sha256": "b0425a972ce32213def8acf8290cb213662e6b17966d405d6ed0f8488938cda3"
+            },
+            {
+              "log_sha256": "6ae7b6fbf64179f1a616dd8eb4289d6cdd7a164767395ee50fd526002249d70a",
+              "returncode": 0,
+              "source_sha256": "ae3a4aabe14c899e1d4fd4ea933b3ed828d98204d72247307306d14e1ad28327"
+            },
+            {
+              "log_sha256": "65f1df82b4bdcfd0b2319e71631ecee91149f2dc3c1f107d83fd7489e47d098b",
+              "returncode": 0,
+              "source_sha256": "deb78867a2c932d3b9f2a3224849ac751ee0db86df924a249ac64d767588f1e1"
+            },
+            {
+              "log_sha256": "27ed83d5377b3e4cea73d30526bda48a334a49996d6e71f19e4f51e1ab71612e",
+              "returncode": 0,
+              "source_sha256": "e2d7b273b96a4c45431503e673638fdf763f4e56136f26301f67af49f50cb404"
+            }
+          ],
+          "prepared_manifest_sha256": "37c4879cca7e2d8960b77418f843121f67c71d29706e4a7b1ce7b2355a854621",
+          "raw_heartbeat_median": 3186103,
+          "raw_heartbeat_samples": [
+            3186153,
+            3186103,
+            3186071
+          ],
+          "result_sha256": "be1df9e4a364b54797585e80c5d01619ba426ded86e1fb32f7ab5bab72c0a77a",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "source_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "template_sha256": "2948ba7634c2268effb57c9837c36ca5a950485c9a6975453193d59f6d849b0f",
+          "tokens": 186,
+          "valid": true,
+          "version": "v4.26.0"
+        },
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "compiler": "Lean (version 4.27.0, arm64-apple-darwin24.6.0, commit db93fe1608548721853390a10cd40580fe7d22ae, Release)",
+          "compiler_sha256": "2974847fff2e2621502841f4c2dbac4035b4847d6060a4f2087cbc0d04005e37",
+          "evidence": [
+            {
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "returncode": 0,
+              "source_sha256": "b0425a972ce32213def8acf8290cb213662e6b17966d405d6ed0f8488938cda3"
+            },
+            {
+              "log_sha256": "4b999f0ebe6553ac5135cefd70404cd3c537532903f795a9dbe5b79a65f983e0",
+              "returncode": 0,
+              "source_sha256": "ef46aee8294aadfc9f39b4264e61035948ceb0925a83eba92aa7b562d2261300"
+            },
+            {
+              "log_sha256": "b86e867a2832994e74882f91267244f11fb06c811cff0bbb09fdd14bf58d2548",
+              "returncode": 0,
+              "source_sha256": "cfe6d5680e0c12d574be3c7120f3431158159637968d5d608bd9ae90ceda4ee6"
+            },
+            {
+              "log_sha256": "0004b8b6200b15d45b4fc24ac7ea55533c2e6d67ec32722bf1a326e3ccbd9c7d",
+              "returncode": 0,
+              "source_sha256": "a4111ba2b3b36b31ac851dbce49d8c9bb5f3d3846ae11d1a588a8c7406de49ea"
+            }
+          ],
+          "prepared_manifest_sha256": "90658c1ee1fde3adabee06c6a1bc92da0931fd5a7517722341a279d8f8c56f2d",
+          "raw_heartbeat_median": 3116131,
+          "raw_heartbeat_samples": [
+            3116181,
+            3116131,
+            3116099
+          ],
+          "result_sha256": "85af793c80b0e468e7330169e98f6988054c09e2e7fdd43065c295349aa3befa",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "source_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "template_sha256": "2948ba7634c2268effb57c9837c36ca5a950485c9a6975453193d59f6d849b0f",
+          "tokens": 186,
+          "valid": true,
+          "version": "v4.27.0"
+        }
+      ]
+    },
+    {
+      "all_required_versions_passed": true,
+      "fixture_origin": "Existing PR #69/#71 replacement proof body, with a distinct comment suffix for each candidate; no new proof generation.",
+      "fixture_responses": 8,
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "record_replay_passed": true,
+      "reference_matches_official": true,
+      "reference_sha256": "762d9c0342f6ad7b06dcbaa3e18a475614b61fff262d85cc7433a7ce1d9d3c44",
+      "request_modes": [
+        "withheld",
+        "withheld",
+        "free",
+        "guided",
+        "free",
+        "guided",
+        "free",
+        "guided"
+      ],
+      "requests": [
+        {
+          "application_status": "not_established",
+          "mode": "withheld",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "001",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "withheld",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "002",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "free",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "003",
+          "verified_primary": true
+        },
+        {
+          "application_status": "unreviewed",
+          "mode": "guided",
+          "recommended_ids": [
+            "M05",
+            "M02",
+            "M11"
+          ],
+          "selected_ids": [
+            "M05"
+          ],
+          "step": "004",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "free",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "005",
+          "verified_primary": true
+        },
+        {
+          "application_status": "unreviewed",
+          "mode": "guided",
+          "recommended_ids": [
+            "M05",
+            "M02",
+            "M11"
+          ],
+          "selected_ids": [
+            "M05"
+          ],
+          "step": "006",
+          "verified_primary": true
+        },
+        {
+          "application_status": "not_established",
+          "mode": "free",
+          "recommended_ids": [],
+          "selected_ids": [],
+          "step": "007",
+          "verified_primary": true
+        },
+        {
+          "application_status": "unreviewed",
+          "mode": "guided",
+          "recommended_ids": [
+            "M05",
+            "M02",
+            "M11"
+          ],
+          "selected_ids": [
+            "M05"
+          ],
+          "step": "008",
+          "verified_primary": true
+        }
+      ],
+      "run_manifest_sha256": "315c99b4bbf46f4f6beab974f704e245d47a8414a6d76796912b3d4452490282",
+      "runtime_snapshot_matches_integrated_source": true,
+      "selected_sha256": "439709bde0a4cbc859f8a341e7c4794f35871b2a356e57ad43c7e53ce101e9c1",
+      "selected_tokens": 1733,
+      "source": "arklib",
+      "standalone_frozen_code_replay_passed": true,
+      "statement_matches_official": true,
+      "statement_sha256": "33127b48a00071f83113b9f0a63020e4a805670ce63dcb17566cbc2fdc7a7030",
+      "status": "completed",
+      "stop_reason": "portfolio_complete",
+      "versions": [
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "compiler": "Lean (version 4.30.0, arm64-apple-darwin24.6.0, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)",
+          "compiler_sha256": "b48bc5ab229bd8b320a224b87e20fc428dba6fa8a1c054bd4fa6def846e19997",
+          "evidence": [
+            {
+              "log_sha256": "866f03721885a4cc957c6306e5be69958756cbf920cd4d2e57acaf0ce0908e88",
+              "returncode": 0,
+              "source_sha256": "4eaac66cb54a29b9544aa27458b49c999557c25b77450f7279b506c3bd2ae501"
+            },
+            {
+              "log_sha256": "2f522194b7d3c748be8ffbb8c8230647a0b4a82ab5bc272927614133ef452d30",
+              "returncode": 0,
+              "source_sha256": "93f988050353cb8a96bf2bc2867c802681d9127ced7040dbbe43e1929a7b13cd"
+            },
+            {
+              "log_sha256": "7f553b79148d70c2dee193413c75104be23eb70173ce5c685808546dcf7306c7",
+              "returncode": 0,
+              "source_sha256": "f15e7031d35e7728e2182c53484312a02bdb21ff2b7a8ff447998ea3e8cb2689"
+            },
+            {
+              "log_sha256": "00d2eafe2ff04049597be1645e52dbfe11e7cdd009f97f1510ede81b9dca6fc8",
+              "returncode": 0,
+              "source_sha256": "14da62a4e8f4b231cc73b8082afe5089971b0201662ddc7a7cb7a5c12b5126c7"
+            }
+          ],
+          "prepared_manifest_sha256": "6709b4a1463504fdedc85b7744f80c77790b81a0d348a983d67241ef9f40b390",
+          "raw_heartbeat_median": 23728234,
+          "raw_heartbeat_samples": [
+            23726460,
+            23729261,
+            23728234
+          ],
+          "result_sha256": "6a5c81e57b08806dfe5b0edbbafce808050cc4a602cc1e3a2c0056441a645a4b",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "source_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "template_sha256": "1c3ba9a3975201ee789e7b14c7af926a148b4d8c763c4a72a886bc9404e71b65",
+          "tokens": 1733,
+          "valid": true,
+          "version": "v4.30.0"
+        },
+        {
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "compiler": "Lean (version 4.31.0, arm64-apple-darwin24.6.0, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)",
+          "compiler_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "evidence": [
+            {
+              "log_sha256": "6de6c56639c98b125cdc5bd0cbb1736ad519b7f760d07e237c8d76de78daa143",
+              "returncode": 0,
+              "source_sha256": "4eaac66cb54a29b9544aa27458b49c999557c25b77450f7279b506c3bd2ae501"
+            },
+            {
+              "log_sha256": "648c0507d9325b36084daaa0a2a9e44e88fdb6ada5a0b3b1d6fbd31aaa19966e",
+              "returncode": 0,
+              "source_sha256": "1248c07dc293a523c45900d408a1a0f2893bcaec84ba883bcd61da9ff9221dd2"
+            },
+            {
+              "log_sha256": "bfc58c8af867fe28d1f0bdb72279f87737b02ebcd70bc0303725237e29ac2936",
+              "returncode": 0,
+              "source_sha256": "9c03237c825bdf2fb1b32b083ba2fc35b39d0acc0bf8a412635c354f11097cbe"
+            },
+            {
+              "log_sha256": "45df4166d49941e4c41ccc3dc5d00799e75086954139d090d094a1b00303566c",
+              "returncode": 0,
+              "source_sha256": "fa7ab714e3f9324ada489d92547bb8ecedeabd1bb3d0029cbc883cb5441b5588"
+            }
+          ],
+          "prepared_manifest_sha256": "7dea996925b765543ad4f1a436b08460084bd71f449048cd47f2b887c5022319",
+          "raw_heartbeat_median": 22065084,
+          "raw_heartbeat_samples": [
+            22065084,
+            22065053,
+            22065196
+          ],
+          "result_sha256": "d9f5e8d39110cb51c867d0f0ff33bfbd43491e422a3e2791bdf0e08fc510cd46",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "source_tracked_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "template_sha256": "1c3ba9a3975201ee789e7b14c7af926a148b4d8c763c4a72a886bc9404e71b65",
+          "tokens": 1733,
+          "valid": true,
+          "version": "v4.31.0"
+        }
+      ]
+    }
+  ],
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "date_kst": "2026-11-04",
+  "implementation_commit": "2dc6fd8175cd3cd819c842ec4a29aa64d8e16aa1",
+  "minimal_real_lean_rendering_checks": [
+    "target documentation",
+    "omit with nested documentation",
+    "chained set_option/omit/open prefixes"
+  ],
+  "new_model_api_calls": 0,
+  "new_model_cost_usd": "0",
+  "offline_tests": {
+    "failed": 0,
+    "log_sha256": "c7c7afccdbe63b34adc609d222785b34dd94682248edaf00877483acad36bd42",
+    "run": 368,
+    "skipped": 6
+  },
+  "schema_version": 1,
+  "scope": "Integration smoke using fixed responses and real fresh-process Lean, not new model generation or a Bank performance comparison.",
+  "source_files_sha256": {
+    "experiments/final-batch-next/driver.py": "112c175c5dd73253144c1efb474e711e6378da8d8c0119b1396a0e9cc1bf92e5",
+    "src/lean_agent/__init__.py": "9cd399170b43e79e6135afe023a5462b2a4cd4329bf4dff761ebce9952958400",
+    "src/lean_agent/__main__.py": "f30e39b7432a423762327b9868a4ec0d5a95acec2025adf1c753fea40321355f",
+    "src/lean_agent/accounting.py": "461b70c0c70da603081a6369b56859b236ad549ca54f149a10ce172dc9c2046d",
+    "src/lean_agent/actions.py": "eac655c88f69c4615a261ac0234e40ccf796bab629e35725b076671862f2fcac",
+    "src/lean_agent/artifacts.py": "b32c126c0c17df322f1d9455bfb315099fb43c1fe95f93fcd5ea669db748dff4",
+    "src/lean_agent/budgeting.py": "747402052d9271ebb6541c9ce7d4c40f31fb2433726896ad11db47cb1544a734",
+    "src/lean_agent/diagnostics.py": "e071c6a62811cb8480c95fc05ea6f0a964c93d0034447104f669000b8efeddc2",
+    "src/lean_agent/evaluator/__init__.py": "0eab47670182910a6f889d4f5bf1712d73b159bfffe499d63c6a1a94e8abacd7",
+    "src/lean_agent/evaluator/lean.py": "b44009dee819644dcaa636a61e7fbcec7064ac7bf6087beb552013dafed6445d",
+    "src/lean_agent/evaluator/provenance.json": "b5a61820afb043091f175ff2ff071ff1554a155e026d8f6093ecf470ce982c0b",
+    "src/lean_agent/evaluator/tokens.py": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+    "src/lean_agent/harness.py": "06d3a0c4ce750e90511d06e9eae6fb9f3df3aef958a37163df6c0ae8420e36bb",
+    "src/lean_agent/models.py": "f755778a28a5cc69f35a7877db8c6171a58995b7d4cb0a3799799f608a16a2b8",
+    "src/lean_agent/portfolio.py": "c012147027f5c85c90b63de2e34cc97a69d8a061692026330065ec48f418f3e2",
+    "src/lean_agent/preflight.py": "b32ccdbe7f934c4fa5304c67af384213edc2807b51df25a1e264107124fd4aec",
+    "src/lean_agent/prepared.py": "9a0a9e8544caf0cf897c6028560f20336648faaed51889c364d3415fd988722c",
+    "src/lean_agent/provenance.json": "b6b64e979cd67125555124fd22c71c243c3f4a815274476add0cfdfac26a589b",
+    "src/lean_agent/search_policy.py": "5b143f2bdd46625db61a11ec241a1a022730ebb75e2a3160a1b24dd47d8d3681",
+    "src/lean_agent/status.py": "3429fd5d531a2871940db94e778690db918d6c2c8dca8f3ec8e0764884b66b08",
+    "src/lean_agent/strategy_bank.py": "93df04fd941c48c0fd15776c96d93106e96e16b6241588fcd2535099641b5859",
+    "src/lean_agent/strategy_signals.py": "c24843e4e24a4656530940d2ecb4be3e2ba7d5c90ad58780261fa40f16678d00",
+    "src/lean_agent/usage_cost.py": "58051772ef305ce532c18035c6d9473fa15835ea5f27b63a4ce5e969e31075be"
+  },
+  "verification_metadata_probe": "Network/write denied with /dev/null allowance for read-only Git metadata; proof compilation uses the unchanged prepared-evaluator sandbox."
+}
