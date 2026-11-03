@@ -279,6 +279,21 @@ class CloserTests(unittest.TestCase):
         variants = rw.apply_suggestions(self.code, blocks, log)
         self.assertEqual(variants, [("G2:try?:root@1", self.statement + " := by\n  grind\n")])
 
+    def test_portfolio_probe_markers(self):
+        probe, blocks = rw.closer_probe(self.code, self.statement, closers=rw.CORE_CLOSERS)
+        self.assertNotIn("try?", probe)
+        self.assertIn('first | (rfl; trace "G2M:0:rfl") | (omega; trace "G2M:0:omega")', probe)
+        self.assertIn('(grind; trace "G2M:1:grind")', probe)
+        log = ('probe.lean:9:6: info: G2M:1:grind\n'
+               'probe.lean:7:4: error: unsolved goals\n'
+               'probe.lean:3:2: info: G2M:7:omega\n')
+        variants = rw.apply_suggestions(self.code, blocks, log)
+        self.assertEqual(len(variants), 1)
+        self.assertTrue(variants[0][0].startswith("G2:closer:grind:bullet"))
+        self.assertTrue(variants[0][1].endswith("  · grind\n"))
+        root, root_map = rw.closer_probe(self.code, self.statement, scope="root", closers=("omega",))
+        self.assertEqual(root, self.statement + ' := by\n  first | (omega; trace "G2M:0:omega")\n')
+
     def test_simp_probe_and_suggestions(self):
         code = (self.statement + " := by\n  simp [a] at h\n  · simp\n  simp only [b]\n  cases x <;> simp\n"
                 "  conv_lhs =>\n    simp\n  simpa using h\n")

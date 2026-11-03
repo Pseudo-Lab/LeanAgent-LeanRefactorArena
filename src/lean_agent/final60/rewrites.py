@@ -725,15 +725,33 @@ def _blocks(layout: Layout) -> list[dict]:
     return found
 
 
+CORE_CLOSERS = ("rfl", "omega", "simp_all", "grind")
+MATHLIB_CLOSERS = ("aesop", "norm_num", "linarith", "positivity")
+MARKER = "G2M"
+
+
+def closer_text(block_id: int, closers=None) -> str:
+    """``try?`` (closers None) or a ``first`` portfolio whose winner logs a trace marker.
+
+    The portfolio stays within the declaration's heartbeat budget, unlike ``try?``, whose
+    library search measured > 300 s per probe on F027 (no output survives a kill).
+    """
+    if not closers:
+        return "try?"
+    alternatives = " | ".join(f'({tactic}; trace "{MARKER}:{block_id}:{tactic}")' for tactic in closers)
+    return "first | " + alternatives
+
+
 def closer_probe(code: str, statement: str, *, scope: str = "blocks", max_blocks: int = 8,
-                 min_tokens: int = 6) -> tuple[str, list[dict]]:
-    """Probe text with ``try?`` in place of terminal blocks, and the block map to read it."""
+                 min_tokens: int = 6, closers=None) -> tuple[str, list[dict]]:
+    """Probe text with ``try?`` (or a closer portfolio) in place of terminal blocks, and the
+    block map to read it."""
     layout = Layout(code, statement)
     if scope == "root":
         head = code[:layout.by_end]
-        return head + "\n  try?\n", [{"id": 0, "kind": "root", "start": layout.first, "end": len(layout.lines),
-                                     "indent": 2, "probe_line": head.count("\n") + 1,
-                                     "statement_length": len(statement)}]
+        return head + "\n  " + closer_text(0, closers) + "\n", [{
+            "id": 0, "kind": "root", "start": layout.first, "end": len(layout.lines), "indent": 2,
+            "probe_line": head.count("\n") + 1, "statement_length": len(statement)}]
     blocks = []
     for block in _blocks(layout):
         text = "\n".join(layout.lines[block["start"]:block["end"]])
@@ -747,11 +765,11 @@ def closer_probe(code: str, statement: str, *, scope: str = "blocks", max_blocks
         out_lines.extend(layout.lines[index:block["start"]])
         if block["kind"] == "bullet":
             probe_line = len(out_lines)
-            out_lines.append(" " * block["indent"] + "· try?")
+            out_lines.append(" " * block["indent"] + "· " + closer_text(number, closers))
         else:
             out_lines.append(layout.lines[block["start"]])
             probe_line = len(out_lines)
-            out_lines.append(" " * block["indent"] + "try?")
+            out_lines.append(" " * block["indent"] + closer_text(number, closers))
         probe_map.append({**block, "id": number, "probe_line": probe_line, "statement_length": len(statement)})
         index = block["end"]
     out_lines.extend(layout.lines[index:])
@@ -879,14 +897,36 @@ def simp_suggestion_edits(code: str, sites: list[dict], log: str, *, decl_start_
     return unique
 
 
+def marker_span_edits(code: str, block_map: list[dict], log: str) -> list[list[Edit]]:
+    """Per block, the portfolio closer that succeeded (from ``G2M:<block>:<tactic>`` traces)."""
+    if not block_map:
+        return []
+    statement = code[:block_map[0]["statement_length"]]
+    by_id = {block["id"]: block for block in block_map}
+    found: dict[int, str] = {}
+    for message in parse_messages(log):
+        hit = re.search(MARKER + r":(\d+):(\S+)", message.text)
+        if message.severity == "info" and hit and int(hit[1]) in by_id:
+            found.setdefault(int(hit[1]), hit[2].strip('"'))
+    out = []
+    for block_id, tactic in sorted(found.items()):
+        block = by_id[block_id]
+        edit = block_edit(code, statement, block, tactic, f"G2:closer:{tactic}:{block['kind']}@{block['start']}")
+        if apply_edits(code, [edit]) != code:
+            out.append([edit])
+    return out
+
+
 def apply_suggestions(code: str, block_map: list[dict], log: str, *, decl_start_line: int = 1,
                       per_block: int = 2) -> list[tuple[str, str]]:
     """Variants replacing each probed block by its shortest suggestions.
 
+    Reads ``try?`` "Try this" messages and closer-portfolio trace markers.
     ``decl_start_line`` is the 1-based line of the probe declaration in the compiled file
     (``EvalAdapter.probe_start_line``); log positions are file relative.
     """
     edits = suggestion_span_edits(code, block_map, log, decl_start_line=decl_start_line, per_block=per_block)
+    edits += marker_span_edits(code, block_map, log)
     return singles(code, [edit for block in edits for edit in block])
 
 

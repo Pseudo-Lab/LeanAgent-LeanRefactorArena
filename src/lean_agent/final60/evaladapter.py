@@ -374,6 +374,18 @@ class EvalAdapter:
                                "raw_heartbeats": result.raw_heartbeats, "evidence": str(fresh_dir)})
         return result
 
+    def imports_mathlib(self) -> bool:
+        """Whether the primary context imports Mathlib (Mathlib-only closers are allowed)."""
+        if not hasattr(self, "_mathlib"):
+            try:
+                with self.ev._compiler_lock():
+                    context = self.ev._context(self.problem, self.primary)
+                prefix = context["prefix"]
+            except Exception:
+                prefix = self.problem.get("header", "")
+            self._mathlib = bool(re.search(r"(?m)^\s*(?:public\s+)?import\s+(?:all\s+)?Mathlib\b", prefix))
+        return self._mathlib
+
     def verify_environments(self) -> dict | None:
         """Full library-byte verification, as the driver records next to final/."""
         verify = getattr(self.ev, "verify_environments", None)

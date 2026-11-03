@@ -43,6 +43,7 @@ DEFAULTS = {
     "probe_timeout_s": 300,
     "root_probe_max_tokens": 150,
     "closer_blocks": 2,
+    "closer_tactic": "portfolio",   # or "try?" (measured too slow on F027, see probe_heartbeat_cap)
     "probe_heartbeat_factor": 1.0,
     "suggestions_per_block": 2,
     "decide_max_tokens": 40,
@@ -275,16 +276,28 @@ def probe_heartbeat_cap(session: _Session, searches: int) -> int:
     return int(scaled * (1 + factor * max(1, searches)) + 20000)
 
 
+def _closers(session: _Session):
+    if session.settings["closer_tactic"] == "try?":
+        return None
+    mathlib = False
+    try:
+        mathlib = bool(getattr(session.adapter, "imports_mathlib", lambda: False)())
+    except Exception:
+        mathlib = False
+    return rw.CORE_CLOSERS + (rw.MATHLIB_CLOSERS if mathlib else ())
+
+
 def pass_closers(session: _Session) -> int:
     gained = 0
     scopes = (["root"] if session.tokens <= session.settings["root_probe_max_tokens"] else []) + ["blocks"]
+    closers = _closers(session)
     for scope in scopes:
         if not session.alive():
             break
         code = session.code
         try:
             text, block_map = rw.closer_probe(code, session.statement, scope=scope,
-                                              max_blocks=session.settings["closer_blocks"])
+                                              max_blocks=session.settings["closer_blocks"], closers=closers)
         except ValueError:
             continue
         if not block_map:
@@ -296,6 +309,7 @@ def pass_closers(session: _Session) -> int:
         _, log, start = probed
         per_block = rw.suggestion_span_edits(code, block_map, log, decl_start_line=start,
                                              per_block=session.settings["suggestions_per_block"])
+        per_block += rw.marker_span_edits(code, block_map, log)
         if not per_block:
             continue
         if scope == "root":
