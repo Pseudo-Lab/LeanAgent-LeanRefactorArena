@@ -23,6 +23,7 @@ class PortfolioBatchTests(unittest.TestCase):
                         "reference": "theorem test : True := by trivial\n"}
         self.config = d.configuration(self.problem, {"scout_evaluations": 1, "merger_evaluations": 1})
         for name, value in (("problem", self.problem), ("config", self.config),
+                            ("warm-start", d.warm_start.snapshot(None, self.problem, reason="portfolio_isolation")),
                             ("action-corpus", {"schema_version": 1, "entries": []})):
             d.atomic(self.output / "input" / (name + ".json"), value)
         (self.output / "input/prompt.txt").write_text("test")
@@ -159,6 +160,7 @@ class PortfolioBatchTests(unittest.TestCase):
     def test_sealed_legacy_resume_keeps_its_exact_configuration(self):
         config_path = self.output / "input/config.json"
         d.atomic(config_path, d.configuration(self.problem, None))
+        d.atomic(self.output / "input/prompt-policy.json", d.prompt_variants.policy())
         before = config_path.read_bytes()
         d.atomic(self.root / "frozen.json", {})
         d.atomic(self.root / "authorization.json", {"rows": [1], "verification_policy": d.VERIFICATION_POLICY})
@@ -274,6 +276,13 @@ class PortfolioBatchTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "differs from replay"):
             report.audit_autosolver(self.output, summary, self.attempts())
 
+    def test_current_policy_requires_warm_start_snapshot_even_for_cold_portfolio(self):
+        self.run_batch()
+        (self.output / "input/warm-start.json").unlink()
+        exported = self.export_report()
+        self.assertFalse(exported["audit_passed"])
+        self.assertTrue(any("invalid warm-start evidence" in error for error in exported["audit_errors"]))
+
     def test_prepared_inputs_freeze_policy_and_reject_mode_changes(self):
         repository = self.root / "repo"
         (repository / "examples/actions").mkdir(parents=True)
@@ -309,6 +318,28 @@ class PortfolioBatchTests(unittest.TestCase):
                 d.prepare_inputs(legacy, [1], portfolio_settings=d.DEFAULT_PORTFOLIO)
             with self.assertRaisesRegex(ValueError, "fresh batch root"):
                 d.prepare_inputs(root, [1], portfolio_settings=None)
+            # Omitted options preserve the entire strict treatment policy, not
+            # just portfolio mode; explicit conflicting flags still fail.
+            treatment = self.root / "treatment"
+            d.prepare_inputs(treatment, [1], portfolio_settings=None,
+                             prompt_variant="structure-repair-v1", strict_cap=True)
+            inputs = d.folder(treatment, 1) / "input"
+            before = {path.name: path.read_bytes() for path in inputs.iterdir()}
+            d.prepare_inputs(treatment, [1])
+            self.assertEqual(before, {path.name: path.read_bytes() for path in inputs.iterdir()})
+            for options in ({"prompt_variant": "baseline"}, {"strict_cap": False}):
+                with self.assertRaisesRegex(ValueError, "fresh batch root"):
+                    d.prepare_inputs(treatment, [1], **options)
+            implementation = repository / "fixture.py"
+            implementation.write_text("# fixture")
+            with patch.object(d, "implementation_files", return_value=[implementation]):
+                d.seal_inputs(treatment, [1])
+                d.prepare(treatment, [1])
+                self.assertEqual(before, {path.name: path.read_bytes() for path in inputs.iterdir()})
+                for options in ({"prompt_variant": "baseline"}, {"strict_cap": False},
+                                {"portfolio_settings": d.DEFAULT_PORTFOLIO}):
+                    with self.assertRaisesRegex(ValueError, "fresh batch root"):
+                        d.prepare(treatment, [1], **options)
 
     def test_automatic_verification_signal_stops_before_next_model_dispatch(self):
         self.config["agent"]["autosolver"] = {"tactics": ["trivial"], "max_attempts": 1}

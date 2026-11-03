@@ -174,3 +174,25 @@ PR은 검사·빌드만 실행하고, main 병합 시 기존 Cloudflare Pages �
 - 고정 CLI:65.0.0
 
 권한 연결 후 **Dashboard CI and Production → Run workflow → main**으로 재배포합니다. 기존 배포를 조사할 때 `inspect_url`을 지정하면 조회만 수행하며 운영 배포를 발생시키지 않습니다.
+
+## 20문제 시도별 점수 추이
+
+[독립 HTML 보고서](public/reports/final20-attempts.html)는 Strata F001–F010과 LeanPool F041–F050의
+`20261102-strata-leanpool-usd3-r1` 실행만 표시합니다. 2,141회 API 시도와 사용량 기준
+$55.7459113을 완료 감사·원장·단계별 기록에 대조했습니다. 외부 의존성 없이 파일을 열어도
+작동하며, 배포 시 `/reports/final20-attempts.html`에서 볼 수 있습니다.
+
+문제별 후보 점수, 그때까지의 최고점, 실패/조회 시도를 구분합니다. 가로축은 시도 번호 또는
+누적 비용으로 전환합니다. 탐색은 단일 표본이고 최종 마커는 새로운 3회 HB 검증 결과입니다.
+후보가 없는 시도나 실패는 0점으로 처리하지 않습니다. 기존 대시보드의 최선 결과를 교체하지 않습니다.
+
+기존 기록에서만 재생성(모델·Lean 호출 없음):
+
+```sh
+python3 -B dashboard/scripts/export_final20_trajectories.py \
+  --root /ABSOLUTE/PATH/20261102-strata-leanpool-usd3-r1 \
+  --output dashboard/public/reports/final20-attempts.html
+python3 -B -m unittest discover -s dashboard/scripts -p 'test_final20_trajectories.py'
+```
+
+JSON에는 API 응답이나 절대 경로를 내보내지 않고 원본 감사·원장·문제 기록의 해시를 남깁니다.

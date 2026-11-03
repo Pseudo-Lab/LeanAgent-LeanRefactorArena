@@ -1,0 +1,36 @@
+{
+  "at": "2026-11-03T00:58:26.900766+00:00",
+  "reason": "HTTP 504 on read-only GET /v1/models before dispatch ledger creation; completion POST catches HTTPError and cannot raise this exception. Failed step directory empty and absent from ledger.",
+  "settled_calls": 262,
+  "known_cost_usd": "7.2222899",
+  "all_receipts_and_state_costs_reconciled": true,
+  "model_lookup_recovered": true,
+  "failed_completion_dispatched": false,
+  "completed_trials": [
+    "control-F002",
+    "control-F007",
+    "control-F009",
+    "control-F041",
+    "control-F048",
+    "treatment-F002",
+    "treatment-F007",
+    "treatment-F009",
+    "treatment-F041"
+  ],
+  "state_sha256": {
+    "control-F002": "a75acdd13b9872e698bcb26b6de4f6d855ccbc606bad6071857a3985b75be13c",
+    "control-F007": "45ede5176f96e4f6fd45b9793c62b7521a85fab2b08cfff8e75f59f92218e77a",
+    "control-F009": "97708c52f9a8e331d833b490f66b7db501996cae462b0ddb7a95bfda99070822",
+    "control-F041": "5a53535994a902cc7303daddc189c59923da90f90d5264da40ce78681756a345",
+    "control-F048": "141d50e713bfd4afc5f5299f91061dd17ea09ef0abf8fe12938877dfa058bac4",
+    "control-F049": "2bf9af9b4c1dd7f0a77a2a20500fe9851b4fb9a4e96a2bdfe102025c246a7251",
+    "treatment-F002": "c7a6485b7a81c394065dadfb15a5612660e371e53512b2e2fdd7c81991bc66bc",
+    "treatment-F007": "4226291fa1f2f95603ab600cca1c9e6d9368402b8880ae9e0e7708059d6fb0c4",
+    "treatment-F009": "05ae49abf898a93188388fc9194882e27252c8c9e7ab08ec291522fa0b6ef912",
+    "treatment-F041": "80990ebb9a850b65f2c37c95be4a37222803444a6d3c869bc48d41b4d0d4027f",
+    "treatment-F048": "09fc35256fedd02c90ee93bec231e9c9d7dca72689d7612cb20672600f51678f",
+    "treatment-F049": "2bf9af9b4c1dd7f0a77a2a20500fe9851b4fb9a4e96a2bdfe102025c246a7251"
+  },
+  "frozen_sources_and_inputs_unchanged": true,
+  "resume_scope": "Only not-yet-dispatched calls in existing trials; preserve each $1 and total $12 cap. No paid retry."
+}

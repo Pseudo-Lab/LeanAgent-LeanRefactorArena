@@ -1,0 +1,213 @@
+{
+  "at": "2026-11-03T01:43:23.274447+00:00",
+  "audit_passed": true,
+  "total_cost_usd": "9.1743265",
+  "paired": [
+    {
+      "row": 2,
+      "control": {
+        "seed_score": 54.41602040264827,
+        "final_score": 58.611622829067876,
+        "measured_delta": 4.195602426419605,
+        "source_changed": true,
+        "delta_for_changed_source": 4.195602426419605,
+        "cost_usd": "0.7633396",
+        "calls": 24,
+        "evaluated_candidates": 12,
+        "unique_valid_candidates": 11,
+        "lookup_calls": 11,
+        "repeated_lookups": 3,
+        "first_improvement_cost_usd": "0.4876932",
+        "selected_sha256": "b03b1b9e159d88e4705529a299efa0afda020af260c08b9803ac87ae4f834dd3"
+      },
+      "treatment": {
+        "seed_score": 54.41602040264827,
+        "final_score": 58.598076671944746,
+        "measured_delta": 4.182056269296474,
+        "source_changed": true,
+        "delta_for_changed_source": 4.182056269296474,
+        "cost_usd": "0.7796752",
+        "calls": 24,
+        "evaluated_candidates": 12,
+        "unique_valid_candidates": 10,
+        "lookup_calls": 11,
+        "repeated_lookups": 2,
+        "first_improvement_cost_usd": "0.1877056",
+        "selected_sha256": "6bc480df0d844ac138fe8cb5a832f362010591d9f93888c71279a586a0f8c5eb"
+      },
+      "treatment_minus_control": -0.013546157123130342
+    },
+    {
+      "row": 7,
+      "control": {
+        "seed_score": 77.37456852123972,
+        "final_score": 79.30618752529608,
+        "measured_delta": 1.9316190040563583,
+        "source_changed": true,
+        "delta_for_changed_source": 1.9316190040563583,
+        "cost_usd": "0.8046454",
+        "calls": 38,
+        "evaluated_candidates": 32,
+        "unique_valid_candidates": 17,
+        "lookup_calls": 6,
+        "repeated_lookups": 0,
+        "first_improvement_cost_usd": "0.0463402",
+        "selected_sha256": "d60d068ac1166ba753d1ab2e0dfb4b6774975a5478722a485f0b3058a5d3e660"
+      },
+      "treatment": {
+        "seed_score": 77.37456852123972,
+        "final_score": 82.31615260866275,
+        "measured_delta": 4.941584087423024,
+        "source_changed": true,
+        "delta_for_changed_source": 4.941584087423024,
+        "cost_usd": "0.783959",
+        "calls": 39,
+        "evaluated_candidates": 33,
+        "unique_valid_candidates": 18,
+        "lookup_calls": 6,
+        "repeated_lookups": 0,
+        "first_improvement_cost_usd": "0.194874",
+        "selected_sha256": "529d696813789943a97c331a5b3f3a020bae8df0d189d6fca7d6260f2684e47a"
+      },
+      "treatment_minus_control": 3.009965083366666
+    },
+    {
+      "row": 9,
+      "control": {
+        "seed_score": 94.52271789668187,
+        "final_score": 94.52271789668187,
+        "measured_delta": 0.0,
+        "source_changed": false,
+        "delta_for_changed_source": 0,
+        "cost_usd": "0.7849603",
+        "calls": 39,
+        "evaluated_candidates": 37,
+        "unique_valid_candidates": 20,
+        "lookup_calls": 2,
+        "repeated_lookups": 0,
+        "first_improvement_cost_usd": null,
+        "selected_sha256": "08a88eb6c3b4df469f043f10c0452a7358ec8cb305100ea7eb0f65d82b8e3ba0"
+      },
+      "treatment": {
+        "seed_score": 94.52271789668187,
+        "final_score": 94.52271789668187,
+        "measured_delta": 0.0,
+        "source_changed": false,
+        "delta_for_changed_source": 0,
+        "cost_usd": "0.7829228",
+        "calls": 38,
+        "evaluated_candidates": 32,
+        "unique_valid_candidates": 18,
+        "lookup_calls": 4,
+        "repeated_lookups": 0,
+        "first_improvement_cost_usd": null,
+        "selected_sha256": "08a88eb6c3b4df469f043f10c0452a7358ec8cb305100ea7eb0f65d82b8e3ba0"
+      },
+      "treatment_minus_control": 0
+    },
+    {
+      "row": 41,
+      "control": {
+        "seed_score": 90.77670326269148,
+        "final_score": 91.31541565416914,
+        "measured_delta": 0.5387123914776595,
+        "source_changed": true,
+        "delta_for_changed_source": 0.5387123914776595,
+        "cost_usd": "0.7828225",
+        "calls": 21,
+        "evaluated_candidates": 13,
+        "unique_valid_candidates": 10,
+        "lookup_calls": 8,
+        "repeated_lookups": 1,
+        "first_improvement_cost_usd": "0.3730775",
+        "selected_sha256": "b7a644114d81604f6f45405e7992c67d2a9b72f765a53e6d0cf209834b6a18aa"
+      },
+      "treatment": {
+        "seed_score": 90.77670326269148,
+        "final_score": 92.62896797912613,
+        "measured_delta": 1.8522647164346466,
+        "source_changed": true,
+        "delta_for_changed_source": 1.8522647164346466,
+        "cost_usd": "0.787936",
+        "calls": 21,
+        "evaluated_candidates": 17,
+        "unique_valid_candidates": 13,
+        "lookup_calls": 4,
+        "repeated_lookups": 0,
+        "first_improvement_cost_usd": "0.141490",
+        "selected_sha256": "719942b174d3b20e70e07667c11b6c56166899f9c87ea91fa16d32ca3ff56900"
+      },
+      "treatment_minus_control": 1.3135523249569871
+    },
+    {
+      "row": 48,
+      "control": {
+        "seed_score": 40.508672604526474,
+        "final_score": 47.26941708627671,
+        "measured_delta": 6.760744481750237,
+        "source_changed": true,
+        "delta_for_changed_source": 6.760744481750237,
+        "cost_usd": "0.6373175",
+        "calls": 11,
+        "evaluated_candidates": 5,
+        "unique_valid_candidates": 3,
+        "lookup_calls": 6,
+        "repeated_lookups": 0,
+        "first_improvement_cost_usd": "0.3861023",
+        "selected_sha256": "260133407a5c1cccd8006da8ecb5370b7888a1af9449ee0c48f9c378c6f81e4a"
+      },
+      "treatment": {
+        "seed_score": 40.508672604526474,
+        "final_score": 41.40697221678504,
+        "measured_delta": 0.8982996122585689,
+        "source_changed": true,
+        "delta_for_changed_source": 0.8982996122585689,
+        "cost_usd": "0.6923476",
+        "calls": 12,
+        "evaluated_candidates": 5,
+        "unique_valid_candidates": 3,
+        "lookup_calls": 6,
+        "repeated_lookups": 0,
+        "first_improvement_cost_usd": "0.5244044",
+        "selected_sha256": "bdb6570e84cee1d3abb8e1b29adf4f2904758fbf594c05f0990fb8ca3394ee67"
+      },
+      "treatment_minus_control": -5.862444869491668
+    },
+    {
+      "row": 49,
+      "control": {
+        "seed_score": 74.5018193794748,
+        "final_score": 80.47350654313814,
+        "measured_delta": 5.971687163663347,
+        "source_changed": true,
+        "delta_for_changed_source": 5.971687163663347,
+        "cost_usd": "0.7884134",
+        "calls": 29,
+        "evaluated_candidates": 19,
+        "unique_valid_candidates": 14,
+        "lookup_calls": 10,
+        "repeated_lookups": 1,
+        "first_improvement_cost_usd": "0.3800702",
+        "selected_sha256": "df60150c23fae16d60aa5a443cb6721b8eefbd09930132a6fe500b969da3e4f7"
+      },
+      "treatment": {
+        "seed_score": 74.5018193794748,
+        "final_score": 83.02288527454911,
+        "measured_delta": 8.521065895074315,
+        "source_changed": true,
+        "delta_for_changed_source": 8.521065895074315,
+        "cost_usd": "0.7859872",
+        "calls": 28,
+        "evaluated_candidates": 23,
+        "unique_valid_candidates": 17,
+        "lookup_calls": 5,
+        "repeated_lookups": 0,
+        "first_improvement_cost_usd": "0.3110576",
+        "selected_sha256": "2f06b11f71556f7ae8f6861688150f55cf35491ee8b5097182f48b64104f5a23"
+      },
+      "treatment_minus_control": 2.549378731410968
+    }
+  ],
+  "mean_treatment_minus_control": 0.16615085218663714,
+  "note": "Exploratory six-pair pilot, one trajectory each. Same-source fresh-HB noise is reported but not counted as source improvement."
+}
