@@ -193,6 +193,9 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
             entry["local_score_estimate"] = 100 / 3
             entry["fallback_reason"] = reasons.get(row, "original")
             entry.pop("final", None)
+        elif entry.get("local_score_estimate") is None:
+            published = read_json(layout.row_root(row) / "published.json")
+            entry["local_score_estimate"] = float(published.get("local_score_estimate") or 100 / 3)
         rows.append(entry)
     spend = [Decimal(entry["total_spend_usd"]) for entry in rows]
     issues = len(checks["rules"].get("problems", {})) + len(checks["rules"].get("missing", [])) + \
