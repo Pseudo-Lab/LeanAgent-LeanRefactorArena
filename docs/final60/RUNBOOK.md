@@ -133,6 +133,27 @@ PR #70 for originals), `checks/rules.json`, `checks/provenance.json`, `report.js
 problem, models), `SUBMIT-READY.txt` (final only, last-validated time per row).
 Scores in reports are local estimates, not official worker scores.
 
+## Round 2 additions (see `docs/final-run.md` for the operator checklist)
+
+- Assembly runs a third checker on every improved row: the verbatim Space intake filter
+  (`rules.official_rejection`) plus `rules.check_static` from the golf component; a hit reverts
+  the row to its original. The intake filter also runs over all 60 originals
+  (`checks/official.json`); a rejected original marks `SUBMIT-READY.txt` as `DO NOT UPLOAD`.
+- Routes assert that the primary (first listed) toolchain is the newest listed one; a failing row
+  keeps its original and `plan.json` names the reason under `missing`.
+- The row worker sets `ARENA_LEAN_MEMORY_MIB` per row (16384 for Mathlib-based sources, else 4096;
+  `--lean-memory-mib` / `FINAL60_LEAN_MEMORY_MIB` override) and the evaluator passes it to Lean as
+  `-M`. Lean aborts (exit -6, or 134 under bwrap) are diagnosed as the allocator limit, and such a
+  failed preflight is set aside and retried.
+- The supervisor sizes `--compiler-slots` down to what MemTotal holds (reserve + per-compile
+  budget), logs lean RSS and MemAvailable to `supervisor/memory.jsonl` every
+  `--memory-log-seconds` (30 s) and reports peaks in `status.json`.
+- `<sources>/final/bin` (this checkout's and `--prepared-repo`'s) is prepended to `PATH` for the
+  supervisor's children and in every row worker, so `shutil.which("bwrap")` finds the shipped sandbox.
+- `--transport NAME` is passed through to row workers (`FINAL60_TRANSPORT` and `--transport`).
+- `python -m lean_agent.final60 package --out code.zip [--repo R]` builds the code ZIP from tracked
+  files and asserts that no `declaration-indexes`, `quarantine` or competitor artifact is packed.
+
 ## Component dependencies
 
 - transport (`catalog`, `transport`, `ledger`, `money`, `experiments/final-batch-next/openrouter_transport.py`)
