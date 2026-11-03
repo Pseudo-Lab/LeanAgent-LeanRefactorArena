@@ -23,7 +23,10 @@ AutoSolver·재귀 수리는 이 정리에 포함하지 않으며 기존 PR에�
 
 ## 공통 탐색 설정과 데이터 흐름
 
-`actions-v1` 설정에 다음을 추가한다. 기존 설정은 단일 문맥 동작을 유지한다.
+새 Final 배치 입력은 아래 scout→merger 설정을 기본으로 생성한다. 단일 문맥으로 새 입력을
+준비하려면 `prepare/inputs --no-portfolio`를 지정한다. 범용 `lean-agent run --config`에서
+직접 제공하는 기존 `actions-v1` 설정과 이미 준비·봉인한 배치의 설정은 그대로 유지한다.
+수동으로 portfolio를 설정할 때의 형식은 다음과 같다.
 
 ```json
 {

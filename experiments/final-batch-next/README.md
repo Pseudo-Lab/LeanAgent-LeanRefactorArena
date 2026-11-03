@@ -25,23 +25,30 @@
 최종까지 호환성 검사를 미루므로 탐색 도중 다른 버전의 오류 피드백은 받지 못한다.
 기본 버전 최선 후보와 실제 최종 선택 후보가 다를 수 있다.
 
-## 선택적 scout→merger와 환율 정책
+## 기본 scout→merger와 환율 정책
 
-새 입력을 준비할 때 `prepare` 또는 `inputs`에 `--portfolio`를 붙이면 공통 하네스의
+새 입력을 `prepare` 또는 `inputs`로 준비하면 기본으로 공통 하네스의
 격리된 scout-a/b/c→merger와 `exchange-v1` 접근 정책을 사용한다.
+`--portfolio`는 명시적 활성화 옵션으로 유지하며, `--no-portfolio`를 지정하면 기존 단일 문맥으로 준비한다.
 기본 평가 수는 scout 각 6회, merger 22회이며 `--scout-evaluations`·`--merger-evaluations`로 지정한다.
 모든 역할의 비용은 기존 문제별 $1 정산 후 중단 한도를 공유한다. 기존의 마지막 호출 초과 가능성은 같다.
 할당량을 먼저 완료하면 $1 전에도 정상 종료한다. 예산이 먼저 끝나면 검증 best를 보존하고
 `stopped`로 기록하며 완료 export에 포함하지 않는다. 보고서는 저장된 요청과 평가로 할당량을 재집계한다.
 
 ```sh
-PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py prepare --root runs/final-batch-next/NEW-PORTFOLIO --rows 31 --workers 1 --portfolio
+PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py prepare --root runs/final-batch-next/NEW-PORTFOLIO --rows 31 --workers 1
 ```
 
 이는 입력 준비 명령이다. `run`에서는 봉인된 설정을 읽으므로 정책 플래그를 다시 지정하지 않는다.
 기존 준비 입력/실행의 정책은 바꾸지 않으며, 다른 정책에는 새 root가 필요하다.
-플래그가 없으면 기존 단일 문맥의 예산 기반 실행을 유지한다. 역할별 입력, 환율·단계 선택과
+이미 준비된 입력은 플래그 없이 재개하면 기존 정책을 그대로 유지한다. 이는 이전 단일 문맥 입력에도 적용된다.
+명시적으로 다른 정책을 요청하면 새 root를 요구한다. 역할별 입력, 환율·단계 선택과
 합성 출처는 [`docs/common-harness/README.md`](../../docs/common-harness/README.md)를 따른다.
+
+한 문제 안의 scout 호출은 현재 순차 처리한다. 여러 문제는 `run --workers 2`로 진행하면
+최대 두 API 호출을 겹칠 수 있으며, 실제 Lean 컴파일은 기존 전역 lock으로 하나씩 처리한다.
+이는 FIFO 검증 큐나 한 문제 내부의 병렬 scout 실행을 추가한 변경은 아니다.
+범용 `lean-agent run --config`는 사용자가 제공한 명시적 설정을 따르며 과거 config에 portfolio를 자동 삽입하지 않는다.
 
 ## 증거와 재시작
 
