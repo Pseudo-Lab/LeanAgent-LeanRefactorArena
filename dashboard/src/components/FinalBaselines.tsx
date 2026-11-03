@@ -81,7 +81,7 @@ export function FinalBaselines() {
       <DetailPanel problem={selected} metric={metric} snapshot={snapshot}>
         {candidate ? <section className="team-results" aria-label="선택한 검증 증명">
           <h3>선택한 검증 증명</h3>
-          <p>{candidate.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약' : candidate.runId === results.runId ? '이번 $3 실행' : '기존 $1 실행'} · 동일 환경의 검증 결과 중 종합 점수가 가장 높은 풀이</p>
+          <p>{candidate.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약 · 담당자가 선택한 원본 또는 개선 풀이' : `${candidate.runId === results.runId ? '이번 $3 실행' : '기존 $1 실행'} · 동일 환경의 검증 결과 중 종합 점수가 가장 높은 풀이`}</p>
           {candidate.baseline.raw_samples && candidate.candidate.raw_samples ? <p>원본 HB: {candidate.baseline.raw_samples.map(n => format(n, 0)).join(' / ')}<br/>후보 HB: {candidate.candidate.raw_samples.map(n => format(n, 0)).join(' / ')}</p> : <><p>대표 버전 원본·후보 각 3회 측정으로 보고됐습니다. 원시 HB 표본·컴파일 로그는 공개 묶음에 포함되지 않았습니다.</p><a href="/data/physlib-cslib-results.json" download>PhysLib·CSLib 요약 JSON</a></>}
           <details className="team-candidate"><summary>Lean 증명 보기 · {candidate.candidateHash.slice(0, 10)}</summary>
             <p className="candidate-origin">{candidate.proofPath}<br/>{candidate.runId}</p>
