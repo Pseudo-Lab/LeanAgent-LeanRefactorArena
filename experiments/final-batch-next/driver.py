@@ -262,20 +262,25 @@ def guard_compiler_signal(result):
     value = json.loads(a.canonical(result))
     for environment in value.get("environments", {}).values():
         message = (environment.get("error") or {}).get("message", "").lower()
+        # final60: under the bwrap sandbox an aborted compiler exits 134 (128 + SIGABRT), not -6.
+        abort_codes = (-signal.SIGABRT, 128 + signal.SIGABRT)
         failed_runs = [run for run in environment.get("runs", [])
-                       if type(run.get("returncode")) is int and run["returncode"] < 0]
+                       if type(run.get("returncode")) is int and (run["returncode"] < 0 or run["returncode"] in abort_codes)]
         # A diagnosed Lean allocator limit is candidate feedback, not evidence
-        # of a broken machine. Keep the frozen 4 GiB bound; never retry it here.
+        # of a broken machine. Keep the configured bound (default 4 GiB, see
+        # evaluator.lean_memory_mib); never retry it here.
+        bounds = [part for part in (failed_runs[0].get("command", []) if len(failed_runs) == 1 else [])
+                  if isinstance(part, str) and part.startswith("-M") and part[2:].isdigit()]
         bounded_allocator_abort = (
             "lean::memory_exception" in message
             and "excessive memory consumption detected" in message
             and len(failed_runs) == 1
-            and failed_runs[0]["returncode"] == -signal.SIGABRT
-            and "-M4096" in failed_runs[0].get("command", [])
+            and failed_runs[0]["returncode"] in abort_codes
+            and len(bounds) == 1
         )
         if bounded_allocator_abort:
             error = {"kind": "resource", "message": (environment.get("error") or {})["message"],
-                     "resource": "lean_allocator_limit", "limit_mib": 4096}
+                     "resource": "lean_allocator_limit", "limit_mib": int(bounds[0][2:])}
             environment.update(valid=False, error=error)
             value.update(valid=False, error=error)
             continue

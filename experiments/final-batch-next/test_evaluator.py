@@ -10,6 +10,21 @@ from unittest.mock import patch
 from contextlib import nullcontext
 
 from evaluator import FinalEvaluator, REPO, pending_command_start, proof_tokens, _comment_mask, target_is_private
+from evaluator import DEFAULT_LEAN_MEMORY_MIB, lean_memory_mib
+
+
+class LeanMemoryBoundTests(unittest.TestCase):
+    def test_default_is_frozen_bound_and_override_is_explicit(self):
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("ARENA_LEAN_MEMORY_MIB", None)
+            self.assertEqual(lean_memory_mib(), DEFAULT_LEAN_MEMORY_MIB)
+            self.assertEqual(DEFAULT_LEAN_MEMORY_MIB, 4096)
+        with patch.dict(os.environ, {"ARENA_LEAN_MEMORY_MIB": "16384"}):
+            self.assertEqual(lean_memory_mib(), 16384)
+        for bad in ("", "16G", "-1", "512", "999999999"):
+            with patch.dict(os.environ, {"ARENA_LEAN_MEMORY_MIB": bad}):
+                with self.assertRaises(ValueError):
+                    lean_memory_mib()
 
 
 class FinalEvaluatorContractTests(unittest.TestCase):
