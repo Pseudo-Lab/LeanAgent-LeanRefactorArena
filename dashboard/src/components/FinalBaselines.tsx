@@ -65,7 +65,7 @@ export function FinalBaselines() {
   const updated = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Seoul' }).format(new Date(results.generatedAt));
   return <main id="main" className="final-baselines">
     <div className="page-heading"><div><h1>최종 60문제 · 검증 풀이</h1><p>Strata·PhysLib·CSLib·LeanPool 40문제의 검증 풀이를 반영했습니다. 타일을 선택하면 원본 대비 점수와 증명을 볼 수 있습니다.</p></div>
-      <a className="button" href="/data/final-results.json" download><Download size={16}/>검증 결과 JSON</a></div>
+      <a className="button" href="/data/final-results.json" download><Download size={16}/>Strata·LeanPool JSON</a></div>
     <div className="summary-grid">
       <article className="summary-card"><div className="summary-label">원본 length 확보</div><div className="big-number">60<span>/ 60문제</span></div><p>제공된 최종 데이터셋의 proof_length</p></article>
       <article className="summary-card"><div className="summary-label">원본 HB 확보</div><div className="big-number">{measured}<span>/ 60문제</span></div><p>3회 중앙값 {measured - provisional}개 · 1회 표본 {provisional}개</p></article>
@@ -82,7 +82,7 @@ export function FinalBaselines() {
         {candidate ? <section className="team-results" aria-label="선택한 검증 증명">
           <h3>선택한 검증 증명</h3>
           <p>{candidate.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약' : candidate.runId === results.runId ? '이번 $3 실행' : '기존 $1 실행'} · 동일 환경의 검증 결과 중 종합 점수가 가장 높은 풀이</p>
-          {candidate.baseline.raw_samples && candidate.candidate.raw_samples ? <p>원본 HB: {candidate.baseline.raw_samples.map(n => format(n, 0)).join(' / ')}<br/>후보 HB: {candidate.candidate.raw_samples.map(n => format(n, 0)).join(' / ')}</p> : <p>대표 버전 원본·후보 각 3회 측정으로 보고됐습니다. 원시 HB 표본·컴파일 로그는 공개 묶음에 포함되지 않았습니다.</p>}
+          {candidate.baseline.raw_samples && candidate.candidate.raw_samples ? <p>원본 HB: {candidate.baseline.raw_samples.map(n => format(n, 0)).join(' / ')}<br/>후보 HB: {candidate.candidate.raw_samples.map(n => format(n, 0)).join(' / ')}</p> : <><p>대표 버전 원본·후보 각 3회 측정으로 보고됐습니다. 원시 HB 표본·컴파일 로그는 공개 묶음에 포함되지 않았습니다.</p><a href="/data/physlib-cslib-results.json" download>PhysLib·CSLib 요약 JSON</a></>}
           <details className="team-candidate"><summary>Lean 증명 보기 · {candidate.candidateHash.slice(0, 10)}</summary>
             <p className="candidate-origin">{candidate.proofPath}<br/>{candidate.runId}</p>
             <pre className="candidate-code"><code>{candidate.proof}</code></pre>
