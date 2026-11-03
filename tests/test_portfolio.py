@@ -54,6 +54,56 @@ class PortfolioTests(unittest.TestCase):
         with patch.dict(os.environ, {"OPENROUTER_API_KEY": "synthetic-test-only"}):
             return h.run(self.path, self.output, evaluator=self.evaluator, query=query or fixed)
 
+    def test_guard_bounds_noncompliant_reads_and_replays_honestly(self):
+        self.config["agent"]["portfolio"]["progress_guard"] = "bounded-v1"
+        self.config["limits"]["max_calls"] = 50
+        reads = [{"action": "search", "query": "Nat.add_zero"}] * 32
+        result = self.run_case(reads)
+        self.assertEqual(result["stop_reason"], "portfolio_stalled")
+        self.assertEqual(result["status"], "stopped")
+        self.assertFalse(result["portfolio"]["complete"])
+        self.assertEqual(result["portfolio"]["evaluations"], dict.fromkeys(portfolio.BRANCHES, 0))
+        self.assertEqual(result["portfolio"]["calls"], dict.fromkeys(portfolio.BRANCHES, 8))
+        self.assertEqual(result["portfolio"]["exits"], dict.fromkeys(portfolio.BRANCHES, "stalled"))
+        forced = self.packets[2]
+        self.assertEqual(set(forced["exploration"]["actions"]), {"propose", "repair"})
+        self.assertEqual(forced["approach_policy"]["approach"], "submit_candidate")
+        self.assertEqual(self.packets[8]["portfolio"]["branch"], "scout-b")
+        self.assertIn("search", self.packets[8]["exploration"]["actions"])
+        self.assertEqual(len(self.evaluator.calls), 2)  # baseline and final, no fake evaluations
+        self.assertTrue(h.replay(self.output)["record_replay_passed"])
+
+    def test_guard_requests_candidate_after_four_distinct_reads_then_resets(self):
+        self.config["agent"]["portfolio"]["progress_guard"] = "bounded-v1"
+        reads = [{"action": "search", "query": f"missing{i}"} for i in range(4)]
+        proofs = [proposal("by rfl -- a"), proposal("by rfl -- b"),
+                  proposal("by rfl -- c"), proposal("by rfl -- merged")]
+        result = self.run_case(reads + proofs)
+        self.assertEqual(result["stop_reason"], "portfolio_complete")
+        self.assertEqual(set(self.packets[4]["exploration"]["actions"]), {"propose", "repair"})
+        self.assertEqual(self.packets[5]["portfolio"]["branch"], "scout-b")
+        self.assertIn("search", self.packets[5]["exploration"]["actions"])
+        self.assertTrue(h.replay(self.output)["record_replay_passed"])
+
+    def test_guard_malformed_responses_cannot_stall_forever(self):
+        self.config["agent"]["portfolio"]["progress_guard"] = "bounded-v1"
+        self.config["limits"]["max_calls"] = 50
+        result = self.run_case([{"action": "invalid"}] * 32)
+        self.assertEqual(result["stop_reason"], "portfolio_stalled")
+        self.assertEqual(result["state"]["calls"], 32)
+        self.assertTrue(h.replay(self.output)["record_replay_passed"])
+
+    def test_guard_caps_total_calls_even_with_intermittent_evaluations(self):
+        config = {"agent": {"portfolio": {"scout_evaluations": 6, "merger_evaluations": 22,
+                                           "progress_guard": "bounded-v1"}}}
+        state = {}
+        portfolio.initialize(state, config)
+        for i in range(26):
+            portfolio.record_progress(state, config, (i + 1) % 7 == 0)
+        self.assertEqual(state["portfolio"]["active"], "scout-b")
+        self.assertEqual(state["portfolio"]["evaluations"]["scout-a"], 3)
+        self.assertEqual(state["portfolio"]["exits"]["scout-a"], "call_limit")
+
     def test_three_scoped_contexts_then_merger_share_one_budget_and_replay(self):
         result = self.run_case()
         self.assertEqual(result["stop_reason"], "portfolio_complete")

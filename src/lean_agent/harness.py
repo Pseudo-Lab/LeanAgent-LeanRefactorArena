@@ -373,7 +373,7 @@ def stopping_reason(state, problem, config, prompt, output=None):
     if state["latest"] and state["latest"]["feedback"]["status"] == "environment_failed":
         return "environment_failed"
     if portfolio.finished(state):
-        return "portfolio_complete"
+        return portfolio.stop_reason(state, config)
     if actions.finished(state):
         return "agent_finished"
     if cost_threshold_reached(state, config):
@@ -490,7 +490,7 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
         usage_records = []
         for step in count(1):
             if portfolio.finished(state):
-                stop = "portfolio_complete"
+                stop = portfolio.stop_reason(state, config)
                 break
             if cost_threshold_reached(state, config):
                 stop = "cost_limit"
@@ -540,7 +540,7 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
                 stop = "environment_failed"
                 break
             if portfolio.finished(state):
-                stop = "portfolio_complete"
+                stop = portfolio.stop_reason(state, config)
                 break
             if actions.finished(state):
                 stop = "agent_finished"
