@@ -64,3 +64,13 @@ class Retriever(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EvaluationTest(unittest.TestCase):
+    def test_random_expectation(self):
+        sys.path.insert(0, str(ROOT / "experiments/strategy-retriever/eval"))
+        from evaluate import random_expectation, hit
+        self.assertTrue(hit({"S05"}, ["S04", "S05"]))
+        self.assertFalse(hit({"S05"}, ["S04"]))
+        self.assertAlmostEqual(random_expectation({"S05"}, 3), 1 / 3)
+        self.assertEqual(random_expectation({"S05"}, 0), 0.0)
