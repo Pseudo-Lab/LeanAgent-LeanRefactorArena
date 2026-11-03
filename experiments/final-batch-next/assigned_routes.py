@@ -9,7 +9,7 @@ from itertools import chain, zip_longest
 from pathlib import Path
 
 from driver import DATASET_SHA, REPO, atomic, guard_compiler_signal
-from evaluator import FinalEvaluator, _comment_mask, proof_tokens
+from evaluator import FinalEvaluator, _comment_mask, lean_memory_mib, proof_tokens
 from policy import validate_declaration
 from lean_agent import models
 from assigned_budget import ProblemBudgetError, propose
@@ -527,7 +527,14 @@ def main(argv=None):
     args = ap.parse_args(argv)
     if args.limit < 0 or len(set(args.rows)) != len(args.rows):
         ap.error("Use distinct rows and a nonnegative candidate limit")
-    ev = FinalEvaluator(repo_root=args.prepared_repo, compiler_parallelism=args.compiler_parallelism)
+    try:
+        ev = FinalEvaluator(repo_root=args.prepared_repo, compiler_parallelism=args.compiler_parallelism)
+    except FileNotFoundError as exc:
+        ap.error(f"Prepared environment registry not found: {exc.filename} (untracked; prepare or copy it)")
+    try:
+        memory_mib = lean_memory_mib()
+    except ValueError as exc:
+        ap.error(str(exc))
     if ev.registry["dataset_sha256"] != DATASET_SHA:
         raise ValueError("Unexpected final dataset")
     if bool(args.ledger) != bool(args.prior_spend) or (args.key_file and not args.ledger):
@@ -542,6 +549,9 @@ def main(argv=None):
         if not os.environ.get("OPENROUTER_API_KEY", "").startswith("sk-or-"):
             ap.error("An OpenRouter-issued API key is required")
         paid = (args.ledger, prior)
+    from route60 import preflight  # the same sandbox check as route60, before any output
+
+    preflight(Path(args.prepared_repo).resolve())
     args.out.mkdir(parents=True, exist_ok=False)
     atomic(
         args.out / "protocol.json",
@@ -553,6 +563,7 @@ def main(argv=None):
             "dataset_sha256": DATASET_SHA,
             "team_seeds": str(args.team_seeds) if args.team_seeds else None,
             "compiler_parallelism": args.compiler_parallelism,
+            "lean_memory_mib": memory_mib,
             "code_hashes": {
                 path.name: hashlib.sha256(path.read_bytes()).hexdigest()
                 for path in (

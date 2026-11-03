@@ -6,26 +6,66 @@ import json
 import os
 from pathlib import Path
 import shutil
+import subprocess
 import sys
 
 from assigned_routes import assigned_mean, compare
 from driver import DATASET_SHA, REPO, atomic
-from evaluator import FinalEvaluator
+from evaluator import FinalEvaluator, lean_memory_mib
+
+# Files whose bytes decide which proof text this run can produce (plus the evaluator and the
+# declaration policy that accept it). protocol.json records their hashes, like route20's.
+HARNESS_FILES = ("route60.py", "assigned_routes.py", "assigned_route_hints.json", "reuse_scout.py",
+                 "evaluator.py", "policy.py")
 
 
 def preflight(repo):
-    """Find the Linux compiler sandbox before any work (macOS uses sandbox-exec).
+    """Find and probe the Linux compiler sandbox before any work (macOS uses sandbox-exec).
 
-    The evaluator looks bwrap up on PATH; fall back to the prepared bundled build.
+    The evaluator looks bwrap up on PATH; fall back to the prepared bundled build. The probe
+    runs bwrap with the evaluator's own flags, so a build that cannot create namespaces (for
+    example under AppArmor-restricted user namespaces) fails here instead of on every compile.
     """
-    if sys.platform != "linux" or shutil.which("bwrap"):
+    if sys.platform != "linux":
         return
-    bundled = repo / "sources/final/bin/bwrap"
-    if not (bundled.is_file() and os.access(bundled, os.X_OK)):
-        raise SystemExit("bwrap (bubblewrap) is not on PATH and sources/final/bin/bwrap is absent; "
-                         "the Linux evaluator sandbox requires it")
-    os.environ["PATH"] = str(bundled.parent) + os.pathsep + os.environ.get("PATH", "")
-    print(f"Using the prepared bubblewrap {bundled}", flush=True)
+    sandbox = shutil.which("bwrap")
+    if not sandbox:
+        bundled = repo / "sources/final/bin/bwrap"
+        if not (bundled.is_file() and os.access(bundled, os.X_OK)):
+            raise SystemExit("bwrap (bubblewrap) is not on PATH and sources/final/bin/bwrap is absent; "
+                             "the Linux evaluator sandbox requires it")
+        os.environ["PATH"] = str(bundled.parent) + os.pathsep + os.environ.get("PATH", "")
+        print(f"Using the prepared bubblewrap {bundled}", flush=True)
+        sandbox = str(bundled)
+    probe = [sandbox, "--die-with-parent", "--unshare-all", "--ro-bind", "/", "/",
+             "--dev", "/dev", "--proc", "/proc", "--", "true"]
+    try:
+        done = subprocess.run(probe, capture_output=True, text=True, timeout=60)
+    except (OSError, subprocess.TimeoutExpired) as exc:
+        raise SystemExit(f"The bwrap sandbox probe could not run ({sandbox}): {exc}")
+    if done.returncode:
+        raise SystemExit(f"The bwrap sandbox probe failed ({sandbox}, exit {done.returncode}): "
+                         + ((done.stderr or done.stdout or "").strip()[-500:] or "no output"))
+
+
+def failure_details(folder):
+    """Per-environment error kind and message of the row's latest failed evaluation.
+
+    A failed reference otherwise reaches report.json only as a generic message; the cause
+    (for example Lean's -M memory_exception) sits in that evaluation's result.json.
+    """
+    evaluations = sorted(folder.glob("[0-9]*-*/result.json"),
+                         key=lambda path: int(path.parent.name.split("-", 1)[0]))
+    for path in reversed(evaluations):
+        try:
+            result = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        errors = {env: {"kind": value["error"].get("kind"), "message": str(value["error"].get("message", ""))[-1000:]}
+                  for env, value in result.get("environments", {}).items() if isinstance(value.get("error"), dict)}
+        if errors:
+            return {"evaluation": path.parent.name, "environments": errors}
+    return None
 
 
 def inspect_row(repo, row, ref, registry):
@@ -128,6 +168,10 @@ def main(argv=None):
     if ev.registry["dataset_sha256"] != DATASET_SHA:
         raise ValueError("Dataset registry mismatch")
     inventory = [inspect_row(repo, n, rows[n - 1], ev.registry["environments"]) for n in args.rows]
+    try:
+        memory_mib = lean_memory_mib()
+    except ValueError as exc:
+        ap.error(str(exc))
     if not args.plan_only:
         preflight(repo)  # before any output, so a failed check leaves --out reusable
     args.out.mkdir(parents=True, exist_ok=False)
@@ -171,6 +215,11 @@ def main(argv=None):
             "carry_sha256": carry_hashes[0] if carry_hashes else None,
             "carry_sha256s": carry_hashes,
             "compiler_parallelism": args.compiler_parallelism,
+            "lean_memory_mib": memory_mib,
+            "code_hashes": {
+                name: hashlib.sha256(Path(__file__).with_name(name).read_bytes()).hexdigest()
+                for name in HARNESS_FILES
+            },
         },
     )
     selected = {}
@@ -204,6 +253,9 @@ def main(argv=None):
                 # Do not export a stale winner for this row after a failed recheck.
                 selected.pop(n, None)
                 failed[n] = {"round": iteration, "error": str(exc)[:1500]}
+                details = failure_details(root)
+                if details:
+                    failed[n].update(details)
                 atomic(root / "incomplete.json", failed[n])
                 active.discard(n)
                 continue

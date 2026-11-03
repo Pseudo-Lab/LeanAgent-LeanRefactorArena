@@ -207,3 +207,20 @@ class AssignedRouteTests(unittest.TestCase):
                 propose(ledger, "b", "0", messages, dispatch=lambda *_: self.fail())
             with sqlite3.connect(ledger) as conn:
                 self.assertEqual(conn.execute("select count(*) from calls").fetchone()[0], 1)
+
+    def test_route20_prerequisites_fail_cleanly_before_any_output(self):
+        import assigned_routes
+        with tempfile.TemporaryDirectory() as root:
+            out = Path(root) / "run"
+            # No untracked registry: a usage error naming the file, not a traceback.
+            with patch("sys.stderr"), self.assertRaises(SystemExit) as stopped:
+                assigned_routes.main(["--prepared-repo", root, "--out", str(out)])
+            self.assertEqual(stopped.exception.code, 2)
+            self.assertFalse(out.exists())
+            ev = type("Evaluator", (), {"registry": {"dataset_sha256": assigned_routes.DATASET_SHA}})()
+            with patch.object(assigned_routes, "FinalEvaluator", return_value=ev), \
+                    patch("route60.preflight", side_effect=SystemExit("no bwrap")) as sandbox, \
+                    self.assertRaisesRegex(SystemExit, "no bwrap"):
+                assigned_routes.main(["--prepared-repo", root, "--out", str(out)])
+            sandbox.assert_called_once_with(Path(root).resolve())
+            self.assertFalse(out.exists())
