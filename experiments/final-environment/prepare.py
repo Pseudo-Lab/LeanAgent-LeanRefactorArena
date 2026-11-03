@@ -15,11 +15,12 @@ from resolve import resolve
 def process_env(version):
     binary = ROOT / "toolchains" / version / "bin"
     git_bin = str(Path(shutil.which("git")).parent)
-    threads = os.environ.get("ARENA_BUILD_THREADS", "2")
-    if not threads.isdigit() or not 1 <= int(threads) <= 2:
-        raise ValueError("ARENA_BUILD_THREADS must be 1 or 2")
-    return {"PATH": str(binary) + ":" + git_bin + ":/opt/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
-            "HOME": str(Path.home()), "TMPDIR": "/private/tmp", "LANG": "en_US.UTF-8",
+    limit = len(os.sched_getaffinity(0)) if hasattr(os, "sched_getaffinity") else 2
+    threads = os.environ.get("ARENA_BUILD_THREADS", str(limit))
+    if not threads.isdigit() or not 1 <= int(threads) <= limit:
+        raise ValueError(f"ARENA_BUILD_THREADS must be between 1 and {limit}")
+    return {"PATH": str(binary) + ":" + str(ROOT / "bin") + ":" + git_bin + ":/opt/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
+            "HOME": str(Path.home()), "TMPDIR": "/tmp", "LANG": "C.UTF-8",
             "LEAN_NUM_THREADS": threads, "MATHLIB_NO_CACHE_ON_UPDATE": "1",
             "XDG_CACHE_HOME": str(ROOT / "cache"),
             "MATHLIB_CACHE_DIR": str(ROOT / "cache" / version)}
@@ -136,7 +137,7 @@ def prepare_one(env, rows):
     child = process_env(version)
     lake = compiler / "bin/lake"
     mathlib = project if env["source"] == "putnambench" else project / ".lake/packages/mathlib"
-    if mathlib.is_dir() and closure["external_roots"]:
+    if mathlib.is_dir() and closure["external_roots"] and os.environ.get("ARENA_SOURCE_BUILD") != "1":
         log = state_dir / "cache.log"
         if not log.with_suffix(".receipt.json").exists() or json.loads(log.with_suffix(".receipt.json").read_text())["returncode"]:
             state["stage"] = "mathlib-cache"
@@ -147,7 +148,9 @@ def prepare_one(env, rows):
         state["stage"] = "build-" + module
         write(state_path, state)
         log = state_dir / (module + ".build.log")
-        rec = invoke([lake, "build", "+" + module], project, child, log)
+        # Source builds must not stall while Lake probes Reservoir barrels.
+        cache_flag = ["--no-cache"] if os.environ.get("ARENA_SOURCE_BUILD") == "1" else []
+        rec = invoke([lake, *cache_flag, "build", "+" + module], project, child, log)
         state["records"].append(rec)
         write(state_path, state)
     private_imports = any(re.search(r"(?m)^module\s*$", (project / loc["file_path"]).read_text())

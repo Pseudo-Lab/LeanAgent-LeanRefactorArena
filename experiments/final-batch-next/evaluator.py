@@ -24,18 +24,17 @@ import uuid
 
 REPO = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(REPO / "src"))
-from lean_agent.evaluator.lean import ALLOWED_AXIOMS, WRAPPER
+from lean_agent.evaluator.lean import ALLOWED_AXIOMS, WRAPPER as SHARED_WRAPPER
 from lean_agent.evaluator.tokens import proof_body, without_comments
 from fast_prepared import FastPreparedLeanEvaluator as PreparedLeanEvaluator
 from evaluation_cache import EvaluationCache
 
-# Use this variant only for immutable source prefixes carrying a private target
-# modifier. Public targets retain the common wrapper byte-for-byte.
+WRAPPER = SHARED_WRAPPER.replace("map Name.toString", "map _root_.Lean.Name.toString")
 PRIVATE_WRAPPER = WRAPPER.replace(
     '    let name := target.getString.toName\n'
     '    if (← getEnv).contains name then\n',
     '    let semanticName := target.getString.toName\n'
-    '    let findTargets (env : Environment) : Array Name :=\n'
+    '    let findTargets (env : Environment) : Array _root_.Lean.Name :=\n'
     '      env.checked.get.constants.fold (fun names name _ =>\n'
     '        if name == semanticName || privateToUserName? name == some semanticName then\n'
     '          names.push name\n'
@@ -334,12 +333,21 @@ class FinalEvaluator:
             if setup_hash != known:
                 raise ValueError("Pinned Lake compiler setup changed")
             command.extend(["--setup", str(setup)])
-        sandbox = shutil.which("sandbox-exec")
-        if not sandbox:
-            raise ValueError("macOS readonly compiler sandbox unavailable")
-        command = [sandbox, "-p", "(version 1) (allow default) (deny network*) (deny file-write*)", *command]
+        if sys.platform == "linux":
+            sandbox = shutil.which("bwrap")
+            if not sandbox:
+                raise ValueError("Linux readonly compiler sandbox unavailable")
+            mounts = [part for original, frozen in state.get("library_mounts", {}).items()
+                      for part in ("--ro-bind", frozen, original)]
+            command = [sandbox, "--die-with-parent", "--unshare-all", "--ro-bind", "/", "/",
+                       "--dev", "/dev", "--proc", "/proc", *mounts, "--", *command]
+        else:
+            sandbox = shutil.which("sandbox-exec")
+            if not sandbox:
+                raise ValueError("macOS readonly compiler sandbox unavailable")
+            command = [sandbox, "-p", "(version 1) (allow default) (deny network*) (deny file-write*)", *command]
         child = {"PATH": str(compiler) + ":" + str(Path(shutil.which("git")).parent) + ":/opt/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
-                 "HOME": str(Path.home()), "TMPDIR": "/private/tmp", "LANG": "en_US.UTF-8",
+                 "HOME": str(Path.home()), "TMPDIR": "/tmp", "LANG": "C.UTF-8" if sys.platform == "linux" else "en_US.UTF-8",
                  "LEAN_NUM_THREADS": "1", "MATHLIB_NO_CACHE_ON_UPDATE": "1",
                  "LEAN_PATH": os.pathsep.join(self._prepared[state["id"]].settings["library_paths"])}
         started = time.monotonic()
