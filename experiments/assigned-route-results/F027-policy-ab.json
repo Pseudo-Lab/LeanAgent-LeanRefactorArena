@@ -1,0 +1,34 @@
+{
+  "local": {
+    "score": 33.33333333333333,
+    "selected": "reference",
+    "source_only": true,
+    "candidate_count": 1,
+    "scout_allocated": false,
+    "screens": [
+      {
+        "label": "reference/no-splits",
+        "hash": "dc98432dbef9d2277118a24d585de9bca5bb253984158f9d27ad6eef1b50a52a",
+        "valid": false,
+        "tokens": 428,
+        "stage": "screen"
+      }
+    ]
+  },
+  "issue61": {
+    "score": 33.33333333333333,
+    "selected": "reference",
+    "source_only": true,
+    "candidate_count": 1,
+    "scout_allocated": true,
+    "screens": [
+      {
+        "label": "reference/statement-scout",
+        "hash": "09f16401c538eab1a054a8c87f729958551fcab1d77cfd03ee78ff52b20412cc",
+        "valid": false,
+        "tokens": 11,
+        "stage": "screen"
+      }
+    ]
+  }
+}

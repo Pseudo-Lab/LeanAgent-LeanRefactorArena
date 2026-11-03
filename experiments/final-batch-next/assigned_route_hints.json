@@ -1,0 +1,122 @@
+[
+ [
+  "viableCompletions I",
+  "decide +kernel",
+  "SU(5) 유한 열거",
+  "원본 4토큰. 결정 절차의 환원 비용이 병목이다. 전체 열거와 유한 입력별 분해를 같은 커널에서 비교한다."
+ ],
+ [
+  "isPhenClosedQ5_of_isPhenoConstrainedQ5",
+  "",
+  "SU(5) Q5 폐쇄",
+  "Q5 보조정리를 적용한 뒤 남은 유한 명제를 푼다. revert를 decide 옵션으로 합치는 후보와 입력을 먼저 나누는 후보를 비교한다."
+ ],
+ [
+  "isPhenClosedQ10_of_isPhenoConstrainedQ10",
+  "",
+  "SU(5) Q10 폐쇄",
+  "Q10에 실제로 적용되는 보조정리와 열거 비용을 따로 잰다. Q5 변경을 이식할 때 전하 집합과 인수를 확인한다."
+ ],
+ [
+  "dualWeyl_mul_pauliContr_eq_ofGaussianInt",
+  "",
+  "파울리 텐서 · 아래 첨자",
+  "GaussianInt 표현으로 양변을 옮긴 뒤 basis 성분을 비교한다. 왼쪽·오른쪽 변환을 분리하고 마지막 −i 항의 부호를 보존한다."
+ ],
+ [
+  "pauliContr_mul_dualWeyl_eq_ofGaussianInt",
+  "",
+  "파울리 텐서 · 위 첨자",
+  "곱 순서가 반대이며 ε 항 계수는 +i다. 연속 simp only 두 단계와 마지막 유한 decide 비용을 각각 비교한다."
+ ],
+ [
+  "electricField_apply_contDiff_space",
+  "",
+  "전자기장 미분 교환",
+  "미분가능성 증명을 재사용하고 유한합 안의 미분 교환을 국소화한다. Gauss·Ampère 가정이 필요한 마지막 등식을 따로 본다."
+ ],
+ [
+  "crAnTimeOrderRel",
+  "Submodule.span",
+  "Wick 대수 · span 귀납",
+  "좌우 곱에서 동일한 기저·span 논증을 공유한다. 국소 가설을 직접 rw에 넘기는 후보와 simp_all 분리 후보를 비교한다."
+ ],
+ [
+  "IsTestFunction",
+  "Continuous f",
+  "변분법 · 거의 모든 곳에서의 등식",
+  "각 점의 내적을 실수값 함수로 보낸다. trim된 측도에서 영임을 보인 뒤 연속성으로 점별 등식을 얻는다. 필요한 Borel 인스턴스 범위를 확인한다."
+ ],
+ [
+  "Matrix.fromBlocks",
+  "PosDef",
+  "에르미트 역행렬 볼록성",
+  "블록 행렬의 양의 준정부호에서 역행렬 부등식을 얻는다. 선행 Schur complement 정리를 찾고 이를 쓸 수 있으면 직접 행렬 곱 전개를 대체한다."
+ ],
+ [
+  "h_cauchy_binet",
+  "Matrix.det",
+  "Cauchy–Binet · 행렬식과 유한합",
+  "함수 인덱스 합, 비단사 항의 소거, 단사 항 재분류를 분리한다. 선행 정리의 인덱스·순서 가정을 대조한 뒤 한 단계씩 대체한다."
+ ],
+ [
+  "Typing []",
+  "subst eq",
+  "Fsub 진행성",
+  "빈 문맥 일반화를 유지한 채 값 또는 한 단계 축약의 증인을 만든다. 원래 귀납에서 쉽게 닫히는 분기만 작은 전술로 교체한다."
+ ],
+ [
+  "Sab_irreducible",
+  "Diamond ParallelReduction",
+  "SKI 병렬 축약 다이아몬드",
+  "I·K·S의 비축약 보조정리로 공통 후속 항을 고정한다. 각 분기의 쌍을 생성자로 직접 조립한다."
+ ],
+ [
+  "ChoiceBisim",
+  "",
+  "CCS 선택 연산과 쌍모사",
+  "ChoiceBisim을 관계 증인으로 유지한다. 좌우 전이의 대칭 분기에서 첫 성공까지 여러 자동화를 시도하는 비용을 줄인다."
+ ],
+ [
+  "der.abs_inv",
+  "subst_ty",
+  "Fsub 보존성",
+  "typing 귀납 후 beta 분기의 반전·치환 보조정리를 쓴다. Sub.refl과 문맥 등식을 직접 공급해 grind 탐색을 줄인다."
+ ],
+ [
+  "simpleDeliver_fair",
+  "numProcFaulty",
+  "FLP 합의에서 의사합의로",
+  "공정 실행을 붙인 뒤 faulty 수 상계를 얻는다. 공정성과 종결성 증인을 그대로 두고 한 번 쓰는 중간 명제부터 직접 전달한다."
+ ],
+ [
+  "buchiCongruence_transfer",
+  "flatten_execution",
+  "Büchi 포화성",
+  "두 단어 분해의 구간 언어를 옮기고 실행을 이어 붙인다. 비어 있지 않은 구간·무한 방문 조건은 보존하면서 길이 및 membership 사실을 재사용한다."
+ ],
+ [
+  "!b",
+  "CanReach",
+  "FLP 비균일 전이",
+  "반대 결정값에 도달하는 실행에서 경계가 되는 한 전이를 추출한다. 참·거짓 반전과 도달 가능성 증인의 방향을 유지한다."
+ ],
+ [
+  "segment_lower_bound",
+  "extract_flatten",
+  "무한 실행 평탄화",
+  "누적 길이 경계의 내부·마지막 위치를 구분한다. 양수 길이와 segment 단조성 보조정리를 명시해 자연수 산술의 반복 탐색을 줄인다."
+ ],
+ [
+  "h_mtr",
+  "count_erase_of_ne",
+  "FLP 입력 부분집합 불변식",
+  "실행 접두사 길이로 귀납하며 각 메시지 전이 후의 불변식을 복원한다. 두 분기의 MTr.stepR 구성과 리스트 인덱스 증명을 국소화한다."
+ ],
+ [
+  "para_open_out",
+  "subst_intro",
+  "비형식 람다계산 · 병렬 축약 다이아몬드",
+  "abs/beta 교차 분기의 fresh 변수와 치환을 분리한다. 양쪽 귀납가정의 바인더와 변수가 겹치지 않게 하며 버전별 grind 패턴을 확인한다."
+ ]
+]

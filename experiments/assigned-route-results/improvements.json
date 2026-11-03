@@ -1,0 +1,451 @@
+{
+  "scope": "team-assisted development; fresh pinned-environment measurements",
+  "rows": [
+    {
+      "row": 14,
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "route": "tensor-basis",
+      "controls": {
+        "reference": 33.33333333333333,
+        "pr54": 33.33333333333333,
+        "pr60-peer": 65.65609738554677
+      },
+      "selected": "pr60-peer/infer-hom",
+      "score": 65.8414772373896,
+      "gain_over_control": 0.1853798518428249,
+      "attempts": 1,
+      "group": "research-four-v1",
+      "proof_sha256": "7f744723e6373a573e459b8ff8c61481f6594ff733f788b7996e9a1f5a4b23b5",
+      "versions": {
+        "physlib-v4.34.1": {
+          "raw_samples": [
+            119074176,
+            119074176,
+            119074176
+          ],
+          "receipt_sha256": "40b203283762b532be7f31d3fa849f9423543f13b27ef94b28c6063635323fb2"
+        },
+        "physlib-v4.34.0": {
+          "raw_samples": [
+            119074176
+          ],
+          "receipt_sha256": "f803131d031af3b3c21d82fbb8b4b483fad63ad2b26711e287df86a1776f6cb9"
+        }
+      }
+    },
+    {
+      "row": 20,
+      "name": "cauchyBinet",
+      "route": "matrix-lemma",
+      "family": "Cauchy–Binet · 행렬식과 유한합",
+      "controls": {
+        "reference": 33.33333333333333,
+        "pr54": 51.31828981568936,
+        "pr60-peer": 75.52852649846207
+      },
+      "control_reuse": 0.489749430523918,
+      "selected_reuse": 0.4908675799086758,
+      "scout_allocated": false,
+      "selected": "pr60-peer/unused-simp",
+      "score": 75.58442285085042,
+      "gain_over_control": 0.055896352388344894,
+      "attempts": 2,
+      "screened_hashes": [
+        "054c31db603d58fa25c7b1f754d6e88ba24c46dcb014d0a77e0144a8d1b1e3a4",
+        "c7618e4d09f7a3bdc4431c6d5286c15e6caa8af0aca92744ebc7f41255bcf94a"
+      ],
+      "call": null,
+      "group": "research-sixteen-v2",
+      "proof_sha256": "054c31db603d58fa25c7b1f754d6e88ba24c46dcb014d0a77e0144a8d1b1e3a4",
+      "versions": {
+        "physlib-v4.34.1": {
+          "raw_samples": [
+            5850382,
+            5850382,
+            5850382
+          ],
+          "receipt_sha256": "64119315b3cc10096f43b7c69f142c0df02b4f7fb80c580b19d8a6aa3ed58cbd"
+        },
+        "physlib-v4.34.0": {
+          "raw_samples": [
+            5850382
+          ],
+          "receipt_sha256": "85a502d97ff9404ff8215a7205fa1cb90094e59e74709ee500c64850ba823547"
+        }
+      }
+    },
+    {
+      "row": 29,
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "route": "reachability",
+      "family": "FLP 입력 부분집합 불변식",
+      "controls": {
+        "reference": 33.33333333333333,
+        "pr54": 33.648885471082664,
+        "pr60-peer": 75.55408960360153
+      },
+      "control_reuse": 0.16731517509727625,
+      "selected_reuse": 0.1607843137254902,
+      "scout_allocated": false,
+      "selected": "pr60-peer/trim-simp-argument",
+      "score": 75.81924497618998,
+      "gain_over_control": 0.26515537258845256,
+      "attempts": 2,
+      "screened_hashes": [
+        "0678e2c9420e00c8ea698b498db0ffd59f976cb4f426ed069aa68a7d93575d1b",
+        "9d1ddfc4a1d88595496e554865a3a8f8b316596edf4254c8ad23e168d949d5af"
+      ],
+      "call": null,
+      "group": "research-sixteen-v2",
+      "proof_sha256": "0678e2c9420e00c8ea698b498db0ffd59f976cb4f426ed069aa68a7d93575d1b",
+      "versions": {
+        "cslib-v4.34.1": {
+          "raw_samples": [
+            2193837,
+            2193889,
+            2193792
+          ],
+          "receipt_sha256": "213c124118a963d042a4207dfdea0c9d74e36ad065521fb76b6c874657523521"
+        },
+        "cslib-v4.33.1": {
+          "raw_samples": [
+            2192491
+          ],
+          "receipt_sha256": "c580ddafdf98f44048f635195de2622f5c5b7a0aace30f2dfed9e484942df834"
+        }
+      }
+    },
+    {
+      "row": 27,
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "route": "reachability",
+      "family": "FLP 비균일 전이",
+      "controls": {
+        "reference": 33.33333333333333,
+        "pr54": 33.33333333333333,
+        "pr60-peer": 86.25000327884268
+      },
+      "selected": "pr60-peer/trace-constructors",
+      "score": 86.5337534731832,
+      "gain_over_control": 0.28375019434051296,
+      "attempts": 3,
+      "call": null,
+      "group": "research-trace-v4",
+      "proof_sha256": "0e6c42b15c54a30e7bdf16796399de1d7504280df8566528a9ec462878e5e456",
+      "versions": {
+        "cslib-v4.34.1": {
+          "raw_samples": [
+            498935,
+            498935,
+            498935
+          ],
+          "receipt_sha256": "3f1c79d00531ec2af7e11cb5f6afe6721470b73dfb6845aa33306184ddaf032b"
+        },
+        "cslib-v4.33.1": {
+          "raw_samples": [
+            499969
+          ],
+          "receipt_sha256": "fd207c44436394729e70bfe47ae45148a9f69586c3671799321e3df1e2cc2902"
+        }
+      }
+    },
+    {
+      "row": 28,
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "route": "reachability",
+      "family": "무한 실행 평탄화",
+      "controls": {
+        "reference": 33.33333333333333,
+        "pr54": 33.545418324349484,
+        "pr60-peer": 66.40925305802661
+      },
+      "control_reuse": 0.7061611374407583,
+      "selected_reuse": 0.680365296803653,
+      "scout_allocated": false,
+      "selected": "pr60-peer/segment-one-rewrite",
+      "score": 66.6787092177816,
+      "gain_over_control": 0.26945615975499493,
+      "attempts": 2,
+      "screened_hashes": [
+        "ce441e6e50706b0b2474b59ab553b90110e01fd6d2cc629864a1bd95db573dd5",
+        "896e815c998c17134e097eedf8bb2c001a04763b5d058da9c2f46acaa5fa502f"
+      ],
+      "call": null,
+      "group": "research-segments-v2",
+      "proof_sha256": "ce441e6e50706b0b2474b59ab553b90110e01fd6d2cc629864a1bd95db573dd5",
+      "versions": {
+        "cslib-v4.33.1": {
+          "raw_samples": [
+            9811462,
+            9811268,
+            9812147
+          ],
+          "receipt_sha256": "b28852d72eefd203588b0ed2dbaacd74274ae14014cfb021b62c61df64f7f5cb"
+        },
+        "cslib-v4.31.0": {
+          "raw_samples": [
+            11332858
+          ],
+          "receipt_sha256": "cf27ef1c33bbe3cf37db83a499b91a5ef0799c05cda4c1ef6c613dcb6b8eb3d4"
+        },
+        "cslib-v4.30.0": {
+          "raw_samples": [
+            12016705
+          ],
+          "receipt_sha256": "cf27ef1c33bbe3cf37db83a499b91a5ef0799c05cda4c1ef6c613dcb6b8eb3d4"
+        }
+      }
+    },
+    {
+      "row": 23,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "route": "local-tactics",
+      "family": "CCS 선택 연산과 쌍모사",
+      "controls": {
+        "reference": 33.33333333333333,
+        "pr54": 86.13156001441871,
+        "pr60-peer": 83.56478096866675,
+        "previous-round": 86.13156001441871
+      },
+      "control_reuse": 0.06521739130434782,
+      "selected_reuse": 0.06593406593406594,
+      "scout_allocated": false,
+      "selected": "pr54/and-right",
+      "score": 86.29304449824014,
+      "gain_over_control": 0.16148448382142533,
+      "metrics": {
+        "proof_length_reduction_pct": 68.52589641434264,
+        "heartbeat_reduction_pct": 90.35323708037777,
+        "version_transfer_pct": 100.0
+      },
+      "attempts": 1,
+      "screened_hashes": [
+        "8aa8fb853d88a8281c81c40222cb9e1e58e64c6e0712def4f13ffabf394ba2da"
+      ],
+      "call": null,
+      "group": "research-children-F023",
+      "proof_sha256": "8aa8fb853d88a8281c81c40222cb9e1e58e64c6e0712def4f13ffabf394ba2da",
+      "versions": {
+        "cslib-v4.34.1": {
+          "raw_samples": [
+            380166,
+            380166,
+            380166
+          ],
+          "receipt_sha256": "9fbbf33fde0f1873b23889c05e8201bb37b3566d67b071edb44c0116ea27fcf7"
+        },
+        "cslib-v4.33.1": {
+          "raw_samples": [
+            376644
+          ],
+          "receipt_sha256": "7263f37660a0bfbe6b4a19f0819c30e2935d0263db25016a6bfc95bfd9eb02cf"
+        },
+        "cslib-v4.31.0": {
+          "raw_samples": [
+            382284
+          ],
+          "receipt_sha256": "7263f37660a0bfbe6b4a19f0819c30e2935d0263db25016a6bfc95bfd9eb02cf"
+        }
+      }
+    },
+    {
+      "row": 24,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "route": "typing-inversion",
+      "family": "Fsub 보존성",
+      "controls": {
+        "reference": 33.33333333333333,
+        "pr54": 37.288444480187266,
+        "pr60-peer": 59.153357803858796,
+        "previous-round": 61.99804404129899
+      },
+      "control_reuse": 0.5975232198142415,
+      "selected_reuse": 0.6488294314381271,
+      "scout_allocated": false,
+      "selected": "previous-round/one-substitution-no-clears",
+      "score": 62.84862962358843,
+      "gain_over_control": 0.8505855822894404,
+      "metrics": {
+        "proof_length_reduction_pct": 30.946291560102303,
+        "heartbeat_reduction_pct": 57.599597310662986,
+        "version_transfer_pct": 100.0
+      },
+      "attempts": 3,
+      "screened_hashes": [
+        "0d34eae8519b5a23fd115f6d0a7ff742eb9715d467ba3ed23e7f172b609fa258",
+        "ce0a2939cb1536ad8ea4342f5f4e77d4146fc0762bbc3e65fd53e3dcdc376e54",
+        "b65f55e98fd2f9d5b9741d507ff6d715ae4df1a3a30bdc5a2c7f70d25d9a9251"
+      ],
+      "call": null,
+      "group": "research-children-F024-quick",
+      "proof_sha256": "b65f55e98fd2f9d5b9741d507ff6d715ae4df1a3a30bdc5a2c7f70d25d9a9251",
+      "versions": {
+        "cslib-v4.34.1": {
+          "raw_samples": [
+            16156171,
+            16156101,
+            16156205
+          ],
+          "receipt_sha256": "a4b207a6ef194eaa372e41bbc7899ed3c243e97232c0f2cff55e11b02113d5d5"
+        },
+        "cslib-v4.33.1": {
+          "raw_samples": [
+            16374474
+          ],
+          "receipt_sha256": "6f522513f5566ffbad1dd1b1811972d4c9324d58da173b2338049ed55cdd4671"
+        }
+      }
+    },
+    {
+      "row": 25,
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "route": "reachability",
+      "family": "FLP 합의에서 의사합의로",
+      "controls": {
+        "reference": 33.33333333333333,
+        "previous-round": 59.08222414398981
+      },
+      "control_reuse": 0.2921615201900237,
+      "selected_reuse": 0.2921615201900237,
+      "scout_allocated": false,
+      "selected": "previous-round/short-add-bound",
+      "score": 59.08614170968906,
+      "gain_over_control": 0.00391756569924695,
+      "metrics": {
+        "proof_length_reduction_pct": 9.237875288683606,
+        "heartbeat_reduction_pct": 68.02054984038357,
+        "version_transfer_pct": 100.0
+      },
+      "attempts": 1,
+      "screened_hashes": [
+        "860dbfc1645b605244f921cf67951361ca58c69aa26821b09283284aac1c7c71"
+      ],
+      "call": null,
+      "group": "research-children-F025-fairness-reuse",
+      "proof_sha256": "860dbfc1645b605244f921cf67951361ca58c69aa26821b09283284aac1c7c71",
+      "versions": {
+        "cslib-v4.34.1": {
+          "raw_samples": [
+            3716928,
+            3717030,
+            3716908
+          ],
+          "receipt_sha256": "ad7911acee0b81f3ade105cd0cf9c8f2007d407361097f6b5ae58aba8d4bce9c"
+        },
+        "cslib-v4.33.1": {
+          "raw_samples": [
+            3774821
+          ],
+          "receipt_sha256": "54cf029456ee0130978b0c0d5d4a4eedbf694dd5306096d7ac27f2ec75a301d3"
+        }
+      }
+    },
+    {
+      "row": 30,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "route": "local-tactics",
+      "family": "비형식 람다계산 · 병렬 축약 다이아몬드",
+      "controls": {
+        "reference": 33.33333333333333,
+        "previous-round": 66.98253116347219
+      },
+      "control_reuse": 0.25219298245614036,
+      "selected_reuse": 0.2533039647577093,
+      "scout_allocated": false,
+      "selected": "previous-round/infer-intros",
+      "score": 67.09522160936913,
+      "gain_over_control": 0.11269044589694488,
+      "metrics": {
+        "proof_length_reduction_pct": 17.34104046242775,
+        "heartbeat_reduction_pct": 83.94462436567964,
+        "version_transfer_pct": 100.0
+      },
+      "attempts": 4,
+      "screened_hashes": [
+        "149ca042170e9a0f79c0d297885ee7e6b1d2a5724fce831b92f1202855e684ab",
+        "d7bd6b8cea9107f049b4bae890d20546fecc4aa1aca9cbff7338badc5d9b3459",
+        "6199f485693ec97d3e0595a530d2ea6b2f713eeefd45f0018b986b2f28233399",
+        "5005d695df2b5ec92354ec40a6ed052dc975bae63b75b9f1881a45ed7a76359d"
+      ],
+      "call": null,
+      "group": "research-children-F030-join-inference",
+      "proof_sha256": "5005d695df2b5ec92354ec40a6ed052dc975bae63b75b9f1881a45ed7a76359d",
+      "versions": {
+        "cslib-v4.34.1": {
+          "raw_samples": [
+            1378889,
+            1378888,
+            1378888
+          ],
+          "receipt_sha256": "1dc63cc3690322cff673bf231d96d86fdcd0f9b1b84db10cbbb0763614296a52"
+        },
+        "cslib-v4.33.1": {
+          "raw_samples": [
+            1379338
+          ],
+          "receipt_sha256": "3c31bcbf21b0898e9b9a4280038766561a217015d364452b1b2ff8daefea6f9e"
+        }
+      }
+    },
+    {
+      "row": 26,
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "route": "reachability",
+      "family": "Büchi 포화성",
+      "controls": {
+        "reference": 33.33333333333333,
+        "pr54": 33.448032833427305,
+        "pr60-peer": 67.92255697478303,
+        "previous-round": 68.33912151790344
+      },
+      "control_reuse": 0.5216606498194946,
+      "selected_reuse": 0.5283363802559415,
+      "scout_allocated": true,
+      "selected": "previous-round/remove-clear",
+      "score": 68.5021332784816,
+      "gain_over_control": 0.1630117605781578,
+      "metrics": {
+        "proof_length_reduction_pct": 18.13804173354735,
+        "heartbeat_reduction_pct": 87.36835810189744,
+        "version_transfer_pct": 100.0
+      },
+      "attempts": 11,
+      "screened_hashes": [
+        "f04f0110f52269d7de8452fa2dbc878bd0ef9b690b152db0e449bf12d0df8846",
+        "e3736d0e26b93db1ac30c6732b56a6bd5d9fd57fd78ce1338102f6664060d57a",
+        "8908e2dfdbc7671e2744dd9bc7b6c29df5600421981c35879db750d065c1e7a2",
+        "a5881abd4c982cf8f3d30e0dd86182275860bec3d90b4f805dfa338293a8255e",
+        "56209fbffe2c70841608a561bc7f74a468fe629e694fcecadeef3c6fcdefba9a",
+        "fdae985f4cb1e60097b38f973d395ac6187e6bb0cf7ae29970980bf990b78451",
+        "dc1506202d98bcbdbae99e81dee57dfc2896e7b90e6cdd86fc443c02ba8309fe",
+        "67e268e8adfdf056e079f0e2a4abd140b708c1359234961fcd958f157a1da051",
+        "92f264530c7d5e79d2d55846b548ad6daf5cf79706f2a42bb65f67581245337c",
+        "d00fab091f24fef0739b5dfe263c72cf5969f1fdb0b76532f166fbd36849f40b",
+        "5af978c77df0ee9bc8be03708a97a9462c4adf6e9e9f2d529882c95ec543343d",
+        "a070007df16bcae739547e715c15dfebd61870cdbe18a5a2428139c731da4e6d",
+        "752019eeefab804385834c2bace1f1b55129420baed9e92a1381bc1ca1111731",
+        "686ff2796160800e7298ca6c2fd400bf9ff647338a77aa01ce745886ec561896",
+        "b5370443bd0bd664b236816c9a935c82e1d15cefec14c5de632e8f791dab3fe3"
+      ],
+      "call": null,
+      "group": "goal-assigned20/F026/round-01",
+      "proof_sha256": "fdae985f4cb1e60097b38f973d395ac6187e6bb0cf7ae29970980bf990b78451",
+      "versions": {
+        "cslib-v4.33.1": {
+          "raw_samples": [
+            7191419,
+            7192176,
+            7192047
+          ],
+          "receipt_sha256": "4ce3b8ed0fc26231ee1e45e4ca2757f618a7566f949fdce1465eca71ecf967b5"
+        },
+        "cslib-v4.31.0": {
+          "raw_samples": [
+            8674757
+          ],
+          "receipt_sha256": "026af94f59cd32ee1e46aa571631d54d13bc631fa3be81a796b671e840272681"
+        }
+      }
+    }
+  ]
+}
