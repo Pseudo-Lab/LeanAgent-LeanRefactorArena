@@ -55,6 +55,9 @@ ALLOCATOR_ABORT_MARKERS = ("lean::memory_exception", "memory exception", "excess
 # whose inputs carry input/final60.json, or a root sealed with provider OpenRouter.
 # OpenAI-direct roots keep the code paths above and below unchanged.
 FINAL60_PROVIDER = "OpenRouter"
+# Sealed transports of a final60 root (lean_agent.final60.transports.NAMES): openrouter (the entry),
+# mock (dry runs) and openai (the OpenAI-direct development wire). Legacy OpenAI roots seal no transport.
+FINAL60_TRANSPORTS = ("openrouter", "openai", "mock")
 FINAL60_SCHEMA = "final60-v1"
 FINAL60_MAX_CAP = Decimal("2.99")
 FINAL60_MONEY_FILES = ("contracts.py", "catalog.py", "transport.py", "ledger.py", "money.py")
@@ -152,8 +155,20 @@ def validated_parallelism(value, source):
 
 
 def final60_root(root):
+    """A root sealed by the final60 branch of seal_inputs, whatever its sealed transport.
+
+    OpenRouter (real or mock) and OpenAI-direct development roots all take the final60 paths
+    (hooks 2, 3 and 7: ledgered dispatch, stop reasons, no-resend recovery). Keying on the
+    provider name alone sent OpenAI-direct roots down the legacy path, where a worker restart
+    crashed forever in recover_pending and the row clock/salvage flags were never read (smoke).
+    """
     path = Path(root) / "authorization.json"
-    return path.exists() and a.read(path).get("provider") == FINAL60_PROVIDER
+    if not path.exists():
+        return False
+    authorization = a.read(path)
+    return (authorization.get("provider") == FINAL60_PROVIDER
+            or authorization.get("final60_schema") == FINAL60_SCHEMA
+            or authorization.get("transport") in FINAL60_TRANSPORTS)
 
 
 def final60_inputs(root):
@@ -977,14 +992,29 @@ def final60_stop_reason(root, row):
     return None
 
 
-def final60_ledger(root):
-    """The run's shared SQLite ledger (a mirror; ledger.json stays the audited truth)."""
+def final60_ledger(root, row=None):
+    """The run's shared SQLite ledger (a mirror; ledger.json stays the audited truth).
+
+    FINAL60_COST_LEDGER overrides the sealed path (one ledger shared across run dirs), as in
+    openrouter_transport.ledger_path. With ``row`` the sealed prior_cost_usd (spend for this
+    problem outside this root, e.g. a Smoke run) is declared before any reservation, so every
+    HTTP sub-attempt, retries after lost responses included, is bounded by cap - prior; the
+    declaration is idempotent and refuses a prior that disagrees with the locked ledger.
+    """
     from lean_agent.final60 import ledger as cost_ledger
     authorization = a.read(Path(root) / "authorization.json")
-    if not authorization.get("cost_ledger"):
+    override = os.environ.get("FINAL60_COST_LEDGER")
+    if not authorization.get("cost_ledger") and not override:
         raise ValueError("final60 root lacks its shared cost ledger")
-    return cost_ledger.CostLedger((Path(root) / authorization["cost_ledger"]).resolve(),
-                                  cap_usd=Decimal(authorization["cap_usd"]))
+    path = Path(override).resolve() if override else (Path(root) / authorization["cost_ledger"]).resolve()
+    ledger = cost_ledger.CostLedger(path, cap_usd=Decimal(authorization["cap_usd"]))
+    if row is not None:
+        prior = Decimal(str(authorization.get("prior_cost_usd") or "0"))
+        if not prior.is_finite() or prior < 0:
+            raise ValueError("Invalid sealed prior_cost_usd")
+        if prior:
+            ledger.declare_prior(f"F{row:03}", prior, note="sealed authorization prior_cost_usd")
+    return ledger
 
 
 def final60_release(root, attempt):
@@ -1012,9 +1042,16 @@ def final60_settle(root, row, step, bound, normalized, result, model):
     charged = max(cost, settled)
     usage = normalized.get("usage") or {}
     completion = usage.get("completion_tokens")
-    violated = charged > Decimal(str(bound["reserved_usd"])) or (
-        type(completion) is int and completion > int(model.get("max_tokens", completion)))
     cost_receipt = normalized.get("_cost_receipt") or {}
+    if "bound_violated" in cost_receipt:
+        # money.dispatch_guarded checks every HTTP sub-attempt (cost and completion tokens) against
+        # the single-request bound and the audit compares this flag with that evidence. The step
+        # total legitimately exceeds one bound after a lost sub-attempt charged at its bound, so
+        # recomputing the flag from the total froze the row and failed its audit (verify3).
+        violated = bool(cost_receipt["bound_violated"])
+    else:
+        violated = charged > Decimal(str(bound["reserved_usd"])) or (
+            type(completion) is int and completion > int(model.get("max_tokens", completion)))
     with locked(root / "ledger.lock"):
         ledger = a.read(root / "ledger.json")
         item = ledger["attempts"][attempt]
@@ -1100,7 +1137,8 @@ def final60_dispatch(root, row, step, body, model, step_dir):
             atomic(root / "ledger.json", ledger)
         start = time.monotonic()
         try:
-            result = money.dispatch_guarded(body, spec, ledger=final60_ledger(root),
+            # The shared ledger learns the sealed prior before its first reservation for this row.
+            result = money.dispatch_guarded(body, spec, ledger=final60_ledger(root, row),
                                             problem=f"F{row:03}", attempt_id=attempt, run_root=root,
                                             step_dir=step_dir, key=key, **options)
         except BudgetExceeded as exc:
@@ -1139,10 +1177,13 @@ def final60_recover(root, row, step, step_dir):
         raise ValueError("A live dispatcher still owns this attempt; refusing concurrent recovery") from None
     model = a.read(folder(root, row) / "input/config.json")["model"]
     if (step_dir / "response.json").exists() and (step_dir / "cost-receipt.json").exists():
-        final60_settle(root, row, step, {"reserved_usd": item["maximum_request_cost_usd"]},
-                       a.read(step_dir / "response.json"), None, model)
+        # The saved step may hold several HTTP sub-attempts: its reservation is the step total or the bound.
+        response = a.read(step_dir / "response.json")
+        total = Decimal(str((response.get("usage") or {}).get("cost") or 0))
+        final60_settle(root, row, step, {"reserved_usd": str(max(total, Decimal(item["maximum_request_cost_usd"])))},
+                       response, None, model)
         return
-    sqlite = final60_ledger(root)
+    sqlite = final60_ledger(root, row)
     def ours(entry):
         return str(entry.get("attempt_id", entry.get("id", ""))).split("#", 1)[0] == attempt
     authorization = a.read(root / "authorization.json")
@@ -1315,6 +1356,25 @@ def compact_worker_failure(exc):
     return report
 
 
+def final_candidate_disposition(result):
+    """Verdict on one ranked candidate's all-version compatibility result in run_problem.
+
+    ``valid`` selects it. ``skip`` moves on to the next ranked candidate: a timeout or a compile
+    failure on any required version, or a Lean allocator abort, means this candidate is not
+    all-version compatible, which says nothing about the others (raising here sent whole rows
+    back to the original although lower-ranked candidates were valid). ``environment`` is a host
+    failure that persisted through evaluate_cached's retries; it stops the row for inspection.
+    """
+    if result.get("valid"):
+        return "valid"
+    errors = [(value.get("error") or {}) for value in result.get("environments", {}).values()]
+    if h.environment_failed(result) and not any(error.get("resource") == "lean_allocator_limit" for error in errors):
+        return "environment"
+    if any(error.get("kind") == "timeout" for error in errors):
+        return "timeout"
+    return "skip"
+
+
 def run_problem(root, row):
     root = Path(root)
     require_policy(root)
@@ -1436,12 +1496,14 @@ def run_problem(root, row):
                 evaluate_cached(ev, value["code"], problem, check.parent, repetitions=1,
                                 all_versions=True, trusted_reference=value["sha256"] == a.sha(problem["reference"]))
                 result = guard_compiler_signal(a.read(check))
-                if h.environment_failed(result) or any((value.get("error") or {}).get("kind") == "timeout"
-                                                      for value in result.get("environments", {}).values()):
+                disposition = final_candidate_disposition(result)
+                if disposition == "environment":
                     raise ValueError("Final compatibility environment/resource failure; inspect before retry")
-                if result["valid"]:
+                if disposition == "valid":
                     selected, checked = value, result
                     break
+                atomic(check.parent / "skipped.json", {"rank": rank, "sha256": value["sha256"], "at": now(),
+                                                       "reason": "not all-version compatible (" + disposition + ")"})
             if selected is None:
                 raise ValueError("No all-version compatible final candidate")
             (output / "selected.lean").write_text(selected["code"])
@@ -1471,7 +1533,10 @@ def run_problem(root, row):
             summary.update(cost_basis="provider-token-usage-times-frozen-public-list-prices", invoice_verified=False,
                            provider="OpenAI direct", model=MODEL["id"])
             if final60:
-                summary.update(cost_basis=FINAL60_COST_BASIS, provider=FINAL60_PROVIDER, model=config["model"]["id"],
+                # The sealed provider: OpenRouter, or "OpenAI direct" on a development root.
+                sealed = a.read(root / "authorization.json")
+                summary.update(cost_basis=sealed.get("budget_cost_basis", FINAL60_COST_BASIS),
+                               provider=sealed.get("provider", FINAL60_PROVIDER), model=config["model"]["id"],
                                model_provider=config["model"]["provider"], api_endpoint=wire.ENDPOINT)
                 if summary["stop_reason"] in FINAL60_STOP_REASONS:
                     # A deliberate end before the portfolio/budget completed is never "completed".

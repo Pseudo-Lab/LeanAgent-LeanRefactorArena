@@ -25,10 +25,20 @@ def sha(text):
 
 
 def openrouter_transport_for(authorization):
-    """final60 hook 6: OpenRouter roots are audited by the OpenRouter adapter."""
+    """final60 hook 6: the adapter that audits a final60 root's steps.
+
+    OpenRouter roots (real or mock) are audited by the OpenRouter adapter; an OpenAI-direct
+    development root (sealed transport ``openai``) by the OpenAI-direct adapter, whose
+    normalizer and bound match its evidence (auditing it with the OpenRouter normalizer failed
+    every step and published the original over validated improvements, smoke). Legacy OpenAI
+    roots carry no sealed transport and keep the openai_transport checks below.
+    """
     if authorization.get("provider") == "OpenRouter":
         import openrouter_transport
         return openrouter_transport
+    if authorization.get("transport") == "openai":
+        import openai_direct_transport
+        return openai_direct_transport
     return None
 
 
