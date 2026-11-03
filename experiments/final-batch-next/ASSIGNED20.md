@@ -54,11 +54,11 @@ PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py route60 \
   --rounds 1 --limit 0 --out runs/compare-common-assigned
 ```
 
-`experiments/assigned-route-results/verified-candidates.jsonl`은 F014–F015, F020, F023–F030의 팀 풀이 기반 개선 후보 11개를 담는다. 아래처럼 전달하면 해당 문제를 탐색할 때 기존 평가기로 먼저 다시 검증하고 대조군으로 사용한다. 나머지 문제는 원본과 선택한 팀 seed에서 시작한다. 이 파일은 개발용이며 공식 제출물이나 전체 20문제 결과가 아니다.
+`experiments/assigned-route-results/verified-candidates.jsonl`은 F012–F015, F020, F023–F030의 개선 후보 13개를 담는다. 아래처럼 전달하면 해당 문제를 탐색할 때 기존 평가기로 먼저 다시 검증하고 대조군으로 사용한다. 나머지 문제는 원본과 선택한 팀 seed에서 시작한다. 이 파일은 개발용이며 공식 제출물이나 전체 20문제 결과가 아니다.
 
 ```sh
 PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py route60 \
-  --rows 14 15 20 23 24 25 26 27 28 29 30 --team-seeds solutions \
+  --rows 12 13 14 15 20 23 24 25 26 27 28 29 30 --team-seeds solutions \
   --carry-jsonl experiments/assigned-route-results/verified-candidates.jsonl \
   --policy portfolio --limit 4 --out runs/verified-seeds
 ```

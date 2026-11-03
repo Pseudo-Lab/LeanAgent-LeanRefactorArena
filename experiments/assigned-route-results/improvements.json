@@ -197,6 +197,114 @@
       }
     },
     {
+      "row": 12,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "route": "finite-enumeration",
+      "family": "SU(5) Q5 폐쇄",
+      "controls": {
+        "reference": 33.33333333333333
+      },
+      "control_reuse": 1.0,
+      "selected_reuse": 0.75,
+      "scout_allocated": true,
+      "selected": "reference/delta-predicate",
+      "score": 42.88565340674079,
+      "gain_over_control": 9.552320073407465,
+      "metrics": {
+        "proof_length_reduction_pct": 50.0,
+        "heartbeat_reduction_pct": -21.343039779777605,
+        "version_transfer_pct": 100.0
+      },
+      "attempts": 12,
+      "screened_hashes": [
+        "376261226bb39f6d5fd64a6957d69ddb25733b8fb3acdff51b9559152be8c39a",
+        "1222168115f458abe3226320d40c477d908cba67887cfdc73a4fa8cd2ee1eabf",
+        "e6c6f3494694a0bf9eb41258cf3146751ce7d3ee005094e667f94f5f7b263ef7",
+        "75a4159f7ce77b7c49fe16ba786f49e6b0fdf940eeaa515d872c2ef8cb4b9704",
+        "931e0424e4efa1cc5510297cbb4220142fb2b859fa6520ae02259b54c59cbd1c",
+        "46ac6fd88e5c19107a4918fb9e4138e4d8a91b19f31d755cda785a675259c17f",
+        "ed0625ffaefc4d21d7011c8611820af5b85002ed0ae76fd969bd300e67e52f87",
+        "6003122b2534d2da070c74f743b0cd75b9b632d1da05efb669f467bba76dc138",
+        "6864a5db959d4386ee286c1c5d5a571f7952f285de83738cdb04a632728fd9fb",
+        "582c73bea345efdd3f7a216aeadefd01582be4b7d5bcf10c1288c40d87d8ce54",
+        "8ab157299563e2419119cbaad1a0a88d5437e67fe3e395703949391949d31382",
+        "636d0f4129e64f9977fd1e386d88d831c0a944e88fbeec0687a9521c6844f18d"
+      ],
+      "call": null,
+      "group": "research-children-F012-F013-delta-20261104",
+      "proof_sha256": "6003122b2534d2da070c74f743b0cd75b9b632d1da05efb669f467bba76dc138",
+      "versions": {
+        "physlib-v4.34.1": {
+          "raw_samples": [
+            89844225,
+            89844225,
+            89844225
+          ],
+          "receipt_sha256": "eb7b6b5327e621a773410654e1acbf2c91963abe57607ce8eab3da681a7c7bab"
+        },
+        "physlib-v4.34.0": {
+          "raw_samples": [
+            89844225
+          ],
+          "receipt_sha256": "c533a368ce90e75280f626fb86494255e085b87367fe45ee32737cf49be2d384"
+        }
+      }
+    },
+    {
+      "row": 13,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "route": "finite-enumeration",
+      "family": "SU(5) Q10 폐쇄",
+      "controls": {
+        "reference": 33.33333333333333
+      },
+      "control_reuse": 1.0,
+      "selected_reuse": 0.75,
+      "scout_allocated": true,
+      "selected": "reference/delta-predicate",
+      "score": 43.33632035483237,
+      "gain_over_control": 10.002987021499038,
+      "metrics": {
+        "proof_length_reduction_pct": 50.0,
+        "heartbeat_reduction_pct": -19.991038935502893,
+        "version_transfer_pct": 100.0
+      },
+      "attempts": 12,
+      "screened_hashes": [
+        "70edee196452606f27a5ffccaee1e1adffe04a507beed9c61c2def5150d1dbe8",
+        "ae06d22f6739767cc2b77e5b959ae12b030edc023fee6fc63e30861cbaae7c49",
+        "d25335eaa3286ed13f4c1970b62793aea92bf8c01d7931253a098d729f6e4efe",
+        "1d27517094ae5556412c1b6ba2bb8378a10424a739be45b49de08b348f896ac6",
+        "a0429ce2259d81b1beb3e109943727259ec294d13351d5f98f7ea716c2660336",
+        "41fc3442aa2cc5411fcc6e1bd94d498d296cb32245a677ff84e390f9df526915",
+        "e01568dc6ab4ae41a60d460f2ca41774c149e6aed4983b2c9f3ce115aacd67ea",
+        "d7679043b05eef404107f9d66850d7714db6d910c1de0cd332cc6cc5efa3282a",
+        "dcb4606d06f3c601a99200f566cfe93fe4b1fc66177c99378e61763848e0961c",
+        "cbdc3c67e6700caef7a75c33767b5a0e87a38cea73634c8ef7e41a1a9065b871",
+        "5688df18625a8e1d6a02ed0102a289fe77bb4bc777328cded571c1e87401df5f",
+        "b7f088dbc3151f6b365864fdff77dbd897902a3777f33e36afddde1eff164cce"
+      ],
+      "call": null,
+      "group": "research-children-F012-F013-delta-20261104",
+      "proof_sha256": "d7679043b05eef404107f9d66850d7714db6d910c1de0cd332cc6cc5efa3282a",
+      "versions": {
+        "physlib-v4.34.1": {
+          "raw_samples": [
+            94923597,
+            94923597,
+            94923597
+          ],
+          "receipt_sha256": "891e496b08b78a737224688e66d87a99210402a3646b87cd5c02cda2d6abc6f2"
+        },
+        "physlib-v4.34.0": {
+          "raw_samples": [
+            94923597
+          ],
+          "receipt_sha256": "7d76b517fa042916fb2ff7f001aa5028701e84287b071ef9f20430a0eef612d7"
+        }
+      }
+    },
+    {
       "row": 15,
       "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
       "route": "tensor-basis",
