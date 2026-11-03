@@ -1,0 +1,723 @@
+{
+  "schema_version": 2,
+  "validated_on": "2026-11-01",
+  "scope": "PR B offline fixture correctness; not LLM efficacy or #37 integration",
+  "source": {
+    "base_pr": 39,
+    "base_commit": "6453a1936d1f79e5ce927b3be840bfba608de3ce",
+    "tested_parent_commit": "c2be085db631329103137b81c0d331d38cc8a043",
+    "tested_tree_dirty": true,
+    "note": "Tests used the uncommitted implementation; exact Python/Lean bytes were archived and matched against the files in this change.",
+    "sha256": {
+      "experiments/verification-repair-policy/Support.lean": "824c547a3de68a916f06cdb916dcd0616a9d56c03f4d81a827a6f7e91b1a47b3",
+      "experiments/verification-repair-policy/adapter.py": "f66f1964f62bb681cd43f82e3d1cdde31ef808cc08c54547300ee1e3c1e4d0af",
+      "experiments/verification-repair-policy/common.py": "249469a2b1436cc550ffdf89b37fa4cd76150b301965581f3cae6d6bae7f4afe",
+      "experiments/verification-repair-policy/fixtures/cases.json": "83e9d339d88cb401b372fe19549c2f040d48771f08b37bb8db067f314e888b03",
+      "experiments/verification-repair-policy/native.py": "417f3f36d5d9328ca88eb46c4290ff225d912d12a619914601d1a68dcf711c3b",
+      "experiments/verification-repair-policy/repair.py": "4bef246b604b55c5ab3768bc9cc6af8ae12f73061d5b7063ead8e183e0c5d3e5",
+      "experiments/verification-repair-policy/run.py": "3185a7a1480c455a275ab14e88130f9143decc0896f5b29233d1f1693b283a99",
+      "experiments/verification-repair-policy/runtime.py": "6557b2e57532f6c28d38d5fd8800af50f57c67227e575f45af4f312efd233aa9",
+      "experiments/verification-repair-policy/test_contracts.py": "69a648e344d7490630d224c8e9b45fad6ff9b7a3ba6d760e4667b941feef0743",
+      "experiments/verification-repair-policy/test_recursive_lean.py": "59e10c3b505c53bd1cf9dcd22dc93c201d8297d4209598d9103fd2b103feb62d"
+    }
+  },
+  "environment": {
+    "python": "3.12.13",
+    "system": "Darwin",
+    "machine": "arm64",
+    "lean": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+    "api_budget_usd": "0",
+    "actual_api_calls": 0,
+    "model_responses": "fixed fixtures only; simulated receipts are not API costs"
+  },
+  "summary": {
+    "fast_discovered": 175,
+    "fast_skipped": 7,
+    "fast_executed_passed": 168,
+    "actual_lean_test_methods_passed": 7,
+    "actual_lean_fixture_runs": 16,
+    "total_executed_test_methods_passed": 175,
+    "failures": 0,
+    "record_replays_passed": 16
+  },
+  "fast_suites": [
+    {
+      "suite": "harness",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_harness.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 22,
+      "log": "harness.log",
+      "skipped": 0,
+      "executed": 22,
+      "log_sha256": "b6a75b839229cfaf5a7b0e0603aab2cf9687a0b9359681b9f28b4a738b163302"
+    },
+    {
+      "suite": "runtime",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_runtime_integration.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 13,
+      "log": "runtime.log",
+      "skipped": 0,
+      "executed": 13,
+      "log_sha256": "9dfcee0dc9685c1d897dab40a361b69cd765e88a3e77fc9ee3ea803afa223665"
+    },
+    {
+      "suite": "api",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_api_integration.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 10,
+      "log": "api.log",
+      "skipped": 0,
+      "executed": 10,
+      "log_sha256": "5aee295833eae32cb8447e923b403e8f2395df7d2fc0379dae8fe9f399cd1df4"
+    },
+    {
+      "suite": "prepared",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_prepared_cache.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 12,
+      "log": "prepared.log",
+      "skipped": 0,
+      "executed": 12,
+      "log_sha256": "c095f7202f58a8600f43fc33995020b1cb552a03f19184669d590fdc201411e3"
+    },
+    {
+      "suite": "accounting",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_accounting.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 19,
+      "log": "accounting.log",
+      "skipped": 0,
+      "executed": 19,
+      "log_sha256": "e883c264c8dd86d329af5612a79c7dea522e311ce5995e69ff371c3e87d8a841"
+    },
+    {
+      "suite": "usage",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_usage_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 23,
+      "log": "usage.log",
+      "skipped": 0,
+      "executed": 23,
+      "log_sha256": "82d3e47a61e3d927ed675ca70fe8c8e4be47f285d8ed67a643d32ac3c58bcc6b"
+    },
+    {
+      "suite": "api-comparison",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/api-comparison",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 13,
+      "log": "api-comparison.log",
+      "skipped": 0,
+      "executed": 13,
+      "log_sha256": "8393383d8db27602f221ec91a5424b8e9eb8303b06ce9878e6cae77da1e0b27b"
+    },
+    {
+      "suite": "usage-cost",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/usage-cost",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 19,
+      "log": "usage-cost.log",
+      "skipped": 0,
+      "executed": 19,
+      "log_sha256": "26e3ffec6b1c93c9ab7c966e576a47c219dde35839818e43d6b9911d9ddecc31"
+    },
+    {
+      "suite": "budget",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/openrouter-budget-trial",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 24,
+      "log": "budget.log",
+      "skipped": 0,
+      "executed": 24,
+      "log_sha256": "e6a00a5637c72314bf7afbb1d5c4e399f238212b72ed8d5d225a5024b5ef97a2"
+    },
+    {
+      "suite": "recursive-contracts",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/verification-repair-policy",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "tests": 20,
+      "log": "recursive-contracts.log",
+      "skipped": 7,
+      "executed": 13,
+      "log_sha256": "8cbcf54ea994dc6444331530da39d6e0be395fbf730f58660d8e174cb48bdef7"
+    }
+  ],
+  "actual_lean": {
+    "command": [
+      "python3",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "experiments/verification-repair-policy",
+      "-p",
+      "test_recursive_lean.py",
+      "-v"
+    ],
+    "environment": {
+      "REPAIR_RUN_LEAN_TESTS": "1",
+      "REPAIR_EVIDENCE_DIR": "runs/manual/recursive-repair-validation-20261101/actual-lean-bounded"
+    },
+    "exit_code": 0,
+    "log": "lean-tests-bounded.log",
+    "log_sha256": "a8f5815bdc0f8518277f9805ac27f6a99350d088d0801fe15f78fa029b562491",
+    "runs": [
+      {
+        "run": "test_all_three_conditions_and_recursive_grandchild-F04-auto-solver-v1",
+        "fixture_id": "F04",
+        "condition": "auto-solver-v1",
+        "status": "completed",
+        "stop_reason": "auto_solver_exhausted",
+        "repair_status": "residual",
+        "repair_reason": "auto_solver_exhausted",
+        "node_depths": [
+          1
+        ],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 18,
+        "repair_lean_calls": 7,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 47,
+          "record_replay_passed": true
+        },
+        "result_sha256": "eb250cf19e3a6de73d662c3a22821c8da4c3a6245ad022b9eef2a96b6ec1deb4"
+      },
+      {
+        "run": "test_all_three_conditions_and_recursive_grandchild-F04-planner-worker-v1",
+        "fixture_id": "F04",
+        "condition": "planner-worker-v1",
+        "status": "completed",
+        "stop_reason": "completed",
+        "repair_status": null,
+        "repair_reason": null,
+        "node_depths": [],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 11,
+        "repair_lean_calls": 0,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 17,
+          "record_replay_passed": true
+        },
+        "result_sha256": "ee66ac4dccf2f0856f35dada00ffacebfaeee90f081a21e1d850c7aa54488daa"
+      },
+      {
+        "run": "test_all_three_conditions_and_recursive_grandchild-F04-recursive-repair-v1",
+        "fixture_id": "F04",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "completed",
+        "repair_status": "verified",
+        "repair_reason": null,
+        "node_depths": [
+          1,
+          2
+        ],
+        "selected_origin": "generated",
+        "final_valid": true,
+        "dispatches": 2,
+        "repair_dispatches": 1,
+        "lean_calls": 27,
+        "repair_lean_calls": 16,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 76,
+          "record_replay_passed": true
+        },
+        "result_sha256": "f73a8eda8faf609e9224b1e0a1dca747c87c931dca24d9fc1e5791e5b9ecc528"
+      },
+      {
+        "run": "test_cycle_and_depth_limit_preserve_best-F06-recursive-repair-v1",
+        "fixture_id": "F06",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "cycle",
+        "repair_status": "cycle",
+        "repair_reason": "cycle",
+        "node_depths": [
+          1
+        ],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 2,
+        "repair_dispatches": 1,
+        "lean_calls": 19,
+        "repair_lean_calls": 8,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 56,
+          "record_replay_passed": true
+        },
+        "result_sha256": "98561baddb3149b11094fbe6a2f0013d0b6e14002755863873962489bcf1e641"
+      },
+      {
+        "run": "test_cycle_and_depth_limit_preserve_best-F09-recursive-repair-v1",
+        "fixture_id": "F09",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "depth_limit",
+        "repair_status": "limit",
+        "repair_reason": "depth_limit",
+        "node_depths": [
+          1
+        ],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 2,
+        "repair_dispatches": 1,
+        "lean_calls": 19,
+        "repair_lean_calls": 8,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 55,
+          "record_replay_passed": true
+        },
+        "result_sha256": "b4f2e139236b7bf75897a302ced0092f1f42ae9a323e46eba639a93987d2a1f5"
+      },
+      {
+        "run": "test_last_allowed_worker_call_is_verified_and_selected-F03-recursive-repair-v1",
+        "fixture_id": "F03",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "completed",
+        "repair_status": "verified",
+        "repair_reason": null,
+        "node_depths": [
+          1
+        ],
+        "selected_origin": "generated",
+        "final_valid": true,
+        "dispatches": 3,
+        "repair_dispatches": 2,
+        "lean_calls": 23,
+        "repair_lean_calls": 12,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 62,
+          "record_replay_passed": true
+        },
+        "result_sha256": "12e5500b2c8ebccb9ea3a22d3f782652bb2220ffbe418b0d76af79078df3b255"
+      },
+      {
+        "run": "test_nested_have_unicode_and_incorrect_tactic-F05-recursive-repair-v1-nested",
+        "fixture_id": "nested",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "completed",
+        "repair_status": "verified",
+        "repair_reason": null,
+        "node_depths": [
+          1
+        ],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 18,
+        "repair_lean_calls": 7,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 34,
+          "record_replay_passed": true
+        },
+        "result_sha256": "aae0122a037b96b118f3f1daff14ce27206c82fa86016942462d6311ac6ee6b9"
+      },
+      {
+        "run": "test_syntax_sorry_and_uncertain_receipt-F07-recursive-repair-v1",
+        "fixture_id": "F07",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "extraction_unavailable",
+        "repair_status": "extraction_unavailable",
+        "repair_reason": "extraction_unavailable",
+        "node_depths": [],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 12,
+        "repair_lean_calls": 1,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 21,
+          "record_replay_passed": true
+        },
+        "result_sha256": "d6b1e4aaacee5d35d2feddf9629638c04608533390a70d92b27ca8fd36f8c86c"
+      },
+      {
+        "run": "test_syntax_sorry_and_uncertain_receipt-F08-recursive-repair-v1",
+        "fixture_id": "F08",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "extraction_unavailable",
+        "repair_status": "extraction_unavailable",
+        "repair_reason": "extraction_unavailable",
+        "node_depths": [],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 12,
+        "repair_lean_calls": 1,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 21,
+          "record_replay_passed": true
+        },
+        "result_sha256": "e56be43a3653a8d1c89fc030e9d65b7aba47ac2d53617136b90a099f85b3f40a"
+      },
+      {
+        "run": "test_syntax_sorry_and_uncertain_receipt-F10-indirect-recursive-repair-v1",
+        "fixture_id": "F10-indirect",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "full_verification_failed",
+        "repair_status": "residual",
+        "repair_reason": "full_verification_failed",
+        "node_depths": [],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 15,
+        "repair_lean_calls": 3,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 23,
+          "record_replay_passed": true
+        },
+        "result_sha256": "0f62239160c4ce1e99bb0ce5600b041c6822ddb20c52aa0e329f0bac7725b8f5"
+      },
+      {
+        "run": "test_syntax_sorry_and_uncertain_receipt-F10-recursive-repair-v1",
+        "fixture_id": "F10",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "response_rejected",
+        "repair_status": null,
+        "repair_reason": null,
+        "node_depths": [],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 10,
+        "repair_lean_calls": 0,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 14,
+          "record_replay_passed": true
+        },
+        "result_sha256": "e90d86a400f5e3c1daabfa431b7c60bf60a5d474e85b248075af28168609ec60"
+      },
+      {
+        "run": "test_syntax_sorry_and_uncertain_receipt-F12-recursive-repair-v1",
+        "fixture_id": "F12",
+        "condition": "recursive-repair-v1",
+        "status": "stopped",
+        "stop_reason": "unsettled_receipt",
+        "repair_status": null,
+        "repair_reason": null,
+        "node_depths": [],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 10,
+        "repair_lean_calls": 0,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 13,
+          "record_replay_passed": true
+        },
+        "result_sha256": "3fefb258905818156812e31a54c761626661c207c1dda6b69efb391aa9ca8a24"
+      },
+      {
+        "run": "test_valid_candidate_and_auto_only_repair-F01-recursive-repair-v1",
+        "fixture_id": "F01",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "completed",
+        "repair_status": null,
+        "repair_reason": null,
+        "node_depths": [],
+        "selected_origin": "generated",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 14,
+        "repair_lean_calls": 0,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 17,
+          "record_replay_passed": true
+        },
+        "result_sha256": "812137831762691afdd87682c79841188d09189214a06fee8a86f425e7a6a456"
+      },
+      {
+        "run": "test_valid_candidate_and_auto_only_repair-F02-recursive-repair-v1",
+        "fixture_id": "F02",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "completed",
+        "repair_status": "verified",
+        "repair_reason": null,
+        "node_depths": [
+          1
+        ],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 18,
+        "repair_lean_calls": 7,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 34,
+          "record_replay_passed": true
+        },
+        "result_sha256": "9a1e2f0c3d05ff4ee192e066a86832984beecfda40cb4b280b6870a8615470c1"
+      },
+      {
+        "run": "test_worker_direct_completion_and_multiple_goals-F03-recursive-repair-v1",
+        "fixture_id": "F03",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "completed",
+        "repair_status": "verified",
+        "repair_reason": null,
+        "node_depths": [
+          1
+        ],
+        "selected_origin": "generated",
+        "final_valid": true,
+        "dispatches": 2,
+        "repair_dispatches": 1,
+        "lean_calls": 23,
+        "repair_lean_calls": 12,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 57,
+          "record_replay_passed": true
+        },
+        "result_sha256": "c490e570ed8416e55758e78493afd3e1e4f85acae4743b5c94ff1d8a2a0ff61c"
+      },
+      {
+        "run": "test_worker_direct_completion_and_multiple_goals-F05-recursive-repair-v1",
+        "fixture_id": "F05",
+        "condition": "recursive-repair-v1",
+        "status": "completed",
+        "stop_reason": "completed",
+        "repair_status": "verified",
+        "repair_reason": null,
+        "node_depths": [
+          1,
+          1
+        ],
+        "selected_origin": "baseline",
+        "final_valid": true,
+        "dispatches": 1,
+        "repair_dispatches": 0,
+        "lean_calls": 20,
+        "repair_lean_calls": 9,
+        "actual_api_calls": 0,
+        "actual_api_cost_usd": "0",
+        "replay": {
+          "final_valid": true,
+          "lean_called": false,
+          "model_called": false,
+          "operations": 45,
+          "record_replay_passed": true
+        },
+        "result_sha256": "d2edad9aff557bd3a327cfdcd341d92c74ae022758fe9d1b430fae4301cf468a"
+      }
+    ]
+  },
+  "evidence": {
+    "local_directory": "runs/manual/recursive-repair-validation-20261101",
+    "publication": "Raw runs are ignored locally. The dedicated CI job repeats the native suite and uploads the recursive-repair-lean-4.26.0 artifact for 14 days.",
+    "contents": [
+      "archived code",
+      "native sources and compiler logs",
+      "requests and observations",
+      "common budget and journal",
+      "selected proof and strict evaluations",
+      "artifact hashes"
+    ]
+  },
+  "limits": [
+    "One root candidate in a fixture Controller; real #37 integration remains pending.",
+    "The three conditions check routing and recursion only; no paid model or performance comparison ran.",
+    "Native collector tested only on Lean 4.26.0; unsupported syntax returns extraction_unavailable.",
+    "remaining_goals describes the first unresolved native state, not every independent block.",
+    "F11 final failure and fallback are injected contract tests; F09 uses a depth-1 override.",
+    "Fast tests require an existing PROJECT_CACHE_DIR. Initial missing-directory environment failures were rerun successfully after creating it."
+  ]
+}
