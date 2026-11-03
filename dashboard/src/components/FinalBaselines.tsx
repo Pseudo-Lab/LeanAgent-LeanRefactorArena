@@ -8,6 +8,7 @@ import { parseSummaryResults, mergeFinalResults } from '../lib/final-summary-res
 import { parseFinalResults } from '../lib/final-results';
 import type { FinalResultsView } from '../lib/final-results';
 import { resultSnapshot } from '../lib/final-snapshot';
+import { parseSharedResults, selectTeamBest } from '../lib/team-best-results';
 import { ProblemGrid } from './ProblemGrid';
 import { DetailPanel } from './DetailPanel';
 import { ScoringGuide } from './ScoringGuide';
@@ -24,11 +25,12 @@ export function FinalBaselines() {
   const [metric, setMetric] = useState<Metric>('combined');
   useEffect(() => {
     const controller = new AbortController();
-    Promise.all(['/data/final-baselines.json', '/data/final-results.json', '/data/physlib-cslib-results.json'].map(url =>
+    Promise.all(['/data/final-baselines.json', '/data/final-results.json', '/data/physlib-cslib-results.json', '/data/team-shared-results.json'].map(url =>
       fetch(url, { signal: controller.signal }).then(r => { if (!r.ok) throw new Error(`데이터 요청 실패 (${r.status})`); return r.json(); })))
-      .then(([originals, candidates, summaries]) => {
+      .then(([originals, candidates, summaries, shared]) => {
         const baseline = parseFinalBaselines(originals);
-        const verified = mergeFinalResults(parseFinalResults(candidates, baseline), parseSummaryResults(summaries, baseline));
+        const incumbents = mergeFinalResults(parseFinalResults(candidates, baseline), parseSummaryResults(summaries, baseline));
+        const verified = selectTeamBest(incumbents, parseSharedResults(shared, baseline));
         setData(baseline); setResults(verified);
       })
       .catch(e => { if (e.name !== 'AbortError') setError(e.message); });
@@ -42,6 +44,10 @@ export function FinalBaselines() {
   const provisional = data.problems.filter(p => p.local?.sampleCount === 1).length;
   const snapshot = resultSnapshot(data, results);
   const meanScore = results.problems.reduce((sum, p) => sum + p.score, 0) / results.problems.length;
+  const completed = results.problems.length;
+  const authorCounts = results.problems.reduce<Record<string, number>>((counts,p)=> {
+    const author = p.author ?? '미상'; counts[author] = (counts[author] ?? 0) + 1; return counts;
+  }, {});
   const needle = query.trim().toLowerCase();
   const visible = snapshot.problems.filter(p => {
     const original = data.problems.find(row => row.row === p.id)!;
@@ -64,25 +70,28 @@ export function FinalBaselines() {
   }
   const updated = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Seoul' }).format(new Date(results.generatedAt));
   return <main id="main" className="final-baselines">
-    <div className="page-heading"><div><h1>최종 60문제 · 검증 풀이</h1><p>Strata·PhysLib·CSLib·LeanPool 40문제의 검증 풀이를 반영했습니다. 타일을 선택하면 원본 대비 점수와 증명을 볼 수 있습니다.</p></div>
+    <div className="page-heading"><div><h1>최종 60문제 · 팀 최고 점수</h1><p>팀원들이 공유한 결과를 비교해 문제별 종합 점수가 가장 높은 풀이를 선택했습니다. 타일에서 점수·선택 출처·후보 비교를 확인하세요.</p></div>
       <a className="button" href="/data/final-results.json" download><Download size={16}/>Strata·LeanPool JSON</a></div>
     <div className="summary-grid">
       <article className="summary-card"><div className="summary-label">원본 length 확보</div><div className="big-number">60<span>/ 60문제</span></div><p>제공된 최종 데이터셋의 proof_length</p></article>
       <article className="summary-card"><div className="summary-label">원본 HB 확보</div><div className="big-number">{measured}<span>/ 60문제</span></div><p>3회 중앙값 {measured - provisional}개 · 1회 표본 {provisional}개</p></article>
-      <article className="summary-card"><div className="summary-label">검증 풀이 · 40 / 60문제</div><div className="big-number">{format(meanScore)}<span>점</span></div><p>검증된 40문제 평균 · 대회식 종합 로컬 추정</p></article>
+      <article className="summary-card"><div className="summary-label">최고 점수 풀이 · {completed} / 60문제</div><div className="big-number">{format(meanScore)}<span>점</span></div><p>선택한 {completed}문제 평균 · 대회식 종합 로컬 추정</p></article>
     </div>
-    <p className="measurement-note">원본은 127개 지정 버전 조합의 기준값을 확보했습니다. 검증 풀이 40개는 지정 버전 전체 통과입니다. Strata·LeanPool은 원시 표본·검증 기록, PhysLib·CSLib은 공개된 측정값·통과 횟수 요약을 연결했습니다. 점수는 각 풀이의 원본·후보 측정값으로 계산합니다. 미확보 20개는 회색이며 공식 점수가 아닙니다.</p>
+    <p className="measurement-note">원본은 127개 지정 버전 조합의 기준값을 확보했습니다. 선택한 풀이는 모두 지정 버전 전체 통과 기록 또는 보고값이 있습니다. 점수는 각 풀이와 함께 공유된 원본·후보 측정값으로 계산하며, 이번 업데이트에서 Lean 측정을 다시 실행하지 않았습니다. 공식 대회 점수가 아닙니다.</p>
+    <p className="measurement-note">선택 출처 · {Object.entries(authorCounts).map(([author,count])=>`${author} ${count}문제`).join(' · ')}</p>
     <div className="dataset-bar">
-      <span className="warmup-label">F001–F030 · F041–F050 검증 완료</span>
-      <label className="snapshot-picker"><span>결과 상태</span><select aria-label="결과 상태" value={status} onChange={e => setStatus(e.target.value)}><option value="all">전체 60문제</option><option value="verified">검증 완료 (40)</option><option value="pending">개선 결과 없음 (20)</option><option value="provisional">1회 잠정값 ({provisional})</option><option value="missing">HB 미측정 ({60 - measured})</option></select></label>
+      <span className="warmup-label">F001–F060 · 팀 공유 결과 반영</span>
+      <label className="snapshot-picker"><span>결과 상태</span><select aria-label="결과 상태" value={status} onChange={e => setStatus(e.target.value)}><option value="all">전체 60문제</option><option value="verified">결과 확보 ({completed})</option><option value="pending">개선 결과 없음 ({60-completed})</option><option value="provisional">1회 잠정값 ({provisional})</option><option value="missing">HB 미측정 ({60 - measured})</option></select></label>
     </div>
     <div className="workbench final-workbench">
       <ProblemGrid {...{ snapshot, metric, query, source, sort, visible, selected }} compact onMetric={setMetric} onQuery={setQuery} onSource={setSource} onSort={setSort} onSelect={chooseProblem}/>
       <DetailPanel problem={selected} metric={metric} snapshot={snapshot}>
         {candidate ? <section className="team-results" aria-label="선택한 검증 증명">
           <h3>선택한 검증 증명</h3>
-          <p>{candidate.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약 · 담당자가 선택한 원본 또는 개선 풀이' : `${candidate.runId === results.runId ? '이번 $3 실행' : '기존 $1 실행'} · 동일 환경의 검증 결과 중 종합 점수가 가장 높은 풀이`}</p>
-          {candidate.baseline.raw_samples && candidate.candidate.raw_samples ? <p>원본 HB: {candidate.baseline.raw_samples.map(n => format(n, 0)).join(' / ')}<br/>후보 HB: {candidate.candidate.raw_samples.map(n => format(n, 0)).join(' / ')}</p> : <><p>대표 버전 원본·후보 각 3회 측정으로 보고됐습니다. 원시 HB 표본·컴파일 로그는 공개 묶음에 포함되지 않았습니다.</p><a href="/data/physlib-cslib-results.json" download>PhysLib·CSLib 요약 JSON</a></>}
+          <p>{candidate.author} · {candidate.evidenceLevel === 'shared-report' ? '팀원 공유 결과' : candidate.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약' : `${candidate.runId === results.runId ? '$3 실행' : '기존 $1 실행'}`} · 확보한 후보 중 최고 점수</p>
+          {candidate.baseline.raw_samples && candidate.candidate.raw_samples ? <p>원본 HB: {candidate.baseline.raw_samples.map(n => format(n, 0)).join(' / ')}<br/>후보 HB: {candidate.candidate.raw_samples.map(n => format(n, 0)).join(' / ')}</p> : <p>공유 자료의 원본·후보 HB 집계값을 사용했습니다.</p>}
+          <a href={candidate.evidenceLevel === 'shared-report' ? '/data/team-shared-results.json' : candidate.evidenceLevel === 'published-summary' ? '/data/physlib-cslib-results.json' : '/data/final-results.json'} download>선택 출처 JSON</a>
+          {candidate.comparisons && candidate.comparisons.length > 1 ? <div className="reference-table-wrap"><table className="metrics-table"><caption>팀원 후보 비교 · 대회식 종합 점수</caption><thead><tr><th>출처</th><th>점수</th><th>선택</th></tr></thead><tbody>{candidate.comparisons.map(c=><tr key={c.runId}><th><a href={`https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/blob/main/${c.proofPath}`} target="_blank" rel="noreferrer">{c.author}</a></th><td>{format(c.score, 5)}</td><td>{c.selected ? '최고 점수' : '비교 후보'}</td></tr>)}</tbody></table></div> : null}
           <details className="team-candidate"><summary>Lean 증명 보기 · {candidate.candidateHash.slice(0, 10)}</summary>
             <p className="candidate-origin">{candidate.proofPath}<br/>{candidate.runId}</p>
             <pre className="candidate-code"><code>{candidate.proof}</code></pre>
@@ -107,6 +116,6 @@ export function FinalBaselines() {
       </DetailPanel>
     </div>
     <ScoringGuide/>
-    <footer><span>Strata·LeanPool 스냅샷 · {updated} KST · 자동 갱신 아님</span><span>Strata·LeanPool ${format(Number(results.costUsd))} · PhysLib·CSLib API 0회 보고</span></footer>
+    <footer><span>팀 결과 반영 · {updated} KST · 자동 갱신 아님</span><span>이번 통합: API 호출 0회 · Lean 재측정 0회</span></footer>
   </main>;
 }

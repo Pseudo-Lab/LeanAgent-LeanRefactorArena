@@ -1,0 +1,2381 @@
+{
+  "schemaVersion": 1,
+  "datasetSha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "generatedAt": "2026-11-03T01:51:22.867936+00:00",
+  "officialEvaluation": false,
+  "measurementPolicy": "reported-paired",
+  "apiCallsDuringImport": 0,
+  "leanRunsDuringImport": 0,
+  "sources": {
+    "seongwoo": {
+      "author": "남성우",
+      "filename": "LRA_physlib_cslib_20261102.zip",
+      "sha256": "5be42b953d5a6d8c473fd8aac5bf5b4ab5a58ad934a186beaf9fd66d028405e3"
+    },
+    "jiyeon": {
+      "author": "손지연",
+      "filename": "LeanRefactor_Report_2026-11-02_v4.zip",
+      "sha256": "b8df9af472fec085a62c19226c266f479570ec7361a21c96f6852843076939e2"
+    }
+  },
+  "problems": [
+    {
+      "row": 11,
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F011.lean",
+      "proof": "lemma containsPhenoCompletionsOfMinimallyAllows_viableCompletions :\r\n    (I : CodimensionOneConfig) →\r\n    ContainsPhenoCompletionsOfMinimallyAllows I.allowedBarFiveCharges\r\n      I.allowedTenCharges (viableCompletions I) := by\r\n  decide +kernel\r\n",
+      "candidateHash": "8275ed5215c8890d2046029e7a152528beb55147501add3541efe62e05af15c6",
+      "proofFileHash": "8275ed5215c8890d2046029e7a152528beb55147501add3541efe62e05af15c6",
+      "baseline": {
+        "tokens": 4,
+        "raw_heartbeats": 64051693,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 4,
+        "raw_heartbeats": 64051693,
+        "raw_samples": null
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 33.33333333333333,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 0.0946995,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 12,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F012.lean",
+      "proof": "lemma isPhenoClosedQ5_viableCharges : (I : CodimensionOneConfig) →\r\n    IsPhenoClosedQ5 I.allowedBarFiveCharges (viableCharges I) := by\r\n  intro I\r\n  apply isPhenClosedQ5_of_isPhenoConstrainedQ5\r\n  cases I <;> decide +kernel\r\n",
+      "candidateHash": "9184a468261926d66a00cee1b6b19df52cf41f080e32ae950e3c30379164ef8c",
+      "proofFileHash": "9184a468261926d66a00cee1b6b19df52cf41f080e32ae950e3c30379164ef8c",
+      "baseline": {
+        "tokens": 12,
+        "raw_heartbeats": 74041405,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 11,
+        "raw_heartbeats": 74177785,
+        "raw_samples": [
+          74177785,
+          74177785,
+          74177785
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 36.049713032563034,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 0.0875445,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 13,
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F013.lean",
+      "proof": "lemma isPhenoClosedQ10_viableCharges : (I : CodimensionOneConfig) →\r\n    IsPhenoClosedQ10 I.allowedTenCharges (viableCharges I) := by\r\n  intro I\r\n  apply isPhenClosedQ10_of_isPhenoConstrainedQ10\r\n  cases I <;> decide +kernel\r\n",
+      "candidateHash": "3bcf9843aa99e0a40a4c3b4262717fc927ec4185978acc5ad999cec9dad116db",
+      "proofFileHash": "3bcf9843aa99e0a40a4c3b4262717fc927ec4185978acc5ad999cec9dad116db",
+      "baseline": {
+        "tokens": 12,
+        "raw_heartbeats": 79108801,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 11,
+        "raw_heartbeats": 79265018,
+        "raw_samples": [
+          79265018,
+          79265018,
+          79265018
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 36.045287419340916,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 0.0803495,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 14,
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F014.lean",
+      "proof": "lemma pauliContrDown_mul_pauliContr_mul_pauliContrDown : ({\r\n    σ^^^ | μ τ(α) τ(β) ⊗ σ^^^ | ν α β' ⊗ σ^^^ | ρ τ(α') τ(β') =\r\n      ((((η | μ ν ⊗ σ^^^ | ρ τ(α') τ(β))\r\n        + (-((η | μ ρ ⊗ σ^^^ | ν τ(α') τ(β)))))\r\n        + (η | ν ρ ⊗ σ^^^ | μ τ(α') τ(β)))\r\n        + ((-Complex.I) •ₜ (ε4ℂ | μ ν ρ κ ⊗ σ^^^ | τ(κ) τ(α') τ(β))))\r\n    }ᵀ : Prop) := by\r\n  simp_rw [dualWeyl_mul_pauliContr_eq_ofGaussianInt]\r\n  simp only [toTensor_dualWeyl_eq_ofGaussianInt, contrMetric_eq_ofGaussianInt,\r\n    leviCivita_eq_ofGaussianInt_prod, toTensor_dualAll_eq_ofGaussianInt,\r\n    prodT_ofGaussianInt_ofGaussianInt, contrT_ofGaussianInt, permT_ofGaussianInt]\r\n  apply (Tensor.basis _).repr.injective\r\n  ext1\r\n  simp only [permT_basis_repr_symm_apply, map_add, Finsupp.add_apply,\r\n    map_neg, Finsupp.neg_apply, map_smul, Finsupp.smul_apply,\r\n    smul_eq_mul, ofGaussianInt_basis_repr_apply]\r\n  simp only [show Complex.I = GaussianInt.toComplex ⟨0, 1⟩ by\r\n    simp [GaussianInt.toComplex_def'], ← GaussianInt.toComplex.map_mul,\r\n    ← GaussianInt.toComplex.map_neg, ← GaussianInt.toComplex.map_add]\r\n  apply congrArg GaussianInt.toComplex\r\n  decide +revert +kernel\r\n",
+      "candidateHash": "be92461298ddee92be29048978ba13018495091ac16dbbd02d9739df9c6c49e4",
+      "proofFileHash": "be92461298ddee92be29048978ba13018495091ac16dbbd02d9739df9c6c49e4",
+      "baseline": {
+        "tokens": 181,
+        "raw_heartbeats": 212329662,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 85,
+        "raw_heartbeats": 119052720,
+        "raw_samples": [
+          119052720,
+          119052720,
+          119052720
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 65.65630654465781,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 1.664372,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 15,
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F015.lean",
+      "proof": "lemma pauliContr_mul_pauliContrDown_mul_pauliContr : ({\r\n    σ^^^ | μ α β ⊗ σ^^^ | ν τ(α') τ(β) ⊗ σ^^^ | ρ α' β' =\r\n      ((((η | μ ν ⊗ σ^^^ | ρ α β') + (-((η | μ ρ ⊗ σ^^^ | ν α β'))))\r\n        + (η | ν ρ ⊗ σ^^^ | μ α β'))\r\n        + (Complex.I •ₜ (ε4ℂ | μ ν ρ κ ⊗ σ^^^ | τ(κ) α β')))\r\n    }ᵀ : Prop) := by\r\n  simp_rw [pauliContr_mul_dualWeyl_eq_ofGaussianInt, leviCivita_mul_pauliDual]\r\n  simp only [toTensor_eq_ofGaussianInt, contrMetric_eq_ofGaussianInt,\r\n    leviCivita_eq_ofGaussianInt_prod, pauliCo_eq_ofGaussianInt,\r\n    prodT_ofGaussianInt_ofGaussianInt, contrT_ofGaussianInt]\r\n  apply (Tensor.basis _).repr.injective\r\n  ext1\r\n  simp only [map_add, map_neg, map_smul, Finsupp.add_apply,\r\n    Finsupp.neg_apply, Finsupp.smul_apply, permT_basis_repr_symm_apply]\r\n  simp only [ofGaussianInt_basis_repr_apply, smul_eq_mul,\r\n    show Complex.I = GaussianInt.toComplex ⟨0, 1⟩ by\r\n      simp [GaussianInt.toComplex_def'], ← GaussianInt.toComplex.map_add,\r\n    ← GaussianInt.toComplex.map_neg, ← GaussianInt.toComplex.map_mul]\r\n  apply congrArg\r\n  decide +revert +kernel\r\n",
+      "candidateHash": "381228863b7b423dd072954b7cffcf8e587de2daf4272e7bc2426ed249f65f46",
+      "proofFileHash": "381228863b7b423dd072954b7cffcf8e587de2daf4272e7bc2426ed249f65f46",
+      "baseline": {
+        "tokens": 183,
+        "raw_heartbeats": 136492975,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 84,
+        "raw_heartbeats": 97368541,
+        "raw_samples": [
+          97368541,
+          97368541,
+          97368541
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 60.92080828952208,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 1.8038975,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 16,
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F016.lean",
+      "proof": "lemma time_deriv_time_deriv_electricField_of_isExtrema {A : ElectromagneticPotential d}\r\n    {𝓕 : FreeSpace}\r\n    (hA : ContDiff ℝ ∞ A) (J : LorentzCurrentDensity d)\r\n    (hJ : ContDiff ℝ ∞ J) (h : IsExtrema 𝓕 A J)\r\n    (t : Time) (x : Space d) (i : Fin d) :\r\n    ∂ₜ (∂ₜ (A.electricField 𝓕.c · x i)) t =\r\n      𝓕.c ^ 2 * ∑ j, (∂[j] (∂[j] (A.electricField 𝓕.c t · i)) x) -\r\n      𝓕.c ^ 2 / 𝓕.ε₀ * ∂[i] (J.chargeDensity 𝓕.c t ·) x -\r\n      𝓕.c ^ 2 * 𝓕.μ₀ * ∂ₜ (J.currentDensity 𝓕.c · x i) t := by\r\n  let E j := (A.electricField 𝓕.c t · j)\r\n  let B j s := ∂[j] (A.magneticFieldMatrix 𝓕.c s · (j, i)) x\r\n  let K := (J.currentDensity 𝓕.c · x i)\r\n  have hEs (j) : ContDiff ℝ 2 (E j) :=\r\n    electricField_apply_contDiff_space (i := j) (hA.of_le (right_eq_inf.mp rfl)) t\r\n  have hEd (j k) := Space.deriv_differentiable (hEs j) k\r\n  have hBt (j) : Differentiable ℝ (B j) :=\r\n    Space.space_deriv_differentiable_time (i := j)\r\n      (magneticFieldMatrix_contDiff A (hA.of_le (right_eq_inf.mp rfl)) (j, i)) x\r\n  have hJt : Differentiable ℝ K :=\r\n    LorentzCurrentDensity.currentDensity_apply_differentiable_time (hJ.differentiable (by simp)) x i\r\n  have hρ : Differentiable ℝ (J.chargeDensity 𝓕.c t ·) := by\r\n    apply LorentzCurrentDensity.chargeDensity_differentiable_space\r\n    exact hJ.differentiable (by simp)\r\n  have hdiv := congrArg (fun f => ∂[i] f x)\r\n    (show (fun y => ∑ j, ∂[j] (E j) y) =\r\n        (fun y => (1 / 𝓕.ε₀) * J.chargeDensity 𝓕.c t y) from by\r\n      funext y\r\n      change (∇ ⬝ (A.electricField 𝓕.c t)) y = _\r\n      simpa only [div_eq_mul_inv, mul_one, one_mul, mul_comm] using\r\n        ((isExtrema_iff_gauss_ampere_magneticFieldMatrix hA J hJ).mp h t y).1)\r\n  conv at hdiv =>\r\n    lhs\r\n    rw [Space.deriv_eq_fderiv_basis,\r\n      fderiv_fun_sum fun j _ => (hEd j j).differentiableAt]\r\n  conv at hdiv =>\r\n    rhs\r\n    rw [Space.deriv_eq_fderiv_basis, fderiv_const_mul hρ.differentiableAt]\r\n  simp only [FunLike.coe_sum, Finset.sum_apply, ContinuousLinearMap.smul_apply,\r\n    smul_eq_mul, ← Space.deriv_eq_fderiv_basis] at hdiv\r\n  have hcurl (j) : ∂ₜ (B j) t =\r\n      ∂[j] (∂[j] (E i)) x - ∂[i] (∂[j] (E j)) x := by\r\n    dsimp only [B, E]\r\n    rw [Space.time_deriv_comm_space_deriv]\r\n    · conv_lhs =>\r\n        enter [2, y]\r\n        rw [time_deriv_magneticFieldMatrix _ (hA.of_le ENat.LEInfty.out)]\r\n      conv_lhs =>\r\n        rw [Space.deriv_eq_fderiv_basis,\r\n          fderiv_fun_sub (hEd _ _).differentiableAt (hEd _ _).differentiableAt]\r\n        simp only [FunLike.coe_sub, Pi.sub_apply, ← Space.deriv_eq_fderiv_basis]\r\n      congr 1\r\n      rw [Space.deriv_commute _ (hEs _), Space.deriv_eq_fderiv_basis]\r\n    · apply magneticFieldMatrix_contDiff\r\n      exact hA.of_le (right_eq_inf.mp rfl)\r\n  have he : ∂ₜ (A.electricField 𝓕.c · x i) =\r\n      (fun s => 1 / (𝓕.μ₀ * 𝓕.ε₀) * ∑ j, B j s - 1 / 𝓕.ε₀ * K s) := by\r\n    funext s\r\n    rw [Time.deriv_euclid (electricField_differentiable_time\r\n      (hA.of_le (right_eq_inf.mp rfl)) _),\r\n      time_deriv_electricField_of_isExtrema hA J hJ h]\r\n  have hc : 1 / (𝓕.μ₀ * 𝓕.ε₀) = 𝓕.c ^ 2 := by\r\n    simp only [FreeSpace.c_sq, one_div, mul_inv_rev] <;> ring\r\n  have hb : 1 / 𝓕.ε₀ = 𝓕.c ^ 2 * 𝓕.μ₀ := by\r\n    rw [← hc]\r\n    simp [mul_inv_rev, mul_assoc]\r\n  conv_lhs =>\r\n    rw [he, Time.deriv_eq,\r\n      fderiv_fun_sub ((Differentiable.fun_sum fun j _ => hBt j).const_mul _).differentiableAt\r\n        (hJt.const_mul _).differentiableAt,\r\n      fderiv_const_mul (Differentiable.fun_sum fun j _ => hBt j).differentiableAt,\r\n      fderiv_const_mul hJt.differentiableAt,\r\n      fderiv_fun_sum fun j _ => (hBt j).differentiableAt]\r\n    simp only [FunLike.coe_sub, Pi.sub_apply, ContinuousLinearMap.smul_apply,\r\n      smul_eq_mul, FunLike.coe_sum, Finset.sum_apply, ← Time.deriv_eq]\r\n    simp only [hcurl, Finset.sum_sub_distrib, mul_sub, hdiv, hc]\r\n  rw [← mul_assoc, mul_one_div, hb]\r\n",
+      "candidateHash": "5e948837ea78b6de16f8a5a3cb1a445304b6af07f5e52564f277346ce12c3163",
+      "proofFileHash": "5e948837ea78b6de16f8a5a3cb1a445304b6af07f5e52564f277346ce12c3163",
+      "baseline": {
+        "tokens": 1372,
+        "raw_heartbeats": 23503145,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 639,
+        "raw_heartbeats": 6686819,
+        "raw_samples": [
+          6686819,
+          6686819,
+          6686818
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 74.9916381990572,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.7743275,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 17,
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F017.lean",
+      "proof": "lemma ι_timeOrderF_superCommuteF_eq_time {φ ψ : 𝓕.CrAnFieldOp}\r\n    (hφψ : crAnTimeOrderRel φ ψ) (hψφ : crAnTimeOrderRel ψ φ) (a b : 𝓕.FieldOpFreeAlgebra) :\r\n    ι 𝓣ᶠ(a * [ofCrAnOpF φ, ofCrAnOpF ψ]ₛF * b) =\r\n    ι ([ofCrAnOpF φ, ofCrAnOpF ψ]ₛF * 𝓣ᶠ(a * b)) := by\r\n  have h φs' φs :\r\n      ι 𝓣ᶠ(ofCrAnListF φs' * [ofCrAnOpF φ, ofCrAnOpF ψ]ₛF * ofCrAnListF φs) =\r\n      ι [ofCrAnOpF φ, ofCrAnOpF ψ]ₛF * ι (𝓣ᶠ(ofCrAnListF φs' * ofCrAnListF φs)) := by\r\n    let l1 :=\r\n      List.takeWhile (fun c => ¬crAnTimeOrderRel φ c)\r\n        ((φs' ++ φs).insertionSort crAnTimeOrderRel) ++\r\n      List.filter (fun c => crAnTimeOrderRel φ c ∧ crAnTimeOrderRel c φ) φs'\r\n    let l2 :=\r\n      List.filter (fun c => crAnTimeOrderRel φ c ∧ crAnTimeOrderRel c φ) φs ++\r\n      List.filter (fun c => crAnTimeOrderRel φ c ∧ ¬crAnTimeOrderRel c φ)\r\n        ((φs' ++ φs).insertionSort crAnTimeOrderRel)\r\n    have hs χ ξ\r\n        (hχ : crAnTimeOrderRel φ χ ∧ crAnTimeOrderRel χ φ)\r\n        (hξ : crAnTimeOrderRel φ ξ ∧ crAnTimeOrderRel ξ φ) :\r\n        ι 𝓣ᶠ(ofCrAnListF (φs' ++ χ :: ξ :: φs)) =\r\n        crAnTimeOrderSign (φs' ++ χ :: ξ :: φs) •\r\n          (ι (ofCrAnListF l1) * ι (ofCrAnListF [χ, ξ]) * ι (ofCrAnListF l2)) := by\r\n      rw [timeOrderF_ofCrAnListF,\r\n        show φs' ++ χ :: ξ :: φs = φs' ++ [χ, ξ] ++ φs by simp,\r\n        crAnTimeOrderList,\r\n        insertionSort_of_eq_list 𝓕.crAnTimeOrderRel φ φs' [χ, ξ] φs (by simp_all)]\r\n      simp only [List.append_assoc, decide_not, Bool.decide_and,\r\n        ofCrAnListF_append, map_smul, map_mul, l1, l2, mul_assoc]\r\n    trans crAnTimeOrderSign (φs' ++ φ :: ψ :: φs) •\r\n      (ι (ofCrAnListF l1) * ι [ofCrAnOpF φ, ofCrAnOpF ψ]ₛF *\r\n        ι (ofCrAnListF l2))\r\n    · conv_lhs =>\r\n        rw [← ofCrAnListF_singleton, ← ofCrAnListF_singleton,\r\n          superCommuteF_ofCrAnListF_ofCrAnListF]\r\n        simp only [ofList_singleton, mul_sub, sub_mul,\r\n          Algebra.mul_smul_comm, Algebra.smul_mul_assoc,\r\n          ← ofCrAnListF_append, List.append_assoc,\r\n          List.cons_append, List.nil_append, map_sub, map_smul]\r\n        rw [hs φ ψ (by simp) ⟨hφψ, hψφ⟩,\r\n          hs ψ φ ⟨hφψ, hψφ⟩ (by simp)]\r\n      rw [crAnTimeOrderSign_swap_eq_time hφψ hψφ,\r\n        superCommuteF_ofCrAnOpF_ofCrAnOpF, ← ofCrAnListF_singleton,\r\n        ← ofCrAnListF_singleton]\r\n      simp only [← ofCrAnListF_append, List.singleton_append,\r\n        map_sub, map_smul, mul_sub, sub_mul,\r\n        Algebra.mul_smul_comm, Algebra.smul_mul_assoc, smul_sub]\r\n      module\r\n    rw [Subalgebra.mem_center_iff.mp (ι_superCommuteF_ofCrAnOpF_ofCrAnOpF_mem_center φ ψ),\r\n      mul_assoc, ← map_mul, ← ofCrAnListF_append]\r\n    have h1 := insertionSort_of_takeWhile_filter 𝓕.crAnTimeOrderRel φ φs' φs\r\n    simp only [l1, l2, decide_not, Bool.decide_and, List.append_assoc] at h1 ⊢\r\n    rw [← h1, ← crAnTimeOrderList]\r\n    by_cases hq : (𝓕 |>ₛ φ) ≠ (𝓕 |>ₛ ψ)\r\n    · simp only [ι_superCommuteF_of_diff_statistic hq, zero_mul, smul_zero]\r\n    · rw [crAnTimeOrderSign, Wick.koszulSign_eq_rel_eq_stat _ _ hφψ hψφ\r\n        (by symm; simpa using hq), ← crAnTimeOrderSign, ← ofCrAnListF_append,\r\n        timeOrderF_ofCrAnListF]\r\n      simp only [map_smul, Algebra.mul_smul_comm]\r\n  conv_rhs => rw [map_mul]\r\n  rw [← ofCrAnListFBasis.linearCombination_repr a,\r\n    ← ofCrAnListFBasis.linearCombination_repr b]\r\n  simp only [Finsupp.linearCombination_apply, Finsupp.sum,\r\n    Finset.sum_mul, Finset.mul_sum, Finset.smul_sum,\r\n    Algebra.smul_mul_assoc, Algebra.mul_smul_comm, map_sum, map_smul,\r\n    ofListBasis_eq_ofList, h]\r\n",
+      "candidateHash": "5f37b92cf5d19f8a426d68b2681e2b36cba4e98a8818bdec7dd9f972fda73197",
+      "proofFileHash": "5f37b92cf5d19f8a426d68b2681e2b36cba4e98a8818bdec7dd9f972fda73197",
+      "baseline": {
+        "tokens": 1217,
+        "raw_heartbeats": 35731046,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 569,
+        "raw_heartbeats": 11608959,
+        "raw_samples": [
+          11608959,
+          11608960,
+          11608959
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 73.58528266818001,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.4966585,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 18,
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F018.lean",
+      "proof": "lemma fundamental_theorem_of_variational_calculus' {f : Y → V}\r\n    (μ : Measure Y) [IsFiniteMeasureOnCompacts μ] [μ.IsOpenPosMeasure]\r\n    [OpensMeasurableSpace Y]\r\n    (hf : Continuous f) (hg : ∀ g, IsTestFunction g → ∫ x, ⟪f x, g x⟫_ℝ ∂μ = 0) :\r\n    f = 0 := by\r\n  ext x₀\r\n  by_contra hx0\r\n  let k := fun x => ⟪f x, f x₀⟫_ℝ\r\n  have hself := (real_inner_self_pos (x := toL2 ℝ (f x₀))).mpr $\r\n    mt (congrArg (fromL2 ℝ)) hx0\r\n  have hc : Continuous k := Continuous.inner' _ _ hf continuous_const\r\n  obtain ⟨δ, hδpos, hδ⟩ :=\r\n    Metric.isOpen_iff.mp (isOpen_lt continuous_const hc) x₀ hself\r\n  letI := hasContDiffBump_of_innerProductSpace Y\r\n  let φ : ContDiffBump x₀ := ⟨δ / 2, δ, half_pos hδpos, half_lt_self hδpos⟩\r\n  have hp := (φ.contDiff (n := 0)).continuous.mul hc\r\n  have hn x : 0 ≤ φ x * k x := by\r\n    by_cases hx : φ x = 0\r\n    · simp only [hx, zero_mul, le_refl]\r\n    · exact mul_nonneg φ.nonneg (hδ (φ.support_eq ▸ hx)).le\r\n  apply ((integral_pos_iff_support_of_nonneg hn\r\n    (hp.integrable_of_hasCompactSupport φ.hasCompactSupport.mul_right)).mpr $\r\n    (isOpen_ne.preimage hp).measure_pos μ\r\n      ⟨x₀, ne_of_gt $ mul_pos\r\n        (φ.pos_of_mem_ball (Metric.mem_ball_self hδpos)) hself⟩).ne'\r\n  simpa only [inner_smul_right'] using hg _ $\r\n    IsTestFunction.smul_right ⟨φ.contDiff, φ.hasCompactSupport⟩ $\r\n      contDiff_const (c := f x₀)\r\n",
+      "candidateHash": "454cfd9104d1270c9fe338d4ebd8bf05d54b441b350584fd453775412f5f221b",
+      "proofFileHash": "454cfd9104d1270c9fe338d4ebd8bf05d54b441b350584fd453775412f5f221b",
+      "baseline": {
+        "tokens": 851,
+        "raw_heartbeats": 10155932,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 211,
+        "raw_heartbeats": 1730125,
+        "raw_samples": [
+          1730126,
+          1730125,
+          1730125
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 86.05667670063045,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.4254645,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 19,
+      "name": "HermitianMat.inv_convex",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F019.lean",
+      "proof": "lemma inv_convex {x y : HermitianMat d 𝕜} (hx : x.mat.PosDef) (hy : y.mat.PosDef)\r\n    ⦃a b : ℝ⦄ (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a + b = 1) :\r\n    (a • x + b • y)⁻¹ ≤ a • x⁻¹ + b • y⁻¹ := by\r\n  have h_schur : (a • x.mat + b • y.mat).PosDef := by\r\n    by_cases h : a = 0\r\n    · rw [h, zero_add] at hab\r\n      simpa [h, hab] using hy\r\n    · exact (hx.smul (ha.lt_of_ne' h)).add_posSemidef $\r\n        hy.posSemidef.smul hb\r\n  let z := (a • x.mat + b • y.mat)⁻¹\r\n  have hquad (A : Matrix d d 𝕜) (hA : A.PosDef) :\r\n      (A⁻¹ - z - z + z * A * z).PosSemidef := by\r\n    have hu := isUnit_iff_ne_zero.mpr hA.det_pos.ne'\r\n    convert hA.posSemidef.conjTranspose_mul_mul_same (A⁻¹ - z) using 1\r\n    rw [Matrix.conjTranspose_sub, hA.inv.posSemidef.1,\r\n      h_schur.inv.posSemidef.1]\r\n    simp only [sub_mul, mul_sub, Matrix.mul_assoc,\r\n      Matrix.mul_nonsing_inv _ hu, mul_one]\r\n    simp only [← Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hu, one_mul]\r\n    abel\r\n  have hsum : a • (z * x.mat * z) + b • (z * y.mat * z) = z := by\r\n    simpa only [mul_add, add_mul, smul_mul_assoc, mul_smul_comm, one_mul] using\r\n      congrArg (· * z) $ Matrix.nonsing_inv_mul _ $\r\n        isUnit_iff_ne_zero.mpr h_schur.det_pos.ne'\r\n  change (a • x.mat⁻¹ + b • y.mat⁻¹ - z).PosSemidef\r\n  convert ((hquad _ hx).smul ha).add ((hquad _ hy).smul hb) using 1\r\n  simp only [smul_add, smul_sub]\r\n  calc\r\n    _ = a • x.mat⁻¹ + b • y.mat⁻¹ -\r\n        (a • z + b • z) - (a • z + b • z) +\r\n        (a • (z * x.mat * z) + b • (z * y.mat * z)) := by\r\n      simp only [← add_smul, hab, one_smul, hsum, sub_add_cancel]\r\n    _ = _ := by abel\r\n",
+      "candidateHash": "d64294ae40589ba94537216ee35805090268ac2d80418fe46ab14aa05c7bb7a7",
+      "proofFileHash": "d64294ae40589ba94537216ee35805090268ac2d80418fe46ab14aa05c7bb7a7",
+      "baseline": {
+        "tokens": 1025,
+        "raw_heartbeats": 211520705,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 321,
+        "raw_heartbeats": 7965506,
+        "raw_samples": [
+          7965505,
+          7965506,
+          7965506
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 88.30569959946355,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.596609,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 20,
+      "name": "cauchyBinet",
+      "source": "physlib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F020.lean",
+      "proof": "lemma cauchyBinet {m : ℕ} {n : Type*} [Fintype n] [DecidableEq n] [LinearOrder n]\r\n    {R : Type*} [CommRing R]\r\n    (A : Matrix (Fin m) n R) (B : Matrix n (Fin m) R) :\r\n    (A * B).det = ∑ S : {S : Finset n // S.card = m},\r\n      (A.submatrix id (S.1.orderEmbOfFin S.2)).det *\r\n      (B.submatrix (S.1.orderEmbOfFin S.2) id).det := by\r\n  have hd (M : Matrix (Fin m) (Fin m) R) :\r\n      M.det = ∑ τ : Equiv.Perm (Fin m), (∏ i, M i (τ i)) * (Equiv.Perm.sign τ : R) := by\r\n    rw [← Matrix.det_transpose M, Matrix.det_apply']\r\n    exact Finset.sum_congr rfl fun _ _ => mul_comm _ _\r\n  have h_cauchy_binet : (A * B).det = ∑ σ : Fin m → n,\r\n      (∏ i, A i (σ i)) * Matrix.det (Matrix.of (fun i j ↦ B (σ i) j)) := by\r\n    simp only [hd, Matrix.mul_apply, Matrix.of_apply, Finset.mul_sum]\r\n    rw [← Finset.sum_comm]\r\n    refine Finset.sum_congr rfl fun x _ => ?_\r\n    simp only [prod_sum, sum_mul]\r\n    refine' Finset.sum_bij (fun f _ i => f i (Finset.mem_univ _)) _ _ _ _\r\n    · exact fun _ _ => Finset.mem_univ _\r\n    · simp only [univ_pi_univ, mem_univ, funext_iff, forall_true_left, forall_const]\r\n      exact fun _ _ h => h\r\n    · simp only [mem_univ, univ_pi_univ, exists_const, forall_const]\r\n      exact fun b => ⟨fun i _ => b i, rfl⟩\r\n    · simp only [univ_pi_univ, mem_univ, prod_mul_distrib, prod_attach_univ, forall_const]\r\n      intro a\r\n      ac_rfl\r\n  let f := fun σ : Fin m → n => (∏ i, A i (σ i)) * Matrix.det (Matrix.of (fun i j ↦ B (σ i) j))\r\n  rw [h_cauchy_binet]\r\n  change (∑ σ, f σ) = _\r\n  trans ∑ S : {S : Finset n // S.card = m}, ∑ σ,\r\n    if Function.Injective σ ∧ Finset.image σ Finset.univ = S.val then f σ else 0\r\n  · rw [← Finset.sum_comm]\r\n    refine Finset.sum_congr rfl fun σ _ => ?_\r\n    by_cases hσ : Function.Injective σ\r\n    · simp only [hσ, true_and]\r\n      rw [Finset.sum_eq_single ⟨Finset.image σ Finset.univ, by\r\n        simp only [Finset.card_image_of_injective _ hσ, card_univ, Fintype.card_fin]⟩]\r\n      · exact (if_pos rfl).symm\r\n      · intro T _ hT\r\n        exact if_neg (fun h => hT (Subtype.ext h.symm))\r\n      · simp only [mem_univ, not_true_eq_false, false_implies]\r\n    · simp only [hσ, false_and, ↓reduceIte, Finset.sum_const_zero]\r\n      simp only [Function.Injective, not_forall, not_imp] at hσ\r\n      obtain ⟨i, j, hij, hne⟩ := hσ\r\n      exact mul_eq_zero_of_right _ (Matrix.det_zero_of_row_eq hne (by\r\n        ext1\r\n        simp only [of_apply, hij]))\r\n  · refine Finset.sum_congr rfl fun S _ => ?_\r\n    let e := S.val.orderEmbOfFin S.property\r\n    have he : Finset.image e Finset.univ = S.val := by\r\n      refine Finset.eq_of_subset_of_card_le\r\n        (Finset.image_subset_iff.mpr fun i _ => Finset.orderEmbOfFin_mem _ _ _) ?_\r\n      rw [Finset.card_image_of_injective _ e.injective]\r\n      simp only [card_univ, Fintype.card_fin, S.2, le_refl]\r\n    have hf : Finset.filter (fun σ : Fin m → n => Function.Injective σ ∧ Finset.image σ Finset.univ = S.val) Finset.univ =\r\n        Finset.image (fun τ : Equiv.Perm (Fin m) => fun i => e (τ i)) Finset.univ := by\r\n      ext σ\r\n      simp only [mem_filter, mem_univ, true_and, mem_image]\r\n      constructor\r\n      · intro hσ\r\n        have h_exists_a : ∀ i, ∃ a : Fin m, σ i = e a := by\r\n          intro i\r\n          have hmem : σ i ∈ Finset.image e Finset.univ := by\r\n            rw [he, ← hσ.2]\r\n            exact Finset.mem_image_of_mem _ (Finset.mem_univ _)\r\n          obtain ⟨a, _, ha⟩ := Finset.mem_image.mp hmem\r\n          exact ⟨a, ha.symm⟩\r\n        choose a ha using h_exists_a\r\n        have ha_inj : Function.Injective a :=\r\n          fun i j hij => hσ.1 <| by simp only [ha, hij]\r\n        exact ⟨Equiv.ofBijective a ⟨ha_inj, Finite.injective_iff_surjective.mp ha_inj⟩,\r\n          funext fun i => (ha i).symm⟩\r\n      · rintro ⟨a, rfl⟩\r\n        constructor\r\n        · exact e.injective.comp a.injective\r\n        · refine Finset.eq_of_subset_of_card_le\r\n            (Finset.image_subset_iff.mpr fun i _ => Finset.orderEmbOfFin_mem _ _ _) ?_\r\n          rw [Finset.card_image_of_injective _ (show Function.Injective (fun i => e (a i)) from e.injective.comp a.injective)]\r\n          simp only [card_univ, Fintype.card_fin, S.2, le_refl]\r\n    rw [← Finset.sum_filter, hf, Finset.sum_image]\r\n    · rw [hd (A.submatrix id e), Finset.sum_mul]\r\n      refine Finset.sum_congr rfl fun τ _ => ?_\r\n      change (∏ i, A i (e (τ i))) * ((B.submatrix e id).submatrix τ id).det = _\r\n      rw [Matrix.det_permute]\r\n      ac_rfl\r\n    · exact fun τ _ τ' _ h => Equiv.Perm.ext fun i => e.injective (congr_fun h i)\r\n",
+      "candidateHash": "994790e80889baaefcc81f42bf1fa6c1f627098c41c5e5809b64ff97e90bd5df",
+      "proofFileHash": "994790e80889baaefcc81f42bf1fa6c1f627098c41c5e5809b64ff97e90bd5df",
+      "baseline": {
+        "tokens": 1200,
+        "raw_heartbeats": 143357047,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 832,
+        "raw_heartbeats": 5831892,
+        "raw_samples": [
+          5831892,
+          5831892,
+          5831892
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687",
+          "environment": "physlib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.34.0",
+          "revision": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0",
+          "environment": "physlib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 75.53285928261498,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.3179715,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "physlib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 21,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F021.lean",
+      "proof": "lemma Typing.progress (der : Typing [] t τ) : t.Value ∨ ∃ t', t ⭢βᵛ t' := by\r\n  generalize eq : [] = Γ at der\r\n  have der' := der\r\n  induction der <;> subst eq\r\n  all_goals replace der' := der'.wf\r\n  case var | sub => grind\r\n  case app t₁ _ _ t₂ l r ih_l ih_r =>\r\n    right\r\n    rcases ih_l rfl l with val_l | ⟨t₁', red_l⟩\r\n    · rcases ih_r rfl r with val_r | ⟨t₂', red_r⟩\r\n      · obtain ⟨σ, t₁, rfl⟩ := l.canonical_form_abs val_l\r\n        exact ⟨t₁ ^ᵗᵗ t₂, by grind⟩\r\n      · exact ⟨t₁.app t₂', by grind⟩\r\n    · exact ⟨t₁'.app t₂, by grind⟩\r\n  case tapp σ' der _ ih =>\r\n    right\r\n    rcases ih rfl der with val | ⟨t', red⟩\r\n    · obtain ⟨_, t, rfl⟩ := der.canonical_form_tabs val\r\n      exact ⟨t ^ᵗᵞ σ', by grind⟩\r\n    · exact ⟨.tapp t' σ', by grind⟩\r\n  case let' t₁ σ t₂ τ L der _ ih _ =>\r\n    right\r\n    rcases ih rfl der with val | ⟨t₁', red⟩\r\n    · exact ⟨t₂ ^ᵗᵗ t₁, by grind⟩\r\n    · exact ⟨t₁'.let' t₂, by grind⟩\r\n  case inl der _ ih | inr der _ ih =>\r\n    rcases ih rfl der with val | ⟨t', red⟩\r\n    · left\r\n      constructor\r\n      exact val\r\n    · right\r\n      exact ⟨_, by constructor; assumption⟩\r\n  case case t₁ _ _ t₂ _ t₃ _ der _ _ ih _ _ =>\r\n    right\r\n    rcases ih rfl der with val | ⟨t₁', red⟩\r\n    · obtain ⟨t₁, h | h⟩ := der.canonical_form_sum val\r\n      · exact ⟨t₂ ^ᵗᵗ t₁, by grind⟩\r\n      · exact ⟨t₃ ^ᵗᵗ t₁, by grind⟩\r\n    · exact ⟨t₁'.case t₂ t₃, by grind⟩\r\n  case abs | tabs =>\r\n    left\r\n    constructor\r\n    grind only []\r\n",
+      "candidateHash": "9dba3ee518a7186c7733e4ed7f9dce9fe7daa9b8c6655cbf6dcd8b79d91cbfae",
+      "proofFileHash": "9dba3ee518a7186c7733e4ed7f9dce9fe7daa9b8c6655cbf6dcd8b79d91cbfae",
+      "baseline": {
+        "tokens": 408,
+        "raw_heartbeats": 59779979,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 327,
+        "raw_heartbeats": 20211796,
+        "raw_samples": [
+          20211796,
+          20208967,
+          20212199
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "environment": "cslib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 62.014210513621656,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 1.5525853,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 22,
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F022.lean",
+      "proof": "theorem parallelReduction_diamond : Diamond ParallelReduction := by\r\n  intro a a₁ a₂ h₁ h₂\r\n  induction h₁ generalizing a₂\r\n  · use a₂, h₂, ParallelReduction.refl a₂\r\n  case' par ha' hb' iha ihb =>\r\n    cases h₂\r\n    rotate_left\r\n    · cases I_irreducible _ ha'\r\n      exact ⟨_, ParallelReduction.red_I _, hb'⟩\r\n    · rcases Ka_irreducible _ _ ha' with ⟨_, h, rfl⟩\r\n      exact ⟨_, ParallelReduction.red_K .., h⟩\r\n    · rcases Sab_irreducible _ _ _ ha' with ⟨_, _, ha, hc, rfl⟩\r\n      exact ⟨_, ParallelReduction.red_S ..,\r\n        (ha.par hb').par (hc.par hb')⟩\r\n    next ha'' hb'' =>\r\n      rcases iha ha'' with ⟨a₃, ha⟩\r\n      rcases ihb hb'' with ⟨b₃, hb⟩\r\n      exact ⟨_, ha.1.par hb.1, ha.2.par hb.2⟩\r\n  all_goals try cases h₂\r\n  case red_I.par hc ha =>\r\n    cases I_irreducible _ hc\r\n    exact ⟨_, ha, ParallelReduction.red_I _⟩\r\n  case red_K.par ha hc =>\r\n    rcases Ka_irreducible _ _ ha with ⟨_, h, rfl⟩\r\n    exact ⟨_, h, ParallelReduction.red_K ..⟩\r\n  case red_S.par hd hc =>\r\n    rcases Sab_irreducible _ _ _ hd with ⟨_, _, ha, hb, rfl⟩\r\n    exact ⟨_, (ha.par hc).par (hb.par hc), ParallelReduction.red_S ..⟩\r\n  all_goals exact ⟨_, ParallelReduction.refl _, by constructor <;> assumption⟩\r\n",
+      "candidateHash": "5c2a7303ea16d306ce2405678aace6d2adbe518a38358b04b449b30b61dd55be",
+      "proofFileHash": "5c2a7303ea16d306ce2405678aace6d2adbe518a38358b04b449b30b61dd55be",
+      "baseline": {
+        "tokens": 407,
+        "raw_heartbeats": 1377346,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 236,
+        "raw_heartbeats": 387054,
+        "raw_samples": [
+          387054,
+          387054,
+          387054
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "environment": "cslib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 71.3044354517158,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.5683565,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 23,
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F023.lean",
+      "proof": "theorem bisimilarity_congr_choice :\r\n    (p ~[lts (defs := defs)] q) → (choice p r) ~[lts (defs := defs)] (choice q r) := by\r\n  intro h\r\n  exists _, ChoiceBisim.choice h\r\n  intro s1 s2 hr μ\r\n  cases hr\r\n  case' choice hb =>\r\n    constructor <;> intro s' ht <;> cases ht <;> rename_i ht\r\n    all_goals\r\n      try exact ⟨_, ht.choiceR, .bisim (HomBisimilarity.refl _)⟩\r\n  case' bisim hb =>\r\n    constructor <;> intro s' ht\r\n  all_goals\r\n    obtain ⟨t, ht, h'⟩ := by\r\n      first | exact hb.follow_fst ht | exact hb.follow_snd ht\r\n    refine ⟨t, ?_, .bisim h'⟩\r\n    try apply Tr.choiceL\r\n    assumption\r\n",
+      "candidateHash": "bc3333780748a56c35847431d0a8b6d17453b671d85de2a27a404d87f925bbe6",
+      "proofFileHash": "bc3333780748a56c35847431d0a8b6d17453b671d85de2a27a404d87f925bbe6",
+      "baseline": {
+        "tokens": 251,
+        "raw_heartbeats": 3849785,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 86,
+        "raw_heartbeats": 580704,
+        "raw_samples": [
+          580704,
+          580704,
+          580704
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "environment": "cslib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "environment": "cslib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 83.55099621894513,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.3009818,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 24,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F024.lean",
+      "proof": "lemma Typing.preservation (der : Typing Γ t τ) (step : t ⭢βᵛ t') : Typing Γ t' τ := by\r\n  induction der generalizing t'\r\n  case' app σ τ _ der _ ih₁ ih₂ =>\r\n    cases step\r\n    case' abs =>\r\n      have ⟨_, _, _, _⟩ := der.abs_inv\r\n        (by grind [Sub.refl] : Sub _ _ $ σ.arrow τ)\r\n  case' tapp Γ _ σ τ σ' der _ ih =>\r\n    cases step\r\n    case tabs =>\r\n      clear ih\r\n      have ⟨_, _, _, _⟩ := der.tabs_inv\r\n        (by grind [Sub.refl] : Sub Γ _ $ σ.all τ)\r\n      have ⟨X, mem⟩ := fresh_exists $ free_union [Ty.fv, fvTy] Var\r\n      simp at mem\r\n      have : Γ = Context.mapVal (·[X := σ']) [] ++ Γ := rfl\r\n      rw [openTy_substTy_intro (X := X), open_subst_intro (X := X)] <;> grind [subst_ty]\r\n  case' let' L _ _ ih₁ ih₂ =>\r\n    cases step\r\n    case let_bind red₁ _ => apply Typing.let' L $ ih₁ red₁; assumption\r\n  case' case Γ _ σ τ _ _ _ L der _ _ ih₁ ih₂ ih₃ =>\r\n    clear ih₃\r\n    have sub : Sub Γ (σ.sum τ) $ σ.sum τ := by grind [Sub.refl]\r\n    have := List.nil_append Γ\r\n    cases step\r\n    case «case» red₁ _ _ => apply Typing.case L $ ih₁ red₁ <;> assumption\r\n    case' case_inl =>\r\n      have ⟨_, _⟩ := der.inl_inv sub\r\n    case' case_inr =>\r\n      have ⟨_, _⟩ := der.inr_inv sub\r\n  case' app.abs | let' | case.case_inl | case.case_inr =>\r\n    clear ih₁ ih₂\r\n    have ⟨x, hx⟩ := fresh_exists $ free_union [fvTm] Var\r\n    simp at hx\r\n    try\r\n      case app.abs =>\r\n        grind [openTm_substTm_intro (x := x), subst_tm, Sub.weaken]\r\n    all_goals grind [openTm_substTm_intro (x := x), subst_tm]\r\n  all_goals grind [cases Red]\r\n",
+      "candidateHash": "2c6bc9c3e19216e54e756dbae552c12ba7a94471e3c79d6235d43bd2be39decc",
+      "proofFileHash": "2c6bc9c3e19216e54e756dbae552c12ba7a94471e3c79d6235d43bd2be39decc",
+      "baseline": {
+        "tokens": 391,
+        "raw_heartbeats": 38253310,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 320,
+        "raw_heartbeats": 15603745,
+        "raw_samples": [
+          15604470,
+          15603745,
+          15603542
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "environment": "cslib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 59.12266435027138,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.3933484,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 25,
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F025.lean",
+      "proof": "theorem of_consensus [Fintype P] (f : ℕ) (hf : f < card P)\r\n    (hc : a.Consensus f) : a.PseudoConsensus f := by\r\n  use hc.1\r\n  rintro inp s ⟨xl, h_xl⟩ ps h_ps\r\n  revert hc\r\n  let xls := a.fairSegActions (a.simpleDeliver ps) ps s\r\n  let xs := xl ++ω xls.flatten\r\n  rcases fair_omegaExecution (simpleDeliver_fair ps) s trivial with ⟨ss, h_omega, h_s, h_tailFair⟩\r\n  rcases LTS.OmegaExecution.append h_xl h_omega h_s with ⟨ss', h_omega', h_start, h_prefix, h_suffix⟩\r\n  have h_psfair : ∀ p ∈ ps, ProcFair p ss' xs := by\r\n    clear hf h_ps h_xl\r\n    intro p h_p\r\n    rw [← Algorithm.drop_procFair_iff h_omega' p xl.length]\r\n    grind [drop_append_of_ge_length]\r\n  clear h_tailFair\r\n  have h_dest := omega_forall_actions (r := _) (d := a.simpleDeliver ps)\r\n      (simpleDeliver_fair ps) s trivial (simpleDeliver_forallActions ps) (by simp [DestIn])\r\n  have h_fair : FairRun ss' xs := by\r\n    clear hf h_ps h_xl h_s h_start h_prefix h_suffix h_omega\r\n    intro p\r\n    by_cases h_f : ProcFair p ss' xs\r\n    · grind only\r\n    · rcases Algorithm.not_fair_stay_enabled h_omega' h_f with ⟨m, _, n, _, _⟩\r\n      suffices ProcFaulty p ss' xs by grind only\r\n      use n + xl.length, by grind only\r\n      intro k h_k m' h_m'\r\n      simp only [xs, get_append_right', show xl.length ≤ k by omega] at h_m'\r\n      grind only [DestIn]\r\n  have h_bound : numProcFaulty ss' xs ≤ f := by\r\n    suffices numProcFaulty ss' xs ≤ card P - ps.ncard by omega\r\n    apply numProcFaulty_le_not_procFair\r\n    assumption\r\n  have h_adm : a.AdmissibleRun inp f ss' xs := by\r\n    clear h_dest h_psfair h_prefix h_suffix h_omega\r\n    grind only [Algorithm.AdmissibleRun]\r\n  clear h_psfair h_fair h_xl h_ps h_start h_prefix\r\n  rcases not_procFaulty_of_numProcFaulty (h_bound.trans_lt hf) with ⟨p, hp⟩\r\n  intro hc\r\n  obtain ⟨n, b, h_dec⟩ : ∃ n b, (ss' n).ProcDecided p b := by\r\n    clear h_dest h_s h_suffix h_omega' h_omega\r\n    grind only [ProcTermination, hc.2 inp ss' xs h_adm p]\r\n  clear hc h_adm h_bound hp hf\r\n  use ss n, b\r\n  constructor\r\n  · use xls.flatten.extract 0 n, by grind only [LTS.OmegaExecution.extract_mTr]\r\n    simp [extract_eq_take, List.forall_iff_forall_mem, List.forall_mem_iff_getElem]\r\n    grind\r\n  · have : (ss' n).Decided b := by use p\r\n    clear h_dest h_s h_dec h_omega\r\n    suffices a.lts.CanReach (ss' n) (ss n) by grind only [Algorithm.decided_stable]\r\n    use xs.extract n (n + xl.length)\r\n    grind [LTS.OmegaExecution.extract_mTr]\r\n",
+      "candidateHash": "868168edb118fb405d432b4dc2a11315ffa925c01f6469b355e0a3e2af68f526",
+      "proofFileHash": "868168edb118fb405d432b4dc2a11315ffa925c01f6469b355e0a3e2af68f526",
+      "baseline": {
+        "tokens": 433,
+        "raw_heartbeats": 11951233,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 408,
+        "raw_heartbeats": 4953314,
+        "raw_samples": [
+          4953259,
+          4953314,
+          4953465
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "environment": "cslib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 54.775874031853725,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.5905875,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 26,
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F026.lean",
+      "proof": "theorem buchiFamily_saturation [Inhabited Symbol] :\r\n    Saturates (fun i ↦ (na.buchiFamily i).toSet) (language na).toSet := by\r\n  rintro ⟨a, b⟩ ⟨xs, h_xs, ⟨ss, ⟨h_init, h_exec⟩, h_acc⟩⟩ ys h_ys\r\n  obtain ⟨xl, xls, h_xl_c, h_xls_c, rfl⟩ := mem_buchiFamily.mp h_xs\r\n  obtain ⟨yl, yls, h_yl_c, h_yls_c, rfl⟩ := mem_buchiFamily.mp h_ys\r\n  clear h_xs h_ys\r\n  let f k := xl.length + xls.cumLen k\r\n  let ts := ωSequence.mk fun k ↦ ss (f k)\r\n  have h_yl_e := LTS.Execution.to_mTr\r\n    (buchiCongruence_transfer (s := ss 0) (t := ts 0) h_xl_c h_yl_c (by\r\n      clear h_xl_c h_xls_c h_yl_c h_yls_c h_init h_acc\r\n      grind [LTS.OmegaExecution.extract_mTr h_exec (Nat.zero_le xl.length),\r\n        extract_append_zero_right, LTS.mem_pairLang])).choose_spec.1\r\n  clear h_xl_c h_yl_c\r\n  simp only [Language.mem_sub_one] at h_xls_c h_yls_c\r\n  have h_xls_p k := List.length_pos_iff.mpr (h_xls_c k).2\r\n  have h_yls_p k := List.length_pos_iff.mpr (h_yls_c k).2\r\n  choose sls h_yls_e h_yls_a using fun k ↦\r\n    buchiCongruence_transfer (s := ts k) (t := ts (k + 1))\r\n      (h_xls_c k).left (h_yls_c k).left (by\r\n        clear h_xls_c h_yls_c h_init h_acc h_yls_p h_yl_e\r\n        grind [LTS.OmegaExecution.extract_mTr h_exec (?_ : f k ≤ f (k + 1)),\r\n          LTS.mem_pairLang, extract_append_right_right, add_tsub_cancel_left])\r\n  obtain ⟨ss1, h_ss1_run, h_ss1_seg⟩ := LTS.OmegaExecution.flatten_execution h_yls_e h_yls_p\r\n  clear h_xls_c h_yls_c\r\n  have h_start m : ss1 (yls.cumLen m) = ts m := by\r\n    clear h_xls_p h_acc h_exec h_init h_yls_a h_ss1_run h_yl_e\r\n    specialize h_yls_e m\r\n    specialize h_ss1_seg m\r\n    have h := Nat.sub_pos_of_lt (cumLen_strictMono h_yls_p (Nat.lt_succ_self m))\r\n    clear h_yls_p\r\n    have : 0 < (sls m).length := by grind\r\n    have := h_yls_e.choose_spec.1\r\n    grind [get_extract (xs := ss1) h]\r\n  suffices ∃ᶠ k in atTop, ss1 k ∈ na.accept by\r\n    obtain ⟨ss2, h2⟩ := LTS.OmegaExecution.append h_yl_e h_ss1_run (by simpa using h_start 0)\r\n    use ss2\r\n    have := @drop_frequently_iff_frequently _ ss2 na.accept yl.length\r\n    clear h_xls_p h_yls_p h_yls_e h_yls_a h_ss1_seg h_exec h_acc h_start\r\n    grind [Run.mk]\r\n  apply frequently_atTop.mpr\r\n  intro n\r\n  obtain ⟨m, _, s, _, h_mem⟩ :=\r\n    frequently_atTop.mp ((frequently_via_accept h_acc h_exec h_xls_p f rfl ts rfl).mono h_yls_a) n\r\n  obtain ⟨k, _, _⟩ := List.mem_iff_getElem.mp h_mem\r\n  use yls.cumLen m + k\r\n  suffices ss1 (yls.cumLen m + k) = (sls m)[k] by\r\n    have := StrictMono.add_le_nat (cumLen_strictMono h_yls_p) m 0\r\n    lia\r\n  clear h_xls_p h_acc h_exec h_init h_yls_a h_ss1_run h_yl_e\r\n  obtain ⟨_, _, _, _⟩ := h_yls_e m\r\n  by_cases hk : k < (yls m).length\r\n  · specialize h_ss1_seg m\r\n    clear h_yls_p h_yls_e h_start\r\n    have h : k < yls.cumLen (m + 1) - yls.cumLen m := by\r\n      clear h_ss1_seg\r\n      grind\r\n    grind [get_extract (xs := ss1) h]\r\n  · have := h_start (m + 1)\r\n    clear h_start h_yls_p h_yls_e h_ss1_seg\r\n    grind\r\n",
+      "candidateHash": "1f3e64d6de568f04043f7ddf29e94cd8f0676c2ca6016aeaaea214ae69430bc3",
+      "proofFileHash": "1f3e64d6de568f04043f7ddf29e94cd8f0676c2ca6016aeaaea214ae69430bc3",
+      "baseline": {
+        "tokens": 623,
+        "raw_heartbeats": 56817136,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 517,
+        "raw_heartbeats": 7462462,
+        "raw_samples": [
+          7462165,
+          7462462,
+          7462896
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "environment": "cslib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 67.96009045168432,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.775344,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 27,
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F027.lean",
+      "proof": "theorem nonUniform_step [Fintype P] (hpc1 : a.PseudoConsensus 1)\r\n    {s : State P M S} (hr : a.Reachable inp s) (hn : a.NonUniform s) (p : P) :\r\n    ∃ s', a.lts.CanReach s s' ∧ ∀ b, a.CanDecideWithout s' p b := by\r\n  obtain ⟨b, hb⟩ := canDecideWithout_exists hpc1 hr p\r\n  obtain ⟨q, t, ⟨xs, hxs, -⟩, hd⟩ := hn !b\r\n  clear hn\r\n  induction xs generalizing s\r\n  all_goals\r\n    by_cases hnb : a.CanDecideWithout s p !b\r\n    · use s, ⟨[], by constructor⟩\r\n      intro c\r\n      cases b <;> cases c <;> assumption\r\n  · cases hxs\r\n    exfalso\r\n    simpa using decided_eq_canDecideWithout hpc1 hr hd hb\r\n  rename_i x xs ih\r\n  cases hxs\r\n  rename_i hu hus\r\n  obtain ⟨v, ⟨ys, hy⟩, hv⟩ :=\r\n    ih (Algorithm.reachable_stable hr ⟨[x], by\r\n        constructor\r\n        assumption\r\n        constructor⟩)\r\n      (by\r\n        cases x\r\n        cases Algorithm.tr_none hu\r\n        assumption\r\n        exact canDecideWithout_uniform hpc1 hr hu hb hnb) hus\r\n  use v, ⟨x :: ys, by constructor <;> assumption⟩, hv\r\n",
+      "candidateHash": "4b9e199dfa87d8e870a4fa0d012cae1c5714147cf9dcdd711e70f4e5d19c6024",
+      "proofFileHash": "4b9e199dfa87d8e870a4fa0d012cae1c5714147cf9dcdd711e70f4e5d19c6024",
+      "baseline": {
+        "tokens": 368,
+        "raw_heartbeats": 30853073,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 147,
+        "raw_heartbeats": 486605,
+        "raw_samples": [
+          486605,
+          486605,
+          486605
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "environment": "cslib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 86.15905971987137,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.374653,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 28,
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F028.lean",
+      "proof": "theorem OmegaExecution.flatten_execution [Inhabited Label]\r\n    {ts : ωSequence State} {μls : ωSequence (List Label)} {sls : ωSequence (List State)}\r\n    (hexec : ∀ k, lts.Execution (ts k) (μls k) (ts (k + 1)) (sls k))\r\n    (hpos : ∀ k, (μls k).length > 0) :\r\n    ∃ ss, lts.OmegaExecution ss μls.flatten ∧\r\n      ∀ k, ss.extract (μls.cumLen k) (μls.cumLen (k + 1)) = (sls k).take (μls k).length := by\r\n  have : Inhabited State := ⟨ts 0⟩\r\n  let segs := ωSequence.mk fun k ↦ (sls k).take (μls k).length\r\n  have h_len : μls.cumLen = segs.cumLen := by ext k; induction k <;> grind\r\n  have h_pos k : (segs k).length > 0 := by\r\n    specialize hexec k\r\n    grind\r\n  have h_mono := cumLen_strictMono h_pos\r\n  have h_seg0 k : (segs k)[0]! = ts k := by\r\n    specialize hexec k\r\n    grind\r\n  use segs.flatten\r\n  constructor\r\n  · intro n\r\n    simp only [h_len, flatten_def]\r\n    specialize hexec (segment segs.cumLen n)\r\n    have := segment_lower_bound h_mono cumLen_zero n\r\n    clear h_pos\r\n    rcases lt_or_eq_of_le (Nat.add_one_le_iff.mpr (segment_upper_bound h_mono cumLen_zero n)) with h_n | h1\r\n    · have := segment_range_val h_mono (by omega) h_n\r\n      clear h_seg0\r\n      grind\r\n    · have : n + 1 - segs.cumLen (segment segs.cumLen n) = (μls (segment segs.cumLen n)).length := by\r\n        clear h_seg0\r\n        grind\r\n      simp only [h1, segment_idem h_mono, Nat.sub_self, h_seg0]\r\n      clear h_seg0\r\n      grind\r\n  · simp [h_len, extract_flatten h_pos, segs]\r\n",
+      "candidateHash": "0e050b205358f5f8eeda2a3114587f9bc874d764aa3e1c98fd46a0092d37c5a2",
+      "proofFileHash": "0e050b205358f5f8eeda2a3114587f9bc874d764aa3e1c98fd46a0092d37c5a2",
+      "baseline": {
+        "tokens": 312,
+        "raw_heartbeats": 27556653,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 193,
+        "raw_heartbeats": 10720725,
+        "raw_samples": [
+          10720725,
+          10720258,
+          10722239
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "8ea71c8df91acd63285515a04da952b23b78d266",
+          "environment": "cslib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5",
+          "environment": "cslib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 66.41223940432639,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.2212155,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 29,
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F029.lean",
+      "proof": "theorem subset_inp [Fintype P] {ps : Set P} {inp1 inp2 : P → Bool} {s1 : State P M S}\r\n    (he : InpEqOn ps inp1 inp2) (hr : a.CanReachVia ps (a.start inp1) s1) :\r\n    ∃ s2, a.CanReachVia ps (a.start inp2) s2 ∧ s2.proc = s1.proc := by\r\n  suffices sim : ∀ {s u xs}, a.lts.MTr s xs u →\r\n      ∀ t, State.proc t = s.proc →\r\n      (∀ m, m.dest ∈ ps → t.msgs.count m = s.msgs.count m) →\r\n      xs.Forall (DestIn ps) →\r\n      ∃ v, a.CanReachVia ps t v ∧ v.proc = u.proc by\r\n    obtain ⟨xs, h, hx⟩ := hr\r\n    refine sim h _ rfl ?_ hx\r\n    intro m hm\r\n    simp only [Algorithm.start, count_map, Message.ext_iff]\r\n    congr\r\n    grind only [InpEqOn]\r\n  intro s u xs h\r\n  induction h <;> intro t hp hm hx\r\n  next =>\r\n    exact ⟨t, refl ps t, hp⟩\r\n  next s x u xs v ht h ih =>\r\n    rw [List.forall_cons] at hx\r\n    obtain ⟨hx, hxs⟩ := hx\r\n    cases x with\r\n    | none =>\r\n      cases ht\r\n      exact ih t hp hm hxs\r\n    | some m =>\r\n      obtain ⟨hmem, rfl⟩ := ht\r\n      obtain ⟨w, hw, hwp⟩ := ih (a.recvMsg m t)\r\n        (by simp only [Algorithm.recvMsg, hp])\r\n        (by\r\n          intro n hn\r\n          rcases eq_or_ne n m with rfl | hnm <;>\r\n            simp [Algorithm.recvMsg, count_erase_of_ne, *]) hxs\r\n      exact ⟨w, stepL hx ⟨by\r\n        rwa [← one_le_count_iff_mem, hm m hx, one_le_count_iff_mem], rfl⟩ hw, hwp⟩\r\n",
+      "candidateHash": "4c84305a345e8a9d383d86afed491748c5568ef7c6805c7fac90bfeae60cd885",
+      "proofFileHash": "4c84305a345e8a9d383d86afed491748c5568ef7c6805c7fac90bfeae60cd885",
+      "baseline": {
+        "tokens": 364,
+        "raw_heartbeats": 25309514,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 242,
+        "raw_heartbeats": 2260434,
+        "raw_samples": [
+          2260434,
+          2260557,
+          2260424
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "environment": "cslib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 74.86177343944269,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.388573,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 30,
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "source": "cslib",
+      "author": "남성우",
+      "runId": "team-report-seongwoo-20261102",
+      "proofPath": "solutions/team-shared-20261102/seongwoo/F030.lean",
+      "proof": "theorem parallel_diamond : Diamond ((· ⭢ₚ ·) : Term Var → Term Var → Prop) := by\r\n  have join {m l r : Term Var} {xs ys : Finset Var}\r\n      (ih : ∀ x ∉ xs, ∀ {v}, (m ^ fvar x) ⭢ₚ v →\r\n        ∃ w, (l ^ fvar x) ⭢ₚ w ∧ v ⭢ₚ w)\r\n      (hr : ∀ x ∉ ys, (m ^ fvar x) ⭢ₚ r ^ fvar x) :\r\n      ∃ w, abs l ⭢ₚ w ∧ abs r ⭢ₚ w := by\r\n    have ⟨x, qx⟩ := fresh_exists $ xs ∪ ys ∪ fv l ∪ fv r\r\n    simp only [Finset.mem_union, not_or] at qx\r\n    have ⟨w, hw⟩ := ih x qx.1.1.1 (hr x qx.1.1.2)\r\n    suffices ∀ {v}, x ∉ fv v → (v ^ fvar x) ⭢ₚ w →\r\n        abs v ⭢ₚ abs (w ^* x) from\r\n      ⟨_, this qx.1.2 hw.1, this qx.2 hw.2⟩\r\n    clear ih hr hw qx\r\n    intro v hv h\r\n    apply Parallel.abs ∅\r\n    intro y _\r\n    have := para_open_close x y 0 h\r\n    grind\r\n  intros t t1 t2 tpt1\r\n  induction tpt1 generalizing t2 <;> intro tpt2\r\n  case fvar x =>\r\n    cases tpt2\r\n    exact ⟨_, Parallel.fvar x, Parallel.fvar x⟩\r\n  case abs =>\r\n    rename_i ih\r\n    cases tpt2\r\n    rename_i mem'\r\n    exact join ih mem'\r\n  case beta =>\r\n    rename_i ih1 ih2\r\n    cases tpt2\r\n    case' app =>\r\n      rename_i s1pu2 s2pu2'\r\n      cases s1pu2\r\n      rename_i mem'\r\n    case' beta =>\r\n      rename_i mem' s2pu2'\r\n    all_goals\r\n      obtain ⟨w, hl, hr⟩ := join ih1 mem'\r\n      obtain ⟨v, hv1, hv2⟩ := ih2 s2pu2'\r\n      cases hl\r\n      cases hr\r\n      rename_i ys hys zs hzs\r\n      exact ⟨_, para_open_out ys hys hv1, by\r\n        first\r\n        | exact Parallel.beta zs hzs hv2\r\n        | exact para_open_out zs hzs hv2⟩\r\n  case app =>\r\n    rename_i s1ps1' _ ih1 ih2\r\n    cases tpt2\r\n    case app =>\r\n      rename_i s1 s2\r\n      obtain ⟨l, hl, hl'⟩ := ih1 s1\r\n      obtain ⟨r, hr, hr'⟩ := ih2 s2\r\n      exact ⟨_, Parallel.app hl hr, Parallel.app hl' hr'⟩\r\n    case beta =>\r\n      rename_i xs mem s2pu2'\r\n      cases s1ps1'\r\n      obtain ⟨t', qt'_l, qt'_r⟩ := ih2 s2pu2'\r\n      obtain ⟨t'', qt''_l, qt''_r⟩ := ih1 (Parallel.abs xs mem)\r\n      cases qt''_l\r\n      cases qt''_r\r\n      rename_i xs'' mem'' xs''' mem'''\r\n      exact ⟨_, Parallel.beta xs'' mem'' qt'_l,\r\n        para_open_out xs''' mem''' qt'_r⟩\r\n",
+      "candidateHash": "b7e2d9d219ac718a609e1626a89a58815d3992b58aee611ea2f8e8cbb77ec233",
+      "proofFileHash": "b7e2d9d219ac718a609e1626a89a58815d3992b58aee611ea2f8e8cbb77ec233",
+      "baseline": {
+        "tokens": 519,
+        "raw_heartbeats": 8634013,
+        "raw_samples": null
+      },
+      "candidate": {
+        "tokens": 436,
+        "raw_heartbeats": 1531077,
+        "raw_samples": [
+          1530892,
+          1531189,
+          1531077
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.1",
+          "revision": "7c8f6c0f67015df29b152fdcffaf7850db2e9185",
+          "environment": "cslib-v4.34.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "98e395a701f2027a413ad24729e1a11a6c772eb4",
+          "environment": "cslib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": null,
+      "score": 66.08640209935619,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": 2.7359295,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "cslib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 31,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F031.lean",
+      "proof": "theorem interleaved_affine_gaps_imply_tensor_gaps\n    (hC_proximityGapAffineLines : e_ε_correlatedAgreementAffineLinesNat\n      (F := F) (A := A) (ι := ι) (C := MC) (e := e) (ε := ε))\n    (h_interleaved_gaps : ∀ m : ℕ, m ≥ 1 →\n      e_ε_correlatedAgreementAffineLinesNat (F := F)\n        (A := InterleavedSymbol A (Fin m)) (ι := ι) (C := MC ^⋈ (Fin m)) e ε) :\n    ∀ (ϑ : ℕ), (hϑ_gt_0 : ϑ > 0) → δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A)\n      (ι := ι) (C := MC) (ϑ := ϑ) (e := e) (ε := ε) := by\n    classical\n    intro ϑ\n    induction ϑ with\n    | zero =>\n      intro u\n      contradiction\n    | succ ϑ_sub_1 ih =>\n      cases ϑ_sub_1 with\n      | zero =>\n        simp only [zero_add, gt_iff_lt, zero_lt_one, ModuleCode, forall_const]\n        intro u\n        let toAffineLineEval := multilinearCombine₁_eq_affineLineEvaluation (F := F) (u := u)\n        intro hprob_gt\n        simp_rw [toAffineLineEval] at hprob_gt\n        let prob_eq := prob_uniform_singleton_finFun_eq (F := F)\n          (P := fun r => Δ₀(affineLineEvaluation (u 0) (u 1) r, MC) ≤ e)\n        simp_rw [prob_eq, Nat.cast_one, ENNReal.coe_one, one_mul] at hprob_gt\n        have h_correlated_agreement := hC_proximityGapAffineLines (u 0) (u 1) hprob_gt\n        simp only [jointProximityNat₂, Fin.isValue] at h_correlated_agreement\n        have h_u_eq: u = finMapTwoWords (u 0) (u 1) := by\n          funext rowIdx\n          fin_cases rowIdx <;> rfl\n        rw [h_u_eq.symm] at h_correlated_agreement\n        exact h_correlated_agreement\n      | succ ϑ_sub_2 =>\n        intro hϑ_gt_0 u hP_multilinearCombine_close_gt\n        let ϑ := ϑ_sub_2 + 1 + 1\n        set U₀ : Fin (2 ^ (ϑ_sub_2 + 1)) → Word A ι :=\n          (splitHalfRowWiseInterleavedWords (ϑ := ϑ_sub_2 + 1) u).1\n        set U₁ : Fin (2 ^ (ϑ_sub_2 + 1)) → Word A ι :=\n          (splitHalfRowWiseInterleavedWords (ϑ := ϑ_sub_2 + 1) u).2\n        unfold jointProximityNat\n        simp only\n        have h_finsnoc_eq_r: ∀ r: Fin (ϑ_sub_2 + 1 + 1) → F,\n          Fin.snoc (fun (i : Fin (ϑ_sub_2 + 1)) ↦ r i.castSucc)\n            (r (Fin.last (ϑ_sub_2 + 1))) = r := fun r => Fin.snoc_init_self r\n        let P : F → (Fin (ϑ_sub_2 + 1) → F) → Prop := fun r_last r_init =>\n          Δ₀(multilinearCombine (u:=u) (r:=Fin.snoc r_init r_last), MC) ≤ e\n        let hP_split_r_last := prob_split_last_uniform_sampling_of_finFun\n          (ϑ := ϑ_sub_2 + 1) (F := F) (P := P)\n        unfold P at hP_split_r_last\n        simp_rw [h_finsnoc_eq_r] at hP_split_r_last\n        rw [hP_split_r_last] at hP_multilinearCombine_close_gt\n        let  ϑ_pred := ϑ_sub_2 + 1\n        have multilinearCombine_snoc_eq_multilinearCombine_affine\n          (r_init : Fin ϑ_pred → F) (r_last : F) : multilinearCombine u (Fin.snoc r_init r_last) =\n            multilinearCombine (affineLineEvaluation U₀ U₁ r_last) r_init := by\n          rw [multilinearCombine_recursive_form]\n          simp only [Fin.snoc_last, Fin.init_snoc]\n          rfl\n        simp_rw [multilinearCombine_snoc_eq_multilinearCombine_affine]\n          at hP_multilinearCombine_close_gt\n        let R_star_set := R_star_tensor MC (m:=ϑ_pred) (e:=e) (ε:=ε) U₀ U₁\n        have h_prob_Rstar_gt_eps_div_q : Pr_{ let r ← $ᵖ F }[ r ∈ R_star_set ]\n          > (↑ε : ENNReal) / (Fintype.card F : ENNReal) := by\n          let res := prob_R_star_gt_threshold (MC := MC) (ε := ε) (ϑ := ϑ_sub_2 + 1) (u := u)\n            (e := e) (hP_multilinearCombine_close_gt)\n          exact res\n        apply CA_split_rowwise_implies_CA (u := u) (e := e)\n        apply h_interleaved_gaps (2^(ϑ_sub_2+1)) Nat.one_le_two_pow\n        apply lt_of_lt_of_le h_prob_Rstar_gt_eps_div_q\n        apply Pr_le_Pr_of_implies\n        intro r hr\n        exact correlatedAgreement_of_mem_R_star_tensor (MC := MC) (ih := ih (by omega)) (u := u) ⟨r,hr⟩\n",
+      "candidateHash": "c65148e1e2550dab63c34a2f4dc7650e0244cc97a5c49bf224c1dc1d7e292177",
+      "proofFileHash": "c65148e1e2550dab63c34a2f4dc7650e0244cc97a5c49bf224c1dc1d7e292177",
+      "baseline": {
+        "tokens": 1353,
+        "raw_heartbeats": 6909785,
+        "raw_samples": [
+          6909785,
+          6909844,
+          6909699
+        ]
+      },
+      "candidate": {
+        "tokens": 577,
+        "raw_heartbeats": 3798349,
+        "raw_samples": [
+          3798377,
+          3798334,
+          3798349
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.0",
+          "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+          "environment": "arklib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "environment": "arklib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:37:01.244455+00:00",
+      "score": 67.46114883730792,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 32,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F032.lean",
+      "proof": "theorem fold_advances_evaluation_poly\n  (i : Fin (ℓ)) (h_i_succ_lt : i + 1 < ℓ + 𝓡)\n  (coeffs : Fin (2 ^ (ℓ - ↑i)) → L) (r_chal : L) :\n  let P_i : L[X] := intermediateEvaluationPoly 𝔽q β h_ℓ_add_R_rate (i := ⟨i, by\n    exact Nat.lt_trans (n := i) (k := ℓ+1) (m := ℓ) (h₁ := i.isLt) (by exact Nat.lt_add_one ℓ)\n  ⟩) coeffs\n  let f_i := fun (x : (sDomain 𝔽q β h_ℓ_add_R_rate)\n      ⟨i, by exact Nat.lt_trans (n := i) (k := r) (m := ℓ) (h₁ := by omega) (by omega)⟩) =>\n    P_i.eval (x.val : L)\n  let f_i_plus_1 := fold (i := ⟨i, by omega⟩) (h_i := by omega) (f := f_i) (r_chal := r_chal)\n  let new_coeffs := fun j : Fin (2^(ℓ - (i + 1))) =>\n    (1 - r_chal) * (coeffs ⟨j.val * 2, by\n      rw [←Nat.add_zero (j.val * 2)]\n      apply mul_two_add_bit_lt_two_pow (c := ℓ - i) (a := j) (b := ℓ - (↑i + 1))\n        (i := 0) (by omega) (by omega)\n    ⟩) +\n    r_chal * (coeffs ⟨j.val * 2 + 1, by\n      apply mul_two_add_bit_lt_two_pow (c := ℓ - i) (a := j) (b := ℓ - (↑i + 1))\n        (i := 1) (by omega) (by omega)\n    ⟩)\n  let P_i_plus_1 :=\n    intermediateEvaluationPoly 𝔽q β h_ℓ_add_R_rate (i := ⟨i+1, by omega⟩) new_coeffs\n  ∀ (y : (sDomain 𝔽q β h_ℓ_add_R_rate)\n    ⟨i+1, by omega⟩), f_i_plus_1 y = P_i_plus_1.eval y.val := by\n  intro P_i f_i f_i_plus_1 new_coeffs P_i_plus_1 y\n  set fiberMap := qMap_total_fiber 𝔽q β (i := ⟨i, by omega⟩) (steps := 1)\n    (h_i_add_steps := by simp only; omega) (y := y)\n  set x₀ := fiberMap 0\n  set x₁ := fiberMap 1\n  have h_eval (k : Fin 2) : (AdditiveNTT.qMap 𝔽q β ⟨i, by omega⟩).eval (fiberMap k).val = y := by\n    have h := iteratedQuotientMap_k_eq_1_is_qMap 𝔽q β h_ℓ_add_R_rate i (by omega) (fiberMap k)\n    simp only [Subtype.eq_iff] at h\n    rw [h.symm]\n    have h_res := is_fiber_iff_generates_quotient_point 𝔽q β i (steps := 1) (by omega)\n      (x := (fiberMap k)) (y := y).mpr (by rw [pointToIterateQuotientIndex_qMap_total_fiber_eq_self])\n    rw [h_res]\n  have h_eval_qMap_x₀ := h_eval 0\n  have h_eval_qMap_x₁ := h_eval 1\n  have h_fiber_diff : x₁.val - x₀.val = 1 := by\n    have h0 := qMap_total_fiber_one_level_eq 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) i (by omega) y 0\n    have h1 := qMap_total_fiber_one_level_eq 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) i (by omega) y 1\n    have hv0 := congrArg Subtype.val h0\n    have hv1 := congrArg Subtype.val h1\n    dsimp only [x₀, x₁, fiberMap]\n    rw [hv1, hv0]\n    simp [Fin2ToF2, get_sDomain_first_basis_eq_1]\n  set P₀ := evenRefinement 𝔽q β h_ℓ_add_R_rate i coeffs\n  set P₁ := oddRefinement 𝔽q β h_ℓ_add_R_rate i coeffs\n  have h_P_i_eval := evaluation_poly_split_identity 𝔽q β h_ℓ_add_R_rate ⟨i, by omega⟩ coeffs\n  have h_equation_39_x₀ : P_i.eval x₀.val = P₀.eval y.val + x₀.val * P₁.eval y.val := by\n    simp only [x₀, x₁, h_P_i_eval, Fin.eta, Polynomial.eval_add, eval_comp,\n      h_eval_qMap_x₀, Polynomial.eval_mul, Polynomial.eval_X, P_i, P₀, P₁]\n  have h_equation_39_x₁ : P_i.eval x₁.val = P₀.eval y.val + x₁.val * P₁.eval y.val := by\n    simp only [x₀, x₁, h_P_i_eval, Fin.eta, Polynomial.eval_add, eval_comp,\n      h_eval_qMap_x₁, Polynomial.eval_mul, Polynomial.eval_X, P_i, P₀, P₁]\n  have h_fold_def : f_i_plus_1 y =\n      f_i x₀ * ((1 - r_chal) * x₁.val - r_chal) +\n      f_i x₁ * (r_chal - (1 - r_chal) * x₀.val) := rfl\n  calc f_i_plus_1 y\n    = f_i x₀ * ((1 - r_chal) * x₁.val - r_chal) +\n        f_i x₁ * (r_chal - (1 - r_chal) * x₀.val) := h_fold_def\n    _ = P_i.eval x₀.val * ((1 - r_chal) * x₁.val - r_chal) +\n        P_i.eval x₁.val * (r_chal - (1 - r_chal) * x₀.val) := by simp only [f_i]\n    _ = (P₀.eval y.val + x₀.val * P₁.eval y.val) * ((1 - r_chal) * x₁.val - r_chal) +\n        (P₀.eval y.val + x₁.val * P₁.eval y.val) * (r_chal - (1 - r_chal) * x₀.val) := by\n      rw [h_equation_39_x₀, h_equation_39_x₁]\n    _ = P₀.eval y.val * (1 - r_chal) + P₁.eval y.val * r_chal := by\n      linear_combination (P₀.eval y.val * (1-r_chal) + P₁.eval y.val * r_chal) * h_fiber_diff\n    _ = P_i_plus_1.eval y.val := by\n      simp only [P_i_plus_1, P₀, P₁, new_coeffs, evenRefinement, oddRefinement,\n        intermediateEvaluationPoly]\n      conv_lhs => enter [1]; rw [mul_comm, ←Polynomial.eval_C_mul]\n      conv_lhs => enter [2]; rw [mul_comm, ←Polynomial.eval_C_mul]\n      rw [←Polynomial.eval_add]\n      congr\n      simp_rw [mul_sum, ←Finset.sum_add_distrib]\n      apply Finset.sum_congr rfl\n      intro j hj\n      have h_j_lt : j.val < 2 ^ (ℓ - (↑i + 1)) := by\n        rw [Nat.sub_add_eq]\n        omega\n      simp only [Polynomial.C_add, Polynomial.C_mul]\n      ring\n",
+      "candidateHash": "c817d213b218cbd682c009ba87dd070c393fce50e9178d45b89725893859a193",
+      "proofFileHash": "c817d213b218cbd682c009ba87dd070c393fce50e9178d45b89725893859a193",
+      "baseline": {
+        "tokens": 1906,
+        "raw_heartbeats": 45488466,
+        "raw_samples": [
+          45486741,
+          45489640,
+          45488466
+        ]
+      },
+      "candidate": {
+        "tokens": 656,
+        "raw_heartbeats": 15160039,
+        "raw_samples": [
+          15160039,
+          15159596,
+          15160452
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:26:36.302243+00:00",
+      "score": 77.41838538654106,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.31.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 33,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F033.lean",
+      "proof": "theorem fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius (i : Fin ℓ) (steps : ℕ)\n    [NeZero steps] (h_i_add_steps : i.val + steps ≤ ℓ)\n    (f : OracleFunction 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) ⟨i, by omega⟩)\n  (h_fw_dist_lt : fiberwiseClose 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate)\n    (i := i) (steps := steps) (h_i_add_steps := h_i_add_steps) (f := f)) :\n  hammingClose 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) ⟨i, by omega⟩ f := by\n  unfold fiberwiseClose at h_fw_dist_lt\n  unfold hammingClose\n  let d_fw := fiberwiseDistance 𝔽q β (i := i) steps h_i_add_steps f\n  let C_i := (BBF_Code 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) ⟨i, by omega⟩)\n  let d_H := Code.distFromCode f C_i\n  let d_i := BBF_CodeDistance ℓ 𝓡 (⟨i, by omega⟩)\n  let d_i_plus_steps := BBF_CodeDistance ℓ 𝓡 ⟨i.val + steps, by omega⟩\n  have h_d_i_gt_0 : d_i > 0 := by\n    dsimp [d_i, BBF_CodeDistance]\n    omega\n  have h_C_i_nonempty : Nonempty C_i := ⟨0⟩\n  obtain ⟨g', h_g'_mem, h_g'_min_card⟩ : ∃ g' ∈ C_i, d_fw\n    = (fiberwiseDisagreementSet 𝔽q β i steps h_i_add_steps f g').ncard := by\n    let S := (fun (g : C_i) => (fiberwiseDisagreementSet 𝔽q β i steps h_i_add_steps\n      f g).ncard) '' Set.univ\n    obtain ⟨g, _, heq⟩ := Nat.sInf_mem\n      (show S.Nonempty from Set.image_nonempty.mpr Set.univ_nonempty)\n    exact ⟨g.val, g.property, heq.symm⟩\n  have h_dist_le_fw_dist_times_fiber_size : (hammingDist f g' : ℕ∞) ≤ d_fw * 2 ^ steps := by\n    change (Δ₀(f, g') : ℕ∞) ≤ ↑d_fw * ((2 ^ steps : ℕ) : ℕ∞)\n    rw [←ENat.coe_mul, ENat.coe_le_coe, h_g'_min_card]\n    set ΔH := Finset.filter (fun x => f x ≠ g' x) Finset.univ\n    change ΔH.card ≤ _\n    set Y_bad := fiberwiseDisagreementSet 𝔽q β i steps h_i_add_steps f g'\n    letI : Fintype Y_bad := Fintype.ofFinite Y_bad\n    have h_ΔH_subset_bad_fiber_points : ΔH ⊆ Finset.biUnion Y_bad.toFinset\n        (t := fun y => ((qMap_total_fiber 𝔽q β (i := ⟨i, by omega⟩) (steps := steps)\n          (h_i_add_steps := by apply Nat.lt_add_of_pos_right_of_le; omega) (y := y)) ''\n          (Finset.univ : Finset (Fin ((2:ℕ)^steps)))).toFinset) := by\n      intro x hx\n      let y := iteratedQuotientMap 𝔽q β h_ℓ_add_R_rate i steps h_i_add_steps x\n      refine Finset.mem_biUnion.mpr ⟨y, Set.mem_toFinset.mpr ⟨x, rfl, (Finset.mem_filter.mp hx).2⟩, ?_⟩\n      simp only [coe_univ, Set.image_univ, Set.toFinset_range, mem_image, mem_univ, true_and]\n      exact ⟨pointToIterateQuotientIndex (i := ⟨i, by omega⟩) (steps := steps)\n        (h_i_add_steps := by omega) (x := x),\n        (is_fiber_iff_generates_quotient_point 𝔽q β i steps (by omega) (x := x) (y := y)).mp rfl⟩\n    apply (Finset.card_le_card h_ΔH_subset_bad_fiber_points).trans\n    calc\n      _ ≤ Y_bad.toFinset.card * 2 ^ steps := by\n        apply Finset.card_biUnion_le_card_mul\n        intro y hy\n        simpa only [Finset.coe_univ, Set.image_univ, Set.toFinset_range,\n          Finset.card_univ, Fintype.card_fin] using\n          (Finset.card_image_le (s := Finset.univ)\n            (f := qMap_total_fiber 𝔽q β (i := ⟨i, by omega⟩) (steps := steps)\n              (h_i_add_steps := by apply Nat.lt_add_of_pos_right_of_le; omega) (y := y)))\n      _ = _ := by simp only [Set.toFinset_card, ← Nat.card_coe_set_eq, Nat.card_eq_fintype_card]\n  have h_dist_bridge : d_H ≤ d_fw * 2 ^ steps := by\n    exact (Code.distFromCode_le_dist_to_mem f g' h_g'_mem).trans h_dist_le_fw_dist_times_fiber_size\n  have h_fw_bound : 2 * d_fw ≤ d_i_plus_steps - 1 := Nat.le_of_lt_succ (WithTop.coe_lt_coe.1 h_fw_dist_lt)\n  have h_algebraic_identity : (d_i_plus_steps - 1) * 2 ^ steps = d_i - 1 := by\n    dsimp [d_i, d_i_plus_steps, BBF_CodeDistance]\n    rw [Nat.sub_mul, ←Nat.pow_add, ←Nat.pow_add];\n    congr 2 <;> omega\n  have hnat : 2 * (d_fw * 2 ^ steps) < d_i := by\n    apply Nat.lt_of_le_pred h_d_i_gt_0\n    rw [Nat.pred_eq_sub_one, ← h_algebraic_identity, ← mul_assoc]\n    exact Nat.mul_le_mul_right _ h_fw_bound\n  change (2 : ℕ∞) * d_H < (d_i : ℕ∞)\n  exact (mul_le_mul_left' h_dist_bridge 2).trans_lt (by exact_mod_cast hnat)\n",
+      "candidateHash": "411958a042babbbee99d03e9bceaa7924533e39dc0537039681066242fed1255",
+      "proofFileHash": "411958a042babbbee99d03e9bceaa7924533e39dc0537039681066242fed1255",
+      "baseline": {
+        "tokens": 1463,
+        "raw_heartbeats": 15886427,
+        "raw_samples": [
+          15886675,
+          15885524,
+          15886427
+        ]
+      },
+      "candidate": {
+        "tokens": 677,
+        "raw_heartbeats": 8004837,
+        "raw_samples": [
+          8004982,
+          8004801,
+          8004837
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T10:24:23.171126+00:00",
+      "score": 67.77910727787894,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.31.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 34,
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F034.lean",
+      "proof": "lemma master_lemma\n  [Nonempty ι]\n  {φ : ι ↪ F} {dstar m : ℕ}\n  {fs : Fin m → ι → F} {degs : Fin m → ℕ} (hdegs : ∀ i, degs i ≤ dstar)\n  {δ : ℝ≥0}\n  (hδLt : δ < (min (1 - (ReedSolomon.sqrtRate dstar φ))\n    (1 - (rate (code φ dstar)) - 1 / Fintype.card ι)))\n  {S : Finset ι}\n  (hS_card : (1 - δ) * (Fintype.card ι) ≤ S.card)\n  {v : (i : Fin m) → Fin (block_size dstar degs i) → Polynomial F}\n  (hv_deg : ∀ i j, (v i j).degree < dstar)\n  (hv_eval : ∀ i j, ∀ x ∈ S, (v i j).eval (φ x) = (φ x) ^ j.val * (fs i x))\n  (i : Fin m)\n  (j : Fin (block_size dstar degs i)) :\n  (v i j).degree < degs i + j := by\n  have hlt : dstar < Fintype.card ι := by\n    by_contra contra\n    have hh := lt_of_lt_of_le hδLt (min_le_right _ _)\n    rw [ReedSolomon.rateOfLinearCode_eq_min_div, min_eq_right (Nat.le_of_not_gt contra)] at hh\n    simp [Fintype.card_ne_zero] at hh\n  rcases j with ⟨j, hj⟩\n  simp only [block_size] at hj\n  generalize hj': (dstar - degs i) - j = j'\n  revert j\n  induction j' with\n  | zero =>\n    intro j hj hj'\n    have hd := hdegs i\n    have he : degs i + j = dstar := by omega\n    change (v i ⟨j,hj⟩).degree < ((degs i+j : ℕ) : WithBot ℕ)\n    rw [he]\n    exact hv_deg i ⟨j,hj⟩\n  | succ j' ih =>\n    intro j hj hj'\n    have h_fin : j + 1 < dstar - degs i + 1 := by omega\n    specialize ih (j + 1) h_fin (by omega)\n    let q : Polynomial F := Polynomial.X * v i ⟨j, hj⟩\n    have hq_deg : q.degree < dstar + 1 := by\n      dsimp only [q]\n      rw [Polynomial.degree_mul, Polynomial.degree_X, add_comm]\n      exact (WithBot.add_lt_add_iff_right (by simp)).mpr (hv_deg i ⟨j, hj⟩)\n    have hq_coincide :\n      ∀ x ∈ S, q.eval (φ x) = (v i ⟨j + 1, h_fin⟩).eval (φ x) := by\n      intro x hx\n      simp only [q, Polynomial.eval_mul, Polynomial.eval_X, hv_eval i _ x hx, pow_succ]\n      ring\n    have hq_coincide :=\n      Polynomial.eq_of_eval_eq_degree\n        (q := v i ⟨j + 1, h_fin⟩)\n        hq_deg (lt_trans (hv_deg _ _) (WithBot.coe_lt_coe.mpr (Nat.lt_succ_self dstar))) (Finset.image φ S) (by {\n          simp only [Nat.cast_id, ge_iff_le, Order.add_one_le_iff]\n          rw [Finset.card_image_of_injective _ φ.injective]\n          have h : ↑(rate (code φ dstar)) + 1 / ↑(Fintype.card ι) < 1 - δ :=\n            glorious_lemma\n              (by simpa using hδLt)\n              rfl\n          have h :=\n            le_trans\n              (le_of_lt <|\n                even_more_glorious_lemma (m := Fintype.card ι)\n                  (by simp) (by {\n                    rw [ReedSolomon.rateOfLinearCode_eq_min_div,\n                        min_eq_left hlt.le] at h\n                    simpa using h\n                  }))\n              hS_card\n          norm_cast at h\n        })\n        (by\n          intro x hx\n          obtain ⟨y,hy,rfl⟩ := Finset.mem_image.mp hx\n          exact hq_coincide y hy)\n    simp only [q] at hq_coincide\n    rw [←hq_coincide] at ih\n    simp only [Polynomial.degree_mul, Polynomial.degree_X, WithBot.coe_add, WithBot.coe_one] at ih\n    rw [←add_assoc, add_comm 1] at ih\n    exact (WithBot.add_lt_add_iff_right (by simp)).mp ih\n",
+      "candidateHash": "378acfb8c612685d3415a0458ccad2b11785c2af3b1683236c4aef9583e2ca09",
+      "proofFileHash": "378acfb8c612685d3415a0458ccad2b11785c2af3b1683236c4aef9583e2ca09",
+      "baseline": {
+        "tokens": 546,
+        "raw_heartbeats": 189962587,
+        "raw_samples": [
+          189962587,
+          189965428,
+          189958724
+        ]
+      },
+      "candidate": {
+        "tokens": 480,
+        "raw_heartbeats": 6476789,
+        "raw_samples": [
+          6476780,
+          6476958,
+          6476789
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "environment": "arklib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:54:17.008166+00:00",
+      "score": 69.55946813472337,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.33.1",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 35,
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F035.lean",
+      "proof": "theorem johnson_bound_alphabet_free [Field F]\n    {B : Finset (Fin n → F)} {v : Fin n → F} {e : ℕ} (hB : 1 < B.card) :\n    let d := sInf { d | ∃ u ∈ B, ∃ v ∈ B, u ≠ v ∧ hammingDist u v = d }\n    let q : ℚ := card F\n    let _frac := q / (q - 1)\n    e ≤ n - ((n * (n - d)) : ℝ).sqrt →\n    (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)).card ≤ q * d * n := by\n  intro d q frac h\n  let B' := B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)\n  have q_not_small : q ≥ (2 : ℚ) := by\n    change (2 : ℚ) ≤ (card F : ℚ)\n    exact_mod_cast (Nat.succ_le_iff.2 (Fintype.one_lt_card : 1 < card F))\n  have d_not_small : d ≥ 1 := by\n    let S : Set ℕ := { d | ∃ u ∈ B, ∃ v ∈ B, u ≠ v ∧ hammingDist u v = d }\n    simpa [S] using sInf.le_sInf_of_LB (S := S) (i := 1)\n      (by obtain ⟨u, hu, v, hv, huv⟩ := one_lt_card.mp hB\n          exact ⟨hammingDist u v, u, hu, v, hv, huv, rfl⟩)\n      (fun s ⟨u, _, v, _, huv, hdist⟩ => hdist ▸ Nat.succ_le_of_lt (hammingDist_pos.mpr huv))\n  have d_le_n : d ≤ n := by\n    obtain ⟨u, hu, w, hw, huw⟩ := one_lt_card.mp hB\n    exact le_trans (Nat.sInf_le ⟨u, hu, w, hw, huw, rfl⟩)\n      (by simpa using hammingDist_le_card_fintype (x := u) (y := w))\n  have n_not_small : n ≥ 1 := d_not_small.trans d_le_n\n  have qdn_not_small : (q * d * n) ≥ 2 := by\n    simpa [mul_assoc] using johnson_qdn_ge_two q_not_small d_not_small n_not_small\n  by_cases h_size : B'.card < 2\n  · exact le_trans (show (B'.card : ℚ) ≤ 1 from by exact_mod_cast Nat.le_of_lt_succ h_size)\n      (le_trans (by norm_num : (1 : ℚ) ≤ 2) qdn_not_small)\n  · have hd_le_dB' : (d : ℚ) ≤ JohnsonBound.d B' := by\n      let S : Set ℕ := { d | ∃ u ∈ B, ∃ v ∈ B, u ≠ v ∧ hammingDist u v = d }\n      let S' : Set ℕ := { d | ∃ u ∈ B', ∃ v ∈ B', u ≠ v ∧ hammingDist u v = d }\n      have hsubset : S' ⊆ S := fun _ ⟨u, hu, w, hw, huw, hd⟩ =>\n        ⟨u, (mem_inter.mp hu).1, w, (mem_inter.mp hw).1, huw, hd⟩\n      have hS'nonempty : S'.Nonempty := by\n        obtain ⟨u, hu, w, hw, huw⟩ := one_lt_card.mp (show 1 < B'.card by omega)\n        exact ⟨hammingDist u w, u, hu, w, hw, huw, rfl⟩\n      calc (d : ℚ)\n          ≤ ↑(sInf S') := by exact_mod_cast Nat.sInf_le (hsubset (Nat.sInf_mem hS'nonempty))\n        _ ≤ JohnsonBound.d B' := by exact_mod_cast min_dist_le_d (B := B') (by omega)\n    have hn_pos_nat : 0 < n := Nat.succ_le_iff.1 n_not_small\n    have hn_pos : (0 : ℚ) < n := by exact_mod_cast hn_pos_nat\n    have hq1_pos : (0 : ℚ) < q - 1 := by linarith\n    by_cases h_d_close_n : q / (q - 1) * (d / n) > 1\n    · have h_strong : JohnsonConditionStrong B' v := by\n        simpa [JohnsonConditionStrong, q, mul_div_assoc] using\n          lt_of_lt_of_le (show (1 - (q / (q - 1)) * (JohnsonBound.d B' / n) : ℚ) < 0 from by\n            linarith [lt_of_lt_of_le h_d_close_n (mul_le_mul_of_nonneg_left\n              (div_le_div_of_nonneg_right hd_le_dB' (by exact_mod_cast Nat.cast_nonneg n))\n              (div_nonneg (by linarith) (by linarith)))]) (sq_nonneg _)\n      have hden_ge : JohnsonDenominator B' v ≥ frac * JohnsonBound.d B' / n - 1 := by\n        simpa [JohnsonDenominator, q, frac, mul_div_assoc] using\n          johnson_den_ge_frac_d (B := B') (v := v)\n      have hgap : frac * JohnsonBound.d B' / (n : ℚ) - 1 ≥ 1 / (n * (q - 1)) := by\n        simpa [q, frac] using johnson_gap_frac_d_gt_one (B := B')\n          (q_not_small := by simpa [q] using q_not_small)\n          (n_not_small := n_not_small)\n          (h_d_close_n := by simpa [q, frac] using h_d_close_n)\n          (hd_le_dB := hd_le_dB')\n      have hden_lb : (1 : ℚ) / (n * (q - 1)) ≤ JohnsonDenominator B' v := by linarith\n      have hnum_nonneg : (0 : ℚ) ≤ frac * JohnsonBound.d B' / n :=\n        div_nonneg (mul_nonneg (div_nonneg (by linarith) (by linarith))\n          (le_trans (by exact_mod_cast Nat.zero_le d) hd_le_dB')) hn_pos.le\n      calc (B'.card : ℚ)\n          ≤ (frac * JohnsonBound.d B' / n) / JohnsonDenominator B' v := by\n            simpa using johnson_bound h_strong\n        _ ≤ (frac * JohnsonBound.d B' / n) / (1 / (n * (q - 1))) :=\n            div_le_div_of_nonneg_left hnum_nonneg\n              (one_div_pos.mpr (mul_pos hn_pos hq1_pos)) hden_lb\n        _ = q * JohnsonBound.d B' := by\n            dsimp [frac]\n            field_simp\n            <;> ring\n        _ ≤ q * d * n := by\n            have hd_le_n := johnson_d_le_n (B := B') (le_of_not_gt h_size)\n            have hd_ge1 : (1 : ℚ) ≤ (d : ℚ) := by exact_mod_cast d_not_small\n            have hq_nn : (0 : ℚ) ≤ q := by linarith\n            nlinarith [mul_le_mul_of_nonneg_left hd_le_n hq_nn,\n              mul_le_mul_of_nonneg_left hd_ge1 (mul_nonneg hq_nn (le_of_lt hn_pos))]\n    · have hn_nonneg : (0 : ℚ) ≤ n := hn_pos.le\n      have hq_pos : (0 : ℚ) < q := by linarith\n      have hfrac_pos : (0 : ℚ) < frac := div_pos hq_pos hq1_pos\n      have hfrac_gt1 : (1 : ℚ) < frac := by\n        simpa [frac] using (one_lt_div hq1_pos).2 (by linarith : q - 1 < q)\n      have hn2_pos : (0 : ℚ) < (n : ℚ) ^ 2 := pow_pos hn_pos _\n      have h_div'_q : (1 - (d / n : ℚ)) ≤ (1 - (e / n : ℚ)) ^ 2 := by\n        have hr : ((1 - (d / n : ℚ)) : ℝ) ≤ ((1 - (e / n : ℚ)) : ℝ) ^ 2 := by\n          simpa using johnson_hyp_implies_div_ineq hn_pos_nat d_le_n h\n        exact_mod_cast hr\n      have denom_expansion : JohnsonDenominator B' v =\n          frac * (JohnsonBound.d B' / n - 2 * JohnsonBound.e B' v / n +\n          frac * (JohnsonBound.e B' v / n) ^ 2) := by\n        dsimp [JohnsonDenominator, q, frac]\n        ring\n      have e_ineq : JohnsonBound.e B' v ≤ e := by\n        simpa [B'] using JohnsonBound.e_ball_le_radius (B := B) (v := v) (r := (e : ℚ))\n          (by simpa [B'] using show 0 < B'.card by omega)\n      have hden1_pos : (0 : ℚ) <\n          JohnsonBound.d B' / n - 2 * JohnsonBound.e B' v / n +\n            frac * (JohnsonBound.e B' v / n) ^ 2 := by\n        have he1 : (e : ℚ) / n ≤ 1 := by\n          apply (div_le_one hn_pos).2\n          exact_mod_cast h.trans (sub_le_self _ (sqrt_nonneg _))\n        have heB := div_le_div_of_nonneg_right e_ineq hn_pos.le\n        have hdB := div_le_div_of_nonneg_right hd_le_dB' hn_pos.le\n        have hquad : (0 : ℚ) ≤ JohnsonBound.d B' / n -\n            2 * (JohnsonBound.e B' v / n) + (JohnsonBound.e B' v / n) ^ 2 := by\n          nlinarith only [h_div'_q, hdB, mul_nonneg (sub_nonneg.mpr heB)\n            (show (0 : ℚ) ≤ 2 - (e : ℚ) / n - JohnsonBound.e B' v / n by linarith)]\n        by_cases hz : JohnsonBound.e B' v / n = 0\n        · simpa only [mul_div_assoc, hz, mul_zero, zero_pow (by decide : 2 ≠ 0), sub_zero,\n            add_zero] using lt_of_lt_of_le\n              (div_pos (by exact_mod_cast (Nat.succ_le_iff.1 d_not_small)) hn_pos) hdB\n        · have hp := mul_pos (sub_pos.mpr hfrac_gt1) (sq_pos_of_ne_zero hz)\n          simp only [mul_div_assoc]\n          nlinarith only [hquad, hp]\n      have h_johnson_strong : JohnsonConditionStrong B' v :=\n        johnson_condition_strong_iff_johnson_denom_pos.2\n          (by rw [denom_expansion]; exact mul_pos hfrac_pos hden1_pos)\n      calc (B'.card : ℚ)\n          ≤ (frac * JohnsonBound.d B' / n) / JohnsonDenominator B' v := by\n            simpa using johnson_bound h_johnson_strong\n        _ ≤ q * (d : ℚ) * n := by\n            set D0 : ℚ := d / n\n            set E0 : ℚ := e / n\n            set Den : ℚ := D0 - 2 * E0 + frac * E0 ^ 2\n            have quad_nonneg : (0 : ℚ) ≤ D0 - 2 * E0 + E0 ^ 2 := by\n              change (0 : ℚ) ≤ d / n - 2 * (e / n) + (e / n) ^ 2\n              nlinarith only [h_div'_q]\n            have frac_sub_one_eq : frac - 1 = (1 : ℚ) / (q - 1) := by\n              dsimp [frac]\n              field_simp [hq1_pos.ne']\n              <;> ring\n            have one_div_q_le : (1 : ℚ) / q ≤ frac - 1 := by\n              simpa [frac_sub_one_eq] using\n                (one_div_le_one_div_of_le hq1_pos (by linarith : q - 1 ≤ q))\n            have term_simplification : (frac * JohnsonBound.d B' / (n : ℚ)) /\n                JohnsonDenominator B' v =\n                (JohnsonBound.d B' / n) /\n                (JohnsonBound.d B' / n - 2 * JohnsonBound.e B' v / n +\n                frac * (JohnsonBound.e B' v / n) ^ 2) := by\n                  rw [denom_expansion, mul_div_assoc]\n                  exact mul_div_mul_left _ _ hfrac_pos.ne'\n            have worst_case_bound :\n                (JohnsonBound.d B' / n) /\n                (JohnsonBound.d B' / n - 2 * JohnsonBound.e B' v / n +\n                  frac * (JohnsonBound.e B' v / n) ^ 2) ≤\n                (d / n) / (d / n - 2 * e / n + frac * (e / n) ^ 2) :=\n              johnson_worst_case_bound hn_pos (Nat.succ_le_iff.1 d_not_small) d_le_n h\n                (le_of_not_gt h_d_close_n) hfrac_gt1 e_ineq hd_le_dB' quad_nonneg hden1_pos\n            have hden_lb : (1 : ℚ) / (q * (n : ℚ) ^ 2) ≤ Den := by\n              by_cases he0 : e = 0\n              · subst he0; simpa [D0, E0, Den] using\n                  johnson_den_lb_e_zero hn_pos_nat (by linarith) (by exact_mod_cast d_not_small)\n              · exact johnson_den_lb_e_pos hn_pos he0 one_div_q_le\n                  (by linarith) quad_nonneg\n            rw [term_simplification]\n            calc (JohnsonBound.d B' / n) /\n                    (JohnsonBound.d B' / n - 2 * JohnsonBound.e B' v / n +\n                      frac * (JohnsonBound.e B' v / n) ^ 2)\n                ≤ (d / n) / (d / n - 2 * e / n + frac * (e / n) ^ 2) := worst_case_bound\n              _ = (d / n) / Den := by simp [Den, D0, E0, mul_div_assoc]\n              _ ≤ (d / n) / ((1 : ℚ) / (q * (n : ℚ) ^ 2)) :=\n                  div_le_div_of_nonneg_left\n                    (div_nonneg (by exact_mod_cast Nat.zero_le d) hn_nonneg)\n                    (one_div_pos.mpr (mul_pos hq_pos hn2_pos)) hden_lb\n              _ = q * d * n := by field_simp [ne_of_gt hq_pos, ne_of_gt hn_pos]\n",
+      "candidateHash": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716",
+      "proofFileHash": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716",
+      "baseline": {
+        "tokens": 2440,
+        "raw_heartbeats": 84137723,
+        "raw_samples": [
+          84141842,
+          84136399,
+          84137723
+        ]
+      },
+      "candidate": {
+        "tokens": 2036,
+        "raw_heartbeats": 67404043,
+        "raw_samples": [
+          67404529,
+          67401268,
+          67404043
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:16:54.028550+00:00",
+      "score": 45.48193879603203,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.31.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 36,
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F036.lean",
+      "proof": "lemma dir_close_of_many_close_pts\n    {deg : ℕ}\n    {α : ι ↪ F} {e : ℕ} {u v : ι → F}\n    (he : (e : ℚ≥0) < ‖(RScodeSet α deg)‖₀ / 3)\n    (h_many : numberOfClosePts u v deg α e > ‖(RScodeSet α deg)‖₀) :\n    Δ₀(v, ReedSolomon.code α deg) ≤ e := by\n  classical\n  set CRS : Submodule F (ι → F) := ReedSolomon.code α deg\n  set C : Set (ι → F) := (CRS : Set (ι → F))\n  have h3e_lt : 3 * e < ‖C‖₀ := by\n    have hq := (lt_div_iff₀ (by norm_num : (0 : ℚ≥0) < 3)).mp he\n    have hq' : (3 : ℚ≥0) * (e : ℚ≥0) < (‖C‖₀ : ℚ≥0) := by\n      simpa [C, CRS, RScodeSet, mul_comm] using hq\n    exact_mod_cast hq'\n  let P : F → Prop := fun r ↦ Δ₀(u + r • v, C) ≤ e\n  let R : Finset F := Finset.filter P Finset.univ\n  have h_close_le_card : numberOfClosePts u v deg α e ≤ R.card := by\n    let f : {r : F // P r} → closePtsOnAffineLine (F := F) (u := u) (v := v)\n        (deg := deg) (α := α) (e := e) :=\n      fun r ↦\n        ⟨u + r.1 • v,\n          by\n            refine ⟨?_, r.2⟩\n            refine\n              (Affine.mem_affineLineAtOrigin_iff (F := F) (origin := u) (direction := v) _).2 ?_\n            exact ⟨r.1, rfl⟩⟩\n    have hf_surj : Function.Surjective f := by\n      rintro ⟨x, hx, hclose⟩\n      obtain ⟨r, rfl⟩ :=\n        (Affine.mem_affineLineAtOrigin_iff (F := F) (origin := u) (direction := v) x).1 hx\n      exact ⟨⟨r, hclose⟩, rfl⟩\n    simpa [numberOfClosePts, Fintype.card_subtype, R, P] using\n      Fintype.card_le_of_surjective f hf_surj\n  have hR_gt : R.card > ‖C‖₀ := by\n    have h_many' : numberOfClosePts u v deg α e > ‖C‖₀ := by\n      simpa [C, CRS, RScodeSet] using h_many\n    exact lt_of_lt_of_le h_many' h_close_le_card\n  let RS : Type := {r : F // r ∈ R}\n  have hRS_card : Fintype.card RS = R.card := by\n    classical\n    simp [RS]\n  have hRS_gt : Fintype.card RS > ‖C‖₀ := by simpa [hRS_card] using hR_gt\n  have hRS_one_lt : 1 < Fintype.card RS := by omega\n  obtain ⟨r0, r1, hr01⟩ := Fintype.one_lt_card_iff.mp hRS_one_lt\n  have hP_of_mem (r : RS) : P r.1 := by\n    have : r.1 ∈ R := r.2\n    simpa [R, P, C] using (Finset.mem_filter.mp this).2\n  have h_close_codeword (r : RS) : ∃ c ∈ C, Δ₀(u + r.1 • v, c) ≤ e :=\n    (Code.closeToCode_iff_closeToCodeword_of_minDist (u := u + r.1 • v) (C := C) (e := e)).1\n      (hP_of_mem r)\n  choose c hc_mem hc_dist using h_close_codeword\n  have h_disagree (r : RS) :\n      ∃ D : Finset ι, D.card ≤ e ∧ ∀ j, j ∉ D → (u + r.1 • v) j = c r j :=\n    (Code.closeToWord_iff_exists_possibleDisagreeCols (u := u + r.1 • v) (v := c r) (e := e)).1\n      (hc_dist r)\n  choose E hE_card hE_agree using h_disagree\n  have hr10 : (r1.1 - r0.1) ≠ 0 := sub_ne_zero.mpr (by\n    intro h\n    apply hr01\n    ext\n    exact h.symm)\n  let w : ι → F := (r1.1 - r0.1)⁻¹ • (c r1 - c r0)\n  have hw_mem : w ∈ CRS := by\n    exact CRS.smul_mem _ (CRS.sub_mem (hc_mem r1) (hc_mem r0))\n  have hv_eq_w_of_notin (j : ι) (hj0 : j ∉ E r0) (hj1 : j ∉ E r1) : v j = w j := by\n    have h1 := hE_agree r1 j hj1\n    have h0 := hE_agree r0 j hj0\n    change u j + r1.1 * v j = c r1 j at h1\n    change u j + r0.1 * v j = c r0 j at h0\n    change v j = (r1.1 - r0.1)⁻¹ * (c r1 j - c r0 j)\n    rw [eq_inv_mul_iff_mul_eq₀ hr10]\n    linear_combination h1 - h0\n  let cBase : ι → F := c r0 - r0.1 • w\n  have h_codeword_eq (r : RS) : c r = cBase + r.1 • w := by\n    by_cases hr0 : r = r0\n    · subst hr0\n      simp [cBase]\n    · have hneq : (r.1 - r0.1) ≠ 0 := sub_ne_zero.mpr (by\n        intro h\n        apply hr0\n        ext\n        exact h)\n      let w0r : ι → F := (r.1 - r0.1)⁻¹ • (c r - c r0)\n      have hw0r_mem : w0r ∈ CRS := by\n        exact CRS.smul_mem _ (CRS.sub_mem (hc_mem r) (hc_mem r0))\n      have hw0r_eq : w0r = w := by\n        apply Code.eq_of_lt_dist (C := C)\n        · exact hw0r_mem\n        · exact hw_mem\n        · have hdist : Δ₀(w0r, w) ≤ (E r0 ∪ E r1 ∪ E r).card := by\n            refine hamming_dist_le_of_subset_disagree (ι := ι) (u := w0r) (v := w)\n              (D := E r0 ∪ E r1 ∪ E r) ?_\n            intro i hi\n            by_contra hiU\n            simp only [Finset.mem_union, not_or] at hiU\n            rcases hiU with ⟨⟨hi0, hi1⟩, hir⟩\n            have hvw : v i = w i := hv_eq_w_of_notin (j := i) hi0 hi1\n            have hv0r : v i = w0r i := by\n              have h1 := hE_agree r i hir\n              have h0 := hE_agree r0 i hi0\n              change u i + r.1 * v i = c r i at h1\n              change u i + r0.1 * v i = c r0 i at h0\n              change v i = (r.1 - r0.1)⁻¹ * (c r i - c r0 i)\n              rw [eq_inv_mul_iff_mul_eq₀ hneq]\n              linear_combination h1 - h0\n            exact hi (hv0r.symm.trans hvw)\n          have hcard_le : (E r0 ∪ E r1 ∪ E r).card ≤ 3 * e := by\n            have h01 := Finset.card_union_le (E r0) (E r1)\n            have hu := Finset.card_union_le (E r0 ∪ E r1) (E r)\n            have h0 := hE_card r0\n            have h1 := hE_card r1\n            have hr := hE_card r\n            omega\n          have : Δ₀(w0r, w) ≤ 3 * e := le_trans hdist hcard_le\n          exact lt_of_le_of_lt this h3e_lt\n      have hdiff : c r - c r0 = (r.1 - r0.1) • w := by\n        have hsmul : (r.1 - r0.1) • w0r = (r.1 - r0.1) • w := by simp [hw0r_eq]\n        simpa [w0r, smul_smul, hneq] using hsmul\n      ext i\n      have hh := congrArg (fun f => f i) hdiff\n      simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul] at hh\n      change c r i = c r0 i - r0.1 * w i + r.1 * w i\n      linear_combination hh\n  have h_line_eq (r : RS) (j : ι) (hj : j ∉ E r) :\n      (u + r.1 • v) j = (cBase + r.1 • w) j := by\n    simpa only [h_codeword_eq r] using hE_agree r j hj\n  let D : Finset ι := Finset.filter (fun j ↦ u j ≠ cBase j ∨ v j ≠ w j) Finset.univ\n  have hD_card : D.card ≤ e := by\n    have h_err_ge (j : ι) (hj : j ∈ D) :\n        (Finset.filter (fun r : RS ↦ j ∈ E r) Finset.univ).card ≥ Fintype.card RS - 1 := by\n      have hclean_le1 : (Finset.filter (fun r : RS ↦ j ∉ E r) Finset.univ).card ≤ 1 := by\n        by_contra hgt\n        have hone :\n            1 < (Finset.filter (fun r : RS ↦ j ∉ E r) Finset.univ).card :=\n          lt_of_not_ge hgt\n        rcases Finset.one_lt_card.mp hone with ⟨r, hr, s, hs, hrs⟩\n        have hr' : j ∉ E r := (Finset.mem_filter.mp hr).2\n        have hs' : j ∉ E s := (Finset.mem_filter.mp hs).2\n        have hr_eq := h_line_eq r j hr'\n        have hs_eq := h_line_eq s j hs'\n        have hrs_val : r.1 ≠ s.1 := by\n          intro h\n          apply hrs\n          ext\n          exact h\n        have hvw : v j = w j := by\n          have hz : (r.1 - s.1) * (v j - w j) = 0 := by\n            change u j + r.1 * v j = cBase j + r.1 * w j at hr_eq\n            change u j + s.1 * v j = cBase j + s.1 * w j at hs_eq\n            linear_combination hr_eq - hs_eq\n          exact sub_eq_zero.mp ((mul_eq_zero.mp hz).resolve_left (sub_ne_zero.mpr hrs_val))\n        have hu_eq : u j = cBase j := by\n          have hrj : u j + r.1 * v j = cBase j + r.1 * w j := by\n            simpa [Pi.add_apply, Pi.smul_apply] using hr_eq\n          have : u j + r.1 * v j = cBase j + r.1 * v j := by simpa [hvw] using hrj\n          exact add_right_cancel this\n        exact (Finset.mem_filter.mp hj).2.elim (fun h => h hu_eq) (fun h => h hvw)\n      have hp := Finset.card_filter_add_card_filter_not\n        (s := (Finset.univ : Finset RS)) (p := fun r : RS => j ∈ E r)\n      simp only [Finset.card_univ] at hp\n      omega\n    have h_pairs_le :\n        (∑ j ∈ D, (Finset.filter (fun r : RS ↦ j ∈ E r) Finset.univ).card) ≤\n          Fintype.card RS * e := by\n      have h_pairs_le' :\n          (∑ j ∈ (Finset.univ : Finset ι),\n                (Finset.filter (fun r : RS ↦ j ∈ E r) Finset.univ).card) ≤\n            Fintype.card RS * e := by\n        calc\n          _ = ∑ r : RS, (E r).card := by\n            simp only [Finset.card_filter]\n            rw [Finset.sum_comm]\n            simp\n          _ ≤ ∑ r : RS, e := Finset.sum_le_sum (fun r _ => hE_card r)\n          _ = _ := by simp\n      exact (Finset.sum_le_sum_of_subset (Finset.subset_univ D)).trans h_pairs_le'\n    have h_pairs_ge :\n        (∑ j ∈ D, (Finset.filter (fun r : RS ↦ j ∈ E r) Finset.univ).card) ≥\n          D.card * (Fintype.card RS - 1) := by\n      simpa [Finset.sum_const_nat, Nat.mul_comm] using Finset.sum_le_sum h_err_ge\n    by_contra hD_gt\n    have hd : e + 1 ≤ D.card := by omega\n    have hp := Nat.mul_le_mul_right (Fintype.card RS - 1) hd\n    have ht := h_pairs_ge.trans h_pairs_le\n    have he' : e < Fintype.card RS - 1 := by omega\n    have hc : Fintype.card RS = (Fintype.card RS - 1) + 1 := by omega\n    nlinarith only [hp, ht, he', hc]\n  have hdist_vw : Δ₀(v, w) ≤ D.card := by\n    refine hamming_dist_le_of_subset_disagree (ι := ι) (u := v) (v := w) (D := D) ?_\n    intro j hj\n    exact Finset.mem_filter.mpr ⟨Finset.mem_univ j, Or.inr hj⟩\n  have hmem := hw_mem\n  have : Δ₀(v, CRS) ≤ e := le_trans\n      (Code.distFromCode_le_dist_to_mem (C := (CRS : Set (ι → F))) (u := v) (v := w)\n        (by simpa [C] using hmem))\n      (by\n        exact_mod_cast le_trans hdist_vw hD_card)\n  simpa [CRS] using this\n",
+      "candidateHash": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5",
+      "proofFileHash": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5",
+      "baseline": {
+        "tokens": 5128,
+        "raw_heartbeats": 105831625,
+        "raw_samples": [
+          105827405,
+          105836563,
+          105831625
+        ]
+      },
+      "candidate": {
+        "tokens": 2055,
+        "raw_heartbeats": 36899165,
+        "raw_samples": [
+          36897869,
+          36900647,
+          36899165
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T10:56:00.030761+00:00",
+      "score": 75.01999382790042,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.31.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 37,
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F037.lean",
+      "proof": "theorem RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one (e : ℕ)\n    (K : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X])\n    (hdeg : ∀ i j, (K i j).natDegree ≤ 1)\n    (hdet : Matrix.det K = 0) :\n    ∃ a : Fin (e + 1) → F[X],\n      a ≠ 0 ∧ (∀ t, (a t).natDegree ≤ e) ∧ Matrix.mulVec K a = 0 := by\n  classical\n  let n := e + 1\n  let P : ℕ → Prop := fun r =>\n    ∃ (I J : Fin r ↪ Fin n), Matrix.det (K.submatrix I J) ≠ 0\n  have hP0 : P 0 := by\n    refine ⟨Function.Embedding.ofIsEmpty, Function.Embedding.ofIsEmpty, ?_⟩\n    simp\n  let r : ℕ := Nat.findGreatest P n\n  have hPr : P r := Nat.findGreatest_spec (Nat.zero_le n) hP0\n  rcases hPr with ⟨I,J,hIJ⟩\n  have hPn : ¬ P n := by\n    rintro ⟨I0, J0, hdet0⟩\n    exact hdet0 (RS_det_submatrix_eq_zero_of_det_eq_zero n K hdet I0 J0)\n  have hr_lt : r < n :=\n    lt_of_le_of_ne (Nat.findGreatest_le n) (fun h => hPn (h ▸ (show P r from ⟨I, J, hIJ⟩)))\n  have hr_le_e : r ≤ e := Nat.lt_succ_iff.mp hr_lt\n  have hnotP_succ : ¬ P (r + 1) :=\n    Nat.findGreatest_is_greatest (Nat.lt_succ_self r) (Nat.succ_le_of_lt hr_lt)\n  have missing (E : Fin r ↪ Fin n) : ∃ i, i ∉ Set.range E := by\n    have hn : ¬ Function.Surjective E := by\n      intro h\n      have hc := Fintype.card_le_of_surjective E h\n      simp only [Fintype.card_fin] at hc\n      omega\n    simpa only [Function.Surjective, Set.mem_range, not_forall] using hn\n  obtain ⟨i0, hi0⟩ := missing I\n  obtain ⟨j0, hj0⟩ := missing J\n  let I' := Fin.Embedding.snoc I hi0\n  let J' := Fin.Embedding.snoc J hj0\n  let B := K.submatrix I' J'\n  have hdetB : Matrix.det B = 0 := by\n    by_contra h\n    exact hnotP_succ ⟨I', J', h⟩\n  let u := fun t => B.adjugate t (Fin.last r)\n  have hBu : Matrix.mulVec B u = 0 :=\n    RS_mulVec_adjugate_col_eq_zero_of_det_eq_zero (n := r + 1) (A := B) (j := Fin.last r) hdetB\n  have hu_last : u (Fin.last r) ≠ 0 := by\n    have hBsub : B.submatrix Fin.castSucc Fin.castSucc = K.submatrix I J := by\n      ext i j : 2\n      simp [B, I', J']\n    change B.adjugate (Fin.last r) (Fin.last r) ≠ 0\n    rw [RS_adjugate_last_last_eq_det_submatrix_castSucc_castSucc, hBsub]\n    exact mul_ne_zero (by simp) hIJ\n  let a := Function.extend J' u (fun _ => 0)\n  have ha_on : ∀ t : Fin (r + 1), a (J' t) = u t :=\n    J'.injective.extend_apply u (fun _ => 0)\n  have hmulVec_eq (i : Fin n) :\n      (Matrix.mulVec K a) i = ∑ j : Fin (r + 1), K i (J' j) * u j := by\n    symm\n    apply Fintype.sum_of_injective (e := J') J'.injective\n    · intro j hj\n      have hz : a j = 0 := Function.extend_apply' u (fun _ => 0) j hj\n      simp [hz]\n    · intro t\n      rw [ha_on t]\n  refine ⟨a,?_,?_,?_⟩\n  · intro h\n    apply hu_last\n    simpa [h] using (ha_on (Fin.last r)).symm\n  · intro t\n    by_cases ht : ∃ s : Fin (r + 1), (J' s : Fin n) = t\n    · rcases ht with ⟨s, rfl⟩\n      rw [ha_on s]\n      change (B.adjugate s (Fin.last r)).natDegree ≤ e\n      rw [RS_adjugate_fin_succ_eq_det_submatrix_last_castSucc]\n      apply Polynomial.natDegree_mul_le.trans\n      simpa only [Polynomial.natDegree_pow, Polynomial.natDegree_neg,\n        Polynomial.natDegree_one, mul_zero, zero_add] using\n        (RS_natDegree_det_le_of_entry_natDegree_le_one r\n          (B.submatrix Fin.castSucc s.succAbove) (fun i j => hdeg _ _)).trans hr_le_e\n    · have hz : a t = 0 := Function.extend_apply' u (fun _ => 0) t ht\n      simp [hz]\n  · funext i\n    rw [hmulVec_eq]\n    by_cases hi : i ∈ Set.range I\n    · rcases hi with ⟨t, rfl⟩\n      simpa [B, I', Matrix.mulVec, dotProduct] using congrFun hBu (Fin.castSucc t)\n    · let Ii : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc I hi\n      let b : Fin (r + 1) → F[X] := fun j => K i (J' j)\n      have hupdate : B.updateRow (Fin.last r) b = K.submatrix Ii J' := by\n        ext irow jcol : 2\n        cases irow using Fin.lastCases <;> simp [B, I', Ii, b, Matrix.updateRow]\n      have hd : Matrix.det (B.updateRow (Fin.last r) b) = 0 := by\n        rw [hupdate]\n        by_contra h\n        exact hnotP_succ ⟨Ii, J', h⟩\n      exact (det_updateRow_eq_sum_mul_adjugate_col (A := B) (i := Fin.last r) (b := b)).symm.trans hd\n",
+      "candidateHash": "35af063aba4dd437ec2ecbb09ec10ede57e468870462e89b1f7599c2cc55c7bd",
+      "proofFileHash": "35af063aba4dd437ec2ecbb09ec10ede57e468870462e89b1f7599c2cc55c7bd",
+      "baseline": {
+        "tokens": 2122,
+        "raw_heartbeats": 163583522,
+        "raw_samples": [
+          163583522,
+          163583669,
+          163583494
+        ]
+      },
+      "candidate": {
+        "tokens": 824,
+        "raw_heartbeats": 18480818,
+        "raw_samples": [
+          18480818,
+          18480818,
+          18480990
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T12:11:05.070207+00:00",
+      "score": 83.29040911594714,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.31.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 38,
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F038.lean",
+      "proof": "theorem RS_jointAgreement_of_goodCoeffs_card_gt {deg : ℕ} {domain : ι ↪ F} {δ : ℝ≥0}\n    (hδ : δ ≤ relativeUniqueDecodingRadius (ι := ι) (F := F)\n      (C := ReedSolomon.code domain deg))\n    (u : WordStack F (Fin 2) ι)\n    (hS : (RS_goodCoeffs (deg := deg) (domain := domain) u δ).card > Fintype.card ι) :\n    jointAgreement (C := ReedSolomon.code domain deg) (δ := δ) (W := u) := by\n  classical\n  set n : ℕ := Fintype.card ι\n  set e : ℕ := Nat.floor (δ * n)\n  set good : Finset F := RS_goodCoeffs (deg := deg) (domain := domain) u δ\n  have hn_pos : 0 < n := by\n    simp [n]\n  have hgood_card : good.card > n := by\n    simpa [good, n] using hS\n  by_cases hdeg_zero : deg = 0\n  · subst hdeg_zero\n    let S0 : Finset ι := Finset.univ.filter (fun i => u 0 i = 0 ∧ u 1 i = 0)\n    have hcode0_zero : ∀ w ∈ (ReedSolomon.code domain 0 : Set (ι → F)), w = 0 := by\n      simp [ReedSolomon.code_zero]\n    have hzero_card :\n        ∀ z ∈ good,\n          n - e ≤ (Finset.univ.filter (fun i : ι => u 0 i + z * u 1 i = 0)).card := by\n      intro z hz\n      have hz_rel : δᵣ(u 0 + z • u 1, ReedSolomon.code domain 0) ≤ δ := by\n        exact (Finset.mem_filter.mp hz).2\n      have hz_zero : δᵣ(u 0 + z • u 1, (0 : ι → F)) ≤ δ := by\n        rw [Code.relCloseToCode_iff_relCloseToCodeword_of_minDist] at hz_rel\n        rcases hz_rel with ⟨w, hwmem, hwdist⟩\n        simpa [hcode0_zero w hwmem] using hwdist\n      obtain ⟨Tz, hTz_card, hTz_agree⟩ :=\n        (Code.relCloseToWord_iff_exists_agreementCols\n          (u := u 0 + z • u 1) (v := (0 : ι → F)) (δ := δ)).1 hz_zero\n      have hTz_sub :\n          Tz ⊆ Finset.univ.filter (fun i : ι => u 0 i + z * u 1 i = 0) := by\n        intro i hi\n        simpa [Pi.add_apply, Pi.smul_apply, smul_eq_mul] using (hTz_agree i).1 hi\n      exact le_trans hTz_card (Finset.card_le_card hTz_sub)\n    have hsum_lower :\n        good.card * (n - e) ≤\n          good.sum (fun z => (Finset.univ.filter (fun i : ι => u 0 i + z * u 1 i = 0)).card) := by\n      simpa [Nat.mul_comm, Nat.mul_left_comm, Nat.mul_assoc] using\n        (Finset.sum_le_sum fun z hz => hzero_card z hz)\n    have hsum_eq :\n        good.sum (fun z => (Finset.univ.filter (fun i : ι => u 0 i + z * u 1 i = 0)).card)\n          =\n        Finset.univ.sum (fun i : ι =>\n            (good.filter (fun z : F => u 0 i + z * u 1 i = 0)).card) := by\n      simp only [Finset.card_filter]\n      rw [Finset.sum_comm]\n    have hcount_bound :\n        ∀ i : ι,\n          (good.filter (fun z : F => u 0 i + z * u 1 i = 0)).card\n            ≤ if i ∈ S0 then good.card else 1 := by\n      intro i\n      by_cases hcommon : u 0 i = 0 ∧ u 1 i = 0\n      · have hiS0 : i ∈ S0 := by\n          simp [S0, hcommon]\n        simp [hiS0, hcommon]\n      · have hiS0 : i ∉ S0 := by\n          simp [S0, hcommon]\n        have hcard_le_one :\n            (good.filter (fun z : F => u 0 i + z * u 1 i = 0)).card ≤ 1 := by\n          apply Finset.card_le_one.mpr\n          intro z1 hz1 z2 hz2\n          have hz1_eq := (Finset.mem_filter.mp hz1).2\n          have hz2_eq := (Finset.mem_filter.mp hz2).2\n          by_cases hu1 : u 1 i = 0\n          · exact False.elim (hcommon ⟨by simpa [hu1] using hz1_eq, hu1⟩)\n          · exact mul_right_cancel₀ hu1 (add_left_cancel (hz1_eq.trans hz2_eq.symm))\n        exact by simpa [hiS0] using hcard_le_one\n    have hsum_upper :\n        Finset.univ.sum (fun i : ι => (good.filter (fun z : F => u 0 i + z * u 1 i = 0)).card)\n          ≤ S0.card * good.card + (n - S0.card) := by\n      have hbound :\n          Finset.univ.sum (fun i : ι =>\n              (good.filter (fun z : F => u 0 i + z * u 1 i = 0)).card) ≤\n            Finset.univ.sum (fun i : ι => if i ∈ S0 then good.card else 1) := Finset.sum_le_sum (fun i _ => hcount_bound i)\n      have hsum_bound :\n          Finset.univ.sum (fun i : ι => if i ∈ S0 then good.card else 1)\n            = S0.card * good.card + (n - S0.card) := by\n        have hc : (Finset.univ.filter fun x : ι => x ∉ S0) = S0ᶜ := by ext x; simp\n        simp [Finset.sum_ite, hc, n, Finset.card_compl]\n      exact le_trans hbound (le_of_eq hsum_bound)\n    have hS0_card_nat : n - e ≤ S0.card := by\n      have hmain :\n          good.card * (n - e) ≤ S0.card * good.card + (n - S0.card) := by\n        exact (hsum_lower.trans_eq hsum_eq).trans hsum_upper\n      by_contra hS0_small\n      have hm := Nat.mul_le_mul_left good.card (show S0.card + 1 ≤ n - e by omega)\n      have hs := Nat.sub_le n S0.card\n      nlinarith\n    have hS0_card :\n        (1 - δ) * (Fintype.card ι : ℝ≥0) ≤ (S0.card : ℝ≥0) := by\n      exact (Code.relDist_floor_bound_iff_complement_bound n S0.card δ).mp hS0_card_nat\n    refine ⟨S0, hS0_card, (fun _ => 0), ?_⟩\n    intro k\n    refine ⟨(ReedSolomon.code domain 0).zero_mem, ?_⟩\n    intro i hi\n    have hh := (Finset.mem_filter.mp hi).2\n    fin_cases k\n    · simpa using hh.1.symm\n    · simpa using hh.2.symm\n  · by_cases hdeg_le : deg ≤ n\n    · letI : NeZero deg := ⟨hdeg_zero⟩\n      have hBW : 2 * e < n - deg + 1 := by\n        simpa [n, e] using\n          (RS_BW_bound_of_le_relUDR (deg := deg) (domain := domain) (δ := δ) hdeg_le hδ)\n      have hgood_pos := lt_trans hn_pos hgood_card\n      let P_x : Finset F := Finset.univ.map domain\n      let P_y : Finset F := good\n      haveI : Nonempty P_x := by\n        apply Finset.Nonempty.to_subtype\n        simp [P_x]\n      haveI : Nonempty P_y := by\n        apply Finset.Nonempty.to_subtype\n        exact Finset.card_pos.mp hgood_pos\n      have evalY_natDegree_le_degreeX (z : F) (f : F[X][Y]) :\n          (Polynomial.Bivariate.evalY z f).natDegree ≤ Polynomial.Bivariate.degreeX f := by\n        rw [ps_eval_y_eq_eval_x_swap, ps_eval_x_eq_map]\n        exact Polynomial.natDegree_map_le.trans (Polynomial.Bivariate.natDegreeY_swap f).le\n      have evalX_eval_eq_evalY_eval (x z : F) (f : F[X][Y]) :\n          (Polynomial.Bivariate.evalX x f).eval z = (Polynomial.Bivariate.evalY z f).eval x := by\n        simpa [ps_eval_x_eq_map, Polynomial.Bivariate.evalY, Polynomial.eval_map] using\n          (Polynomial.eval₂_at_apply (p := f) (f := Polynomial.evalRingHom x) (r := Polynomial.C z))\n      obtain ⟨A, B, hA0, hA_degX, hA_degY, hB_degX, hB_degY, hAB⟩ :=\n        RS_exists_bivariate_AB_of_goodCoeffs_card_gt\n          (deg := deg) (domain := domain) (δ := δ) hdeg_le hδ u hS\n      let quot_x : F → F[X] := fun z =>\n        if hz : z ∈ good then\n          Classical.choose (RS_exists_Pz_of_mem_goodCoeffs\n            (deg := deg) (domain := domain) (δ := δ) u (z := z) hz)\n        else 0\n      let quot_y : F → F[X] := fun x =>\n        Polynomial.C (u 0 (Function.invFun domain x)) +\n          Polynomial.X * Polynomial.C (u 1 (Function.invFun domain x))\n      have h_card_Px : (⟨n, hn_pos⟩ : ℕ+) ≤ P_x.card := by\n        simp [P_x, n]\n      have h_card_Py : (⟨good.card, hgood_pos⟩ : ℕ+) ≤ P_y.card := by\n        simp [P_y]\n      have h_quot_x :\n          ∀ z ∈ P_y,\n            (quot_x z).natDegree ≤ (e + deg - 1) - e ∧\n              Polynomial.Bivariate.evalY z B = (quot_x z) * (Polynomial.Bivariate.evalY z A) := by\n        intro z hz\n        have hz_good : z ∈ good := by simpa [P_y] using hz\n        let Pz : F[X] := Classical.choose\n          (RS_exists_Pz_of_mem_goodCoeffs (deg := deg)\n            (domain := domain) (δ := δ) u (z := z) hz_good)\n        have hPz :\n            Pz.natDegree < deg ∧\n              Δ₀(u 0 + z • u 1, Pz.eval ∘ domain) ≤ e := by\n          simpa [Pz, e] using\n            (Classical.choose_spec\n              (RS_exists_Pz_of_mem_goodCoeffs\n                (deg := deg) (domain := domain) (δ := δ) u (z := z) hz_good))\n        have hquot_def : quot_x z = Pz := by\n          simp [quot_x, hz_good, Pz]\n        refine ⟨?_, ?_⟩\n        · rw [hquot_def]\n          have hp : Pz.natDegree < deg := hPz.1\n          omega\n        · let Dz : F[X] := Polynomial.Bivariate.evalY z B - Pz * Polynomial.Bivariate.evalY z A\n          obtain ⟨Tz, hTz_card, hTz_agree⟩ :=\n            (Code.closeToWord_iff_exists_agreementCols\n              (u := u 0 + z • u 1) (v := Pz.eval ∘ domain) (e := e)).1 hPz.2\n          have hDz_eval :\n              ∀ x ∈ Tz.image domain, Dz.eval x = 0 := by\n            intro x hx\n            rcases Finset.mem_image.mp hx with ⟨i, hiTz, rfl⟩\n            have hi_eq : u 0 i + z * u 1 i = Pz.eval (domain i) := by\n              simpa [Pi.add_apply, Pi.smul_apply, smul_eq_mul] using (hTz_agree i).1 hiTz\n            have heval := congrArg (fun p : F[X] => p.eval z) (hAB i)\n            simp only [Polynomial.eval_mul, Polynomial.eval_add, Polynomial.eval_C,\n              Polynomial.eval_X, evalX_eval_eq_evalY_eval] at heval\n            simpa only [Dz, Polynomial.eval_sub, Polynomial.eval_mul, sub_eq_zero, ← hi_eq] using heval\n          have hDz_deg :\n              Dz.natDegree ≤ e + deg - 1 := by\n            apply (Polynomial.natDegree_sub_le _ _).trans\n            apply max_le\n            · exact (evalY_natDegree_le_degreeX z B).trans hB_degX\n            · have hm := Polynomial.natDegree_mul_le (p := Pz) (q := Polynomial.Bivariate.evalY z A)\n              have ha : (Polynomial.Bivariate.evalY z A).natDegree ≤ e :=\n                (evalY_natDegree_le_degreeX z A).trans hA_degX\n              have hp : Pz.natDegree < deg := hPz.1\n              omega\n          have hdeg_lt :\n              Dz.natDegree < (Tz.image domain).card := by\n            rw [Finset.card_image_of_injective _ domain.injective]\n            omega\n          have hDz_zero : Dz = 0 := by\n            exact\n              Polynomial.eq_zero_of_natDegree_lt_card_of_eval_eq_zero'\n                (p := Dz) (s := Tz.image domain) hDz_eval hdeg_lt\n          simpa [Dz, hquot_def, sub_eq_zero] using hDz_zero\n      have h_quot_y :\n          ∀ x ∈ P_x,\n            (quot_y x).natDegree ≤ (e + 1) - e ∧\n              Polynomial.Bivariate.evalX x B = (quot_y x) * (Polynomial.Bivariate.evalX x A) := by\n        intro x hx\n        rcases Finset.mem_map.mp hx with ⟨i, -, rfl⟩\n        refine ⟨?_, ?_⟩\n        · have hlin : (Polynomial.C (u 0 i) + Polynomial.X * Polynomial.C (u 1 i) : F[X]).natDegree ≤ 1 :=\n            (Polynomial.natDegree_add_le _ _).trans\n              (max_le (by simp) ((Polynomial.natDegree_mul_C_le\n                (f := (Polynomial.X : F[X])) (a := u 1 i)).trans (by simp)))\n          simpa [quot_y, Function.leftInverse_invFun domain.injective i] using hlin\n        · simpa [quot_y, Function.leftInverse_invFun domain.injective i] using hAB i\n      have h_le_1 :\n          1 >\n            ((((e + deg - 1 : ℕ) : ℚ) / ((⟨n, hn_pos⟩ : ℕ+) : ℚ)) +\n              (((e + 1 : ℕ) : ℚ) / ((⟨good.card, hgood_pos⟩ : ℕ+) : ℚ))) := by\n        change ((e + deg - 1 : ℕ) : ℚ) / (n : ℚ) + ((e + 1 : ℕ) : ℚ) / (good.card : ℚ) < 1\n        have hnq : (0 : ℚ) < n := by exact_mod_cast hn_pos\n        have hng : (n : ℚ) < good.card := by exact_mod_cast hgood_card\n        have hf : ((e + 1 : ℕ) : ℚ) / good.card < ((e + 1 : ℕ) : ℚ) / n :=\n          div_lt_div_of_pos_left (by positivity) hnq hng\n        have he : (e + deg - 1) + (e + 1) ≤ n := by omega\n        have hle : ((e + deg - 1 : ℕ) : ℚ) / n + ((e + 1 : ℕ) : ℚ) / n ≤ 1 := by\n          rw [← add_div, div_le_iff₀ hnq, one_mul]\n          exact_mod_cast he\n        linarith\n      obtain ⟨P, hBA, hP_degX, hP_degY, ⟨Q_x, hQx_card, hQx_sub, hQx_eval⟩, _⟩ :=\n        polishchuk_spielman\n          (a_x := e) (a_y := e) (b_x := e + deg - 1) (b_y := e + 1)\n          (n_x := ⟨n, hn_pos⟩) (n_y := ⟨good.card, hgood_pos⟩)\n          (h_bx_ge_ax := by omega) (h_by_ge_ay := by omega)\n          (A := A) (B := B) hA0 hA_degX hB_degX hA_degY hB_degY\n          P_x P_y quot_x quot_y h_card_Px h_card_Py h_quot_x h_quot_y h_le_1\n      have hP_degX' : Polynomial.Bivariate.degreeX P ≤ deg - 1 := by\n        omega\n      let S0 : Finset ι := Q_x.preimage domain domain.injective.injOn\n      have hS0_card_nat : n - e ≤ S0.card := by\n        have himg : S0.map domain = Q_x := by\n          ext x\n          constructor\n          · intro hx\n            rcases Finset.mem_map.mp hx with ⟨i, hi, rfl⟩\n            exact Finset.mem_preimage.mp hi\n          · intro hx\n            rcases Finset.mem_map.mp (hQx_sub hx) with ⟨i, -, rfl⟩\n            exact Finset.mem_map.mpr ⟨i, Finset.mem_preimage.mpr hx, rfl⟩\n        have hcard_eq : S0.card = Q_x.card := by\n          calc\n            S0.card = (S0.map domain).card := by symm; simp\n            _ = Q_x.card := by simp [himg]\n        exact by simpa [S0, hcard_eq, n, e] using hQx_card\n      have hS0_card :\n          (1 - δ) * (Fintype.card ι : ℝ≥0) ≤ (S0.card : ℝ≥0) := by\n        exact (Code.relDist_floor_bound_iff_complement_bound n S0.card δ).mp hS0_card_nat\n      have hv_mem (j : ℕ) : ((P.coeff j).eval ∘ domain) ∈ ReedSolomon.code domain deg := by\n        have hcoeff_deg_nat := le_trans (Polynomial.Bivariate.coeff_natDegree_le_degreeX P j) hP_degX'\n        have hcoeff_deg : (P.coeff j).degree < deg := by\n          have hlt_nat := lt_of_le_of_lt hcoeff_deg_nat (Nat.pred_lt (NeZero.ne deg))\n          exact lt_of_le_of_lt (Polynomial.degree_le_natDegree (p := P.coeff j))\n            (by exact_mod_cast hlt_nat)\n        refine ⟨P.coeff j, ?_, by ext i; rfl⟩\n        simpa [Polynomial.mem_degreeLT] using hcoeff_deg\n      refine ⟨S0, hS0_card, (fun k : Fin 2 => (P.coeff (k : ℕ)).eval ∘ domain), ?_⟩\n      intro k\n      refine ⟨hv_mem k, ?_⟩\n      intro i hi\n      have hc := congrArg (fun p : F[X] => p.coeff (k : ℕ)) (hQx_eval _ (Finset.mem_preimage.mp hi))\n      fin_cases k <;> simpa [quot_y, Polynomial.Bivariate.evalX, Polynomial.coeff,\n        Function.leftInverse_invFun domain.injective i] using hc\n    · have htop : ReedSolomon.code domain deg = ⊤ := by\n        apply Submodule.eq_top_of_finrank_eq\n        simpa [LinearCode.dim] using\n          (ReedSolomon.dim_eq_card_of_lt (α := domain) (Nat.lt_of_not_ge hdeg_le))\n      refine ⟨Finset.univ, by simp, u, ?_⟩\n      intro k\n      exact ⟨by simp [htop], fun i _ => by simp⟩\n",
+      "candidateHash": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000",
+      "proofFileHash": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000",
+      "baseline": {
+        "tokens": 5538,
+        "raw_heartbeats": 60935225,
+        "raw_samples": [
+          60939384,
+          60935225,
+          60933498
+        ]
+      },
+      "candidate": {
+        "tokens": 2745,
+        "raw_heartbeats": 44424166,
+        "raw_samples": [
+          44425068,
+          44423648,
+          44424166
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T10:35:58.174608+00:00",
+      "score": 59.176484071343694,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.31.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 39,
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F039.lean",
+      "proof": "theorem reduction_perfectCompleteness :\n    (reduction R deg D oSpec).perfectCompleteness init impl\n      (inputRelation R deg D) (outputRelation R deg) := by\n  simp only [Reduction.perfectCompleteness, Reduction.completeness, ENNReal.coe_zero, tsub_zero]\n  intro ⟨target, oStmt⟩ () hValid\n  simp only [inputRelation, Set.mem_setOf_eq] at hValid\n  simp only [reduction, Reduction.run, Prover.run, Verifier.run, prover, verifier,\n    Prover.runToRound, Prover.processRound, Fin.induction_two, pSpec,\n    bind_pure_comp, Function.comp]\n  split <;> rename_i hDir0\n  · exact absurd hDir0 (by decide)\n  try simp only [pure_bind, map_pure, Functor.map_map, Function.comp, bind_pure_comp]\n  split <;> rename_i hDir1\n  swap\n  · exact absurd hDir1 (by decide)\n  simp only [MonadLift.monadLift, liftM, monadLift, MonadLiftT.monadLift,\n    OracleComp.liftComp_pure, map_pure,     bind_pure_comp, Transcript.concat,     guard, if_pos hValid]\n  rw [ge_iff_le, one_le_probEvent_iff, probEvent_eq_one_iff]\n  constructor\n  all_goals first\n    | (rw [OptionT.probFailure_eq, OptionT.run_mk]\n       simp only [probFailure_eq_zero, zero_add]\n       apply probOutput_eq_zero_of_not_mem_support\n       simp only [support_bind, Set.mem_iUnion, not_exists]\n       intro s _ hmem)\n    | (intro x hx\n       rw [OptionT.mem_support_iff] at hx\n       simp only [OptionT.run_mk, support_bind, Set.mem_iUnion] at hx\n       obtain ⟨s, _, hmem⟩ := hx)\n  all_goals\n    simp only [StateT.run'_eq, support_map, Set.mem_image] at hmem\n    obtain ⟨⟨_, s'⟩, hmem, rfl⟩ := hmem\n    erw [simulateQ_bind, StateT.run_bind] at hmem\n    rw [mem_support_bind_iff] at hmem\n    obtain ⟨⟨x, s''⟩, hx, hs⟩ := hmem\n    erw [simulateQ_map] at hx\n    rw [StateT.run_map] at hx\n    simp only [support_map, Set.mem_image] at hx\n    obtain ⟨⟨val, s₀⟩, hval, heq⟩ := hx\n    obtain ⟨rfl, rfl⟩ := Prod.mk.inj heq\n    erw [simulateQ_bind, StateT.run_bind] at hs\n    rw [mem_support_bind_iff] at hs\n    obtain ⟨⟨y, s'''⟩, hy, hs⟩ := hs\n    erw [simulateQ_map, simulateQ_map] at hy\n    rw [StateT.run_map] at hy\n    simp only [support_map, Set.mem_image] at hy\n    obtain ⟨⟨val2, s₁⟩, hval2, heq2⟩ := hy\n    obtain ⟨rfl, rfl⟩ := Prod.mk.inj heq2\n    dsimp only [] at hs\n    rcases val2 with _ | ⟨out⟩\n  all_goals\n    try (simp only [Option.getM] at hs\n         erw [simulateQ_pure] at hs\n         simp only [StateT.run_pure, support_pure, Set.mem_singleton_iff] at hs\n         cases hs)\n  all_goals\n    have hv := support_simulateQ_run'_subset (n := ProbComp) (impl.addLift challengeQueryImpl) _ s\n      (show val ∈ _root_.support (StateT.run' (m := ProbComp) (simulateQ (impl.addLift challengeQueryImpl) _) s) from by\n        rw [StateT.run'_eq, support_map]\n        exact ⟨_, hval, rfl⟩)\n    rw [mem_support_bind_iff] at hv\n    obtain ⟨chal, hchal, hv⟩ := hv\n    erw [mem_support_bind_iff] at hchal\n    obtain ⟨discr, hd, hc⟩ := hchal\n    erw [support_map, support_pure] at hd\n    obtain ⟨_, rfl, rfl⟩ := hd\n    erw [support_map] at hc\n    change ∃ r, _ ∧ _ = chal at hc\n    obtain ⟨r, _, rfl⟩ := hc\n    simp only [OracleComp.liftComp_pure, map_pure, support_pure, Set.mem_singleton_iff] at hv\n    subst val\n    simp only [QueryImpl.addLift_def,                                     OracleQuery.input_query,\n                  Fin.snoc] at hval2\n    norm_num at hval2\n    rw [Finset.sum_map] at hValid\n    simp only [apply_ite, OptionT.run_pure] at hval2\n    erw [if_pos hValid] at hval2\n    simp only [simulateQ_pure,\n      StateT.run_pure, support_pure, Set.mem_singleton_iff] at hval2\n    first\n    | solve | simp at hval2\n    | (obtain ⟨_, ⟨_, rfl⟩, _, rfl⟩ := hval2\n       simp only [Set.mem_setOf_eq, outputRelation]\n       constructor <;> simp)\n",
+      "candidateHash": "e20021b5a3e44ca8869edf83516c514cf58b6943e69775ff617151c22b39da3a",
+      "proofFileHash": "e20021b5a3e44ca8869edf83516c514cf58b6943e69775ff617151c22b39da3a",
+      "baseline": {
+        "tokens": 1426,
+        "raw_heartbeats": 44259802,
+        "raw_samples": [
+          44259802,
+          44259762,
+          44259841
+        ]
+      },
+      "candidate": {
+        "tokens": 643,
+        "raw_heartbeats": 38878187,
+        "raw_samples": [
+          38877534,
+          38878187,
+          38879806
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:10:08.291237+00:00",
+      "score": 55.689328096477105,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.31.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 40,
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F040.lean",
+      "proof": "lemma ps_coprime_case_constant {F : Type} [Field F]\n    (a_x a_y b_x b_y : ℕ) (n_x n_y : ℕ+)\n    (h_bx_ge_ax : b_x ≥ a_x) (h_by_ge_ay : b_y ≥ a_y)\n    (A B : F[X][Y]) (hA0 : A ≠ 0) (hB0 : B ≠ 0) (hrel : IsRelPrime A B)\n    (h_f_degX : a_x ≥ degreeX A) (h_g_degX : b_x ≥ degreeX B)\n    (h_f_degY : a_y ≥ natDegreeY A) (h_g_degY : b_y ≥ natDegreeY B)\n    (P_x P_y : Finset F) [Nonempty P_x] [Nonempty P_y]\n    (quot_x quot_y : F → F[X])\n    (h_card_Px : n_x ≤ P_x.card) (h_card_Py : n_y ≤ P_y.card)\n    (h_quot_x : ∀ y ∈ P_y, (quot_x y).natDegree ≤ (b_x - a_x) ∧\n      evalY y B = (quot_x y) * (evalY y A))\n    (h_quot_y : ∀ x ∈ P_x, (quot_y x).natDegree ≤ (b_y - a_y) ∧\n      evalX x B = (quot_y x) * (evalX x A))\n    (h_le_1 : 1 > (b_x : ℚ) / (n_x : ℚ) + (b_y : ℚ) / (n_y : ℚ)) :\n    degreeX A = 0 ∧ natDegreeY A = 0 := by\n  classical\n  set mY := natDegreeY A with hmY; set mX := degreeX A with hmX\n  set RY := resultant B A b_y mY with hRY\n  set RX := resultant (swap B) (swap A) b_x mX with hRX\n  have hA0' : swap A ≠ 0 := fun h ↦ hA0 (swap.injective (by simpa using h))\n  have hRY0 : RY ≠ 0 := by\n    simpa [RY, hRY, mY, hmY] using ps_resultant_ne_zero_of_is_rel_prime _ _ b_y\n      (by simpa using h_g_degY) hA0 hrel\n  have hRX0 : RX ≠ 0 := by\n    rw [hRX, show mX = natDegreeY (swap A) from hmX.trans (ps_nat_degree_y_swap A).symm]\n    simpa using ps_resultant_ne_zero_of_is_rel_prime _ _ b_x\n      (by rw [ps_nat_degree_y_swap]; simpa using h_g_degX) hA0' (ps_is_rel_prime_swap hrel)\n  have hcop : Pairwise fun x y : F ↦ IsCoprime (X - C x : F[X]) (X - C y) :=\n    pairwise_coprime_X_sub_C fun _ _ h ↦ h\n  have hprod_dvd_RY : (∏ x ∈ P_x, (X - C x) ^ mY) ∣ RY :=\n    Finset.prod_dvd_of_coprime (fun _ _ _ _ hxy ↦ by simpa using (hcop hxy).pow) fun x hx ↦ by\n      obtain ⟨hdegQ, hQ⟩ := h_quot_y x hx\n      simpa [RY, hRY, mY, hmY] using ps_resultant_dvd_pow_eval_x _ _ _ _ b_y\n        (by omega) (by simpa using h_g_degY) (by omega) hQ\n  have hprod_dvd_RX : (∏ y ∈ P_y, (X - C y) ^ mX) ∣ RX :=\n    Finset.prod_dvd_of_coprime (fun _ _ _ _ hyy' ↦ by simpa using (hcop hyy').pow) fun y hy ↦ by\n      obtain ⟨hdegQ, hQ⟩ := h_quot_x y hy\n      simpa [RX, hRX, mX, hmX] using ps_resultant_dvd_pow_eval_y A B y (quot_x y) b_x\n        (by omega) (by simpa using h_g_degX) (by omega) hQ\n  have hdeg_prod (S : Finset F) (m : ℕ) :\n      (∏ x ∈ S, (X - C x) ^ m).natDegree = m * S.card := by\n    rw [natDegree_prod _ _ (fun x _ ↦ pow_ne_zero _ (X_sub_C_ne_zero x))]\n    simp [natDegree_pow, Finset.sum_const, smul_eq_mul, Nat.mul_comm]\n  have hRY_le := le_trans\n    (by simpa [RY, hRY] using ps_nat_degree_resultant_le A B mY b_y)\n    (Nat.add_le_add (Nat.mul_le_mul_left _ h_g_degX) (le_of_eq (Nat.mul_comm b_y (degreeX A))))\n  have hRX_le : RX.natDegree ≤ mX * b_y + mY * b_x := by\n    have hdeg' : RX.natDegree ≤ mX * degreeX (swap B) + b_x * degreeX (swap A) := by\n      simpa [RX, hRX] using ps_nat_degree_resultant_le (swap A) (swap B) mX b_x\n    apply le_trans hdeg' (Nat.add_le_add ?_ ?_)\n    · rw [ps_degree_x_swap B]; exact Nat.mul_le_mul_left _ (by simpa using h_g_degY)\n    · rw [ps_degree_x_swap A]; exact le_of_eq (Nat.mul_comm b_x (natDegreeY A))\n  have hmy_le_D : mY * (n_x : ℕ) ≤ mX * b_y + mY * b_x :=\n    le_trans (le_trans (Nat.mul_le_mul_left _ h_card_Px)\n      ((hdeg_prod P_x mY).symm ▸ natDegree_le_of_dvd hprod_dvd_RY hRY0)) (by linarith)\n  have hmx_le_D : mX * (n_y : ℕ) ≤ mX * b_y + mY * b_x :=\n    le_trans (le_trans (Nat.mul_le_mul_left _ h_card_Py)\n      ((hdeg_prod P_y mX).symm ▸ natDegree_le_of_dvd hprod_dvd_RX hRX0)) hRX_le\n  suffices mX * b_y + mY * b_x = 0 by\n    constructor\n    · change mX = 0\n      have : mX * (n_y : ℕ) ≤ 0 := by omega\n      exact (mul_eq_zero.mp (Nat.eq_zero_of_le_zero this)).resolve_right (Nat.ne_of_gt n_y.pos)\n    · change mY = 0\n      have : mY * (n_x : ℕ) ≤ 0 := by omega\n      exact (mul_eq_zero.mp (Nat.eq_zero_of_le_zero this)).resolve_right (Nat.ne_of_gt n_x.pos)\n  have hcross : b_x * (n_y : ℕ) + (n_x : ℕ) * b_y < (n_x : ℕ) * (n_y : ℕ) := by\n    have hx : (0 : ℚ) < n_x := by exact_mod_cast n_x.pos\n    have hy : (0 : ℚ) < n_y := by exact_mod_cast n_y.pos\n    rw [div_add_div _ _ hx.ne' hy.ne'] at h_le_1\n    exact_mod_cast (div_lt_one (mul_pos hx hy)).mp h_le_1\n  have hx := Nat.mul_le_mul_right (b_x * (n_y : ℕ)) hmy_le_D\n  have hy := Nat.mul_le_mul_right (b_y * (n_x : ℕ)) hmx_le_D\n  by_contra hn\n  have hlt := Nat.mul_lt_mul_of_pos_left hcross (Nat.pos_of_ne_zero hn)\n  nlinarith only [hx, hy, hlt]\n",
+      "candidateHash": "b222c852cbca39516d66506032de2ddc74a444bcb72cbfba2a47784fefe1a9ce",
+      "proofFileHash": "b222c852cbca39516d66506032de2ddc74a444bcb72cbfba2a47784fefe1a9ce",
+      "baseline": {
+        "tokens": 1105,
+        "raw_heartbeats": 37665258,
+        "raw_samples": [
+          37662403,
+          37667197,
+          37665258
+        ]
+      },
+      "candidate": {
+        "tokens": 843,
+        "raw_heartbeats": 21592835,
+        "raw_samples": [
+          21592234,
+          21592835,
+          21593275
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.34.0",
+          "revision": "fa14552d40e793f2ea26e65c440306aae0c08a26",
+          "environment": "arklib-v4.34.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.33.1",
+          "revision": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76",
+          "environment": "arklib-v4.33.1",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.31.0",
+          "revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "environment": "arklib-v4.31.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.30.0",
+          "revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "environment": "arklib-v4.30.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T10:43:43.736552+00:00",
+      "score": 55.460717548364684,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "arklib-v4.34.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 51,
+      "name": "putnam_1964_a4",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F051.lean",
+      "proof": "theorem putnam_1964_a4\n(u : ℕ → ℤ)\n(boundedu : ∃ B T : ℤ, ∀ n : ℕ, B ≤ u n ∧ u n ≤ T)\n(hu : ∀ n ≥ 4, u n = ((u (n - 1) + u (n - 2) + u (n - 3) * u (n - 4)) : ℝ) / (u (n - 1) * u (n - 2) + u (n - 3) + u (n - 4)) ∧ (u (n - 1) * u (n - 2) + u (n - 3) + u (n - 4)) ≠ 0)\n: (∃ N c : ℕ, c > 0 ∧ ∀ n ≥ N, u (n + c) = u n)  := by\n  classical\n  obtain ⟨B, T, hb⟩ := boundedu\n  let f : ℕ → ℤ × ℤ × ℤ × ℤ := fun n => (u n, u (n+1), u (n+2), u (n+3))\n  have hf : Set.MapsTo f Set.univ (Set.Icc (B,B,B,B) (T,T,T,T)) := by\n    intro n _\n    exact ⟨⟨(hb n).1, (hb (n+1)).1, (hb (n+2)).1, (hb (n+3)).1⟩,\n      ⟨(hb n).2, (hb (n+1)).2, (hb (n+2)).2, (hb (n+3)).2⟩⟩\n  obtain ⟨i, _, j, _, hij, heq⟩ :=\n    Set.infinite_univ.exists_ne_map_eq_of_mapsTo hf (Set.finite_Icc _ _)\n  have hp : ∃ i j, i < j ∧ f i = f j := by\n    rcases lt_or_gt_of_ne hij with h | h\n    · exact ⟨i,j,h,heq⟩\n    · exact ⟨j,i,h,heq.symm⟩\n  obtain ⟨i,j,hij,heq⟩ := hp\n  simp only [f, Prod.mk.injEq] at heq\n  have hs : ∀ m, u (i+m) = u (j+m) := by\n    intro m\n    induction m using Nat.strong_induction_on with\n    | h m ih =>\n      by_cases hm : m < 4\n      · interval_cases m\n        · simpa using heq.1\n        · exact heq.2.1\n        · exact heq.2.2.1\n        · exact heq.2.2.2\n      · have hk (k : ℕ) (hk0 : 0 < k) (hk4 : k ≤ 4) :\n            u (i+m-k) = u (j+m-k) := by\n          simpa only [Nat.add_sub_assoc (by omega : k ≤ m)] using ih (m-k) (by omega)\n        apply Int.cast_injective (α := ℝ)\n        rw [(hu (i+m) (by omega)).1, (hu (j+m) (by omega)).1,\n          hk 1 (by decide) (by decide), hk 2 (by decide) (by decide),\n          hk 3 (by decide) (by decide), hk 4 (by decide) (by decide)]\n  refine ⟨i,j-i,Nat.sub_pos_of_lt hij,?_⟩\n  intro n hn\n  convert (hs (n-i)).symm using 1 <;> congr 1 <;> omega\n",
+      "candidateHash": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6",
+      "proofFileHash": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6",
+      "baseline": {
+        "tokens": 1769,
+        "raw_heartbeats": 111469393,
+        "raw_samples": [
+          111469620,
+          111469393,
+          111466737
+        ]
+      },
+      "candidate": {
+        "tokens": 488,
+        "raw_heartbeats": 3850951,
+        "raw_samples": [
+          3851087,
+          3850951,
+          3850929
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:19:04.549971+00:00",
+      "score": 89.65302568771492,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 52,
+      "name": "putnam_1995_a3",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F052.lean",
+      "proof": "theorem putnam_1995_a3\n(relation : (Fin 9 → ℤ) → (Fin 9 → ℤ) → Prop)\n(digits_to_num : (Fin 9 → ℤ) → ℤ)\n(hdigits_to_num : digits_to_num = fun dig => ∑ i : Fin 9, (dig i) * 10^i.1)\n(hrelation : ∀ d e : (Fin 9 → ℤ), relation d e ↔ (∀ i : Fin 9, d i < 10 ∧ d i ≥ 0 ∧ e i < 10 ∧ e i ≥ 0) ∧ (∀ i : Fin 9, 7 ∣ (digits_to_num (fun j : Fin 9 => if j = i then e j else d j))))\n: ∀ d e f : (Fin 9 → ℤ), ((relation d e) ∧ (relation e f)) → (∀ i : Fin 9, 7 ∣ d i - f i) := by\n  intro d e f h\n  have change_digit (d e : Fin 9 → ℤ) (i : Fin 9) :\n      digits_to_num (fun j => if j = i then e j else d j) =\n        digits_to_num d + (e i - d i) * 10 ^ (i : ℕ) := by\n    simp only [hdigits_to_num]\n    calc\n      (∑ j : Fin 9, (if j = i then e j else d j) * 10 ^ (j : ℕ)) =\n          ∑ j : Fin 9, (d j * 10 ^ (j : ℕ) +\n            if j = i then (e i - d i) * 10 ^ (i : ℕ) else 0) := by\n        apply Finset.sum_congr rfl\n        intro j _\n        by_cases hj : j = i\n        · subst j; simp; ring\n        · simp [hj]\n      _ = _ := by rw [Finset.sum_add_distrib]; simp\n  have hd := ((hrelation d e).mp h.1).2\n  have he := ((hrelation e f).mp h.2).2\n  simp only [change_digit] at hd he\n  have hsum := Finset.dvd_sum (s := Finset.univ) (fun i _ => hd i)\n  have h₇ : 7 ∣ digits_to_num e + digits_to_num d := by\n    convert dvd_sub hsum (dvd_mul_right (7 : ℤ) (digits_to_num d)) using 1\n    simp [hdigits_to_num, sub_mul, Finset.sum_add_distrib, Finset.sum_sub_distrib]\n    ring\n  intro i\n  have hmul : 7 ∣ (f i - d i) * (10 : ℤ) ^ (i : ℕ) := by\n    have hh := dvd_sub (dvd_add (he i) (hd i)) h₇\n    convert hh using 1 <;> ring\n  have hp : Prime (7 : ℤ) := by norm_num\n  have hn : ¬ (7 : ℤ) ∣ (10 : ℤ) ^ (i : ℕ) := by\n    intro hc\n    have hh := hp.dvd_of_dvd_pow hc\n    norm_num at hh\n  have hh := (hp.dvd_mul.mp hmul).resolve_right hn\n  simpa only [neg_sub] using dvd_neg.mpr hh\n",
+      "candidateHash": "61db6f57f1837d1fa7bf9615b01d58a2e6970af8d2c1c687bc4b687d71e0ca37",
+      "proofFileHash": "61db6f57f1837d1fa7bf9615b01d58a2e6970af8d2c1c687bc4b687d71e0ca37",
+      "baseline": {
+        "tokens": 4085,
+        "raw_heartbeats": 14127660,
+        "raw_samples": [
+          14126720,
+          14127660,
+          14128963
+        ]
+      },
+      "candidate": {
+        "tokens": 377,
+        "raw_heartbeats": 3591236,
+        "raw_samples": [
+          3591236,
+          3590965,
+          3591297
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T12:13:50.358798+00:00",
+      "score": 88.45040707441827,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 53,
+      "name": "putnam_1988_a2",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F053.lean",
+      "proof": "theorem putnam_1988_a2\n    (f : ℝ → ℝ)\n    (hf : f = fun x ↦ Real.exp (x ^ 2)) :\n    ((True) : Prop ) ↔\n    (∃ a b : ℝ,\n      a < b ∧\n      ∃ g : ℝ → ℝ,\n        (∃ x ∈ Ioo a b, g x ≠ 0) ∧\n        DifferentiableOn ℝ g (Ioo a b) ∧\n        ∀ x ∈ Ioo a b, deriv (fun y ↦ f y * g y) x = (deriv f x) * (deriv g x))  := by\n  subst f\n  simp only [true_iff]\n  let g : ℝ → ℝ := fun x => Real.exp x * Real.sqrt (2*x-1)\n  have hg (x : ℝ) (hx : x ∈ Ioo (1:ℝ) 2) :\n      HasDerivAt g (Real.exp x * Real.sqrt (2*x-1) + Real.exp x / Real.sqrt (2*x-1)) x := by\n    have hs : Real.sqrt (2*x-1) ≠ 0 := (Real.sqrt_pos.mpr (by linarith [hx.1])).ne'\n    have hlin : HasDerivAt (fun t : ℝ => 2*t-1) 2 x := by\n      simpa using ((hasDerivAt_id x).const_mul 2).sub_const 1\n    convert (Real.hasDerivAt_exp x).mul (hlin.sqrt (by linarith [hx.1])) using 1 <;>\n      dsimp [g] <;> field_simp [hs] <;> ring\n  refine ⟨1,2,by norm_num,g,?_,?_,?_⟩\n  · refine ⟨3/2,by norm_num,?_⟩\n    dsimp [g]\n    positivity\n  · intro x hx\n    exact (hg x hx).differentiableAt.differentiableWithinAt\n  · intro x hx\n    have hs : 0 < Real.sqrt (2*x-1) := Real.sqrt_pos.mpr (by linarith [hx.1])\n    have hf := (hasDerivAt_pow 2 x).exp\n    change deriv ((fun y : ℝ => Real.exp (y^2)) * g) x = _\n    rw [(hf.mul (hg x hx)).deriv, hf.deriv, (hg x hx).deriv]\n    dsimp [g]\n    simp only [pow_one]\n    field_simp [hs.ne']\n    rw [Real.sq_sqrt (show 0 ≤ x*2-1 by linarith [hx.1])]\n    ring\n",
+      "candidateHash": "89f9a454d95427b3e912c4aedd9c257aa93e249c1fb1eeb415aaf59eede728f9",
+      "proofFileHash": "89f9a454d95427b3e912c4aedd9c257aa93e249c1fb1eeb415aaf59eede728f9",
+      "baseline": {
+        "tokens": 2161,
+        "raw_heartbeats": 58098172,
+        "raw_samples": [
+          58090922,
+          58098854,
+          58098172
+        ]
+      },
+      "candidate": {
+        "tokens": 323,
+        "raw_heartbeats": 10014150,
+        "raw_samples": [
+          10014156,
+          10014146,
+          10014150
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:44:28.004862+00:00",
+      "score": 89.27220508959306,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 54,
+      "name": "putnam_2001_b1",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F054.lean",
+      "proof": "theorem putnam_2001_b1\n  (n : ℕ)\n  (hn : n > 0) (hn' : Even n)\n  (nums : Fin n → Fin n → ℤ)\n  (colors : Fin n → Fin n → Fin 2)\n  (hnums : ∀ k l, nums k l = k * n + l + 1)\n  (hcolorsrows : ∀ k, (∑ l, (if (colors k l = 0) then 1 else 0)) = n / 2)\n  (hcolorscols : ∀ l, (∑ k, (if (colors k l = 0) then 1 else 0)) = n / 2) :\n  (∑ k, ∑ l, (if (colors k l = 0) then (nums k l) else 0)) = (∑ k, ∑ l, (if (colors k l = 1) then (nums k l) else 0)) := by\n  have hb (g : Fin n → Fin 2) (hc : (∑ j, if g j=0 then 1 else 0) = n/2) :\n      (∑ j, (2*(if g j=0 then (1:ℤ) else 0)-1)) = 0 := by\n    have hh : (∑ j, if g j=0 then (1:ℤ) else 0) = (n/2 : ℕ) := by exact_mod_cast hc\n    have he : (2:ℤ) * (n/2 : ℕ) = n := by\n      exact_mod_cast Nat.mul_div_cancel' (even_iff_two_dvd.mp hn')\n    rw [Finset.sum_sub_distrib, ← Finset.mul_sum, hh]\n    simpa only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul,\n      mul_one, he, sub_self]\n  have hrow_sum_zero (k : Fin n) :\n      (∑ l, (2*(if colors k l=0 then (1:ℤ) else 0)-1)) = 0 := hb (colors k) (hcolorsrows k)\n  have hcol_sum_zero (l : Fin n) :\n      (∑ k, (2*(if colors k l=0 then (1:ℤ) else 0)-1)) = 0 :=\n    hb (fun k => colors k l) (hcolorscols l)\n  apply sub_eq_zero.mp\n  calc\n    _ = ∑ k : Fin n, ∑ l : Fin n,\n        (2*(if colors k l=0 then (1:ℤ) else 0)-1)*nums k l := by\n      simp only [← Finset.sum_sub_distrib]\n      apply Finset.sum_congr rfl\n      intro k _\n      apply Finset.sum_congr rfl\n      intro l _\n      rcases (show colors k l = 0 ∨ colors k l = 1 by omega) with h | h <;> simp [h]\n    _ = 0 := by\n      simp_rw [hnums, mul_add, Finset.sum_add_distrib]\n      simp_rw [← Finset.sum_mul, hrow_sum_zero, zero_mul, Finset.sum_const_zero, zero_add]\n      rw [Finset.sum_comm]\n      simp_rw [← Finset.sum_mul, hcol_sum_zero, zero_mul]\n      simp\n",
+      "candidateHash": "70bceffde22ead4869449e126cb7fad3d065f733758361c012b5c8dc97b0a5a7",
+      "proofFileHash": "70bceffde22ead4869449e126cb7fad3d065f733758361c012b5c8dc97b0a5a7",
+      "baseline": {
+        "tokens": 3178,
+        "raw_heartbeats": 50253006,
+        "raw_samples": [
+          50252709,
+          50253975,
+          50253006
+        ]
+      },
+      "candidate": {
+        "tokens": 379,
+        "raw_heartbeats": 7338095,
+        "raw_samples": [
+          7338095,
+          7338910,
+          7337119
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:57:54.994964+00:00",
+      "score": 91.15731997818888,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 55,
+      "name": "putnam_1964_b2",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F055.lean",
+      "proof": "theorem putnam_1964_b2\n(S : Type*) [Fintype S] [Nonempty S]\n(P : Finset (Set S))\n(hPP : ∀ T ∈ P, ∀ U ∈ P, T ∩ U ≠ ∅)\n(hPS : ¬∃ T : Set S, T ∉ P ∧ (∀ U ∈ P, T ∩ U ≠ ∅))\n: (P.card = 2 ^ (Fintype.card S - 1)) := by\n  have missing (A : Set S) (hA : A ∉ P) : ∃ U ∈ P, A ∩ U = ∅ := by\n    by_contra! h\n    exact hPS ⟨A, hA, by simpa only [Set.nonempty_iff_ne_empty] using h⟩\n  have h_subset_or_compl : ∀ A : Set S, A ∈ P ∨ Aᶜ ∈ P := by\n    intro A\n    by_contra! h\n    obtain ⟨U, hU, hAU⟩ := missing A h.1\n    obtain ⟨V, hV, hAV⟩ := missing Aᶜ h.2\n    apply hPP U hU V hV\n    apply Set.disjoint_iff_inter_eq_empty.mp\n    exact (Set.disjoint_iff_inter_eq_empty.mpr hAV).mono_left\n      (Set.disjoint_right.mp (Set.disjoint_iff_inter_eq_empty.mpr hAU))\n  classical\n  have hcard : P.card = Pᶜ.card := by\n    refine Finset.card_bij' (fun A _ => Aᶜ) (fun A _ => Aᶜ) ?_ ?_ ?_ ?_\n    · intro A hA\n      exact Finset.mem_compl.mpr (fun hAc => hPP A hA Aᶜ hAc (Set.inter_compl_self A))\n    · intro A hA\n      exact (h_subset_or_compl A).resolve_left (Finset.mem_compl.mp hA)\n    · intro A _; exact compl_compl A\n    · intro A _; exact compl_compl A\n  have hsum : P.card + P.card = 2 ^ Fintype.card S := by\n    simpa only [← hcard, Fintype.card_set] using Finset.card_compl_add_card P\n  have hn : 0 < Fintype.card S := Fintype.card_pos\n  have hpow := pow_succ 2 (Fintype.card S - 1)\n  rw [show Fintype.card S - 1 + 1 = Fintype.card S by omega] at hpow\n  omega\n",
+      "candidateHash": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7",
+      "proofFileHash": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7",
+      "baseline": {
+        "tokens": 1754,
+        "raw_heartbeats": 134470451,
+        "raw_samples": [
+          134464675,
+          134470451,
+          134471847
+        ]
+      },
+      "candidate": {
+        "tokens": 257,
+        "raw_heartbeats": 1671593,
+        "raw_samples": [
+          1671592,
+          1671597,
+          1671593
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T12:18:25.274834+00:00",
+      "score": 94.7015611116399,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.26.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 56,
+      "name": "putnam_2007_a1",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F056.lean",
+      "proof": "theorem putnam_2007_a1\n    (P : (ℝ → ℝ) → Prop)\n    (P_def : ∀ f, P f ↔ ∃ x y, f x = y ∧ f y = x ∧ deriv f x * deriv f y = 1)\n    (α : ℝ) :\n    P (fun t ↦ α * t ^ 2 + α * t + 1 / 24) ↔ α ∈ (({2 / 3, 3 / 2, (13 + √601) / 12, (13 - √601) / 12}) : Set ℝ )  := by\n  have hd (x : ℝ) : deriv (fun t : ℝ => α*t^2+α*t+1/24) x = 2*α*x+α := by\n    convert ((((hasDerivAt_pow 2 x).const_mul α).add\n      ((hasDerivAt_id x).const_mul α)).add_const (1/24)).deriv using 1 <;> ring\n  rw [P_def]\n  simp only [hd, Set.mem_insert_iff, Set.mem_singleton_iff]\n  have hs : (Real.sqrt 601)^2 = 601 := Real.sq_sqrt (by norm_num)\n  have back (hp : 6*α^2-13*α-18=0) :\n      ∃ x y : ℝ, α*x^2+α*x+1/24=y ∧ α*y^2+α*y+1/24=x ∧\n        (2*α*x+α)*(2*α*y+α)=1 := by\n    have ha : α ≠ 0 := by intro hh; subst α; norm_num at hp\n    let x := (-1-α)/(2*α)\n    have hx : α*x^2+α*x+1/24=x := by\n      dsimp [x]\n      field_simp [ha]\n      nlinarith only [hp]\n    refine ⟨x,x,hx,hx,?_⟩\n    dsimp [x]\n    field_simp [ha]\n    <;> ring\n  constructor\n  · rintro ⟨x,y,hx,hy,hprod⟩\n    have ha : α ≠ 0 := by intro hh; subst α; norm_num at hprod\n    have hxy : x=y := by\n      by_contra hn\n      have hf : (x-y)*(α*(x+y+1)+1)=0 := by linear_combination hx-hy\n      have hf' := (mul_eq_zero.mp hf).resolve_left (sub_ne_zero.mpr hn)\n      have hz : (2*α*x+α)+(2*α*y+α)=-2 := by linear_combination 2*hf'\n      have hsame : 2*α*x+α=2*α*y+α := by\n        nlinarith only [hprod, sq_nonneg ((2*α*x+α)-(2*α*y+α)), hz, sq_nonneg ((2*α*x+α)+1)]\n      apply hn\n      apply mul_left_cancel₀ (mul_ne_zero (by norm_num : (2:ℝ)≠0) ha)\n      linarith only [hsame]\n    rw [← hxy] at hx hprod\n    rcases mul_self_eq_one_iff.mp hprod with hz | hz\n    · have hp : 6*α^2-13*α+6=0 := by\n        linear_combination 6*(2*α*x+α-1)*hz -24*α*hx\n      have hf : (α-2/3)*(α-3/2)=0 := by nlinarith only [hp]\n      rcases mul_eq_zero.mp hf with hh | hh\n      · exact Or.inl (by linarith only [hh])\n      · exact Or.inr (Or.inl (by linarith only [hh]))\n    · have hp : 6*α^2-13*α-18=0 := by\n        linear_combination 6*(2*α*x+α-3)*hz -24*α*hx\n      have hf : (α-(13+Real.sqrt 601)/12)*(α-(13-Real.sqrt 601)/12)=0 := by\n        nlinarith only [hp,hs]\n      rcases mul_eq_zero.mp hf with hh | hh\n      · exact Or.inr (Or.inr (Or.inl (by linarith only [hh])))\n      · exact Or.inr (Or.inr (Or.inr (by linarith only [hh])))\n  · rintro (hh | hh | hh | hh)\n    · subst α; exact ⟨1/4,1/4,by norm_num,by norm_num,by norm_num⟩\n    · subst α; exact ⟨-1/6,-1/6,by norm_num,by norm_num,by norm_num⟩\n    · apply back; rw [hh]; nlinarith only [hs]\n    · apply back; rw [hh]; nlinarith only [hs]\n",
+      "candidateHash": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c",
+      "proofFileHash": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c",
+      "baseline": {
+        "tokens": 5463,
+        "raw_heartbeats": 528115596,
+        "raw_samples": [
+          528115596,
+          528113923,
+          528119804
+        ]
+      },
+      "candidate": {
+        "tokens": 800,
+        "raw_heartbeats": 35805756,
+        "raw_samples": [
+          35805756,
+          35806006,
+          35805545
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:40:04.701259+00:00",
+      "score": 92.85870754682816,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 57,
+      "name": "putnam_1970_b5",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F057.lean",
+      "proof": "theorem putnam_1970_b5\n(ramp : ℤ → (ℝ → ℝ))\n(ramp_def : ramp = fun (n : ℤ) => (fun (x : ℝ) => if x ≤ -n then (-n : ℝ) else (if -n < x ∧ x ≤ n then x else (n : ℝ))))\n(F : ℝ → ℝ)\n: Continuous F ↔ (∀ n : ℕ, Continuous ((ramp n) ∘ F))  := by\n  have hr (n : ℕ) (x : ℝ) : ramp n x =\n      if x ≤ -(n : ℝ) then -(n : ℝ) else\n        if -(n : ℝ) < x ∧ x ≤ n then x else n := by simp [ramp_def]\n  constructor\n  · intro h n\n    have he : ramp n = fun x : ℝ => min (max x (-(n : ℝ))) n := by\n      funext x\n      rw [hr]\n      have hn := Nat.cast_nonneg (α := ℝ) n\n      simp only [min_def, max_def]\n      split_ifs <;> simp_all <;> linarith\n    rw [he]\n    exact ((continuous_id.max continuous_const).min continuous_const).comp h\n  · intro h\n    apply continuous_iff_continuousAt.mpr\n    intro a\n    rw [Metric.continuousAt_iff]\n    intro ε hε\n    obtain ⟨n, hn⟩ := exists_nat_gt (|F a| + ε)\n    have hleft : -(n : ℝ) < F a := by linarith [neg_abs_le (F a)]\n    have hright : F a ≤ (n : ℝ) := by linarith [le_abs_self (F a)]\n    have ha : ramp n (F a) = F a := by\n      rw [hr, if_neg (not_le.mpr hleft), if_pos ⟨hleft,hright⟩]\n    obtain ⟨δ,hδ,hclose⟩ := Metric.continuousAt_iff.mp (h n).continuousAt ε hε\n    refine ⟨δ,hδ,?_⟩\n    intro x hx\n    have hc : |ramp n (F x) - F a| < ε := by\n      simpa only [Function.comp_apply, Real.dist_eq, ha] using hclose hx\n    rw [Real.dist_eq]\n    rw [hr] at hc\n    split_ifs at hc with hlo hmid\n    · have hl := (abs_lt.mp hc).1\n      linarith [neg_abs_le (F a)]\n    · exact hc\n    · have hu := (abs_lt.mp hc).2\n      linarith [le_abs_self (F a)]\n",
+      "candidateHash": "0b67223ef0c871c3e2c2839f70f59b1e841d774c5e59e6bd45524a87317a5472",
+      "proofFileHash": "0b67223ef0c871c3e2c2839f70f59b1e841d774c5e59e6bd45524a87317a5472",
+      "baseline": {
+        "tokens": 2134,
+        "raw_heartbeats": 288818873,
+        "raw_samples": [
+          288867956,
+          288818873,
+          288818238
+        ]
+      },
+      "candidate": {
+        "tokens": 348,
+        "raw_heartbeats": 32131205,
+        "raw_samples": [
+          32130078,
+          32131205,
+          32133205
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:22:29.611750+00:00",
+      "score": 90.85585319254253,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 58,
+      "name": "putnam_1968_a1",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F058.lean",
+      "proof": "theorem putnam_1968_a1\n: 22/7 - Real.pi = ∫ x in (0)..1, x^4 * (1 - x)^4 / (1 + x^2) := by\n  have hfun : (fun x : ℝ => x^4 * (1-x)^4 / (1+x^2)) =\n      fun x => (x^6 - 4*x^5 + 5*x^4 - 4*x^2 + 4) - 4 * (1 / (1+x^2)) := by\n    funext x\n    field_simp\n    <;> ring\n  rw [hfun, intervalIntegral.integral_sub\n    (Continuous.intervalIntegrable (by fun_prop) _ _) (Continuous.intervalIntegrable (by fun_prop (disch := intros; positivity)) _ _),\n    intervalIntegral.integral_const_mul, integral_one_div_one_add_sq]\n  norm_num [integral_id, mul_comm]\n  ring\n",
+      "candidateHash": "d629f763edb942ecabf48596012230777f4416e3ce5756737b0ab17702ee30c3",
+      "proofFileHash": "d629f763edb942ecabf48596012230777f4416e3ce5756737b0ab17702ee30c3",
+      "baseline": {
+        "tokens": 1084,
+        "raw_heartbeats": 60254884,
+        "raw_samples": [
+          60254893,
+          60254200,
+          60254884
+        ]
+      },
+      "candidate": {
+        "tokens": 122,
+        "raw_heartbeats": 9556052,
+        "raw_samples": [
+          9556064,
+          9556052,
+          9556052
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T12:16:34.184092+00:00",
+      "score": 90.9620019436558,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 59,
+      "name": "putnam_1991_b1",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F059.lean",
+      "proof": "theorem putnam_1991_b1\n  (m S : ℤ → ℤ)\n  (A : ℤ)\n  (a : ℕ → ℤ)\n  (hm : ∀ n, 0 ≤ n → (m n) ^ 2 ≤ n ∧ (∀ m' : ℤ, m' ^ 2 ≤ n → m' ≤ m n))\n  (hS : ∀ n, 0 ≤ n → S n = n - (m n) ^ 2)\n  (ha : a 0 = A ∧ (∀ k, a (k + 1) = a k + S (a k)))\n  (hA : A > 0) :\n  (∃ (K : ℕ) (c : ℕ), ∀ k ≥ K, a k = c) ↔ A ∈ (({A : ℤ | ∃ x > 0, A = x ^ 2}) : Set ℤ ) := by\n  have h_nonneg : ∀ k, 0 ≤ a k := by\n    intro k\n    induction k with\n    | zero => simpa [ha.1] using hA.le\n    | succ k ih =>\n      rw [ha.2 k, hS (a k) ih]\n      linarith only [ih, (hm (a k) ih).1]\n  have h_S_pos : ∀ (n : ℤ), 0 ≤ n → (∀ (t : ℤ), n ≠ t ^ 2) → S n ≥ 1 := by\n    intro n hn hnotsquare\n    rw [hS n hn]\n    have hb := (hm n hn).1\n    have hne := hnotsquare (m n)\n    omega\n  have h_no_new_squares (k : ℕ) (hk : ∀ t : ℤ, a k ≠ t ^ 2) :\n      ∀ t : ℤ, a (k+1) ≠ t ^ 2 := by\n    intro t ht\n    have hn := h_nonneg k\n    obtain ⟨hlo, hmax⟩ := hm (a k) hn\n    have hm0 : 0 ≤ m (a k) := hmax 0 (by simpa using hn)\n    have hceil : a k < (m (a k) + 1) ^ 2 := by\n      by_contra hh\n      have hh' := hmax (m (a k) + 1) (le_of_not_gt hh)\n      omega\n    have heq : t ^ 2 = 2 * a k - m (a k) ^ 2 := by\n      rw [ha.2 k, hS (a k) hn] at ht\n      linarith only [ht]\n    have hstrict : m (a k) ^ 2 < a k := lt_of_le_of_ne hlo (Ne.symm (hk _))\n    have hlow : m (a k) < |t| := (sq_lt_sq₀ hm0 (abs_nonneg t)).mp (by\n      rw [sq_abs]\n      nlinarith only [heq, hstrict])\n    have hhigh : |t| < m (a k) + 2 :=\n      (sq_lt_sq₀ (abs_nonneg t) (by omega : 0 ≤ m (a k) + 2)).mp (by\n        rw [sq_abs]\n        nlinarith only [heq, hceil])\n    have habs : |t| = m (a k) + 1 := by omega\n    have hp : 2 * a k = 2 * m (a k) ^ 2 + 2 * m (a k) + 1 := by\n      have hs := sq_abs t\n      rw [habs] at hs\n      nlinarith only [hs, heq]\n    omega\n  have h_strict_increasing (hnot : ∀ t : ℤ, A ≠ t ^ 2) (k : ℕ) : a k < a (k+1) := by\n    have hn : ∀ k, ∀ t : ℤ, a k ≠ t ^ 2 := by\n      intro k\n      induction k with\n      | zero => simpa [ha.1] using hnot\n      | succ k ih => exact h_no_new_squares k ih\n    have hp := h_S_pos (a k) (h_nonneg k) (hn k)\n    rw [ha.2 k]\n    omega\n  constructor\n  · intro hevent\n    by_contra hn\n    have hnot : ∀ t : ℤ, A ≠ t ^ 2 := by\n      intro t ht\n      apply hn\n      refine ⟨|t|, ?_, ?_⟩\n      · apply abs_pos.mpr\n        intro ht0\n        subst t\n        norm_num at ht\n        omega\n      · simpa only [sq_abs] using ht\n    obtain ⟨K, c, hconst⟩ := hevent\n    have hinc := h_strict_increasing hnot K\n    linarith [hconst K le_rfl, hconst (K + 1) (Nat.le_succ K)]\n  · rintro ⟨x, hx, hx'⟩\n    have hS0 : S A = 0 := by\n      rw [hS A (le_of_lt hA)]\n      have hlo := (hm A (le_of_lt hA)).1\n      have hge : x ≤ m A := (hm A (le_of_lt hA)).2 x (le_of_eq hx'.symm)\n      nlinarith\n    have hconstant (k : ℕ) : a k = A := by\n      induction k with\n      | zero => exact ha.1\n      | succ k ih => rw [ha.2 k, ih, hS0, add_zero]\n    refine ⟨0, A.toNat, ?_⟩\n    intro k _\n    rw [hconstant]\n    simp [Int.toNat_of_nonneg (le_of_lt hA)]\n",
+      "candidateHash": "4e4dc3b5911539ab71326e9835b286359fd8802098304d063ad7801fac39a629",
+      "proofFileHash": "4e4dc3b5911539ab71326e9835b286359fd8802098304d063ad7801fac39a629",
+      "baseline": {
+        "tokens": 3313,
+        "raw_heartbeats": 342798568,
+        "raw_samples": [
+          342798568,
+          342798581,
+          342798529
+        ]
+      },
+      "candidate": {
+        "tokens": 764,
+        "raw_heartbeats": 16522907,
+        "raw_samples": [
+          16522907,
+          16522898,
+          16522918
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T11:29:43.809792+00:00",
+      "score": 90.70644174615583,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    },
+    {
+      "row": 60,
+      "name": "putnam_2019_a1",
+      "source": "putnambench",
+      "author": "손지연",
+      "runId": "team-report-jiyeon-20261102",
+      "proofPath": "solutions/team-shared-20261102/jiyeon/F060.lean",
+      "proof": "theorem putnam_2019_a1\n: {n : ℤ | ∃ A B C : ℤ, A ≥ 0 ∧ B ≥ 0 ∧ C ≥ 0 ∧ A^3 + B^3 + C^3 - 3*A*B*C = n} = (({n : ℤ | n ≥ 0 ∧ ¬Int.ModEq 9 n 3 ∧ ¬Int.ModEq 9 n 6}) : Set ℤ ) := by\n  have hmod : ∀ a b c : ZMod 9,\n      a^3 + b^3 + c^3 - 3*a*b*c ≠ 3 ∧\n      a^3 + b^3 + c^3 - 3*a*b*c ≠ 6 := by decide +kernel\n  ext n\n  constructor\n  · rintro ⟨A, B, C, hA, hB, hC, hn⟩\n    have hpos : 0 ≤ (A+B+C) * ((A-B)^2 + (B-C)^2 + (C-A)^2) :=\n      mul_nonneg (by omega) (by positivity)\n    refine ⟨by nlinarith only [hpos, hn], ?_⟩\n    apply (and_congr (not_congr (ZMod.intCast_eq_intCast_iff n 3 9))\n      (not_congr (ZMod.intCast_eq_intCast_iff n 6 9))).mp\n    simpa [← hn] using hmod A B C\n  · rintro ⟨hn, h3, h6⟩\n    change n % 9 ≠ 3 at h3\n    change n % 9 ≠ 6 at h6\n    have cases3 : n % 3 = 0 ∨ n % 3 = 1 ∨ n % 3 = 2 := by omega\n    rcases cases3 with h | h | h\n    · have hn9 : n = 9 * (n / 9) := by omega\n      by_cases hz : n = 0\n      · subst n\n        exact ⟨0, 0, 0, by norm_num⟩\n      · refine ⟨n/9+1, n/9, n/9-1, by omega, by omega, by omega, ?_⟩\n        nlinarith only [hn9]\n    · have he : n = 3 * (n/3) + 1 := by omega\n      refine ⟨n/3+1, n/3, n/3, by omega, by omega, by omega, ?_⟩\n      nlinarith only [he]\n    · have he : n = 3 * (n/3) + 2 := by omega\n      refine ⟨n/3+1, n/3+1, n/3, by omega, by omega, by omega, ?_⟩\n      nlinarith only [he]\n",
+      "candidateHash": "6a25c2f7138ece39862fc0c5ef6edbfc91bfcf352c7b6b018c95dc0bf49a36a1",
+      "proofFileHash": "6a25c2f7138ece39862fc0c5ef6edbfc91bfcf352c7b6b018c95dc0bf49a36a1",
+      "baseline": {
+        "tokens": 2381,
+        "raw_heartbeats": 3223874440,
+        "raw_samples": [
+          3223874489,
+          3223874440,
+          3223874197
+        ]
+      },
+      "candidate": {
+        "tokens": 403,
+        "raw_heartbeats": 21398475,
+        "raw_samples": [
+          21398430,
+          21398506,
+          21398475
+        ]
+      },
+      "versions": [
+        {
+          "version": "v4.27.0",
+          "revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "environment": "putnambench-v4.27.0",
+          "status": "pass",
+          "fingerprint": null
+        },
+        {
+          "version": "v4.26.0",
+          "revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "environment": "putnambench-v4.26.0",
+          "status": "pass",
+          "fingerprint": null
+        }
+      ],
+      "baselineCompatibility": 100,
+      "measuredAt": "2026-11-02T12:23:30.988306+00:00",
+      "score": 94.1368627508447,
+      "currentRunCostUsd": "0",
+      "reportedCostUsd": null,
+      "evidenceLevel": "shared-report",
+      "measurementEnvironment": "putnambench-v4.27.0",
+      "measurementNote": "팀원 공유 측정값 사용 · 이번 통합에서 Lean/API 재실행 없음",
+      "alternatives": [],
+      "evidence": [
+        {
+          "path": "solutions/team-shared-20261102/reported-results.zip",
+          "sha256": "921c27a8612d93010ecc108f819494cd03a59be1f05208eb917be2ec2574bb7b"
+        }
+      ]
+    }
+  ]
+}

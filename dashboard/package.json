@@ -8,7 +8,7 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --host 127.0.0.1",
     "test": "node --experimental-strip-types --test tests/*.test.ts",
-    "data:check": "python3 -B scripts/publish_physlib_cslib_results.py --check && node --experimental-strip-types scripts/check_data.ts",
+    "data:check": "python3 -B scripts/publish_physlib_cslib_results.py --check && python3 -B scripts/publish_team_shared_results.py --check && node --experimental-strip-types scripts/check_data.ts",
     "deploy:check": "node scripts/verify_deployment.mjs"
   },
   "dependencies": {
