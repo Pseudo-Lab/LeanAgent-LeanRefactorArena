@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { aggregate, deltaOf, parseSnapshot, reduction, valueOf } from '../src/lib/model.ts';
+import { aggregate, deltaOf, parseSnapshot, reduction, valueOf, waitingLabel } from '../src/lib/model.ts';
 import type { Problem, Snapshot } from '../src/lib/model.ts';
 
 // Synthetic test inputs; these are not published team results.
@@ -145,4 +145,23 @@ test('partial checks expose paired measurements but not invented compatibility',
   assert.equal(valueOf(p,'improvement'),62.5);
   assert.equal(valueOf(p,'compatibility'),null);
   assert.equal(valueOf(p,'combined'),null);
+});
+test('separately verified measurements remain visible without entering common scores', () => {
+  const data=warmupFixture(); const row=data.problems[0];
+  row.status='separate_verified';
+  row.versions=[...row.versions,{version:'other',revision:'def',status:'pending'}];
+  row.teamResults![0].status='separate_verified';
+  row.teamResults![0].versions=structuredClone(row.versions);
+  const result=parseSnapshot(data); const separate=result.problems[0];
+  assert.deepEqual(separate.candidate,{tokens:50,heartbeats:250});
+  assert.equal(waitingLabel(separate),'별도 검증 완료');
+  for (const metric of ['tokens','heartbeats','improvement','compatibility','combined'] as const) assert.equal(valueOf(separate,metric),null);
+  assert.equal(aggregate(result.problems,'improvement').count,14);
+  assert.equal(aggregate(result.problems,'improvement').value,62.5);
+  for (const status of ['pending','fail'] as const) {
+    const invalid=structuredClone(data);
+    invalid.problems[0].versions[0].status=status;
+    invalid.problems[0].teamResults![0].versions[0].status=status;
+    assert.throws(()=>parseSnapshot(invalid),/별도 검증/);
+  }
 });

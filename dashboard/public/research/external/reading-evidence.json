@@ -1,0 +1,96 @@
+{
+  "quoteEvidence": [
+    {
+      "id": "2607.09564",
+      "quote": "Then, a bidirectional elaborator translates the surface terms to core language terms, inserting all the omitted annotations.",
+      "quoteWords": 17,
+      "pdfPages": [
+        4
+      ],
+      "status": "pdf_phrase_verified"
+    },
+    {
+      "id": "2507.20267",
+      "quote": "A pattern has three components: sequence of inputs 𝐼, sequence of proof steps 𝑆, and set of outputs 𝑂.",
+      "quoteWords": 19,
+      "pdfPages": [
+        2
+      ],
+      "status": "pdf_phrase_verified"
+    },
+    {
+      "id": "2607.20188",
+      "quote": "Proof. By structural induction on M and subordinate case analysis on the derivation of M ⇒N.",
+      "quoteWords": 17,
+      "pdfPages": [
+        9
+      ],
+      "status": "pdf_phrase_verified"
+    },
+    {
+      "id": "2607.12652",
+      "quote": "Using Beluga’s copattern-based coinduction, we obtain concise and compositional proofs, including compatibility properties and a context lemma characterizing barbed precongruence.",
+      "quoteWords": 20,
+      "pdfPages": [
+        1
+      ],
+      "status": "pdf_phrase_verified"
+    },
+    {
+      "id": "2610.22339",
+      "quote": "This graph provides explicit formal dependency structure that complements embedding-based semantic similarity.",
+      "quoteWords": 12,
+      "pdfPages": [
+        4
+      ],
+      "status": "pdf_phrase_verified"
+    },
+    {
+      "id": "2606.04883",
+      "quote": "We use the number of output tokens as a proxy for the computational cost of each attempt.",
+      "quoteWords": 17,
+      "pdfPages": [
+        4
+      ],
+      "status": "pdf_phrase_verified"
+    }
+  ],
+  "pdfProvenance": [
+    {
+      "id": "2607.09564",
+      "sha256": "d4824d44795f8da787754d0591c12dc3132e7fbae8b2f3522a93ef268fecbc0a",
+      "pages": 45,
+      "source": "https://arxiv.org/pdf/2607.09564"
+    },
+    {
+      "id": "2507.20267",
+      "sha256": "88db62cc30820471c22bef93bc0a6a814f12cb16567984279f61cdd1fe5896d0",
+      "pages": 6,
+      "source": "https://arxiv.org/pdf/2507.20267"
+    },
+    {
+      "id": "2607.20188",
+      "sha256": "8d2c12278b28915e8d7bf003acd76c51985baadf661785a677273c79e15b9d16",
+      "pages": 19,
+      "source": "https://arxiv.org/pdf/2607.20188"
+    },
+    {
+      "id": "2607.12652",
+      "sha256": "f7d8f15f223491d56b93fcb8e9588d86f1c91fa96d01bc5b944dbdd0a0ce15f8",
+      "pages": 17,
+      "source": "https://arxiv.org/pdf/2607.12652"
+    },
+    {
+      "id": "2610.22339",
+      "sha256": "7175dc1ecf9f99ba2972681fcc6e46294a52bab3c0cff17675bbacb976e566d4",
+      "pages": 32,
+      "source": "https://arxiv.org/pdf/2610.22339"
+    },
+    {
+      "id": "2606.04883",
+      "sha256": "a1e35043b31927927e0f862549cbde3099136ea4719b57749582ebfec024a4cd",
+      "pages": 15,
+      "source": "https://arxiv.org/pdf/2606.04883"
+    }
+  ]
+}

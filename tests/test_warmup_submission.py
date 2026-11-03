@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -14,9 +15,14 @@ spec.loader.exec_module(exporter)
 
 
 class SubmissionTests(unittest.TestCase):
-    def test_current_team_p12_requires_explicit_fallback(self):
-        with self.assertRaisesRegex(ValueError, 'expected the exact benchmark statement'):
-            exporter.build_bundle()
+    def test_current_p12_is_a_single_selected_declaration(self):
+        payload, audit = exporter.build_bundle()
+        rows = [json.loads(line) for line in payload.decode().splitlines()]
+        self.assertEqual(rows[11]['proof'], (ROOT / 'submissions/warmup/best/P12.lean').read_text())
+        self.assertEqual(audit['problems'][11]['selection'], 'team_best')
+        self.assertEqual(audit['problems'][11]['localStatus'], 'separate_verified')
+        self.assertFalse(audit['officiallySubmitted'])
+        self.assertIsNone(audit['officialEvaluationPassed'])
 
     def test_bundle_preserves_every_selected_source(self):
         payload, audit = exporter.build_bundle(p12_reference=True)
@@ -25,8 +31,13 @@ class SubmissionTests(unittest.TestCase):
         self.assertEqual(len({r['name'] for r in rows}), 15)
         self.assertTrue(all(set(r) == {'name', 'proof'} for r in rows))
         manifest = json.loads((ROOT / 'submissions/warmup/manifest.json').read_text())
+        snapshot_bytes = (ROOT / 'dashboard/public/data/warmup-team-results.json').read_bytes()
+        self.assertEqual(manifest['dashboardSnapshotSha256'], hashlib.sha256(snapshot_bytes).hexdigest())
+        snapshot = {p['id']: p for p in json.loads(snapshot_bytes)['problems']}
         benchmark = {r['name']: r for r in map(json.loads, (ROOT / manifest['benchmarkSnapshot']).read_text().splitlines())}
         for entry, row in zip(manifest['problems'], rows):
+            self.assertEqual(entry['sha256'], snapshot[entry['id']]['candidateHash'])
+            self.assertEqual(entry['versions'], snapshot[entry['id']]['versions'])
             self.assertEqual(row['name'], entry['name'])
             expected = (benchmark[row['name']]['src'] if entry['id'] == 12 else
                         (ROOT / 'submissions/warmup' / entry['path']).read_text())

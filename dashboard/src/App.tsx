@@ -7,6 +7,10 @@ import { SummaryCards } from './components/SummaryCards';
 import { TeamActivity } from './components/TeamActivity';
 import { ProofResearch } from './components/ProofResearch';
 import { FinalBaselines } from './components/FinalBaselines';
+import { LiteratureMethods } from './components/LiteratureMethods';
+import { WarmupResearch } from './components/WarmupResearch';
+import { ExternalResearch } from './components/ExternalResearch';
+import research from '../public/research/warmup15/experiment.json';
 import { parseSnapshot, valueOf } from './lib/model';
 import type { Metric, Problem, Snapshot } from './lib/model';
 
@@ -52,6 +56,10 @@ function WarmupDashboard() {
     return () => controller.abort();
   }, []);
 
+  useEffect(() => {
+    if (loaded && window.location.hash) document.getElementById(window.location.hash.slice(1))?.scrollIntoView();
+  }, [loaded]);
+
   const snapshot = snapshots.find(s => s.id === snapshotId) ?? snapshots[0];
   function chooseSnapshot(id: string) { setSnapshotId(id); setSelectedId(1); setQuery(''); setSource('all'); setSort('number'); }
   function chooseProblem(p: Problem) {
@@ -90,21 +98,25 @@ function WarmupDashboard() {
 
   return <>
     <main id="main">
-      <div className="page-heading"><div><h1>{snapshot?.dataset === 'warmup' ? '웜업 15문제 · 팀 실험 결과' : '더 짧은 증명, 더 나은 점수.'}</h1><p>팀원이 공유한 후보와 공통 환경에서 재검증한 결과를 확인하세요.</p></div><div className="file-actions"><input ref={input} type="file" accept=".json,application/json" className="sr-only" tabIndex={-1} aria-label="JSON 파일 선택" onChange={e => void importFile(e.target.files?.[0])}/><button className="button import-button" onClick={() => input.current?.click()}><Upload size={16}/>JSON 불러오기</button><button className="button icon-button" onClick={exportSnapshot} disabled={!snapshot} aria-label="현재 스냅샷 JSON 내보내기" title="현재 스냅샷 JSON 내보내기"><Download size={17}/></button></div></div>
+      <div className="page-heading"><div><h1>{snapshot?.dataset === 'warmup' ? '웜업 15문제 · 증명 개선 현황' : '더 짧은 증명, 더 나은 점수.'}</h1><p>증명이 얼마나 짧고 가벼워졌는지, 어떤 버전과 비용 조건을 확인했는지 보여줍니다.</p></div><div className="file-actions"><input ref={input} type="file" accept=".json,application/json" className="sr-only" tabIndex={-1} aria-label="JSON 파일 선택" onChange={e => void importFile(e.target.files?.[0])}/><button className="button import-button" onClick={() => input.current?.click()}><Upload size={16}/>JSON 불러오기</button><button className="button icon-button" onClick={exportSnapshot} disabled={!snapshot} aria-label="현재 스냅샷 JSON 내보내기" title="현재 스냅샷 JSON 내보내기"><Download size={17}/></button></div></div>
       {error ? <div role="alert" className="notification error"><Info size={17}/><span>{error}</span><button aria-label="오류 닫기" onClick={() => setError('')}><X size={16}/></button></div> : null}
       {notice ? <div role="status" className="notification success"><Check size={17}/><span>{notice}</span><button aria-label="알림 닫기" onClick={() => setNotice('')}><X size={16}/></button></div> : null}
       {!snapshot ? <div className="loading-state">{error ? <button className="button" onClick={() => window.location.reload()}>다시 불러오기</button> : loaded ? '아직 등록된 결과가 없습니다.' : '결과를 불러오고 있습니다…'}</div> : <>
-        <div className="dataset-bar">{snapshot.dataset === 'warmup' ? <span className="warmup-label">P01–P15 · 팀원 후보 재검증</span> : <><div className="dataset-tabs" role="group" aria-label="문제 보기"><button aria-pressed={scope === 'all'} className={scope === 'all' ? 'active' : ''} onClick={() => setScope('all')}>전체 <span>{snapshot.problems.length}</span></button><button aria-pressed={scope === 'released'} className={scope === 'released' ? 'active' : ''} onClick={() => setScope('released')}>현재 공개 <span>{snapshot.problems.filter(p => p.status !== 'unreleased').length}</span></button></div><span className="release-schedule">{snapshot.problems.some(p => p.status === 'unreleased') ? `${snapshot.problems.filter(p => p.status === 'unreleased').length}문제 · 공개 대기` : '전체 문제 공개'}</span></>}<label className="snapshot-picker"><span>실험 기록</span><select aria-label="실험 기록" value={snapshot.id} onChange={e => chooseSnapshot(e.target.value)}>{snapshots.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}</select></label></div>
-        <nav className="section-nav" aria-label="대시보드 섹션"><a href="#results">문제별 점수</a><a href="#team-records">팀원 전체 PR · 30</a><a href="#p09-research">P04·P09 연구</a></nav>
+        <div className="dataset-bar">{snapshot.dataset === 'warmup' ? <span className="warmup-label">P01–P15 · 증명 개선·지정 버전 검증</span> : <><div className="dataset-tabs" role="group" aria-label="문제 보기"><button aria-pressed={scope === 'all'} className={scope === 'all' ? 'active' : ''} onClick={() => setScope('all')}>전체 <span>{snapshot.problems.length}</span></button><button aria-pressed={scope === 'released'} className={scope === 'released' ? 'active' : ''} onClick={() => setScope('released')}>현재 공개 <span>{snapshot.problems.filter(p => p.status !== 'unreleased').length}</span></button></div><span className="release-schedule">{snapshot.problems.some(p => p.status === 'unreleased') ? `${snapshot.problems.filter(p => p.status === 'unreleased').length}문제 · 공개 대기` : '전체 문제 공개'}</span></>}<label className="snapshot-picker"><span>실험 기록</span><select aria-label="실험 기록" value={snapshot.id} onChange={e => chooseSnapshot(e.target.value)}>{snapshots.map(s => <option key={s.id} value={s.id}>{s.label}</option>)}</select></label></div>
+        <nav className="section-nav" aria-label="대시보드 섹션"><a href="#results">문제별 점수</a><a href="#warmup-research">15문제 적용 결과</a><a href="#external-research">문제별 추가 논문 · 6</a><a href="#team-records">팀원 전체 PR · 30</a><a href="#p09-research">P04·P09 연구</a><a href="#literature-methods">문헌·적용 기법 · 63</a></nav>
+        {snapshot.dataset === 'warmup' ? <p className="source-disclosure budget-note"><strong>예산 확인 전</strong> · 비공개 모델 트랙은 문제당 API 비용 최대 $3이며 OpenRouter의 모든 호출·재시도·폐기 후보를 합산합니다. 현재 실험의 모델 비용은 미계측으로, $3 이내 재현은 확인 전입니다. 표의 토큰은 증명 길이입니다. <a href={research.budget.sourceUrl} target="_blank" rel="noreferrer">공식 규칙</a></p> : null}
         <div id="results"><SummaryCards snapshot={snapshot}/></div>
         <div className={`workbench ${scope === 'all' && snapshot.problems.length === 50 ? 'competition-layout' : ''}`}>
           <ProblemGrid {...{ snapshot, metric, query, source, sort, visible, selected }} compact={scope === 'all'} onMetric={setMetric} onQuery={setQuery} onSource={setSource} onSort={setSort} onSelect={chooseProblem}/>
           <DetailPanel problem={selected} metric={metric} snapshot={snapshot}/>
         </div>
+        <WarmupResearch publishedSnapshot={snapshots.find(s => s.id === 'warmup-team-results')}/>
+        <ExternalResearch/>
         <TeamActivity/>
         <ProofResearch/>
+        <LiteratureMethods/>
         <ScoringGuide warmup={snapshot.dataset === 'warmup'}/>
-        <footer><span>LeanArena <span className="dot-separator">/</span> 가짜연구소</span><span>데이터 기준 {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeZone: 'Asia/Seoul' }).format(new Date(snapshot.measuredAt))} · 저장된 실험 스냅샷</span></footer>
+        <footer><span>LeanArena <span className="dot-separator">/</span> 가짜연구소</span><span>자료 갱신 {new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeZone: 'Asia/Seoul' }).format(new Date(snapshot.measuredAt))} · 저장된 실험 스냅샷</span></footer>
       </>}
     </main>
   </>;

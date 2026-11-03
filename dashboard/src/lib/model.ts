@@ -1,5 +1,5 @@
 export type Metric = 'improvement' | 'tokens' | 'heartbeats' | 'compatibility' | 'combined';
-export type ProblemStatus = 'measured' | 'pending' | 'unreleased' | 'failed' | 'unsubmitted' | 'missing' | 'blocked' | 'unsupported' | 'partial' | 'proof_failed';
+export type ProblemStatus = 'measured' | 'pending' | 'unreleased' | 'failed' | 'unsubmitted' | 'missing' | 'blocked' | 'unsupported' | 'partial' | 'proof_failed' | 'separate_verified';
 export type VersionCheck = { version: string; revision: string; status: 'pass' | 'fail' | 'pending' };
 export type Measurement = { tokens: number; heartbeats: number };
 export type Problem = {
@@ -54,6 +54,7 @@ export function reduction(before: number, after: number): number | null {
 }
 export function valueOf(problem: Problem, metric: Metric): number | null {
   if (metric === 'combined' && ['failed', 'unsubmitted'].includes(problem.status)) return 0;
+  // Separate protocol results retain their measurements but never enter common scores.
   if (!['measured', 'partial'].includes(problem.status) || !problem.baseline || !problem.candidate) return null;
   const token = reduction(problem.baseline.tokens, problem.candidate.tokens);
   const hb = reduction(problem.baseline.heartbeats, problem.candidate.heartbeats);
@@ -82,6 +83,7 @@ export function waitingLabel(problem: Problem) {
   if (problem.status === 'missing') return '자료 미확보';
   if (problem.status === 'blocked') return '환경 준비 실패';
   if (problem.status === 'unsupported') return '검증기 지원 대기';
+  if (problem.status === 'separate_verified') return '별도 검증 완료';
   if (problem.status === 'proof_failed') return '증명 검증 실패';
   if (problem.status === 'partial') return '일부 버전 검증';
   if (problem.status === 'unreleased') return '공개 대기';
@@ -103,10 +105,10 @@ function validateProblem(p: unknown, count: number, ids: Set<number>) {
     if (!isRecord(p) || typeof p.id !== 'number' || !Number.isInteger(p.id) || p.id < 1 || p.id > count || ids.has(p.id)) throw new Error(`문제 번호는 1–${count} 사이에서 중복 없이 지정하세요.`);
     ids.add(p.id);
     for (const k of ['name', 'source', 'environment', 'candidateHash', 'note']) requireText(p[k], `P${p.id} ${k}`);
-    if (!['measured', 'pending', 'unreleased', 'failed', 'unsubmitted', 'missing', 'blocked', 'unsupported', 'partial', 'proof_failed'].includes(String(p.status))) throw new Error(`P${p.id}: 알 수 없는 상태입니다.`);
+    if (!['measured', 'pending', 'unreleased', 'failed', 'unsubmitted', 'missing', 'blocked', 'unsupported', 'partial', 'proof_failed', 'separate_verified'].includes(String(p.status))) throw new Error(`P${p.id}: 알 수 없는 상태입니다.`);
     measurement(p.baseline, `P${p.id} 원본`); measurement(p.candidate, `P${p.id} 후보`);
-    if (['measured', 'partial'].includes(String(p.status)) && (!p.baseline || !p.candidate || !p.name || !p.environment)) throw new Error(`P${p.id}: 측정된 문제에는 원본·후보·이름·환경이 필요합니다.`);
-    if (!['measured', 'partial'].includes(String(p.status)) && p.candidate !== null) throw new Error(`P${p.id}: 미측정·실패 문제의 후보 측정값은 null이어야 합니다.`);
+    if (['measured', 'partial', 'separate_verified'].includes(String(p.status)) && (!p.baseline || !p.candidate || !p.name || !p.environment)) throw new Error(`P${p.id}: 측정된 문제에는 원본·후보·이름·환경이 필요합니다.`);
+    if (!['measured', 'partial', 'separate_verified'].includes(String(p.status)) && p.candidate !== null) throw new Error(`P${p.id}: 미측정·실패 문제의 후보 측정값은 null이어야 합니다.`);
     if (p.baselineCompatibility !== null && (typeof p.baselineCompatibility !== 'number' || !Number.isFinite(p.baselineCompatibility) || p.baselineCompatibility < 0 || p.baselineCompatibility > 100)) throw new Error(`P${p.id}: 원본 호환성은 0–100 또는 null이어야 합니다.`);
     if (!Array.isArray(p.versions) || p.versions.length > 100) throw new Error(`P${p.id}: 버전 목록이 올바르지 않습니다.`);
     const pins = new Set<string>();
@@ -117,6 +119,7 @@ function validateProblem(p: unknown, count: number, ids: Set<number>) {
       if (!v.version || pins.has(pin) || !['pass', 'fail', 'pending'].includes(String(v.status))) throw new Error(`P${p.id}: 중복되거나 잘못된 버전 검사입니다.`);
       pins.add(pin);
     }
+    if (p.status === 'separate_verified' && (!p.versions.some(v => v.status === 'pass') || p.versions.some(v => v.status === 'fail'))) throw new Error(`P${p.id}: 별도 검증에는 통과한 버전이 필요하며 실패 버전을 숨길 수 없습니다.`);
     if (!Array.isArray(p.evidence) || p.evidence.length > 100 || p.evidence.some(e => typeof e !== 'string' || e.length > 2000)) throw new Error(`P${p.id}: 근거 목록이 올바르지 않습니다.`);
 }
 
@@ -143,7 +146,7 @@ export function parseSnapshot(input: unknown): Snapshot {
         for (const k of ['id','author','sourcePath','sourceCommit','sourceState','candidateHash','note','environment']) requireText(c[k], k);
         requireText(c.proof, 'proof', 200000);
         if (!c.author || !c.proof || !['committed', 'working-tree-snapshot'].includes(String(c.sourceState)) || !/^[a-f0-9]{40}$/.test(String(c.sourceCommit))) throw new Error('팀 후보 출처가 올바르지 않습니다.');
-        if (!['measured','partial','pending','blocked','unsupported','proof_failed'].includes(String(c.status))) throw new Error('팀 후보 검증 상태가 올바르지 않습니다.');
+        if (!['measured','partial','pending','blocked','unsupported','proof_failed','separate_verified'].includes(String(c.status))) throw new Error('팀 후보 검증 상태가 올바르지 않습니다.');
         if (!c.id || candidateIds.has(c.id as string) || !/^[a-f0-9]{64}$/.test(String(c.candidateHash))) throw new Error('팀 후보 ID 또는 해시 오류');
         candidateIds.add(c.id as string);
         // Reuse the result contract, without accepting recursively nested candidates.

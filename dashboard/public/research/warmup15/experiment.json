@@ -1,0 +1,327 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "state": "in_progress",
+  "core": "정소미 META·CREATE·REPAIR, 고정 명제, 실패 포함 기록, 토큰·HB·Pareto 선택",
+  "executionMode": "후보 작성과 검증 실행에는 Codex 보조를 사용했습니다. 문제별 비용을 제한한 대회용 자동 재현 실행은 아직 확인하지 않았습니다.",
+  "measurement": "HB는 Lean이 센 내부 작업량을1000으로 나눈 정수 단위입니다. 같은 원본·전체 문맥·주 버전에서 비교하고 다른 버전은 호환성 근거로 보존합니다.",
+  "rows": [
+    {
+      "id": 1,
+      "method": "구조 골격 변경",
+      "decision": "넓은 자동화 변경은 비용이 늘어 탈락했습니다. 정규화·마무리를 유지하고 귀납 구조만 바꾼 통제안은43/1922→39/1269로 개선됐습니다. 원본·시작·수정본 각각3회 확인, 추가+6.9506점.",
+      "status": "새 개선 확인",
+      "credit": "권주원 → 정소미",
+      "previous": {
+        "tokens": 46,
+        "heartbeats": 4660
+      },
+      "references": [
+        "2605.22885"
+      ],
+      "selectedHash": "94fa7cf232cd193d79d60bd114a21b9070699481c1a21bbc32862b43bf097248",
+      "trialEvidence": null
+    },
+    {
+      "id": 2,
+      "method": "함수 귀납으로 구조 축약",
+      "decision": "기존27/481에서20/329로 추가 개선했습니다. 원본·시작·수정본을 각각3회 검증했습니다.",
+      "status": "새 개선 확인",
+      "credit": "권주원 → 정소미",
+      "previous": {
+        "tokens": 43,
+        "heartbeats": 2497
+      },
+      "references": [
+        "2605.22885",
+        "2410.04753"
+      ],
+      "selectedHash": "bf7a6f7ff9c0b76d903beb2e011ed3758fab790de2d88116607d197278a9aa05",
+      "trialEvidence": null
+    },
+    {
+      "id": 3,
+      "method": "불필요한 국소 사실 제거",
+      "decision": "78토큰 축약은 필요한 길이 가정을 지워 실패했습니다.80토큰/HB230을 유지하고 남은 버전도 원본·후보 각각3회 검증해 지정3버전에서 통과했습니다.",
+      "status": "기존 후보 재선정 · 호환성 완료",
+      "credit": "권주원",
+      "previous": {
+        "tokens": 90,
+        "heartbeats": 162
+      },
+      "references": [
+        "2609.38384"
+      ],
+      "selectedHash": "af9eeefe9c65365b6b5f4dbc1e0a4fcebfa3f33cebc644f5803e021491da298d",
+      "trialEvidence": null
+    },
+    {
+      "id": 4,
+      "method": "국소 삭제·목표 중심 대체",
+      "decision": "세 가지 새 변형은 검증에 실패했습니다. 검증된123토큰/HB1384 후보를 유지합니다.",
+      "status": "기존 후보 재선정",
+      "credit": "권주원 · 정소미",
+      "previous": {
+        "tokens": 123,
+        "heartbeats": 1406
+      },
+      "references": [
+        "2609.38384"
+      ],
+      "selectedHash": "b9350a3add1ed182b93fc4731c657a971caa1412c0690fb942af26aa14c469a9",
+      "trialEvidence": null
+    },
+    {
+      "id": 5,
+      "method": "공유 정규성 사실·오류 기반 수정",
+      "decision": "같은 조건의 527토큰/HB9,491에서 528토큰/HB9,465로 미세 절충. 원본·시작·새 후보 각각3회 확인했으며, 추가 점수는 약+0.012점입니다.",
+      "status": "새 미세 절충 확인",
+      "credit": "권주원 → 정소미",
+      "previous": {
+        "tokens": 721,
+        "heartbeats": 11318
+      },
+      "references": [
+        "2606.03743",
+        "2610.26942"
+      ],
+      "selectedHash": "fcbba98915d7e303b859b5d985aa14aa6c40698d68645fb9f9489184721428c9",
+      "trialEvidence": null
+    },
+    {
+      "id": 6,
+      "method": "목표 문맥 단순화",
+      "decision": "440토큰으로 줄인 후보는HB24050으로 비용이 늘었습니다.450토큰/HB14127을 유지합니다.",
+      "status": "기존 유지",
+      "credit": "권주원",
+      "previous": {
+        "tokens": 450,
+        "heartbeats": 14127
+      },
+      "references": [
+        "2410.04753",
+        "2510.15700"
+      ],
+      "selectedHash": "13fa4d936f31ad00fb889421ab5d7c9ad3fdd602e5a2c7e9f28282d5253875f1",
+      "trialEvidence": null
+    },
+    {
+      "id": 7,
+      "method": "증명 골격·생성자·오류 기반 수정",
+      "decision": "새 변형8개 중3개 통과·5개 실패를 기록했습니다. 토큰·HB 감소율 평균에서293토큰/HB1543이 가장 좋아 유지했습니다.",
+      "status": "기존 후보 재선정",
+      "credit": "권주원",
+      "previous": {
+        "tokens": 300,
+        "heartbeats": 45378
+      },
+      "references": [
+        "2605.22885",
+        "2610.26942"
+      ],
+      "selectedHash": "a399f146582a9b68ce9cd3f020993d293a3a030fe6657cf10a76485ea7b7d919",
+      "trialEvidence": null
+    },
+    {
+      "id": 8,
+      "method": "분기 통합·직접 생성자·refine",
+      "decision": "분기 통합·직접 생성자·refine를 적용해221/451→210/434로 두 지표를 개선했습니다. 지정4버전에서 검증을 통과했습니다.",
+      "status": "새 개선 확인",
+      "credit": "권주원 → 정소미 · 박선영 PR30 참고",
+      "previous": {
+        "tokens": 412,
+        "heartbeats": 1318
+      },
+      "references": [
+        "2605.20244",
+        "2609.38384"
+      ],
+      "selectedHash": "0c537d3538abe01527c7e76b96b1924a4e124f22c12f602b6eacdc29ec161db5",
+      "trialEvidence": null
+    },
+    {
+      "id": 9,
+      "method": "국소 자동화 대체·계측 교차 확인",
+      "decision": "76토큰 후보는HB가 늘었고79토큰 미세 변형은 공통 평가기에서HB512로 같았습니다.79/512를 유지하며 지정3버전 통과를 확인했습니다.",
+      "status": "기존 유지 · 호환성 완료",
+      "credit": "정소미 · 권주원",
+      "previous": {
+        "tokens": 79,
+        "heartbeats": 512
+      },
+      "references": [
+        "2609.38384",
+        "2605.20244"
+      ],
+      "selectedHash": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
+      "trialEvidence": null
+    },
+    {
+      "id": 10,
+      "method": "카디널리티 목표에 맞춘 정리 재사용",
+      "decision": "484토큰/HB8807은 네 버전에서 통과했습니다.481토큰 후보는 타입 추론 오류로 네 버전에서 실패해 채택하지 않았습니다. 명시적 타입 전파 수정안은 아직 검증 전입니다.",
+      "status": "기존 검증본 유지 · 새 축약 실패",
+      "credit": "박성호 → 정소미",
+      "previous": {
+        "tokens": 484,
+        "heartbeats": 8807
+      },
+      "references": [
+        "2306.15626"
+      ],
+      "selectedHash": "73cd94253cff6e1ccc075c49eccb86e828df51fe7dd7bc91f8b732a5ef3c02ed",
+      "trialEvidence": null
+    },
+    {
+      "id": 11,
+      "method": "큰 블록 구조 변경·정의상 같은 식 활용",
+      "decision": "큰 블록 구조 변경과 중간 등식 축약을 순서대로 시험했습니다.1656/HB41620→966/HB21003→891/HB20696. 세 지정 버전에서 각각3회 통과했으며 종전 대표 대비+43.0439점입니다.",
+      "status": "새 개선 확인 · 호환성 완료",
+      "credit": "박선영 PR30 → 정소미",
+      "previous": {
+        "tokens": 1656,
+        "heartbeats": 41620
+      },
+      "references": [
+        "2605.20244",
+        "2606.03743"
+      ],
+      "selectedHash": "1947d44782d33fe4dc34df3afff34c46005505c22dfc7fdc5f97064431f67f1c",
+      "trialEvidence": null
+    },
+    {
+      "id": 12,
+      "method": "단일 선언 구성·전체 문맥 독립 검증",
+      "decision": "원본1353/HB9198과 후보886/HB6575를 v4.31.0에서 각각3회 확인했습니다. 동일 후보는 3/3 지정 버전을 통과했습니다. 별도 계측 경로이므로 공통 평균에 합산하지 않습니다.",
+      "status": "별도 검증 완료 · 지정 3버전 통과",
+      "credit": "손지연 PR27",
+      "previous": null,
+      "references": [
+        "2306.15626"
+      ],
+      "selectedHash": "be1118ac252a8eecb4a94b4788dd981dba9c21bc8214ad8478e5a0d1e7a0acc8",
+      "trialEvidence": "/research/warmup15/p12-v2.json"
+    },
+    {
+      "id": 13,
+      "method": "기존 후보 재탐색·동일 조건 재검증",
+      "decision": "동일 조건에서 후보를 다시 비교했습니다.183토큰/HB2996이 종전259토큰/HB2931보다 평균 점수가 좋아 선택했습니다. 새 증명 생성과 기존 후보 재선정을 구분합니다.",
+      "status": "기존 후보 재선정",
+      "credit": "권주원",
+      "previous": {
+        "tokens": 259,
+        "heartbeats": 2931
+      },
+      "references": [
+        "2605.20244"
+      ],
+      "selectedHash": "639587d781669920f53805ab49450d40002e358e33cff361e679bcbbb1f09348",
+      "trialEvidence": null
+    },
+    {
+      "id": 14,
+      "method": "라이브러리 정리 검색·재사용",
+      "decision": "기존 정리 재사용으로364/HB1699→105/HB2433의 절충을 얻었습니다. 주 환경의 추가 개선 점수는+7.1102점이며 지정2버전에서 각각3회 통과했습니다.",
+      "status": "새 개선 확인",
+      "credit": "박채원 → 정소미",
+      "previous": {
+        "tokens": 364,
+        "heartbeats": 1699
+      },
+      "references": [
+        "2306.15626"
+      ],
+      "selectedHash": "e00f8c3bd53b158a79d09d1a568dea9f9812e6b81a3c9c2c6620dff6c3b460ab",
+      "trialEvidence": null
+    },
+    {
+      "id": 15,
+      "method": "오류 문맥 기반 수정·중복 cast 제거",
+      "decision": "새 전술을 쓴282토큰 후보는 이전 버전에서 실패했습니다. 원래 convert를 유지하고 push_cast만 제거한281토큰 후보는 세 버전에서 각각3회 통과해283/HB2107→281/HB2015로 개선됐습니다.",
+      "status": "새 개선 확인 · 호환성 완료",
+      "credit": "박채원 → 정소미",
+      "previous": {
+        "tokens": 283,
+        "heartbeats": 2107
+      },
+      "references": [
+        "2610.26942"
+      ],
+      "selectedHash": "6c1c3db0a58692ae2d9fd86c4dca851b76e23119d425c0c884d1abfda73051c3",
+      "trialEvidence": null
+    }
+  ],
+  "routeChanges": [
+    {
+      "trigger": "저장소 전체 문헌 조사",
+      "route": "원문 검색 → 적용 가능한 방법 절 확인 →8기법군 분류",
+      "outcome": "arXiv61편과ACL2편의 적용 범위를 기록. 추가4편은 저장소 문헌과 구분."
+    },
+    {
+      "trigger": "강한 기존 후보 확보",
+      "route": "구조 골격 변경·국소 축약을 같은 출발 후보에 적용",
+      "outcome": "P02 함수 귀납, P08 직접 생성자·refine에서 추가 개선."
+    },
+    {
+      "trigger": "실제 컴파일 오류",
+      "route": "전체 재표집 대신 해당 목표의 제한된 수정",
+      "outcome": "P05 C3 정규성 공유 및P15 convert! 후보. 실패와 수정 이력을 함께 보존."
+    },
+    {
+      "trigger": "정상 원문이 검증기 입력 검사에서 거절됨",
+      "route": "증명 실패와 검증기 지원 범위를 분리",
+      "outcome": "P12는 별도 전체 문맥 검증 경로로 확인하며 공통 평균에 포함하지 않습니다."
+    },
+    {
+      "trigger": "미세 이득 또는 짧아진 후보",
+      "route": "mandela: 같은 계측에서 원본·기존·새후보 재측정",
+      "outcome": "P09의1HB차이는 공통 평가기에서 사라져 기존 후보 유지."
+    },
+    {
+      "trigger": "게시 전 검토",
+      "route": "sip: 독립 읽기·출처·일관성 확인",
+      "outcome": "진단 실행이 배포를 발생시키지 않도록 조건 보완. 미검증 후보는 pending 유지."
+    },
+    {
+      "trigger": "P15의 지정 버전에서 새 전술 미지원",
+      "route": "축소 문맥의 성공을 보류하고 실제 버전에 맞는 최소 수정으로 전환",
+      "outcome": "convert! 282토큰 후보는 실패 기록. 원래 convert를 유지한281토큰 후보를 별도 검증."
+    },
+    {
+      "trigger": "P03 module 안의 공리 수집이 일반 정리까지 공리로 보고함",
+      "route": "원본 대조 → 순수 전체파일 export → 별도 비module 파일에서 정확한 결과물 공리 감사",
+      "outcome": "원본·80토큰 후보의 세 허용 공리를 확인. 초기 도구 오류는 보존하고 주환경80/HB230은 변경하지 않음."
+    },
+    {
+      "trigger": "P01의 첫 구조 변경과 넓은 자동화가 비용 증가",
+      "route": "변경 원인 분리 → 기존 마무리를 유지한 함수 귀납 통제안",
+      "outcome": "같은 출발 후보의43/HB1922에서39/HB1269로 줄어 원본·두후보각3회 확인 후 채택."
+    },
+    {
+      "trigger": "문제별 비용·재현 범위 점검",
+      "route": "증명 개선 목적 정렬 → 검증된 성능 결과 동기화 → 비용 적합성 확인",
+      "outcome": "모델 비용은 미계측으로 표시합니다. 다음 대회용 실행은 문제별 비용 장부와 예산 제한을 갖춰 재현해야 합니다."
+    },
+    {
+      "trigger": "기존 목록 밖의 문제별 문헌 확장",
+      "route": "orx-lit-review: 문제별 막힌 지점 검색 → 원문 방법·한계 대조 → 제한된 후속 실험 설계",
+      "outcome": "새6편을 기존63편·종전추가4편과 분리했습니다. P05–P12를 우선 대응하고 나머지 분야의 미확보를 표시했습니다. 새6편의 추가 성능 효과는 아직 검증 전입니다."
+    }
+  ],
+  "adaptationScope": "논문의 적용 가능한 방법군을 참고한 실험입니다. 학습된 검색기·강화학습·그래프 검색기 전체를 재현하지 않았습니다. P12의 입력 검사 보완은 자체 검증기 수정입니다.",
+  "budget": {
+    "track": "closed-source LLM",
+    "perProblemUsdCap": 3,
+    "gateway": "OpenRouter",
+    "includes": "모든 호출, 재시도와 폐기 후보. provider 공개 정가 기준.",
+    "checkedAt": "2026-10-25T22:32:32.706125+00:00",
+    "sourceUrl": "https://huggingface.co/spaces/delta-lab-ai/lean-refactor-arena/blob/main/app.py",
+    "sourceSha256": "860491bad9181a02386f030266b97526410f4f5cc80ac64f0b83dd90008f0adf",
+    "currentExperimentCostUsd": null,
+    "compliance": "unverified",
+    "explanation": "현재 증명 개선 실험은 완전한 문제별 모델 비용 장부와 예산 제한 OpenRouter 재현 실행이 없어$3 이내 결과로 인증하지 않습니다."
+  },
+  "understoodAs": "웜업15문제의 증명 길이·HB·호환성을 개선하는 연구가 중심이며 검증기 수정은 판정 오류를 바로잡는 보조 작업이다. 확인된 결과와 비용 미계측을 구분한다.",
+  "presentationFocus": "정소미가 웜업15문제에서 다양한 성능 개선 기법을 시도하고 고정된 원본과 독립적으로 검증한 기록",
+  "additionalLiteratureEvidence": "/research/external/problem-literature.json"
+}

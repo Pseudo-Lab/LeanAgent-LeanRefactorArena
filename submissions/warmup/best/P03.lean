@@ -7,14 +7,17 @@ theorem InitsUpdatesComm
     σ₁ = (updatedStates σ ks' vs') ∧
     InitStates σ ks' vs' σ₁ ∧
     UpdateStates σ₁ ks vs σ'' := by
-  intro h g
-  have f := UpdateStatesNotDefMonotone' (InitStatesNotDefined g) h
-  refine ⟨_, rfl, updatedStatesInit (InitStatesLength g) f (InitStatesNodup g), ?_⟩
-  rw [InitStatesUpdated g, UpdateStatesUpdated h]
+  intro hup hi
+  have lu := UpdateStatesLength hup
+  have li := InitStatesLength hi
+  refine ⟨_, rfl, updatedStatesInit li (UpdateStatesNotDefMonotone' (InitStatesNotDefined hi) hup) (InitStatesNodup hi), ?_⟩
+  cases InitStatesUpdated hi
+  cases UpdateStatesUpdated hup
   unfold updatedStates
   rw [updatedStatesComm]
-  · exact updatedStatesUpdate (UpdateStatesLength h)
-      (updatedStatesDefMonotone (UpdateStatesDefined' h))
-  · rw [List.unzip_zip (UpdateStatesLength h), List.unzip_zip (InitStatesLength g)]
-    intro x a b
-    simpa [f x b] using UpdateStatesDefined' h x a
+  · apply updatedStatesUpdate lu
+    apply updatedStatesDefMonotone
+    exact UpdateStatesDefined' hup
+  · simp_all only [List.unzip_zip]
+    intro k hk hk'
+    simpa [InitStatesNotDefined hi k hk'] using UpdateStatesDefined hup k hk

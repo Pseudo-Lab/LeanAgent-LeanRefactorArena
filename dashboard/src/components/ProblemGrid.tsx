@@ -16,7 +16,7 @@ function ProblemTile({ problem, metric, selected, onSelect, final = false }: { p
   const warning = (value !== null && value <= 60) || ['failed', 'unsubmitted'].includes(problem.status);
   const Arrow = delta !== null && delta < 0 ? ArrowDownRight : delta !== null && delta > 0 ? ArrowUpRight : Minus;
   const unit = METRICS.find(m => m.id === metric)!.unit;
-  const measured = ['measured', 'partial'].includes(problem.status) ? problem.candidate : null;
+  const measured = ['measured', 'partial', 'separate_verified'].includes(problem.status) ? problem.candidate : null;
   const displayed = final ? problem.baseline : measured;
   const tokens = displayed ? displayed.tokens.toLocaleString('ko-KR') : '—';
   const heartbeats = displayed ? displayed.heartbeats.toLocaleString('ko-KR', { maximumFractionDigits: 20 }) : '—';
