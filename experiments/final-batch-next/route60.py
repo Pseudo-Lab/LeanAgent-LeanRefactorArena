@@ -128,6 +128,8 @@ def main(argv=None):
     if ev.registry["dataset_sha256"] != DATASET_SHA:
         raise ValueError("Dataset registry mismatch")
     inventory = [inspect_row(repo, n, rows[n - 1], ev.registry["environments"]) for n in args.rows]
+    if not args.plan_only:
+        preflight(repo)  # before any output, so a failed check leaves --out reusable
     args.out.mkdir(parents=True, exist_ok=False)
     ready = [r["row"] for r in inventory if not r["missing"]]
     atomic(
@@ -142,7 +144,6 @@ def main(argv=None):
     print(f"Prepared metadata: {len(ready)}/{len(inventory)}. Details in coverage.json", flush=True)
     if args.plan_only:
         return
-    preflight(repo)
     prior = {}
     if args.carry_jsonl:
         allowed = {r["name"]: r["statement"] for r in rows}

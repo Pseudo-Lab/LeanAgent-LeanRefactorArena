@@ -159,6 +159,19 @@ class Route60Tests(unittest.TestCase):
                 ])
             comp.assert_not_called()
 
+            # A failed sandbox preflight stops before any output, so --out stays reusable.
+            with (
+                patch.object(route60, "FinalEvaluator", return_value=ev),
+                patch.object(route60, "DATASET_SHA", digest),
+                patch.object(route60, "preflight", side_effect=SystemExit("no bwrap")),
+                patch.object(route60, "compare") as comp,
+                self.assertRaisesRegex(SystemExit, "no bwrap"),
+            ):
+                route60.main(["--prepared-repo", str(repo), "--dataset", str(ds),
+                              "--out", str(repo / "no-sandbox-run"), "--rows", "41"])
+            comp.assert_not_called()
+            self.assertFalse((repo / "no-sandbox-run").exists())
+
     def test_missing_prerequisites_fail_before_any_output(self):
         with tempfile.TemporaryDirectory() as tmp:
             repo = Path(tmp)
