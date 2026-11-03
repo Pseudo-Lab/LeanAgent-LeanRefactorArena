@@ -53,16 +53,23 @@ def failure_details(folder):
 
     A failed reference otherwise reaches report.json only as a generic message; the cause
     (for example Lean's -M memory_exception) sits in that evaluation's result.json.
+    Best effort: it never raises, so recording a failed row cannot itself fail.
     """
-    evaluations = sorted(folder.glob("[0-9]*-*/result.json"),
-                         key=lambda path: int(path.parent.name.split("-", 1)[0]))
+    try:
+        evaluations = sorted((path for path in folder.glob("*-*/result.json")
+                              if path.parent.name.split("-", 1)[0].isdigit()),
+                             key=lambda path: int(path.parent.name.split("-", 1)[0]))
+    except OSError:
+        return None
     for path in reversed(evaluations):
         try:
             result = json.loads(path.read_text())
-        except (OSError, ValueError):
+            errors = {env: {"kind": value["error"].get("kind"),
+                            "message": str(value["error"].get("message", ""))[-1000:]}
+                      for env, value in result.get("environments", {}).items()
+                      if isinstance(value, dict) and isinstance(value.get("error"), dict)}
+        except (OSError, ValueError, AttributeError, TypeError):
             continue
-        errors = {env: {"kind": value["error"].get("kind"), "message": str(value["error"].get("message", ""))[-1000:]}
-                  for env, value in result.get("environments", {}).items() if isinstance(value.get("error"), dict)}
         if errors:
             return {"evaluation": path.parent.name, "environments": errors}
     return None

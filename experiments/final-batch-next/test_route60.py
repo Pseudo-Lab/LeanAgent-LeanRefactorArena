@@ -295,3 +295,18 @@ class Route60Tests(unittest.TestCase):
                               "--rows", "41"])
             self.assertEqual(stopped.exception.code, 2)
             self.assertFalse((repo / "bad-bound").exists())
+
+    def test_failure_details_skip_odd_evaluations_and_never_raise(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            entries = {"00-measure": {"environments": {"a": {"error": {"kind": "compile", "message": "m"}}}},
+                       "0a-odd": {"environments": {"x": {"error": {"kind": "compile", "message": "skip"}}}},
+                       "2-screen": [1, 2], "10-screen": {"environments": {"b": "not a dict"}}}
+            for name, body in entries.items():
+                (folder / name).mkdir()
+                (folder / name / "result.json").write_text(json.dumps(body))
+            (folder / "11-screen").mkdir()
+            (folder / "11-screen/result.json").write_text("{broken")
+            self.assertEqual(route60.failure_details(folder),
+                             {"evaluation": "00-measure", "environments": {"a": {"kind": "compile", "message": "m"}}})
+            self.assertIsNone(route60.failure_details(folder / "missing"))
