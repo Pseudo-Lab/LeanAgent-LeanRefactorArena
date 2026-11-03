@@ -106,14 +106,19 @@ class DispatchResult:
     lost: bool = False           # True when no usable completion was obtained
 
     def ledger_fields(self) -> dict:
-        """Fields for the root ledger.json item of this step (status always settled)."""
+        """Fields for the root ledger.json item of this step (status always settled).
+
+        Endpoint, provider and cost basis come from the step's own receipt, so an
+        OpenAI-direct development step records api.openai.com / "OpenAI direct".
+        """
         receipt = self.normalized["_cost_receipt"]
         return {"status": "settled", "cost_usd": t.usd(self.step_cost_usd), "response_id": self.normalized["id"],
                 "sub_attempts": list(self.sub_attempts), "settlement_basis": self.settlement_basis,
-                "bound_violated": self.bound_violated, "api_endpoint": t.ENDPOINT, "provider": "OpenRouter",
+                "bound_violated": self.bound_violated, "api_endpoint": receipt["api_endpoint"],
+                "provider": receipt["provider"],
                 "catalog_key": receipt["catalog_key"], "model": receipt["model"],
                 "returned_model": receipt["returned_model"], "returned_provider": receipt["returned_provider"],
-                "cost_basis": t.COST_BASIS, "invoice_verified": False, "http_calls": self.http_calls,
+                "cost_basis": receipt["cost_basis"], "invoice_verified": False, "http_calls": self.http_calls,
                 "provider_response_sha256": receipt["provider_response_sha256"], "lost": self.lost,
                 "stopped": self.stopped}
 
@@ -171,30 +176,38 @@ def _attempt_lock(run_root: Path, attempt_id: str):
             fcntl.flock(stream, fcntl.LOCK_UN)
 
 
-def _query_function(transport):
+def _wire(wire):
+    """The provider module a step is sent through: OpenRouter unless a wire is given
+    (``lean_agent.final60.openai_direct`` for development runs)."""
+    return t if wire is None else wire
+
+
+def _query_function(transport, wire=None):
     if transport is None:
-        return t.query
+        return _wire(wire).query
     return transport.query if hasattr(transport, "query") else transport
 
 
-def _lookup_function(transport, key, policy, spec, sleep):
+def _lookup_function(transport, key, policy, spec, sleep, wire=None):
     """generation_id -> generation document with a usable total, or None. A fixture
-    transport is never allowed to reach the network: it supplies its own lookup or none."""
+    transport is never allowed to reach the network: it supplies its own lookup or none.
+    A wire without a generation API (OpenAI direct) settles lost responses at the bound."""
     if transport is not None:
         own = getattr(transport, "generation_lookup", None)
         if own is None:
             return None
         return lambda generation_id: own(generation_id, key=key)
-    if not key:
+    if not key or not getattr(_wire(wire), "GENERATION_API", True):
         return None
     return lambda generation_id: lookup_generation(generation_id, key=key, spec=spec,
                                                    attempts=policy.generation_lookups,
                                                    backoff_s=policy.generation_backoff_s, sleep=sleep)
 
 
-def _write_request_evidence(step_dir: Path, body: dict, bound: Bound, spec: ModelSpec) -> None:
-    expected = {"request.json": body, "cost-bound.json": t.bound_json(bound, body, spec),
-                "endpoint.json": t.endpoint_evidence(spec)}
+def _write_request_evidence(step_dir: Path, body: dict, bound: Bound, spec: ModelSpec, wire=None) -> None:
+    wire = _wire(wire)
+    expected = {"request.json": body, "cost-bound.json": wire.bound_json(bound, body, spec),
+                "endpoint.json": wire.endpoint_evidence(spec)}
     for name, value in expected.items():
         path = step_dir / name
         if path.exists():
@@ -204,7 +217,7 @@ def _write_request_evidence(step_dir: Path, body: dict, bound: Bound, spec: Mode
             _atomic(path, value)
 
 
-def _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep, run_root=None):
+def _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep, run_root=None, wire=None):
     """Existing sub-attempts of this step (this root only), recovering any left open by a crash.
 
     $0 sub-attempts whose evidence a caller archived (an unsent/unbilled step that was
@@ -221,7 +234,7 @@ def _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep, run_roo
         if row["request_sha256"] != request_sha:
             raise ValueError("Saved sub-attempt belongs to a different request: " + row["attempt_id"])
         if row["status"] in ("reserved", "sent"):
-            ledger.recover(row["attempt_id"], step_dir=step_dir, lookup=lookup, sleep=sleep)
+            ledger.recover(row["attempt_id"], step_dir=step_dir, lookup=lookup, sleep=sleep, wire=_wire(wire))
             row = ledger.get(row["attempt_id"])
         if row["status"] == "void":
             continue
@@ -244,10 +257,11 @@ def _spend(subs) -> Decimal:
     return sum((Decimal(sub.record["cost_usd"]) for sub in subs), Decimal(0))
 
 
-def _finish(subs, *, spec, bound, attempt_id, step_dir, http_calls, stopped=None) -> DispatchResult:
+def _finish(subs, *, spec, bound, attempt_id, step_dir, http_calls, stopped=None, wire=None) -> DispatchResult:
+    wire = _wire(wire)
     final = subs[-1]
-    normalized = t.normalize(final.raw, spec, bound, sub_attempts=[sub.record for sub in subs[:-1]],
-                             attempt_id=attempt_id, final_id=final.record["id"], generation=final.generation)
+    normalized = wire.normalize(final.raw, spec, bound, sub_attempts=[sub.record for sub in subs[:-1]],
+                                attempt_id=attempt_id, final_id=final.record["id"], generation=final.generation)
     receipt_doc = normalized["_cost_receipt"]
     _atomic(step_dir / "provider-response.json", final.raw)
     _atomic(step_dir / "response.json", normalized)
@@ -257,7 +271,7 @@ def _finish(subs, *, spec, bound, attempt_id, step_dir, http_calls, stopped=None
     receipt = Receipt(attempt_id=attempt_id, status="settled" if ok else "lost_conservative", cost_usd=total,
                       generation_id=final.record["generation_id"] if ok else None,
                       model=final.record["returned_model"], provider=final.record["returned_provider"],
-                      api_endpoint=t.ENDPOINT, basis=receipt_doc["settlement_basis"],
+                      api_endpoint=wire.ENDPOINT, basis=receipt_doc["settlement_basis"],
                       http_status=final.record["http_status"])
     return DispatchResult(raw=final.raw, normalized=normalized, receipt=receipt, bound=bound, http_calls=http_calls,
                           sub_attempts=receipt_doc["sub_attempts"], step_cost_usd=total,
@@ -268,30 +282,35 @@ def _finish(subs, *, spec, bound, attempt_id, step_dir, http_calls, stopped=None
 def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem: str, attempt_id: str,
                      run_root: Path, step_dir: Path, key: str | None, transport=None,
                      max_unbilled_retries: int = 5, policy: RetryPolicy | None = None, sleep=time.sleep,
-                     global_marker: Path | None = None) -> DispatchResult:
+                     global_marker: Path | None = None, wire=None) -> DispatchResult:
     """Send one driver step through the cap; see the module docstring for the order.
 
     Raises BudgetExceeded / ApiDisabled only when this step has spent nothing (the
     caller then voids its pending ledger.json item). Once a step has spend, it
     always returns a DispatchResult (``lost``/``stopped`` say why it has no content).
+
+    ``wire`` is the provider module (OpenRouter by default; ``openai_direct`` for a
+    development run). Every reservation, evidence file and receipt records that
+    wire's endpoint and provider, and the same cap applies.
     """
+    wire = _wire(wire)
     policy = policy or RetryPolicy(max_unbilled_retries=max_unbilled_retries)
     run_root, step_dir = Path(run_root).resolve(), Path(step_dir)
-    bound = t.request_bound(body, spec)          # 1. bound (ValueError before anything else)
+    bound = wire.request_bound(body, spec)       # 1. bound (ValueError before anything else)
     request_sha = sha(canonical(body))
     if transport is None:
-        t.require_key(key)                        # never mark a call sent without a usable key
+        wire.require_key(key)                     # never mark a call sent without a usable key
     marker = Path(global_marker) if global_marker is not None else default_global_marker(ledger, run_root)
-    query = _query_function(transport)
-    lookup = _lookup_function(transport, key, policy, spec, sleep)
+    query = _query_function(transport, wire)
+    lookup = _lookup_function(transport, key, policy, spec, sleep, wire)
     window = policy.max_unbilled_retries + 1
     with _attempt_lock(run_root, attempt_id):
-        subs = _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep, run_root=run_root)
+        subs = _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep, run_root=run_root, wire=wire)
         http_calls = 0
 
         def close(stopped=None):
             return _finish(subs, spec=spec, bound=bound, attempt_id=attempt_id, step_dir=step_dir,
-                           http_calls=http_calls, stopped=stopped)
+                           http_calls=http_calls, stopped=stopped, wire=wire)
 
         if subs and subs[-1].record["outcome"] == "ok":
             return close()                         # resumed after a crash: reuse, never resend
@@ -308,7 +327,7 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
             sub_id = f"{attempt_id}#r{index}"
             try:                                    # 2. reserve (nothing written or sent on refusal)
                 ledger.reserve(problem=problem, attempt_id=sub_id, bound=bound, run_root=str(run_root),
-                               model=spec.model_id, provider=spec.provider, api_endpoint=t.ENDPOINT,
+                               model=spec.model_id, provider=spec.provider, api_endpoint=wire.ENDPOINT,
                                request_sha256=request_sha, step_dir=str(step_dir))
             except BudgetExceeded as exc:
                 stopped = "budget" if exc.reason == "cap" else "api_disabled_row"
@@ -317,24 +336,24 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
                 if exc.reason != "cap":
                     raise _disabled_error("row", f"ledger flag {exc.reason}: {exc}") from exc
                 raise
-            _write_request_evidence(step_dir, body, bound, spec)     # 3. request evidence
+            _write_request_evidence(step_dir, body, bound, spec, wire)   # 3. request evidence
             folder = step_dir / "http" / f"r{index}"
             ledger.mark_sent(sub_id)                                  # 4. durable before the call
             _atomic(folder / "sent.json", {"attempt_id": sub_id, "sent_at": time.time(), "pid": os.getpid(),
-                                           "api_endpoint": t.ENDPOINT})
-            raw = t.scrub(query(body, spec, key=key), key, strict=False)   # 5. one HTTP call
-            if t.classify(raw) != "ok":
-                raw = t.scrub(raw, key)
+                                           "api_endpoint": wire.ENDPOINT, "provider": wire.PROVIDER})
+            raw = wire.scrub(query(body, spec, key=key), key, strict=False)   # 5. one HTTP call
+            if wire.classify(raw) != "ok":
+                raw = wire.scrub(raw, key)
             http_calls += 1
             _atomic(folder / "provider-response.json", raw)           # 6. raw evidence
             generation = None
-            if t.classify(raw) == "lost" and lookup is not None and t.generation_id_of(raw):
-                generation = lookup(t.generation_id_of(raw))
+            if wire.classify(raw) == "lost" and lookup is not None and wire.generation_id_of(raw):
+                generation = lookup(wire.generation_id_of(raw))
                 if generation is not None:
                     _atomic(folder / "generation.json", generation)
-            record = {"id": sub_id, **t.sub_attempt_cost(raw, spec, bound, generation)}
+            record = {"id": sub_id, **wire.sub_attempt_cost(raw, spec, bound, generation)}
             _atomic(folder / "receipt.json", record)
-            ledger.settle(receipt_from_record(record, t.ENDPOINT))     # 7. settle the sub-attempt
+            ledger.settle(receipt_from_record(record, wire.ENDPOINT))  # 7. settle the sub-attempt
             subs.append(_Sub(record, raw, generation))
             if record["bound_violated"]:
                 ledger.flag(problem, "frozen", "cost or token bound violated by " + sub_id)
@@ -346,9 +365,10 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
             if outcome == "unbilled":
                 lost = 0
                 status = record["http_status"]
-                if status in t.DISABLE_HTTP:
+                if status in wire.DISABLE_HTTP:
                     _atomic(marker, {"at": time.time(), "attempt_id": sub_id, "http_status": status,
-                                     "reason": "OpenRouter refused the key or credits; no further LLM calls"})
+                                     "provider": wire.PROVIDER,
+                                     "reason": wire.PROVIDER + " refused the key or credits; no further LLM calls"})
                     if _spend(subs):
                         return close("api_disabled_global")
                     raise ApiDisabled("global", f"HTTP {status}", marker=marker)
@@ -377,32 +397,35 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
 
 def close_unfinished(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem: str, attempt_id: str,
                      run_root: Path, step_dir: Path, key: str | None = None, transport=None,
-                     sleep=time.sleep) -> DispatchResult | None:
+                     sleep=time.sleep, wire=None) -> DispatchResult | None:
     """No-resend recovery: settle the step's open sub-attempts from evidence and close it.
 
     Returns the closed step (a saved completion is reused; otherwise a lost step with
     its exact or bound charge), written in the same audited shape as dispatch_guarded,
     or None when nothing billable was ever sent (the caller releases the pending item).
     """
+    wire = _wire(wire)
     run_root, step_dir = Path(run_root).resolve(), Path(step_dir)
-    bound = t.request_bound(body, spec)
-    lookup = _lookup_function(transport, key, RetryPolicy(), spec, sleep)
+    bound = wire.request_bound(body, spec)
+    lookup = _lookup_function(transport, key, RetryPolicy(), spec, sleep, wire)
     with _attempt_lock(run_root, attempt_id):
-        subs = _load_subs(ledger, attempt_id, step_dir, sha(canonical(body)), lookup, sleep, run_root=run_root)
+        subs = _load_subs(ledger, attempt_id, step_dir, sha(canonical(body)), lookup, sleep, run_root=run_root,
+                          wire=wire)
         if not subs or all(sub.record["outcome"] == "unbilled" for sub in subs):
             return None
         return _finish(subs, spec=spec, bound=bound, attempt_id=attempt_id, step_dir=step_dir, http_calls=0,
-                       stopped=None if subs[-1].record["outcome"] == "ok" else "recovered_no_resend")
+                       stopped=None if subs[-1].record["outcome"] == "ok" else "recovered_no_resend", wire=wire)
 
 
 def settle_orphans(ledger: CostLedger, attempt_id: str, step_dir: Path, *, key: str | None = None,
-                   transport=None, sleep=time.sleep) -> Decimal:
+                   transport=None, sleep=time.sleep, wire=None) -> Decimal:
     """Settle every open sub-attempt of a step without sending anything; returns the step's spend."""
     spent = Decimal(0)
-    lookup = _lookup_function(transport, key, RetryPolicy(), None, sleep)
+    wire = _wire(wire)
+    lookup = _lookup_function(transport, key, RetryPolicy(), None, sleep, wire)
     for row in ledger.sub_attempts(attempt_id):
         if row["status"] in ("reserved", "sent"):
-            ledger.recover(row["attempt_id"], step_dir=Path(step_dir), lookup=lookup, sleep=sleep)
+            ledger.recover(row["attempt_id"], step_dir=Path(step_dir), lookup=lookup, sleep=sleep, wire=wire)
             row = ledger.get(row["attempt_id"])
         if row["status"] in ("settled", "lost_conservative"):
             spent += Decimal(row["cost_usd"])

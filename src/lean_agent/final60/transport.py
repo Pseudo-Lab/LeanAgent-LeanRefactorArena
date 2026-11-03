@@ -32,6 +32,10 @@ from .contracts import SCHEMA, Bound, ModelSpec, OPENROUTER_ENDPOINT
 ENDPOINT = OPENROUTER_ENDPOINT
 API_BASE = "https://openrouter.ai/api/v1"
 HOST = "openrouter.ai"
+PROVIDER = "OpenRouter"          # sealed authorization provider; the only submittable one
+TRANSPORT = "openrouter"         # transports.py profile name of this wire
+GENERATION_API = True            # lost responses can be settled exactly via GET /generation
+LEAK_MARKERS = (b"sk-or-",)      # credential-shaped bytes that must never appear in evidence
 UNBILLED_HTTP = frozenset({400, 401, 402, 403, 404, 429})   # amendment A10
 DISABLE_HTTP = frozenset({401, 402})                        # key or credits: global api-disabled
 BODY_KEYS = frozenset({"model", "messages", "max_tokens", "stream", "response_format", "provider",
@@ -167,6 +171,26 @@ def _messages(messages):
 def provider_preferences(spec: ModelSpec) -> dict:
     return {"only": [spec.provider], "order": [spec.provider], "allow_fallbacks": False,
             "require_parameters": True, "max_price": catalog.max_price(spec)}
+
+
+# Wire interface (money.py, ledger.recover and audit_step take any module with these names).
+
+def spec_for_model(model: dict) -> ModelSpec:
+    return catalog.spec_for_model(model)
+
+
+def spec_for_body(body: dict) -> ModelSpec:
+    return catalog.spec_for_body(body)
+
+
+def fallback_spec(model_id) -> ModelSpec:
+    """Spec for a reservation whose request evidence is gone (returned model, else the default)."""
+    return catalog.spec_for_returned_model(model_id) or catalog.spec(catalog.DEFAULT_KEY)
+
+
+def _self():
+    import sys
+    return sys.modules[__name__]
 
 
 def payload(messages: list[dict], spec: ModelSpec) -> dict:
@@ -472,21 +496,24 @@ def brief(record: dict) -> dict:
 
 
 def normalize(raw, spec: ModelSpec, bound: Bound, *, sub_attempts=(), attempt_id: str | None = None,
-              final_id: str | None = None, generation: dict | None = None) -> dict:
+              final_id: str | None = None, generation: dict | None = None, wire=None) -> dict:
     """Step response: ALWAYS sets usage.cost (the step total) and _cost_receipt.
 
     ``sub_attempts`` are the earlier receipts of the same step (with ``id``). A lost
     final outcome yields a response without choices and id ``lost-<attempt>``; its
-    content is never synthesized.
+    content is never synthesized. ``wire`` (default: this OpenRouter module) supplies
+    ``sub_attempt_cost``, ``ENDPOINT``, ``PROVIDER``, ``COST_BASIS`` and ``DEBIT_RULE``.
     """
+    wire = wire or _self()
     final = {"id": final_id or f"{attempt_id or 'attempt'}#r{len(sub_attempts)}",
-             **sub_attempt_cost(raw, spec, bound, generation)}
+             **wire.sub_attempt_cost(raw, spec, bound, generation)}
     records = [*sub_attempts, final]
     total = sum((Decimal(item["cost_usd"]) for item in records), Decimal(0))
     if final["outcome"] == "ok":
         normalized = deepcopy(raw)
         if not isinstance(normalized.get("usage"), dict):
             normalized["usage"] = {}
+        normalized.setdefault("provider", wire.PROVIDER)
     else:
         normalized = {"id": LOST_ID_PREFIX + (attempt_id or "attempt"), "object": "final60.lost-response",
                       "model": spec.model_id, "provider": None, "choices": [], "usage": {},
@@ -496,12 +523,12 @@ def normalize(raw, spec: ModelSpec, bound: Bound, *, sub_attempts=(), attempt_id
                  "unbilled")
     normalized["usage"]["cost"] = usd(total)
     normalized["_cost_receipt"] = {
-        "schema": SCHEMA, "attempt_id": attempt_id, "api_endpoint": ENDPOINT, "provider": "OpenRouter",
+        "schema": SCHEMA, "attempt_id": attempt_id, "api_endpoint": wire.ENDPOINT, "provider": wire.PROVIDER,
         "catalog_key": spec.key, "model": spec.model_id, "provider_pin": spec.provider,
         "returned_model": final["returned_model"], "returned_provider": final["returned_provider"],
         "cost_usd": usd(total), "step_cost_usd": usd(total), "settlement_basis": basis, "basis": basis,
         "final_basis": final["basis"],
-        "cost_basis": COST_BASIS, "debit_rule": DEBIT_RULE, "invoice_verified": False,
+        "cost_basis": wire.COST_BASIS, "debit_rule": wire.DEBIT_RULE, "invoice_verified": False,
         "bound": {"reserved_usd": usd(bound.reserved_usd), "input_token_bound": bound.input_token_bound,
                   "output_token_bound": bound.output_token_bound},
         "bound_violated": any(item["bound_violated"] for item in records),
@@ -517,8 +544,9 @@ def _sub_index(path: Path) -> int | None:
     return int(name[1:]) if path.is_dir() and name.startswith("r") and name[1:].isdigit() else None
 
 
-def step_records(step_dir: Path, spec: ModelSpec, bound: Bound, attempt_id: str):
+def step_records(step_dir: Path, spec: ModelSpec, bound: Bound, attempt_id: str, wire=None):
     """Recompute every sent sub-attempt of a step: [(record, raw, generation)] in index order."""
+    wire = wire or _self()
     entries = []
     folders = sorted((path for path in (Path(step_dir) / "http").glob("r*") if _sub_index(path) is not None),
                      key=_sub_index)
@@ -530,32 +558,42 @@ def step_records(step_dir: Path, spec: ModelSpec, bound: Bound, attempt_id: str)
             raise ValueError(f"{folder.name}: sent sub-attempt has no saved provider response")
         raw = read(provider)
         generation = read(folder / "generation.json") if (folder / "generation.json").exists() else None
-        record = {"id": f"{attempt_id}#r{_sub_index(folder)}", **sub_attempt_cost(raw, spec, bound, generation)}
+        record = {"id": f"{attempt_id}#r{_sub_index(folder)}", **wire.sub_attempt_cost(raw, spec, bound, generation)}
         entries.append((record, raw, generation, folder))
     return entries
 
 
-def _credential_leaks(step_dir: Path) -> list[str]:
+def _credential_leaks(step_dir: Path, markers=LEAK_MARKERS) -> list[str]:
     found = []
     for path in sorted(Path(step_dir).rglob("*")):
         if path.is_file() and path.suffix in (".json", ".txt", ".log", ".jsonl", ""):
             try:
-                if b"sk-or-" in path.read_bytes():
-                    found.append(str(path.relative_to(step_dir)))
+                data = path.read_bytes()
             except OSError:
                 continue
+            if any(_leak(marker, data) for marker in markers):
+                found.append(str(path.relative_to(step_dir)))
     return found
 
 
-def audit_step(step_dir: Path, ledger_item: dict) -> list[str]:
-    """Recompute one OpenRouter driver step from its evidence; [] means it audits clean."""
+def _leak(marker, data: bytes) -> bool:
+    return bool(marker.search(data)) if hasattr(marker, "search") else marker in data
+
+
+def audit_step(step_dir: Path, ledger_item: dict, wire=None) -> list[str]:
+    """Recompute one driver step from its evidence; [] means it audits clean.
+
+    ``wire`` (default: this OpenRouter module) is the transport the step was sent
+    through; its endpoint, provider, bound and receipts are recomputed with it.
+    """
+    wire = wire or _self()
     step_dir = Path(step_dir)
     errors = []
     try:
         attempt = f"F{int(ledger_item['row']):03}-{int(ledger_item['step']):04}"
         body = read(step_dir / "request.json")
-        spec = catalog.spec_for_body(body)
-        bound = request_bound(body, spec)
+        spec = wire.spec_for_body(body)
+        bound = wire.request_bound(body, spec)
     except (OSError, ValueError, KeyError, TypeError) as exc:
         return [f"request evidence invalid ({type(exc).__name__}: {str(exc)[:200]})"]
     if ledger_item.get("status") != "settled":
@@ -568,12 +606,13 @@ def audit_step(step_dir: Path, ledger_item: dict) -> list[str]:
     except InvalidOperation:
         errors.append("reservation amount is not a decimal")
     try:
-        if read(step_dir / "cost-bound.json") != bound_json(bound, body, spec):
+        if read(step_dir / "cost-bound.json") != wire.bound_json(bound, body, spec):
             errors.append("cost-bound.json differs from the recomputed bound")
         endpoint = read(step_dir / "endpoint.json")
-        if endpoint != endpoint_evidence(spec) or parse.urlparse(endpoint.get("api_endpoint", "")).hostname != HOST:
-            errors.append("endpoint evidence is not the pinned openrouter.ai endpoint")
-        entries = step_records(step_dir, spec, bound, attempt)
+        if (endpoint != wire.endpoint_evidence(spec)
+                or parse.urlparse(endpoint.get("api_endpoint", "")).hostname != wire.HOST):
+            errors.append(f"endpoint evidence is not the pinned {wire.HOST} endpoint")
+        entries = step_records(step_dir, spec, bound, attempt, wire=wire)
         for record, _, _, folder in entries:
             if read(folder / "receipt.json") != record:
                 errors.append(f"{folder.name}: saved receipt differs from its provider evidence")
@@ -589,7 +628,7 @@ def audit_step(step_dir: Path, ledger_item: dict) -> list[str]:
         if ledger_item.get("sub_attempts") != [brief(record) for record in records]:
             errors.append("ledger sub_attempts differ from the HTTP evidence")
         expected = normalize(final_raw, spec, bound, sub_attempts=records[:-1], attempt_id=attempt,
-                             final_id=final_record["id"], generation=final_generation)
+                             final_id=final_record["id"], generation=final_generation, wire=wire)
         response = read(step_dir / "response.json")
         if response != expected:
             errors.append("normalized response differs from raw provider evidence")
@@ -608,11 +647,13 @@ def audit_step(step_dir: Path, ledger_item: dict) -> list[str]:
             errors.append("bound violation flag differs from the evidence")
         if ledger_item.get("settlement_basis") != expected["_cost_receipt"]["settlement_basis"]:
             errors.append("settlement basis differs from the evidence")
-        if ledger_item.get("api_endpoint", ENDPOINT) != ENDPOINT:
-            errors.append("ledger endpoint is not openrouter.ai")
+        if ledger_item.get("api_endpoint", wire.ENDPOINT) != wire.ENDPOINT:
+            errors.append(f"ledger endpoint is not {wire.HOST}")
+        if ledger_item.get("provider", wire.PROVIDER) != wire.PROVIDER:
+            errors.append(f"ledger provider is not {wire.PROVIDER}")
     except (OSError, ValueError, KeyError, TypeError, InvalidOperation) as exc:
         errors.append(f"malformed evidence ({type(exc).__name__}: {str(exc)[:200]})")
-    for path in _credential_leaks(step_dir):
+    for path in _credential_leaks(step_dir, getattr(wire, "LEAK_MARKERS", LEAK_MARKERS)):
         errors.append("credential-like string in evidence: " + path)
     return errors
 

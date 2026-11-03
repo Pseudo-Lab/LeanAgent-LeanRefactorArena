@@ -271,16 +271,18 @@ class CostLedger:
     # ------------------------------------------------------------ crash recovery
 
     def recover(self, attempt_id: str, *, step_dir: Path, key: str | None = None, lookup=None,
-                sleep=time.sleep) -> Receipt:
+                sleep=time.sleep, wire=None) -> Receipt:
         """Settle an open sub-attempt after a crash: void if never sent; from the saved
         response if one exists (exact via the generation API for a lost one when a
         generation id is known and ``lookup`` or ``key`` is given); else at its full reservation.
 
         ``lookup`` maps a generation id to a generation document (or None); with only
-        ``key`` the real generation API is queried (free).
+        ``key`` the real generation API is queried (free). ``wire`` is the provider
+        module the attempt was sent through (OpenRouter by default).
         """
-        from . import catalog, transport
+        from . import transport
         from lean_agent.artifacts import read
+        transport = wire if wire is not None else transport
         row = self.get(attempt_id)
         if row is None:
             raise ValueError("Unknown attempt: " + attempt_id)
@@ -301,12 +303,12 @@ class CostLedger:
         request_path = Path(step_dir) / "request.json"
         if request_path.exists():
             body = read(request_path)
-            spec = catalog.spec_for_body(body)
+            spec = transport.spec_for_body(body)
             bound = transport.request_bound(body, spec)
             if bound.reserved_usd != reserved.reserved_usd:
                 raise ValueError("Saved request bound differs from the reservation: " + attempt_id)
         if spec is None:
-            spec = catalog.spec_for_returned_model(row["model"]) or catalog.spec(catalog.DEFAULT_KEY)
+            spec = transport.fallback_spec(row["model"])
         provider_path = folder / "provider-response.json"
         if provider_path.exists():
             raw = read(provider_path)
@@ -317,7 +319,7 @@ class CostLedger:
             _atomic(folder / "recovered.json", {"attempt_id": attempt_id, "at": time.time(),
                                                 "reason": "sent without a durable provider response"})
         generation = read(folder / "generation.json") if (folder / "generation.json").exists() else None
-        if lookup is None and key:
+        if lookup is None and key and getattr(transport, "GENERATION_API", True):
             lookup = lambda value: lookup_generation(value, key=key, spec=spec, sleep=sleep)  # noqa: E731
         if generation is None and transport.classify(raw) == "lost" and lookup is not None:
             generation_id = transport.generation_id_of(raw)
