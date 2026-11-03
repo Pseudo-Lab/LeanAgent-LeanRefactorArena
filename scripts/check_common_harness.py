@@ -16,7 +16,7 @@ CORE = (
     "test_harness.py", "test_actions.py", "test_portfolio.py", "test_budgeting.py", "test_repair_feedback.py",
     "test_runtime_integration.py", "test_api_integration.py", "test_prepared_cache.py",
     "test_accounting.py", "test_usage_*.py", "test_evaluation.py", "test_corpus_storage.py",
-    "test_final_*.py",
+    "test_final_*.py", "test_strategy_bank.py", "test_strategy_mixed.py",
 )
 EXPERIMENTS = (
     "api-comparison", "usage-cost", "final-batch-next",

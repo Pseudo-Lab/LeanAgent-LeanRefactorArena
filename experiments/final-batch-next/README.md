@@ -1,5 +1,10 @@
 # 다음 실행용 검증 결과 재사용·최종 버전 검사
 
+선택적 Bank를 새 입력에 동결하려면 `prepare`/`inputs`에 `--strategy-bank PATH`,
+`--strategy-contextual`, `--strategy-top-k 3`, `--strategy-search-policy alternating-v1`을 지정한다.
+설정·추천·추적과 재사용 규칙은 [공통 Bank 문서](../../docs/strategy-bank.md)를 따른다.
+기존 봉인 입력에는 정책을 덧씌우지 않는다.
+
 평가 캐시와 최종 버전 검사를 사용하는 배치 실행기다.
 현재 실행 중인 배치의 코드·입력·환경·ledger는 수정하지 않는다.
 이전 `final-batch` 복사본과 source snapshot은 원본 커밋 `3ee67de`에 보존하고

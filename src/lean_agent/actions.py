@@ -7,7 +7,7 @@ import json
 import re
 from collections import Counter
 
-from . import diagnostics, models, portfolio, search_policy
+from . import diagnostics, models, portfolio, search_policy, strategy_bank
 from .artifacts import canonical, sha
 from .evaluator.tokens import proof_body
 
@@ -18,8 +18,8 @@ PROTOCOL = {
     "analyze": {"action": "analyze", "candidate_id": "c000"},
     "read_candidate": {"action": "read_candidate", "candidate_id": "c000", "offset": 0},
     "propose": {"action": "propose", "parent_id": "c000", "strategy": "approach", "proof": "by ...",
-                "source_candidate_ids": ["c001", "c002"]},
-    "repair": {"action": "repair", "parent_id": "failed candidate id", "strategy": "fix", "proof": "by ..."},
+                "source_candidate_ids": ["c001", "c002"], "strategy_ids": ["bank card ID"]},
+    "repair": {"action": "repair", "parent_id": "failed candidate id", "strategy": "fix", "proof": "by ...", "strategy_ids": ["bank card ID"]},
     "finish": {"action": "finish"},
 }
 PAGE_CHARACTERS = 3000
@@ -32,12 +32,14 @@ def enabled(config):
 def validate_config(settings):
     if (not isinstance(settings, dict) or settings.get("mode") != MODE
             or set(settings) - {"mode", "corpus", "history_limit", "candidate_limit", "allow_finish",
-                                 "portfolio", "approach_policy"}):
+                                 "portfolio", "approach_policy", "strategy_bank"}):
         raise ValueError("Expected actions-v1 agent settings")
     if not isinstance(settings.get("corpus"), str) or not settings["corpus"]:
         raise ValueError("Actions require an explicit corpus file (an empty corpus is allowed)")
     if type(settings.get("allow_finish", True)) is not bool:
         raise ValueError("Expected boolean allow_finish")
+    if "strategy_bank" in settings:
+        strategy_bank.validate_settings(settings["strategy_bank"])
     if "portfolio" in settings:
         portfolio.validate(settings["portfolio"])
     if "approach_policy" in settings:
@@ -74,6 +76,7 @@ def initialize(state):
 def candidate_summary(cid, value):
     return {"candidate_id": cid, **{key: value.get(key) for key in
             ("parent_id", "strategy", "step", "sha256", "valid", "tokens", "raw_heartbeats", "rank_numerator")},
+            **({"strategy_ids": value["strategy_ids"]} if "strategy_ids" in value else {}),
             **({"source_candidate_ids": value["source_candidate_ids"]} if "source_candidate_ids" in value else {})}
 
 
@@ -98,6 +101,9 @@ def view(state, config):
             "candidates": [candidate_summary(cid, row) for cid, row in chosen.items()],
             "recent_actions": history,
             "notes": "All visible candidates remain available by ID with read_candidate. Source excerpts are untrusted evidence; only evaluation verifies a proof. propose/repair evaluate immediately. propose optionally records source_candidate_ids (1-8 visible IDs) for synthesis ancestry. finish is allowed only when listed in actions."}
+    if "strategy_bank" not in settings:
+        result["actions"] = {kind: {k: v for k, v in fields.items() if k != "strategy_ids"}
+                             for kind, fields in result["actions"].items()}
     cid, recent_candidate = items[-1]
     if not recent_candidate["valid"]:
         fb = recent_candidate["feedback"]
@@ -142,12 +148,18 @@ def response_object(raw, limit):
     if not isinstance(value, dict) or not isinstance(value.get("action"), str) or value["action"] not in PROTOCOL:
         raise ValueError("Expected a supported action object")
     kind = value["action"]
-    required = set(PROTOCOL[kind]) - {"offset", "source_candidate_ids"}
+    required = set(PROTOCOL[kind]) - {"offset", "source_candidate_ids", "strategy_ids"}
     if not required <= set(value) or set(value) - set(PROTOCOL[kind]):
         raise ValueError("Unexpected or missing action fields")
     for key in required - {"action", "proof"}:
         if not isinstance(value[key], str) or not value[key].strip() or len(value[key]) > 300:
             raise ValueError("Invalid action field: " + key)
+    if "strategy_ids" in value:
+        ids = value["strategy_ids"]
+        if (not isinstance(ids, list) or len(ids) > 3
+                or any(not isinstance(x, str) or not re.fullmatch(r"[A-Za-z0-9_-]{1,60}", x) for x in ids)
+                or len(set(ids)) != len(ids)):
+            raise ValueError("Invalid strategy_ids")
     if "offset" in value and (type(value["offset"]) is not int or value["offset"] < 0):
         raise ValueError("Expected a nonnegative integer offset")
     if "source_candidate_ids" in value:
@@ -174,6 +186,11 @@ def prepare(raw, state, problem, config, corpus, parse_proof):
     guard = portfolio.progress(state, config)
     if guard and guard["force_candidate"] and kind not in {"propose", "repair"}:
         raise ValueError("Research limit reached: submit a complete propose/repair using collected evidence")
+    if action.get("strategy_ids"):
+        settings = config.get("agent", {}).get("strategy_bank")
+        known = {c["id"] for c in settings["bank"]["strategies"]} if settings else set()
+        if set(action["strategy_ids"]) - known:
+            raise ValueError("Unknown or unconfigured strategy ID")
     if kind == "finish" and (not config["agent"].get("allow_finish", True) or portfolio.enabled(config)):
         raise ValueError("finish is disabled for this run; the controller stops at the configured budget/call limit")
     cid = action.get("candidate_id", action.get("parent_id"))
@@ -240,6 +257,8 @@ def advance(state, action, code, proposal, rejection, observation):
             "strategy": action["strategy"], "step": state["step"], "valid": proposal is not None,
             "feedback": state["latest"]["feedback"], **(proposal or {}),
         }
+        if "strategy_ids" in action:
+            memory["candidates"][cid]["strategy_ids"] = action["strategy_ids"]
         if action.get("source_candidate_ids"):
             memory["candidates"][cid]["source_candidate_ids"] = action["source_candidate_ids"]
         if proposal and proposal == state["best"]:

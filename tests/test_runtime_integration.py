@@ -12,7 +12,7 @@ import unittest
 from unittest.mock import patch
 
 from lean_agent import artifacts, diagnostics, harness, models, status
-from lean_agent.evaluator.lean import LeanEvaluator
+from lean_agent.evaluator.lean import LeanEvaluator, render
 
 REPO = Path(__file__).resolve().parents[1]
 
@@ -78,6 +78,7 @@ class RuntimeTests(unittest.TestCase):
         source = (self.output / "checks/context/context.lean").read_text()
         self.assertNotIn("theorem", source)
         self.assertNotIn("import Lean", source)
+        self.assertIn("example : True := True.intro", source)
         self.assertEqual(status.inspect(self.output)["status"], "ready")
         self.assertIsNone(status.inspect(self.output)["final_result"])
         with self.assertRaisesRegex(ValueError, "no completed execution"):
@@ -316,6 +317,36 @@ case.execute()
         self.assertEqual(view["final_verification"]["status"], "failed")
         self.assertIsNotNone(view["latest_verified_candidate"])
         self.assertIsNone(view["final_result"])
+
+
+class ContextRenderingTests(unittest.TestCase):
+    code = "theorem checked : True := by trivial\n"
+
+    def template(self, prefix):
+        return "import Lean\n{{HARNESS_IMPORT}}\n{{HARNESS_COMMANDS}}\n" + prefix + "{{DECLARATION}}\n"
+
+    def test_target_documentation_stays_attached_inside_measurement(self):
+        prefix = "/-- Target documentation /- nested comment -/ and more. -/\n"
+        template = self.template(prefix)
+        measured = render(template, self.code, "checked", "nonce")
+        self.assertEqual(measured.count(prefix), 1)
+        self.assertLess(measured.index('#refactor_eval "nonce"'), measured.index(prefix))
+        self.assertIn(prefix + self.code, measured)
+        self.assertEqual(render(template, self.code, "checked", None),
+                         "import Lean\n\n\n" + prefix + self.code + "\n")
+
+    def test_scoped_prefixes_stay_in_order_inside_measured_command(self):
+        prefix = "set_option maxHeartbeats 0 in\nomit x in\nopen Nat in\n/-- Target doc. -/\n"
+        measured = render(self.template("variable (x : Nat)\n" + prefix), self.code, "checked", "nonce")
+        self.assertLess(measured.index("variable (x : Nat)"), measured.index('#refactor_eval "nonce"'))
+        self.assertIn(prefix + self.code, measured)
+        self.assertLess(measured.index('#refactor_eval "nonce"'), measured.index(prefix))
+
+    def test_previous_declarations_and_unscoped_open_are_not_moved(self):
+        context = "/-- Earlier doc. -/\ntheorem earlier : True := by trivial\nopen Nat\n"
+        measured = render(self.template(context + "/-- Target doc. -/\n"), self.code, "checked", "nonce")
+        self.assertLess(measured.index(context), measured.index('#refactor_eval "nonce"'))
+        self.assertLess(measured.index('#refactor_eval "nonce"'), measured.index('/-- Target doc. -/'))
 
 
 if __name__ == "__main__":

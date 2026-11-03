@@ -1,5 +1,8 @@
 # 공통 하네스 실행 기반
 
+선택적 Strategy Bank와 free/guided 교대 설정·실행·추적은
+[`../strategy-bank.md`](../strategy-bank.md)를 따른다.
+
 prompt·환경 캐시·탐색 제어·탐색 정책·평가 상태 관리를 먼저 구현·검토하고,
 이 기반을 main에 병합한 뒤 기존 AutoSolver·재귀 수리 PR을 연결한다.
 기존 실행 기반을 추린 뒤, scout→merger 제어와 환율 피드백·접근 정책을 공통 실행 경로에 연결했다.
