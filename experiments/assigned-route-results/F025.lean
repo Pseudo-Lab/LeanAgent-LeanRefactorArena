@@ -21,7 +21,7 @@ theorem of_consensus [Fintype P] (f : ℕ) (hf : f < card P)
     by_cases hp : ProcFair p zz xs
     · exact Or.inr hp
     · apply Or.inl
-      have np : p ∉ ps := fun h => hp (keep p h)
+      have np : p ∉ ps := mt (keep p) hp
       obtain ⟨m, hm, n, _, stay⟩ := Algorithm.not_fair_stay_enabled hz hp
       refine ⟨n + xl.length, ⟨m, (stay _ (by omega)).1, hm⟩, ?_⟩
       intro j hj m' hj'

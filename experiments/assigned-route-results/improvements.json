@@ -347,41 +347,42 @@
       "family": "FLP 합의에서 의사합의로",
       "controls": {
         "reference": 33.33333333333333,
-        "previous-round": 59.91707508001654
+        "previous-round": 60.28368709691868
       },
-      "control_reuse": 0.2764976958525346,
-      "selected_reuse": 0.2803738317757009,
+      "control_reuse": 0.2803738317757009,
+      "selected_reuse": 0.2830188679245283,
       "scout_allocated": false,
-      "selected": "previous-round/rintro-substitute",
-      "score": 60.28403513905618,
-      "gain_over_control": 0.36696005903964135,
+      "selected": "previous-round/fairness-contrapositive",
+      "score": 60.51177479342957,
+      "gain_over_control": 0.22808769651089023,
       "metrics": {
-        "proof_length_reduction_pct": 7.621247113163976,
-        "heartbeat_reduction_pct": 73.23085830400457,
+        "proof_length_reduction_pct": 8.314087759815248,
+        "heartbeat_reduction_pct": 73.22123662047346,
         "version_transfer_pct": 100.0
       },
-      "attempts": 2,
+      "attempts": 3,
       "screened_hashes": [
-        "3702629184b5358b169ffc4499e546536c4b9ea8ee2b28b48189e64cc9f97e8b",
-        "34550bad86a98b39a1fc3f1541e7ea4d11d5c3170072ff4d3b904af981d6c46b"
+        "365f2a2bc508a5312608b0afe70cbf8412a36635a94e25ca02b0c918974aca5d",
+        "b8698c31db33ad57c9c2e7b835140d8ec3898512148aeba8c42e1a7e9316777c",
+        "e7d4e52d3463cb3012f6ea5dba19482be429210cfca8db9e609b5ebb1690bd88"
       ],
       "call": null,
-      "group": "research-children-F025-delivery-transport",
-      "proof_sha256": "3702629184b5358b169ffc4499e546536c4b9ea8ee2b28b48189e64cc9f97e8b",
+      "group": "research-children-F025-fairness-bounds-nov04",
+      "proof_sha256": "365f2a2bc508a5312608b0afe70cbf8412a36635a94e25ca02b0c918974aca5d",
       "versions": {
         "cslib-v4.34.1": {
           "raw_samples": [
-            3111637,
-            3111669,
-            3111572
+            3112591,
+            3112743,
+            3112456
           ],
-          "receipt_sha256": "6da65f530648bb9647f6158d0205e51f589addd90332032507f58fd9456d58b4"
+          "receipt_sha256": "b5e4bcede2f707127241e657186383b16943aadd62d4f237550be007cdaa58a8"
         },
         "cslib-v4.33.1": {
           "raw_samples": [
-            3139051
+            3140321
           ],
-          "receipt_sha256": "9449ba48c995abb9e1f3f752aab8faeaf4f8ea588cd5dafad40bca041c1eef83"
+          "receipt_sha256": "1b1801799ad7df17d610360bb2b46b904b44a6dadef2036829a9155123e92fbe"
         }
       }
     },
