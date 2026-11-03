@@ -197,6 +197,50 @@
       }
     },
     {
+      "row": 15,
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "route": "tensor-basis",
+      "family": "파울리 텐서 · 위 첨자",
+      "controls": {
+        "reference": 33.33333333333333,
+        "previous-round": 60.92211294206896
+      },
+      "control_reuse": 0.5632183908045977,
+      "selected_reuse": 0.5747126436781609,
+      "scout_allocated": false,
+      "selected": "previous-round/ext-inferred",
+      "score": 60.92230726930918,
+      "gain_over_control": 0.00019432724021584136,
+      "metrics": {
+        "proof_length_reduction_pct": 54.0983606557377,
+        "heartbeat_reduction_pct": 28.66856115218984,
+        "version_transfer_pct": 100.0
+      },
+      "attempts": 1,
+      "screened_hashes": [
+        "c0cadc2ec06efe192663fa2c4169239bbc1049d8c3a5f5a175ed85175fdd971b"
+      ],
+      "call": null,
+      "group": "research-children-F015-tensor-rewrites-nov03",
+      "proof_sha256": "c0cadc2ec06efe192663fa2c4169239bbc1049d8c3a5f5a175ed85175fdd971b",
+      "versions": {
+        "physlib-v4.34.1": {
+          "raw_samples": [
+            97395550,
+            97395550,
+            97395550
+          ],
+          "receipt_sha256": "17fd4a50c3b6dd367929fa5bb746de1b685f017b534dd8f88c10f2110601c791"
+        },
+        "physlib-v4.34.0": {
+          "raw_samples": [
+            97395550
+          ],
+          "receipt_sha256": "030743e85ad3b46ceee2088e829406f4149e2d44417315efdebf2dd5ba048bc0"
+        }
+      }
+    },
+    {
       "row": 23,
       "name": "Cslib.CCS.bisimilarity_congr_choice",
       "route": "local-tactics",
