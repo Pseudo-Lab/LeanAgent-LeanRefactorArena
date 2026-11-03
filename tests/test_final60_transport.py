@@ -773,6 +773,46 @@ class AdapterTests(unittest.TestCase):
             self.assertEqual(self.adapter.main(["ledger-summary", "--ledger", str(self.base / "final60.sqlite")]), 0)
         self.assertNotIn("sk-or-", "".join(str(call) for call in printed.call_args_list))
 
+    def test_harness_consumes_ok_and_lost_steps_like_driver_responses(self):
+        from lean_agent import accounting, harness
+        problem = {"id": "fixture", "name": "fixture_thm", "statement": "theorem fixture_thm : True",
+                   "reference": "theorem fixture_thm : True := by trivial\n"}
+        baseline = {"valid": True, "tokens": 2,
+                    "environments": {"primary": {"valid": True, "runs": [{"measurement": {"raw": 100}}]}}}
+        config = {"model": self.model,
+                  "limits": {"max_calls": None, "cost_stop_usd": "2.99", "cost_cap_usd": "2.99",
+                             "max_request_characters": 190000, "max_proof_characters": 24000,
+                             "max_feedback_characters": 7000},
+                  "agent": {"mode": "actions-v1", "corpus": "action-corpus.json", "allow_finish": False}}
+        state = harness.initial_state(problem, baseline, config)
+        with mock.patch.object(self.driver, "transport", self.adapter):
+            body = self.driver.make_request(state, problem, config, "Return one JSON action.")
+        self.assertEqual(body["provider"]["only"], ["openai"])
+        self.assertNotIn("max_completion_tokens", body)
+        self.assertEqual(json.loads(body["messages"][1]["content"])["hard_budget"]["cap_usd"], "2.99")
+        self.adapter.request_cost(body)
+        output = self.root / "problems" / "F017"
+        (output / "input/action-corpus.json").write_text("{}")
+        self.adapter.use_transport(t.MockOpenRouter([t.MockOpenRouter.timeout()] * 3 + [ACTION]), sleep=no_sleep)
+        with mock.patch("builtins.print"):
+            lost = self.adapter.dispatch(self.root, 17, 1, body, self.model, self.step_dir(1), driver=self.driver)
+        self.assertEqual(lost["id"], "lost-F017-0001")
+        record = accounting.response_record(lost)
+        self.assertEqual(record["reported_cost_usd"], lost["usage"]["cost"])
+        action, code, observation, rejection = harness.prepare_response(lost, state, problem, config, output)
+        self.assertIsNone(code)
+        self.assertIn("Missing", rejection)
+        advanced = harness.advance(state, lost, None, None, rejection, harness.metrics(baseline), config, str(output))
+        self.assertEqual((advanced["calls"], Decimal(advanced["cost_usd"])), (1, Decimal(lost["usage"]["cost"])))
+        self.assertFalse(advanced["unknown_cost"])
+        self.assertEqual(Decimal(advanced["cost_usd"]), self.driver.problem_spend(self.ledger_json(), 17))
+        with mock.patch.object(self.driver, "transport", self.adapter):
+            second = self.driver.make_request(advanced, problem, config, "Return one JSON action.")
+        with mock.patch("builtins.print"):
+            ok = self.adapter.dispatch(self.root, 17, 2, second, self.model, self.step_dir(2), driver=self.driver)
+        self.assertEqual(harness.models.receipt(ok)["content"], ACTION)
+        self.assertEqual(self.adapter.audit_root(self.root), [])
+
     def test_non_openrouter_root_is_refused(self):
         authorization = read(self.root / "authorization.json")
         authorization.update(provider="OpenAI direct", api_endpoint="https://api.openai.com/v1/chat/completions")
