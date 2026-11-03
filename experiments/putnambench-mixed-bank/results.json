@@ -2,8 +2,8 @@
   "scope": "final-adaptation",
   "official_evaluation": false,
   "cost_basis": "OpenAI token usage times frozen public list prices; not invoice verified",
-  "completed_count": 5,
-  "remaining_count": 5,
+  "completed_count": 6,
+  "remaining_count": 4,
   "rows": [
     {
       "row": 51,
@@ -203,7 +203,47 @@
       "official_evaluation": false,
       "provider_invoice_verified": false,
       "finished_at": "2026-11-03T12:33:53.071117+00:00"
+    },
+    {
+      "row": 56,
+      "name": "putnam_2007_a1",
+      "selected_candidate": "c057",
+      "proof_sha256": "51afbd733e8177dc781ffa25c38fe4bc6afee84b2606c9613ff49b71e97caefd",
+      "proof_file": "proofs/putnam_2007_a1.lean",
+      "baseline": {
+        "tokens": 5464,
+        "raw_heartbeats": 528106386,
+        "raw_samples": [
+          528106379,
+          528106386,
+          528106399
+        ]
+      },
+      "final": {
+        "tokens": 437,
+        "raw_heartbeats": 11335613,
+        "raw_samples": [
+          11335613,
+          11335613,
+          11335612
+        ]
+      },
+      "token_reduction_pct": 92.00219619326501,
+      "hb_reduction_pct": 97.85353608657176,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 96.61857742661226,
+      "cost_usd": "2.445598",
+      "stop_threshold_usd": "2.50",
+      "calls": 57,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T13:13:19.367484+00:00"
     }
   ],
-  "finalized_cost_usd": "10.9183852"
+  "finalized_cost_usd": "13.3639832"
 }
