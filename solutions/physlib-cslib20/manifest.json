@@ -1,0 +1,623 @@
+{
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "team_source_commit": "cda1f4dc91541de2c1daaaa0d7bc4cd129caa8ae",
+  "scope": "F011-F030",
+  "api_calls": 0,
+  "local_mean": 53.69417529981413,
+  "results": [
+    {
+      "row": 11,
+      "source": "physlib",
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "proof_sha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
+      "route": "reference",
+      "score_local": 33.333333333333336,
+      "original_tokens": 4,
+      "candidate_tokens": 4,
+      "original_raw_heartbeats": 64051730,
+      "candidate_raw_heartbeats": 64051730,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 12,
+      "source": "physlib",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "proof_sha256": "8ab157299563e2419119cbaad1a0a88d5437e67fe3e395703949391949d31382",
+      "route": "enumerate-before-closure",
+      "score_local": 36.04967575735496,
+      "original_tokens": 12,
+      "candidate_tokens": 11,
+      "original_raw_heartbeats": 74041515,
+      "candidate_raw_heartbeats": 74177978,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 13,
+      "source": "physlib",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "proof_sha256": "5688df18625a8e1d6a02ed0102a289fe77bb4bc777328cded571c1e87401df5f",
+      "route": "enumerate-before-closure",
+      "score_local": 36.04525042618992,
+      "original_tokens": 12,
+      "candidate_tokens": 11,
+      "original_raw_heartbeats": 79108905,
+      "candidate_raw_heartbeats": 79265210,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 14,
+      "source": "physlib",
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "proof_sha256": "80f1722a4735cf2546eeabd5724f07682f10903d7fc9f978342aed5aaa3840d4",
+      "route": "reference",
+      "score_local": 33.333333333333336,
+      "original_tokens": 181,
+      "candidate_tokens": 181,
+      "original_raw_heartbeats": 212379390,
+      "candidate_raw_heartbeats": 212379390,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 15,
+      "source": "physlib",
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "proof_sha256": "13a7b6e73c3d7d0eaba531809654eb931b3851f2d25275ccdc0ba49e22cfd667",
+      "route": "reference",
+      "score_local": 33.333333333333336,
+      "original_tokens": 183,
+      "candidate_tokens": 183,
+      "original_raw_heartbeats": 136539444,
+      "candidate_raw_heartbeats": 136539444,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 16,
+      "source": "physlib",
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "proof_sha256": "ddcdb25df74de488575e894c9b31ed484db9f9029790b91e11978a56afa77306",
+      "route": "handoff-P05",
+      "score_local": 85.31166986985336,
+      "original_tokens": 1372,
+      "candidate_tokens": 356,
+      "original_raw_heartbeats": 23941358,
+      "candidate_raw_heartbeats": 4337568,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 17,
+      "source": "physlib",
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "proof_sha256": "e76695dc11377f1b42989527e60f1ea19e6bc60156bcc223bae7498a143ac39d",
+      "route": "direct-term",
+      "score_local": 82.70123710990063,
+      "original_tokens": 1217,
+      "candidate_tokens": 349,
+      "original_raw_heartbeats": 35774566,
+      "candidate_raw_heartbeats": 8306573,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 18,
+      "source": "physlib",
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "proof_sha256": "d0293814a98d5db2e8fdca6fec03c5c419f0847244376124e4265a4ba9b6ba12",
+      "route": "handoff-P04",
+      "score_local": 91.78299183555895,
+      "original_tokens": 851,
+      "candidate_tokens": 114,
+      "original_raw_heartbeats": 10202612,
+      "candidate_raw_heartbeats": 1148306,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 19,
+      "source": "physlib",
+      "name": "HermitianMat.inv_convex",
+      "proof_sha256": "2fc0f3336c199da4083bb0ec464e2979bf07e99903f05496b49a45eaa9afcee4",
+      "route": "schur-linear-block",
+      "score_local": 90.90668545489562,
+      "original_tokens": 1025,
+      "candidate_tokens": 242,
+      "original_raw_heartbeats": 211678393,
+      "candidate_raw_heartbeats": 7768994,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 20,
+      "source": "physlib",
+      "name": "cauchyBinet",
+      "proof_sha256": "a4544a8ce7b367b3bd64229eac87fba425acb3fff74f2ccab1dde23c00ee6d59",
+      "route": "factored-minor-sum",
+      "score_local": 51.318263599301325,
+      "original_tokens": 1200,
+      "candidate_tokens": 976,
+      "original_raw_heartbeats": 143389274,
+      "candidate_raw_heartbeats": 92789889,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 21,
+      "source": "cslib",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "proof_sha256": "4709bb91f052bbdfd3823a492812bb8d7f13ef95263b8217de43f061e3d8092c",
+      "route": "handoff-P07",
+      "score_local": 88.03886962432819,
+      "original_tokens": 408,
+      "candidate_tokens": 88,
+      "original_raw_heartbeats": 59932411,
+      "candidate_raw_heartbeats": 8579183,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 22,
+      "source": "cslib",
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "proof_sha256": "ab0fb3335e9b0538a105305bdf74c1ec96a5b845d2307479047c0f334ae14de2",
+      "route": "handoff-P08",
+      "score_local": 79.12207742426713,
+      "original_tokens": 407,
+      "candidate_tokens": 158,
+      "original_raw_heartbeats": 1500521,
+      "candidate_raw_heartbeats": 357321,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 23,
+      "source": "cslib",
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "proof_sha256": "69f5978093ad7448ecf078c2d1aabc652d3eb631966b15d12e34da4e7cf75e93",
+      "route": "handoff-P09",
+      "score_local": 86.13155155604095,
+      "original_tokens": 251,
+      "candidate_tokens": 80,
+      "original_raw_heartbeats": 3940866,
+      "candidate_raw_heartbeats": 383558,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 24,
+      "source": "cslib",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "proof_sha256": "08fb4d9fd39d06dba965fd90dac95b3705dfea6a708705d5125b66688200a545",
+      "route": "invert-with-typing-wf",
+      "score_local": 37.29325733352627,
+      "original_tokens": 391,
+      "candidate_tokens": 350,
+      "original_raw_heartbeats": 38105993,
+      "candidate_raw_heartbeats": 37574857,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 25,
+      "source": "cslib",
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "proof_sha256": "902341994921bc8512261ec477dc54a2db9ac6bf65ebb5748d9759cf1032ae81",
+      "route": "lean-grind-all",
+      "score_local": 37.27490886196326,
+      "original_tokens": 433,
+      "candidate_tokens": 478,
+      "original_raw_heartbeats": 11622928,
+      "candidate_raw_heartbeats": 9040623,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 26,
+      "source": "cslib",
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "proof_sha256": "77c66c53e307348c8263581e8d5d0c4a0b21321cc02ec58925fda76e6df6eed7",
+      "route": "inline-single-use",
+      "score_local": 33.4486761827865,
+      "original_tokens": 623,
+      "candidate_tokens": 621,
+      "original_raw_heartbeats": 56937128,
+      "candidate_raw_heartbeats": 56922893,
+      "versions": [
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        }
+      ],
+      "checks": {
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 27,
+      "source": "cslib",
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "proof_sha256": "b32c6230a23e675921a867a7c1b5b4ff3d78c55bc944d8adade36377ae08b0af",
+      "route": "reference",
+      "score_local": 33.333333333333336,
+      "original_tokens": 368,
+      "candidate_tokens": 368,
+      "original_raw_heartbeats": 39338568,
+      "candidate_raw_heartbeats": 39338568,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 28,
+      "source": "cslib",
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "proof_sha256": "8adbbd90a6546967d7f895c7766adf3a03af063022d9434db2cc668a7df99b5f",
+      "route": "direct-term",
+      "score_local": 33.54599431593389,
+      "original_tokens": 312,
+      "candidate_tokens": 310,
+      "original_raw_heartbeats": 27607121,
+      "candidate_raw_heartbeats": 27607961,
+      "versions": [
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        },
+        {
+          "v4.30.0": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5"
+        }
+      ],
+      "checks": {
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "repeats": 1
+        },
+        "cslib-v4.30.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 29,
+      "source": "cslib",
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "proof_sha256": "ed55f4423336647dc47a6e150beb6bc63d0ca71158016f3ddfae36a5745b3c9b",
+      "route": "lean-grind-site",
+      "score_local": 33.64895073592657,
+      "original_tokens": 364,
+      "candidate_tokens": 369,
+      "original_raw_heartbeats": 33198281,
+      "candidate_raw_heartbeats": 32427922,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    },
+    {
+      "row": 30,
+      "source": "cslib",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "proof_sha256": "db2c46947ad69f221d3b2dd59e0fce5023ecbbb772aa1fee34b7468af0e12c36",
+      "route": "lean-grind-all",
+      "score_local": 37.93011257512165,
+      "original_tokens": 519,
+      "candidate_tokens": 580,
+      "original_raw_heartbeats": 8589144,
+      "candidate_raw_heartbeats": 6395158,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      }
+    }
+  ]
+}
