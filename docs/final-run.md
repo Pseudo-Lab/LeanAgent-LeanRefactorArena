@@ -5,6 +5,47 @@ for the one real run and what the user, not an agent, does by hand. Placeholders
 clone), `$PROD` (the run worktree), `$RUN` (the run directory), `$KEY` (the OpenRouter dotenv),
 `$PY` (the virtualenv's python). No machine path is tracked anywhere.
 
+## 0. The assembled harness (tag `final60-rc1`)
+
+`final60-rc1` is the integration head with the runtime, transport, routing, golf and
+orchestrator components merged and wired into one entrypoint, `python -m lean_agent.final60`.
+What the assembled harness does that the component branches alone did not:
+
+* **Transport is a sealed run setting.** `run`/`row` take `--transport openrouter|openai|mock`
+  (default `openrouter`, the only submittable one). `--dry-run` is the `mock` transport and the
+  mock is always a dry run; `openai` is the OpenAI-direct development wire (never submitted,
+  `authorization.json` carries `development_only`). Every row's `input/final60.json` records the
+  transport, `driver.seal_inputs` seals provider/endpoint/transport/`submittable` from the
+  transport profile, dispatch and crash recovery use that wire and its key variable
+  (`OPENROUTER_API_KEY` or `OPENAI_API_KEY` from `--key-file`), and assembly publishes a row only
+  when `transports.is_submittable` says so; proofs of OpenAI-direct roots join the non-OpenRouter
+  set that the PR #70 checker refuses.
+* **Sandbox discovery (lesson 1).** `evaluator.linux_sandbox`: `bwrap` on PATH, then
+  `ARENA_BWRAP`, then `<repo>/sources/final/bin/bwrap`; the supervisor and row workers also put
+  `<prepared-repo>/sources/final/bin` first on PATH.
+* **Environment failures are retried, never cached (lessons 2 and 4).** A Lean allocator abort
+  (`-6`, or exit 134 under bwrap, or `lean::memory_exception` in the log) and any other signal
+  death are `kind: environment`, `retryable`; `evaluate_cached` archives such a saved result and
+  measures again (also on restart), with `ARENA_EVALUATION_RETRIES` (default 2) in-process
+  retries. The row worker sets `ARENA_LEAN_MEMORY_MIB` per row (16384 for Mathlib-based sources,
+  4096 otherwise; `--lean-memory-mib` overrides).
+* **Compiler pool (lesson 5).** `driver.evaluator(root)` sizes the pool from
+  `ARENA_COMPILER_PARALLELISM`, else `FINAL60_COMPILER_SLOTS` (what the supervisor exports after
+  sizing `--compiler-slots` against memory), else the sealed `compiler_slots`; final60 roots fail
+  closed below 2 (an exclusive holder would stall every pooled compile on the shared lock).
+* **Golf and selection.** Cheap-first closer portfolio, auto linter probe on Mathlib rows,
+  `:= by` join, k=5 validations on wide-toolchain rows, the Strata warning gate
+  (`FINAL60_WARNING_GATE=reject|demote|off`; `demote` keeps a warned finalist only when nothing
+  clean beats the original) and the G6 heartbeat swaps; F011-F013 finite-enumeration variants.
+
+Before the real run: `python -m unittest discover -s tests -p 'test_final60_*.py'` (215 tests),
+`discover -s experiments/final-batch-next -p 'test_*.py'` and `discover -s tests` must be green
+(`PROJECT_CACHE_DIR` set), and a mock dry run of two prepared rows (`--dry-run --rows 16,21
+--max-rows 2 --compiler-slots 2 --lean-memory-mib 16384`) must reach `published`/`fallback`
+and pass both checkers (dry-run roots are marked and never submitted). A crashed row counts
+its crashes per status (three under one status falls the row back), so a dry run whose code
+changed mid-way needs a fresh `--run-dir`.
+
 ## 1. A dedicated run worktree at a fixed commit
 
 Every row root freezes the driver, the harness files and the money modules by hash. Editing any
