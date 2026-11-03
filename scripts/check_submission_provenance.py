@@ -10,8 +10,15 @@ origin. For every row of the submission JSONL it requires one of:
   * a final-batch-next run root (`--run-root`) whose `problems/FNNN/selected.lean`
     equals the proof, whose `authorization.json` endpoint is openrouter.ai and whose
     ledger for that row is settled and within the cap, or
+  * a route60 or unpaid route20 output directory (`--harness-root`, PR #63) whose
+    round-*/FNNN/selected.json or FNNN/selected.json proof equals it. These runs make
+    no model call, so the proof is a deterministic harness transform at US$0. Only an
+    unassisted run counts: no team seeds, no carried proofs and no paid proposal, or
   * an entry in `--manifest` for a proof produced by another runner (reported as
     self-declared: endpoint, cost and evidence path are taken as written).
+
+The benchmark reference is the official `src` field (`proof`/`reference` are accepted
+for other row layouts).
 
 Proof texts that came from outside OpenRouter (Codex, OpenAI direct, dashboard
 results) can be listed with `--non-openrouter`. A submitted proof equal to one of
@@ -21,7 +28,8 @@ a seed, warm start or carried candidate.
 usage (repository root):
   python scripts/check_submission_provenance.py --jsonl benchmark_data_final.jsonl \
       --submission runs/final/submission.jsonl --run-root runs/final \
-      [--run-root runs/rerun] [--manifest provenance.json] [--non-openrouter solutions/codex]
+      [--run-root runs/rerun] [--harness-root runs/route60] [--manifest provenance.json] \
+      [--non-openrouter solutions/codex]
 
 manifest (JSON list), one entry per proof produced outside final-batch-next:
   {"name": ..., "proof_sha256": ..., "api_endpoint": "https://openrouter.ai/api/v1/...",
@@ -101,9 +109,21 @@ def body(proof: str, statement: str) -> str:
     return proof[len(statement):] if proof.startswith(statement) else proof
 
 
+def reference_proof(problem: dict):
+    """The original proof: the official benchmark rows keep it under `src`."""
+    for key in ("src", "proof", "reference"):
+        if isinstance(problem.get(key), str):
+            return problem[key]
+    return None
+
+
 class RunRoot:
     def __init__(self, root: Path):
         self.root = root
+        missing = [name for name in ("authorization.json", "ledger.json") if not (root / name).is_file()]
+        if missing:
+            raise ValueError(f"{root} is not a final-batch-next run root (missing {', '.join(missing)}); "
+                             "pass route60/route20 output directories with --harness-root")
         self.authorization = json.loads((root / "authorization.json").read_text())
         self.ledger = json.loads((root / "ledger.json").read_text())
         report = root / "report.json"
@@ -124,7 +144,45 @@ class RunRoot:
             yield request, flat(" ".join(strings(json.loads(request.read_text()))))
 
 
-def check(benchmark, submission, roots, manifest, outside, cap):
+class HarnessRoot:
+    """A finished route60 or route20 output directory (PR #63): deterministic proposals only.
+
+    route60 never calls a model (report.json api_calls 0); route20 does only in paid mode,
+    whose spend lives in a SQLite ledger this checker does not read, so paid route20 runs
+    are refused here (declare them in --manifest). Seeds and carried proofs may come from
+    outside OpenRouter, so an assisted run certifies nothing.
+    """
+
+    def __init__(self, root: Path):
+        self.root = root
+        try:
+            protocol = json.loads((root / "protocol.json").read_text())
+            report = json.loads((root / "report.json").read_text())
+        except FileNotFoundError as exc:
+            raise ValueError(f"{root} is not a finished route60/route20 directory "
+                             f"(missing {Path(exc.filename).name})") from exc
+        self.problems = []
+        if "api_calls" in report:  # route60
+            if report["api_calls"] != 0:
+                self.problems.append(f"report.json records {report['api_calls']} API calls")
+        elif report.get("paid_enabled") is not False or protocol.get("paid") is not False:  # route20
+            self.problems.append("route20 paid mode (its spend is only in the SQLite ledger)")
+        if report.get("assisted") is not False:
+            self.problems.append("assisted run (team seeds or carried proofs)")
+        if protocol.get("team_seeds"):
+            self.problems.append("team seeds were used")
+        if protocol.get("carry_sha256s") or protocol.get("carry_sha256"):
+            self.problems.append("carried proofs were used")
+        self.rows = {}
+        selected_files = [*root.glob("F[0-9][0-9][0-9]/selected.json"),
+                          *root.glob("round-[0-9][0-9]/F[0-9][0-9][0-9]/selected.json")]
+        for selected in sorted(selected_files):
+            data = json.loads(selected.read_text())
+            if isinstance(data.get("name"), str) and isinstance(data.get("proof"), str):
+                self.rows.setdefault((data["name"], sha(data["proof"])), (selected, data.get("call")))
+
+
+def check(benchmark, submission, roots, manifest, outside, cap, harness_roots=()):
     problems = {row["name"]: row for row in benchmark}
     declared = {entry["name"]: entry for entry in manifest}
     outside_by_hash = {}
@@ -142,7 +200,7 @@ def check(benchmark, submission, roots, manifest, outside, cap):
             fail(name, "not a benchmark name")
             continue
         statement = problem["statement"]
-        reference = problem.get("proof", problem.get("reference"))
+        reference = reference_proof(problem)
         digest = sha(proof)
         prior = Decimal(str(declared.get(name, {}).get("prior_cost_usd", "0")))
         result = {"name": name, "proof_sha256": digest}
@@ -153,7 +211,17 @@ def check(benchmark, submission, roots, manifest, outside, cap):
         if digest in outside_by_hash:
             fail(name, f"submitted proof equals a non-OpenRouter proof ({outside_by_hash[digest]})")
         match = next(((run, run.rows[(name, digest)]) for run in roots if (name, digest) in run.rows), None)
-        if match:
+        harness = next(((run, run.rows[(name, digest)]) for run in harness_roots if (name, digest) in run.rows),
+                       None)
+        if not match and harness:
+            run, (selected, call) = harness
+            result.update(origin="deterministic-harness", api_endpoint=None, calls=0, cost_usd=str(prior),
+                          evidence=str(selected))
+            for problem_text in run.problems:
+                fail(name, f"harness run {run.root} cannot certify this proof: {problem_text}")
+            if call is not None:
+                fail(name, f"{selected} records a model call; only unpaid deterministic proposals qualify")
+        elif match:
             run, folder = match
             row = int(folder.name[1:])
             endpoint = run.authorization.get("api_endpoint")
@@ -198,19 +266,27 @@ def check(benchmark, submission, roots, manifest, outside, cap):
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--jsonl", type=Path, required=True, help="benchmark JSONL (name, statement, proof)")
+    ap.add_argument("--jsonl", type=Path, required=True, help="benchmark JSONL (name, statement, src)")
     ap.add_argument("--submission", type=Path, required=True, help="submission JSONL (name, proof)")
     ap.add_argument("--run-root", type=Path, action="append", default=[], help="final-batch-next run root")
+    ap.add_argument("--harness-root", type=Path, action="append", default=[],
+                    help="route60 or unpaid route20 output directory (deterministic proposals, US$0); "
+                         "counts only when the run used no team seeds, carried proofs or paid calls")
     ap.add_argument("--manifest", type=Path, help="JSON list of proofs produced by other runners")
     ap.add_argument("--non-openrouter", type=Path, action="append", default=[],
                     help="file or directory of proofs produced outside OpenRouter (.lean, .jsonl, .json)")
     ap.add_argument("--cap", type=Decimal, default=Decimal("3"))
     ap.add_argument("--json-out", type=Path, help="write the per-row result as JSON")
     a = ap.parse_args()
-    roots = [RunRoot(path) for path in a.run_root]
+    try:
+        roots = [RunRoot(path) for path in a.run_root]
+        harness_roots = [HarnessRoot(path) for path in a.harness_root]
+    except ValueError as exc:
+        print(f"ERROR {exc}", file=sys.stderr)
+        return 2
     manifest = json.loads(a.manifest.read_text()) if a.manifest else []
     outside = [pair for path in a.non_openrouter for pair in load_proofs(path)]
-    result = check(load_jsonl(a.jsonl), load_jsonl(a.submission), roots, manifest, outside, a.cap)
+    result = check(load_jsonl(a.jsonl), load_jsonl(a.submission), roots, manifest, outside, a.cap, harness_roots)
     if a.json_out:
         a.json_out.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n")
     for row in result["rows"]:
