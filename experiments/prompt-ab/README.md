@@ -13,6 +13,8 @@ preserve working branches during local repair, reconsider repeated obstructions
 without new evidence, and judge length and HB together. It adds no problem IDs,
 known solutions or problem-specific hints. The JSON protocol remains unchanged.
 
+The coordinator explicitly selects single-context (`portfolio_settings=None`)
+preparation for both arms, independent of the Final runner's scout/merger default.
 Both arms use the same verified historical-best source, original scoring
 baseline, corpus, persistent action memory, model, seed, output limit and Lean
 verifier. Thus the control is the current warm-start/memory harness, not the old

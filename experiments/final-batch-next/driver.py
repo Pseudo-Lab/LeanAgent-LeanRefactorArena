@@ -36,6 +36,10 @@ MODEL = {"backend": "openai", "id": "gpt-6.1-sol", "provider": "openai",
          "seed": 42}
 TARGET = Decimal("1.00")
 VERIFICATION_POLICY = warm_start.POLICY
+DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22}
+# Omitted policy uses new-run defaults but preserves already prepared inputs.
+# Explicit None selects the single-context path (--no-portfolio).
+UNSPECIFIED_PORTFOLIO = object()
 
 
 def now():
@@ -118,8 +122,8 @@ def require_policy(root):
 def prompt_text(context, variant="baseline", strict_cap=False):
     prompt_variants.policy(variant, strict_cap)
     base = (REPO / "examples/actions/prompt.txt").read_text()
-    budget = ("Every action consumes paid model budget. The controller reserves each request and stops before exceeding $1 per problem. "
-              if strict_cap else "Every action consumes paid model budget. The controller stops after actual settled cost reaches $1. ")
+    budget = ("Every action consumes paid model budget. The controller reserves each request and stops before exceeding the configured hard_budget.cap_usd. "
+              if strict_cap else "Every action consumes paid model budget. The controller stops at the configured settled-cost threshold in budget.stop_at_usd. ")
     return base + "\n" + prompt_variants.VARIANTS[variant] + (
         "Search is lexical evidence only, not a theorem-prover or availability guarantee. ") + budget + (
         "The exact statement and original full source context are preserved by the evaluator. "
@@ -217,7 +221,9 @@ def guard_compiler_signal(result):
 INPUT_FILES = ("problem.json", "config.json", "action-corpus.json", "context-metadata.json", "prompt.txt", "warm-start.json", "prompt-policy.json")
 
 
-def configuration(problem, portfolio_settings=None, *, strict_cap=False):
+def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO, *, strict_cap=False):
+    if portfolio_settings is UNSPECIFIED_PORTFOLIO:
+        portfolio_settings = DEFAULT_PORTFOLIO
     model = {**MODEL, "max_tokens": 16384 if len(problem["reference"]) > 12000 else 8192}
     config = {"schema_version": 1, "model": model,
         "limits": {"max_calls": None, "cost_stop_usd": str(TARGET),
@@ -276,13 +282,23 @@ def validate_inputs(root, row):
     return problem
 
 
-def prepare_inputs(root, rows, workers=1, portfolio_settings=None, *, warm_start_manifest=None, cold_start=False,
-                   prompt_variant="baseline", strict_cap=False):
+def requested_prompt_policy(saved, variant, strict_cap):
+    """Only explicit flags may change an existing preparation's prompt policy."""
+    defaults = saved or prompt_variants.policy()
+    return prompt_variants.policy(defaults["variant"] if variant is None else variant,
+                                  defaults["strict_cap"] if strict_cap is None else strict_cap)
+
+
+def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOLIO, *, warm_start_manifest=None, cold_start=False,
+                   prompt_variant=None, strict_cap=None):
     """Prepare disjoint row inputs only; no authorization, API ledger or seal."""
     if workers not in (1, 2):
         raise ValueError("Input preparation workers must be 1 or 2")
     root = Path(root).resolve()
-    policy = prompt_variants.policy(prompt_variant, strict_cap)
+    new_policy = requested_prompt_policy(None, prompt_variant, strict_cap)
+    requested_portfolio = portfolio_settings
+    if portfolio_settings is UNSPECIFIED_PORTFOLIO:
+        portfolio_settings = DEFAULT_PORTFOLIO
     require_policy(root)
     root.mkdir(parents=True, exist_ok=True)
     if (root / "frozen.json").exists():
@@ -305,9 +321,10 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=None, *, warm_start
             inputs = output / "input"
             if all((inputs / name).is_file() for name in INPUT_FILES):
                 problem = validate_inputs(root, row)
-                if a.read(inputs / "prompt-policy.json") != policy:
+                saved_policy = a.read(inputs / "prompt-policy.json")
+                if saved_policy != requested_prompt_policy(saved_policy, prompt_variant, strict_cap):
                     raise ValueError("Existing prompt/budget policy differs; use a fresh batch root")
-                if portfolio_settings is not None and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
+                if requested_portfolio is not UNSPECIFIED_PORTFOLIO and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
                     raise ValueError("Existing inputs have a different policy; use a fresh batch root")
                 if (warm_start_manifest is not None or cold_start) and a.read(inputs / "warm-start.json") != warm_start.snapshot(manifest, problem, reason=seed_reason):
                     raise ValueError("Existing warm-start differs; use a fresh batch root")
@@ -324,11 +341,11 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=None, *, warm_start
                 raise ValueError("Initial context exceeds bounded 40000 characters")
             atomic(inputs / "problem.json", problem)
             atomic(inputs / "warm-start.json", warm_start.snapshot(manifest, problem, reason=seed_reason))
-            atomic(inputs / "config.json", configuration(problem, portfolio_settings, strict_cap=strict_cap))
-            atomic(inputs / "prompt-policy.json", policy)
+            atomic(inputs / "config.json", configuration(problem, portfolio_settings, strict_cap=new_policy["strict_cap"]))
+            atomic(inputs / "prompt-policy.json", new_policy)
             atomic(inputs / "action-corpus.json", corpus)
             atomic(inputs / "context-metadata.json", context.get("metadata", {}))
-            (inputs / "prompt.txt").write_text(prompt_text(text, prompt_variant, strict_cap))
+            (inputs / "prompt.txt").write_text(prompt_text(text, new_policy["variant"], new_policy["strict_cap"]))
             validate_inputs(root, row)
             return {"row": row, "input_status": "prepared"}
     if workers == 1:
@@ -385,15 +402,17 @@ def seal_inputs(root, rows):
     print(json.dumps({"prepared": str(root), "rows": rows, "api_calls": 0}), flush=True)
 
 
-def prepare(root, rows, workers=2, portfolio_settings=None, *, warm_start_manifest=None, cold_start=False,
-            prompt_variant="baseline", strict_cap=False):
+def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO, *, warm_start_manifest=None, cold_start=False,
+            prompt_variant=None, strict_cap=None):
+    require_policy(root)
     if (Path(root) / "frozen.json").exists():
         for row in rows:
-            if a.read(folder(root, row) / "input/prompt-policy.json") != prompt_variants.policy(prompt_variant, strict_cap):
+            saved_policy = a.read(folder(root, row) / "input/prompt-policy.json")
+            if saved_policy != requested_prompt_policy(saved_policy, prompt_variant, strict_cap):
                 raise ValueError("Sealed prompt/budget policy differs; use a fresh batch root")
         if warm_start_manifest is not None or cold_start:
             raise ValueError("Warm-start options require a fresh unsealed root")
-        if portfolio_settings is not None:
+        if portfolio_settings is not UNSPECIFIED_PORTFOLIO:
             for row in rows:
                 config = a.read(folder(root, row) / "input/config.json")
                 if config.get("agent", {}).get("portfolio") != portfolio_settings:
@@ -869,23 +888,33 @@ def main():
     parser.add_argument("--key-file", type=Path)
     parser.add_argument("--ensure-preflight", action="store_true",
                         help="Finish each problem's no-API baseline checks before its first paid request")
-    parser.add_argument("--portfolio", action="store_true", help="Prepare isolated scouts then merger with exchange-v1 policy")
+    policy = parser.add_mutually_exclusive_group()
+    policy.add_argument("--portfolio", dest="portfolio", action="store_true", default=None,
+                        help="Use isolated scouts then merger (default for new inputs)")
+    policy.add_argument("--no-portfolio", dest="portfolio", action="store_false",
+                        help="Prepare single-context inputs with verified historical warm start")
     parser.add_argument("--scout-evaluations", type=int, default=None)
     parser.add_argument("--merger-evaluations", type=int, default=None)
     parser.add_argument("--warm-start-manifest", type=Path,
                         help="Freeze historical best sources (default: dashboard/public/data/final-results.json)")
     parser.add_argument("--cold-start", action="store_true", help="Explicitly start from originals for a comparison run")
-    parser.add_argument("--prompt-variant", choices=tuple(prompt_variants.VARIANTS), default="baseline")
-    parser.add_argument("--strict-cap", action="store_true", help="Reserve every next request within the $1 cap")
+    parser.add_argument("--prompt-variant", choices=tuple(prompt_variants.VARIANTS), default=None)
+    parser.add_argument("--strict-cap", action="store_true", default=None, help="Reserve every next request within the $1 cap")
     args = parser.parse_args()
-    if (args.prompt_variant != "baseline" or args.strict_cap) and args.command not in ("prepare", "inputs"):
+    if (args.prompt_variant is not None or args.strict_cap is not None) and args.command not in ("prepare", "inputs"):
         parser.error("Prompt/budget policy flags apply only to prepare/inputs")
     if (args.warm_start_manifest or args.cold_start) and args.command not in ("prepare", "inputs"):
         parser.error("Warm-start options apply only to prepare/inputs on a fresh root")
-    settings = None
-    if args.portfolio or args.scout_evaluations is not None or args.merger_evaluations is not None:
-        if not args.portfolio or args.command not in ("prepare", "inputs"):
-            parser.error("Portfolio settings require --portfolio with prepare/inputs on a fresh root")
+    settings = UNSPECIFIED_PORTFOLIO
+    custom_quotas = args.scout_evaluations is not None or args.merger_evaluations is not None
+    if args.portfolio is not None or custom_quotas:
+        if args.command not in ("prepare", "inputs"):
+            parser.error("Portfolio settings apply only to prepare/inputs on a fresh root")
+        if args.portfolio is False and custom_quotas:
+            parser.error("Scout/merger quotas cannot be used with --no-portfolio")
+    if args.portfolio is False:
+        settings = None
+    elif args.portfolio is True or custom_quotas:
         settings = {"scout_evaluations": 6 if args.scout_evaluations is None else args.scout_evaluations,
                     "merger_evaluations": 22 if args.merger_evaluations is None else args.merger_evaluations}
         h.portfolio.validate(settings)

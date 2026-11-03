@@ -22,8 +22,8 @@ class PromptVariantTests(unittest.TestCase):
                          treatment.replace(prompt_variants.STRUCTURE_REPAIR, "GUIDANCE"))
         self.assertIn("three lookups", treatment)
         self.assertIn("further targeted lookup remains allowed", treatment)
-        self.assertIn("stops before exceeding $1", base)
-        self.assertIn("stops before exceeding $1", treatment)
+        self.assertIn("stops before exceeding the configured hard_budget.cap_usd", base)
+        self.assertIn("stops before exceeding the configured hard_budget.cap_usd", treatment)
 
     def test_pending_reservations_count_and_exact_cap_is_allowed(self):
         ledger = {"attempts": {"one": {"row": 2, "cost_usd": "0.60", "status": "settled"},
@@ -38,7 +38,7 @@ class PromptVariantTests(unittest.TestCase):
             output = d.folder(root, 2)
             problem = {"id": "test", "name": "test", "statement": "theorem test : True",
                        "reference": "theorem test : True := by trivial\n", "environments": ["primary", "secondary"]}
-            config = d.configuration(problem, strict_cap=True)
+            config = d.configuration(problem, None, strict_cap=True)
             baseline = result()
             state = h.initial_state(problem, baseline, config)
             state["cost_usd"] = "0.999"

@@ -1,5 +1,7 @@
 """Exercise shared portfolio routing through the durable batch without API/Lean."""
 import json
+import contextlib
+import io
 from pathlib import Path
 import tempfile
 import unittest
@@ -66,6 +68,54 @@ class PortfolioBatchTests(unittest.TestCase):
 
     def attempts(self):
         return sorted(a.read(self.root / "ledger.json")["attempts"].items(), key=lambda item: item[1]["step"])
+
+    def test_new_configuration_defaults_to_portfolio_and_explicit_legacy_stays_off(self):
+        config = d.configuration(self.problem)
+        self.assertEqual(config["agent"]["portfolio"], {"scout_evaluations": 6, "merger_evaluations": 22})
+        self.assertEqual(config["agent"]["approach_policy"], "exchange-v1")
+        config["agent"]["portfolio"]["scout_evaluations"] = 1
+        self.assertEqual(d.configuration(self.problem)["agent"]["portfolio"]["scout_evaluations"], 6)
+        legacy = d.configuration(self.problem, None)
+        self.assertNotIn("portfolio", legacy["agent"])
+        self.assertNotIn("approach_policy", legacy["agent"])
+
+    def test_cli_defaults_opt_out_and_custom_quotas(self):
+        for flags, expected in [([], d.DEFAULT_PORTFOLIO), (["--portfolio"], d.DEFAULT_PORTFOLIO),
+                                (["--no-portfolio"], None),
+                                (["--scout-evaluations", "2", "--merger-evaluations", "3"],
+                                 {"scout_evaluations": 2, "merger_evaluations": 3})]:
+            with self.subTest(flags=flags), patch.object(d.sys, "argv", ["driver.py", "inputs", "--root", str(self.root), "--rows", "1", *flags]), \
+                    patch.object(d, "prepare_inputs") as prepare:
+                d.main()
+                settings = prepare.call_args.kwargs["portfolio_settings"]
+                actual = d.configuration(self.problem, settings)["agent"].get("portfolio")
+                self.assertEqual(actual, expected)
+
+    def test_cli_refuses_policy_changes_during_run_or_conflicting_opt_out(self):
+        for args in [["run", "--portfolio"], ["run", "--no-portfolio"],
+                     ["inputs", "--no-portfolio", "--scout-evaluations", "2"]]:
+            with self.subTest(args=args), patch.object(d.sys, "argv", ["driver.py", *args, "--root", str(self.root)]), \
+                    contextlib.redirect_stderr(io.StringIO()), self.assertRaises(SystemExit):
+                d.main()
+
+    def test_prompt_uses_runtime_budget_instead_of_a_hard_coded_dollar_amount(self):
+        prompt = d.prompt_text("types only")
+        self.assertIn("budget.stop_at_usd", prompt)
+        self.assertNotIn("reaches $1", prompt)
+
+    def test_sealed_legacy_resume_keeps_its_exact_configuration(self):
+        config_path = self.output / "input/config.json"
+        d.atomic(config_path, d.configuration(self.problem, None))
+        d.atomic(self.output / "input/prompt-policy.json", d.prompt_variants.policy())
+        before = config_path.read_bytes()
+        d.atomic(self.root / "frozen.json", {})
+        d.atomic(self.root / "authorization.json", {"rows": [1], "verification_policy": d.VERIFICATION_POLICY})
+        with patch.object(d, "verify_frozen") as verify:
+            d.prepare(self.root, [1])
+            verify.assert_called_once_with(self.root.resolve())
+            self.assertEqual(config_path.read_bytes(), before)
+            with self.assertRaisesRegex(ValueError, "fresh batch root"):
+                d.prepare(self.root, [1], portfolio_settings=d.DEFAULT_PORTFOLIO)
 
     def export_report(self):
         d.atomic(self.root / "authorization.json", {"rows": [1], "dataset_sha256": "synthetic",
@@ -143,6 +193,39 @@ class PortfolioBatchTests(unittest.TestCase):
                 d.prepare_inputs(root, [1], portfolio_settings={"scout_evaluations": 2})
             # A no-flag retry reuses the frozen prepared policy.
             d.prepare_inputs(root, [1])
+            legacy = self.root / "legacy"
+            d.prepare_inputs(legacy, [1], portfolio_settings=None)
+            old_bytes = (d.folder(legacy, 1) / "input/config.json").read_bytes()
+            d.prepare_inputs(legacy, [1])
+            self.assertEqual((d.folder(legacy, 1) / "input/config.json").read_bytes(), old_bytes)
+            self.assertNotIn("portfolio", a.read(d.folder(legacy, 1) / "input/config.json")["agent"])
+            d.validate_inputs(legacy, 1)
+            with self.assertRaisesRegex(ValueError, "fresh batch root"):
+                d.prepare_inputs(legacy, [1], portfolio_settings=d.DEFAULT_PORTFOLIO)
+            with self.assertRaisesRegex(ValueError, "fresh batch root"):
+                d.prepare_inputs(root, [1], portfolio_settings=None)
+            # Omitted options preserve the entire strict treatment policy, not
+            # just portfolio mode; explicit conflicting flags still fail.
+            treatment = self.root / "treatment"
+            d.prepare_inputs(treatment, [1], portfolio_settings=None,
+                             prompt_variant="structure-repair-v1", strict_cap=True)
+            inputs = d.folder(treatment, 1) / "input"
+            before = {path.name: path.read_bytes() for path in inputs.iterdir()}
+            d.prepare_inputs(treatment, [1])
+            self.assertEqual(before, {path.name: path.read_bytes() for path in inputs.iterdir()})
+            for options in ({"prompt_variant": "baseline"}, {"strict_cap": False}):
+                with self.assertRaisesRegex(ValueError, "fresh batch root"):
+                    d.prepare_inputs(treatment, [1], **options)
+            implementation = repository / "fixture.py"
+            implementation.write_text("# fixture")
+            with patch.object(d, "implementation_files", return_value=[implementation]):
+                d.seal_inputs(treatment, [1])
+                d.prepare(treatment, [1])
+                self.assertEqual(before, {path.name: path.read_bytes() for path in inputs.iterdir()})
+                for options in ({"prompt_variant": "baseline"}, {"strict_cap": False},
+                                {"portfolio_settings": d.DEFAULT_PORTFOLIO}):
+                    with self.assertRaisesRegex(ValueError, "fresh batch root"):
+                        d.prepare(treatment, [1], **options)
 
 
 if __name__ == "__main__":

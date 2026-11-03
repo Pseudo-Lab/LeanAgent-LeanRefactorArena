@@ -33,7 +33,7 @@ class WarmStartTests(unittest.TestCase):
         self.path = self.root / "manifest.json"
         d.atomic(self.path, self.manifest)
         self.seed = w.snapshot(self.path, self.problem)
-        self.config = d.configuration(self.problem)
+        self.config = d.configuration(self.problem, None)
         self.output = d.folder(self.root, 2)
         for name, data in (("problem.json", self.problem), ("config.json", self.config), ("warm-start.json", self.seed)):
             d.atomic(self.output / "input" / name, data)
@@ -166,7 +166,7 @@ class WarmStartTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "new batch root"):
             d.prepare(self.root, [2])
 
-    def test_default_prepare_snapshots_best_without_api_or_lean_and_freezes_it(self):
+    def test_no_portfolio_prepare_snapshots_best_without_api_or_lean_and_freezes_it(self):
         repo, batch = self.root / "repo", self.root / "batch"
         d.atomic(repo / "sources/final/problems/F002.json", self.problem)
         d.atomic(repo / "dashboard/public/data/final-results.json", self.manifest)
@@ -186,7 +186,7 @@ class WarmStartTests(unittest.TestCase):
         with patch.object(d, "REPO", repo), patch.object(d, "implementation_files", return_value=[implementation]), \
                 patch.object(d, "evaluator", return_value=Fake()), \
                 patch.object(d.transport, "query", side_effect=AssertionError("No paid call")):
-            d.prepare(batch, [2], workers=1)
+            d.prepare(batch, [2], workers=1, portfolio_settings=None)
             stored = a.read(d.folder(batch, 2) / "input/warm-start.json")
             self.assertEqual(stored["candidate"]["code"], self.code)
             self.assertEqual(a.read(batch / "ledger.json")["attempts"], {})

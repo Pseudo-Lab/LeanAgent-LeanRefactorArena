@@ -100,7 +100,8 @@ def prepare(root, environment_repo):
     save(root / "experiment-frozen.json", {str(p.relative_to(root)): sha(p) for p in files})
     d = runtime(root)
     control = root / "control"
-    d.prepare_inputs(control, ROWS, workers=1, prompt_variant="baseline", strict_cap=True)
+    d.prepare_inputs(control, ROWS, workers=1, portfolio_settings=None,
+                     prompt_variant="baseline", strict_cap=True)
     treatment = root / "treatment"
     for row in ROWS:
         source = d.folder(control, row) / "input"
