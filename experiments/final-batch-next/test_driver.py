@@ -223,6 +223,18 @@ class DriverTests(unittest.TestCase):
             sandbox.assert_called_once_with(d.REPO)
             started.assert_not_called()
 
+    def test_configured_allocator_bound_is_reported_from_the_command(self):
+        original = {"valid": False, "environments": {"primary": {
+            "valid": False, "error": {"kind": "compile", "message":
+                "libc++abi: lean::memory_exception: excessive memory consumption detected at 'interpreter'"},
+            "runs": [{"returncode": -6, "command": ["lean", "candidate.lean", "-j1", "-M16384"]}]}}}
+        guarded = d.guard_compiler_signal(original)
+        self.assertFalse(h.environment_failed(guarded))
+        self.assertEqual(guarded["error"]["limit_mib"], 16384)
+        ambiguous = json.loads(json.dumps(original))
+        ambiguous["environments"]["primary"]["runs"][0]["command"].append("-M4096")
+        self.assertTrue(h.environment_failed(d.guard_compiler_signal(ambiguous)))
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)
