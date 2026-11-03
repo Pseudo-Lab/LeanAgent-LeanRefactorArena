@@ -129,7 +129,13 @@ class RowWorker:
         self.update_worker(environment={key: environment[key] for key in ("tool_paths", "lean_memory_mib", "transport",
                                                                            "compiler_slots")})
         if self.opts.key_file is not None and not self.opts.dry_run:
-            os.environ["OPENROUTER_API_KEY"] = self.driver.transport_for({"backend": "openrouter"}).load_key(Path(self.opts.key_file))
+            if self.opts.transport == "openai":
+                # Development transport: the OpenAI-direct wire reads its own key variable.
+                from . import transports
+                profile = transports.profile("openai")
+                os.environ[profile.key_env] = profile.wire.load_key(Path(self.opts.key_file))
+            else:
+                os.environ["OPENROUTER_API_KEY"] = self.driver.transport_for({"backend": "openrouter"}).load_key(Path(self.opts.key_file))
         crashes = self.crashes()
         if not (self.root / "frozen.json").exists():
             data = load_dataset(self.opts.dataset or read_or(self.layout.plan, {}).get("dataset"))
@@ -172,7 +178,8 @@ class RowWorker:
                 settings = row_settings(self.layout, self.row, route, cap=self.opts.cap_usd,
                                         prior=self.opts.prior_costs.get(self.row, Decimal(0)),
                                         compiler_slots=self.opts.compiler_slots, dry_run=self.opts.dry_run,
-                                        route_sha256=sha_bytes(route_bytes), addendum=prompt_addendum(route))
+                                        route_sha256=sha_bytes(route_bytes), addendum=prompt_addendum(route),
+                                        transport=self.opts.transport)
                 atomic_json(inputs / "final60.json", settings)
             settings = read_json(inputs / "final60.json")
         if bool(settings.get("dry_run")) != bool(self.opts.dry_run):

@@ -12,6 +12,7 @@ import importlib.util
 import json
 from pathlib import Path
 
+from . import transports
 from .contracts import CAP_USD
 from .orchestrator import (REPO, Layout, atomic_bytes, atomic_json, load_dataset, load_non_openrouter,
                            now_iso, read_json, row_spend, sha_bytes, sha_text)
@@ -68,7 +69,32 @@ def published_proof(layout, row, *, allow_dry_run=False):
         return None, "not an OpenRouter run root"
     if authorization.get("dry_run") and not allow_dry_run:
         return None, "dry-run root (mock transport) is never submitted"
+    submittable, reason = transports.is_submittable(authorization)
+    if not submittable and not (allow_dry_run and authorization.get("dry_run")):
+        return None, reason
     return code, None
+
+
+def development_proofs(layout):
+    """(label, proof) of every proof a development-transport row root of this run produced.
+
+    Such roots (OpenAI direct) are never submitted; their proofs join the non-OpenRouter set so
+    the provenance checker refuses them as submissions, seeds or prompt content (PR #70).
+    """
+    from . import openai_direct
+    found = []
+    for row in range(1, 61):
+        root = layout.row_root(row)
+        path = root / "authorization.json"
+        if not path.exists():
+            continue
+        try:
+            authorization = read_json(path)
+        except (OSError, ValueError):
+            continue
+        if authorization.get("transport") == "openai" or authorization.get("provider") == "OpenAI direct":
+            found.extend((f"openai-direct#{item['name']}", item["proof"]) for item in openai_direct.dev_proofs(root))
+    return found
 
 
 def sqlite_spend(layout, row):
@@ -181,6 +207,7 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
     rules_checker, rules_path = checker("check_submission_rules")
     provenance_checker, provenance_path = checker("check_submission_provenance")
     outside = [(f"{row['source']}#{row['name']}", row["proof"]) for row in load_non_openrouter(layout)]
+    outside.extend(development_proofs(layout))
     choice, reasons, facts = {}, {}, {}
     for row in range(1, 61):
         facts[row] = row_facts(layout, row)

@@ -450,12 +450,24 @@ def model_settings(key="gen_primary"):
     return model
 
 
-def row_settings(layout, row, route, *, cap, prior, compiler_slots, dry_run, route_sha256, addendum):
-    """input/final60.json: everything the frozen driver needs from the orchestrator."""
+def row_settings(layout, row, route, *, cap, prior, compiler_slots, dry_run, route_sha256, addendum, transport=None):
+    """input/final60.json: everything the frozen driver needs from the orchestrator.
+
+    ``transport`` is the sealed run setting (openrouter, the entry; mock for dry runs; openai for
+    development only): a dry run is always the mock, and the openai transport uses the
+    OpenAI-direct wire's pinned model dict instead of the OpenRouter catalog's.
+    """
+    from . import transports
     cap, prior = Decimal(str(cap)), Decimal(str(prior))
     root = layout.row_root(row)
+    name = transport or ("mock" if dry_run else transports.DEFAULT)
+    if name == transports.DEFAULT and dry_run:
+        name = "mock"
+    profile = transports.profile(name)
+    dry_run = bool(dry_run) or profile.dry_run
+    model = profile.driver_model() if name == "openai" else model_settings("gen_primary")
     return {"schema": SCHEMA, "row": row, "name": route.name, "cap_usd": str(cap), "prior_cost_usd": str(prior),
-            "effective_cap_usd": str(cap - prior), "model": model_settings("gen_primary"),
+            "effective_cap_usd": str(cap - prior), "model": model, "transport": name,
             "skip_llm": bool(route.skip_llm), "portfolio": None if route.skip_llm else dict(route.portfolio),
             "prompt_addendum": addendum, "route_sha256": route_sha256,
             "cost_ledger": os.path.relpath(layout.sqlite, root), "run_dir": os.path.relpath(layout.run_dir, root),

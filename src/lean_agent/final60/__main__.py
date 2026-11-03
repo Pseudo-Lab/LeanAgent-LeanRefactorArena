@@ -7,6 +7,7 @@ import json
 from pathlib import Path
 import sys
 
+from . import transports
 from .contracts import CAP_USD
 from .orchestrator import (DEFAULT_DEADLINE, REPO, Layout, RunOptions, parse_deadline, parse_rows, plan, read_json,
                            status)
@@ -29,7 +30,8 @@ def add_common(parser):
 
 
 def add_run(parser):
-    parser.add_argument("--key-file", type=Path, help="Dotenv file with OPENROUTER_API_KEY (read only by the transport)")
+    parser.add_argument("--key-file", type=Path, help="Dotenv file with OPENROUTER_API_KEY (OPENAI_API_KEY for "
+                                                      "--transport openai); read only by the transport")
     parser.add_argument("--rows", default="1-60", help="Rows, e.g. 1-60 or 11-30,41")
     parser.add_argument("--max-rows", type=int, default=8)
     parser.add_argument("--compiler-slots", type=int, default=6)
@@ -50,8 +52,8 @@ def add_run(parser):
 
 
 def add_passthrough(parser):
-    parser.add_argument("--transport", help="Transport variant name handed to row workers unchanged "
-                                            "(FINAL60_TRANSPORT and --transport); the transport component interprets it")
+    # openrouter (the entry, default), mock (dry run; implied by --dry-run) or openai (development only).
+    transports.add_argument(parser, default=None)
     parser.add_argument("--lean-memory-mib", type=int, help="ARENA_LEAN_MEMORY_MIB for every row "
                                                             "(default: 16384 for Mathlib-based sources, else 4096)")
 
@@ -67,10 +69,17 @@ def options(args):
     deadline = parse_deadline(pick("deadline", DEFAULT_DEADLINE))
     priors = prior_costs(args.prior_costs) if getattr(args, "prior_costs", None) else {
         int(key): Decimal(value) for key, value in saved.get("prior_costs", {}).items()}
+    # The transport is a sealed run setting: --dry-run is the mock, and the mock is always a dry run.
+    dry_run = bool(getattr(args, "dry_run", False) or saved.get("dry_run"))
+    transport = str(pick("transport") or transports.DEFAULT)
+    if dry_run and transport == transports.DEFAULT:
+        transport = "mock"
+    if transport == "mock":
+        dry_run = True
     opts = RunOptions(run_dir=args.run_dir.resolve(), key_file=getattr(args, "key_file", None), rows=rows,
                       max_rows=int(pick("max_rows", 8)), compiler_slots=int(pick("compiler_slots", 6)),
                       deadline=deadline, soft_stop_min=int(pick("soft_stop_min", 100)),
-                      diversity=bool(pick("diversity", False)), dry_run=bool(getattr(args, "dry_run", False) or saved.get("dry_run")),
+                      diversity=bool(pick("diversity", False)), dry_run=dry_run,
                       dataset=Path(pick("dataset")) if pick("dataset") else None,
                       prepared_repo=Path(pick("prepared_repo")) if pick("prepared_repo") else None,
                       non_openrouter=[Path(path) for path in (getattr(args, "non_openrouter", None) or saved.get("non_openrouter", []))],
@@ -78,7 +87,7 @@ def options(args):
                       exploration_minutes=int(pick("exploration_minutes", 75)),
                       mem_start_gib=float(pick("mem_start_gib", 10.0)), mem_reserve_gib=float(pick("mem_reserve_gib", 6.0)),
                       gib_per_compile=float(pick("gib_per_compile", 3.5)), poll_seconds=float(pick("poll_seconds", 15.0)),
-                      transport=(str(pick("transport")) if pick("transport") else None),
+                      transport=transport,
                       lean_memory_mib=(int(pick("lean_memory_mib")) if pick("lean_memory_mib") else None),
                       memory_log_seconds=float(pick("memory_log_seconds", 30.0)))
     if not 0 < opts.cap_usd <= CAP_USD:
@@ -150,7 +159,7 @@ def main(argv=None):
     opts = options(args)
     if args.command == "run":
         if opts.key_file is None and not opts.dry_run:
-            raise SystemExit("run needs --key-file (or --dry-run)")
+            raise SystemExit("run needs --key-file (or --dry-run / --transport mock)")
         from .supervisor import supervise
         return supervise(args.run_dir, opts)
     from .rowworker import EXIT_RETRYABLE, WorkerBusy, run_row

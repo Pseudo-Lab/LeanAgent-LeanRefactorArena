@@ -936,15 +936,23 @@ class CliTests(unittest.TestCase):
     def test_cli_transport_and_memory_passthrough_options(self):
         from lean_agent.final60 import __main__ as cli
         with tempfile.TemporaryDirectory() as temp:
-            args = cli.build_parser().parse_args(["run", "--run-dir", temp, "--dry-run", "--transport", "variant-z",
+            args = cli.build_parser().parse_args(["run", "--run-dir", temp, "--transport", "openai",
                                                   "--lean-memory-mib", "12288", "--memory-log-seconds", "45"])
             opts = cli.options(args)
-            self.assertEqual((opts.transport, opts.lean_memory_mib, opts.memory_log_seconds), ("variant-z", 12288, 45.0))
+            self.assertEqual((opts.transport, opts.lean_memory_mib, opts.memory_log_seconds), ("openai", 12288, 45.0))
+            self.assertFalse(opts.dry_run)
             o.save_options(o.Layout(temp), opts)
             row_opts = cli.options(cli.build_parser().parse_args(["row", "--run-dir", temp, "--row", "3"]))
-            self.assertEqual((row_opts.transport, row_opts.lean_memory_mib), ("variant-z", 12288))
+            self.assertEqual((row_opts.transport, row_opts.lean_memory_mib), ("openai", 12288))
+            # --dry-run is the mock transport and the mock is always a dry run; the entry is the default.
             plain = cli.options(cli.build_parser().parse_args(["run", "--run-dir", temp, "--dry-run"]))
-            self.assertEqual((plain.transport, plain.lean_memory_mib), (None, None))
+            self.assertEqual((plain.transport, plain.dry_run, plain.lean_memory_mib), ("mock", True, None))
+            mock = cli.options(cli.build_parser().parse_args(["run", "--run-dir", temp, "--transport", "mock"]))
+            self.assertEqual((mock.transport, mock.dry_run), ("mock", True))
+            entry = cli.options(cli.build_parser().parse_args(["run", "--run-dir", temp, "--key-file", temp]))
+            self.assertEqual((entry.transport, entry.dry_run), ("openrouter", False))
+            with self.assertRaises(SystemExit):
+                cli.build_parser().parse_args(["run", "--run-dir", temp, "--dry-run", "--transport", "variant-z"])
             with self.assertRaises(SystemExit):
                 cli.options(cli.build_parser().parse_args(["run", "--run-dir", temp, "--dry-run", "--lean-memory-mib", "10"]))
             self.assertIn("package", cli.build_parser().format_help())

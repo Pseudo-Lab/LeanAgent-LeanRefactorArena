@@ -72,12 +72,31 @@ class Final60Stop(Exception):
 
 
 def transport_for(config):
-    """final60 hook 1: the frozen model backend selects the transport module."""
+    """final60 hook 1: the frozen model backend selects the transport module.
+
+    OpenRouter models use openrouter_transport (real HTTP or the sealed dry-run mock). An OpenAI
+    model of a final60 row sealed with transport ``openai`` (FINAL60_TRANSPORT, which the
+    orchestrator sets per row worker) uses the OpenAI-direct development adapter, whose proofs
+    are never submitted; legacy OpenAI roots keep openai_transport.
+    """
     model = config.get("model", config) if isinstance(config, dict) else {}
     if isinstance(model, dict) and model.get("backend") == "openrouter":
         import openrouter_transport
         return openrouter_transport
+    if isinstance(model, dict) and model.get("backend") == "openai" and os.environ.get("FINAL60_TRANSPORT") == "openai":
+        import openai_direct_transport
+        return openai_direct_transport
     return transport
+
+
+def final60_transport_name(settings):
+    """The sealed transport of final60 settings/authorization: openrouter, openai or mock (dry runs)."""
+    name = settings.get("transport")
+    if name is None:
+        name = "mock" if settings.get("dry_run") else "openrouter"
+    if name == "openrouter" and settings.get("dry_run"):
+        name = "mock"
+    return name
 
 
 def now():
@@ -466,7 +485,13 @@ def final60_validate(inputs, settings, problem, policy):
     if not (0 < cap <= FINAL60_MAX_CAP) or prior < 0 or effective != cap - prior or effective <= 0:
         raise ValueError("final60 cap must be 0 < cap - declared prior spend <= 2.99")
     model = settings["model"]
-    if model.get("backend") != "openrouter" or not model.get("provider") or "max_price" not in model:
+    name = final60_transport_name(settings)
+    if name not in ("openrouter", "openai", "mock"):
+        raise ValueError("final60 transport must be openrouter, openai or mock")
+    if name == "openai":
+        if model.get("backend") != "openai" or settings.get("dry_run"):
+            raise ValueError("final60 transport openai requires the pinned OpenAI-direct model (development only)")
+    elif model.get("backend") != "openrouter" or not model.get("provider") or "max_price" not in model:
         raise ValueError("final60 requires a pinned OpenRouter model with price ceilings")
     if not policy["strict_cap"]:
         raise ValueError("final60 requires the strict per-request budget reservation")
@@ -660,17 +685,30 @@ def seal_inputs(root, rows, *, compiler_parallelism=None):
                          "no_automatic_retries": True, "created_at": now(),
                          "verification_policy": VERIFICATION_POLICY}
         if final60:
-            # final60 hook 1: OpenRouter-only authorization (PR #70 reads api_endpoint).
-            wire = transport_for(settings[0]["model"])
-            if not policies[0]["strict_cap"] or not wire.ENDPOINT.startswith("https://openrouter.ai/"):
+            # final60 hook 1: the sealed transport fixes provider and endpoint (PR #70 reads api_endpoint).
+            # openrouter is the entry; mock (dry runs) and openai (development) are never submitted.
+            from lean_agent.final60 import transports
+            profile = transports.profile(final60_transport_name(settings[0]))
+            if profile.name == "openai":
+                import openai_direct_transport as wire
+            else:
+                wire = transport_for(settings[0]["model"])
+            if not policies[0]["strict_cap"] or wire.ENDPOINT != profile.api_endpoint:
+                raise ValueError("final60 roots must use the strict cap and the endpoint of the sealed transport")
+            if profile.name != "openai" and not wire.ENDPOINT.startswith("https://openrouter.ai/"):
                 raise ValueError("final60 roots must use the strict cap and the OpenRouter endpoint")
-            authorization.update(provider=FINAL60_PROVIDER, api_endpoint=wire.ENDPOINT,
-                                 budget_cost_basis=FINAL60_COST_BASIS, final60_schema=FINAL60_SCHEMA,
+            authorization.update(provider=profile.provider, api_endpoint=wire.ENDPOINT, transport=profile.name,
+                                 submittable=profile.submittable,
+                                 budget_cost_basis=wire.COST_BASIS, final60_schema=FINAL60_SCHEMA,
                                  cap_usd=settings[0]["cap_usd"], prior_cost_usd=settings[0]["prior_cost_usd"],
-                                 cost_ledger=settings[0].get("cost_ledger"), dry_run=bool(settings[0].get("dry_run")),
+                                 cost_ledger=settings[0].get("cost_ledger"),
+                                 dry_run=bool(settings[0].get("dry_run")) or profile.dry_run,
                                  compiler_slots=compiler_parallelism(root), max_lean_parallel=compiler_parallelism(root),
                                  no_automatic_retries=False,
                                  retry_policy="unbilled HTTP errors only, recorded as $0 sub-attempts; billed or unknown outcomes are never re-sent")
+            if not profile.submittable:
+                authorization["development_only"] = ("proofs, candidates and prompts of this root are never submitted "
+                                                     "and never seed, carry into or appear in an OpenRouter run")
         else:
             wire = transport
             authorization.update(provider="OpenAI direct", api_endpoint=transport.ENDPOINT,
@@ -1007,16 +1045,27 @@ def final60_dispatch(root, row, step, body, model, step_dir):
     from lean_agent.final60.ledger import BudgetExceeded
     root = Path(root)
     wire = transport_for(model)
+    authorization = a.read(root / "authorization.json")
+    name = final60_transport_name(authorization)
     options = {}
-    if a.read(root / "authorization.json").get("dry_run"):
+    spec = None
+    if authorization.get("dry_run"):
         # Sealed dry-run roots only ever use the no-network mock; assembly never submits them.
         from lean_agent.final60 import transport as router
         options["transport"] = router.MockOpenRouter(final60_dry_responder)
         key = "dry-run"
+    elif name == "openai":
+        # Development transport: same cap, ledger and evidence layout through the OpenAI-direct wire.
+        from lean_agent.final60 import openai_direct
+        options["wire"] = openai_direct
+        spec = openai_direct.spec_for_model(model)
+        key = os.environ.get(openai_direct.KEY_ENV)
     else:
         key = os.environ.get("OPENROUTER_API_KEY")
     if not key:
-        raise ValueError("Missing explicitly configured OpenRouter credentials")
+        raise ValueError("Missing explicitly configured " + ("OpenAI" if name == "openai" else "OpenRouter") + " credentials")
+    if spec is None:
+        spec = catalog.spec_for_model(model)
     bound = wire.request_cost(body)
     attempt = f"F{row:03}-{step:04}"
     cap = Decimal(a.read(root / "authorization.json")["per_problem_target_usd"])
@@ -1037,7 +1086,7 @@ def final60_dispatch(root, row, step, body, model, step_dir):
             atomic(root / "ledger.json", ledger)
         start = time.monotonic()
         try:
-            result = money.dispatch_guarded(body, catalog.spec_for_model(model), ledger=final60_ledger(root),
+            result = money.dispatch_guarded(body, spec, ledger=final60_ledger(root),
                                             problem=f"F{row:03}", attempt_id=attempt, run_root=root,
                                             step_dir=step_dir, key=key, **options)
         except BudgetExceeded as exc:
@@ -1082,8 +1131,16 @@ def final60_recover(root, row, step, step_dir):
     sqlite = final60_ledger(root)
     def ours(entry):
         return str(entry.get("attempt_id", entry.get("id", ""))).split("#", 1)[0] == attempt
-    key = os.environ.get("OPENROUTER_API_KEY")
-    recovered = [final60_plain(sqlite.recover(entry.get("attempt_id", entry.get("id")), step_dir=step_dir, key=key))
+    authorization = a.read(root / "authorization.json")
+    recover_options = {}
+    if final60_transport_name(authorization) == "openai":
+        from lean_agent.final60 import openai_direct
+        recover_options["wire"] = openai_direct
+        key = os.environ.get(openai_direct.KEY_ENV)
+    else:
+        key = os.environ.get("OPENROUTER_API_KEY")
+    recovered = [final60_plain(sqlite.recover(entry.get("attempt_id", entry.get("id")), step_dir=step_dir, key=key,
+                                              **recover_options))
                  for entry in sqlite.open_attempts(run_root=str(root)) if ours(entry)]
     subs = [final60_plain(entry) for entry in sqlite.attempts(f"F{row:03}") if ours(entry)]
     total = sum((Decimal(str(entry.get("cost_usd") or 0)) for entry in subs), Decimal(0))
@@ -1097,7 +1154,8 @@ def final60_recover(root, row, step, step_dir):
         return
     basis = "generation-api" if any("generation" in str(entry.get("basis", "")) for entry in recovered) else "lost-bound"
     lost = {"id": "lost-" + attempt, "object": "final60.lost_response", "model": model["id"],
-            "provider": FINAL60_PROVIDER, "choices": [], "final60_lost": True, "usage": {"cost": str(total)},
+            "provider": authorization.get("provider", FINAL60_PROVIDER), "choices": [], "final60_lost": True,
+            "usage": {"cost": str(total)},
             "_cost_receipt": {"cost_usd": str(total), "basis": basis, "invoice_verified": False,
                               "provider_response_sha256": None, "sub_attempts": subs}}
     atomic(step_dir / "response.json", lost)
@@ -1108,7 +1166,7 @@ def final60_recover(root, row, step, step_dir):
 
 def dispatch(root, row, step, body, model, step_dir):
     verify_frozen(root)
-    if model.get("backend") == "openrouter":
+    if model.get("backend") == "openrouter" or final60_root(root):
         return final60_dispatch(root, row, step, body, model, step_dir)
     bound = transport.request_cost(body)
     data = transport.model_metadata()
@@ -1544,10 +1602,15 @@ def main():
     else:
         verify_frozen(root)
         if final60_root(root):
+            from lean_agent.final60 import transports
+            authorization = a.read(root / "authorization.json")
+            profile = transports.profile(final60_transport_name(authorization))
+            if profile.name == "openai":
+                os.environ["FINAL60_TRANSPORT"] = "openai"
             if args.key_file:
-                os.environ["OPENROUTER_API_KEY"] = transport_for({"backend": "openrouter"}).load_key(args.key_file)
-            if not os.environ.get("OPENROUTER_API_KEY"):
-                raise ValueError("Missing explicitly configured OpenRouter credentials")
+                os.environ[profile.key_env] = profile.wire.load_key(args.key_file)
+            if not authorization.get("dry_run") and not os.environ.get(profile.key_env):
+                raise ValueError("Missing explicitly configured " + profile.provider + " credentials")
         else:
             if args.key_file:
                 os.environ["OPENAI_API_KEY"] = transport.load_key(args.key_file)
