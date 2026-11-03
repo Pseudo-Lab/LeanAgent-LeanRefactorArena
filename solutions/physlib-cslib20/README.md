@@ -8,4 +8,6 @@ This directory contains the selected proofs for F011â€“F020 (PhysLib) and F021â€
 
 The local mean is **53.6942** across these 20 rows (16 improvements, four unchanged references). This is a local score, not a team 60-problem or official score. No paid model calls were made in this run.
 
+`proof_sha256` identifies the exact JSONL proof string. The review `.lean` files add one terminal newline; the dashboard publication retains a separate `proofFileSha256` for those bytes. The public bundle contains aggregate HB values and pass/repeat counts, not the raw HB samples or compiler logs. The dashboard labels these rows as published verification summaries.
+
 The selected declarations were checked in the original module context with the team's `FinalEvaluator`. The local run receipts and environment snapshots are retained on the RTX 4090 WSL machine; the public manifest omits machine paths and API material. This PR publishes the verified selection first. Harness integration and any additional candidate search can follow in separate reviewable changes.

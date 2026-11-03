@@ -1,0 +1,689 @@
+{
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "team_source_commit": "cda1f4dc91541de2c1daaaa0d7bc4cd129caa8ae",
+  "scope": "F011-F030",
+  "api_calls": 0,
+  "local_mean": 53.69417529981413,
+  "results": [
+    {
+      "row": 11,
+      "source": "physlib",
+      "name": "FTheory.SU5.ChargeSpectrum.containsPhenoCompletionsOfMinimallyAllows_viableCompletions",
+      "proof_sha256": "f29329edf1daeff9d3d4dc937e058923fcbeee0ef8df93c411edb6a401fefd11",
+      "route": "reference",
+      "score_local": 33.333333333333336,
+      "original_tokens": 4,
+      "candidate_tokens": 4,
+      "original_raw_heartbeats": 64051730,
+      "candidate_raw_heartbeats": 64051730,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma containsPhenoCompletionsOfMinimallyAllows_viableCompletions :\n    (I : CodimensionOneConfig) →\n    ContainsPhenoCompletionsOfMinimallyAllows I.allowedBarFiveCharges\n      I.allowedTenCharges (viableCompletions I) := by\n  decide +kernel",
+      "proofPath": "solutions/physlib-cslib20/F011.lean",
+      "proofFileSha256": "64ac9df51c0348af6f6e88d4d8d16c4864db55f932b510f4ff708813c56bb37b"
+    },
+    {
+      "row": 12,
+      "source": "physlib",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+      "proof_sha256": "8ab157299563e2419119cbaad1a0a88d5437e67fe3e395703949391949d31382",
+      "route": "enumerate-before-closure",
+      "score_local": 36.04967575735496,
+      "original_tokens": 12,
+      "candidate_tokens": 11,
+      "original_raw_heartbeats": 74041515,
+      "candidate_raw_heartbeats": 74177978,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma isPhenoClosedQ5_viableCharges : (I : CodimensionOneConfig) →\n    IsPhenoClosedQ5 I.allowedBarFiveCharges (viableCharges I) := by\n  intro i\n  apply isPhenClosedQ5_of_isPhenoConstrainedQ5\n  cases i <;> decide +kernel",
+      "proofPath": "solutions/physlib-cslib20/F012.lean",
+      "proofFileSha256": "028d8a1c3ddd468b572bddfb3591af4113b32f0284e8dc8f1c3734fb3cf0bade"
+    },
+    {
+      "row": 13,
+      "source": "physlib",
+      "name": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+      "proof_sha256": "5688df18625a8e1d6a02ed0102a289fe77bb4bc777328cded571c1e87401df5f",
+      "route": "enumerate-before-closure",
+      "score_local": 36.04525042618992,
+      "original_tokens": 12,
+      "candidate_tokens": 11,
+      "original_raw_heartbeats": 79108905,
+      "candidate_raw_heartbeats": 79265210,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma isPhenoClosedQ10_viableCharges : (I : CodimensionOneConfig) →\n    IsPhenoClosedQ10 I.allowedTenCharges (viableCharges I) := by\n  intro i\n  apply isPhenClosedQ10_of_isPhenoConstrainedQ10\n  cases i <;> decide +kernel",
+      "proofPath": "solutions/physlib-cslib20/F013.lean",
+      "proofFileSha256": "e0f45fd6c072cb07e5500579a2f6a9056ef6a8711d88b095ee0ed110b62d341d"
+    },
+    {
+      "row": 14,
+      "source": "physlib",
+      "name": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+      "proof_sha256": "80f1722a4735cf2546eeabd5724f07682f10903d7fc9f978342aed5aaa3840d4",
+      "route": "reference",
+      "score_local": 33.333333333333336,
+      "original_tokens": 181,
+      "candidate_tokens": 181,
+      "original_raw_heartbeats": 212379390,
+      "candidate_raw_heartbeats": 212379390,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma pauliContrDown_mul_pauliContr_mul_pauliContrDown : ({\n    σ^^^ | μ τ(α) τ(β) ⊗ σ^^^ | ν α β' ⊗ σ^^^ | ρ τ(α') τ(β') =\n      ((((η | μ ν ⊗ σ^^^ | ρ τ(α') τ(β))\n        + (-((η | μ ρ ⊗ σ^^^ | ν τ(α') τ(β)))))\n        + (η | ν ρ ⊗ σ^^^ | μ τ(α') τ(β)))\n        + ((-Complex.I) •ₜ (ε4ℂ | μ ν ρ κ ⊗ σ^^^ | τ(κ) τ(α') τ(β))))\n    }ᵀ : Prop) := by\n  conv_lhs =>\n    rw [dualWeyl_mul_pauliContr_eq_ofGaussianInt, toTensor_dualWeyl_eq_ofGaussianInt,\n      prodT_ofGaussianInt_ofGaussianInt, contrT_ofGaussianInt]\n  conv_rhs =>\n    simp only [contrMetric_eq_ofGaussianInt, toTensor_dualWeyl_eq_ofGaussianInt,\n      prodT_ofGaussianInt_ofGaussianInt]\n    simp only [leviCivita_eq_ofGaussianInt_prod, toTensor_dualAll_eq_ofGaussianInt]\n    rw [prodT_ofGaussianInt_ofGaussianInt, contrT_ofGaussianInt, permT_ofGaussianInt]\n  apply (Tensor.basis _).repr.injective\n  ext b\n  rw [ofGaussianInt_basis_repr_apply, permT_basis_repr_symm_apply]\n  simp only [map_add, Finsupp.coe_add, Pi.add_apply]\n  simp only [permT_basis_repr_symm_apply, map_neg, Finsupp.coe_neg, Pi.neg_apply,\n    map_smul, Finsupp.coe_smul, Pi.smul_apply, smul_eq_mul, ofGaussianInt_basis_repr_apply]\n  conv_rhs => arg 2; rw [show ∀ a : GaussianInt, -Complex.I * GaussianInt.toComplex a =\n    GaussianInt.toComplex (-⟨0, 1⟩ * a) from fun a => by simp [GaussianInt.toComplex_def']]\n  apply (show ∀ a b c d e : GaussianInt, a = b + -c + d + e → GaussianInt.toComplex a =\n    GaussianInt.toComplex b + -GaussianInt.toComplex c + GaussianInt.toComplex d +\n      GaussianInt.toComplex e from fun _ _ _ _ _ h => by simp [h])\n  decide +revert +kernel",
+      "proofPath": "solutions/physlib-cslib20/F014.lean",
+      "proofFileSha256": "8e6008feffb578346c6f733c12abecf0c6549779e193ea3036da327418f75220"
+    },
+    {
+      "row": 15,
+      "source": "physlib",
+      "name": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+      "proof_sha256": "13a7b6e73c3d7d0eaba531809654eb931b3851f2d25275ccdc0ba49e22cfd667",
+      "route": "reference",
+      "score_local": 33.333333333333336,
+      "original_tokens": 183,
+      "candidate_tokens": 183,
+      "original_raw_heartbeats": 136539444,
+      "candidate_raw_heartbeats": 136539444,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma pauliContr_mul_pauliContrDown_mul_pauliContr : ({\n    σ^^^ | μ α β ⊗ σ^^^ | ν τ(α') τ(β) ⊗ σ^^^ | ρ α' β' =\n      ((((η | μ ν ⊗ σ^^^ | ρ α β') + (-((η | μ ρ ⊗ σ^^^ | ν α β'))))\n        + (η | ν ρ ⊗ σ^^^ | μ α β'))\n        + (Complex.I •ₜ (ε4ℂ | μ ν ρ κ ⊗ σ^^^ | τ(κ) α β')))\n    }ᵀ : Prop) := by\n  conv_lhs =>\n    rw [pauliContr_mul_dualWeyl_eq_ofGaussianInt, toTensor_eq_ofGaussianInt,\n      prodT_ofGaussianInt_ofGaussianInt, contrT_ofGaussianInt]\n  conv_rhs =>\n    rw [leviCivita_mul_pauliDual]\n    simp only [contrMetric_eq_ofGaussianInt, toTensor_eq_ofGaussianInt,\n      prodT_ofGaussianInt_ofGaussianInt]\n    simp only [leviCivita_eq_ofGaussianInt_prod, pauliCo_eq_ofGaussianInt]\n    rw [prodT_ofGaussianInt_ofGaussianInt, contrT_ofGaussianInt, permT_ofGaussianInt]\n  apply (Tensor.basis _).repr.injective\n  ext b\n  rw [ofGaussianInt_basis_repr_apply, permT_basis_repr_symm_apply]\n  simp only [map_add, Finsupp.coe_add, Pi.add_apply]\n  simp only [permT_basis_repr_symm_apply, map_neg, Finsupp.coe_neg, Pi.neg_apply,\n    map_smul, Finsupp.coe_smul, Pi.smul_apply, smul_eq_mul, ofGaussianInt_basis_repr_apply]\n  conv_rhs => arg 2; rw [show ∀ a : GaussianInt, Complex.I * GaussianInt.toComplex a =\n    GaussianInt.toComplex (⟨0, 1⟩ * a) from fun a => by simp [GaussianInt.toComplex_def']]\n  apply (show ∀ a b c d e : GaussianInt, a = b + -c + d + e → GaussianInt.toComplex a =\n    GaussianInt.toComplex b + -GaussianInt.toComplex c + GaussianInt.toComplex d +\n      GaussianInt.toComplex e from fun _ _ _ _ _ h => by simp [h])\n  decide +revert +kernel",
+      "proofPath": "solutions/physlib-cslib20/F015.lean",
+      "proofFileSha256": "eedd11e96e1168d678130b8afbb133e3ce64edbe57f5acd5d430454f882c7da0"
+    },
+    {
+      "row": 16,
+      "source": "physlib",
+      "name": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+      "proof_sha256": "ddcdb25df74de488575e894c9b31ed484db9f9029790b91e11978a56afa77306",
+      "route": "handoff-P05",
+      "score_local": 85.31166986985336,
+      "original_tokens": 1372,
+      "candidate_tokens": 356,
+      "original_raw_heartbeats": 23941358,
+      "candidate_raw_heartbeats": 4337568,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma time_deriv_time_deriv_electricField_of_isExtrema {A : ElectromagneticPotential d}\n    {𝓕 : FreeSpace}\n    (hA : ContDiff ℝ ∞ A) (J : LorentzCurrentDensity d)\n    (hJ : ContDiff ℝ ∞ J) (h : IsExtrema 𝓕 A J)\n    (t : Time) (x : Space d) (i : Fin d) :\n    ∂ₜ (∂ₜ (A.electricField 𝓕.c · x i)) t =\n      𝓕.c ^ 2 * ∑ j, (∂[j] (∂[j] (A.electricField 𝓕.c t · i)) x) -\n      𝓕.c ^ 2 / 𝓕.ε₀ * ∂[i] (J.chargeDensity 𝓕.c t ·) x -\n      𝓕.c ^ 2 * 𝓕.μ₀ * ∂ₜ (J.currentDensity 𝓕.c · x i) t := by\n  have hA₂ : ContDiff ℝ 2 A := hA.of_le ENat.LEInfty.out\n  have hA₃ : ContDiff ℝ 3 A := hA.of_le ENat.LEInfty.out\n  have hEs := fun j => electricField_apply_contDiff_space (n := 2) (c := 𝓕.c) (i := j) hA₃ t\n  have hEd := fun j => Space.deriv_differentiable (hEs j)\n  have hBs := magneticFieldMatrix_contDiff (n := 2) (c := 𝓕.c) A hA₃\n  have hJd := hJ.differentiable (WithTop.coe_ne_zero.2 ENat.top_ne_zero)\n  have hg := congrArg (∂[i] · x)\n    (funext fun x => ((isExtrema_iff_gauss_ampere_magneticFieldMatrix hA J hJ).mp h t x).1)\n  unfold Space.div at hg\n  rw [Space.deriv_eq_fderiv_basis,\n    fderiv_fun_sum (fun j _ => (hEd j j).differentiableAt)] at hg\n  conv at hg =>\n    rhs\n    rw [Space.deriv_eq_fderiv_basis]\n    simp only [div_eq_inv_mul]\n    rw [fderiv_const_mul ((LorentzCurrentDensity.chargeDensity_differentiable_space hJd t) x)]\n  simp only [_root_.sum_apply, _root_.smul_apply, smul_eq_mul,\n    ← Space.deriv_eq_fderiv_basis] at hg\n  conv_lhs =>\n    enter [1, t]\n    rw [Time.deriv_euclid (electricField_differentiable_time hA₂ _),\n      time_deriv_electricField_of_isExtrema hA J hJ h]\n  rw [Time.deriv_eq, ((((HasFDerivAt.fun_sum fun j _ => (Space.space_deriv_differentiable_time (i := j) (hBs (j, i)) x t).hasFDerivAt).const_mul _).fun_sub\n    ((LorentzCurrentDensity.currentDensity_apply_differentiable_time (c := 𝓕.c) hJd x i t).hasFDerivAt.const_mul _))).fderiv]\n  simp only [ContinuousLinearMap.sub_apply, ContinuousLinearMap.smul_apply, ContinuousLinearMap.sum_apply,\n    smul_eq_mul, ← Time.deriv_eq]\n  simp only [Space.time_deriv_comm_space_deriv (hBs _), time_deriv_magneticFieldMatrix _ hA₂,\n    fun j => Space.fun_deriv_sub (u := j) _ _ (hEd i j) (hEd j i), Finset.sum_sub_distrib,\n    fun j => congrFun (Space.deriv_commute (u := j) (v := i) _ (hEs j)) x]\n  rw [hg, FreeSpace.c_sq, mul_comm 𝓕.ε₀ 𝓕.μ₀]\n  simp only [div_eq_mul_inv, mul_inv_rev, one_mul, mul_sub, mul_assoc, inv_mul_cancel_left₀ 𝓕.μ₀_ne_zero]",
+      "proofPath": "solutions/physlib-cslib20/F016.lean",
+      "proofFileSha256": "8966d3ce867dc8340dfaf6de0b7bad5d646c19e50cb378cc795da0b3c1480026"
+    },
+    {
+      "row": 17,
+      "source": "physlib",
+      "name": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+      "proof_sha256": "e76695dc11377f1b42989527e60f1ea19e6bc60156bcc223bae7498a143ac39d",
+      "route": "direct-term",
+      "score_local": 82.70123710990063,
+      "original_tokens": 1217,
+      "candidate_tokens": 349,
+      "original_raw_heartbeats": 35774566,
+      "candidate_raw_heartbeats": 8306573,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma ι_timeOrderF_superCommuteF_eq_time {φ ψ : 𝓕.CrAnFieldOp}\n    (hφψ : crAnTimeOrderRel φ ψ) (hψφ : crAnTimeOrderRel ψ φ) (a b : 𝓕.FieldOpFreeAlgebra) :\n    ι 𝓣ᶠ(a * [ofCrAnOpF φ, ofCrAnOpF ψ]ₛF * b) =\n    ι ([ofCrAnOpF φ, ofCrAnOpF ψ]ₛF * 𝓣ᶠ(a * b)) := by\n  let m := LinearMap.mul ℂ 𝓕.FieldOpFreeAlgebra\n  let c := [ofCrAnOpF φ, ofCrAnOpF ψ]ₛF\n  suffices h : (m.comp (m.flip c)).compr₂ (ι.toLinearMap.comp timeOrderF) =\n      m.compr₂ (ι.toLinearMap.comp ((m c).comp timeOrderF)) from\n    LinearMap.congr_fun₂ h a b\n  apply LinearMap.ext_basis ofCrAnListFBasis ofCrAnListFBasis\n  intro x y\n  change ι 𝓣ᶠ(_ * _ * _) = ι (_ * 𝓣ᶠ(_ * _))\n  simp only [c, ofListBasis_eq_ofList, map_mul, ← ofCrAnListF_append, timeOrderF_ofCrAnListF,\n    map_smul, mul_smul_comm]\n  obtain ⟨l, r, f⟩ : ∃ l r : 𝓕.WickAlgebra, ∀ z : List 𝓕.CrAnFieldOp,\n      (∀ c ∈ z, crAnTimeOrderRel φ c ∧ crAnTimeOrderRel c φ) →\n      ι (ofCrAnListF (crAnTimeOrderList (x ++ z ++ y))) = l * ι (ofCrAnListF z) * r := ⟨_, _, fun z hz => by\n      rw [crAnTimeOrderList, insertionSort_of_eq_list (h := hz)]\n      simp only [ofCrAnListF_append, map_mul]\n      exact @mul_assoc 𝓕.WickAlgebra _ _ _ _⟩\n  trans crAnTimeOrderSign (x ++ φ :: ψ :: y) •\n    (l * ι [ofCrAnOpF φ, ofCrAnOpF ψ]ₛF * r)\n  · rw [superCommuteF_ofCrAnOpF_ofCrAnOpF]\n    simp only [mul_sub, sub_mul, mul_smul_comm, smul_mul_assoc,\n      map_sub, map_smul, ← ofCrAnListF_singleton, ← ofCrAnListF_append,\n      timeOrderF_ofCrAnListF]\n    rw [f _ ?_, f _ ?_]\n    simp only [List.append_assoc, List.cons_append, List.nil_append]\n    rw [crAnTimeOrderSign_swap_eq_time hφψ hψφ, smul_sub, smul_comm]\n    all_goals simp [*]\n  rw [Subalgebra.mem_center_iff.mp (ι_superCommuteF_ofCrAnOpF_ofCrAnOpF_mem_center φ ψ),\n    mul_assoc]\n  have w := f [] (List.forall_mem_nil _)\n  simp at w\n  rw [← w]\n  by_cases q : 𝓕.crAnStatistics φ = 𝓕.crAnStatistics ψ\n  · simp only [crAnTimeOrderSign, Wick.koszulSign_eq_rel_eq_stat _ _ hφψ hψφ q.symm]\n  · simp only [ι_superCommuteF_of_diff_statistic q, zero_mul, smul_zero]",
+      "proofPath": "solutions/physlib-cslib20/F017.lean",
+      "proofFileSha256": "90868d5d63484705220a357507dec8218c6e2bad4856300a7bc887ec71f3a19c"
+    },
+    {
+      "row": 18,
+      "source": "physlib",
+      "name": "fundamental_theorem_of_variational_calculus'",
+      "proof_sha256": "d0293814a98d5db2e8fdca6fec03c5c419f0847244376124e4265a4ba9b6ba12",
+      "route": "handoff-P04",
+      "score_local": 91.78299183555895,
+      "original_tokens": 851,
+      "candidate_tokens": 114,
+      "original_raw_heartbeats": 10202612,
+      "candidate_raw_heartbeats": 1148306,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma fundamental_theorem_of_variational_calculus' {f : Y → V}\n    (μ : Measure Y) [IsFiniteMeasureOnCompacts μ] [μ.IsOpenPosMeasure]\n    [OpensMeasurableSpace Y]\n    (hf : Continuous f) (hg : ∀ g, IsTestFunction g → ∫ x, ⟪f x, g x⟫_ℝ ∂μ = 0) :\n    f = 0 := by\n  funext x\n  have hle := ‹OpensMeasurableSpace Y›.borel_le\n  have hc : Continuous (⟪f ·, f x⟫_ℝ) := by fun_prop\n  apply inner_self_eq_zero'.1 $ congrFun ((hc.ae_eq_iff_eq μ continuous_zero).1 $ ae_eq_of_ae_eq_trim (hm := hle) ?_) x\n  letI := borel Y\n  haveI : BorelSpace Y := ⟨rfl⟩\n  haveI : IsFiniteMeasureOnCompacts $ μ.trim hle := ⟨fun K hK ↦ trim_measurableSet_eq hle hK.measurableSet ▸ hK.measure_lt_top⟩\n  exact ae_eq_zero_of_integral_contDiff_smul_eq_zero hc.locallyIntegrable fun g hgs hgc ↦ integral_trim hle (hgs.continuous.mul hc).stronglyMeasurable ▸ by simpa only [inner_smul_right', Pi.mul_apply] using hg _ $ .smul_right ⟨hgs, hgc⟩ contDiff_const",
+      "proofPath": "solutions/physlib-cslib20/F018.lean",
+      "proofFileSha256": "17b3e0a269da7737deb8b05c73a5001a4b774cbcffa147da7f7fca11421f768e"
+    },
+    {
+      "row": 19,
+      "source": "physlib",
+      "name": "HermitianMat.inv_convex",
+      "proof_sha256": "2fc0f3336c199da4083bb0ec464e2979bf07e99903f05496b49a45eaa9afcee4",
+      "route": "schur-linear-block",
+      "score_local": 90.90668545489562,
+      "original_tokens": 1025,
+      "candidate_tokens": 242,
+      "original_raw_heartbeats": 211678393,
+      "candidate_raw_heartbeats": 7768994,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma inv_convex {x y : HermitianMat d 𝕜} (hx : x.mat.PosDef) (hy : y.mat.PosDef)\n    ⦃a b : ℝ⦄ (ha : 0 ≤ a) (hb : 0 ≤ b) (hab : a + b = 1) :\n    (a • x + b • y)⁻¹ ≤ a • x⁻¹ + b • y⁻¹ := by\n  -- Using the fact that the set of positive semidefinite matrices is a convex cone, we can show that the matrix\n  -- $\\begin{pmatrix} a \\bullet x + b \\bullet y & I \\\\ I & a \\bullet x^{-1} + b \\bullet y^{-1} \\end{pmatrix}$\n  -- is positive semidefinite.\n  have h_pos_semidef :\n    (Matrix.fromBlocks (a • x.mat + b • y.mat) (1 : Matrix d d 𝕜) (1 : Matrix d d 𝕜) (a • (x.mat)⁻¹ + b • (y.mat)⁻¹)).PosSemidef := by\n      -- Since $a + b = 1$, we can use the fact that the block matrix $\\begin{pmatrix} A & I \\\\ I & A^{-1} \\end{pmatrix}$ is positive semidefinite for any positive definite $A$.\n      have h_block_pos : ∀ A : Matrix d d 𝕜, A.PosDef → (Matrix.fromBlocks A 1 1 A⁻¹).PosSemidef := by\n        intro A hA\n        letI := hA.isUnit.invertible\n        simpa using (Matrix.PosDef.fromBlocks₁₁ (1 : Matrix d d 𝕜) A⁻¹ hA).2 (by simp [Matrix.PosSemidef.zero])\n      -- Since $a + b = 1$, we can use the fact that the block matrix $\\begin{pmatrix} a \\bullet x + b \\bullet y & I \\\\ I & a \\bullet x^{-1} + b \\bullet y^{-1} \\end{pmatrix}$ is positive semidefinite.\n      simpa only [Matrix.fromBlocks_smul, Matrix.fromBlocks_add, ← add_smul, hab, one_smul] using ((h_block_pos _ hx).smul ha).add ((h_block_pos _ hy).smul hb)\n  have h_schur : (a • x.mat + b • y.mat).PosDef := by\n    rcases ha.eq_or_lt with h | h\n    · have hb1 : b = 1 := by linarith\n      simpa [← h, hb1] using hy\n    · exact (hx.smul h).add_posSemidef (hy.posSemidef.smul hb)\n  change (a • (x.mat)⁻¹ + b • (y.mat)⁻¹ - (a • x.mat + b • y.mat)⁻¹).PosSemidef\n  letI := h_schur.isUnit.invertible\n  simpa using (Matrix.PosDef.fromBlocks₁₁ (1 : Matrix d d 𝕜) _ h_schur).1 (by simpa using h_pos_semidef)",
+      "proofPath": "solutions/physlib-cslib20/F019.lean",
+      "proofFileSha256": "f47bf5718d7c6e29496a8f59ecfd77d48470d13a6cfec2f331f0bbd9388bb4d4"
+    },
+    {
+      "row": 20,
+      "source": "physlib",
+      "name": "cauchyBinet",
+      "proof_sha256": "a4544a8ce7b367b3bd64229eac87fba425acb3fff74f2ccab1dde23c00ee6d59",
+      "route": "factored-minor-sum",
+      "score_local": 51.318263599301325,
+      "original_tokens": 1200,
+      "candidate_tokens": 976,
+      "original_raw_heartbeats": 143389274,
+      "candidate_raw_heartbeats": 92789889,
+      "versions": [
+        {
+          "v4.34.1": "9b22984adeb0ed3d15e8ccc9cd5aea2c790b5687"
+        },
+        {
+          "v4.34.0": "58d73ebd01edb1c5caa3ea5db07b0245afe93cb0"
+        }
+      ],
+      "checks": {
+        "physlib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "physlib-v4.34.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma cauchyBinet {m : ℕ} {n : Type*} [Fintype n] [DecidableEq n] [LinearOrder n]\n    {R : Type*} [CommRing R]\n    (A : Matrix (Fin m) n R) (B : Matrix n (Fin m) R) :\n    (A * B).det = ∑ S : {S : Finset n // S.card = m},\n      (A.submatrix id (S.1.orderEmbOfFin S.2)).det *\n      (B.submatrix (S.1.orderEmbOfFin S.2) id).det := by\n  have h_cauchy_binet : ∀ (A : Matrix (Fin m) n R) (B : Matrix n (Fin m) R), Matrix.det (A * B) = ∑ σ : Fin m → n, (∏ i, A i (σ i)) * Matrix.det (Matrix.of (fun i j ↦ B (σ i) j)) := by\n    intro A B\n    let D := (Matrix.detRowAlternating (n := Fin m) (R := R)).toMultilinearMap\n    calc\n      _ = D (fun i => ∑ k, A i k • B k) := by\n        apply congrArg Matrix.det\n        ext i j\n        simp [Matrix.mul_apply, Finset.sum_apply, smul_eq_mul]\n      _ = ∑ σ : Fin m → n, D (fun i => A i (σ i) • B (σ i)) :=\n        D.map_sum (fun i k => A i k • B k)\n      _ = _ := Finset.sum_congr rfl fun σ _ => D.map_smul_univ (fun i => A i (σ i)) (fun i => B (σ i))\n  -- Split the sum into injective and non-injective functions.\n  let summand (σ : Fin m → n) := (∏ i, A i (σ i)) * Matrix.det (Matrix.of (fun i j ↦ B (σ i) j))\n  have h_split : ∑ σ : Fin m → n, summand σ = ∑ σ : Fin m → n, if Function.Injective σ then summand σ else 0 := by\n    dsimp only [summand]\n    refine Finset.sum_congr rfl fun σ _ => ?_\n    split_ifs with hσ <;> simp_all [Function.Injective]\n    obtain ⟨i, j, hij, hne⟩ := hσ\n    exact mul_eq_zero_of_right _ (Matrix.det_zero_of_row_eq hne (by ext1; simp only [of_apply, hij]))\n  -- Group the sum by the image of the injective functions.\n  have h_group : ∑ σ : Fin m → n, (if Function.Injective σ then summand σ else 0) = ∑ S : {S : Finset n // S.card = m}, ∑ σ : Fin m → n, (if Function.Injective σ ∧ Finset.image σ Finset.univ = S.val then summand σ else 0) := by\n    rw [← Finset.sum_comm, Finset.sum_congr rfl]\n    intro σ _\n    by_cases hσ : Function.Injective σ\n    · simp [hσ]\n      rw [Finset.sum_eq_single ⟨Finset.image σ Finset.univ, by simp [Finset.card_image_of_injective _ hσ]⟩]\n      · simp\n      · grind\n      · simp\n    · simp [hσ]\n  -- For each subset $S$ of size $m$, the inner sum is equal to the product of the determinants of the submatrices of $A$ and $B$ corresponding to $S$.\n  have h_inner : ∀ S : {S : Finset n // S.card = m}, ∑ σ : Fin m → n, (if Function.Injective σ ∧ Finset.image σ Finset.univ = S.val then summand σ else 0) = Matrix.det (Matrix.submatrix A id (S.val.orderEmbOfFin S.property)) * Matrix.det (Matrix.submatrix B (S.val.orderEmbOfFin S.property) id) := by\n    intro S\n    have h_inner_sum : ∑ σ : Fin m → n, (if Function.Injective σ ∧ Finset.image σ Finset.univ = S.val then summand σ else 0) = ∑ τ : Equiv.Perm (Fin m), (∏ i, A i (S.val.orderEmbOfFin S.property (τ i))) * Matrix.det (Matrix.of (fun i j ↦ B (S.val.orderEmbOfFin S.property (τ i)) j)) := by\n      dsimp only [summand]\n      have h_inner_sum : Finset.filter (fun σ : Fin m → n => Function.Injective σ ∧ Finset.image σ Finset.univ = S.val) Finset.univ = Finset.image (fun τ : Equiv.Perm (Fin m) => fun i => S.val.orderEmbOfFin S.property (τ i)) Finset.univ := by\n        ext σ\n        simp [Finset.mem_image]\n        constructor\n        · intro hσ\n          let u (i : Fin m) : S.val := ⟨σ i, hσ.2 ▸ Finset.mem_image_of_mem _ (Finset.mem_univ _)⟩\n          let a (i : Fin m) := (S.val.orderIsoOfFin S.property).symm (u i)\n          have ha (i : Fin m) : σ i = S.val.orderEmbOfFin S.property (a i) :=\n            congrArg Subtype.val ((S.val.orderIsoOfFin S.property).apply_symm_apply (u i)).symm\n          have ha_inj : Function.Injective a := by\n            exact fun i j hij => hσ.1 <| by simp [ha, hij]\n          exact ⟨Equiv.ofBijective a ⟨ha_inj, Finite.injective_iff_surjective.mp ha_inj⟩, funext fun i => ha i ▸ rfl⟩\n        · rintro ⟨a, rfl⟩\n          constructor\n          · exact fun i j hij => a.injective <| by simpa using hij\n          · refine Finset.eq_of_subset_of_card_le (Finset.image_subset_iff.mpr fun i _ => Finset.orderEmbOfFin_mem _ _ _) ?_\n            rw [Finset.card_image_of_injective _ fun i j hij => by simpa [Fin.ext_iff] using hij]; simp [S.2]\n      rw [← Finset.sum_filter, h_inner_sum, Finset.sum_image]\n      exact fun τ _ τ' _ h => Equiv.Perm.ext fun i => by simpa using congr_fun h i\n    rw [h_inner_sum, Matrix.det_apply', Matrix.det_apply']\n    simp [Matrix.det_apply', Finset.sum_mul]\n    refine' Finset.sum_bij (fun σ _ => σ⁻¹) _ _ _ _ <;> simp [Equiv.Perm.sign_inv]\n    · exact fun b => ⟨b⁻¹, inv_inv b⟩\n    · intro σ\n      rw [← Equiv.prod_comp σ⁻¹]\n      simp [mul_assoc, mul_left_comm, Finset.mul_sum]\n      refine' Finset.sum_bij (fun τ _ => σ * τ) _ _ _ _ <;> simp [Equiv.Perm.sign_mul]\n      · exact fun b => ⟨σ⁻¹ * b, by simp⟩\n      · cases' Int.units_eq_one_or (Equiv.Perm.sign σ) with h h <;> simp [h]\n  rw [h_cauchy_binet, h_split, h_group, Finset.sum_congr rfl fun S hS => h_inner S]",
+      "proofPath": "solutions/physlib-cslib20/F020.lean",
+      "proofFileSha256": "2ab32c313a6a0bd1aa882bb46ef165bcca457ff119314fe361b33ebdd87cffd3"
+    },
+    {
+      "row": 21,
+      "source": "cslib",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+      "proof_sha256": "4709bb91f052bbdfd3823a492812bb8d7f13ef95263b8217de43f061e3d8092c",
+      "route": "handoff-P07",
+      "score_local": 88.03886962432819,
+      "original_tokens": 408,
+      "candidate_tokens": 88,
+      "original_raw_heartbeats": 59932411,
+      "candidate_raw_heartbeats": 8579183,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma Typing.progress (der : Typing [] t τ) : t.Value ∨ ∃ t', t ⭢βᵛ t' := by\n  generalize eq : [] = Γ at der\n  let lc := der.wf.2.1\n  induction der\n  all_goals clear_value lc\n  simp_all\n  all_goals simp_all only [true_implies, body_let, body_case]\n  case' app | tapp => cases lc\n  all_goals aesop (config := {enableSimp := false}) (add safe [cases (cases_patterns := [Value (.inl _), Value (.inr _)]) Value, destruct Typing.canonical_form_abs, destruct Typing.canonical_form_tabs, forward Typing.canonical_form_sum, Value], 90% Red)",
+      "proofPath": "solutions/physlib-cslib20/F021.lean",
+      "proofFileSha256": "9093549561ee6ca6e80c9f472797b6a3c919d8fba888e310b709a7f4e305b7d3"
+    },
+    {
+      "row": 22,
+      "source": "cslib",
+      "name": "Cslib.SKI.parallelReduction_diamond",
+      "proof_sha256": "ab0fb3335e9b0538a105305bdf74c1ec96a5b845d2307479047c0f334ae14de2",
+      "route": "handoff-P08",
+      "score_local": 79.12207742426713,
+      "original_tokens": 407,
+      "candidate_tokens": 158,
+      "original_raw_heartbeats": 1500521,
+      "candidate_raw_heartbeats": 357321,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "theorem parallelReduction_diamond : Diamond ParallelReduction := by\n  intro a a₁ a₂ h₁ h₂\n  induction h₁ generalizing a₂\n  case refl => use a₂, h₂, ParallelReduction.refl a₂\n  all_goals cases h₂\n  case' par.par iha ihb _ _ ha'' hb'' =>\n    obtain ⟨_, _, _⟩ := iha ha''\n    obtain ⟨_, _, _⟩ := ihb hb''\n    constructor\n    constructor <;> apply ParallelReduction.par <;> assumption\n  case' par.red_I | red_I.par =>\n    cases I_irreducible _ ‹_›\n    constructor\n    constructor <;> first | apply ParallelReduction.red_I | assumption\n  case' par.red_K | red_K.par =>\n    obtain ⟨_, _, rfl⟩ := Ka_irreducible _ _ ‹_›\n    constructor\n    constructor <;> first | apply ParallelReduction.red_K | assumption\n  case' par.red_S | red_S.par =>\n    obtain ⟨_, _, _, _, rfl⟩ := Sab_irreducible _ _ _ ‹_›\n    constructor\n    constructor <;> first\n    | apply ParallelReduction.red_S\n    | apply ParallelReduction.par <;> apply ParallelReduction.par <;> assumption\n  all_goals\n    constructor\n    constructor\n    constructor\n    constructor <;> assumption",
+      "proofPath": "solutions/physlib-cslib20/F022.lean",
+      "proofFileSha256": "6a886dbfd8a09b7e272da9e9e8098e0fc50309e0412cf52fcc832b8e35784846"
+    },
+    {
+      "row": 23,
+      "source": "cslib",
+      "name": "Cslib.CCS.bisimilarity_congr_choice",
+      "proof_sha256": "69f5978093ad7448ecf078c2d1aabc652d3eb631966b15d12e34da4e7cf75e93",
+      "route": "handoff-P09",
+      "score_local": 86.13155155604095,
+      "original_tokens": 251,
+      "candidate_tokens": 80,
+      "original_raw_heartbeats": 3940866,
+      "candidate_raw_heartbeats": 383558,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "theorem bisimilarity_congr_choice :\n    (p ~[lts (defs := defs)] q) → (choice p r) ~[lts (defs := defs)] (choice q r) := by\n  intro h\n  exists ChoiceBisim, .choice h\n  rintro _ _ (h | h) μ\n  all_goals\n    apply (Bisimilarity.isBisimulation _ _ h μ).imp\n    all_goals\n    intro f s t\n  iterate 2\n    cases t\n    exact (f _ ‹_›).imp fun _ => And.imp Tr.choiceL .bisim\n    exact ⟨s, Tr.choiceR ‹_›, .bisim (.refl _)⟩\n  all_goals exact (f _ t).imp fun _ => And.imp id .bisim",
+      "proofPath": "solutions/physlib-cslib20/F023.lean",
+      "proofFileSha256": "2cf9af7f41510a0284d13f635177a51489f5c2d993936958d7d57879283eaa14"
+    },
+    {
+      "row": 24,
+      "source": "cslib",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+      "proof_sha256": "08fb4d9fd39d06dba965fd90dac95b3705dfea6a708705d5125b66688200a545",
+      "route": "invert-with-typing-wf",
+      "score_local": 37.29325733352627,
+      "original_tokens": 391,
+      "candidate_tokens": 350,
+      "original_raw_heartbeats": 38105993,
+      "candidate_raw_heartbeats": 37574857,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "lemma Typing.preservation (der : Typing Γ t τ) (step : t ⭢βᵛ t') : Typing Γ t' τ := by\n  induction der generalizing t'\n  case app Γ _ σ τ _ _ _ _ _ =>\n    cases step\n    case appₗ | appᵣ => grind\n    case abs der _ _ =>\n      have ⟨_, _, ⟨_, _⟩⟩ := der.abs_inv (Sub.refl der.wf.1 der.wf.2.2)\n      grind [fresh_exists <| free_union [fvTm] Var, openTm_substTm_intro, subst_tm, Sub.weaken]\n  case tapp Γ _ σ τ σ' _ _ _ =>\n    cases step\n    case tabs der _ _ =>\n      have ⟨_, _, ⟨_, _⟩⟩ := der.tabs_inv (Sub.refl der.wf.1 der.wf.2.2)\n      have ⟨X, mem⟩ := fresh_exists <| free_union [Ty.fv, fvTy] Var\n      simp at mem\n      have : Γ = (Context.mapVal (·[X := σ']) []) ++ Γ := by grind\n      rw [openTy_substTy_intro (X := X), open_subst_intro (X := X)] <;> grind [subst_ty]\n    case tapp => grind\n  case let' Γ _ _ _ _ L der _ ih₁ _ =>\n    cases step\n    case let_bind red₁ _ => apply Typing.let' L (ih₁ red₁); grind\n    case let_body =>\n      grind [fresh_exists <| free_union [fvTm] Var, openTm_substTm_intro, subst_tm]\n  case case Γ _ σ τ _ _ _ L _ _ _ ih₁ _ _ =>\n    have : Γ = [] ++ Γ := by rfl\n    cases step\n    case «case» red₁ _ _ => apply Typing.case L (ih₁ red₁) <;> grind\n    case case_inl der _ _ =>\n      have ⟨_, ⟨_, _⟩⟩ := der.inl_inv (Sub.refl der.wf.1 der.wf.2.2)\n      grind [fresh_exists <| free_union [fvTm] Var, openTm_substTm_intro, subst_tm]\n    case case_inr der _ _ =>\n      have ⟨_, ⟨_, _⟩⟩ := der.inr_inv (Sub.refl der.wf.1 der.wf.2.2)\n      grind [fresh_exists <| free_union [fvTm] Var, openTm_substTm_intro, subst_tm]\n  all_goals grind [cases Red]",
+      "proofPath": "solutions/physlib-cslib20/F024.lean",
+      "proofFileSha256": "117e241cc9d07f3a5cc281d426b816a715611ec74212acf5e882e6b0026e3016"
+    },
+    {
+      "row": 25,
+      "source": "cslib",
+      "name": "Cslib.FLP.PseudoConsensus.of_consensus",
+      "proof_sha256": "902341994921bc8512261ec477dc54a2db9ac6bf65ebb5748d9759cf1032ae81",
+      "route": "lean-grind-all",
+      "score_local": 37.27490886196326,
+      "original_tokens": 433,
+      "candidate_tokens": 478,
+      "original_raw_heartbeats": 11622928,
+      "candidate_raw_heartbeats": 9040623,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "theorem of_consensus [Fintype P] (f : ℕ) (hf : f < card P)\n    (hc : a.Consensus f) : a.PseudoConsensus f := by\n  obtain ⟨h_safe, h_term⟩ := hc\n  use h_safe\n  rintro inp s ⟨xl, h_xl⟩ ps h_ps\n  let xls := a.fairSegActions (a.simpleDeliver ps) ps s\n  obtain ⟨ss, h_omega, h_s, _⟩ := fair_omegaExecution (simpleDeliver_fair ps) s trivial\n  obtain ⟨ss', h_omega', _, _, _⟩ := LTS.OmegaExecution.append h_xl h_omega h_s\n  have h_dest := omega_forall_actions (r := DestIn ps) (d := a.simpleDeliver ps)\n      (simpleDeliver_fair ps) s trivial (simpleDeliver_forallActions ps) (by simp [DestIn])\n  have : ∀ p, p ∈ ps → ProcFair p ss' (xl ++ω xls.flatten) := by\n    intro p h_p\n    rw [← Algorithm.drop_procFair_iff h_omega' p xl.length]\n    grind only [drop_append_of_ge_length, = drop_zero, #09e3]\n  have : FairRun ss' (xl ++ω xls.flatten) := by\n    intro p\n    by_cases h_f : ProcFair p ss' (xl ++ω xls.flatten)\n    · grind\n    · obtain ⟨m, _, n, _, _⟩ := Algorithm.not_fair_stay_enabled h_omega' h_f\n      suffices ProcFaulty p ss' (xl ++ω xls.flatten) by grind\n      use n + xl.length, by grind only [#bd9e, #4bb0]\n      intro k h_k m' h_m'\n      have : xls.flatten (k - xl.length) = some m' := by grind only [get_append_right']\n      grind only [DestIn, #9e35, #7634]\n  have : numProcFaulty ss' (xl ++ω xls.flatten) ≤ f := by\n    suffices numProcFaulty ss' (xl ++ω xls.flatten) ≤ card P - ps.ncard by grind only [#5a28]\n    apply numProcFaulty_le_not_procFair\n    assumption\n  have h_adm : a.AdmissibleRun inp f ss' (xl ++ω xls.flatten) := by grind only [Algorithm.AdmissibleRun]\n  have hf' : numProcFaulty ss' (xl ++ω xls.flatten) < card P := by grind\n  obtain ⟨p, _⟩ := not_procFaulty_of_numProcFaulty hf'\n  obtain ⟨n, b, _⟩ : ∃ n b, (ss' n).ProcDecided p b := by\n    grind only [ProcTermination, #d702, #2985, h_term inp ss' (xl ++ω xls.flatten) h_adm p]\n  let m := n + xl.length\n  use ss' m, b\n  split_ands\n  · use (xl ++ω xls.flatten).extract xl.length m, by grind only [LTS.OmegaExecution.extract_mTr]\n    simp [extract_append_right_right, extract_eq_take,\n      List.forall_iff_forall_mem, List.forall_mem_iff_getElem]\n    grind only [#9e35]\n  · have : (ss' n).Decided b := by use p\n    suffices a.lts.CanReach (ss' n) (ss' m) by grind only [!Algorithm.decided_stable]\n    use (xl ++ω xls.flatten).extract n m\n    grind only [LTS.OmegaExecution.extract_mTr]",
+      "proofPath": "solutions/physlib-cslib20/F025.lean",
+      "proofFileSha256": "d5f7e4e35e5a934a598f504b7a27b2a16b9134a33f07530b6b375493fe728ae8"
+    },
+    {
+      "row": 26,
+      "source": "cslib",
+      "name": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+      "proof_sha256": "77c66c53e307348c8263581e8d5d0c4a0b21321cc02ec58925fda76e6df6eed7",
+      "route": "inline-single-use",
+      "score_local": 33.4486761827865,
+      "original_tokens": 623,
+      "candidate_tokens": 621,
+      "original_raw_heartbeats": 56937128,
+      "candidate_raw_heartbeats": 56922893,
+      "versions": [
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        }
+      ],
+      "checks": {
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "theorem buchiFamily_saturation [Inhabited Symbol] :\n    Saturates (fun i ↦ (na.buchiFamily i).toSet) (language na).toSet := by\n  rintro ⟨a, b⟩ ⟨xs, h_xs, h_lang⟩ ys h_ys\n  obtain ⟨xl, xls, h_xl_c, h_xls_c, rfl⟩ := mem_buchiFamily.mp h_xs\n  obtain ⟨yl, yls, h_yl_c, h_yls_c, rfl⟩ := mem_buchiFamily.mp h_ys\n  obtain ⟨ss, ⟨h_init, h_exec⟩, h_acc⟩ := h_lang\n  let f (k : ℕ) := xl.length + xls.cumLen k\n  let ts := ωSequence.mk (fun k ↦ ss (f k))\n  have (k : ℕ) : xls k ≠ [] := by grind [Language.mem_sub_one]\n  have h_xls_p (k : ℕ) : (xls k).length > 0 := List.length_pos_iff.mpr (this k)\n  have h_xls_e (k : ℕ) : xls k ∈ na.pairLang (ts k) (ts (k + 1)) := by\n    grind [LTS.OmegaExecution.extract_mTr h_exec (?_ : f k ≤ f (k + 1)), LTS.mem_pairLang,\n      extract_append_right_right, add_tsub_cancel_left]\n  have h_yls (k : ℕ) := buchiCongruence_transfer ((h_xls_c k).left) ((h_yls_c k).left) (h_xls_e k)\n  choose sls h_yls_e h_yls_a using h_yls\n  have (k : ℕ) : yls k ≠ [] := by grind [Language.mem_sub_one]\n  have h_yls_p (k : ℕ) : (yls k).length > 0 := List.length_pos_iff.mpr (this k)\n  obtain ⟨ss1, h_ss1_run, h_ss1_seg⟩ := LTS.OmegaExecution.flatten_execution h_yls_e h_yls_p\n  suffices ∃ᶠ (k : ℕ) in atTop, ss1 k ∈ na.accept by\n    have h_xl_e : xl ∈ na.pairLang (ss 0) (ts 0) := by\n      grind [LTS.OmegaExecution.extract_mTr h_exec (?_ : 0 ≤ xl.length),\n        extract_append_zero_right, LTS.mem_pairLang]\n    have h_yl_e : yl ∈ na.pairLang (ss 0) (ts 0) := by\n      grind [buchiCongruence_transfer h_xl_c h_yl_c h_xl_e, LTS.mem_pairLang, LTS.Execution.to_mTr]\n    have h_ss1_ts : ss1 0 = ts 0 := by\n      have h : 0 < yls.cumLen 1 - yls.cumLen 0 := by grind\n      have : sls 0 ≠ [] := by grind\n      have : 0 < (sls 0).length := List.length_pos_iff.mpr this\n      have : ss1 0 = (sls 0)[0] := by grind [get_extract (xs := ss1) h]\n      have : (sls 0)[0] = ts 0 := h_yls_e 0 |>.choose_spec |>.1\n      grind\n    obtain ⟨ss2, _, _, _, _⟩ := LTS.OmegaExecution.append h_yl_e h_ss1_run h_ss1_ts\n    use ss2\n    have := @drop_frequently_iff_frequently _ ss2 na.accept yl.length\n    grind [Run.mk]\n  apply frequently_atTop.mpr\n  intro n\n  obtain ⟨m, _, s, _, h_mem⟩ :=\n    frequently_atTop.mp ((frequently_via_accept h_acc h_exec h_xls_p f rfl ts rfl).mono h_yls_a) n\n  obtain ⟨k, _, _⟩ := List.mem_iff_getElem.mp h_mem\n  use yls.cumLen m + k\n  suffices ss1 (yls.cumLen m + k) = (sls m)[k] by\n    have := StrictMono.add_le_nat (cumLen_strictMono h_yls_p) m 0\n    lia\n  obtain ⟨_, _, _, _⟩ := h_yls_e m\n  obtain ⟨_, _, _, _⟩ := h_yls_e (m + 1)\n  grind =>\n   have := @get_extract (xs := ss1)\n   have : k < (yls m).length ∨ ¬ k < (yls m).length\n   have : k < yls.cumLen (m + 1) - yls.cumLen m ∨ 0 < yls.cumLen (m + 2) - yls.cumLen (m + 1)\n   finish",
+      "proofPath": "solutions/physlib-cslib20/F026.lean",
+      "proofFileSha256": "a67c0050863169a9e65d99430608465eb8b8b6f9709ae2ce248c26b24f4f6fc3"
+    },
+    {
+      "row": 27,
+      "source": "cslib",
+      "name": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+      "proof_sha256": "b32c6230a23e675921a867a7c1b5b4ff3d78c55bc944d8adade36377ae08b0af",
+      "route": "reference",
+      "score_local": 33.333333333333336,
+      "original_tokens": 368,
+      "candidate_tokens": 368,
+      "original_raw_heartbeats": 39338568,
+      "candidate_raw_heartbeats": 39338568,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "theorem nonUniform_step [Fintype P] (hpc1 : a.PseudoConsensus 1)\n    {s : State P M S} (hr : a.Reachable inp s) (hn : a.NonUniform s) (p : P) :\n    ∃ s', a.lts.CanReach s s' ∧ ∀ b, a.CanDecideWithout s' p b := by\n  obtain ⟨b, h_s⟩ := canDecideWithout_exists hpc1 hr p\n  obtain ⟨q, s', h_ss', h_s'⟩ := hn !b\n  have hr' := Algorithm.reachable_stable hr (CanReachVia.canReach h_ss')\n  obtain ⟨xs, h_mtr, h_xs'⟩ := h_ss'\n  obtain ⟨ss, h_ss'⟩ := LTS.Execution.of_mTr h_mtr\n  have reach_lemma (k : ℕ) (h : k < ss.length) : a.lts.CanReach s ss[k] := by\n    use xs.take k\n    have := LTS.Execution.split h_ss' k\n    grind [LTS.Execution, LTS.Execution.to_mTr]\n  have : a.CanDecideWithout s' p !b := by\n    obtain ⟨b', h_b'⟩ := canDecideWithout_exists hpc1 hr' p\n    grind [decided_eq_canDecideWithout hpc1 hr' h_s' h_b']\n  have h_nb : ∃ n, ∃ _ : n < ss.length, a.CanDecideWithout ss[n] p !b := by grind [LTS.Execution]\n  classical\n  let n := Nat.find h_nb\n  obtain ⟨_, _⟩ : ∃ _ : n < ss.length, a.CanDecideWithout ss[n] p !b := by grind\n  use ss[n], ?_, ?_\n  · grind [reach_lemma n]\n  · suffices ∀ k, (_ : k ≤ n) → a.CanDecideWithout ss[k] p b by\n      intro b'\n      by_cases h : b' = !b\n      · grind\n      · simp only [Bool.not_eq_not] at h\n        grind\n    intro k\n    induction k\n    case zero => grind [LTS.Execution]\n    case succ k h_ind =>\n      intro h_k\n      obtain ⟨_, _, _, _⟩ := h_ss'\n      have h_tr : a.lts.Tr ss[k] xs[k] ss[k + 1] := by grind\n      obtain (_ | ⟨m, h_m⟩) := Option.eq_none_or_eq_some xs[k]\n      · grind [Algorithm.tr_none]\n      · rw [h_m] at h_tr\n        have hr_k : a.Reachable inp ss[k] := by\n          apply Algorithm.reachable_stable hr\n          grind [reach_lemma k]\n        have hnb_k : ¬a.CanDecideWithout ss[k] p !b := by grind [Nat.find_min h_nb (m := k)]\n        exact canDecideWithout_uniform hpc1 hr_k h_tr (h_ind (by grind)) hnb_k",
+      "proofPath": "solutions/physlib-cslib20/F027.lean",
+      "proofFileSha256": "ee48fc6b0215fbe23a167fd02597001708207267e6abbcd16db47a47d69b035f"
+    },
+    {
+      "row": 28,
+      "source": "cslib",
+      "name": "Cslib.LTS.OmegaExecution.flatten_execution",
+      "proof_sha256": "8adbbd90a6546967d7f895c7766adf3a03af063022d9434db2cc668a7df99b5f",
+      "route": "direct-term",
+      "score_local": 33.54599431593389,
+      "original_tokens": 312,
+      "candidate_tokens": 310,
+      "original_raw_heartbeats": 27607121,
+      "candidate_raw_heartbeats": 27607961,
+      "versions": [
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        },
+        {
+          "v4.31.0": "8ea71c8df91acd63285515a04da952b23b78d266"
+        },
+        {
+          "v4.30.0": "c7944a9fb44c3298f1a960a5e574ab23a6ab8ed5"
+        }
+      ],
+      "checks": {
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.31.0": {
+          "valid": true,
+          "repeats": 1
+        },
+        "cslib-v4.30.0": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "theorem OmegaExecution.flatten_execution [Inhabited Label]\n    {ts : ωSequence State} {μls : ωSequence (List Label)} {sls : ωSequence (List State)}\n    (hexec : ∀ k, lts.Execution (ts k) (μls k) (ts (k + 1)) (sls k))\n    (hpos : ∀ k, (μls k).length > 0) :\n    ∃ ss, lts.OmegaExecution ss μls.flatten ∧\n      ∀ k, ss.extract (μls.cumLen k) (μls.cumLen (k + 1)) = (sls k).take (μls k).length := by\n  have : Inhabited State := {default := ts 0}\n  let segs := ωSequence.mk fun k ↦ (sls k).take (μls k).length\n  have h_len : μls.cumLen = segs.cumLen := by ext k; induction k <;> grind\n  have h_pos (k : ℕ) : (segs k).length > 0 := by grind [List.eq_nil_iff_length_eq_zero]\n  have h_mono := cumLen_strictMono h_pos\n  have h_zero := cumLen_zero (ls := segs)\n  have h_seg0 (k : ℕ) : (segs k)[0]! = ts k := by grind\n  use segs.flatten\n  split_ands\n  · intro n\n    simp only [h_len, flatten_def]\n    simp only [Execution] at hexec\n    have := segment_lower_bound h_mono h_zero n\n    by_cases h_n : n + 1 < segs.cumLen (segment segs.cumLen n + 1)\n    · have := segment_range_val h_mono (by grind) h_n\n      have : n + 1 - segs.cumLen (segment segs.cumLen n) < (μls (segment segs.cumLen n)).length :=\n        by grind\n      grind\n    · have h1 : segs.cumLen (segment segs.cumLen n + 1) = n + 1 := by\n        grind [segment_upper_bound h_mono h_zero n]\n      have h2 : segment segs.cumLen (n + 1) = segment segs.cumLen n + 1 := by\n        simp [← h1, segment_idem h_mono]\n      have : n + 1 - segs.cumLen (segment segs.cumLen n) = (μls (segment segs.cumLen n)).length :=\n        by grind\n      have h3 : ts (segment segs.cumLen n + 1) =\n          (sls (segment segs.cumLen n))[n + 1 - segs.cumLen (segment segs.cumLen n)]! := by\n        grind\n      simp [h1, h2, h_seg0, h3]\n      grind\n  · simp [h_len, extract_flatten h_pos, segs]",
+      "proofPath": "solutions/physlib-cslib20/F028.lean",
+      "proofFileSha256": "aef7aa5a712c38d4c0bd8725e912817446c46bf7323f0f2a9c984a75518903d0"
+    },
+    {
+      "row": 29,
+      "source": "cslib",
+      "name": "Cslib.FLP.CanReachVia.subset_inp",
+      "proof_sha256": "ed55f4423336647dc47a6e150beb6bc63d0ca71158016f3ddfae36a5745b3c9b",
+      "route": "lean-grind-site",
+      "score_local": 33.64895073592657,
+      "original_tokens": 364,
+      "candidate_tokens": 369,
+      "original_raw_heartbeats": 33198281,
+      "candidate_raw_heartbeats": 32427922,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "theorem subset_inp [Fintype P] {ps : Set P} {inp1 inp2 : P → Bool} {s1 : State P M S}\n    (he : InpEqOn ps inp1 inp2) (hr : a.CanReachVia ps (a.start inp1) s1) :\n    ∃ s2, a.CanReachVia ps (a.start inp2) s2 ∧ s2.proc = s1.proc := by\n  obtain ⟨xs, h_mtr, h_xs⟩ := hr\n  obtain ⟨ss, _, h_ss0, _, _⟩ := LTS.Execution.of_mTr h_mtr\n  suffices h_inv : ∀ k, (_ : k ≤ xs.length) →\n    ∃ s2, a.lts.MTr (a.start inp2) (xs.take k) s2 ∧ s2.proc = ss[k].proc ∧\n      ∀ m, m.dest ∈ ps → s2.msgs.count m = ss[k].msgs.count m by\n    obtain ⟨s2, _⟩ := h_inv xs.length (by simp)\n    use s2, ?_, by grind only [#32f5]\n    use xs, by grind\n  intro k h_k\n  induction k\n  case zero =>\n    use a.start inp2, by grind [LTS.MTr], by grind [Algorithm.start]\n    intro m h_m\n    simp only [h_ss0, Algorithm.start, count_map, Message.ext_iff]\n    congr\n    grind [InpEqOn]\n  case succ k h_ind =>\n    obtain ⟨s2, h_mtr, h_proc, h_msgs⟩ := h_ind (by grind)\n    obtain (_ | ⟨m, h_m⟩) := Option.eq_none_or_eq_some xs[k]\n    · use s2, ?_, ?_, ?_\n      · have h_tr : a.lts.Tr s2 xs[k] s2 := by grind [Algorithm.lts]\n        grind [List.take_add_one, LTS.MTr.stepR (lts := a.lts) h_mtr h_tr]\n      · grind [Algorithm.tr_none]\n      · grind [Algorithm.tr_none]\n    · obtain ⟨_, h_k1⟩ : m ∈ ss[k].msgs ∧ ss[k + 1] = a.recvMsg m ss[k] := by grind [Algorithm.lts]\n      use a.recvMsg m s2, ?_, ?_, ?_\n      · have := List.forall_mem_iff_forall_getElem.mp <| List.forall_iff_forall_mem.mp h_xs\n        have h_tr : a.lts.Tr s2 xs[k] (a.recvMsg m s2) := by\n          grind [Algorithm.lts, DestIn, one_le_count_iff_mem]\n        grind [List.take_add_one, LTS.MTr.stepR (lts := a.lts) h_mtr h_tr]\n      · grind [Algorithm.recvMsg]\n      · intro m1 h_m1\n        by_cases h1 : m1 = m\n        · simp [h_k1, Algorithm.recvMsg, h_proc, h1, count_erase_self]\n          grind\n        · simp [h_k1, Algorithm.recvMsg, h_proc, count_erase_of_ne h1]\n          grind",
+      "proofPath": "solutions/physlib-cslib20/F029.lean",
+      "proofFileSha256": "be23ec8654540b8c9741caa8bf9f505ac4a2e3a4b73c86b9351ddeaa805fb696"
+    },
+    {
+      "row": 30,
+      "source": "cslib",
+      "name": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+      "proof_sha256": "db2c46947ad69f221d3b2dd59e0fce5023ecbbb772aa1fee34b7468af0e12c36",
+      "route": "lean-grind-all",
+      "score_local": 37.93011257512165,
+      "original_tokens": 519,
+      "candidate_tokens": 580,
+      "original_raw_heartbeats": 8589144,
+      "candidate_raw_heartbeats": 6395158,
+      "versions": [
+        {
+          "v4.34.1": "7c8f6c0f67015df29b152fdcffaf7850db2e9185"
+        },
+        {
+          "v4.33.1": "98e395a701f2027a413ad24729e1a11a6c772eb4"
+        }
+      ],
+      "checks": {
+        "cslib-v4.34.1": {
+          "valid": true,
+          "repeats": 3
+        },
+        "cslib-v4.33.1": {
+          "valid": true,
+          "repeats": 1
+        }
+      },
+      "proof": "theorem parallel_diamond : Diamond ((· ⭢ₚ ·) : Term Var → Term Var → Prop) := by\n  intros t t1 t2 tpt1\n  revert t2\n  induction tpt1 <;> intros t2 tpt2\n  case fvar x => exact ⟨t2, by grind⟩\n  case abs s1 s2' xs mem ih =>\n    cases tpt2\n    case abs t2' xs' mem' =>\n      have ⟨x, qx⟩ := fresh_exists (xs ∪ xs' ∪ free_union [fv] Var)\n      simp only [Finset.union_assoc, Finset.mem_union, not_or] at qx\n      have ⟨q1, q2, _⟩ := qx\n      have ⟨t', _⟩ := ih x q1 (mem' _ q2)\n      exists abs (t' ^* x)\n      constructor\n      <;> [let z := s2' ^ fvar x; let z := t2' ^ fvar x]\n      <;> apply Parallel.abs (free_union [fv] Var) <;> grind only [→ para_lc_r, usr subst_intro, = close_open_to_subst, → lc_refl, LC.fvar, para_subst]\n  case beta s1 s1' s2 s2' xs mem ps ih1 ih2 =>\n    cases tpt2\n    case app u2 u2' s1pu2 s2pu2' =>\n      cases s1pu2\n      case abs s1'' xs' mem' =>\n        have ⟨x, qx⟩ := fresh_exists (xs ∪ xs' ∪ free_union [fv] Var)\n        simp only [Finset.union_assoc, Finset.mem_union, not_or] at qx\n        obtain ⟨q1, q2, _⟩ := qx\n        have ⟨t', _⟩ := ih2 s2pu2'\n        have ⟨t'', _⟩ := @ih1 x q1 _ (mem' _ q2)\n        exists (t'' ^* x) ^ t'\n        constructor\n        · #adaptation_note\n          /-- Moving from `nightly-2025-09-15` to `nightly-2025-10-19`, the grind_pattern for\n          subst_intro (defined in Properties.lean) stopped working here. -/\n          grind only [→ para_lc_r, usr subst_intro, = close_open_to_subst, para_subst]\n        · apply Parallel.beta (free_union [fv] Var) <;> grind only [→ para_lc_r, usr subst_intro, = close_open_to_subst, → lc_refl, LC.fvar, para_subst]\n    case beta u1' u2' xs' mem' s2pu2' =>\n      have ⟨x, qx⟩ := fresh_exists (xs ∪ xs' ∪ free_union [fv] Var)\n      simp only [Finset.union_assoc, Finset.mem_union, not_or] at qx\n      have ⟨q1, q2, _⟩ := qx\n      have ⟨t', _⟩ := ih2 s2pu2'\n      have ⟨t'', _⟩ := @ih1 x q1 _ (mem' _ q2)\n      refine ⟨t''[x := t'], ?_⟩\n      grind only [usr subst_intro, para_subst]\n  case app s1 s1' s2 s2' s1ps1' _ ih1 ih2  =>\n    cases tpt2\n    case app u1 u2' s1 s2 =>\n      have ⟨l, _, _⟩ := ih1 s1\n      have ⟨r, _, _⟩ := ih2 s2\n      exact ⟨app l r, by grind⟩\n    case beta t1' u1' u2' xs mem s2pu2' =>\n      cases s1ps1'\n      case abs s1'' xs' mem' =>\n        have ⟨x, qx⟩ := fresh_exists (xs ∪ xs' ∪ free_union [fv] Var)\n        simp only [Finset.union_assoc, Finset.mem_union, not_or] at qx\n        obtain ⟨q1, q2, _⟩ := qx\n        have ⟨t', qt'_l, qt'_r⟩ := ih2 s2pu2'\n        have ⟨t'', qt''_l, qt''_r⟩ := @ih1 (abs u1') (Parallel.abs xs mem)\n        cases qt''_l\n        next w1 xs'' mem'' =>\n        cases qt''_r\n        case abs xs''' mem''' =>\n          refine ⟨w1 ^ t', ?_, para_open_out xs''' mem''' qt'_r⟩\n          apply Parallel.beta (free_union Var) <;> grind only [= Finset.mem_union, #c522]",
+      "proofPath": "solutions/physlib-cslib20/F030.lean",
+      "proofFileSha256": "2bae6a82cc0ec4ac2edd3f987eace4ff1410a72465bf22d08ab20da902530a64"
+    }
+  ],
+  "publicationSchemaVersion": 1,
+  "originPr": 54,
+  "evidenceLevel": "published-summary",
+  "sourceManifest": "solutions/physlib-cslib20/manifest.json",
+  "sourceManifestSha256": "57904ab518e94a000f1930868f7fa45ce9d0432cce777b59fa9a35b2df616aee",
+  "submissionSha256": "6c2db18e01723753df7a6c6f5f6bdf2788eb5b3b5af365545ecff8412b0ca746"
+}

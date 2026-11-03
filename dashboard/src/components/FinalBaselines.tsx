@@ -4,6 +4,7 @@ import { parseFinalBaselines } from '../lib/final-baselines';
 import type { FinalBaselines as BaselineData } from '../lib/final-baselines';
 import { format, valueOf } from '../lib/model';
 import type { Metric, Problem } from '../lib/model';
+import { parseSummaryResults, mergeFinalResults } from '../lib/final-summary-results';
 import { parseFinalResults } from '../lib/final-results';
 import type { FinalResults } from '../lib/final-results';
 import { resultSnapshot } from '../lib/final-snapshot';
@@ -23,11 +24,11 @@ export function FinalBaselines() {
   const [metric, setMetric] = useState<Metric>('combined');
   useEffect(() => {
     const controller = new AbortController();
-    Promise.all(['/data/final-baselines.json', '/data/final-results.json'].map(url =>
+    Promise.all(['/data/final-baselines.json', '/data/final-results.json', '/data/physlib-cslib-results.json'].map(url =>
       fetch(url, { signal: controller.signal }).then(r => { if (!r.ok) throw new Error(`데이터 요청 실패 (${r.status})`); return r.json(); })))
-      .then(([originals, candidates]) => {
+      .then(([originals, candidates, summaries]) => {
         const baseline = parseFinalBaselines(originals);
-        const verified = parseFinalResults(candidates, baseline);
+        const verified = mergeFinalResults(parseFinalResults(candidates, baseline), parseSummaryResults(summaries, baseline));
         setData(baseline); setResults(verified);
       })
       .catch(e => { if (e.name !== 'AbortError') setError(e.message); });
@@ -63,25 +64,25 @@ export function FinalBaselines() {
   }
   const updated = new Intl.DateTimeFormat('ko-KR', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'Asia/Seoul' }).format(new Date(results.generatedAt));
   return <main id="main" className="final-baselines">
-    <div className="page-heading"><div><h1>최종 60문제 · 검증 풀이</h1><p>Strata·LeanPool 20문제의 검증 풀이를 반영했습니다. 타일을 선택하면 원본 대비 점수와 증명을 볼 수 있습니다.</p></div>
+    <div className="page-heading"><div><h1>최종 60문제 · 검증 풀이</h1><p>Strata·PhysLib·CSLib·LeanPool 40문제의 검증 풀이를 반영했습니다. 타일을 선택하면 원본 대비 점수와 증명을 볼 수 있습니다.</p></div>
       <a className="button" href="/data/final-results.json" download><Download size={16}/>검증 결과 JSON</a></div>
     <div className="summary-grid">
       <article className="summary-card"><div className="summary-label">원본 length 확보</div><div className="big-number">60<span>/ 60문제</span></div><p>제공된 최종 데이터셋의 proof_length</p></article>
       <article className="summary-card"><div className="summary-label">원본 HB 확보</div><div className="big-number">{measured}<span>/ 60문제</span></div><p>3회 중앙값 {measured - provisional}개 · 1회 표본 {provisional}개</p></article>
-      <article className="summary-card"><div className="summary-label">검증 풀이 · 20 / 60문제</div><div className="big-number">{format(meanScore)}<span>점</span></div><p>검증된 20문제 평균 · 대회식 종합 로컬 추정</p></article>
+      <article className="summary-card"><div className="summary-label">검증 풀이 · 40 / 60문제</div><div className="big-number">{format(meanScore)}<span>점</span></div><p>검증된 40문제 평균 · 대회식 종합 로컬 추정</p></article>
     </div>
-    <p className="measurement-note">원본은 지정 버전 {data.verification?.problemVersions ?? '전체'}개 조합의 기준값을 확보했습니다. 검증 풀이 20개는 지정 버전 전체 통과, 점수 비교 HB는 해당 실행의 원본·후보 각각 3회 중앙값(raw 단위)입니다. 나머지 40개는 개선 결과 없음으로 회색 표시됩니다. 공식 점수가 아닙니다.</p>
+    <p className="measurement-note">원본은 127개 지정 버전 조합의 기준값을 확보했습니다. 검증 풀이 40개는 지정 버전 전체 통과입니다. Strata·LeanPool은 원시 표본·검증 기록, PhysLib·CSLib은 공개된 측정값·통과 횟수 요약을 연결했습니다. 점수는 각 풀이의 원본·후보 측정값으로 계산합니다. 미확보 20개는 회색이며 공식 점수가 아닙니다.</p>
     <div className="dataset-bar">
-      <span className="warmup-label">F001–F010 · F041–F050 검증 완료</span>
-      <label className="snapshot-picker"><span>결과 상태</span><select aria-label="결과 상태" value={status} onChange={e => setStatus(e.target.value)}><option value="all">전체 60문제</option><option value="verified">검증 완료 (20)</option><option value="pending">개선 결과 없음 (40)</option><option value="provisional">1회 잠정값 ({provisional})</option><option value="missing">HB 미측정 ({60 - measured})</option></select></label>
+      <span className="warmup-label">F001–F030 · F041–F050 검증 완료</span>
+      <label className="snapshot-picker"><span>결과 상태</span><select aria-label="결과 상태" value={status} onChange={e => setStatus(e.target.value)}><option value="all">전체 60문제</option><option value="verified">검증 완료 (40)</option><option value="pending">개선 결과 없음 (20)</option><option value="provisional">1회 잠정값 ({provisional})</option><option value="missing">HB 미측정 ({60 - measured})</option></select></label>
     </div>
     <div className="workbench final-workbench">
       <ProblemGrid {...{ snapshot, metric, query, source, sort, visible, selected }} compact onMetric={setMetric} onQuery={setQuery} onSource={setSource} onSort={setSort} onSelect={chooseProblem}/>
       <DetailPanel problem={selected} metric={metric} snapshot={snapshot}>
         {candidate ? <section className="team-results" aria-label="선택한 검증 증명">
           <h3>선택한 검증 증명</h3>
-          <p>{candidate.runId === results.runId ? '이번 $3 실행' : '기존 $1 실행'} · 동일 환경의 검증 결과 중 종합 점수가 가장 높은 풀이</p>
-          <p>원본 HB: {candidate.baseline.raw_samples.map(n => format(n, 0)).join(' / ')}<br/>후보 HB: {candidate.candidate.raw_samples.map(n => format(n, 0)).join(' / ')}</p>
+          <p>{candidate.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약' : candidate.runId === results.runId ? '이번 $3 실행' : '기존 $1 실행'} · 동일 환경의 검증 결과 중 종합 점수가 가장 높은 풀이</p>
+          {candidate.baseline.raw_samples && candidate.candidate.raw_samples ? <p>원본 HB: {candidate.baseline.raw_samples.map(n => format(n, 0)).join(' / ')}<br/>후보 HB: {candidate.candidate.raw_samples.map(n => format(n, 0)).join(' / ')}</p> : <p>대표 버전 원본·후보 각 3회 측정으로 보고됐습니다. 원시 HB 표본·컴파일 로그는 공개 묶음에 포함되지 않았습니다.</p>}
           <details className="team-candidate"><summary>Lean 증명 보기 · {candidate.candidateHash.slice(0, 10)}</summary>
             <p className="candidate-origin">{candidate.proofPath}<br/>{candidate.runId}</p>
             <pre className="candidate-code"><code>{candidate.proof}</code></pre>
@@ -106,6 +107,6 @@ export function FinalBaselines() {
       </DetailPanel>
     </div>
     <ScoringGuide/>
-    <footer><span>저장된 스냅샷 · {updated} KST · 자동 갱신 아님</span><span>이번 실행 ${format(Number(results.costUsd))} · 사용량 기준 비용</span></footer>
+    <footer><span>Strata·LeanPool 스냅샷 · {updated} KST · 자동 갱신 아님</span><span>Strata·LeanPool ${format(Number(results.costUsd))} · PhysLib·CSLib API 0회 보고</span></footer>
   </main>;
 }
