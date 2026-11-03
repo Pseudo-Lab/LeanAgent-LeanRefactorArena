@@ -205,7 +205,7 @@ def add_lean_import(prefix):
 
 
 class FinalEvaluator:
-    def __init__(self, repo_root=None, global_lock_path=None, cache_root=None):
+    def __init__(self, repo_root=None, global_lock_path=None, cache_root=None, compiler_parallelism=1):
         self.repo = Path(repo_root or REPO).resolve()
         self.root = self.repo / "sources/final"
         self.registry = json.loads((self.repo / "configs/final-environments.local.json").read_text())
@@ -215,6 +215,9 @@ class FinalEvaluator:
         self._contexts = {}
         self.cache = EvaluationCache(cache_root) if cache_root is not None else None
         self.timing_records = []
+        if type(compiler_parallelism) is not int or not 1 <= compiler_parallelism <= 3:
+            raise ValueError("Expected one to three compiler slots")
+        self.compiler_parallelism = compiler_parallelism
 
     def _compiler_setup(self, state, context):
         if not context['module']:
@@ -263,7 +266,8 @@ class FinalEvaluator:
                 raise ValueError("Original full-context source changed")
         _, setup = self._compiler_setup(state, context)
         implementation = [Path(__file__), Path(__file__).with_name("evaluation_cache.py"),
-                          Path(__file__).with_name("policy.py"), Path(__file__).with_name("fast_prepared.py"), Path(_token_spec.origin),
+                          Path(__file__).with_name("policy.py"), Path(__file__).with_name("fast_prepared.py"),
+                          Path(__file__).with_name("resources.py"), Path(_token_spec.origin),
                           self.repo / "src/lean_agent/prepared.py",
                           self.repo / "src/lean_agent/evaluator/lean.py"]
         compiler = self.root / "toolchains" / state["version"] / "bin/lean"
@@ -345,6 +349,17 @@ class FinalEvaluator:
 
     @contextmanager
     def _compiler_lock(self):
+        if self.compiler_parallelism > 1:
+            from resources import compiler_slot
+            waiting = time.monotonic()
+            with compiler_slot(self.lock_path, slots=self.compiler_parallelism):
+                acquired = time.monotonic()
+                try:
+                    yield
+                finally:
+                    self.timing_records.append({"compiler_lock_wait_seconds": acquired - waiting,
+                                                "lock_held_seconds": time.monotonic() - acquired})
+            return
         self.lock_path.parent.mkdir(parents=True, exist_ok=True)
         with self.lock_path.open("a+") as stream:
             waiting = time.monotonic()
