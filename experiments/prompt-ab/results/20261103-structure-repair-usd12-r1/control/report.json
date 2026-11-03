@@ -1,0 +1,202 @@
+{
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "problem_count": 6,
+  "completed": 6,
+  "statuses": {
+    "completed": 6
+  },
+  "known_total_usd": "4.5614987",
+  "known_mean_usd": "0.7602497833333333333333333333",
+  "known_max_usd": "0.8046454",
+  "attempts": 162,
+  "unique_generation_ids": 162,
+  "audit_errors": [],
+  "api_cost_basis": "OpenAI response usage times frozen public list prices",
+  "provider_invoice_verified": false,
+  "all_completed": true,
+  "audit_passed": true,
+  "official_evaluation": false,
+  "rows": [
+    {
+      "row": 2,
+      "name": "Lambda.denote_suffix_irrel",
+      "source": "strata",
+      "status": "completed",
+      "known_cost_usd": "0.7633396",
+      "calls": 24,
+      "baseline": {
+        "tokens": 904,
+        "raw_heartbeats": 4367943,
+        "raw_samples": [
+          4367943,
+          4367943,
+          4367943
+        ]
+      },
+      "final": {
+        "tokens": 566,
+        "raw_heartbeats": 2688666,
+        "raw_samples": [
+          2688666,
+          2688665,
+          2688666
+        ]
+      },
+      "length_reduction_pct": 37.38938053097345,
+      "heartbeat_reduction_pct": 38.445487956230195,
+      "local_score_estimate": 58.611622829067876,
+      "selected_sha256": "b03b1b9e159d88e4705529a299efa0afda020af260c08b9803ac87ae4f834dd3"
+    },
+    {
+      "row": 7,
+      "name": "Lambda.LExpr.typeCheck_to_HasTypeA",
+      "source": "strata",
+      "status": "completed",
+      "known_cost_usd": "0.8046454",
+      "calls": 38,
+      "baseline": {
+        "tokens": 429,
+        "raw_heartbeats": 7093908,
+        "raw_samples": [
+          7093910,
+          7093907,
+          7093908
+        ]
+      },
+      "final": {
+        "tokens": 190,
+        "raw_heartbeats": 1262176,
+        "raw_samples": [
+          1262176,
+          1262176,
+          1262177
+        ]
+      },
+      "length_reduction_pct": 55.71095571095571,
+      "heartbeat_reduction_pct": 82.20760686493256,
+      "local_score_estimate": 79.30618752529608,
+      "selected_sha256": "d60d068ac1166ba753d1ab2e0dfb4b6774975a5478722a485f0b3058a5d3e660"
+    },
+    {
+      "row": 9,
+      "name": "Lambda.denote_replaceMetadata",
+      "source": "strata",
+      "status": "completed",
+      "known_cost_usd": "0.7849603",
+      "calls": 39,
+      "baseline": {
+        "tokens": 938,
+        "raw_heartbeats": 7275281,
+        "raw_samples": [
+          7275281,
+          7275281,
+          7275281
+        ]
+      },
+      "final": {
+        "tokens": 49,
+        "raw_heartbeats": 815411,
+        "raw_samples": [
+          815411,
+          815411,
+          815411
+        ]
+      },
+      "length_reduction_pct": 94.77611940298507,
+      "heartbeat_reduction_pct": 88.79203428706053,
+      "local_score_estimate": 94.52271789668187,
+      "selected_sha256": "08a88eb6c3b4df469f043f10c0452a7358ec8cb305100ea7eb0f65d82b8e3ba0"
+    },
+    {
+      "row": 41,
+      "name": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+      "source": "leanpool",
+      "status": "completed",
+      "known_cost_usd": "0.7828225",
+      "calls": 21,
+      "baseline": {
+        "tokens": 2030,
+        "raw_heartbeats": 49681455,
+        "raw_samples": [
+          49681455,
+          49681455,
+          49681455
+        ]
+      },
+      "final": {
+        "tokens": 492,
+        "raw_heartbeats": 902861,
+        "raw_samples": [
+          902861,
+          902861,
+          902861
+        ]
+      },
+      "length_reduction_pct": 75.76354679802955,
+      "heartbeat_reduction_pct": 98.18270016447788,
+      "local_score_estimate": 91.31541565416914,
+      "selected_sha256": "b7a644114d81604f6f45405e7992c67d2a9b72f765a53e6d0cf209834b6a18aa"
+    },
+    {
+      "row": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "source": "leanpool",
+      "status": "completed",
+      "known_cost_usd": "0.6373175",
+      "calls": 11,
+      "baseline": {
+        "tokens": 2879,
+        "raw_heartbeats": 4193446,
+        "raw_samples": [
+          4193446,
+          4193446,
+          4193446
+        ]
+      },
+      "final": {
+        "tokens": 2525,
+        "raw_heartbeats": 2955863,
+        "raw_samples": [
+          2955863,
+          2955863,
+          2955863
+        ]
+      },
+      "length_reduction_pct": 12.295936088919767,
+      "heartbeat_reduction_pct": 29.512315169910373,
+      "local_score_estimate": 47.26941708627671,
+      "selected_sha256": "260133407a5c1cccd8006da8ecb5370b7888a1af9449ee0c48f9c378c6f81e4a"
+    },
+    {
+      "row": 49,
+      "name": "FirstOrder.Language.schemaTruthStage_imp",
+      "source": "leanpool",
+      "status": "completed",
+      "known_cost_usd": "0.7884134",
+      "calls": 29,
+      "baseline": {
+        "tokens": 746,
+        "raw_heartbeats": 194028210,
+        "raw_samples": [
+          194028210,
+          194028210,
+          194028210
+        ]
+      },
+      "final": {
+        "tokens": 431,
+        "raw_heartbeats": 1561309,
+        "raw_samples": [
+          1561309,
+          1561309,
+          1561309
+        ]
+      },
+      "length_reduction_pct": 42.22520107238606,
+      "heartbeat_reduction_pct": 99.19531855702837,
+      "local_score_estimate": 80.47350654313814,
+      "selected_sha256": "df60150c23fae16d60aa5a443cb6721b8eefbd09930132a6fe500b969da3e4f7"
+    }
+  ],
+  "mean_local_score_estimate": 75.24981125577163
+}

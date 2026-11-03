@@ -28,15 +28,17 @@ from lean_agent import accounting, actions, artifacts as a, diagnostics, harness
 HERE = Path(__file__).resolve().parent
 REPO = HERE.parents[1]
 import openai_transport as transport
-from evaluation_cache import VERIFICATION_POLICY
+import warm_start
+import prompt_variants
 DATASET_SHA = "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682"
 MODEL = {"backend": "openai", "id": "gpt-6.1-sol", "provider": "openai",
          "reasoning_effort": "high", "max_tokens": 8192, "timeout_seconds": 900,
          "seed": 42}
 TARGET = Decimal("1.00")
+VERIFICATION_POLICY = warm_start.POLICY
 DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22}
-# Omitted policy means new-run defaults, while explicit None preserves legacy
-# single-context inputs during validation and supports --no-portfolio.
+# Omitted policy uses new-run defaults but preserves already prepared inputs.
+# Explicit None selects the single-context path (--no-portfolio).
 UNSPECIFIED_PORTFOLIO = object()
 
 
@@ -117,18 +119,13 @@ def require_policy(root):
         raise ValueError("Different verification policy: use a new batch root; never migrate an active run")
 
 
-def prompt_text(context):
+def prompt_text(context, variant="baseline", strict_cap=False):
+    prompt_variants.policy(variant, strict_cap)
     base = (REPO / "examples/actions/prompt.txt").read_text()
-    return base + "\n" + (
-        "Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. "
-        "Then reduce repeated whole-context simplification or broad search using recorded evidence. "
-        "Judge complete proof-token and heartbeat ratios together; a shorter proof can be worse. "
-        "propose: state a short concrete approach in strategy and supply the complete replacement proof. "
-        "repair: fix the reported errors in the named rejected parent, preserving working branches. "
-        "search/inspect: retrieve a specific missing definition or theorem rather than repeatedly browsing. "
-        "After repeated failure of the same approach, branch from another candidate or change the proof structure. "
-        "Search is lexical evidence only, not a theorem-prover or availability guarantee. "
-        "Every action consumes paid model budget. The controller stops at the configured settled-cost threshold in budget.stop_at_usd. "
+    budget = ("Every action consumes paid model budget. The controller reserves each request and stops before exceeding the configured hard_budget.cap_usd. "
+              if strict_cap else "Every action consumes paid model budget. The controller stops at the configured settled-cost threshold in budget.stop_at_usd. ")
+    return base + "\n" + prompt_variants.VARIANTS[variant] + (
+        "Search is lexical evidence only, not a theorem-prover or availability guarantee. ") + budget + (
         "The exact statement and original full source context are preserved by the evaluator. "
         "Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. "
         "At final selection the controller checks candidates in score order against every required version, "
@@ -221,10 +218,10 @@ def guard_compiler_signal(result):
     return value
 
 
-INPUT_FILES = ("problem.json", "config.json", "action-corpus.json", "context-metadata.json", "prompt.txt")
+INPUT_FILES = ("problem.json", "config.json", "action-corpus.json", "context-metadata.json", "prompt.txt", "warm-start.json", "prompt-policy.json")
 
 
-def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO):
+def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO, *, strict_cap=False):
     if portfolio_settings is UNSPECIFIED_PORTFOLIO:
         portfolio_settings = DEFAULT_PORTFOLIO
     model = {**MODEL, "max_tokens": 16384 if len(problem["reference"]) > 12000 else 8192}
@@ -233,7 +230,9 @@ def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO):
                    "max_proof_characters": max(24000, len(problem["reference"]) * 3),
                    "max_feedback_characters": 7000, "max_request_characters": 190000},
         "agent": {"mode": "actions-v1", "corpus": "action-corpus.json", "history_limit": 4,
-                  "candidate_limit": 8, "allow_finish": False}}
+                  "candidate_limit": 8, "allow_finish": False, "persistent_memory": True}}
+    if strict_cap:
+        config["limits"]["cost_cap_usd"] = str(TARGET)
     if portfolio_settings is not None:
         h.portfolio.validate(portfolio_settings)
         config["agent"].update(portfolio=dict(portfolio_settings), approach_policy="exchange-v1")
@@ -250,7 +249,10 @@ def validate_inputs(root, row):
     if problem != original or problem.get("dataset_sha256") != DATASET_SHA:
         raise ValueError(f"F{row:03} frozen problem identity differs")
     config = a.read(inputs / "config.json")
-    expected = configuration(problem, config.get("agent", {}).get("portfolio"))
+    policy = a.read(inputs / "prompt-policy.json")
+    if policy != prompt_variants.policy(**policy):
+        raise ValueError("Invalid frozen prompt policy")
+    expected = configuration(problem, config.get("agent", {}).get("portfolio"), strict_cap=policy["strict_cap"])
     timeout = config.get("model", {}).get("timeout_seconds")
     if timeout not in (300, 900):
         raise ValueError(f"F{row:03} unexpected prelaunch timeout")
@@ -264,19 +266,52 @@ def validate_inputs(root, row):
     prompt = (inputs / "prompt.txt").read_text()
     if not prompt or len(prompt) > 60000:
         raise ValueError(f"F{row:03} missing or oversized prompt")
+    marker = "<original_context>\n"
+    ending = "\n</original_context>\n"
+    if marker not in prompt or not prompt.endswith(ending):
+        raise ValueError("Prompt lacks frozen original context")
+    context = prompt.split(marker, 1)[1][:-len(ending)]
+    if prompt != prompt_text(context, policy["variant"], policy["strict_cap"]):
+        raise ValueError("Prompt differs from its frozen variant policy")
     h.portfolio.validate_shared_inputs(config, problem["reference"], prompt, corpus)
+    seed = a.read(inputs / "warm-start.json")
+    warm_start.validate(seed, problem)
+    if h.portfolio.enabled(config):
+        if seed["candidate"] is not None:
+            raise ValueError("Warm-start cannot bypass portfolio isolation")
     return problem
 
 
-def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOLIO):
+def requested_prompt_policy(saved, variant, strict_cap):
+    """Only explicit flags may change an existing preparation's prompt policy."""
+    defaults = saved or prompt_variants.policy()
+    return prompt_variants.policy(defaults["variant"] if variant is None else variant,
+                                  defaults["strict_cap"] if strict_cap is None else strict_cap)
+
+
+def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOLIO, *, warm_start_manifest=None, cold_start=False,
+                   prompt_variant=None, strict_cap=None):
     """Prepare disjoint row inputs only; no authorization, API ledger or seal."""
     if workers not in (1, 2):
         raise ValueError("Input preparation workers must be 1 or 2")
     root = Path(root).resolve()
+    new_policy = requested_prompt_policy(None, prompt_variant, strict_cap)
+    requested_portfolio = portfolio_settings
+    if portfolio_settings is UNSPECIFIED_PORTFOLIO:
+        portfolio_settings = DEFAULT_PORTFOLIO
     require_policy(root)
     root.mkdir(parents=True, exist_ok=True)
     if (root / "frozen.json").exists():
         raise ValueError("Batch inputs are already sealed")
+    if warm_start_manifest is not None and (cold_start or portfolio_settings is not None):
+        raise ValueError("Explicit warm-start cannot combine with cold-start or isolated portfolio")
+    manifest = Path(warm_start_manifest) if warm_start_manifest is not None else REPO / "dashboard/public/data/final-results.json"
+    if warm_start_manifest is not None and not manifest.is_file():
+        raise ValueError("Explicit warm-start manifest is missing")
+    seed_reason = "explicit_cold_start" if cold_start else "portfolio_isolation" if portfolio_settings is not None else None
+    if seed_reason or not manifest.is_file():
+        seed_reason = seed_reason or "manifest_unavailable"
+        manifest = None
     ev = evaluator(root)
     def write_row(row):
         with locked(folder(root, row) / "input.lock"):
@@ -285,9 +320,14 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
             output = folder(root, row)
             inputs = output / "input"
             if all((inputs / name).is_file() for name in INPUT_FILES):
-                validate_inputs(root, row)
-                if portfolio_settings is not UNSPECIFIED_PORTFOLIO and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
+                problem = validate_inputs(root, row)
+                saved_policy = a.read(inputs / "prompt-policy.json")
+                if saved_policy != requested_prompt_policy(saved_policy, prompt_variant, strict_cap):
+                    raise ValueError("Existing prompt/budget policy differs; use a fresh batch root")
+                if requested_portfolio is not UNSPECIFIED_PORTFOLIO and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
                     raise ValueError("Existing inputs have a different policy; use a fresh batch root")
+                if (warm_start_manifest is not None or cold_start) and a.read(inputs / "warm-start.json") != warm_start.snapshot(manifest, problem, reason=seed_reason):
+                    raise ValueError("Existing warm-start differs; use a fresh batch root")
                 return {"row": row, "input_status": "reused"}
             inputs.mkdir(parents=True, exist_ok=True)
             problem = ev.load_problem(row)
@@ -300,10 +340,12 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
             if len(text) > 40000:
                 raise ValueError("Initial context exceeds bounded 40000 characters")
             atomic(inputs / "problem.json", problem)
-            atomic(inputs / "config.json", configuration(problem, portfolio_settings))
+            atomic(inputs / "warm-start.json", warm_start.snapshot(manifest, problem, reason=seed_reason))
+            atomic(inputs / "config.json", configuration(problem, portfolio_settings, strict_cap=new_policy["strict_cap"]))
+            atomic(inputs / "prompt-policy.json", new_policy)
             atomic(inputs / "action-corpus.json", corpus)
             atomic(inputs / "context-metadata.json", context.get("metadata", {}))
-            (inputs / "prompt.txt").write_text(prompt_text(text))
+            (inputs / "prompt.txt").write_text(prompt_text(text, new_policy["variant"], new_policy["strict_cap"]))
             validate_inputs(root, row)
             return {"row": row, "input_status": "prepared"}
     if workers == 1:
@@ -333,9 +375,13 @@ def seal_inputs(root, rows):
         ledger = root / "ledger.json"
         if ledger.exists() and a.read(ledger)["attempts"]:
             raise ValueError("Cannot seal after any API dispatch")
+        policies = [a.read(folder(root, row) / "input/prompt-policy.json") for row in rows]
+        if any(policy != policies[0] for policy in policies):
+            raise ValueError("A batch must use one prompt and budget policy")
         authorization = {"dataset_sha256": DATASET_SHA, "rows": rows, "problem_count": len(rows),
                          "per_problem_target_usd": str(TARGET), "nominal_total_usd": str(TARGET * len(rows)),
-                         "last_call_may_overshoot": True, "max_api_parallel": 2, "max_lean_parallel": 1,
+                         "last_call_may_overshoot": not policies[0]["strict_cap"], "max_api_parallel": 2, "max_lean_parallel": 1,
+                         "prompt_variant": policies[0]["variant"],
                          "no_automatic_retries": True, "created_at": now(),
                          "verification_policy": VERIFICATION_POLICY}
         authorization.update(provider="OpenAI direct", api_endpoint=transport.ENDPOINT,
@@ -356,8 +402,16 @@ def seal_inputs(root, rows):
     print(json.dumps({"prepared": str(root), "rows": rows, "api_calls": 0}), flush=True)
 
 
-def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO):
+def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO, *, warm_start_manifest=None, cold_start=False,
+            prompt_variant=None, strict_cap=None):
+    require_policy(root)
     if (Path(root) / "frozen.json").exists():
+        for row in rows:
+            saved_policy = a.read(folder(root, row) / "input/prompt-policy.json")
+            if saved_policy != requested_prompt_policy(saved_policy, prompt_variant, strict_cap):
+                raise ValueError("Sealed prompt/budget policy differs; use a fresh batch root")
+        if warm_start_manifest is not None or cold_start:
+            raise ValueError("Warm-start options require a fresh unsealed root")
         if portfolio_settings is not UNSPECIFIED_PORTFOLIO:
             for row in rows:
                 config = a.read(folder(root, row) / "input/config.json")
@@ -365,7 +419,9 @@ def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO):
                     raise ValueError("Sealed policy differs; use a fresh batch root")
         seal_inputs(root, rows)
         return
-    prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings)
+    prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings,
+                   warm_start_manifest=warm_start_manifest, cold_start=cold_start,
+                   prompt_variant=prompt_variant, strict_cap=strict_cap)
     seal_inputs(root, rows)
 
 
@@ -379,6 +435,19 @@ def ensure_baseline(root, row, ev):
                         repetitions=3, trusted_reference=True)
     result = guard_compiler_signal(a.read(baseline_file))
     state = h.initial_state(problem, result, config)
+    seed_path = output / "input/warm-start.json"
+    if seed_path.exists():
+        seed = a.read(seed_path)
+        warm_start.validate(seed, problem)
+        if seed["candidate"] is not None:
+            code = seed["candidate"]["code"]
+            primary = guard_compiler_signal(evaluate_cached(ev, code, problem, output / "warm-start/primary",
+                                                           repetitions=3, fresh=True))
+            compatibility = guard_compiler_signal(evaluate_cached(ev, code, problem, output / "warm-start/compatibility",
+                                                                 repetitions=1, all_versions=True))
+            warm_start.seed_state(state, seed, problem, primary, compatibility)
+    if (output / "initial-state.json").exists() and a.read(output / "initial-state.json") != state:
+        raise ValueError("Saved initial state differs from current baseline/warm-start evidence")
     if not (output / "initial-state.json").exists():
         atomic(output / "initial-state.json", state)
     if not (output / "state.json").exists():
@@ -505,6 +574,12 @@ def problem_spend(ledger, row):
                 if item["row"] == row and item.get("cost_usd") is not None), Decimal(0))
 
 
+def request_fits_budget(ledger, row, bound, cap):
+    reserved = sum((Decimal(item["maximum_request_cost_usd"]) for item in ledger["attempts"].values()
+                    if item["row"] == row and item["status"] == "pending"), Decimal(0))
+    return problem_spend(ledger, row) + reserved + Decimal(bound["reserved_usd"]) <= Decimal(cap)
+
+
 def check_dispatchable(root, ledger):
     """Known live requests may overlap; lost/unknown requests stop the batch."""
     if (root / "stop-unknown-cost.json").exists():
@@ -531,6 +606,10 @@ def dispatch(root, row, step, body, model, step_dir):
         with locked(root / "ledger.lock"):
             ledger = a.read(root / "ledger.json")
             check_dispatchable(root, ledger)
+            config_path = folder(root, row) / "input/config.json"
+            cap = a.read(config_path)["limits"].get("cost_cap_usd") if config_path.exists() else None
+            if cap is not None and not request_fits_budget(ledger, row, bound, cap):
+                raise ValueError("Request would exceed the strict per-problem budget")
             if problem_spend(ledger, row) >= TARGET:
                 raise ValueError("Actual-cost threshold already reached")
             if attempt in ledger["attempts"]:
@@ -674,6 +753,7 @@ def run_problem(root, row):
                 initial_receipt.rename(initial_receipt.with_name("initial-environment-fingerprints-before-resume-" + str(time.time_ns()) + ".json"))
             atomic(initial_receipt, {"full_content_verification": True, "verified_at": now(),
                                      "environments": initial_fingerprints})
+            stop_reason = "cost_limit"
             while not h.cost_threshold_reached(state, config) and not h.portfolio.finished(state):
                 step = state["step"] + 1
                 step_dir = output / "steps" / f"{step:04}"
@@ -685,6 +765,20 @@ def run_problem(root, row):
                         raise ValueError("Saved pending request differs from reconstructed state")
                     raw = a.read(step_dir / "response.json")
                 else:
+                    cap = config["limits"].get("cost_cap_usd")
+                    if cap is not None:
+                        bound = transport.request_cost(body)
+                        with locked(root / "ledger.lock"):
+                            ledger = a.read(root / "ledger.json")
+                            check_dispatchable(root, ledger)
+                            fits = request_fits_budget(ledger, row, bound, cap)
+                        if not fits:
+                            stop_reason = "next_request_would_exceed_budget"
+                            atomic(output / "budget-stop.json", {"at": now(), "spent_usd": str(problem_spend(ledger, row)),
+                                "cap_usd": cap, "next_request_bound_usd": bound["reserved_usd"],
+                                "next_request_sha256": a.sha(a.canonical(body))})
+                            atomic(output / "budget-stop-request.json", body)
+                            break
                     raw = dispatch(root, row, step, body, config["model"], step_dir)
                 atomic(step_dir / "usage.json", accounting.response_record(raw))
                 action, code, observation, rejection = h.prepare_response(raw, state, problem, config, output)
@@ -739,7 +833,7 @@ def run_problem(root, row):
             atomic(output / "final/environment-fingerprints.json", {"full_content_verification": True,
                     "verified_at": now(), "environments": fingerprints})
             summary = {"row": row, "id": problem["id"], "name": problem["name"], "status": "completed",
-                       "stop_reason": "portfolio_complete" if h.portfolio.finished(state) else "cost_limit",
+                       "stop_reason": "portfolio_complete" if h.portfolio.finished(state) else stop_reason,
                        "cost_usd": state["cost_usd"], "calls": state["calls"],
                        "baseline": h.metrics(baseline), "selected": {k: v for k, v in selected.items() if k != "code"},
                        "final": measured, "all_versions_valid": checked["valid"], "official_evaluation": False,
@@ -798,10 +892,19 @@ def main():
     policy.add_argument("--portfolio", dest="portfolio", action="store_true", default=None,
                         help="Use isolated scouts then merger (default for new inputs)")
     policy.add_argument("--no-portfolio", dest="portfolio", action="store_false",
-                        help="Prepare legacy single-context inputs instead of scouts/merger")
+                        help="Prepare single-context inputs with verified historical warm start")
     parser.add_argument("--scout-evaluations", type=int, default=None)
     parser.add_argument("--merger-evaluations", type=int, default=None)
+    parser.add_argument("--warm-start-manifest", type=Path,
+                        help="Freeze historical best sources (default: dashboard/public/data/final-results.json)")
+    parser.add_argument("--cold-start", action="store_true", help="Explicitly start from originals for a comparison run")
+    parser.add_argument("--prompt-variant", choices=tuple(prompt_variants.VARIANTS), default=None)
+    parser.add_argument("--strict-cap", action="store_true", default=None, help="Reserve every next request within the $1 cap")
     args = parser.parse_args()
+    if (args.prompt_variant is not None or args.strict_cap is not None) and args.command not in ("prepare", "inputs"):
+        parser.error("Prompt/budget policy flags apply only to prepare/inputs")
+    if (args.warm_start_manifest or args.cold_start) and args.command not in ("prepare", "inputs"):
+        parser.error("Warm-start options apply only to prepare/inputs on a fresh root")
     settings = UNSPECIFIED_PORTFOLIO
     custom_quotas = args.scout_evaluations is not None or args.merger_evaluations is not None
     if args.portfolio is not None or custom_quotas:
@@ -819,9 +922,13 @@ def main():
     require_policy(root)
     rows = rows_from(args)
     if args.command == "prepare":
-        prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings)
+        prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings,
+                warm_start_manifest=args.warm_start_manifest, cold_start=args.cold_start,
+                prompt_variant=args.prompt_variant, strict_cap=args.strict_cap)
     elif args.command == "inputs":
-        prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings)
+        prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings,
+                       warm_start_manifest=args.warm_start_manifest, cold_start=args.cold_start,
+                       prompt_variant=args.prompt_variant, strict_cap=args.strict_cap)
     elif args.command == "seal":
         seal_inputs(root, rows)
     elif args.command == "preflight":

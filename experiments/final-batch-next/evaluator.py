@@ -437,7 +437,7 @@ class FinalEvaluator:
                   '      throwError m!"Missing audit dependency {name}"\n'
                   '    let axioms ← Lean.collectAxioms name.toName\n'
                   '    result := result.push <| Json.mkObj [("name", toJson name),\n'
-                  '      ("axioms", toJson (axioms.toList.map Name.toString))]\n'
+                  '      ("axioms", toJson (axioms.toList.map _root_.Lean.Name.toString))]\n'
                   '  logInfo m!"AXIOM_FRONTIER ' + nonce + ' {(Json.arr result).compress}"\n')
         record, log = self._invoke(source, state, {"module": None}, folder, label)
         record["phase"] = "axiom-frontier-audit"

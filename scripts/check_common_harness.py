@@ -13,7 +13,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 CORE = (
-    "test_harness.py", "test_actions.py", "test_portfolio.py", "test_budgeting.py", "test_repair_feedback.py",
+    "test_harness.py", "test_actions.py", "test_action_memory.py", "test_portfolio.py", "test_budgeting.py", "test_repair_feedback.py",
     "test_runtime_integration.py", "test_api_integration.py", "test_prepared_cache.py",
     "test_accounting.py", "test_usage_*.py", "test_evaluation.py", "test_corpus_storage.py",
     "test_final_*.py",
@@ -34,6 +34,7 @@ def main():
         env["PROJECT_CACHE_DIR"] = env["TMPDIR"] = str(Path(directory).resolve())
         suites = [("tests", pattern) for pattern in CORE]
         suites += [("experiments/" + name, "test_*.py") for name in EXPERIMENTS]
+        suites.append(("dashboard/scripts", "test_final20_trajectories.py"))
         failed = []
         for folder, pattern in suites:
             print(f"\n== {folder}/{pattern} ==", flush=True)

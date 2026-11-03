@@ -10,9 +10,10 @@ import json
 from pathlib import Path
 
 from policy import validate_declaration
-from openai_transport import compute_cost, normalize
-from evaluation_cache import EvaluationCache, VERIFICATION_POLICY
+from openai_transport import compute_cost, normalize, request_cost
+from evaluation_cache import EvaluationCache
 from lean_agent import portfolio
+import warm_start
 
 
 def read(path):
@@ -21,6 +22,26 @@ def read(path):
 
 def sha(text):
     return hashlib.sha256(text.encode()).hexdigest()
+
+
+def audit_budget_stop(folder, summary, spent, cap):
+    from driver import make_request
+    from lean_agent.artifacts import canonical
+    state = read(folder / "state.json")
+    config = read(folder / "input/config.json")
+    if Decimal(config["limits"]["cost_cap_usd"]) != cap:
+        raise ValueError("Strict cap differs from authorization")
+    stop = read(folder / "budget-stop.json")
+    request = read(folder / "budget-stop-request.json")
+    expected = make_request(state, read(folder / "input/problem.json"), config,
+                            (folder / "input/prompt.txt").read_text())
+    bound = request_cost(request)
+    if (request != expected or stop.get("next_request_sha256") != sha(canonical(request))
+            or summary.get("stop_reason") != "next_request_would_exceed_budget"
+            or Decimal(stop["spent_usd"]) != spent or Decimal(stop["cap_usd"]) != cap
+            or Decimal(stop["next_request_bound_usd"]) != Decimal(bound["reserved_usd"])
+            or spent + Decimal(bound["reserved_usd"]) <= cap):
+        raise ValueError("Strict budget stop does not reconstruct from final state")
 
 
 def audit_portfolio(folder, summary, attempts):
@@ -115,6 +136,14 @@ def build_report(root, *, require_complete=False):
         for attempt, item in attempts:
             if spent >= Decimal(authorization["per_problem_target_usd"]):
                 errors.append(attempt + ": dispatched after cost threshold")
+            if authorization.get("last_call_may_overshoot") is False:
+                try:
+                    request = read(folder / "steps" / f"{item['step']:04}" / "request.json")
+                    bound = Decimal(request_cost(request)["reserved_usd"])
+                    if bound != Decimal(item["maximum_request_cost_usd"]) or spent + bound > Decimal(authorization["per_problem_target_usd"]):
+                        raise ValueError("Reservation exceeds strict cap")
+                except (OSError, KeyError, TypeError, ValueError) as exc:
+                    errors.append(attempt + ": invalid strict budget reservation: " + str(exc))
             if item.get("cost_usd") is not None:
                 spent += Decimal(item["cost_usd"])
         progress = read(folder / "progress.json") if (folder / "progress.json").exists() else {"status": "prepared"}
@@ -122,6 +151,11 @@ def build_report(root, *, require_complete=False):
                "status": progress["status"], "known_cost_usd": str(spent), "calls": len(attempts)}
         if (folder / "summary.json").exists():
             summary = read(folder / "summary.json")
+            if authorization.get("verification_policy") == warm_start.POLICY or (folder / "input/warm-start.json").exists():
+                try:
+                    warm_start.audit(folder)
+                except (OSError, ValueError, KeyError, TypeError) as exc:
+                    errors.append(f"F{number:03}: invalid warm-start evidence: {exc}")
             portfolio_complete = False
             try:
                 portfolio_complete = audit_portfolio(folder, summary, attempts)
@@ -163,7 +197,15 @@ def build_report(root, *, require_complete=False):
                 errors.append(f"F{number:03}: summary accounting mismatch")
             if (summary.get("status", "completed") == "completed" and not portfolio_complete
                     and spent < Decimal(authorization["per_problem_target_usd"])):
-                errors.append(f"F{number:03}: completed below authorized cost threshold")
+                if authorization.get("last_call_may_overshoot") is False:
+                    try:
+                        audit_budget_stop(folder, summary, spent, Decimal(authorization["per_problem_target_usd"]))
+                    except (OSError, KeyError, TypeError, ValueError) as exc:
+                        errors.append(f"F{number:03}: invalid strict budget stop: {exc}")
+                else:
+                    errors.append(f"F{number:03}: completed below authorized cost threshold")
+            if authorization.get("last_call_may_overshoot") is False and spent > Decimal(authorization["per_problem_target_usd"]):
+                errors.append(f"F{number:03}: actual cost exceeded strict cap")
             baseline, selected = summary["baseline"], summary["final"]
             length_ratio = selected["tokens"] / baseline["tokens"]
             heartbeat_ratio = selected["raw_heartbeats"] / baseline["raw_heartbeats"]
@@ -199,7 +241,7 @@ def main():
     parser.add_argument("--require-complete", action="store_true")
     parser.add_argument("--export", action="store_true")
     args = parser.parse_args()
-    if read(args.root / "authorization.json").get("verification_policy") != VERIFICATION_POLICY:
+    if read(args.root / "authorization.json").get("verification_policy") != warm_start.POLICY:
         raise ValueError("Different verification policy: do not write reports into an existing batch")
     report = build_report(args.root, require_complete=args.require_complete or args.export)
     (args.root / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")
