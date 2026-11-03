@@ -40,7 +40,7 @@ from lean_agent.artifacts import canonical, read, sha
 
 from . import transport as t
 from .contracts import Bound, ModelSpec, Receipt
-from .ledger import BudgetExceeded, CostLedger, _atomic, lookup_generation, receipt_from_record
+from .ledger import BudgetExceeded, CostLedger, _atomic, lookup_generation, receipt_from_record, root_key
 
 GLOBAL_MARKER = "api-disabled.json"        # <run-dir>/api-disabled.json: no new LLM work anywhere
 ROW_MARKER = "api-disabled-row.json"       # <row root>/api-disabled-row.json: no new LLM work for that row
@@ -49,11 +49,33 @@ GLOBAL_MARKER_ENV = "FINAL60_API_DISABLED_PATH"
 
 
 class ApiDisabled(RuntimeError):
-    """No further OpenRouter calls: scope 'global' (401/402) or 'row' (stalls, frozen)."""
+    """No further OpenRouter calls: scope 'global' (401/402) or 'row' (subclasses below)."""
 
     def __init__(self, scope: str, reason: str, *, marker: Path | None = None):
         super().__init__(f"OpenRouter API disabled ({scope}): {reason}")
         self.scope, self.reason, self.marker = scope, reason, marker
+
+
+class RowApiDisabled(ApiDisabled):
+    """This problem only: repeated unbilled refusals (3 stalls) or its api_disabled flag."""
+
+    def __init__(self, reason: str, *, marker: Path | None = None):
+        super().__init__("row", reason, marker=marker)
+
+
+class RowApiFrozen(ApiDisabled):
+    """This problem only: a response broke its cost or token bound (frozen flag)."""
+
+    def __init__(self, reason: str, *, marker: Path | None = None):
+        super().__init__("row", reason, marker=marker)
+
+
+def _disabled_error(scope: str, reason: str, marker: Path | None = None) -> ApiDisabled:
+    if scope == "global":
+        return ApiDisabled("global", reason, marker=marker)
+    if (marker is not None and Path(marker).name == FROZEN_MARKER) or "frozen" in reason:
+        return RowApiFrozen(reason, marker=marker)
+    return RowApiDisabled(reason, marker=marker)
 
 
 @dataclass(frozen=True)
@@ -126,12 +148,12 @@ def check_api_enabled(run_root: Path, *, ledger: CostLedger, problem: str | None
     marker = Path(global_marker) if global_marker is not None else default_global_marker(ledger, Path(run_root))
     found = disabled(Path(run_root), global_marker=marker)
     if found:
-        raise ApiDisabled(found[0], "marker " + found[1].name, marker=found[1])
+        raise _disabled_error(found[0], "marker " + found[1].name, found[1])
     if problem is not None:
         flags = ledger.flags(problem)
         if flags:
             name = sorted(flags)[0]
-            raise ApiDisabled("row", f"ledger flag {name}: {flags[name]}")
+            raise _disabled_error("row", f"ledger flag {name}: {flags[name]}")
 
 
 @contextmanager
@@ -182,10 +204,20 @@ def _write_request_evidence(step_dir: Path, body: dict, bound: Bound, spec: Mode
             _atomic(path, value)
 
 
-def _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep):
-    """Existing sub-attempts of this step, recovering any left open by a crash."""
+def _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep, run_root=None):
+    """Existing sub-attempts of this step (this root only), recovering any left open by a crash.
+
+    $0 sub-attempts whose evidence a caller archived (an unsent/unbilled step that was
+    released and is now dispatched again) are skipped: they cost nothing and are no
+    longer part of this step's evidence.
+    """
     subs = []
     for row in ledger.sub_attempts(attempt_id):
+        if run_root is not None and root_key(row["run_root"]) != root_key(run_root):
+            continue
+        folder = step_dir / "http" / f"r{row['sub_index']}"
+        if row["status"] in ("void", "unbilled") and not (folder / "provider-response.json").exists():
+            continue
         if row["request_sha256"] != request_sha:
             raise ValueError("Saved sub-attempt belongs to a different request: " + row["attempt_id"])
         if row["status"] in ("reserved", "sent"):
@@ -193,7 +225,6 @@ def _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep):
             row = ledger.get(row["attempt_id"])
         if row["status"] == "void":
             continue
-        folder = step_dir / "http" / f"r{row['sub_index']}"
         raw = read(folder / "provider-response.json")
         generation = read(folder / "generation.json") if (folder / "generation.json").exists() else None
         subs.append(_Sub(read(folder / "receipt.json"), raw, generation))
@@ -255,7 +286,7 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
     lookup = _lookup_function(transport, key, policy, spec, sleep)
     window = policy.max_unbilled_retries + 1
     with _attempt_lock(run_root, attempt_id):
-        subs = _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep)
+        subs = _load_subs(ledger, attempt_id, step_dir, request_sha, lookup, sleep, run_root=run_root)
         http_calls = 0
 
         def close(stopped=None):
@@ -272,7 +303,7 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
             if found:
                 if _spend(subs):
                     return close("api_disabled_" + found[0])
-                raise ApiDisabled(found[0], "marker " + found[1].name, marker=found[1])
+                raise _disabled_error(found[0], "marker " + found[1].name, found[1])
             index = ledger.next_index(attempt_id)
             sub_id = f"{attempt_id}#r{index}"
             try:                                    # 2. reserve (nothing written or sent on refusal)
@@ -284,7 +315,7 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
                 if _spend(subs):
                     return close(stopped)
                 if exc.reason != "cap":
-                    raise ApiDisabled("row", str(exc)) from exc
+                    raise _disabled_error("row", f"ledger flag {exc.reason}: {exc}") from exc
                 raise
             _write_request_evidence(step_dir, body, bound, spec)     # 3. request evidence
             folder = step_dir / "http" / f"r{index}"
@@ -328,7 +359,7 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
                     _atomic(run_root / ROW_MARKER, {"at": time.time(), "attempt_id": sub_id, "reason": reason})
                     if _spend(subs):
                         return close("api_disabled_row")
-                    raise ApiDisabled("row", reason, marker=run_root / ROW_MARKER)
+                    raise RowApiDisabled(reason, marker=run_root / ROW_MARKER)
                 if unbilled % window == 0:
                     delay = policy.stall_s
                 else:
@@ -342,6 +373,26 @@ def dispatch_guarded(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem
             if lost >= policy.max_lost:
                 return close("lost_limit")
             sleep(policy.lost_backoff_s[min(lost, len(policy.lost_backoff_s)) - 1])
+
+
+def close_unfinished(body: dict, spec: ModelSpec, *, ledger: CostLedger, problem: str, attempt_id: str,
+                     run_root: Path, step_dir: Path, key: str | None = None, transport=None,
+                     sleep=time.sleep) -> DispatchResult | None:
+    """No-resend recovery: settle the step's open sub-attempts from evidence and close it.
+
+    Returns the closed step (a saved completion is reused; otherwise a lost step with
+    its exact or bound charge), written in the same audited shape as dispatch_guarded,
+    or None when nothing billable was ever sent (the caller releases the pending item).
+    """
+    run_root, step_dir = Path(run_root).resolve(), Path(step_dir)
+    bound = t.request_bound(body, spec)
+    lookup = _lookup_function(transport, key, RetryPolicy(), spec, sleep)
+    with _attempt_lock(run_root, attempt_id):
+        subs = _load_subs(ledger, attempt_id, step_dir, sha(canonical(body)), lookup, sleep, run_root=run_root)
+        if not subs or all(sub.record["outcome"] == "unbilled" for sub in subs):
+            return None
+        return _finish(subs, spec=spec, bound=bound, attempt_id=attempt_id, step_dir=step_dir, http_calls=0,
+                       stopped=None if subs[-1].record["outcome"] == "ok" else "recovered_no_resend")
 
 
 def settle_orphans(ledger: CostLedger, attempt_id: str, step_dir: Path, *, key: str | None = None,

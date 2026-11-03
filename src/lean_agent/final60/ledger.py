@@ -354,7 +354,8 @@ class CostLedger:
         with self._tx(immediate=False) as conn:
             rows = [dict(row) for row in conn.execute(
                 "SELECT * FROM attempts WHERE status IN ('reserved','sent') ORDER BY created_at, attempt_id")]
-        return [row for row in rows if run_root is None or row["run_root"] == str(run_root)]
+        wanted = None if run_root is None else root_key(run_root)
+        return [row for row in rows if wanted is None or root_key(row["run_root"]) == wanted]
 
     def attempts(self, problem: str | None = None) -> list[dict]:
         with self._tx(immediate=False) as conn:
@@ -413,10 +414,10 @@ class CostLedger:
 
     def reconcile(self, run_root, ledger_json: dict) -> list[str]:
         """Disagreements between this mirror and one root's ledger.json (empty = consistent)."""
-        root = str(run_root)
+        root = root_key(run_root)
         by_step = {}
         for row in self.attempts():
-            if row["run_root"] == root:
+            if root_key(row["run_root"]) == root:
                 by_step.setdefault(row["step_attempt"], []).append(row)
         errors, items = [], ledger_json.get("attempts", {})
         for step, item in items.items():
@@ -436,7 +437,12 @@ class CostLedger:
                     errors.append(f"{step}: ledger.json cost {item.get('cost_usd')} != SQLite {_usd(total)}")
             except InvalidOperation:
                 errors.append(f"{step}: ledger.json cost is not a decimal")
-            if [row["attempt_id"] for row in rows] != [sub.get("id") for sub in item.get("sub_attempts") or []]:
+            listed = [sub.get("id") for sub in item.get("sub_attempts") or []]
+            known = {row["attempt_id"]: row for row in rows}
+            # Every charged sub-attempt must be listed; an unlisted $0 refusal is allowed only
+            # because a released step's archived evidence is no longer part of the step.
+            if (any(identity not in known for identity in listed)
+                    or any(row["attempt_id"] not in listed for row in rows if row["status"] != "unbilled")):
                 errors.append(f"{step}: ledger.json sub_attempts differ from the SQLite mirror")
         for step, rows in by_step.items():
             if step in items:
@@ -447,6 +453,14 @@ class CostLedger:
             if charged:
                 errors.append(f"{step}: SQLite spend {_usd(charged)} missing from ledger.json")
         return errors
+
+
+def root_key(value) -> str:
+    """Comparable form of a run-root path (absolute, symlinks resolved)."""
+    try:
+        return str(Path(value).resolve())
+    except (OSError, RuntimeError):
+        return str(value)
 
 
 def receipt_from_record(record: dict, api_endpoint: str) -> Receipt:

@@ -591,6 +591,67 @@ class DispatchTests(unittest.TestCase):
         self.assertEqual(result.step_cost_usd, 3 * bound.reserved_usd)
         self.assert_clean(body, result)
 
+    def test_row_scope_errors_are_distinct_from_the_global_one(self):
+        with self.assertRaises(money.ApiDisabled) as caught:
+            self.work.dispatch(body_for(), t.MockOpenRouter([t.MockOpenRouter.http_error(401)]))
+        self.assertIs(type(caught.exception), money.ApiDisabled)
+        self.assertEqual(caught.exception.scope, "global")
+        (self.work.base / money.GLOBAL_MARKER).unlink()
+        spec = primary()
+        self.work.dispatch(body_for(user="big"), t.MockOpenRouter([usage_response(
+            spec, prompt=10, completion=spec.max_tokens + 1, identity="gen-big-2")]), step=2)
+        with self.assertRaises(money.RowApiFrozen) as frozen:
+            self.work.dispatch(body_for(user="after"), t.MockOpenRouter(ACTION), step=3)
+        self.assertEqual(frozen.exception.scope, "row")
+        other = Workspace()
+        try:
+            transport = t.MockOpenRouter(lambda body, spec, index: t.MockOpenRouter.http_error(429))
+            with self.assertRaises(money.RowApiDisabled):
+                other.dispatch(body_for(), transport)
+            with self.assertRaises(money.RowApiDisabled):
+                other.dispatch(body_for(user="again"), t.MockOpenRouter(ACTION), step=2)
+        finally:
+            other.close()
+
+    def test_close_unfinished_settles_without_sending(self):
+        body = body_for()
+        bound = t.request_bound(body, primary())
+
+        class Killed(Exception):
+            pass
+
+        with self.assertRaises(Killed):
+            self.work.dispatch(body, t.MockOpenRouter([Killed()]))
+        spec = catalog.spec_for_body(body)
+        result = money.close_unfinished(body, spec, ledger=self.work.ledger, problem="F017", attempt_id="F017-0001",
+                                        run_root=self.work.root, step_dir=self.work.step())
+        self.assertEqual((result.http_calls, result.lost, result.stopped), (0, True, "recovered_no_resend"))
+        self.assertEqual(result.step_cost_usd, bound.reserved_usd)
+        self.assert_clean(body, result)
+        fresh = body_for(user="never sent")
+        self.work.ledger.reserve(problem="F017", attempt_id="F017-0002#r0", bound=t.request_bound(fresh, spec),
+                                 run_root=str(self.work.root), model=spec.model_id, provider=spec.provider,
+                                 api_endpoint=t.ENDPOINT, request_sha256=sha(canonical(fresh)))
+        self.assertIsNone(money.close_unfinished(fresh, spec, ledger=self.work.ledger, problem="F017",
+                                                 attempt_id="F017-0002", run_root=self.work.root,
+                                                 step_dir=self.work.step(2)))
+        self.assertEqual(self.work.ledger.get("F017-0002#r0")["status"], "void")
+
+    def test_released_step_with_archived_zero_cost_evidence_dispatches_again(self):
+        body = body_for()
+        with self.assertRaises(money.ApiDisabled):
+            self.work.dispatch(body, t.MockOpenRouter([t.MockOpenRouter.http_error(402)]))
+        (self.work.base / money.GLOBAL_MARKER).unlink()
+        archive = self.work.step() / "unsent-1"
+        archive.mkdir()
+        for name in ("request.json", "cost-bound.json", "endpoint.json", "http"):
+            (self.work.step() / name).rename(archive / name)
+        result = self.work.dispatch(body, t.MockOpenRouter(ACTION))
+        self.assertEqual([item["id"] for item in result.sub_attempts], ["F017-0001#r1"])
+        self.assert_clean(body, result)
+        mirror = {"attempts": {"F017-0001": ledger_item(body, result)}}
+        self.assertEqual(self.work.ledger.reconcile(self.work.root, mirror), [])
+
     def test_real_transport_requires_a_key_before_reserving(self):
         with self.assertRaises(ValueError):
             money.dispatch_guarded(body_for(), primary(), ledger=self.work.ledger, problem="F017",

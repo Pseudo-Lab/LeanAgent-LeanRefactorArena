@@ -74,7 +74,7 @@ def scrub(value, key: str | None = None, *, strict: bool = True):
     if isinstance(value, list):
         return [scrub(item, key, strict=strict) for item in value]
     if isinstance(value, str):
-        if key:
+        if isinstance(key, str) and key.startswith("sk-or-") and len(key) >= 20:
             value = value.replace(key, REDACTED)
         if "sk-or-" in value:
             value = _KEY_PATTERN.sub(REDACTED, value)
@@ -499,7 +499,8 @@ def normalize(raw, spec: ModelSpec, bound: Bound, *, sub_attempts=(), attempt_id
         "schema": SCHEMA, "attempt_id": attempt_id, "api_endpoint": ENDPOINT, "provider": "OpenRouter",
         "catalog_key": spec.key, "model": spec.model_id, "provider_pin": spec.provider,
         "returned_model": final["returned_model"], "returned_provider": final["returned_provider"],
-        "cost_usd": usd(total), "step_cost_usd": usd(total), "settlement_basis": basis, "basis": final["basis"],
+        "cost_usd": usd(total), "step_cost_usd": usd(total), "settlement_basis": basis, "basis": basis,
+        "final_basis": final["basis"],
         "cost_basis": COST_BASIS, "debit_rule": DEBIT_RULE, "invoice_verified": False,
         "bound": {"reserved_usd": usd(bound.reserved_usd), "input_token_bound": bound.input_token_bound,
                   "output_token_bound": bound.output_token_bound},
