@@ -98,6 +98,8 @@ python3 -B scripts/check_common_harness.py
 후보와 도구 호출의 구분, 라운드 seed, 반복 방지, 잘못된 ID, 동결 replay와
 trace의 해석 범위를 검사한다. 실제 두 문제 검증은
 [`strategy-bank-validation.json`](strategy-bank-validation.json)에 별도로 기록한다.
+실제 유료 호출로 수행한 Putnam·ArkLib 검증과 free 피드백 수정 근거는
+[`strategy-bank-paid-validation.json`](strategy-bank-paid-validation.json)에 기록한다.
 
 실제 ArkLib 문맥 확인 중 발견한 계측 경계도 보완했다. preflight는 대상 자리에
 익명 `True` 예제를 넣어 대상의 docstring·지역 지시문을 소비하되 원본/후보 정리는

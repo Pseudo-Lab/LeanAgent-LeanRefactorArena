@@ -1,0 +1,305 @@
+{
+  "schema_version": 1,
+  "date_kst": "2026-11-04",
+  "provider": "OpenAI direct",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "seed": 42,
+  "execution_path": "Published PR #73 common engine APIs and existing direct transport with a validation-only hard-budget controller; fresh real model calls and Lean processes.",
+  "approved_total_cap_usd": "5.00",
+  "approved_per_problem_cumulative_cap_usd": "2.50",
+  "bank": {
+    "file": "configs/strategy-bank/team-v1.json",
+    "file_sha256": "bf3197e116088eb8d85c50d8b09f159747653f8a09ecb19b971b38e2e5da8e45",
+    "version": "dashboard-mechanisms-v2-team-1",
+    "card_count": 20,
+    "search_policy": "alternating-v1",
+    "top_k": 3,
+    "contextual": true
+  },
+  "pricing": {
+    "model": "gpt-6.1-sol",
+    "provider": "OpenAI",
+    "service_tier": "default",
+    "currency": "USD",
+    "unit": "per_million_tokens",
+    "input": "2",
+    "cached_input": "0.10",
+    "cache_write_30m": "2.50",
+    "output_including_reasoning": "10",
+    "long_context_threshold": 272000,
+    "source": "https://developers.openai.com/api/docs/pricing",
+    "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+    "verified_date": "2026-11-01"
+  },
+  "pricing_verified_date": "2026-11-04",
+  "invoice_verified": false,
+  "offline_tests": {
+    "run": 370,
+    "skipped": 6,
+    "failed": 0
+  },
+  "discovery_run": {
+    "case": "putnam_1964_a4",
+    "source_commit": "0b3c3cae50d5ade0c05bfffecedef9546d90bf23",
+    "calls": 18,
+    "cost_usd": "0.482034",
+    "status": "Generation completed; stopped before next problem after finding a free-request label bug.",
+    "issue": "read_candidate tool feedback serialized previous strategy_ids into latest.feedback.details; structural redaction did not remove the labels in this string.",
+    "affected_free_steps": [
+      15,
+      17
+    ],
+    "fix_commit": "2310ec1",
+    "fix": "Free/hidden requests refer to the structurally redacted recent tool observation instead of duplicating it as a serialized feedback string.",
+    "original_frozen_record_replay_passed": true,
+    "offline_reassembly_of_real_affected_requests_passed": true,
+    "final_all_version_certification": "not_claimed_for_discovery_run"
+  },
+  "cases": [
+    {
+      "name": "putnam_1964_a4",
+      "source_commit": "2310ec103b02a8cb9d552d196c2ff42a7753aa5b",
+      "final_status": "all_required_versions_valid",
+      "calls": 20,
+      "generation_stop_reason": "portfolio_complete",
+      "evaluations_by_role": {
+        "merge": 2,
+        "scout-a": 2,
+        "scout-b": 2,
+        "scout-c": 2
+      },
+      "fresh_run_cost_usd": "0.545576",
+      "prior_discovery_cost_usd": "0.482034",
+      "cumulative_problem_cost_usd": "1.027610",
+      "hard_reservation_audit_passed": true,
+      "raw_usage_cost_audit_passed": true,
+      "frozen_record_replay_passed": true,
+      "serialized_tool_strategy_label_bug_absent": true,
+      "original_tokens": 1769,
+      "final_tokens": 338,
+      "selected_sha256": "76724f83429001786b3f7e7974343a27b1a12973c96b345082245d34fbb2ce1b",
+      "selection_rank": 0,
+      "original_retained": false,
+      "versions": [
+        {
+          "version": "v4.26.0",
+          "valid": true,
+          "source_revision": "2df2f0150c275ad53cb3c90f7c98ec15a56a1a67",
+          "compiler": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)",
+          "compiler_sha256": "2974847fff2e2621502841f4c2dbac4035b4847d6060a4f2087cbc0d04005e37",
+          "template_sha256": "2948ba7634c2268effb57c9837c36ca5a950485c9a6975453193d59f6d849b0f",
+          "tokens": 338,
+          "raw_heartbeats": [
+            3118092,
+            3118077,
+            3118110
+          ],
+          "raw_heartbeat_median": 3118092,
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "compiler_runs": [
+            {
+              "source_sha256": "49ba255269214a42802d0f9951b73a99f1a3ffb43a4656ea76603e4116a2230a",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "805fe357b72c04f4f0b034666069c5bc4a698d0bfcdd6c4cd404a69a72472ced",
+              "log_sha256": "1e39c62c07d427dca0ef17333f8b83ee826b8fa0acaff566d41a847737684029",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "4596b04f3c07abe61e0ef686cbdb1ba344e1516758c3333b21d8192c45e8b724",
+              "log_sha256": "5f2a36c9f90627d2286f70f9c82a84fc8535832a67ed2d2d444654c74301785d",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "e015ff47e9227d1f2403fc484fe37d1da652a85fcd7290f5b0d022de6b129cb9",
+              "log_sha256": "8c129548c44f9c3ddc596efa156b92e1ad0d6c8b447b445b5fe4c8dd771983ac",
+              "returncode": 0
+            }
+          ]
+        },
+        {
+          "version": "v4.27.0",
+          "valid": true,
+          "source_revision": "a3a10db0e9d66acbebf76c5e6a135066525ac900",
+          "compiler": "Lean (version 4.27.0, arm64-apple-darwin24.6.0, commit db93fe1608548721853390a10cd40580fe7d22ae, Release)",
+          "compiler_sha256": "2974847fff2e2621502841f4c2dbac4035b4847d6060a4f2087cbc0d04005e37",
+          "template_sha256": "2948ba7634c2268effb57c9837c36ca5a950485c9a6975453193d59f6d849b0f",
+          "tokens": 338,
+          "raw_heartbeats": [
+            3058876,
+            3058861,
+            3058894
+          ],
+          "raw_heartbeat_median": 3058876,
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "compiler_runs": [
+            {
+              "source_sha256": "49ba255269214a42802d0f9951b73a99f1a3ffb43a4656ea76603e4116a2230a",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "64bb5d990cf67ada3bb278a23a098efec6517f9817d8fb6093645ef50c8a8127",
+              "log_sha256": "65f4d885522c59fb2151037e3bf4131ed4dc74ecd447aea80aec51af9cb788d4",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "101c7def65f71e6b819c68dbd65cfd47f624a4e3e7f937223872797aee05aaf4",
+              "log_sha256": "b20c0d1d08be6b4509e33d4b0983f4ee09bbb6e631fec25fba18c9166058cb11",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "9e9dad5f987175c7fa5f4080508df5ec352fd80a4718cd1f54a82fa55b871d1f",
+              "log_sha256": "ac4c2ff08ccc2cf348cf3dcb3e43c00ff8f352f0274ecaf634c5e21373e44ca9",
+              "returncode": 0
+            }
+          ]
+        }
+      ],
+      "manifest_sha256": "d9a1b0338ac4917bd6a34cf44461fd8e55a2eea22e8bc6320e95290447500e65",
+      "requests_by_mode": {
+        "withheld": 4,
+        "free": 6,
+        "guided": 10
+      },
+      "guided_requests_with_recommendations": 10,
+      "free_or_hidden_tool_feedback_references": 5,
+      "verified_candidates": 7
+    },
+    {
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source_commit": "2310ec103b02a8cb9d552d196c2ff42a7753aa5b",
+      "final_status": "all_required_versions_valid",
+      "calls": 19,
+      "generation_stop_reason": "portfolio_complete",
+      "evaluations_by_role": {
+        "merge": 2,
+        "scout-a": 2,
+        "scout-b": 2,
+        "scout-c": 2
+      },
+      "fresh_run_cost_usd": "0.6374063",
+      "prior_discovery_cost_usd": "0",
+      "cumulative_problem_cost_usd": "0.6374063",
+      "hard_reservation_audit_passed": true,
+      "raw_usage_cost_audit_passed": true,
+      "frozen_record_replay_passed": true,
+      "serialized_tool_strategy_label_bug_absent": true,
+      "original_tokens": 2440,
+      "final_tokens": 2056,
+      "selected_sha256": "591f6dcc080b89b939b4a1a48f3ce0a098598a83c7b929a4a9aa196e9c8d1dbc",
+      "selection_rank": 0,
+      "original_retained": false,
+      "versions": [
+        {
+          "version": "v4.31.0",
+          "valid": true,
+          "source_revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+          "compiler": "Lean (version 4.31.0, arm64-apple-darwin24.6.0, commit 68218e876d2a38b1985b8590fff244a83c321783, Release)",
+          "compiler_sha256": "1b370cfcbf44e80d1b004ab1b1ab9a4c73951f9f7c242140bcff9bc577576554",
+          "template_sha256": "1c3ba9a3975201ee789e7b14c7af926a148b4d8c763c4a72a886bc9404e71b65",
+          "tokens": 2056,
+          "raw_heartbeats": [
+            70672588,
+            70675037,
+            70677742
+          ],
+          "raw_heartbeat_median": 70675037,
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "compiler_runs": [
+            {
+              "source_sha256": "26097315cabceac4a686941fe98002da26b158d12894fd155eaef04869b4bc3f",
+              "log_sha256": "3bc1ec1b239fe78c6357c29871bbf70b39ccf251c439f82292f19c248f0c6a01",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "543f81923ec4c2aca47a2a664eec7b9f74f301fefbccd9be9f8ee3bea4765f39",
+              "log_sha256": "84c3ec447828ae5784919972f7f3e8973b2b4aa8193672a0e4a4a44b3e4de1b9",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "be8e4dcf2ef0f5ca2d570fea4850784119ed3a6a608315de3bf032658d40db1f",
+              "log_sha256": "f3c118c62640ad34969f2b85f73bde4c697a10a6092865bb8514f083f116fd48",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "9ddb8b8b79993756ffa350247965a3b4089a23d71e379ec4c2d27869faa6bd2a",
+              "log_sha256": "efaab4fe9c2fec6f3f5ac3497fd9487e01b4bf306557e8acc0bae4a2aa86abe9",
+              "returncode": 0
+            }
+          ]
+        },
+        {
+          "version": "v4.30.0",
+          "valid": true,
+          "source_revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+          "compiler": "Lean (version 4.30.0, arm64-apple-darwin24.6.0, commit d024af099ca4bf2c86f649261ebf59565dc8c622, Release)",
+          "compiler_sha256": "b48bc5ab229bd8b320a224b87e20fc428dba6fa8a1c054bd4fa6def846e19997",
+          "template_sha256": "1c3ba9a3975201ee789e7b14c7af926a148b4d8c763c4a72a886bc9404e71b65",
+          "tokens": 2056,
+          "raw_heartbeats": [
+            79306926,
+            79309215,
+            79320964
+          ],
+          "raw_heartbeat_median": 79309215,
+          "axioms": [
+            "Classical.choice",
+            "Quot.sound",
+            "propext"
+          ],
+          "compiler_runs": [
+            {
+              "source_sha256": "26097315cabceac4a686941fe98002da26b158d12894fd155eaef04869b4bc3f",
+              "log_sha256": "caad9bb4bfa7a303d8d5e0d2f903ec6ac8c701d288a855e9146175561820dd92",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "62c30f244f9bb7e40c4b76d5aa2c324ed36b83b21f77ee945eb8202654558740",
+              "log_sha256": "710b07abcf74f05acaac17171a9f48074da84a45a83e099a4fffc3545b55ba18",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "e1947588c28f8489f64806de39b6d1fb4284339173c47377d3d05afb55e85081",
+              "log_sha256": "89d72d72cd7e7867b8816de271ae68a4d32094d2492599bbf40d73abc33a6202",
+              "returncode": 0
+            },
+            {
+              "source_sha256": "089daa2808b6dab536373a5354f43b636dc7cae34bd439c411ec16266b0bb266",
+              "log_sha256": "d35057cbbe79e8e8cb5fcd184c8122ff83f1352dab129604e257b81ffcb66103",
+              "returncode": 0
+            }
+          ]
+        }
+      ],
+      "manifest_sha256": "16ff53976ecd2556d06bb21a908d883706c1f013c2628fb8e18f5db102729b70",
+      "requests_by_mode": {
+        "withheld": 6,
+        "free": 10,
+        "guided": 3
+      },
+      "guided_requests_with_recommendations": 3,
+      "free_or_hidden_tool_feedback_references": 7,
+      "verified_candidates": 1
+    }
+  ],
+  "interpretation": "One short alternating-policy smoke per corpus after the fix, using the same Final-derived Bank. No A/B comparison, strict leave-one-out claim, official submission, or claim of isolated Bank effect.",
+  "total_cost_usd_including_discovery_run": "1.6650163",
+  "total_model_calls_including_discovery_run": 57,
+  "all_required_version_combinations_passed": 4
+}
