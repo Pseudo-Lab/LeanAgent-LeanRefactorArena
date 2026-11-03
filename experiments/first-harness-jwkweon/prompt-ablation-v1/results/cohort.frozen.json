@@ -1,0 +1,135 @@
+{
+  "prepared_at": "2026-10-23T17:24:00.339927+00:00",
+  "design_sha256": "6b92320be3bec27b536305c09e8909b8e92eefcb04d29476b496e5d68759cedc",
+  "protocol_sha256": "b391ab42800bdc776d8d801806f0fdc93617b9f66256a9c705c8c8a766fdf8be",
+  "operations_sha256": "2605d2ee767e42e99db9dd3e7b7d9db47e0f338f84e89e54be589c21d1941ad4",
+  "runtime_inventory_before_sha256": "6a5991074dd5a997ed2b702d6df966cc0bfdc9ea1736a51ba1c91f5caa7e9663",
+  "code_sha256": {
+    "harness.py": "a4af55e61348f1a932e8b3532283fdf23b1a9789fda025db71d184ad4119cd20",
+    "models.py": "29ced33ee6fb906a03b5b8d5df2e6162a8421aa47e45d52c8192d16be04912d7",
+    "subagent_trials.py": "057bdf6e4d60c44e5a93148836d8c04234b63089fa04e8a1a2aac0339569229b",
+    "evaluator/__init__.py": "0eab47670182910a6f889d4f5bf1712d73b159bfffe499d63c6a1a94e8abacd7",
+    "evaluator/lean.py": "c4e779e71fc8e5999b81641e458ae4543c420e4dee32586acdfeebe1aea7e5a8",
+    "evaluator/tokens.py": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+    "evaluator/provenance.json": "b5a61820afb043091f175ff2ff071ff1554a155e026d8f6093ecf470ce982c0b"
+  },
+  "trials": [
+    {
+      "trial_id": "P13-B3-r1",
+      "condition": "B3",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-A-r1",
+      "condition": "A",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B2-r1",
+      "condition": "B2",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B1-r1",
+      "condition": "B1",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B4-r1",
+      "condition": "B4",
+      "repetition": 1,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B4-r2",
+      "condition": "B4",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B1-r2",
+      "condition": "B1",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B2-r2",
+      "condition": "B2",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-A-r2",
+      "condition": "A",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    },
+    {
+      "trial_id": "P13-B3-r2",
+      "condition": "B3",
+      "repetition": 2,
+      "max_proposals": 10,
+      "checkpoints": [
+        3,
+        6,
+        10
+      ]
+    }
+  ],
+  "max_solver_parallelism": 2,
+  "common_baseline": {
+    "tokens": 1769,
+    "raw_heartbeats": 115674908
+  },
+  "timeout_seconds": 420,
+  "no_automatic_retries": true
+}

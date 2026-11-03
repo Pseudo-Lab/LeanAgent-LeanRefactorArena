@@ -1,0 +1,28 @@
+{
+  "prepared_at": "2026-10-25T06:01:28.712859+00:00",
+  "design_sha256": "29519993e2fd46616af9e5b31ca753057c7ab143e93e6ce7c3044abc4ed3bd73",
+  "protocol_sha256": "6f889ae701b288b671780af06369c34520c63ff114549f5da0fa96792c64c3ff",
+  "operations_sha256": "2605d2ee767e42e99db9dd3e7b7d9db47e0f338f84e89e54be589c21d1941ad4",
+  "prompt_sha256": "392cb9211192e4621a1f6a634df9663c86e9d13e4c6d9f99591fee468f0366b9",
+  "code_sha256": {
+    "harness.py": "a4af55e61348f1a932e8b3532283fdf23b1a9789fda025db71d184ad4119cd20",
+    "models.py": "29ced33ee6fb906a03b5b8d5df2e6162a8421aa47e45d52c8192d16be04912d7",
+    "evaluator/__init__.py": "0eab47670182910a6f889d4f5bf1712d73b159bfffe499d63c6a1a94e8abacd7",
+    "evaluator/lean.py": "c4e779e71fc8e5999b81641e458ae4543c420e4dee32586acdfeebe1aea7e5a8",
+    "evaluator/tokens.py": "733f6ebb4274de88fe448d04879ba3ee58e07e725c62a7e5e4ef122cabf2394d",
+    "evaluator/provenance.json": "b5a61820afb043091f175ff2ff071ff1554a155e026d8f6093ecf470ce982c0b",
+    "subagent_trials.py": "52c6a80d4a11f0205852bd6ff94b0742fe3a5c82cb8b082a0209cddbb939fa0f",
+    "error_feedback.py": "d6330355349f22417d43495aace342c8d02e69cc9d81bfab622a4e498c428484"
+  },
+  "readiness_sha256": {
+    "P01": {
+      "summary": "a9a59cb3c5008c8e76bd87e5839fca5a043b0678413e2005840f47c035cde2fc",
+      "runtime_before": "a0d18e0310208ff435dbd3e7045e85e83bee9aa2a9cfbde0def5ec796a641d24"
+    },
+    "P13": {
+      "summary": "c8f284b899e42ad7f832141525351fa88b7a626eb0c75fa8bd3787326698ea10",
+      "runtime_before": "462e6e9eac74f9bc78bc339a8b9b7fff78d2f572776d3be6add8eebe722d1694"
+    }
+  },
+  "max_solver_parallelism": 2
+}

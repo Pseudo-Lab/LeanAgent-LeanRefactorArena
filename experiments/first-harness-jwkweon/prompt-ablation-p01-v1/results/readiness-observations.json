@@ -1,0 +1,29 @@
+{
+  "1": {
+    "tokens": 313,
+    "raw_samples": [
+      5173231,
+      5173562,
+      5173310
+    ],
+    "median_raw_heartbeats": 5173310,
+    "valid": true,
+    "environment_unchanged": true,
+    "summary_sha256": "e7f8e366d640f847480eec004d0f67dd987e0b6c7088570a73247f8c485b421c",
+    "diagnostic_correction": "Original theorem normal+3 measurements already passed. Initial imports diagnostic removed target from full context, so a following declaration failed. Corrected diagnostic compiles actual import prefix only; original measurements were not repeated."
+  },
+  "2": {
+    "tokens": 313,
+    "raw_samples": [
+      5173231,
+      5173558,
+      5173302
+    ],
+    "median_raw_heartbeats": 5173302,
+    "valid": true,
+    "environment_unchanged": true,
+    "summary_sha256": "dbec7a59f90adf6a08ec3a9ddf865eefb847a2d46286cdb33203acfe9d9b09fa",
+    "diagnostic_correction": "Original theorem normal+3 measurements already passed. Initial imports diagnostic removed target from full context, so a following declaration failed. Corrected diagnostic compiles actual import prefix only; original measurements were not repeated."
+  },
+  "baseline_policy": "These fresh observations were kept separate; every solver request used the same archived original denominator."
+}
