@@ -429,3 +429,10 @@ footer { display: flex; align-items: center; justify-content: space-between; gap
   .final-workbench .grid-toolbar .search-field { flex-basis: 100%; }
   .final-workbench .grid-toolbar select { flex: 1; max-width: none; }
 }
+
+.final-reference-versions { margin: 20px 0; font-size: 12px; }
+.final-reference-versions h3 { font-size: 14px; }
+.final-reference-versions p { line-height: 1.6; color: var(--muted); }
+.final-reference-versions code { overflow-wrap: anywhere; font-size: 10px; }
+.reference-table-wrap { overflow-x: auto; }
+.reference-table-wrap .metrics-table { font-size: 11px; }

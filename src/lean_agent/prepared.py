@@ -22,7 +22,7 @@ def library_files(paths):
         if not root.is_absolute() or not root.is_dir():
             raise ValueError("Prepared library path must be an existing absolute directory")
         for path in sorted(root.rglob("*")):
-            if path.is_file():
+            if path.is_file() and str(path) not in files:
                 files[str(path)] = sha(path.read_bytes())
     if not files:
         raise ValueError("Prepared libraries contain no files")
@@ -82,6 +82,11 @@ class PreparedLeanEvaluator(LeanEvaluator):
                     if not path.is_file():
                         continue
                     key = str(path)
+                    if key in files:
+                        if self._stamp(path) != verified[key][0]:
+                            self._verified_files = {}
+                            raise ValueError("Prepared library changed during verification")
+                        continue
                     before = self._stamp(path)
                     prior = self._verified_files.get(key)
                     content_hash = (prior[1] if not full and prior and prior[0] == before

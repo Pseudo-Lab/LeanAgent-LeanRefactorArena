@@ -49,7 +49,7 @@ export function ProblemGrid(props: Props) {
     <div className="grid-toolbar">
       <div className="search-field"><Search size={16}/><input aria-label="문제 검색" placeholder="번호, 문제명 검색" value={query} onChange={e => onQuery(e.target.value)}/></div>
       <select aria-label="출처 필터" value={source} onChange={e => onSource(e.target.value)}><option value="all">전체 출처</option>{sources.map(s => <option key={s} value={s}>{sourceName(s)}</option>)}</select>
-      <select aria-label="정렬" value={sort} onChange={e => onSort(e.target.value)}><option value="number">번호순</option><option value="high">점수 높은순</option><option value="low">점수 낮은순</option></select>
+      <select aria-label="정렬" value={sort} onChange={e => onSort(e.target.value)}><option value="number">번호순</option>{final ? <><option value="length">원본 Length 큰순</option><option value="heartbeat">원본 HB 큰순</option></> : null}<option value="high">점수 높은순</option><option value="low">점수 낮은순</option></select>
     </div>
     <p className="metric-context">{metric === 'combined' ? '세 평가 항목의 평균' : metric === 'compatibility' ? '지정 버전 통과율' : '원본 대비 개선율'} · 60 이하 빨간 경고 · 60 초과부터 100까지 연속 색상</p>
     <p className="measurement-key">{final ? '회색은 개선 결과 없음 · 타일 하단은 원본 기준값' : '타일 하단은 선택 후보의 실제 수치'} <span>토큰 길이 / HB{heartbeatUnit ? ` (${heartbeatUnit})` : ' (heartbeat)'}</span></p>

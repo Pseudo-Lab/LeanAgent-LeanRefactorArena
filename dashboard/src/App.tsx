@@ -20,7 +20,7 @@ export default function App() {
   return <>
     <a href="#main" className="skip-link">본문으로 바로가기</a>
     <header className="site-header"><div className="header-inner"><div className="brand"><Brackets size={29} strokeWidth={3}/><span>LeanArena</span><small>팀 스코어보드</small></div><span className="measurement-status"><i/>로컬 측정</span></div></header>
-    <nav className="dashboard-views" aria-label="대시보드 선택"><button className={view === 'final' ? 'active' : ''} aria-pressed={view === 'final'} onClick={() => { setView('final'); window.history.replaceState(null, '', '#final'); }}>최종 60문제 원본</button><button className={view === 'warmup' ? 'active' : ''} aria-pressed={view === 'warmup'} onClick={() => { setView('warmup'); window.history.replaceState(null, '', '#warmup'); }}>웜업 15문제 · 팀 결과</button></nav>
+    <nav className="dashboard-views" aria-label="대시보드 선택"><button className={view === 'final' ? 'active' : ''} aria-pressed={view === 'final'} onClick={() => { setView('final'); window.history.replaceState(null, '', '#final'); }}>최종 60문제 · 결과</button><button className={view === 'warmup' ? 'active' : ''} aria-pressed={view === 'warmup'} onClick={() => { setView('warmup'); window.history.replaceState(null, '', '#warmup'); }}>웜업 15문제 · 팀 결과</button></nav>
     {view === 'final' ? <FinalBaselines/> : <WarmupDashboard/>}
   </>;
 }

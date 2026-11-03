@@ -12,6 +12,7 @@ test('final baseline snapshot preserves missing HB independently of provided len
   assert.equal(data.problems[0].local?.scaledHeartbeats, 4182);
   assert.ok(data.problems[17].providedLength > 0);
   const pending = fixture();
+  pending.measurementPolicy = 'primary-pin-local-samples'; delete pending.verification;
   pending.problems[17].local = null;
   assert.equal(parseFinalBaselines(pending).problems[17].local, null);
   // Interrupted candidate searches still have valid, independent baseline evidence.
@@ -29,8 +30,9 @@ test('reject wrong dataset, duplicate IDs, missing rows and fabricated HB median
     (d: ReturnType<typeof fixture>) => { d.problems[0].local.evidence[0].path = '/Users/private'; },
   ]) { const input = fixture(); mutate(input); assert.throws(() => parseFinalBaselines(input)); }
 });
-test('one-sample data stays explicitly provisional and cannot claim a three-sample median', () => {
+test('single-sample data preserves its count and cannot claim a three-sample median', () => {
   const input = fixture();
+  input.measurementPolicy = 'primary-pin-local-samples'; delete input.verification;
   const local = input.problems[0].local;
   local.sampleCount = 1;
   local.rawSamples = [local.rawHeartbeats];
@@ -38,4 +40,20 @@ test('one-sample data stays explicitly provisional and cannot claim a three-samp
   assert.equal(parseFinalBaselines(input).problems[0].local?.sampleCount, 1);
   local.sampleCount = 3;
   assert.throws(() => parseFinalBaselines(input));
+});
+
+test('complete baselines bind all 127 versions and retain the paper Length and separate audit Length', () => {
+  const data = parseFinalBaselines(fixture());
+  assert.equal(data.verification?.problemVersions, 127);
+  assert.equal(data.problems.reduce((n,p)=>n+(p.references?.length??0),0),127);
+  assert.equal(data.problems[52].local?.tokens,2162);
+  assert.equal(data.problems[52].local?.auditTokens,2161);
+  assert.equal(data.problems[55].local?.tokens,5464);
+  assert.equal(data.problems[55].local?.auditTokens,5463);
+  for(const mutate of [
+    (d: ReturnType<typeof fixture>)=>{d.problems[1].references.pop();},
+    (d: ReturnType<typeof fixture>)=>{d.problems[1].references[1].rawHeartbeats++;},
+    (d: ReturnType<typeof fixture>)=>{d.problems[0].local=null;},
+    (d: ReturnType<typeof fixture>)=>{d.verification.status='pending';},
+  ]) {const d=fixture();mutate(d);assert.throws(()=>parseFinalBaselines(d));}
 });
