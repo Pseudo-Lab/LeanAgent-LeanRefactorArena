@@ -6,7 +6,7 @@ import { format, valueOf } from '../lib/model';
 import type { Metric, Problem } from '../lib/model';
 import { parseSummaryResults, mergeFinalResults } from '../lib/final-summary-results';
 import { parseFinalResults } from '../lib/final-results';
-import type { FinalResults } from '../lib/final-results';
+import type { FinalResultsView } from '../lib/final-results';
 import { resultSnapshot } from '../lib/final-snapshot';
 import { ProblemGrid } from './ProblemGrid';
 import { DetailPanel } from './DetailPanel';
@@ -14,7 +14,7 @@ import { ScoringGuide } from './ScoringGuide';
 
 export function FinalBaselines() {
   const [data, setData] = useState<BaselineData | null>(null);
-  const [results, setResults] = useState<FinalResults | null>(null);
+  const [results, setResults] = useState<FinalResultsView | null>(null);
   const [error, setError] = useState('');
   const [query, setQuery] = useState('');
   const [source, setSource] = useState('all');

@@ -15,6 +15,8 @@ export type FinalResults = {
   officialEvaluation: false; costUsd: string; invoiceVerified: false; auditPassed: true;
   apiCalls: number; problems: FinalResult[];
 };
+// A mixed-source view carries no aggregate audit verdict or combined billing receipt.
+export type FinalResultsView = Pick<FinalResults, 'runId' | 'generatedAt' | 'costUsd' | 'problems'>;
 const record = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const text = (v: unknown): v is string => typeof v === 'string' && v.length > 0;
 const hash = (v: unknown): v is string => text(v) && /^[a-f0-9]{64}$/.test(v);

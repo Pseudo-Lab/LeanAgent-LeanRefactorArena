@@ -1,5 +1,5 @@
 import type { FinalBaselines } from './final-baselines.ts';
-import type { FinalResult, FinalResults } from './final-results.ts';
+import type { FinalResult, FinalResults, FinalResultsView } from './final-results.ts';
 const record = (v: unknown): v is Record<string, any> => typeof v === 'object' && v !== null && !Array.isArray(v);
 const hash = (v: unknown) => typeof v === 'string' && /^[a-f0-9]{64}$/.test(v);
 const positive = (v: unknown) => Number.isSafeInteger(v) && Number(v) > 0;
@@ -42,8 +42,8 @@ export function parseSummaryResults(input: unknown, baselines: FinalBaselines): 
   return rows;
 }
 
-export function mergeFinalResults(primary: FinalResults, summary: FinalResult[]): FinalResults {
+export function mergeFinalResults(primary: FinalResults, summary: FinalResult[]): FinalResultsView {
   const problems = [...primary.problems,...summary].sort((a,b)=>a.row-b.row);
   if (new Set(problems.map(p=>p.row)).size !== problems.length) throw new Error('검증 결과 문제 중복');
-  return {...primary,problems};
+  return {runId:primary.runId,generatedAt:primary.generatedAt,costUsd:primary.costUsd,problems};
 }
