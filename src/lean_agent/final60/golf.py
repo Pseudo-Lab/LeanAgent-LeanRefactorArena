@@ -41,12 +41,17 @@ DEFAULTS = {
     "non_improving_stop": 4,
     "ddmin_max_tokens": 600,
     "probe_timeout_s": 300,
-    "root_probe_max_tokens": 400,
+    "root_probe_max_tokens": 150,
+    "closer_blocks": 2,
+    "probe_heartbeat_factor": 1.0,
     "suggestions_per_block": 2,
     "decide_max_tokens": 40,
     "linter_probe": False,
     "risky_rewrites": 2,
     "simp_probe": True,
+    # A caller deadline also bounds the final validation that follows golf; keep this
+    # much of it free (all versions + fresh 3x is about 4-12 Lean processes).
+    "validation_reserve_s": 480,
 }
 LINTER_OPTIONS = ("linter.unusedSimpArgs true", "linter.unusedVariables true",
                   "linter.unusedTactic true", "linter.unreachableTactic true")
@@ -256,6 +261,20 @@ def pass_linter(session: _Session) -> int:
     return search_edits(session, edits, "G1")
 
 
+def probe_heartbeat_cap(session: _Session, searches: int) -> int:
+    """Declaration ``maxHeartbeats`` for a search probe (thousands, Lean's unit).
+
+    Measured 2026-11-04 on F027: four ``try?`` blocks under a 300 s wall limit were killed
+    and Lean printed no message at all, because messages are emitted when the declaration
+    finishes. A heartbeat cap instead ends the declaration with an error after the
+    suggestions already logged, so they survive. Budget: the incumbent's own cost plus
+    ``probe_heartbeat_factor`` times that per search, plus 20000.
+    """
+    scaled = max(1, int(session.result.raw_heartbeats or 0) // 1000)
+    factor = float(session.settings["probe_heartbeat_factor"])
+    return int(scaled * (1 + factor * max(1, searches)) + 20000)
+
+
 def pass_closers(session: _Session) -> int:
     gained = 0
     scopes = (["root"] if session.tokens <= session.settings["root_probe_max_tokens"] else []) + ["blocks"]
@@ -264,12 +283,14 @@ def pass_closers(session: _Session) -> int:
             break
         code = session.code
         try:
-            text, block_map = rw.closer_probe(code, session.statement, scope=scope)
+            text, block_map = rw.closer_probe(code, session.statement, scope=scope,
+                                              max_blocks=session.settings["closer_blocks"])
         except ValueError:
             continue
         if not block_map:
             continue
-        probed = session.probe(text, f"G2:{scope}")
+        cap = probe_heartbeat_cap(session, len(block_map))
+        probed = session.probe(text, f"G2:{scope}", options=(f"maxHeartbeats {cap}",))
         if not probed or not probed[2]:
             continue
         _, log, start = probed
@@ -365,7 +386,7 @@ def improve(adapter, problem: dict, candidates: list[Candidate], route_golf: dic
     started = time.time()
     stop_at = started + 60.0 * float(settings["minutes"])
     if deadline is not None:
-        stop_at = min(stop_at, float(deadline))
+        stop_at = min(stop_at, float(deadline) - float(settings["validation_reserve_s"]))
     statement = problem["statement"]
     if not candidates:
         return []
@@ -375,7 +396,10 @@ def improve(adapter, problem: dict, candidates: list[Candidate], route_golf: dic
     results = []
     for index, candidate in enumerate(chosen):
         if total.left <= 0 or time.time() >= stop_at:
-            break
+            reason = "compile budget" if total.left <= 0 else "time (deadline minus validation reserve)"
+            results.append(GolfResult(best=candidate, tried=0, accepted=[],
+                                      log=[{"event": "skipped", "label": candidate.label, "reason": reason}]))
+            continue
         if candidate.origin == "original":
             allowance = settings["original_compiles"]
         else:

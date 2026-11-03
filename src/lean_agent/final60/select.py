@@ -181,7 +181,9 @@ def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, d
         if not free:
             if not scoring.improves(estimate, best) or attempts >= k:
                 continue
-            if deadline is not None and time.time() >= deadline:
+            # The deadline limits extra validations; the top candidate is always checked,
+            # since publishing anything (even the original) needs one validation.
+            if deadline is not None and time.time() >= deadline and attempts:
                 break
             attempts += 1
         considered.append(candidate.label)

@@ -493,6 +493,22 @@ class SelectTests(unittest.TestCase):
         record = json.loads((adapter.golf_dir / "selection.json").read_text())
         self.assertEqual(record["dropped"][0]["reason"], "equals-non-openrouter-proof")
 
+    def test_past_deadline_still_validates_the_top_candidate_only(self):
+        short = self.statement + " := by\n  trivial\n"
+        shorter = self.statement + " := by trivial\n"
+        adapter = FakeAdapter(self.statement, self.reference, lambda code, all_versions=False: (True, 10))
+        pool = [candidate(c, "model", f"c{i}", adapter) for i, c in enumerate([shorter, short], 1)]
+        selection = select.select_final(adapter, {"statement": self.statement, "reference": self.reference,
+                                                  "environments": ["p"]}, pool, deadline=0)
+        self.assertEqual(selection.candidate.code, shorter)
+        self.assertEqual(adapter.validations, ["c1"])
+        # golf leaves the validation reserve free before a caller deadline.
+        start = candidate(self.reference, "original", "c000", adapter)
+        import time as clock
+        result, = golf.improve(adapter, {"statement": self.statement}, [start], {"validation_reserve_s": 600},
+                               deadline=clock.time() + 300)
+        self.assertEqual(result.tried, 0)
+
     def test_never_below_original(self):
         worse = self.statement + " := by\n  have h : True := trivial\n  have g : True := h\n  exact g\n"
         adapter = FakeAdapter(self.statement, self.reference, lambda code, all_versions=False: (True, 5000))
