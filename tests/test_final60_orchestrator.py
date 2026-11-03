@@ -1041,12 +1041,12 @@ class PackageTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "excluded"):
                 pk.assert_clean(["harness/x/declaration-indexes/y.sqlite"])
             self.assertTrue(pk.assert_clean(names))
-            (repo / "key.env").write_text("OPENROUTER_API_KEY=sk-or-v1-" + "a" * 40 + "\n")
+            (repo / "keys.txt").write_text("OPENROUTER_API_KEY=sk-or-v1-" + "a" * 40 + "\n")
             git("add", "-A")
             git("commit", "-q", "-m", "secret")
             with self.assertRaisesRegex(ValueError, "Secret"):
                 pk.package_code(repo, out, name="harness")
-            git("rm", "-q", "key.env")
+            git("rm", "-q", "keys.txt")
             os.symlink("README.md", repo / "link.md")
             git("add", "-A")
             git("commit", "-q", "-m", "symlink")
