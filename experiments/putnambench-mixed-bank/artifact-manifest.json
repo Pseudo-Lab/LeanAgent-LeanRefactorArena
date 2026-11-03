@@ -1,4 +1,5 @@
 {
+  ".gitattributes": "4e2966ddb31dbd7d376ce78dd69655c7b3098aae0d7b366c669863246d40daef",
   "README.md": "cd78877f87d103bec46deb5663a0bbe9f0560aac4fcb0369304b3519b85ef2d7",
   "bank/README.md": "af78482b745ba7b48557fe2d832931820242961ca3230959cce38f48d092921c",
   "bank/bank.json": "bf3197e116088eb8d85c50d8b09f159747653f8a09ecb19b971b38e2e5da8e45",
@@ -26,7 +27,7 @@
   "proofs/putnam_1988_a2.lean": "14f0bbd2254b5d5a5907099c4398a6beac58a66d87156cda9d7d4ba68beb59da",
   "proofs/putnam_1995_a3.lean": "3ae7cd1cee967fcb87e81f561b9e89e1cd5f5f339f879955381fb436d30ff666",
   "proofs/putnam_2001_b1.lean": "ff0609f4ea4bd4abf99faad8b583984025f3c2a35657b260ce247e5b9dabd0ec",
-  "results.csv": "e4b90879943b12781a2372cf6d32a1934b4a58c1a649c13f831036d1ae0b546a",
+  "results.csv": "7964c7b18769e26fee48cf88c973d123aa657b0033c00dc0fe137f7a70097d1a",
   "results.json": "4988b6d22853b239bc2d86136e48dd43f8279cb0002b7ddc052a2b405f541a0e",
   "run-policy.json": "4535347e9e61a523273681e6f811006c55173691912e06659c3fda910a50084c",
   "runtime/examples/actions/README.md": "7a9d0d9af40cfabdde54dcea76fd662090233d58b21dee1765c2e01e68d3b2de",
