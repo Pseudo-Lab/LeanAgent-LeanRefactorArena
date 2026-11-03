@@ -660,6 +660,7 @@ class RowWorkerTests(unittest.TestCase):
         self.layout = o.Layout(self.run_dir)
         self.opts = o.RunOptions(run_dir=self.run_dir, dry_run=True)
         self.calls = []
+        self.score = 70.0
 
     def fake_driver(self):
         test, layout = self, self.layout
@@ -696,12 +697,12 @@ class RowWorkerTests(unittest.TestCase):
         class Report:
             def build_report(self, root):
                 return {"audit_passed": True, "audit_errors": [], "rows": [{
-                    "row": 1, "final": {"tokens": 1}, "local_score_estimate": 70.0, "known_cost_usd": "1.2",
+                    "row": 1, "final": {"tokens": 1}, "local_score_estimate": test.score, "known_cost_usd": "1.2",
                     "calls": 30, "status": "completed"}]}
 
         return Driver(), Report()
 
-    def test_row_worker_prepares_explores_and_publishes(self):
+    def run_fake_row(self):
         problem = {"row": 1, "name": "Final.t1", "source": "synthetic", "statement": "theorem t1 : True",
                    "reference": "theorem t1 : True := by\n  trivial\n", "environments": ["e"]}
         o.atomic_json(self.layout.row_folder(1) / "input/problem.json", problem)
@@ -710,7 +711,18 @@ class RowWorkerTests(unittest.TestCase):
                 patch.object(rw, "load_dataset", return_value=[]), \
                 patch.object(rw, "problem_packet", return_value=problem), \
                 patch.dict(sys.modules, {"lean_agent.final60.golf": None}):
-            state = rw.run_row(self.run_dir, 1, self.opts)
+            return rw.run_row(self.run_dir, 1, self.opts)
+
+    def test_equal_score_variant_is_published_as_the_original(self):
+        self.score = 100 / 3
+        state = self.run_fake_row()
+        self.assertEqual(state.status, "published")
+        published = o.read_json(self.layout.row_root(1) / "published.json")
+        self.assertEqual(published["origin"], "original")
+        self.assertIn("no validated improvement", published["reason"])
+
+    def test_row_worker_prepares_explores_and_publishes(self):
+        state = self.run_fake_row()
         self.assertEqual(state.status, "published")
         self.assertEqual(state.score_estimate, 70.0)
         names = [call if isinstance(call, str) else call[0] for call in self.calls]

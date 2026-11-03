@@ -254,8 +254,12 @@ class RowWorker:
         entry = next((item for item in report["rows"] if item["row"] == self.row), {})
         selected = self.folder / "selected.lean"
         code = selected.read_text(encoding="utf-8") if selected.exists() else None
+        score = entry.get("local_score_estimate")
+        # A non-original proof is submitted only when it scores strictly better than the original
+        # (33.33); an equal-score variant would only add provenance risk.
         improved = (report["audit_passed"] and code is not None and "final" in entry
-                    and normalized_sha(code) != normalized_sha(problem["reference"]))
+                    and normalized_sha(code) != normalized_sha(problem["reference"])
+                    and isinstance(score, (int, float)) and score > 100 / 3 + 1e-6)
         value = {"row": self.row, "name": problem["name"], "at": now_iso(),
                  "origin": "openrouter-run" if improved else "original",
                  "selected_sha256": sha_text(code) if code is not None else None,
@@ -265,7 +269,8 @@ class RowWorker:
                  "status": entry.get("status"), "golf": self.worker_state().get("golf")}
         if not improved:
             value["reason"] = ("row audit failed: " + "; ".join(report["audit_errors"][:4])[:600]
-                               if not report["audit_passed"] else "no validated improvement over the original")
+                               if not report["audit_passed"] else
+                               f"no validated improvement over the original (local estimate {score})")
         atomic_json(self.root / "published.json", value)   # critic A13: after report.json
         self.state = load_rowstate(self.layout, self.row)
         self.state.selected_sha256 = value["selected_sha256"]
