@@ -813,6 +813,72 @@ def suggestion_span_edits(code: str, block_map: list[dict], log: str, *, decl_st
     return [edits for edits in out if edits]
 
 
+_SIMP_SITE = re.compile(r"(?P<lead>^ *(?:[·.] +)?)(?P<tac>simp_all|simpa|simp|dsimp)(?![\w?!'])(?! only\b)(?P<rest>[^\n]*)$",
+                        re.M)
+
+
+def _inside_conv(layout: Layout, line: int) -> bool:
+    indent = indent_of(layout.mlines[line])
+    for j in range(line - 1, layout.by_line, -1):
+        text = layout.mlines[j]
+        if text.strip() and indent_of(text) < indent:
+            if re.match(r"\s*(?:[·.]\s*)?conv", text):
+                return True
+            indent = indent_of(text)
+    return False
+
+
+def simp_probe(code: str, statement: str, *, max_sites: int = 12) -> tuple[str, list[dict]]:
+    """Probe text with ``simp``-family calls (not ``only``) turned into ``simp?``.
+
+    Only calls that start a line (optionally after a bullet) and end at the line end are
+    used, so each ``Try this`` maps to one source span. Proof behaviour is unchanged.
+    """
+    layout = Layout(code, statement)
+    sites = []
+    for match in _SIMP_SITE.finditer(layout.masked, layout.by_end):
+        rest = match["rest"]
+        if re.search(r"<;>|;|\bby\b", rest):
+            continue
+        line = layout.line_of(match.start("tac"))
+        if line <= layout.by_line or not _single_line(layout, line) or _inside_conv(layout, line):
+            continue
+        end = match.start("rest") + len(rest.rstrip())
+        sites.append({"start": match.start("tac"), "end": end, "tactic": match["tac"], "line": line,
+                      "col": match.start("tac") - layout.spans[line][0]})
+        if len(sites) >= max_sites:
+            break
+    probe = code
+    for site in reversed(sites):
+        at = site["start"] + len(site["tactic"])
+        probe = probe[:at] + "?" + probe[at:]
+    return probe, [{**site, "statement_length": len(statement)} for site in sites]
+
+
+def simp_suggestion_edits(code: str, sites: list[dict], log: str, *, decl_start_line: int = 1) -> list[Edit]:
+    """``simp only [...]`` replacements reported by the ``simp?`` probe, one per site."""
+    if not sites:
+        return []
+    by_line = {}
+    for site in sites:
+        by_line.setdefault(site["line"], []).append(site)
+    edits = []
+    for message in parse_messages(log):
+        local = message.line - decl_start_line
+        for site in by_line.get(local, []):
+            if message.col != site["col"]:
+                continue
+            offered = suggestions(message)
+            if offered and re.match(r"(?:simp_all|simpa|simp|dsimp)\b", offered[0]):
+                edits.append(Edit("G2:simp?", site["start"], site["end"], offered[0]))
+    unique, seen = [], set()
+    for edit in edits:
+        if edit.start not in seen:
+            seen.add(edit.start)
+            unique.append(edit)
+    return unique
+
+
 def apply_suggestions(code: str, block_map: list[dict], log: str, *, decl_start_line: int = 1,
                       per_block: int = 2) -> list[tuple[str, str]]:
     """Variants replacing each probed block by its shortest suggestions.

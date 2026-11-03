@@ -9,8 +9,9 @@ Delta L + Delta H > 0. Final selection re-validates on every listed version.
 Pass order (amendment A14: linter and closer passes first):
   G5 decide variants (tiny ``decide`` proofs only), G1 linter-guided removals from the
   incumbent's own compile log, G2 ``try?`` closer probes (whole proof for short proofs,
-  then terminal blocks), G3 local rewrites, G4 deletions; then G1 again on a changed
-  incumbent. Batches of non-overlapping edits are screened together and split in halves
+  then terminal blocks), G3 local rewrites, G4 deletions, G2s ``simp?`` probe
+  (``simp`` -> ``simp only [...]``, fewer heartbeats for more tokens; the score decides);
+  then G1 again on a changed incumbent. Batches of non-overlapping edits are screened together and split in halves
   on failure (ddmin style; no splitting of deletions when T0 > ``ddmin_max_tokens``).
 
 Stop rules: per-candidate compile budget, a per-call total, ``non_improving_stop``
@@ -45,6 +46,7 @@ DEFAULTS = {
     "decide_max_tokens": 40,
     "linter_probe": False,
     "risky_rewrites": 2,
+    "simp_probe": True,
 }
 LINTER_OPTIONS = ("linter.unusedSimpArgs true", "linter.unusedVariables true",
                   "linter.unusedTactic true", "linter.unreachableTactic true")
@@ -308,6 +310,23 @@ def pass_delete(session: _Session) -> int:
                         allow_split=allow_split)
 
 
+def pass_simp_only(session: _Session) -> int:
+    """``simp`` -> ``simp?`` suggestions (``simp only [...]``): more tokens, usually fewer HB."""
+    if not session.settings.get("simp_probe", True):
+        return 0
+    try:
+        text, sites = rw.simp_probe(session.code, session.statement)
+    except ValueError:
+        return 0
+    if not sites:
+        return 0
+    probed = session.probe(text, "G2:simp?")
+    if not probed or not probed[2]:
+        return 0
+    _, log, start = probed
+    return search_edits(session, rw.simp_suggestion_edits(session.code, sites, log, decl_start_line=start), "G2s")
+
+
 def pass_decide(session: _Session) -> int:
     if session.tokens > session.settings["decide_max_tokens"]:
         return 0
@@ -316,7 +335,8 @@ def pass_decide(session: _Session) -> int:
     return sum(session.try_variant(name, code) for name, code in ranked)
 
 
-PASSES = (("G5", pass_decide), ("G1", pass_linter), ("G2", pass_closers), ("G3", pass_local), ("G4", pass_delete))
+PASSES = (("G5", pass_decide), ("G1", pass_linter), ("G2", pass_closers), ("G3", pass_local), ("G4", pass_delete),
+          ("G2s", pass_simp_only))
 
 
 def _run(session: _Session) -> None:

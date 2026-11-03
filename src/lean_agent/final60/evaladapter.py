@@ -89,9 +89,29 @@ class EvalAdapter:
         if mode not in SCREEN_MODES:
             raise ValueError("Unknown golf screen mode: " + str(mode))
         self.screen_mode = mode
-        self.ev = evaluator if evaluator is not None else self.d.evaluator(self.run_root)
+        self.ev = evaluator if evaluator is not None else self._default_evaluator()
         self.compiles = 0          # Lean processes started by this adapter (cache hits excluded)
         self._baseline = None
+
+    def _default_evaluator(self):
+        """driver.evaluator(root); never an exclusive-lock evaluator inside a compiler pool.
+
+        Amendment A8: with ``FINAL60_COMPILER_SLOTS`` > 1 a parallelism-1 evaluator would take
+        LOCK_EX on the shared lock and stall every pooled compile, so build a pooled one
+        with the same lock and cache, or fail closed.
+        """
+        ev = self.d.evaluator(self.run_root)
+        wanted = int(os.environ.get("FINAL60_COMPILER_SLOTS", "1") or "1")
+        if wanted > 1 and getattr(ev, "compiler_parallelism", 1) == 1:
+            try:
+                ev = self.d.evaluator_class()(repo_root=self.d.REPO,
+                                              global_lock_path=self.d.REPO / "sources/final/final-batch-compiler.lock",
+                                              cache_root=self.run_root / "evaluation-cache",
+                                              compiler_parallelism=wanted)
+            except ValueError as exc:
+                raise ValueError("Golf evaluator cannot join the compiler pool of "
+                                 f"{wanted} slots: {exc}") from exc
+        return ev
 
     # ---- reference numbers ---------------------------------------------------------------
     def baseline(self) -> tuple[int, int]:

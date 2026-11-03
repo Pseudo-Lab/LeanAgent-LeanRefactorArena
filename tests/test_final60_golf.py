@@ -279,6 +279,21 @@ class CloserTests(unittest.TestCase):
         variants = rw.apply_suggestions(self.code, blocks, log)
         self.assertEqual(variants, [("G2:try?:root@1", self.statement + " := by\n  grind\n")])
 
+    def test_simp_probe_and_suggestions(self):
+        code = (self.statement + " := by\n  simp [a] at h\n  · simp\n  simp only [b]\n  cases x <;> simp\n"
+                "  conv_lhs =>\n    simp\n  simpa using h\n")
+        probe, sites = rw.simp_probe(code, self.statement)
+        self.assertEqual([site["tactic"] for site in sites], ["simp", "simp", "simpa"])
+        self.assertIn("  simp? [a] at h\n  · simp?\n  simp only [b]\n  cases x <;> simp\n", probe)
+        self.assertIn("    simp\n  simpa? using h", probe)
+        log = (f"probe.lean:{sites[0]['line'] + 1}:{sites[0]['col']}: info: Try this: simp only [a, c] at h\n"
+               f"probe.lean:{sites[2]['line'] + 1}:{sites[2]['col']}: info: Try this:\n  [apply] simpa only [d] using h\n"
+               f"probe.lean:{sites[1]['line'] + 1}:0: info: Try this: unrelated column\n")
+        edits = rw.simp_suggestion_edits(code, sites, log)
+        new = rw.apply_edits(code, edits)
+        self.assertIn("  simp only [a, c] at h\n  · simp\n", new)
+        self.assertIn("  simpa only [d] using h", new)
+
     def test_suggestion_parser(self):
         message = rw.Message(1, 0, "info", "Try these:\n• simp\n• simp_all\n• exact?")
         self.assertEqual(rw.suggestions(message), ["simp", "simp_all"])
@@ -677,6 +692,27 @@ class PublicationTests(unittest.TestCase):
         labels = [c.label for c in select.candidates_from_run(self.root, 1)]
         self.assertTrue(any(label.startswith("golf:") for label in labels))
         self.assertEqual(labels[-1], "c000")
+
+    def test_pool_guard_never_uses_exclusive_lock(self):
+        class Exclusive:
+            compiler_parallelism = 1
+        built = []
+
+        def factory(**kwargs):
+            built.append(kwargs["compiler_parallelism"])
+            if kwargs["compiler_parallelism"] > 3:
+                raise ValueError("Expected one to three compiler slots")
+            return Exclusive()
+        with patch.object(d, "evaluator", return_value=Exclusive()), \
+                patch.object(d, "evaluator_class", return_value=factory), \
+                patch.dict(os.environ, {"FINAL60_COMPILER_SLOTS": "3"}):
+            evaladapter.EvalAdapter(self.root, 1)
+        self.assertEqual(built, [3])
+        with patch.object(d, "evaluator", return_value=Exclusive()), \
+                patch.object(d, "evaluator_class", return_value=factory), \
+                patch.dict(os.environ, {"FINAL60_COMPILER_SLOTS": "6"}):
+            with self.assertRaisesRegex(ValueError, "compiler pool"):
+                evaladapter.EvalAdapter(self.root, 1)
 
     def test_screen_timeout_bounds(self):
         adapter = evaladapter.EvalAdapter(self.root, 1, evaluator=self.evaluator, screen_mode="check-measure")
