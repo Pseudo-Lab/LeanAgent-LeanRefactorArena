@@ -326,10 +326,16 @@ class LeakFilter(unittest.TestCase):
                 self.assertEqual(kept == [], expected, (text, proof, need))
 
     def test_reusable_corpus_and_inputs(self):
-        corpus = routing.LeakCorpus([self.PROOF, "short", 42])
+        corpus = routing.LeakCorpus([self.PROOF, "short"])
         self.assertEqual(len(corpus), 1)
         self.assertEqual(routing.leak_filter(["ok"], corpus), ["ok"])
         self.assertEqual(routing.leak_filter(["ok"], []), ["ok"])
+        piece = "Copy: " + prompts.flat(self.PROOF)[10:60]
+        for shape in ([("label", self.PROOF)], [["label", self.PROOF]], [{"name": "x", "proof": self.PROOF}]):
+            self.assertEqual(routing.leak_filter([piece], shape), [])
+        for bad in ([42], [None], [("label", 42)], [{"name": "no proof"}]):
+            with self.assertRaises(TypeError):
+                routing.LeakCorpus(bad)
         with self.assertRaises(TypeError):
             routing.leak_filter(["ok"], "a proof string, not a list")
         with self.assertRaises(ValueError):
@@ -431,8 +437,8 @@ class Schedule(unittest.TestCase):
     def test_priority_and_readiness(self):
         routes = [route(p) for p in (TINY, SHORT, STRUCT, ALGEBRA, COMP)]
         order = routing.schedule(routes, {1, 11, 21, 31, 51})
-        self.assertEqual(order, [31, 21, 1, 51, 11])  # weak ArkLib, weak CSLib, Strata, Putnam, tiny
-        self.assertEqual(routing.schedule(routes, {11, 51}), [51, 11])
+        self.assertEqual(order, [11, 31, 21, 1, 51])  # tiny (no API), weak ArkLib, weak CSLib, Strata, Putnam
+        self.assertEqual(routing.schedule(routes, {21, 51}), [21, 51])
         self.assertEqual(routing.schedule(routes, set()), [])
         self.assertEqual(routing.schedule(routes + routes, {31}), [31])
 

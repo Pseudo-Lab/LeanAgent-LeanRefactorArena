@@ -399,10 +399,16 @@ class LeakCorpus:
         self.step = min_chars - self.gram + 1
         self.texts = []
         for proof in proofs:
-            if isinstance(proof, str):
-                value = prompts.flat(proof)
-                if len(value) >= min_chars:
-                    self.texts.append(value)
+            # Accept proof texts, (label, proof) pairs and {"proof": ...} rows; never skip silently.
+            if isinstance(proof, (tuple, list)) and len(proof) == 2 and isinstance(proof[1], str):
+                proof = proof[1]
+            elif isinstance(proof, dict) and isinstance(proof.get("proof"), str):
+                proof = proof["proof"]
+            if not isinstance(proof, str):
+                raise TypeError("non-OpenRouter proofs must be texts, (label, proof) pairs or {proof} rows")
+            value = prompts.flat(proof)
+            if len(value) >= min_chars:
+                self.texts.append(value)
 
     def __len__(self):
         return len(self.texts)
