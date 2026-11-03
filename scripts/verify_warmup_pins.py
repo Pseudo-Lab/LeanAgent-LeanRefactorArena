@@ -122,7 +122,9 @@ def main(args):
     work.mkdir(parents=True, exist_ok=True)
     output.mkdir(parents=True, exist_ok=False)
     snapshot = json.loads((ROOT / 'dashboard/public/data/warmup-team-results.json').read_text())
-    experiments = load_experiment(args.candidate_file) if args.candidate_file else None
+    # PR #17 added --candidate-file; programmatic callers (PR #23's runner tests) may omit it.
+    candidate_file = getattr(args, 'candidate_file', None)
+    experiments = load_experiment(candidate_file) if candidate_file else None
     inputs = json.loads((ROOT / 'submissions/warmup/verification-inputs.json').read_text())
     rows = []
     for row in snapshot['problems']:
@@ -145,8 +147,8 @@ def main(args):
               'startedAt': datetime.now(timezone.utc).isoformat(),
               'host': platform.platform(), 'commit': os.environ.get('GITHUB_SHA'),
               'runId': os.environ.get('GITHUB_RUN_ID'), 'status': 'preparing', 'problems': []}
-    if args.candidate_file:
-        report['experimentInputSha256'] = sha(args.candidate_file.read_bytes())
+    if candidate_file:
+        report['experimentInputSha256'] = sha(candidate_file.read_bytes())
     write(output / 'summary.json', report)
     counter = 0
     def run(command, cwd=work, capture=False):
