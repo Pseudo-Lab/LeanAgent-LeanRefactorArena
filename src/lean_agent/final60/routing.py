@@ -516,8 +516,12 @@ def team_bank_hints(path: Path, problem: dict, *, limit: int) -> list[tuple[str,
 
 
 def _lesson_records(path: Path) -> list[dict]:
+    """Records of an in-run lesson bank; a bank not written yet (start of the run) is empty."""
+    path = Path(path)
+    if not path.is_file():
+        return []
     records = []
-    for line in Path(path).read_text(encoding="utf-8").splitlines():
+    for line in path.read_text(encoding="utf-8").splitlines():
         if not line.strip():
             continue
         try:
@@ -766,6 +770,20 @@ def worst_case_calls(value: Route, spec, typical_request_bytes: int) -> int:
     return int(CAP_USD // bound) if bound > 0 else 0
 
 
+def budget_plan(value: Route, spec, typical_request_bytes: int) -> dict:
+    """Report view of the per-row money plan (estimates; the transport ledger enforces the cap)."""
+    calls = worst_case_calls(value, spec, typical_request_bytes)
+    return {"row": value.row, "skip_llm": value.skip_llm, "cap_usd": str(CAP_USD), "model_key": spec.key,
+            "request_bytes": typical_request_bytes,
+            "bound_usd_per_call": str(request_bound_usd(spec, typical_request_bytes)) if calls else None,
+            "worst_case_calls": calls,
+            "portfolio_evaluations": None if value.skip_llm else
+            3 * value.portfolio.get("scout_evaluations", 6) + value.portfolio.get("merger_evaluations", 22),
+            "merger_until_budget": bool(value.portfolio.get("merger_until_budget")) and not value.skip_llm,
+            "wallclock_budget_s": value.wallclock_budget_s,
+            "basis": "worst case per request = (bytes + 4096) x max(prompt, cache write) + max_tokens x completion"}
+
+
 def explain(problem: dict, baseline: dict | None) -> dict:
     """Plan/status view: features plus the type decision (no hints, no I/O)."""
     feat = features(problem, baseline)
@@ -863,3 +881,65 @@ def record_lessons(path, problem: dict, winner_code: str, *, run_root: str, metr
             if fcntl:
                 fcntl.flock(stream, fcntl.LOCK_UN)
     return lessons
+
+
+# ----------------------------------------------------------------------- CLI
+
+def load_outside_proofs(paths) -> list[str]:
+    """Proof texts from .lean files and top-level `proof` fields of .json/.jsonl rows (PR #70 shape)."""
+    found = []
+    for path in map(Path, paths):
+        files = sorted(item for item in path.rglob("*") if item.is_file()) if path.is_dir() else [path]
+        for file in files:
+            if file.suffix == ".lean":
+                found.append(file.read_text(encoding="utf-8"))
+            elif file.suffix in (".json", ".jsonl"):
+                text = file.read_text(encoding="utf-8")
+                rows = [json.loads(line) for line in text.splitlines() if line.strip()] \
+                    if file.suffix == ".jsonl" else json.loads(text)
+                for row in rows if isinstance(rows, list) else [rows]:
+                    if isinstance(row, dict) and isinstance(row.get("proof"), str):
+                        found.append(row["proof"])
+    return found
+
+
+def main(argv=None) -> int:
+    """Offline route preview; the orchestrator calls route() directly."""
+    import argparse
+    parser = argparse.ArgumentParser(prog="python -m lean_agent.final60.routing",
+                                     description="final60 route preview (no model call, no Lean)")
+    parser.add_argument("--problems", type=Path, help="directory of driver problems F0NN.json")
+    parser.add_argument("--dataset", type=Path, help="benchmark JSONL; rows are numbered from 1")
+    parser.add_argument("--baselines", type=Path, help="team baseline file (final60-baselines.json)")
+    parser.add_argument("--non-openrouter", type=Path, action="append", default=[],
+                        help="file or directory of non-OpenRouter proofs to leak-filter against")
+    parser.add_argument("--bank", type=Path, action="append", default=[],
+                        help="opt-in bank JSON or in-run lesson JSONL")
+    parser.add_argument("--rows", type=int, nargs="*")
+    parser.add_argument("--diversity", action="store_true")
+    parser.add_argument("--out", type=Path, help="write {F0NN: route.json} here")
+    args = parser.parse_args(argv)
+    if args.problems:
+        problems = [json.loads(path.read_text(encoding="utf-8")) for path in sorted(args.problems.glob("F[0-9][0-9][0-9].json"))]
+    elif args.dataset:
+        lines = [line for line in args.dataset.read_text(encoding="utf-8").splitlines() if line.strip()]
+        problems = [dict(json.loads(line), row=index) for index, line in enumerate(lines, 1)]
+    else:
+        parser.error("give --problems or --dataset")
+    if args.rows:
+        problems = [problem for problem in problems if problem_row(problem) in set(args.rows)]
+    baselines = load_baselines(args.baselines) if args.baselines else None
+    routes = route_all(problems, baselines, non_openrouter_proofs=load_outside_proofs(args.non_openrouter),
+                       bank_paths=args.bank, diversity=args.diversity)
+    for item in routes:
+        print(f"F{item.row:03} {item.source:12} {item.problem_type:22} skip_llm={str(item.skip_llm):5} "
+              f"priority={item.priority:7.3f} hints={len(item.hints)} addendum={len(prompt_addendum(item))}")
+    print("schedule:", " ".join(f"F{row:03}" for row in schedule(routes, {item.row for item in routes})))
+    if args.out:
+        args.out.write_text(json.dumps({f"F{item.row:03}": route_json(item) for item in routes},
+                                       ensure_ascii=False, indent=1, sort_keys=True) + "\n", encoding="utf-8")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

@@ -446,6 +446,46 @@ class Schedule(unittest.TestCase):
         with self.assertRaises(ValueError):
             routing.worst_case_calls(value, PRIMARY, -1)
 
+    def test_budget_plan(self):
+        plan = routing.budget_plan(route(ALGEBRA), PRIMARY, 60000)
+        self.assertEqual((plan["cap_usd"], plan["bound_usd_per_call"], plan["worst_case_calls"]),
+                         ("2.99", "0.24216", 12))
+        self.assertEqual(plan["portfolio_evaluations"], 40)
+        self.assertTrue(plan["merger_until_budget"])
+        tiny = routing.budget_plan(route(TINY), PRIMARY, 60000)
+        self.assertEqual((tiny["worst_case_calls"], tiny["portfolio_evaluations"]), (0, None))
+        self.assertFalse(tiny["merger_until_budget"])
+
+
+class Cli(unittest.TestCase):
+    def test_preview_and_outside_loader(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            problems = tmp / "problems"
+            problems.mkdir()
+            for problem in (TINY, STRUCT):
+                (problems / f"F{problem['row']:03}.json").write_text(json.dumps(problem))
+            outside = tmp / "outside"
+            outside.mkdir()
+            (outside / "a.lean").write_text("theorem a : True := trivial")
+            (outside / "b.jsonl").write_text(json.dumps({"name": "b", "proof": "by simp"}) + "\n")
+            (outside / "c.json").write_text(json.dumps([{"proof": "by omega"}, {"other": 1}]))
+            self.assertEqual(sorted(routing.load_outside_proofs([outside])),
+                             ["by omega", "by simp", "theorem a : True := trivial"])
+            out = tmp / "routes.json"
+            missing_lessons = tmp / "not-yet" / "lessons.jsonl"
+            with open(os.devnull, "w") as sink:
+                stdout, sys.stdout = sys.stdout, sink
+                try:
+                    code = routing.main(["--problems", str(problems), "--non-openrouter", str(outside),
+                                         "--bank", str(missing_lessons), "--out", str(out)])
+                finally:
+                    sys.stdout = stdout
+            self.assertEqual(code, 0)
+            data = json.loads(out.read_text())
+            self.assertEqual(sorted(data), ["F011", "F021"])
+            self.assertEqual(routing.route_from_json(data["F021"]), route(STRUCT))
+
 
 def sixty_problems():
     if PROBLEMS.is_dir() and len(list(PROBLEMS.glob("F0[0-9][0-9].json"))) == 60:
