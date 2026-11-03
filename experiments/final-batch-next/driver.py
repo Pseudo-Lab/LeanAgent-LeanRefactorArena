@@ -42,6 +42,13 @@ DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22, "progress
 # preserves legacy single-context inputs during validation.
 UNSPECIFIED_PORTFOLIO = object()
 UNSPECIFIED_STRATEGY = object()
+MAX_COMPILER_PARALLELISM = 8
+# Re-evaluations evaluate_cached may run after a machine-produced failure (ARENA_EVALUATION_RETRIES
+# overrides), and the pause before each one.
+EVALUATION_RETRIES = 2
+EVALUATION_RETRY_PAUSE_SECONDS = 15
+# Lean's allocator bound (-M) ends a run with lean::memory_exception; bubblewrap reports the abort as exit 134.
+ALLOCATOR_ABORT_MARKERS = ("lean::memory_exception", "memory exception", "excessive memory consumption")
 
 
 def now():
@@ -86,7 +93,42 @@ def evaluator_class():
 
 def evaluator(root):
     return evaluator_class()(repo_root=REPO, global_lock_path=REPO / "sources/final/final-batch-compiler.lock",
-                             cache_root=Path(root) / "evaluation-cache")
+                             cache_root=Path(root) / "evaluation-cache",
+                             compiler_parallelism=compiler_parallelism(root))
+
+
+def validated_parallelism(value, source):
+    if type(value) is bool or not str(value).strip().isdigit() or not 1 <= int(value) <= MAX_COMPILER_PARALLELISM:
+        raise ValueError(f"{source} must be a whole number of compiler slots from 1 to {MAX_COMPILER_PARALLELISM}")
+    return int(value)
+
+
+def compiler_parallelism(root):
+    """Compiler-pool size for this root: ARENA_COMPILER_PARALLELISM, else the sealed value, else 1.
+
+    The sealed authorization carries max_lean_parallel, the run configuration. The environment
+    variable is an operator override for a restart (a frozen authorization cannot change);
+    FINAL60_COMPILER_SLOTS is accepted as the orchestrator's name for the same override. The
+    value only sizes the pool: resources.compiler_slot admits every compiler, and in particular
+    a fourth or later one, through its memory gate.
+    """
+    for name in ("ARENA_COMPILER_PARALLELISM", "FINAL60_COMPILER_SLOTS"):
+        raw = os.environ.get(name)
+        if raw not in (None, ""):
+            return validated_parallelism(raw, name)
+    authorization = Path(root) / "authorization.json"
+    if authorization.exists():
+        return validated_parallelism(a.read(authorization).get("max_lean_parallel", 1),
+                                     "authorization.json max_lean_parallel")
+    return 1
+
+
+def sealed_compiler_parallelism(requested=None):
+    """The pool size to seal: the explicit request, else ARENA_COMPILER_PARALLELISM, else 1."""
+    if requested is not None:
+        return validated_parallelism(requested, "--compiler-parallelism")
+    override = os.environ.get("ARENA_COMPILER_PARALLELISM")
+    return validated_parallelism(override, "ARENA_COMPILER_PARALLELISM") if override not in (None, "") else 1
 
 
 def folder(root, row):
@@ -172,54 +214,113 @@ def make_request(state, problem, config, prompt):
     raise ValueError("Request exceeds bounded wire size after source-reference compaction; archive and repair source preserved")
 
 
+def evaluation_retries():
+    raw = os.environ.get("ARENA_EVALUATION_RETRIES")
+    if raw in (None, ""):
+        return EVALUATION_RETRIES
+    if not raw.isdigit() or int(raw) > 10:
+        raise ValueError("ARENA_EVALUATION_RETRIES must be a whole number from 0 to 10")
+    return int(raw)
+
+
+def retryable_evaluation(result, options):
+    """Whether a result was produced by the machine rather than by the candidate, so it is retried.
+
+    Environment failures are retried: a missing sandbox, an allocator abort, a signal death, a
+    memory-gate timeout. A compile the driver timed out is retried only for the trusted
+    reference, whose compile time is known; for a candidate it is the candidate's feedback.
+    """
+    guarded = guard_compiler_signal(result)
+    rows = list(guarded.get("environments", {}).values())
+    if any((row.get("error") or {}).get("kind") == "timeout" for row in rows):
+        return bool(options.get("trusted_reference"))
+    return h.environment_failed(guarded)
+
+
 def evaluate_cached(ev, code, problem, destination, **kwargs):
-    """A crash during Lean work can be retried without repeating the API call."""
+    """A crash during Lean work can be retried without repeating the API call.
+
+    A saved result the machine produced (retryable_evaluation) is never reused: it is archived next
+    to the destination as <name>-environment-failed-<ns> and measured again, so a restarted worker
+    retries it. A fresh failure of the same kind is retried in-process up to ARENA_EVALUATION_RETRIES
+    (default 2) more times, pausing in between. A result without its receipt is an interrupted
+    evaluation and is measured again. Candidate verdicts are reused as before.
+    """
     destination = Path(destination)
     path = destination / "result.json"
     receipt = destination / "evaluation-request.json"
     expected = {"candidate_sha256": a.sha(code), "problem": problem, "options": kwargs}
-    if path.exists():
-        if not receipt.exists() or a.read(receipt) != expected:
-            raise ValueError("Saved evaluation belongs to a different candidate/problem/policy")
-        return a.read(path)
-    if destination.exists():
-        destination.rename(destination.with_name(destination.name + "-incomplete-" + str(time.time_ns())))
-    result = ev.evaluate(code, problem, destination, **kwargs)
-    atomic(receipt, expected)
-    atomic(path, result)
-    return result
+    retries, fresh = evaluation_retries(), False
+    while True:
+        if path.exists() and receipt.exists():
+            if a.read(receipt) != expected:
+                raise ValueError("Saved evaluation belongs to a different candidate/problem/policy")
+            result = a.read(path)
+            if not retryable_evaluation(result, kwargs) or (fresh and retries < 1):
+                return result
+            destination.rename(destination.with_name(destination.name + "-environment-failed-" + str(time.time_ns())))
+            if fresh:
+                retries -= 1
+                time.sleep(EVALUATION_RETRY_PAUSE_SECONDS)
+        elif destination.exists():
+            destination.rename(destination.with_name(destination.name + "-incomplete-" + str(time.time_ns())))
+        result = ev.evaluate(code, problem, destination, **kwargs)
+        fresh = True
+        atomic(receipt, expected)
+        atomic(path, result)
+
+
+def environment_abort(environment):
+    """A saved per-environment result the machine ended (allocator abort, signal death); else None.
+
+    The on-disk twin of evaluator.compiler_abort, so results written by older evaluators as
+    "compile" failures are reclassified too. Lean's -M bound raises lean::memory_exception and
+    aborts: returncode -SIGABRT when lean is the direct child, exit 134 under bubblewrap. Such a
+    run says nothing about the proof: it is an environment failure that evaluate_cached retries,
+    the cache refuses and the model never sees as feedback. A run the driver timed out keeps the
+    evaluator's "timeout" verdict.
+    """
+    error = environment.get("error") or {}
+    runs = [run for run in environment.get("runs", [])
+            if type(run.get("returncode")) is int and not run.get("timed_out")]
+    killed = [run for run in runs if run["returncode"] < 0 or run["returncode"] > 128]
+    message = str(error.get("message", "")).lower()
+    allocator = (any(marker in message for marker in ALLOCATOR_ABORT_MARKERS)
+                 or any(run["returncode"] in (134, -signal.SIGABRT) for run in killed))
+    if not allocator and not killed:
+        return None
+    failed = [run for run in runs if run["returncode"]]
+    bounds = [part[2:] for part in (failed[-1].get("command", []) if failed else [])
+              if isinstance(part, str) and part.startswith("-M") and part[2:].isdigit()]
+    limit = int(bounds[0]) if len(bounds) == 1 else None
+    signal_number = None
+    if killed:
+        signal_number = -killed[0]["returncode"] if killed[0]["returncode"] < 0 else killed[0]["returncode"] - 128
+    description = ("Lean allocator abort" + (f" under -M{limit}" if limit else "") if allocator
+                   else f"compiler terminated by signal {signal_number}")
+    return {"kind": "environment", "resource": "lean_allocator_limit" if allocator else "compiler_signal",
+            "retryable": True, "signal": signal_number, "limit_mib": limit,
+            "message": f"Environment abort ({description}): retry; never candidate feedback.\n"
+                       + str(error.get("message", ""))}
 
 
 def guard_compiler_signal(result):
+    """Re-read a saved result so that a machine event never passes as a verdict on the candidate."""
     value = json.loads(a.canonical(result))
     for environment in value.get("environments", {}).values():
-        message = (environment.get("error") or {}).get("message", "").lower()
-        failed_runs = [run for run in environment.get("runs", [])
-                       if type(run.get("returncode")) is int and run["returncode"] < 0]
-        # A diagnosed Lean allocator limit is candidate feedback, not evidence
-        # of a broken machine. Keep the configured bound (default 4 GiB, see
-        # evaluator.lean_memory_mib); never retry it here.
-        bounds = [part for part in (failed_runs[0].get("command", []) if len(failed_runs) == 1 else [])
-                  if isinstance(part, str) and part.startswith("-M") and part[2:].isdigit()]
-        bounded_allocator_abort = (
-            "lean::memory_exception" in message
-            and "excessive memory consumption detected" in message
-            and len(failed_runs) == 1
-            and failed_runs[0]["returncode"] == -signal.SIGABRT
-            and len(bounds) == 1
-        )
-        if bounded_allocator_abort:
-            error = {"kind": "resource", "message": (environment.get("error") or {})["message"],
-                     "resource": "lean_allocator_limit", "limit_mib": int(bounds[0][2:])}
-            environment.update(valid=False, error=error)
-            value.update(valid=False, error=error)
-            continue
-        resource_error = any(phrase in (environment.get("error") or {}).get("message", "").lower()
-                             for phrase in ("maximum memory consumption reached", "out of memory", "allocation failed"))
-        if resource_error or any(type(run.get("returncode")) is int and run["returncode"] < 0 for run in environment.get("runs", [])):
-            error = {"kind": "environment", "message": "Compiler terminated by signal; stop model dispatch and inspect memory/process state."}
-            environment.update(valid=False, error=error)
-            value.update(valid=False, error=error)
+        error = environment.get("error") or {}
+        if error.get("kind") == "environment":
+            continue  # already classified by the evaluator (sandbox, allocator abort, host failure)
+        abort = environment_abort(environment)
+        if abort is None:
+            resource_error = any(phrase in str(error.get("message", "")).lower()
+                                 for phrase in ("maximum memory consumption reached", "out of memory", "allocation failed"))
+            if not resource_error:
+                continue
+            abort = {"kind": "environment", "resource": "memory", "retryable": True,
+                     "message": "Compiler ran out of memory: retry; never candidate feedback.\n" + str(error.get("message", ""))}
+        environment.update(valid=False, error=abort)
+        value.update(valid=False, error=abort)
     return value
 
 
@@ -388,9 +489,15 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
                     print(json.dumps(result), flush=True)
 
 
-def seal_inputs(root, rows):
-    """Seal already complete row inputs without repeating source retrieval."""
+def seal_inputs(root, rows, *, compiler_parallelism=None):
+    """Seal already complete row inputs without repeating source retrieval.
+
+    The authorization records max_lean_parallel, the compiler-pool size this run is configured
+    for (sealed_compiler_parallelism); driver.evaluator reads it back, ARENA_COMPILER_PARALLELISM
+    overrides it at run time.
+    """
     root = Path(root).resolve()
+    slots = sealed_compiler_parallelism(compiler_parallelism)
     require_policy(root)
     root.mkdir(parents=True, exist_ok=True)
     with locked(root / "prepare.lock"), ExitStack() as stack:
@@ -410,7 +517,7 @@ def seal_inputs(root, rows):
             raise ValueError("A batch must use one prompt and budget policy")
         authorization = {"dataset_sha256": DATASET_SHA, "rows": rows, "problem_count": len(rows),
                          "per_problem_target_usd": str(TARGET), "nominal_total_usd": str(TARGET * len(rows)),
-                         "last_call_may_overshoot": not policies[0]["strict_cap"], "max_api_parallel": 2, "max_lean_parallel": 1,
+                         "last_call_may_overshoot": not policies[0]["strict_cap"], "max_api_parallel": 2, "max_lean_parallel": slots,
                          "prompt_variant": policies[0]["variant"],
                          "no_automatic_retries": True, "created_at": now(),
                          "verification_policy": VERIFICATION_POLICY}
@@ -434,7 +541,7 @@ def seal_inputs(root, rows):
 
 def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_settings=None,
             strategy_settings=UNSPECIFIED_STRATEGY, *, warm_start_manifest=None, cold_start=False,
-            prompt_variant=None, strict_cap=None):
+            prompt_variant=None, strict_cap=None, compiler_parallelism=None):
     require_policy(root)
     if (Path(root) / "frozen.json").exists():
         for row in rows:
@@ -458,13 +565,13 @@ def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO, aut
                 config = a.read(folder(root, row) / "input/config.json")
                 if config.get("agent", {}).get("strategy_bank") != strategy_settings:
                     raise ValueError("Sealed Bank differs; use a fresh batch root")
-        seal_inputs(root, rows)
+        seal_inputs(root, rows, compiler_parallelism=compiler_parallelism)
         return
     prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings,
                    autosolver_settings=autosolver_settings, strategy_settings=strategy_settings,
                    warm_start_manifest=warm_start_manifest, cold_start=cold_start,
                    prompt_variant=prompt_variant, strict_cap=strict_cap)
-    seal_inputs(root, rows)
+    seal_inputs(root, rows, compiler_parallelism=compiler_parallelism)
 
 
 def ensure_baseline(root, row, ev):
@@ -472,9 +579,10 @@ def ensure_baseline(root, row, ev):
     problem = a.read(output / "input/problem.json")
     config = a.read(output / "input/config.json")
     baseline_file = output / "baseline/result.json"
-    if not baseline_file.exists():
-        evaluate_cached(ev, problem["reference"], problem, output / "baseline",
-                        repetitions=3, trusted_reference=True)
+    # A saved baseline is reused, except one the machine failed (no sandbox, allocator abort):
+    # on a restart evaluate_cached archives it and measures again instead of failing preflight forever.
+    evaluate_cached(ev, problem["reference"], problem, output / "baseline",
+                    repetitions=3, trusted_reference=True)
     result = guard_compiler_signal(a.read(baseline_file))
     state = h.initial_state(problem, result, config)
     seed_path = output / "input/warm-start.json"
@@ -509,9 +617,8 @@ def preflight(root, rows):
                 ensure_baseline(root, row, ev)
                 problem = a.read(output / "input/problem.json")
                 path = output / "reference-compatibility/result.json"
-                if not path.exists():
-                    evaluate_cached(ev, problem["reference"], problem, path.parent,
-                                    repetitions=1, all_versions=True, trusted_reference=True)
+                evaluate_cached(ev, problem["reference"], problem, path.parent,
+                                repetitions=1, all_versions=True, trusted_reference=True)
                 compatibility = a.read(path)
                 if not compatibility["valid"]:
                     raise ValueError("Reference all-version compatibility failed")
@@ -838,8 +945,8 @@ def run_problem(root, row):
                 if code is not None:
                     (step_dir / "candidate.lean").write_text(code)
                     evaluation = step_dir / "evaluation/result.json"
-                    if not evaluation.exists():
-                        evaluate_cached(ev, code, problem, evaluation.parent, repetitions=1)
+                    # Reused when saved; a machine-produced failure is archived and evaluated again.
+                    evaluate_cached(ev, code, problem, evaluation.parent, repetitions=1)
                     result = guard_compiler_signal(a.read(evaluation))
                     result = check_improvement_compatibility(ev, problem, code, result, state, baseline, step_dir)
                     atomic(step_dir / "selection-result.json", result)
@@ -867,9 +974,8 @@ def run_problem(root, row):
             selected, checked = None, None
             for rank, value in enumerate(ranked):
                 check = output / "compatibility" / value["sha256"] / "result.json"
-                if not check.exists():
-                    evaluate_cached(ev, value["code"], problem, check.parent, repetitions=1,
-                                    all_versions=True, trusted_reference=value["sha256"] == a.sha(problem["reference"]))
+                evaluate_cached(ev, value["code"], problem, check.parent, repetitions=1,
+                                all_versions=True, trusted_reference=value["sha256"] == a.sha(problem["reference"]))
                 result = guard_compiler_signal(a.read(check))
                 if h.environment_failed(result) or any((value.get("error") or {}).get("kind") == "timeout"
                                                       for value in result.get("environments", {}).values()):
@@ -881,9 +987,8 @@ def run_problem(root, row):
                 raise ValueError("No all-version compatible final candidate")
             (output / "selected.lean").write_text(selected["code"])
             final = output / "final/result.json"
-            if not final.exists():
-                evaluate_cached(ev, selected["code"], problem, final.parent, repetitions=3,
-                                trusted_reference=selected["sha256"] == a.sha(problem["reference"]), fresh=True)
+            evaluate_cached(ev, selected["code"], problem, final.parent, repetitions=3,
+                            trusted_reference=selected["sha256"] == a.sha(problem["reference"]), fresh=True)
             measured = h.metrics(a.read(final))
             if measured is None:
                 raise ValueError("Selected candidate failed fresh final verification/measurement")
@@ -978,7 +1083,12 @@ def main():
     parser.add_argument("--strategy-top-k", type=int, choices=(1, 2, 3), default=None)
     parser.add_argument("--strategy-contextual", action="store_true")
     parser.add_argument("--strategy-search-policy", choices=("guided", "alternating-v1"), default=None)
+    parser.add_argument("--compiler-parallelism", type=int, default=None,
+                        help="Seal the shared compiler-pool size (1-8; default ARENA_COMPILER_PARALLELISM or 1). "
+                             "At run time ARENA_COMPILER_PARALLELISM overrides the sealed value")
     args = parser.parse_args()
+    if args.compiler_parallelism is not None and args.command not in ("prepare", "seal"):
+        parser.error("--compiler-parallelism is sealed by prepare/seal; at run time set ARENA_COMPILER_PARALLELISM")
     if args.autosolver and args.command not in ("prepare", "inputs"):
         parser.error("--autosolver is a frozen prepare/inputs setting; use a fresh batch root")
     if (args.prompt_variant is not None or args.strict_cap is not None) and args.command not in ("prepare", "inputs"):
@@ -1024,14 +1134,15 @@ def main():
         prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings,
                 autosolver_settings={} if args.autosolver else None, strategy_settings=bank_settings,
                 warm_start_manifest=args.warm_start_manifest, cold_start=args.cold_start,
-                prompt_variant=args.prompt_variant, strict_cap=args.strict_cap)
+                prompt_variant=args.prompt_variant, strict_cap=args.strict_cap,
+                compiler_parallelism=args.compiler_parallelism)
     elif args.command == "inputs":
         prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings,
                        autosolver_settings={} if args.autosolver else None, strategy_settings=bank_settings,
                        warm_start_manifest=args.warm_start_manifest, cold_start=args.cold_start,
                        prompt_variant=args.prompt_variant, strict_cap=args.strict_cap)
     elif args.command == "seal":
-        seal_inputs(root, rows)
+        seal_inputs(root, rows, compiler_parallelism=args.compiler_parallelism)
     elif args.command == "preflight":
         preflight(root, rows)
     elif args.command == "status":

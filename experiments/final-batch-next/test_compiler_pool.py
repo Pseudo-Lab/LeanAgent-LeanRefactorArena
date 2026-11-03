@@ -1,4 +1,5 @@
 """Cross-process admission, legacy compatibility, and immutable cache races."""
+from contextlib import ExitStack
 import errno
 import fcntl
 import multiprocessing as mp
@@ -81,6 +82,31 @@ class PoolTests(unittest.TestCase):
                     with patch.object(resources, "memory_snapshot", return_value={"free_percent": 24}), patch.object(resources.time, "monotonic", side_effect=[0, 1201]):
                         with self.assertRaisesRegex(RuntimeError, "safe compiler"):
                             with resources.compiler_slot(path): pass
+
+    def test_pool_above_three_slots_fills_only_through_the_memory_gate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "lock"
+            for slots in (0, 9):
+                with self.assertRaisesRegex(ValueError, "between 1 and 8"):
+                    with resources.compiler_slot(path, slots=slots): pass
+            # Plenty of memory: a five-slot pool hands out five leases and the sixth waits.
+            with patch.object(resources, "memory_snapshot", return_value={"free_percent": 100}):
+                with ExitStack() as held:
+                    for _ in range(5):
+                        held.enter_context(resources.compiler_slot(path, slots=5))
+                    with patch.object(resources.time, "monotonic", side_effect=[0, 1201]), \
+                            self.assertRaisesRegex(RuntimeError, "safe compiler"):
+                        with resources.compiler_slot(path, slots=5): pass
+            # At 40% free the gate (15% + 10% per active compiler) admits three and never a fourth.
+            with patch.object(resources, "memory_snapshot", return_value={"free_percent": 40}):
+                with ExitStack() as held:
+                    for _ in range(3):
+                        held.enter_context(resources.compiler_slot(path, slots=8))
+                    with patch.object(resources.time, "monotonic", side_effect=[0, 1201]), \
+                            self.assertRaisesRegex(RuntimeError, "safe compiler"):
+                        with resources.compiler_slot(path, slots=8): pass
+            with path.open("a+") as stream:
+                fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
 
     def test_publication_race_validates_winner(self):
         with tempfile.TemporaryDirectory() as tmp:

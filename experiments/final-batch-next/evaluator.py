@@ -64,6 +64,67 @@ _token_spec.loader.exec_module(_token_module)
 proof_tokens = _token_module.proof_length
 TOKENIZER_ID = "arena-paper-compatible-v1"
 DEFAULT_LEAN_MEMORY_MIB = 4096
+MAX_COMPILER_PARALLELISM = 8
+BUNDLED_SANDBOX = Path("sources/final/bin/bwrap")
+# Lean's allocator bound (-M) ends a run with lean::memory_exception; the sandbox reports the abort as exit 134.
+ALLOCATOR_ABORT_MARKERS = ("lean::memory_exception", "memory exception", "excessive memory consumption")
+
+
+def linux_sandbox(repo=None):
+    """The bubblewrap binary for Linux compiles: PATH first, then ARENA_BWRAP, then the prepared bundle.
+
+    A prepared host rarely has bwrap installed system-wide. ARENA_BWRAP names an explicit binary
+    without putting a machine path into tracked files, and the prepared repository may bundle one
+    under sources/final/bin (route60 prepares it). Returns None when no usable binary exists.
+    """
+    found = shutil.which("bwrap")
+    if found:
+        return found
+    explicit = os.environ.get("ARENA_BWRAP")
+    if explicit:
+        if not (Path(explicit).is_file() and os.access(explicit, os.X_OK)):
+            raise ValueError("ARENA_BWRAP is not an executable file: " + explicit)
+        return explicit
+    bundled = Path(repo or REPO) / BUNDLED_SANDBOX
+    if bundled.is_file() and os.access(bundled, os.X_OK):
+        return str(bundled)
+    return None
+
+
+def compiler_abort(record, log):
+    """Classify a failed run that the machine ended rather than the candidate; None otherwise.
+
+    Lean's allocator bound raises lean::memory_exception and aborts: returncode -SIGABRT when lean
+    is the direct child, exit 134 (128 + SIGABRT) when bubblewrap reports it. Under Lean v4.27.0
+    `import Mathlib` alone needs about 6 GiB, so with the frozen -M4096 every compile of such a
+    row aborts, the reference included (ARENA_LEAN_MEMORY_MIB raises the bound). Any other signal
+    death (an OOM kill is exit 137 under the sandbox) is a machine event too. These results are
+    environment failures: the driver retries them, the cache refuses them, and they are never
+    feedback about the proof. A run the driver itself timed out is not classified here.
+    """
+    if record.get("timed_out"):
+        return None
+    returncode = record.get("returncode")
+    signal_number = None
+    if type(returncode) is int and returncode < 0:
+        signal_number = -returncode
+    elif type(returncode) is int and returncode > 128:
+        signal_number = returncode - 128
+    text = log.lower()
+    allocator = any(marker in text for marker in ALLOCATOR_ABORT_MARKERS) or signal_number == signal.SIGABRT
+    if allocator:
+        resource = "lean_allocator_limit"
+    elif signal_number is not None:
+        resource = "compiler_signal"
+    else:
+        return None
+    bounds = [part[2:] for part in record.get("command", []) if isinstance(part, str) and re.fullmatch(r"-M\d+", part)]
+    limit = int(bounds[0]) if len(bounds) == 1 else None
+    description = ("Lean allocator abort" + (f" under -M{limit}" if limit else "") if allocator
+                   else f"compiler terminated by signal {signal_number}")
+    return {"kind": "environment", "resource": resource, "retryable": True, "signal": signal_number,
+            "limit_mib": limit, "message": f"Environment abort ({description}, returncode {returncode}): "
+            "retry; never candidate feedback.\n" + log[-8000:]}
 
 
 def lean_memory_mib():
@@ -230,8 +291,9 @@ class FinalEvaluator:
         self._contexts = {}
         self.cache = EvaluationCache(cache_root) if cache_root is not None else None
         self.timing_records = []
-        if type(compiler_parallelism) is not int or not 1 <= compiler_parallelism <= 3:
-            raise ValueError("Expected one to three compiler slots")
+        # final60 hook 5: up to 8 pooled slots (resources.compiler_slot gates admission by memory).
+        if type(compiler_parallelism) is not int or not 1 <= compiler_parallelism <= 8:
+            raise ValueError("Expected one to eight compiler slots")
         self.compiler_parallelism = compiler_parallelism
 
     def _compiler_setup(self, state, context):
@@ -404,9 +466,10 @@ class FinalEvaluator:
         if setup:
             command.extend(["--setup", str(setup)])
         if sys.platform == "linux":
-            sandbox = shutil.which("bwrap")
+            sandbox = linux_sandbox(self.repo)
             if not sandbox:
-                raise ValueError("Linux readonly compiler sandbox unavailable")
+                raise ValueError("Linux readonly compiler sandbox unavailable: bwrap is not on PATH, "
+                                 "ARENA_BWRAP is unset and sources/final/bin/bwrap is absent")
             mounts = [part for original, frozen in state.get("library_mounts", {}).items()
                       for part in ("--ro-bind", frozen, original)]
             command = [sandbox, "--die-with-parent", "--unshare-all", "--ro-bind", "/", "/",
@@ -594,7 +657,8 @@ class FinalEvaluator:
                             host_failure = any(marker in log.lower() for marker in
                                 ("sandbox-exec:", "sandbox_apply:", "operation not permitted", "permission denied", "input/output error"))
                             kind = "environment" if host_failure else "timeout" if record["timed_out"] else "compile"
-                            row["error"] = {"kind": kind, "message": log[-8000:]}
+                            # An allocator abort or signal death is the machine's result, not the candidate's.
+                            row["error"] = compiler_abort(record, log) or {"kind": kind, "message": log[-8000:]}
                             break
                         if nonce:
                             matches = re.findall(r"REFACTOR_EVAL " + nonce + r" (\{[^\n]*\})", log)

@@ -30,36 +30,188 @@ def result(tokens=10, heartbeat=100, *, all_versions=False):
     return {"valid": True, "tokens": tokens, "environments": {"primary": env, **({"secondary": env} if all_versions else {})}}
 
 
-class DriverTests(unittest.TestCase):
-    def test_frozen_allocator_abort_rejects_candidate_without_environment_stop(self):
-        original = {"valid": False, "environments": {"primary": {
-            "valid": False, "error": {"kind": "compile", "message":
-                "libc++abi: lean::memory_exception: excessive memory consumption detected at 'interpreter'"},
-            "runs": [{"returncode": -6, "command": ["lean", "candidate.lean", "-j1", "-M4096"]}]}}}
-        guarded = d.guard_compiler_signal(original)
-        self.assertFalse(guarded["valid"])
-        self.assertFalse(h.environment_failed(guarded))
-        self.assertEqual(guarded["error"]["resource"], "lean_allocator_limit")
-        self.assertEqual(original["environments"]["primary"]["error"]["kind"], "compile")
-        for field, value in [("returncode", -9), ("command", ["lean", "candidate.lean"])]:
-            altered = json.loads(json.dumps(original))
-            altered["environments"]["primary"]["runs"][0][field] = value
-            self.assertTrue(h.environment_failed(d.guard_compiler_signal(altered)))
-        unexplained = json.loads(json.dumps(original))
-        unexplained["environments"]["primary"]["error"]["message"] = "unexpected abort"
-        self.assertTrue(h.environment_failed(d.guard_compiler_signal(unexplained)))
+ALLOCATOR_MESSAGE = "libc++abi: lean::memory_exception: excessive memory consumption detected at 'interpreter'"
 
-    def test_configured_allocator_bound_is_reported_from_the_command(self):
-        original = {"valid": False, "environments": {"primary": {
-            "valid": False, "error": {"kind": "compile", "message":
-                "libc++abi: lean::memory_exception: excessive memory consumption detected at 'interpreter'"},
-            "runs": [{"returncode": -6, "command": ["lean", "candidate.lean", "-j1", "-M16384"]}]}}}
-        guarded = d.guard_compiler_signal(original)
-        self.assertFalse(h.environment_failed(guarded))
-        self.assertEqual(guarded["error"]["limit_mib"], 16384)
-        ambiguous = json.loads(json.dumps(original))
-        ambiguous["environments"]["primary"]["runs"][0]["command"].append("-M4096")
-        self.assertTrue(h.environment_failed(d.guard_compiler_signal(ambiguous)))
+
+def aborted_result(returncode=134, message=ALLOCATOR_MESSAGE, command=("lean", "candidate.lean", "-j1", "-M4096"), **run):
+    return {"valid": False, "environments": {"primary": {
+        "valid": False, "error": {"kind": "compile", "message": message},
+        "runs": [{"returncode": returncode, "command": list(command), **run}]}}}
+
+
+class DriverTests(unittest.TestCase):
+    def test_allocator_abort_is_an_environment_failure_never_candidate_feedback(self):
+        # Unsandboxed lean aborts with SIGABRT; under bubblewrap the sandbox exits 134. Older evaluators
+        # saved both as "compile" failures: the guard reclassifies them as retryable environment aborts.
+        for returncode, command in ((-6, ("lean", "candidate.lean", "-j1", "-M4096")),
+                                    (134, ("bwrap", "--", "lean", "candidate.lean", "-j1", "-M4096"))):
+            with self.subTest(returncode=returncode):
+                original = aborted_result(returncode, command=command)
+                guarded = d.guard_compiler_signal(original)
+                self.assertFalse(guarded["valid"])
+                self.assertTrue(h.environment_failed(guarded))
+                error = guarded["environments"]["primary"]["error"]
+                self.assertEqual((error["resource"], error["limit_mib"], error["signal"]), ("lean_allocator_limit", 4096, 6))
+                self.assertTrue(error["retryable"])
+                self.assertEqual(guarded["error"], error)
+                self.assertTrue(d.retryable_evaluation(original, {"repetitions": 1}))
+                self.assertEqual(original["environments"]["primary"]["error"]["kind"], "compile")
+        # The bound comes from the failed command; two bounds report none but still stop the verdict.
+        self.assertEqual(d.guard_compiler_signal(aborted_result(-6, command=("lean", "-M16384")))["error"]["limit_mib"], 16384)
+        ambiguous = d.guard_compiler_signal(aborted_result(-6, command=("lean", "-M16384", "-M4096")))
+        self.assertTrue(h.environment_failed(ambiguous))
+        self.assertIsNone(ambiguous["error"]["limit_mib"])
+        # The phrase alone, whatever the exit status, and any other signal death are machine events too.
+        phrased = d.guard_compiler_signal(aborted_result(1, "Memory exception: excessive memory consumption detected"))
+        self.assertEqual((phrased["error"]["kind"], phrased["error"]["resource"]), ("environment", "lean_allocator_limit"))
+        oom = d.guard_compiler_signal(aborted_result(137, "", command=("bwrap", "--", "lean")))
+        self.assertTrue(h.environment_failed(oom))
+        self.assertEqual((oom["error"]["resource"], oom["error"]["signal"], oom["error"]["limit_mib"]), ("compiler_signal", 9, None))
+        unexplained = d.guard_compiler_signal(aborted_result(-9, "unexpected abort"))
+        self.assertTrue(h.environment_failed(unexplained))
+
+    def test_ordinary_failures_and_timeouts_keep_their_verdict(self):
+        rejected = aborted_result(1, "error: unknown identifier missing")
+        self.assertEqual(d.guard_compiler_signal(rejected), rejected)
+        self.assertFalse(d.retryable_evaluation(rejected, {"repetitions": 1}))
+        # The driver's own SIGKILL on a timeout is not a signal death: the candidate timed out.
+        timed_out = aborted_result(-9, "killed", timed_out=True)
+        timed_out["environments"]["primary"]["error"]["kind"] = "timeout"
+        self.assertEqual(d.guard_compiler_signal(timed_out), timed_out)
+        self.assertFalse(d.retryable_evaluation(timed_out, {"repetitions": 1}))
+        self.assertTrue(d.retryable_evaluation(timed_out, {"repetitions": 3, "trusted_reference": True}))
+        # An error the evaluator already classified as environment stays as written and is retried.
+        classified = aborted_result(1, "Linux readonly compiler sandbox unavailable")
+        classified["environments"]["primary"]["error"]["kind"] = "environment"
+        self.assertEqual(d.guard_compiler_signal(classified), classified)
+        self.assertTrue(d.retryable_evaluation(classified, {}))
+
+    def test_machine_failed_evaluation_is_archived_and_retried_but_verdicts_are_reused(self):
+        aborted, outcomes = aborted_result(), []
+        class Fake:
+            def evaluate(self, code, problem, path, **kwargs):
+                assert not Path(path).exists(), "an evaluation never writes into an existing folder"
+                return outcomes.pop(0)
+        destination, problem = self.root / "evaluation", {"id": "problem"}
+        with patch.object(d, "EVALUATION_RETRY_PAUSE_SECONDS", 0):
+            # A persistent abort: three measurements per call, then the failure is handed to the caller.
+            outcomes[:] = [aborted, aborted, aborted]
+            final = d.evaluate_cached(Fake(), "one", problem, destination, repetitions=1)
+            self.assertTrue(h.environment_failed(d.guard_compiler_signal(final)))
+            self.assertEqual(outcomes, [])
+            self.assertEqual(len(list(self.root.glob("evaluation-environment-failed-*"))), 2)
+            # A restart retries the saved failure instead of reusing it.
+            outcomes[:] = [result(2, 50)]
+            self.assertTrue(d.evaluate_cached(Fake(), "one", problem, destination, repetitions=1)["valid"])
+            self.assertEqual(outcomes, [])
+            self.assertEqual(len(list(self.root.glob("evaluation-environment-failed-*"))), 3)
+            # Verdicts about the candidate are reused without measuring again.
+            self.assertTrue(d.evaluate_cached(Fake(), "one", problem, destination, repetitions=1)["valid"])
+            rejected, other = aborted_result(1, "error: unknown identifier missing"), self.root / "rejected"
+            outcomes[:] = [rejected]
+            d.evaluate_cached(Fake(), "two", problem, other, repetitions=1)
+            self.assertEqual(d.evaluate_cached(Fake(), "two", problem, other, repetitions=1), rejected)
+            self.assertEqual(outcomes, [])
+            # A result without its receipt is an interrupted evaluation: measured again, never reused.
+            (other / "evaluation-request.json").unlink()
+            outcomes[:] = [result(3, 60)]
+            self.assertTrue(d.evaluate_cached(Fake(), "two", problem, other, repetitions=1)["valid"])
+            self.assertEqual(len(list(self.root.glob("rejected-incomplete-*"))), 1)
+            with patch.dict(os.environ, {"ARENA_EVALUATION_RETRIES": "0"}):
+                outcomes[:] = [aborted]
+                d.evaluate_cached(Fake(), "three", problem, self.root / "once", repetitions=1)
+                self.assertEqual(outcomes, [])
+            with patch.dict(os.environ, {"ARENA_EVALUATION_RETRIES": "many"}), self.assertRaisesRegex(ValueError, "ARENA_EVALUATION_RETRIES"):
+                d.evaluate_cached(Fake(), "three", problem, self.root / "once", repetitions=1)
+
+    def row_fixture(self):
+        output = d.folder(self.root, 1)
+        problem = {"id": "test", "name": "test", "statement": "theorem test : True",
+                   "reference": "theorem test : True := by trivial\n", "environments": ["primary", "secondary"]}
+        d.atomic(output / "input/problem.json", problem)
+        d.atomic(output / "input/config.json", {"model": d.MODEL, "limits": {"max_calls": None, "cost_stop_usd": "1.00"},
+                                                "agent": {"mode": "actions-v1", "allow_finish": False}})
+        return output
+
+    def test_restart_retries_a_machine_failed_baseline_instead_of_failing_preflight_again(self):
+        output = self.row_fixture()
+        failed = aborted_result(1, "Linux readonly compiler sandbox unavailable")
+        failed["environments"]["primary"]["error"]["kind"] = "environment"
+        calls = []
+        class Fake:
+            def evaluate(self, code, problem, path, **kwargs):
+                calls.append(kwargs)
+                return failed if len(calls) == 1 else result(10, 100, all_versions=kwargs.get("all_versions", False))
+        with patch.object(d, "EVALUATION_RETRY_PAUSE_SECONDS", 0), patch.dict(os.environ, {"ARENA_EVALUATION_RETRIES": "0"}):
+            with self.assertRaisesRegex(ValueError, "baseline"):
+                d.ensure_baseline(self.root, 1, Fake())
+            self.assertEqual(len(calls), 1)
+            self.assertFalse((output / "initial-state.json").exists())
+            state = d.ensure_baseline(self.root, 1, Fake())  # the restarted worker
+        self.assertEqual(calls[1], {"repetitions": 3, "trusted_reference": True})
+        self.assertEqual(state["baseline"], {"tokens": 10, "raw_heartbeats": 100})
+        self.assertEqual(len(list(output.glob("baseline-environment-failed-*"))), 1)
+        self.assertTrue(a.read(output / "baseline/result.json")["valid"])
+        self.assertEqual(a.read(output / "initial-state.json"), state)
+
+    def test_preflight_restart_retries_a_machine_failed_reference_compatibility(self):
+        output = self.row_fixture()
+        calls = []
+        class Fake:
+            def evaluate(self, code, problem, path, **kwargs):
+                calls.append(kwargs)
+                if kwargs.get("all_versions") and sum(c.get("all_versions", False) for c in calls) == 1:
+                    return aborted_result(134, command=("bwrap", "--", "lean", "-M4096"))
+                return result(10, 100, all_versions=kwargs.get("all_versions", False))
+        with patch.object(d, "verify_frozen"), patch.object(d, "evaluator", return_value=Fake()), \
+                patch.object(d, "EVALUATION_RETRY_PAUSE_SECONDS", 0), patch.dict(os.environ, {"ARENA_EVALUATION_RETRIES": "0"}):
+            with self.assertRaisesRegex(ValueError, "Preflight failed"):
+                d.preflight(self.root, [1])
+            self.assertEqual(a.read(output / "preflight.json")["status"], "failed")
+            d.preflight(self.root, [1])
+        self.assertEqual(a.read(output / "preflight.json")["status"], "ready")
+        self.assertEqual([c.get("all_versions", False) for c in calls], [False, True, True])
+        self.assertEqual(len(list(output.glob("reference-compatibility-environment-failed-*"))), 1)
+
+    def test_compiler_parallelism_comes_from_the_seal_with_an_environment_override(self):
+        class Recorder:
+            def __init__(self, **kwargs):
+                self.kwargs = kwargs
+        with patch.dict(os.environ, {}, clear=False):
+            for name in ("ARENA_COMPILER_PARALLELISM", "FINAL60_COMPILER_SLOTS"):
+                os.environ.pop(name, None)
+            self.assertEqual(d.compiler_parallelism(self.root), 1)
+            d.atomic(self.root / "authorization.json", {"rows": [1], "max_lean_parallel": 4})
+            self.assertEqual(d.compiler_parallelism(self.root), 4)
+            with patch.dict(os.environ, {"ARENA_COMPILER_PARALLELISM": "6"}):
+                self.assertEqual(d.compiler_parallelism(self.root), 6)
+            with patch.dict(os.environ, {"FINAL60_COMPILER_SLOTS": "5"}):
+                self.assertEqual(d.compiler_parallelism(self.root), 5)
+            with patch.dict(os.environ, {"ARENA_COMPILER_PARALLELISM": "2", "FINAL60_COMPILER_SLOTS": "5"}):
+                self.assertEqual(d.compiler_parallelism(self.root), 2)
+            for bad in ("0", "9", "two", "2.5"):
+                with patch.dict(os.environ, {"ARENA_COMPILER_PARALLELISM": bad}), \
+                        self.assertRaisesRegex(ValueError, "ARENA_COMPILER_PARALLELISM"):
+                    d.compiler_parallelism(self.root)
+            d.atomic(self.root / "authorization.json", {"rows": [1], "max_lean_parallel": 12})
+            with self.assertRaisesRegex(ValueError, "authorization.json"):
+                d.compiler_parallelism(self.root)
+            d.atomic(self.root / "authorization.json", {"rows": [1], "max_lean_parallel": 3})
+            with patch.object(d, "evaluator_class", return_value=Recorder):
+                self.assertEqual(d.evaluator(self.root).kwargs["compiler_parallelism"], 3)
+                with patch.dict(os.environ, {"ARENA_COMPILER_PARALLELISM": "7"}):
+                    self.assertEqual(d.evaluator(self.root).kwargs["compiler_parallelism"], 7)
+            self.assertEqual(d.sealed_compiler_parallelism(), 1)
+            self.assertEqual(d.sealed_compiler_parallelism(5), 5)
+            with patch.dict(os.environ, {"ARENA_COMPILER_PARALLELISM": "4"}):
+                self.assertEqual(d.sealed_compiler_parallelism(), 4)
+                self.assertEqual(d.sealed_compiler_parallelism(2), 2)
+            with self.assertRaisesRegex(ValueError, "compiler-parallelism"):
+                d.sealed_compiler_parallelism(9)
+        with patch.object(d.sys, "argv", ["driver.py", "run", "--root", str(self.root), "--compiler-parallelism", "2"]), \
+                patch("sys.stderr"), self.assertRaises(SystemExit) as stopped:
+            d.main()
+        self.assertEqual(stopped.exception.code, 2)
 
     def test_preflight_and_run_probe_the_sandbox_before_any_work(self):
         for command, work in (("preflight", "preflight"), ("run", "verify_frozen")):
@@ -322,6 +474,16 @@ class DriverTests(unittest.TestCase):
             with patch.object(FakeEvaluator, "source_context", side_effect=AssertionError("Complete input must be reused")):
                 d.prepare_inputs(split, [1, 2], workers=1)
             d.seal_inputs(split, [1, 2])
+            # The sealed authorization carries the compiler-pool size the run was configured for.
+            pooled = self.root / "pooled"
+            d.prepare_inputs(pooled, [1], workers=1)
+            d.seal_inputs(pooled, [1], compiler_parallelism=4)
+            self.assertEqual(a.read(pooled / "authorization.json")["max_lean_parallel"], 4)
+            with patch.dict(os.environ, {}, clear=False):
+                os.environ.pop("ARENA_COMPILER_PARALLELISM", None)
+                os.environ.pop("FINAL60_COMPILER_SLOTS", None)
+                self.assertEqual(d.compiler_parallelism(pooled), 4)
+                self.assertEqual(a.read(split / "authorization.json")["max_lean_parallel"], 1)
         for row in (1, 2):
             for name in d.INPUT_FILES:
                 self.assertEqual((d.folder(combined, row) / "input" / name).read_bytes(),
