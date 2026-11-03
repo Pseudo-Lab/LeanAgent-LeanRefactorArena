@@ -21,12 +21,14 @@ def enabled(config):
 
 def validate(settings):
     if (not isinstance(settings, dict) or set(settings) - {
-            "scout_evaluations", "merger_evaluations", "hide_original_first_scout"}):
+            "scout_evaluations", "merger_evaluations", "hide_original_first_scout", "progress_guard"}):
         raise ValueError("Expected portfolio evaluation quotas")
     for key, default in (("scout_evaluations", 6), ("merger_evaluations", 22)):
         value = settings.get(key, default)
         if type(value) is not int or not 1 <= value <= 100:
             raise ValueError("Expected portfolio " + key + " between 1 and 100")
+    if "progress_guard" in settings and settings["progress_guard"] != "bounded-v1":
+        raise ValueError("Expected progress_guard bounded-v1")
     if type(settings.get("hide_original_first_scout", True)) is not bool:
         raise ValueError("Expected boolean hide_original_first_scout")
 
@@ -45,6 +47,68 @@ def initialize(state, config):
             "best_ids": dict.fromkeys(BRANCHES, "c000"),
             "latest": dict.fromkeys(BRANCHES, None),
         }
+
+        if guarded(config):
+            state["portfolio"].update(stalled_calls=dict.fromkeys(BRANCHES, 0), exits={})
+
+
+def guarded(config):
+    return config.get("agent", {}).get("portfolio", {}).get("progress_guard") == "bounded-v1"
+
+
+def progress(state, config):
+    """Bound research even when errors/duplicates never produce an evaluation."""
+    if not guarded(config):
+        return None
+    scope = state["portfolio"]
+    branch = scope["active"]
+    recent = []
+    for row in reversed(state["exploration"]["history"]):
+        if row.get("branch") != branch:
+            continue
+        if row.get("candidate_id"):
+            break
+        if row.get("action"):
+            recent.append(row["action"])
+    repeated = [action for i, action in enumerate(recent)
+                if action in recent[i + 1:] and action not in recent[:i]]
+    stalled = scope["stalled_calls"][branch]
+    return {"mode": "bounded-v1", "consecutive_unevaluated_calls": stalled,
+            "force_candidate": stalled >= 4 or bool(repeated),
+            "max_consecutive_unevaluated_calls": 8,
+            "max_branch_calls": 3 * quotas(config)[branch] + 8,
+            "repeated_actions": repeated[:3],
+            "instruction": "After four calls without an evaluation or a repeated read, submit a complete propose/repair using collected evidence. Reads cannot advance the evaluation quota. Never repeat the listed actions. A stalled branch is closed without claiming its quota was completed."}
+
+
+def record_progress(state, config, evaluated):
+    """Shared deterministic routing for execution and receipt-based auditing."""
+    scope = state["portfolio"]
+    branch = scope["active"]
+    scope["calls"][branch] += 1
+    if evaluated:
+        scope["evaluations"][branch] += 1
+    reason = "quota" if scope["evaluations"][branch] == quotas(config)[branch] else None
+    if guarded(config):
+        scope["stalled_calls"][branch] = 0 if evaluated else scope["stalled_calls"][branch] + 1
+        if reason is None and scope["stalled_calls"][branch] >= 8:
+            reason = "stalled"
+        if reason is None and scope["calls"][branch] >= 3 * quotas(config)[branch] + 8:
+            reason = "call_limit"
+        if reason:
+            scope["exits"][branch] = reason
+    if reason:
+        index = BRANCHES.index(branch) + 1
+        scope["active"] = BRANCHES[index] if index < len(BRANCHES) else "complete"
+
+
+def completed(state, config):
+    return finished(state) and all(state["portfolio"]["evaluations"][b] == n
+                                   for b, n in quotas(config).items())
+
+
+def stop_reason(state, config):
+    return "portfolio_complete" if completed(state, config) else "portfolio_stalled"
 
 
 def finished(state):
@@ -96,6 +160,9 @@ def packet(state, config):
              "original_proof_hidden": hidden_original(state, config),
              "execution": "serial dispatch with separate scout-visible contexts; one shared budget",
              "credit_policy": "Valid and invalid evaluated proofs consume credits; queries, format errors and duplicates still consume model calls/cost."}
+    if guarded(config):
+        value["progress_guard"] = progress(state, config)
+        value["branch_exits"] = dict(scope["exits"])
     if branch == "merge":
         value["scout_results"] = [{"branch": scout, "evaluated": scope["evaluations"][scout],
                                     "best_candidate_id": scope["best_ids"][scout],
@@ -111,7 +178,6 @@ def advance(state, config, code, result, ranking):
         return
     scope = state["portfolio"]
     branch = scope["active"]
-    scope["calls"][branch] += 1
     scope["latest"][branch] = deepcopy(state["latest"])
     state["exploration"]["history"][-1]["branch"] = branch
     if code is not None:
@@ -121,17 +187,14 @@ def advance(state, config, code, result, ranking):
         previous = state["exploration"]["candidates"][scope["best_ids"][branch]]
         if row["valid"] and ranking(row) < ranking(previous):
             scope["best_ids"][branch] = cid
-    if code is not None and result is not None:
-        scope["evaluations"][branch] += 1
-    if scope["evaluations"][branch] == quotas(config)[branch]:
-        index = BRANCHES.index(branch) + 1
-        scope["active"] = BRANCHES[index] if index < len(BRANCHES) else "complete"
+    record_progress(state, config, code is not None and result is not None)
 
 
 def summary(state, config):
     if not enabled(config):
         return None
     scope = state["portfolio"]
-    return {"complete": finished(state), "active": scope["active"],
+    return {"complete": completed(state, config), "active": scope["active"],
             "quotas": quotas(config), "evaluations": scope["evaluations"],
-            "calls": scope["calls"], "execution": "serial-scoped-scouts-then-merger"}
+            "calls": scope["calls"], "execution": "serial-scoped-scouts-then-merger",
+            **({"exits": scope["exits"], "stalled_calls": scope["stalled_calls"]} if guarded(config) else {})}

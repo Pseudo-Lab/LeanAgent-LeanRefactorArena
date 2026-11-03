@@ -14,6 +14,7 @@ GUIDANCE = (
     "Return only the configured action object; only the harness verifies a complete proof."
 )
 INSTRUCTIONS = {
+    "submit_candidate": "Research is bounded. Return propose or repair now with a complete proof based on collected evidence. Do not search, inspect, or repeat a failed read. Compiler feedback from an imperfect candidate is useful.",
     "explore": "Compare proof routes by obligations removed and bridge cost. Inspect actual theorem types before spending attempts on an uncertain bridge.",
     "merge": "Compare scout parents, failed bridges and Pareto candidates. Combine useful ideas into a complete proof, not concatenated scripts. Revalidate the whole result.",
     "reduce_length": "Length is the larger residual axis. Prefer direct lemmas, compositional internal properties, shared obligations and omission of inferred work. Measure any HB increase.",
@@ -67,7 +68,10 @@ def packet(state, config, context=None):
     latest = state.get("latest")
     failed = latest and latest["feedback"].get("valid") is False
     dominance = "length" if length >= heartbeat else "heartbeat"
-    if failed:
+    guard = context.get("progress_guard") if context else None
+    if guard and guard["force_candidate"]:
+        approach = "submit_candidate"
+    elif failed:
         approach = "repair_or_reconsider"
     elif context and context["branch"].startswith("scout") and context["evaluated"] < 2:
         approach = "explore"

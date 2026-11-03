@@ -34,7 +34,7 @@ MODEL = {"backend": "openai", "id": "gpt-6.1-sol", "provider": "openai",
          "reasoning_effort": "high", "max_tokens": 8192, "timeout_seconds": 900,
          "seed": 42}
 TARGET = Decimal("1.00")
-DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22}
+DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22, "progress_guard": "bounded-v1"}
 # Omitted policy means new-run defaults, while explicit None preserves legacy
 # single-context inputs during validation and supports --no-portfolio.
 UNSPECIFIED_PORTFOLIO = object()
@@ -739,7 +739,7 @@ def run_problem(root, row):
             atomic(output / "final/environment-fingerprints.json", {"full_content_verification": True,
                     "verified_at": now(), "environments": fingerprints})
             summary = {"row": row, "id": problem["id"], "name": problem["name"], "status": "completed",
-                       "stop_reason": "portfolio_complete" if h.portfolio.finished(state) else "cost_limit",
+                       "stop_reason": h.portfolio.stop_reason(state, config) if h.portfolio.finished(state) else "cost_limit",
                        "cost_usd": state["cost_usd"], "calls": state["calls"],
                        "baseline": h.metrics(baseline), "selected": {k: v for k, v in selected.items() if k != "code"},
                        "final": measured, "all_versions_valid": checked["valid"], "official_evaluation": False,
@@ -812,7 +812,8 @@ def main():
     if args.portfolio is False:
         settings = None
     elif args.portfolio is True or custom_quotas:
-        settings = {"scout_evaluations": 6 if args.scout_evaluations is None else args.scout_evaluations,
+        settings = {"progress_guard": "bounded-v1",
+                    "scout_evaluations": 6 if args.scout_evaluations is None else args.scout_evaluations,
                     "merger_evaluations": 22 if args.merger_evaluations is None else args.merger_evaluations}
         h.portfolio.validate(settings)
     root = args.root.resolve()

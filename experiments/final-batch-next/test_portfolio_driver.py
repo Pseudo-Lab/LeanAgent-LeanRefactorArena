@@ -32,7 +32,7 @@ class PortfolioBatchTests(unittest.TestCase):
         d.atomic(self.root / "ledger.json", {"schema_version": 1, "attempts": {}})
         self.packets = []
 
-    def run_batch(self):
+    def run_batch(self, actions=None):
         class Evaluator:
             def evaluate(self, code, problem, path, **kwargs):
                 measured = json.loads(a.canonical(result(2, 50, all_versions=kwargs.get("all_versions", False))))
@@ -56,6 +56,8 @@ class PortfolioBatchTests(unittest.TestCase):
                       "proof": "by trivial -- " + packet["portfolio"]["branch"]}
             if packet["portfolio"]["branch"] == "merge":
                 action["source_candidate_ids"] = ["c001", "c002", "c003"]
+            if actions is not None:
+                action = actions[len(self.packets) - 1]
             response = raw(action)
             response["id"] += str(len(self.packets))
             return response
@@ -68,9 +70,31 @@ class PortfolioBatchTests(unittest.TestCase):
     def attempts(self):
         return sorted(a.read(self.root / "ledger.json")["attempts"].items(), key=lambda item: item[1]["step"])
 
+    def test_guard_stalled_batch_is_auditable_and_never_claims_quota_completion(self):
+        self.config["agent"]["portfolio"]["progress_guard"] = "bounded-v1"
+        d.atomic(self.output / "input/config.json", self.config)
+        d.atomic(self.output / "state.json", h.initial_state(self.problem, result(), self.config))
+        summary = self.run_batch([{"action": "search", "query": "same"}] * 32)
+        self.assertEqual(summary["stop_reason"], "portfolio_stalled")
+        self.assertEqual(summary["status"], "stopped")
+        self.assertEqual(summary["calls"], 32)
+        self.assertFalse(report.audit_portfolio(self.output, summary, self.attempts()))
+        forged = json.loads(a.canonical(summary))
+        forged["status"] = "completed"
+        with self.assertRaisesRegex(ValueError, "Incomplete portfolio"):
+            report.audit_portfolio(self.output, forged, self.attempts())
+        packet_path = self.output / "steps/0008/request.json"
+        body = a.read(packet_path)
+        packet = json.loads(body["messages"][1]["content"])
+        packet["portfolio"]["branch"] = "scout-b"
+        body["messages"][1]["content"] = a.canonical(packet)
+        d.atomic(packet_path, body)
+        with self.assertRaisesRegex(ValueError, "barrier"):
+            report.audit_portfolio(self.output, summary, self.attempts())
+
     def test_new_configuration_defaults_to_portfolio_and_explicit_legacy_stays_off(self):
         config = d.configuration(self.problem)
-        self.assertEqual(config["agent"]["portfolio"], {"scout_evaluations": 6, "merger_evaluations": 22})
+        self.assertEqual(config["agent"]["portfolio"], d.DEFAULT_PORTFOLIO)
         self.assertEqual(config["agent"]["approach_policy"], "exchange-v1")
         config["agent"]["portfolio"]["scout_evaluations"] = 1
         self.assertEqual(d.configuration(self.problem)["agent"]["portfolio"]["scout_evaluations"], 6)
@@ -82,7 +106,7 @@ class PortfolioBatchTests(unittest.TestCase):
         for flags, expected in [([], d.DEFAULT_PORTFOLIO), (["--portfolio"], d.DEFAULT_PORTFOLIO),
                                 (["--no-portfolio"], None),
                                 (["--scout-evaluations", "2", "--merger-evaluations", "3"],
-                                 {"scout_evaluations": 2, "merger_evaluations": 3})]:
+                                 {"scout_evaluations": 2, "merger_evaluations": 3, "progress_guard": "bounded-v1"})]:
             with self.subTest(flags=flags), patch.object(d.sys, "argv", ["driver.py", "inputs", "--root", str(self.root), "--rows", "1", *flags]), \
                     patch.object(d, "prepare_inputs") as prepare:
                 d.main()

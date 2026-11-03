@@ -33,7 +33,7 @@ def audit_portfolio(folder, summary, attempts):
     portfolio.validate(config["agent"]["portfolio"])
     state = {}
     portfolio.initialize(state, config)
-    scope, quotas = state["portfolio"], portfolio.quotas(config)
+    scope = state["portfolio"]
     for _, item in attempts:
         branch = scope["active"]
         if branch == "complete":
@@ -42,16 +42,13 @@ def audit_portfolio(folder, summary, attempts):
         packet = json.loads(read(step / "request.json")["messages"][1]["content"])
         if packet["portfolio"]["branch"] != branch:
             raise ValueError("Scout/merger request crossed evaluation barrier")
-        scope["calls"][branch] += 1
-        if (step / "selection-result.json").exists():
+        evaluated = (step / "selection-result.json").exists()
+        if evaluated:
             if not (step / "candidate.lean").is_file():
                 raise ValueError("Portfolio evaluation missing candidate source")
             if type(read(step / "selection-result.json")["valid"]) is not bool:
                 raise ValueError("Portfolio evaluation missing validity")
-            scope["evaluations"][branch] += 1
-        if scope["evaluations"][branch] == quotas[branch]:
-            index = portfolio.BRANCHES.index(branch) + 1
-            scope["active"] = portfolio.BRANCHES[index] if index < len(portfolio.BRANCHES) else "complete"
+        portfolio.record_progress(state, config, evaluated)
     expected = portfolio.summary(state, config)
     saved = read(folder / "state.json")
     if summary.get("portfolio") != expected or portfolio.summary(saved, config) != expected:
@@ -60,6 +57,8 @@ def audit_portfolio(folder, summary, attempts):
         raise ValueError("Portfolio state call count differs from ledger")
     if (summary["stop_reason"] == "portfolio_complete") != expected["complete"]:
         raise ValueError("Portfolio completion reason differs from recorded routing")
+    if portfolio.finished(state) and summary["stop_reason"] != portfolio.stop_reason(state, config):
+        raise ValueError("Portfolio terminal reason differs from recorded routing")
     if (summary["status"] == "completed") != expected["complete"]:
         raise ValueError("Incomplete portfolio reported as completed")
     return expected["complete"]

@@ -46,12 +46,24 @@ AutoSolver·재귀 수리는 이 정리에 포함하지 않으며 기존 PR에�
    합성 출처로 지정하면 거절한다. scout-a에서는 기본적으로 원본 proof 읽기도 차단한다.
    `hide_original_first_scout: false`로 원본 공개를 선택할 수 있다. 공유 prompt/corpus에
    원본 전체 선언이 그대로 들어 있으면 숨김 모드 설정을 거절한다. 이는 모델 입력 범위 제어다.
-3. 각 scout가 6개씩 평가된 뒤 merger를 연다. 유효·무효 proof 모두 할당량을 사용한다.
+3. 기본 할당량은 scout마다 6개 평가이며, 각 scout를 종료한 뒤 merger를 연다. 유효·무효 proof 모두 할당량을 사용한다.
    검색·읽기·잘못된 응답·같은 문맥의 중복 proof는 모델 호출/비용을 사용하지만 평가 수를 늘리지 않는다.
 4. merger는 전체 후보·실패·scout별 best ID와 Pareto 후보를 받아 실제 proof를 제안하고 평가받는다.
    `propose.source_candidate_ids`로 여러 후보의 합성 출처를 기록한다. 출처 기록은 검증을 대체하지 않는다.
 5. merger의 기본 22회 평가가 끝나면 `portfolio_complete`로 종료한다. 전역 비용·호출·문맥 한도는
    항상 우선 적용하며, 먼저 중단되면 검증 best와 최종 검사 결과를 보존하고 `status: stopped`로 표시한다.
+
+새 Final 입력에는 `portfolio.progress_guard: "bounded-v1"`가 포함된다. 공통 CLI에서는
+동일 설정을 명시해서 사용한다. 이 설정이 없는 기존 frozen 실행의 동작은 그대로다.
+
+- 후보 평가 없이 4회 호출하거나 같은 읽기 행동을 반복하면 다음 요청은 `propose/repair`만 허용한다.
+  모델이 다른 행동을 보내도 실행하지 않고 후보 제출을 요구한다.
+- 8회 연속 평가가 없으면 해당 역할을 `stalled`로 종료하고 다음 역할로 넘어간다.
+  간헐적인 평가로 무한히 늘어나는 경우도 역할당 `3 × 평가 할당량 + 8` 호출에서 종료한다.
+- 누락된 평가는 채웠다고 세지 않는다. `exits`와 실제 평가 수를 기록하며, 하나라도
+  할당량을 못 채운 채 전체 역할이 끝나면 `portfolio_stalled`, `status: stopped`로 남긴다.
+  다음 scout와 merger는 정상적으로 기회를 얻으며, merger에는 앞 역할의 종료 사유도 전달한다.
+- 후보의 Lean 검증, 비용 한도, 문맥 격리, 최종 best 선택은 그대로 적용한다.
 
 실행은 **독립된 모델 입력을 순차 호출**한다. 병렬 scout나 별도 provider·evaluator·예산 루프를 만들지 않는다.
 세 scout와 merger의 평가 기본 합계는 40회이며 도구 호출만큼 모델 호출 수가 더 필요하다.

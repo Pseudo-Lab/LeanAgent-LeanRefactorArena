@@ -107,6 +107,9 @@ def view(state, config):
             "feedback": compact_feedback(fb),
             "instructions": ["Repair the reported errors while preserving working branches. Return repair with this parent_id; the included parent source uses 1-based candidate_line numbering.",
                              *[diagnostics.REPAIR_HINTS[k] for k in kinds if k in diagnostics.REPAIR_HINTS]]}
+    guard = portfolio.progress(state, config)
+    if guard and guard["force_candidate"]:
+        result["actions"] = {k: v for k, v in result["actions"].items() if k in {"propose", "repair"}}
     return result
 
 
@@ -168,6 +171,9 @@ def prepare(raw, state, problem, config, corpus, parse_proof):
     """Return the parsed action, optional code, and deterministic observation."""
     action = response_object(raw, config["limits"]["max_proof_characters"])
     kind, candidates = action["action"], state["exploration"]["candidates"]
+    guard = portfolio.progress(state, config)
+    if guard and guard["force_candidate"] and kind not in {"propose", "repair"}:
+        raise ValueError("Research limit reached: submit a complete propose/repair using collected evidence")
     if kind == "finish" and (not config["agent"].get("allow_finish", True) or portfolio.enabled(config)):
         raise ValueError("finish is disabled for this run; the controller stops at the configured budget/call limit")
     cid = action.get("candidate_id", action.get("parent_id"))
