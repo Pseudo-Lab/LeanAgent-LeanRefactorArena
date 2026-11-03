@@ -363,12 +363,22 @@ class FinalEvaluator:
         setup, setup_hash = self._compiler_setup(state, context)
         if setup:
             command.extend(["--setup", str(setup)])
-        sandbox = shutil.which("sandbox-exec")
-        if not sandbox:
-            raise ValueError("macOS readonly compiler sandbox unavailable")
-        command = [sandbox, "-p", "(version 1) (allow default) (deny network*) (deny file-write*)", *command]
+        if sys.platform == "linux":
+            sandbox = shutil.which("bwrap")
+            if not sandbox:
+                raise ValueError("Linux readonly compiler sandbox unavailable")
+            mounts = [part for original, frozen in state.get("library_mounts", {}).items()
+                      for part in ("--ro-bind", frozen, original)]
+            command = [sandbox, "--die-with-parent", "--unshare-all", "--ro-bind", "/", "/",
+                       "--dev", "/dev", "--proc", *mounts, "--", *command]
+        else:
+            sandbox = shutil.which("sandbox-exec")
+            if not sandbox:
+                raise ValueError("macOS readonly compiler sandbox unavailable")
+            command = [sandbox, "-p", "(version 1) (allow default) (deny network*) (deny file-write*)", *command]
         child = {"PATH": str(compiler) + ":" + str(Path(shutil.which("git")).parent) + ":/opt/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
-                 "HOME": str(Path.home()), "TMPDIR": "/private/tmp", "LANG": "en_US.UTF-8",
+                 "HOME": str(Path.home()), "TMPDIR": "/tmp" if sys.platform == "linux" else "/private/tmp",
+                 "LANG": "C.UTF-8" if sys.platform == "linux" else "en_US.UTF-8",
                  "LEAN_NUM_THREADS": "1", "MATHLIB_NO_CACHE_ON_UPDATE": "1",
                  "LEAN_PATH": os.pathsep.join(self._prepared[state["id"]].settings["library_paths"])}
         started = time.monotonic()
