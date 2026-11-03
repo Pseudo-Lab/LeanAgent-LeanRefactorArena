@@ -11,7 +11,7 @@ import sys
 
 from assigned_routes import assigned_mean, compare
 from driver import DATASET_SHA, REPO, atomic
-from evaluator import FinalEvaluator, lean_memory_mib
+from evaluator import FinalEvaluator, lean_memory_mib, linux_sandbox
 
 # Files whose bytes decide which proof text this run can produce (plus the evaluator and the
 # declaration policy that accept it). protocol.json records their hashes, like route20's.
@@ -22,21 +22,23 @@ HARNESS_FILES = ("route60.py", "assigned_routes.py", "assigned_route_hints.json"
 def preflight(repo):
     """Find and probe the Linux compiler sandbox before any work (macOS uses sandbox-exec).
 
-    The evaluator looks bwrap up on PATH; fall back to the prepared bundled build. The probe
-    runs bwrap with the evaluator's own flags, so a build that cannot create namespaces (for
-    example under AppArmor-restricted user namespaces) fails here instead of on every compile.
+    The evaluator's lookup (evaluator.linux_sandbox) is PATH, then ARENA_BWRAP, then the prepared
+    bundled build; a binary found off PATH is put on PATH for child tools. The probe runs bwrap
+    with the evaluator's own flags, so a build that cannot create namespaces (for example under
+    AppArmor-restricted user namespaces) fails here instead of on every compile.
     """
     if sys.platform != "linux":
         return
-    sandbox = shutil.which("bwrap")
+    try:
+        sandbox = linux_sandbox(repo)
+    except ValueError as exc:
+        raise SystemExit(str(exc))
     if not sandbox:
-        bundled = repo / "sources/final/bin/bwrap"
-        if not (bundled.is_file() and os.access(bundled, os.X_OK)):
-            raise SystemExit("bwrap (bubblewrap) is not on PATH and sources/final/bin/bwrap is absent; "
-                             "the Linux evaluator sandbox requires it")
-        os.environ["PATH"] = str(bundled.parent) + os.pathsep + os.environ.get("PATH", "")
-        print(f"Using the prepared bubblewrap {bundled}", flush=True)
-        sandbox = str(bundled)
+        raise SystemExit("bwrap (bubblewrap) is not on PATH, ARENA_BWRAP is unset and sources/final/bin/bwrap "
+                         "is absent; the Linux evaluator sandbox requires it")
+    if not shutil.which("bwrap"):
+        os.environ["PATH"] = str(Path(sandbox).parent) + os.pathsep + os.environ.get("PATH", "")
+        print(f"Using the bubblewrap {sandbox}", flush=True)
     probe = [sandbox, "--die-with-parent", "--unshare-all", "--ro-bind", "/", "/",
              "--dev", "/dev", "--proc", "/proc", "--", "true"]
     try:

@@ -73,10 +73,12 @@ def compiler_slot(lock_path, *, slots=2, min_free_percent=15, headroom_per_activ
 
     An admission lock serializes slot reservations and memory checks. Held slot
     locks reserve capacity before a compiler starts and are released on crashes.
-    Additional active compilers require additional free-memory headroom.
+    Additional active compilers require additional free-memory headroom: a pool
+    larger than three slots only ever fills through that gate, never by the
+    slot count alone.
     """
-    if type(slots) is not int or not 1 <= slots <= 3:
-        raise ValueError("Compiler slots must be between 1 and 3")
+    if type(slots) is not int or not 1 <= slots <= 8:
+        raise ValueError("Compiler slots must be between 1 and 8")
     lock_path = Path(lock_path)
     lock_path.parent.mkdir(parents=True, exist_ok=True)
     with lock_path.open("a+") as compatibility:
@@ -90,7 +92,7 @@ def compiler_slot(lock_path, *, slots=2, min_free_percent=15, headroom_per_activ
                     available = []
                     try:
                         active = 0
-                        for number in range(3):
+                        for number in range(slots):
                             stream = Path(str(lock_path) + f".slot-{number}").open("a+")
                             try:
                                 fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)

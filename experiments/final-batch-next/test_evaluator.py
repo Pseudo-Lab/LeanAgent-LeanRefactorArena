@@ -10,7 +10,119 @@ from unittest.mock import patch
 from contextlib import nullcontext
 
 from evaluator import FinalEvaluator, REPO, pending_command_start, proof_tokens, _comment_mask, target_is_private
-from evaluator import DEFAULT_LEAN_MEMORY_MIB, lean_memory_mib
+from evaluator import DEFAULT_LEAN_MEMORY_MIB, lean_memory_mib, compiler_abort, linux_sandbox
+from test_evaluation_cache import FixtureEvaluator
+
+
+def fixture_repo(path):
+    """A repository root with the registry the evaluator reads at construction."""
+    (path / "configs").mkdir(parents=True, exist_ok=True)
+    (path / "configs/final-environments.local.json").write_text(json.dumps({"dataset_sha256": "fixture"}))
+    return path
+
+
+def executable(path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("#!/bin/sh\n")
+    path.chmod(0o755)
+    return str(path)
+
+
+class LinuxSandboxTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.repo = fixture_repo(Path(temporary.name))
+
+    def test_lookup_order_is_path_then_override_then_bundle(self):
+        bundled = executable(self.repo / "sources/final/bin/bwrap")
+        explicit = executable(self.repo / "tools/bwrap")
+        with patch.dict(os.environ, {"ARENA_BWRAP": explicit}), patch("evaluator.shutil.which", return_value="/usr/bin/bwrap"):
+            self.assertEqual(linux_sandbox(self.repo), "/usr/bin/bwrap")
+        with patch.dict(os.environ, {"ARENA_BWRAP": explicit}), patch("evaluator.shutil.which", return_value=None):
+            self.assertEqual(linux_sandbox(self.repo), explicit)
+        with patch.dict(os.environ, {}, clear=False), patch("evaluator.shutil.which", return_value=None):
+            os.environ.pop("ARENA_BWRAP", None)
+            self.assertEqual(linux_sandbox(self.repo), bundled)
+            Path(bundled).chmod(0o644)
+            self.assertIsNone(linux_sandbox(self.repo))
+        with patch.dict(os.environ, {"ARENA_BWRAP": str(self.repo / "missing")}), patch("evaluator.shutil.which", return_value=None):
+            with self.assertRaisesRegex(ValueError, "ARENA_BWRAP"):
+                linux_sandbox(self.repo)
+
+    def test_compiles_run_under_the_resolved_sandbox(self):
+        evaluator = FinalEvaluator(repo_root=self.repo)
+        evaluator._prepared["env"] = SimpleNamespace(settings={"library_paths": []}, verify=lambda full=False: None)
+        state, folder = {"id": "env", "project": "project", "version": "v0"}, self.repo / "out"
+        (self.repo / "project").mkdir()
+        folder.mkdir()
+        commands = []
+
+        class Done:
+            pid, returncode = 0, 0
+
+            def __init__(self, command, **_):
+                commands.append(command)
+
+            def communicate(self, timeout=None):
+                return b"", b""
+
+        explicit = executable(self.repo / "tools/bwrap")
+        with patch("evaluator.subprocess.Popen", Done), patch("evaluator.sys.platform", "linux"), \
+                patch("evaluator.shutil.which", side_effect=lambda name: None if name == "bwrap" else "/usr/bin/" + name), \
+                patch("resources.wait_for_memory"), patch("resources.memory_snapshot", return_value={}):
+            with patch.dict(os.environ, {"ARENA_BWRAP": explicit}):
+                evaluator._invoke("-- source", state, {"module": None}, folder, "run-1")
+                self.assertEqual(commands[-1][0], explicit)
+                self.assertIn("--unshare-all", commands[-1])
+            with patch.dict(os.environ, {}, clear=False):
+                os.environ.pop("ARENA_BWRAP", None)
+                with self.assertRaisesRegex(ValueError, "ARENA_BWRAP"):
+                    evaluator._invoke("-- source", state, {"module": None}, folder, "run-2")
+                bundled = executable(self.repo / "sources/final/bin/bwrap")
+                evaluator._invoke("-- source", state, {"module": None}, folder, "run-3")
+                self.assertEqual(commands[-1][0], bundled)
+
+
+class CompilerAbortTests(unittest.TestCase):
+    MESSAGE = ("libc++abi: terminating due to uncaught exception of type lean::memory_exception: "
+               "excessive memory consumption detected at 'interpreter'")
+
+    def test_sandboxed_exit_134_and_memory_exception_are_environment_aborts(self):
+        command = ["bwrap", "--", "lean", "candidate.lean", "-j1", "-M4096"]
+        for returncode, log, resource in ((134, self.MESSAGE, "lean_allocator_limit"), (-6, self.MESSAGE, "lean_allocator_limit"),
+                                          (134, "", "lean_allocator_limit"), (1, "Memory exception at 'interpreter'", "lean_allocator_limit"),
+                                          (137, "", "compiler_signal"), (-9, "", "compiler_signal")):
+            with self.subTest(returncode=returncode, log=log):
+                error = compiler_abort({"returncode": returncode, "command": command}, log)
+                self.assertEqual((error["kind"], error["resource"], error["limit_mib"]), ("environment", resource, 4096))
+                self.assertTrue(error["retryable"])
+                self.assertIn("never candidate feedback", error["message"])
+        self.assertEqual(compiler_abort({"returncode": 134, "command": command}, "")["signal"], 6)
+        self.assertIsNone(compiler_abort({"returncode": 134, "command": ["lean", "-M4096", "-M8192"]}, self.MESSAGE)["limit_mib"])
+        # Ordinary rejections, successes and the driver's own timeout kill keep their verdict.
+        self.assertIsNone(compiler_abort({"returncode": 1, "command": command}, "error: unknown identifier missing"))
+        self.assertIsNone(compiler_abort({"returncode": 0, "command": command}, ""))
+        self.assertIsNone(compiler_abort({"returncode": -9, "timed_out": True, "command": command}, ""))
+
+    def test_evaluate_records_the_abort_as_environment_and_never_caches_it(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name)
+        ev = FixtureEvaluator(root / "cache")
+        code = "theorem test : True := by trivial\n"
+        problem = {"id": "test", "statement": "theorem test : True", "name": "test", "reference": code, "environments": ["v1"]}
+        ev.failure = (134, False, self.MESSAGE)
+        aborted = ev.evaluate(code, problem, root / "aborted")
+        self.assertFalse(aborted["valid"])
+        error = aborted["environments"]["v1"]["error"]
+        self.assertEqual((error["kind"], error["resource"], error["signal"]), ("environment", "lean_allocator_limit", 6))
+        self.assertTrue(error["retryable"])
+        self.assertEqual(list((root / "cache").glob("*/receipt.json")), [])
+        ev.failure = None
+        measured = ev.evaluate(code, problem, root / "retried")
+        self.assertTrue(measured["valid"])
+        self.assertNotIn("cache", measured["environments"]["v1"])
 
 
 class LeanMemoryBoundTests(unittest.TestCase):

@@ -183,12 +183,12 @@ PYTHONPATH=src .venv/bin/python -B experiments/final-batch-next/report.py --root
 
 ## 검증
 
-Linux(WSL2 포함) 실행에는 bubblewrap sandbox가 필요하다. `route60`/`route20`은 시작 전에
-`PATH`의 `bwrap`을, 없으면 준비된 `sources/final/bin/bwrap`을 찾아 평가기와 같은 옵션으로
-한 번 실행해 본다. 실패하면 출력 디렉터리를 만들기 전에 종료한다. `prepare`/`preflight`/`run`은
-아직 이 검사를 하지 않으므로 `bwrap`을 `PATH`에 둔다. 준비된 Lean toolchain과
-라이브러리는 WSL 내부 경로에 둔다. `ARENA_SOURCE_BUILD=1`을 설정하면
-Lake 소스 빌드에서 캐시 다운로드를 건너뛴다.
+Linux(WSL2 포함) 실행에는 bubblewrap sandbox가 필요하다. 평가기(`evaluator.linux_sandbox`)는
+`PATH`의 `bwrap`을, 없으면 `ARENA_BWRAP`이 가리키는 실행 파일을, 그것도 없으면 준비된
+`sources/final/bin/bwrap`을 찾는다. `route60`/`route20`과 `driver.py preflight`/`run`은 시작 전에
+그 바이너리를 평가기와 같은 옵션으로 한 번 실행해 보고, 실패하면 출력 디렉터리를 만들기 전에
+종료한다. 준비된 Lean toolchain과 라이브러리는 WSL 내부 경로에 둔다. `ARENA_SOURCE_BUILD=1`을
+설정하면 Lake 소스 빌드에서 캐시 다운로드를 건너뛴다.
 
 Lean의 `-M` 메모리 한도는 기본 4096 MiB다. Linux는 mmap된 `.olean` 페이지도 상주 메모리로
 세므로 `import Mathlib`만으로 약 6 GB에 이르고, putnambench-v4.27.0 원본까지
@@ -196,10 +196,23 @@ Lean의 `-M` 메모리 한도는 기본 4096 MiB다. Linux는 mmap된 `.olean` �
 Linux에서 최종 행을 평가할 때는 `ARENA_LEAN_MEMORY_MIB=16384`처럼 한도를 명시한다
 (1024–262144 MiB). 값은 평가 캐시 식별자와 `route60`/`route20`의 `protocol.json`에 남는다.
 
-`route60`/`route20`의 `--compiler-parallelism 2`(최대 3)는 PR #68의 메모리 게이트 compiler
-pool을 다른 프로세스와 공유한다. 기본값 1은 같은 lock 파일에 배타 lock을 잡으므로 pool을 쓰는
-compiler가 모두 끝날 때까지 기다리고, 그동안 그들을 막는다. 다른 작업과 함께 돌릴 때는 2를 쓴다.
-`prepare`/`preflight`/`run`은 아직 직렬(1)이다. 최종 60문제 실행 중에는 개발용 Lean 작업을
+Lean이 `-M` 한도로 중단되면(`lean::memory_exception`; sandbox 밖에서는 SIGABRT, bwrap 아래에서는
+종료 코드 134) 평가기는 그 결과를 후보의 잘못이 아닌 환경 실패(`kind: environment`,
+`resource: lean_allocator_limit`, `retryable: true`, 명령의 `-M` 값이 `limit_mib`)로 기록한다.
+다른 시그널 종료(OOM kill은 137)도 같다. 이런 결과는 평가 캐시에 들어가지 않고 모델에 피드백으로
+가지 않으며, `driver.evaluate_cached`가 저장된 결과를 `<이름>-environment-failed-<ns>`로 옮기고
+다시 측정한다. 재시작한 worker는 그래서 실패한 baseline·reference-compatibility·후보 평가·호환성
+검사·최종 측정을 다시 시도한다. 같은 호출 안에서는 `ARENA_EVALUATION_RETRIES`(기본 2)번 더
+재시도한다. 드라이버가 직접 시간 초과로 죽인 컴파일은 `timeout` 판정을 유지한다(원본 참조만 재시도).
+
+`route60`/`route20`의 `--compiler-parallelism`(1–8)과 `driver.py prepare`/`seal`의
+`--compiler-parallelism`(authorization.json의 `max_lean_parallel`로 봉인; 기본값은
+`ARENA_COMPILER_PARALLELISM` 또는 1)은 PR #68의 메모리 게이트 compiler pool을 다른 프로세스와
+공유한다. `driver.evaluator()`는 봉인된 값을 쓰고, 실행 중에는 `ARENA_COMPILER_PARALLELISM`
+(orchestrator의 `FINAL60_COMPILER_SLOTS`도 같은 뜻)으로 덮어쓴다. 3개를 넘는 slot은 기존 메모리
+게이트(여유 메모리 15% + 활성 compiler당 10%)를 통과할 때만 채워진다. 값 1은 같은 lock 파일에
+배타 lock을 잡으므로 pool을 쓰는 compiler가 모두 끝날 때까지 기다리고, 그동안 그들을 막는다.
+다른 작업과 함께 돌릴 때는 2 이상을 쓴다. 최종 60문제 실행 중에는 개발용 Lean 작업을
 같은 pool에서 돌리지 않는다. 대기 시간이 실행 시간의 대부분을 차지할 수 있다.
 
 ```sh
