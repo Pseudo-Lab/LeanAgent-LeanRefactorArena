@@ -13,6 +13,7 @@ test('40 disjoint rows preserve scores and missing samples without a whole-set s
  const first=parseFinalResults(load('final-results'),bases),second=parseSummaryResults(load('physlib-cslib-results'),bases);
  const combined=mergeFinalResults(first,second),snapshot=parseSnapshot(resultSnapshot(bases,combined));
  assert.equal(combined.problems.length,40);assert.equal(snapshot.problems.filter(p=>p.candidate).length,40);
+ assert.equal('auditPassed' in combined,false);assert.equal('apiCalls' in combined,false);
  assert.equal(aggregate(snapshot.problems,'combined').value,null);
  assert.ok(Math.abs(combined.problems.reduce((s,p)=>s+p.score,0)/40-64.08158686687594)<1e-9);
  for(const row of second){
@@ -23,7 +24,7 @@ test('40 disjoint rows preserve scores and missing samples without a whole-set s
   assert.equal(createHash('sha256').update(file).digest('hex'),row.proofFileHash);assert.equal(file,row.proof+'\n');
   assert.ok(Math.abs(valueOf(snapshot.problems.find(p=>p.id===row.row)!,'combined')!-row.score)<1e-9);
  }
- assert.throws(()=>mergeFinalResults(combined,second),/중복/);
+ assert.throws(()=>mergeFinalResults(first,[...second,...second]),/중복/);
 });
 test('reject invalid identity, scope, pins, hashes, validity, repeat counts, API claims and scores',()=>{
  for(const change of [(x:any)=>x.results[0].name='wrong',(x:any)=>x.results[0].row=1,

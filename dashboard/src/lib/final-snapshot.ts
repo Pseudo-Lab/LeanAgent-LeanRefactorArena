@@ -1,5 +1,5 @@
 import type { FinalBaselines } from './final-baselines.ts';
-import type { FinalResults } from './final-results.ts';
+import type { FinalResultsView } from './final-results.ts';
 import type { Snapshot } from './model.ts';
 
 // Original measurements establish the baseline; they are not improved candidates.
@@ -20,7 +20,7 @@ export function baselineSnapshot(data: FinalBaselines): Snapshot {
 }
 
 // Candidate scores use their own paired baseline, never an unrelated baseline run.
-export function resultSnapshot(data: FinalBaselines, results: FinalResults): Snapshot {
+export function resultSnapshot(data: FinalBaselines, results: FinalResultsView): Snapshot {
   const snapshot = baselineSnapshot(data);
   const candidates = new Map(results.problems.map(p => [p.row, p]));
   return { ...snapshot, id: 'final60-results', label: '최종 60문제 · 검증 풀이', measuredAt: results.generatedAt,
