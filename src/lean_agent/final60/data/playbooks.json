@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "version": "final60-playbooks-v1",
+  "note": "Generic per-type strategy prose written for the final60 design. No text from any existing proof; Lean snippets are at most 39 characters and always in backticks.",
+  "types": {
+    "short-tactic": [
+      "Short proof: first test a one-line candidate that closes the whole goal with a single closer such as `simp_all`, `grind`, `omega`, `norm_num`, `positivity` or `decide`; if one compiles it usually dominates both ratios.",
+      "Look for a term-mode or one-lemma answer: an existing lemma applied to the hypotheses, or `exact` with anonymous constructors, is usually shorter and cheaper than a tactic script.",
+      "Merge adjacent `rw` and `simp only` calls, drop `show` lines and one-use `have` steps, and keep only the simp lemmas that are needed; compare bare `simp` with `simp only` by the combined score."
+    ],
+    "structural-induction": [
+      "Induction or case proof: do the split once and close the branches together, for example `induction h <;> simp_all` or `cases h <;> grind`, then repair only the branches that still fail.",
+      "Reuse the congruence, inversion and preservation lemmas stated before this theorem in the source context instead of re-deriving them in each branch; search the corpus by the relation's name.",
+      "If the statement applies a recursive function to the induction variable, try `fun_induction` or the definition's own induction principle, and generalize only what a branch needs.",
+      "Bullets with identical bodies can share one `<;>` or `all_goals`; one-use `have` and `obtain` steps can be inlined, and `show` lines and type ascriptions dropped."
+    ],
+    "algebra-analysis-long": [
+      "Long algebraic proof: most of its length usually re-derives facts the library already has; replace `have` chains by one lemma, or by `field_simp` then `ring`, `linear_combination`, `nlinarith`, `positivity` or `gcongr`.",
+      "The largest measured reductions came from a new short route through a library theorem rather than from local edits; spend an early candidate on such a route before polishing.",
+      "Factor repeated blocks: prove a shared argument once as a local `∀` claim and apply it, or close parallel goals with one combinator; drop `show` lines and one-use `have` steps.",
+      "To cut heartbeats, avoid whole-context `simp_all` or `aesop` on large goals and prefer targeted `rw`, `simp only [...]` and explicit lemma arguments."
+    ],
+    "competition": [
+      "Competition proof: try a direct closer for each claim, for example `nlinarith [sq_nonneg (a - b)]`, `norm_num`, `omega`, `positivity`, `interval_cases` with `omega`, or `decide` on small finite cases.",
+      "Long competition proofs often re-prove standard facts; search for the key library lemma and collapse the surrounding `have` chain into a few steps.",
+      "Keep the answer and the witnesses exactly as stated; only the proof changes. Prefer fewer, stronger steps over many small `have` claims."
+    ],
+    "kernel-decide-tiny": []
+  },
+  "conditional": {
+    "many_versions": "This proof must compile unchanged on every listed version ({versions}); avoid recently added or renamed tactics, options and lemma names, and prefer core tactics and long-stable names.",
+    "hb_heavy": "The original is expensive to elaborate (about {hb_millions} million raw heartbeats); removing broad automation, repeated normalisation or kernel computation can gain more than shortening."
+  },
+  "header": "Routing notes: generic strategy hypotheses chosen from static features of this problem; they are not verified edits and are never taken from any existing proof. Problem class: {problem_type}. Test each idea with a complete candidate."
+}
