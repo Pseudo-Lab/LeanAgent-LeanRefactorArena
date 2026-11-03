@@ -67,10 +67,10 @@ export function FinalBaselines() {
       <a className="button" href="/data/final-results.json" download><Download size={16}/>검증 결과 JSON</a></div>
     <div className="summary-grid">
       <article className="summary-card"><div className="summary-label">원본 length 확보</div><div className="big-number">60<span>/ 60문제</span></div><p>제공된 최종 데이터셋의 proof_length</p></article>
-      <article className="summary-card"><div className="summary-label">원본 HB 확보</div><div className="big-number">{measured}<span>/ 60문제</span></div><p>3회 중앙값 {measured - provisional}개 · 1회 잠정값 {provisional}개</p></article>
+      <article className="summary-card"><div className="summary-label">원본 HB 확보</div><div className="big-number">{measured}<span>/ 60문제</span></div><p>3회 중앙값 {measured - provisional}개 · 1회 표본 {provisional}개</p></article>
       <article className="summary-card"><div className="summary-label">검증 풀이 · 20 / 60문제</div><div className="big-number">{format(meanScore)}<span>점</span></div><p>검증된 20문제 평균 · 대회식 종합 로컬 추정</p></article>
     </div>
-    <p className="measurement-note">검증 풀이 20개는 지정 버전 전체 통과, HB는 원본·후보 각각 3회 중앙값(raw 단위)입니다. 나머지 40개는 개선 결과 없음으로 회색 표시됩니다. 공식 점수가 아닙니다.</p>
+    <p className="measurement-note">원본은 지정 버전 {data.verification?.problemVersions ?? '전체'}개 조합의 기준값을 확보했습니다. 검증 풀이 20개는 지정 버전 전체 통과, 점수 비교 HB는 해당 실행의 원본·후보 각각 3회 중앙값(raw 단위)입니다. 나머지 40개는 개선 결과 없음으로 회색 표시됩니다. 공식 점수가 아닙니다.</p>
     <div className="dataset-bar">
       <span className="warmup-label">F001–F010 · F041–F050 검증 완료</span>
       <label className="snapshot-picker"><span>결과 상태</span><select aria-label="결과 상태" value={status} onChange={e => setStatus(e.target.value)}><option value="all">전체 60문제</option><option value="verified">검증 완료 (20)</option><option value="pending">개선 결과 없음 (40)</option><option value="provisional">1회 잠정값 ({provisional})</option><option value="missing">HB 미측정 ({60 - measured})</option></select></label>
@@ -93,8 +93,8 @@ export function FinalBaselines() {
           <details><summary>원본 해시와 고정 revision</summary><code>{original.referenceSha256}</code>{original.references.map(v=><p key={v.environment}><code>{v.version} @ {v.revision}</code></p>)}</details>
         </section> : null}
         {original ? <details className="baseline-detail-evidence">
-          <summary>원본 측정 근거 · {original.local?.sampleCount === 1 ? '1회 잠정값' : original.local ? '3회 중앙값' : '미측정'}</summary>
-          <p>제공 length: {format(original.providedLength, 0)} · 로컬 length: {format(original.local?.tokens ?? null, 0)}</p>
+          <summary>원본 측정 근거 · {original.local?.sampleCount === 1 ? '1회 표본' : original.local ? '3회 중앙값' : '미측정'}</summary>
+          <p>제공 length: {format(original.providedLength, 0)} · 비교 length: {format(original.local?.tokens ?? null, 0)}{original.local?.auditTokens !== undefined && original.local.auditTokens !== original.local.tokens ? ` · 별도 tokenizer 감사 값: ${format(original.local.auditTokens, 0)}` : ''}</p>
           {original.local ? <>
             <p>raw HB 표본 {original.local.sampleCount}회: {original.local.rawSamples.map(n => format(n, 0)).join(' / ')}</p>
             <p>scaled HB (raw ÷ 1,000 내림): {format(original.local.scaledHeartbeats, 0)}</p>

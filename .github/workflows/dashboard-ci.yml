@@ -5,6 +5,7 @@ on:
     branches: [main]
     paths:
       - 'dashboard/**'
+      - 'solutions/final20/**'
       - 'docs/measurements/final60-baselines.json'
       - 'configs/final-environments.lock.json'
       - '.github/workflows/dashboard-ci.yml'
@@ -12,6 +13,7 @@ on:
     branches: [main]
     paths:
       - 'dashboard/**'
+      - 'solutions/final20/**'
       - 'docs/measurements/final60-baselines.json'
       - 'configs/final-environments.lock.json'
       - '.github/workflows/dashboard-ci.yml'

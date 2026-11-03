@@ -35,6 +35,8 @@ test('reject missing versions, stale identity, duplicate rows, invented samples/
     (d: any) => { d.problems[0].currentRunCostUsd = '3.01'; },
     (d: any) => { d.costUsd = '0'; },
     (d: any) => { d.problems[0].versions[0].status = 'pending'; },
+    (d: any) => { d.problems[0].versions[1].revision = '0'.repeat(40); },
+    (d: any) => { d.problems[0].versions[1].environment = 'wrong-environment'; },
   ];
   for (const mutate of mutations) { const d = load(); mutate(d); assert.throws(() => parseFinalResults(d, baseline)); }
 });

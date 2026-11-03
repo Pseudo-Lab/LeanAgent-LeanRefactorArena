@@ -42,7 +42,9 @@ export function parseFinalResults(input: unknown, baselines: FinalBaselines): Fi
         || !measurement(p.baseline) || !measurement(p.candidate)
         || !Array.isArray(p.versions) || p.versions.length !== original.requiredVersions.length
         || p.versions.some((v, i) => !record(v) || v.version !== original.requiredVersions[i] || v.status !== 'pass'
-          || !text(v.revision) || !/^[a-f0-9]{40}$/.test(v.revision) || !hash(v.fingerprint) || !text(v.environment))
+          || !text(v.revision) || !/^[a-f0-9]{40}$/.test(v.revision) || !hash(v.fingerprint)
+          || v.environment !== `${p.source}-${v.version}`
+          || (original.references && !original.references.some(r => r.version === v.version && r.revision === v.revision)))
         || p.versions[0].revision !== original.primaryRevision
         || !(p.baselineCompatibility === null || p.baselineCompatibility === 100)
         || !Array.isArray(p.evidence) || !p.evidence.length || p.evidence.some(e => !record(e) || !text(e.path)
