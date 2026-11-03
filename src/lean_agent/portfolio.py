@@ -229,6 +229,8 @@ def packet(state, config):
                                     "failed_candidate_ids": [cid for cid, owner in scope["owners"].items()
                                         if owner == scout and not state["exploration"]["candidates"][cid]["valid"]]}
                                    for scout in BRANCHES[:-1]]
+    if "autosolver" in config["agent"]:
+        value["credit_policy"] += " Quotas count model-proposed proof evaluations only; native tactic trials and derived-candidate verification are separate and do not consume model calls."
     return value
 
 

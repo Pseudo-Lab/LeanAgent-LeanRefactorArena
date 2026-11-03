@@ -14,14 +14,14 @@ import statistics
 import subprocess
 import sys
 
-from . import accounting, actions, budgeting, diagnostics, models, portfolio, prepared, search_policy, status
+from . import accounting, actions, autosolver, budgeting, diagnostics, models, portfolio, prepared, search_policy, status
 from .artifacts import canonical, inventory, read, sha as digest, write
 from .evaluator.lean import LeanEvaluator, validate_template
 from .evaluator.tokens import TOKENIZER_ID, proof_body
 
 BASE = Path(__file__).resolve().parent
 CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
-              "artifacts.py", "actions.py", "portfolio.py", "search_policy.py", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "recorded_usage.py", "prepared.py", "usage_cost.py",
+              "artifacts.py", "actions.py", "portfolio.py", "search_policy.py", "autosolver.py", "native.py", "support/AutoSolver.lean", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "recorded_usage.py", "prepared.py", "usage_cost.py",
               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
 SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
 
@@ -338,7 +338,7 @@ def step_diagnosis(raw, rejection, result, folder, output, config):
 
 
 def advance(state, raw, code, result, rejection, baseline, config, run_directory, diagnosis=None,
-            *, action=None, observation=None):
+            *, action=None, observation=None, automatic=None):
     state = json.loads(canonical(state))
     bill = models.receipt(raw)
     state["step"] += 1
@@ -360,7 +360,88 @@ def advance(state, raw, code, result, rejection, baseline, config, run_directory
     if actions.enabled(config):
         actions.advance(state, action, code, proposal, rejection, observation)
         portfolio.advance(state, config, code, result, ranking)
+    if autosolver.eligible(config, raw, code, result):
+        if automatic is None:
+            raise ValueError("Missing AutoSolver record for eligible failed candidate")
+        apply_automatic(state, code, automatic, baseline, config, run_directory)
+    elif automatic is not None:
+        raise ValueError("Unexpected AutoSolver record")
     return state
+
+
+def automatic_candidate(config, raw, code, result, folder, inspect, evaluate):
+    if not autosolver.eligible(config, raw, code, result):
+        return None
+    record = autosolver.search(config, code, folder / "autosolver", inspect)
+    outcome = autosolver.replay_search(config, code, record)
+    evaluation = None
+    if outcome["candidate_code"] is not None:
+        source = folder / "autosolver/candidate.lean"
+        if source.exists():
+            if source.read_text() != outcome["candidate_code"]:
+                raise ValueError("AutoSolver candidate source differs")
+        else:
+            source.write_text(outcome["candidate_code"])
+        evaluation = evaluate(outcome["candidate_code"], folder / "autosolver/evaluation", source)
+    return {"search": record, "evaluation": evaluation}
+
+
+def read_automatic(config, raw, code, result, folder):
+    if not autosolver.eligible(config, raw, code, result):
+        if (folder / "autosolver/search.json").exists():
+            raise ValueError("Unexpected AutoSolver evidence")
+        return None
+    record = read(folder / "autosolver/search.json")
+    outcome = autosolver.replay_search(config, code, record)
+    evaluation = None
+    if outcome["candidate_code"] is not None:
+        if (folder / "autosolver/candidate.lean").read_text() != outcome["candidate_code"]:
+            raise ValueError("AutoSolver source differs from replay")
+        evaluation = read(folder / "autosolver/evaluation/result.json")
+    elif (folder / "autosolver/evaluation/result.json").exists():
+        raise ValueError("Unrequested AutoSolver evaluation")
+    return {"search": record, "evaluation": evaluation}
+
+
+def apply_automatic(state, code, automatic, baseline, config, run_directory):
+    outcome = autosolver.replay_search(config, code, automatic["search"])
+    parent_id = f"c{state['step']:03}"
+    info = autosolver.summary(outcome, parent_id)
+    memory = state["exploration"]
+    memory["history"][-1]["autosolver"] = info
+    totals = state.setdefault("autosolver", {"searches": 0, "attempts": 0, "inspections": 0,
+                                            "verified_candidates": 0, "native_seconds": 0.0, "model_calls": 0})
+    totals["searches"] += 1
+    for key in ("attempts", "inspections", "native_seconds"):
+        totals[key] += info[key]
+    derived, measured = outcome["candidate_code"], automatic["evaluation"]
+    if (derived is None) != (measured is None):
+        raise ValueError("AutoSolver completion/evaluation differs")
+    if derived is not None:
+        cid = parent_id + "-auto"
+        proposal = candidate(derived, measured, baseline)
+        response = feedback(measured, None, config["limits"]["max_feedback_characters"], run_directory)
+        memory["candidates"][cid] = {"code": derived, "sha256": digest(derived), "parent_id": parent_id,
+            "strategy": "autosolver", "step": state["step"], "valid": proposal is not None,
+            "feedback": response, "generated_by": "autosolver", **(proposal or {})}
+        info["candidate_id"], info["verified"] = cid, proposal is not None
+        totals["verified_candidates"] += proposal is not None
+        if proposal is not None:
+            memory["history"][-1]["effective_candidate_id"] = cid
+            if ranking(proposal) < ranking(state["best"]):
+                state["best"], memory["best_candidate_id"] = proposal, cid
+        state["latest"] = {"code": derived, "feedback": response}
+        if portfolio.enabled(config):
+            scope = state["portfolio"]
+            branch = scope["owners"][parent_id]
+            scope["owners"][cid] = branch
+            previous = memory["candidates"][scope["best_ids"][branch]]
+            if proposal is not None and ranking(proposal) < ranking(previous):
+                scope["best_ids"][branch] = cid
+    state["latest"]["feedback"]["autosolver"] = info
+    if portfolio.enabled(config):
+        branch = state["portfolio"]["owners"][parent_id]
+        state["portfolio"]["latest"][branch] = json.loads(canonical(state["latest"]))
 
 
 def seal(output):
@@ -410,6 +491,8 @@ def summarize(state, baseline, final, config, stop):
         result["portfolio"] = portfolio.summary(state, config)
         if not result["portfolio"]["complete"]:
             result["status"] = "stopped"
+    if autosolver.enabled(config):
+        result["autosolver"] = state.get("autosolver", {"searches": 0, "model_calls": 0})
     return result
 
 
@@ -428,7 +511,8 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
         progress.enter(stage, **details)
         result = evaluator.evaluate(code, problem, [environment], folder, config["lean"]["repetitions"])
         write(folder / "result.json", result)
-        recorder.evaluated(result, folder)
+        recorder.evaluated(result, folder, **({"label": f"candidate-{folder.parent.parent.name}-auto"}
+                                            if stage == "autosolver_verify" else {}))
         report = recorder.records[-1]["path"]
         progress.failure_report = report
         paths = [folder / "result.json", report]
@@ -447,6 +531,8 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
         config, paths = load_config(config_path)
         evaluator = evaluator or (prepared.PreparedLeanEvaluator(paths["prepared_environment"])
                                   if "prepared_environment" in paths else LeanEvaluator())
+        if autosolver.enabled(config) and not callable(getattr(evaluator, "inspect_native", None)):
+            raise ValueError("AutoSolver requires an evaluator with inspect_native")
         if config["model"]["backend"] == "openrouter":
             if dotenv is not None:
                 os.environ["OPENROUTER_API_KEY"] = models.load_key(dotenv)
@@ -527,16 +613,26 @@ def run(config_path, output, evaluator=None, *, check_only=False, query=None, do
                 source = folder / "candidate.lean"
                 source.write_text(code, encoding="utf-8")
                 result = evaluate(code, folder / "evaluation", "candidate", source, attempt=step)
+            def inspect_native(source_code, destination, seconds, mib):
+                progress.enter("autosolver_inspect", attempt=step)
+                observed = evaluator.inspect_native(source_code, problem, environment, destination,
+                                                    timeout=seconds, memory=mib)
+                progress.finish("passed" if observed["kind"] == "proof" else "failed", [destination / "result.json"])
+                return observed
+            automatic = automatic_candidate(config, raw, code, result, folder, inspect_native,
+                lambda source_code, destination, source_path: evaluate(
+                    source_code, destination, "autosolver_verify", source_path, attempt=step))
             report = step_diagnosis(raw, rejection, result, folder, output, config)
             if report and report["stage"] == "model":
                 recorder.save(f"model-{step:03}", report)
             state = advance(state, raw, code, result, rejection, baseline, config, str(output), report,
-                            action=action, observation=observation)
+                            action=action, observation=observation, automatic=automatic)
             write(folder / "event.json", step_event(state, rejection, config, action, observation))
             if state["unknown_cost"]:
                 stop = "unknown_cost"
                 break
-            if result and environment_failed(result):
+            if (result and environment_failed(result) or automatic and automatic["evaluation"]
+                    and environment_failed(automatic["evaluation"])):
                 stop = "environment_failed"
                 break
             if portfolio.finished(state):
@@ -662,8 +758,9 @@ def replay_records(output):
                 raise ValueError("Candidate differs from model response")
             result = read(folder / "evaluation/result.json")
         report = step_diagnosis(raw, rejection, result, folder, output, config)
+        automatic = read_automatic(config, raw, code, result, folder)
         state = advance(state, raw, code, result, rejection, baseline, config, manifest["run_directory"], report,
-                        action=action, observation=observation)
+                        action=action, observation=observation, automatic=automatic)
         if read(folder / "event.json") != step_event(state, rejection, config, action, observation):
             raise ValueError("State transition differs")
     summary = read(output / "summary.json")

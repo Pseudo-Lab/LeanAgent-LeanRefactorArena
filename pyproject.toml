@@ -17,4 +17,4 @@ lean-agent-usage = "lean_agent.accounting:main"
 where = ["src"]
 
 [tool.setuptools.package-data]
-lean_agent = ["provenance.json", "evaluator/provenance.json"]
+lean_agent = ["provenance.json", "evaluator/provenance.json", "support/*.lean"]
