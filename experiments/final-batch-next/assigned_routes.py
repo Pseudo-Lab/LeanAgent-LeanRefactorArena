@@ -184,6 +184,17 @@ def proposals(code, statement, route):
                 )
     if route == "finite-enumeration":
         closure = re.search(r"refine fun (\w+) => ([\w.]+) \?_\s+revert \1\s+decide \+kernel\s*$", body)
+        bridge = re.search(r"(?:apply|refine fun \w+ =>) ([\w.]+)", body)
+        predicate = re.search(r"\)\s*→\s*(\w+)\s", statement)
+        if bridge and predicate:
+            # The kernel work stays fixed by the statement; only the proof text gets shorter.
+            yield ("revert-option",
+                   statement + f" := by\n  intros\n  apply {bridge[1]}\n  decide +kernel +revert")
+            for tactic in ("unfold", "delta"):
+                yield (f"{tactic}-predicate",
+                       statement + f" := by\n  {tactic} {predicate[1]}\n  decide +kernel")
+            yield ("revert-after-apply",
+                   statement + f" := by\n  intro I\n  apply {bridge[1]}\n  revert I\n  decide +kernel")
         if closure:
             yield (
                 "enumerate-before-closure",

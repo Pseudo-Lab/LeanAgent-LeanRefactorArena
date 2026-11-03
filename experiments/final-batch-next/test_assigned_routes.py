@@ -7,7 +7,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from assigned_budget import ProblemBudgetError, propose
-from assigned_routes import assigned_mean, compare, diagnosed_edits, family, maximum_score, portfolio_edits, proposals
+from assigned_routes import assigned_mean, compare, diagnosed_edits, family, maximum_score, portfolio_edits, proof_tokens, proposals
 from reuse_scout import body_reuse, use_scout, scout_packet
 
 
@@ -70,6 +70,21 @@ class AssignedRouteTests(unittest.TestCase):
         choice = (seeds / "F023.lean").read_text(encoding="utf-8").rstrip("\n")
         statement = choice.split(" := by", 1)[0]
         self.assertIn("direct-choice-step", dict(proposals(choice, statement, family(choice))))
+
+    def test_finite_enumeration_variants_shorten_the_closure_proof(self):
+        statement = ("lemma isPhenoClosedQ5_viableCharges : (I : CodimensionOneConfig) →\n"
+                     "    IsPhenoClosedQ5 I.allowedBarFiveCharges (viableCharges I)")
+        bridge = "isPhenClosedQ5_of_isPhenoConstrainedQ5"
+        original = (f"{statement} := by\n  refine fun I => {bridge} ?_\n  revert I\n  decide +kernel")
+        team = (f"{statement} := by\n  intro i\n  apply {bridge}\n  cases i <;> decide +kernel")
+        expected = {"revert-option": 9, "unfold-predicate": 6, "delta-predicate": 6,
+                    "revert-after-apply": 10}
+        for code in (original, team):
+            self.assertEqual(family(code), "finite-enumeration")
+            options = dict(proposals(code, statement, "finite-enumeration"))
+            self.assertEqual({k: proof_tokens(options[k], statement) for k in expected}, expected)
+        self.assertEqual(dict(proposals(statement + " := by\n  decide +kernel", statement,
+                                        "finite-enumeration")).keys() & expected.keys(), set())
 
     def test_overlap_and_scout_boundary(self):
         statement = "theorem t (h : Demo.Fact) : Demo.Fact"
