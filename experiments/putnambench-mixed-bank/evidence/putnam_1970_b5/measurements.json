@@ -1,0 +1,109 @@
+{
+  "summary": {
+    "row": 57,
+    "name": "putnam_1970_b5",
+    "selected_candidate": "c094",
+    "proof_sha256": "18e90d7543678a1d49a8e342d63953741b9baa73d185584f57bc6e1cd9187e37",
+    "proof_file": "proofs/putnam_1970_b5.lean",
+    "baseline": {
+      "tokens": 2134,
+      "raw_heartbeats": 288824888,
+      "raw_samples": [
+        288824883,
+        288824895,
+        288824888
+      ]
+    },
+    "final": {
+      "tokens": 238,
+      "raw_heartbeats": 4454554,
+      "raw_samples": [
+        4454554,
+        4454554,
+        4454554
+      ]
+    },
+    "token_reduction_pct": 88.84723523898782,
+    "hb_reduction_pct": 98.45769731589058,
+    "compatibility_ratio": 1,
+    "versions": [
+      "putnambench-v4.26.0",
+      "putnambench-v4.27.0"
+    ],
+    "local_score_estimate": 95.76831085162614,
+    "cost_usd": "2.2307274",
+    "stop_threshold_usd": "2.50",
+    "calls": 94,
+    "stop_reason": "portfolio_complete",
+    "official_evaluation": false,
+    "provider_invoice_verified": false,
+    "finished_at": "2026-11-03T13:38:08.403242+00:00"
+  },
+  "tokenizer": {
+    "id": "arena-paper-compatible-v1",
+    "source_sha256": "746f0c5b6d21015062f686b9bde4ea3623c17c2421d12f1436d741860c5404ed"
+  },
+  "versions": {
+    "putnambench-v4.27.0": {
+      "valid": true,
+      "median_raw_heartbeats": 4454554,
+      "runs": [
+        {
+          "source_sha256": "ec5bacc50cda12faafc31730713f7fcf7834a886f4b92b5ec3c5ad42f12f428e",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "returncode": 0,
+          "measurement": null
+        },
+        {
+          "source_sha256": "bcd4966df34f55253ea61da9c8d262d694e650fd4bad12ac3ee22891e068dc10",
+          "log_sha256": "bb248f5c79673a667d821bedddd880db41b8fda88416982782725f5b9b42d596",
+          "returncode": 0,
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 4454554,
+            "scaled": 4454,
+            "target": "putnam_1970_b5"
+          }
+        }
+      ]
+    },
+    "putnambench-v4.26.0": {
+      "valid": true,
+      "median_raw_heartbeats": 4589687,
+      "runs": [
+        {
+          "source_sha256": "ec5bacc50cda12faafc31730713f7fcf7834a886f4b92b5ec3c5ad42f12f428e",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "returncode": 0,
+          "measurement": null
+        },
+        {
+          "source_sha256": "87e7f2b32650eccc85d5d20dd505bc8702ae76a1d9aede8a3da636a9ffbeb782",
+          "log_sha256": "a969e8b1120f9a3a7dafc189da27076e3aa73af47919bb8a9351df91388c97ad",
+          "returncode": 0,
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 4589687,
+            "scaled": 4589,
+            "target": "putnam_1970_b5"
+          }
+        }
+      ]
+    }
+  },
+  "source_receipt_sha256": {
+    "baseline": "ea507db1510c147e984f9afba1bf1747bee47fa30bca2cae31af3642978ff50f",
+    "final": "50cf367130e670ac6fd2c59a7a00aa5eb522070f49ea583581aac91132024dfe",
+    "compatibility": "605438c9c481ce22845d5be6ac5185df3bdbda75247e4c7e62e4455db820667c",
+    "summary": "339c21e9379ecfc1ba6d8455b78a3e9af31b8a0024e836576b7280338a32ef44"
+  },
+  "baseline_policy": "Original-only receipts reused from earlier offline preparation; final primary HB freshly measured three times."
+}

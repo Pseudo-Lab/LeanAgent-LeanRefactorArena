@@ -1,0 +1,567 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. Then reduce repeated whole-context simplification or broad search using recorded evidence. Judge complete proof-token and heartbeat ratios together; a shorter proof can be worse. propose: state a short concrete approach in strategy and supply the complete replacement proof. repair: fix the reported errors in the named rejected parent, preserving working branches. search/inspect: retrieve a specific missing definition or theorem rather than repeatedly browsing. After repeated failure of the same approach, branch from another candidate or change the proof structure. Search is lexical evidence only, not a theorem-prover or availability guarantee. Every action consumes paid model budget. The controller stops after actual settled cost reaches $2.50. The exact statement and original full source context are preserved by the evaluator. Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. At final selection the controller checks candidates in score order against every required version, falling back to another candidate if needed. All listed versions must accept the final candidate. No extra imports or helper declarations.
+<original_context>
+[Original imports/header]
+import Mathlib
+import Aesop
+
+[Original prefix scope-command excerpts in source order]
+L4: set_option maxHeartbeats 0
+L5: 
+L6: open Metric Set EuclideanGeometry Filter Topology
+L7: 
+L8: 
+
+[Original prefix immediately before target]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Metric Set EuclideanGeometry Filter Topology
+
+
+
+[context-lines-1-8]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Metric Set EuclideanGeometry Filter Topology
+
+
+
+[import-Mathlib.NumberTheory.LSeries.PrimesInAP-e811274a-L405-450]
+-- Lexical source excerpt: module Mathlib.NumberTheory.LSeries.PrimesInAP, lines 405-450.
+    split_ifs with hn
+    · simp only [hn, residueClass_apply_zero, ofReal_zero, zero_div]
+    · rfl
+  have : ContinuousOn (fun x : ℝ ↦ (LFunctionResidueClassAux a x).re) (Set.Icc 1 2) :=
+    continuous_re.continuousOn.comp (t := Set.univ) (continuousOn_LFunctionResidueClassAux a)
+      (fun ⦃x⦄ a ↦ trivial) |>.comp continuous_ofReal.continuousOn fun x hx ↦ by
+        simpa only [Set.mem_setOf_eq, ofReal_re] using hx.1
+  obtain ⟨C, hC⟩ := bddBelow_def.mp <| IsCompact.bddBelow_image isCompact_Icc this
+  replace hC {x : ℝ} (hx : x ∈ Set.Icc 1 2) : C ≤ (LFunctionResidueClassAux a x).re :=
+    hC (LFunctionResidueClassAux a x).re <|
+      Set.mem_image_of_mem (fun x : ℝ ↦ (LFunctionResidueClassAux a x).re) hx
+  refine ⟨-C, fun {x} hx ↦ ?_⟩
+  rw [H hx.1, add_comm, sub_neg_eq_add, add_le_add_iff_left]
+  exact hC <| Set.mem_Icc_of_Ioc hx
+
+open vonMangoldt Filter Topology in
+/-- The function `n ↦ Λ n / n` restricted to primes in an invertible residue class
+is not summable. This then implies that there must be infinitely many such primes. -/
+lemma not_summable_residueClass_prime_div (ha : IsUnit a) :
+    ¬ Summable fun n : ℕ ↦ (if n.Prime then residueClass a n else 0) / n := by
+  intro H
+  have key : Summable fun n : ℕ ↦ residueClass a n / n := by
+    convert (summable_residueClass_non_primes_div a).add H using 2 with n
+    simp only [← add_div, ite_add_ite, zero_add, add_zero, ite_self]
+  let C := ∑' n, residueClass a n / n
+  have H₁ {x : ℝ} (hx : 1 < x) : ∑' n, residueClass a n / (n : ℝ) ^ x ≤ C := by
+    refine Summable.tsum_le_tsum (fun n ↦ ?_) ?_ key
+    · rcases n.eq_zero_or_pos with rfl | hn
+      · simp only [Nat.cast_zero, Real.zero_rpow (zero_lt_one.trans hx).ne', div_zero, le_refl]
+      · refine div_le_div_of_nonneg_left (residueClass_nonneg a _) (mod_cast hn) ?_
+        conv_lhs => rw [← Real.rpow_one n]
+        exact Real.rpow_le_rpow_of_exponent_le (by norm_cast) hx.le
+    · exact summable_real_of_abscissaOfAbsConv_lt <|
+        (abscissaOfAbsConv_residueClass_le_one a).trans_lt <| mod_cast hx
+  obtain ⟨C', hC'⟩ := LSeries_residueClass_lower_bound ha
+  have H₁ {x} (hx : x ∈ Set.Ioc 1 2) : (q.totient : ℝ)⁻¹ ≤ (C + C') * (x - 1) :=
+    (div_le_iff₀ <| sub_pos.mpr hx.1).mp <|
+      sub_le_iff_le_add.mp <| (hC' hx).trans (H₁ hx.1)
+  have hq : 0 < (q.totient : ℝ)⁻¹ := inv_pos.mpr (mod_cast q.totient.pos_of_neZero)
+  rcases le_or_gt (C + C') 0 with h₀ | h₀
+  · have := hq.trans_le (H₁ (Set.right_mem_Ioc.mpr one_lt_two))
+    rw [show (2 : ℝ) - 1 = 1 by norm_num, mul_one] at this
+    exact (this.trans_le h₀).false
+  · obtain ⟨ξ, hξ₁, hξ₂⟩ : ∃ ξ ∈ Set.Ioc 1 2, (C + C') * (ξ - 1) < (q.totient : ℝ)⁻¹ := by
+      refine ⟨min (1 + (q.totient : ℝ)⁻¹ / (C + C') / 2) 2, ⟨?_, min_le_right ..⟩, ?_⟩
+      · simpa only [lt_inf_iff, lt_add_iff_pos_right, Nat.ofNat_pos, div_pos_iff_of_pos_right,
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass-7c4ecd28-L300-364]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass, lines 300-364.
+    DifferentiableOn ℂ ℘[L] L.latticeᶜ := by
+  rw [← L.weierstrassPExcept_of_notMem _ L.ω₁_div_two_notMem_lattice]
+  convert L.differentiableOn_weierstrassPExcept _
+  simp [L.ω₁_div_two_notMem_lattice]
+
+@[simp]
+lemma weierstrassP_neg (z : ℂ) : ℘[L] (-z) = ℘[L] z := by
+  simp only [weierstrassP]
+  rw [← (Equiv.neg L.lattice).tsum_eq]
+  congr with l
+  simp
+  ring
+
+lemma not_continuousAt_weierstrassP (x : ℂ) (hx : x ∈ L.lattice) : ¬ ContinuousAt ℘[L] x := by
+  eta_expand
+  simp_rw [← L.weierstrassPExcept_add ⟨x, hx⟩]
+  intro H
+  apply (NormedField.continuousAt_zpow (n := -2) (x := (0 : ℂ))).not.mpr (by simp)
+  simpa [Function.comp_def] using
+    (((H.sub ((L.differentiableOn_weierstrassPExcept x).differentiableAt
+      (L.compl_lattice_diff_singleton_mem_nhds x)).continuousAt).add
+      (continuous_const (y := 1 / x ^ 2)).continuousAt).comp_of_eq
+      (continuous_add_left x).continuousAt (add_zero _) :)
+
+end weierstrassP
+
+section derivWeierstrassPExcept
+
+/-- The derivative of Weierstrass `℘` function with the `l₀`-term missing.
+This is mainly a tool for calculations where one would want to omit a diverging term.
+This has the notation `℘'[L - l₀]` in the namespace `PeriodPairs`. -/
+def derivWeierstrassPExcept (l₀ : ℂ) (z : ℂ) : ℂ :=
+  ∑' l : L.lattice, if l.1 = l₀ then 0 else -2 / (z - l) ^ 3
+
+@[inherit_doc derivWeierstrassPExcept]
+scoped notation3 "℘'[" L:max " - " l₀ "]" => derivWeierstrassPExcept L l₀
+
+lemma hasSumLocallyUniformly_derivWeierstrassPExcept (l₀ : ℂ) :
+    HasSumLocallyUniformly (fun (l : L.lattice) (z : ℂ) ↦ if l.1 = l₀ then 0 else -2 / (z - l) ^ 3)
+      ℘'[L - l₀] := by
+  refine L.hasSumLocallyUniformly_aux (u := fun _ ↦ (16 * ‖·‖ ^ (-3 : ℝ))) _
+    (fun _ _ ↦ (ZLattice.summable_norm_rpow _ _ (by simp; norm_num)).mul_left _) fun r hr ↦
+    Filter.eventually_atTop.mpr ⟨2 * r, ?_⟩
+  rintro _ h s hs l rfl
+  split_ifs
+  · simpa using show 0 ≤ ‖↑l‖ ^ 3 by positivity
+  have : s ≠ ↑l := by rintro rfl; exfalso; linarith
+  have : l ≠ 0 := by rintro rfl; simp_all; linarith
+  simp only [Complex.norm_div, norm_neg, Complex.norm_ofNat, norm_pow, AddSubgroupClass.coe_norm]
+  rw [Real.rpow_neg (by positivity), ← div_eq_mul_inv, div_le_div_iff₀, norm_sub_rev]
+  · refine LE.le.trans_eq (b := 2 * (2 * ‖l - s‖) ^ 3) ?_ (by ring)
+    norm_cast
+    gcongr
+    refine le_trans ?_ (mul_le_mul le_rfl (norm_sub_norm_le _ _) (by linarith) (by linarith))
+    norm_cast at *
+    linarith
+  · exact pow_pos (by simpa [sub_eq_zero]) _
+  · exact Real.rpow_pos_of_pos (by simpa) _
+
+lemma hasSum_derivWeierstrassPExcept (l₀ : ℂ) (z : ℂ) :
+    HasSum (fun l : L.lattice ↦ if l.1 = l₀ then 0 else -2 / (z - l) ^ 3) (℘'[L - l₀] z) :=
+  (L.hasSumLocallyUniformly_derivWeierstrassPExcept l₀).tendstoLocallyUniformlyOn.tendsto_at
+    (Set.mem_univ z)
+
+lemma differentiableOn_derivWeierstrassPExcept (l₀ : ℂ) :
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Pow.Continuity-b771a817-L354-418]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Pow.Continuity, lines 354-418.
+    have B : ContinuousAt (fun p => ⟨↑p.1, p.2⟩ : ℝ × ℂ → ℂ × ℂ) ⟨0, y⟩ := by fun_prop
+    exact A.comp_of_eq B rfl
+  · -- x < 0 : difficult case
+    suffices ContinuousAt (fun p => (-(p.1 : ℂ)) ^ p.2 * exp (π * I * p.2) : ℝ × ℂ → ℂ) (x, y) by
+      refine this.congr (eventually_of_mem (prod_mem_nhds (Iio_mem_nhds hx) univ_mem) ?_)
+      exact fun p hp => (ofReal_cpow_of_nonpos (le_of_lt hp.1) p.2).symm
+    have A : ContinuousAt (fun p => ⟨-↑p.1, p.2⟩ : ℝ × ℂ → ℂ × ℂ) (x, y) := by fun_prop
+    apply ContinuousAt.mul
+    · refine (continuousAt_cpow (Or.inl ?_)).comp A
+      rwa [neg_re, ofReal_re, neg_pos]
+    · exact (continuous_exp.comp (continuous_const.mul continuous_snd)).continuousAt
+
+theorem continuousAt_ofReal_cpow_const (x : ℝ) (y : ℂ) (h : 0 < y.re ∨ x ≠ 0) :
+    ContinuousAt (fun a => (a : ℂ) ^ y : ℝ → ℂ) x :=
+  (continuousAt_ofReal_cpow x y h).comp₂_of_eq (by fun_prop) (by fun_prop) rfl
+
+theorem continuous_ofReal_cpow_const {y : ℂ} (hs : 0 < y.re) :
+    Continuous (fun x => (x : ℂ) ^ y : ℝ → ℂ) :=
+  continuous_iff_continuousAt.mpr fun x => continuousAt_ofReal_cpow_const x y (Or.inl hs)
+
+end Complex
+
+end CpowLimits2
+
+/-! ## Limits and continuity for `ℝ≥0` powers -/
+
+
+namespace NNReal
+
+theorem continuousAt_rpow {x : ℝ≥0} {y : ℝ} (h : x ≠ 0 ∨ 0 < y) :
+    ContinuousAt (fun p : ℝ≥0 × ℝ => p.1 ^ p.2) (x, y) := by
+  have :
+    (fun p : ℝ≥0 × ℝ => p.1 ^ p.2) =
+      Real.toNNReal ∘ (fun p : ℝ × ℝ => p.1 ^ p.2) ∘ fun p : ℝ≥0 × ℝ => (p.1.1, p.2) := by
+    ext p
+    simp only [coe_rpow, val_eq_coe, Function.comp_apply, coe_toNNReal', left_eq_sup]
+    exact_mod_cast zero_le (p.1 ^ p.2)
+  rw [this]
+  refine continuous_real_toNNReal.continuousAt.comp (ContinuousAt.comp ?_ ?_)
+  · apply Real.continuousAt_rpow
+    simpa using h
+  · fun_prop
+
+theorem eventually_pow_one_div_le (x : ℝ≥0) {y : ℝ≥0} (hy : 1 < y) :
+    ∀ᶠ n : ℕ in atTop, x ^ (1 / n : ℝ) ≤ y := by
+  obtain ⟨m, hm⟩ := add_one_pow_unbounded_of_pos x (tsub_pos_of_lt hy)
+  rw [tsub_add_cancel_of_le hy.le] at hm
+  refine eventually_atTop.2 ⟨m + 1, fun n hn => ?_⟩
+  simp only [one_div]
+  simpa only [NNReal.rpow_inv_le_iff (Nat.cast_pos.2 <| m.succ_pos.trans_le hn),
+    NNReal.rpow_natCast] using hm.le.trans (pow_right_mono₀ hy.le (m.le_succ.trans hn))
+
+end NNReal
+
+open Filter
+
+theorem Filter.Tendsto.nnrpow {α : Type*} {f : Filter α} {u : α → ℝ≥0} {v : α → ℝ} {x : ℝ≥0}
+    {y : ℝ} (hx : Tendsto u f (𝓝 x)) (hy : Tendsto v f (𝓝 y)) (h : x ≠ 0 ∨ 0 < y) :
+    Tendsto (fun a => u a ^ v a) f (𝓝 (x ^ y)) :=
+  Tendsto.comp (NNReal.continuousAt_rpow h) (hx.prodMk_nhds hy)
+
+namespace NNReal
+
+theorem continuousAt_rpow_const {x : ℝ≥0} {y : ℝ} (h : x ≠ 0 ∨ 0 ≤ y) :
+    ContinuousAt (fun z => z ^ y) x :=
+
+
+[import-Mathlib.Algebra.Order.Sub.Basic-3355eda9-L184-234]
+-- Lexical source excerpt: module Mathlib.Algebra.Order.Sub.Basic, lines 184-234.
+  · rw [max_eq_right h, tsub_eq_zero_of_le h, zero_add]
+  · rw [max_eq_left h, tsub_add_cancel_of_le h]
+
+theorem add_tsub_eq_max : a + (b - a) = max a b := by rw [add_comm, max_comm, tsub_add_eq_max]
+
+theorem tsub_min : a - min a b = a - b := (tsub_eq_tsub_min a b).symm
+
+theorem tsub_add_min : a - b + min a b = a := by
+  rw [← tsub_min, @tsub_add_cancel_of_le]
+  apply min_le_left
+
+-- `Odd.tsub` requires `CanonicallyLinearOrderedSemiring`, which we don't have
+lemma Even.tsub [AddLeftReflectLE α] {m n : α} (hm : Even m) (hn : Even n) :
+    Even (m - n) := by
+  obtain ⟨a, rfl⟩ := hm
+  obtain ⟨b, rfl⟩ := hn
+  refine ⟨a - b, ?_⟩
+  obtain h | h := le_total a b
+  · rw [tsub_eq_zero_of_le h, tsub_eq_zero_of_le (add_le_add h h), add_zero]
+  · exact (tsub_add_tsub_comm h h).symm
+
+end CanonicallyLinearOrderedAddCommMonoid
+
+/-! ### `Sub` structure in linearly canonically ordered monoid using choice. -/
+
+namespace CanonicallyOrderedAdd
+
+variable [AddCommMonoid α] [LinearOrder α] [CanonicallyOrderedAdd α]
+
+-- See note [reducible non-instances]
+/-- `Sub` structure in linearly canonically ordered monoid using choice. -/
+noncomputable abbrev toSub : Sub α where
+  sub x y := if h : y ≤ x then (exists_add_of_le h).choose else 0
+
+attribute [local instance] toSub
+
+/-- The `Sub` structure using choice satisfies `OrderedSub`. -/
+theorem toOrderedSub [AddRightReflectLE α] : OrderedSub α where
+  tsub_le_iff_right a b c := by
+    change dite _ _ _ ≤ c ↔ _
+    split_ifs with h
+    · have := (exists_add_of_le h).choose_spec
+      rw [this] at h
+      conv_rhs => rw [this, add_comm]
+      rw [add_le_add_iff_right]
+    · rw [not_le] at h
+      constructor <;> intro h'
+      · simpa using add_le_add h' h.le
+      · exact zero_le c
+
+end CanonicallyOrderedAdd
+
+
+[import-Mathlib.Order.WellFoundedSet-b2aca449-L837-897]
+-- Lexical source excerpt: module Mathlib.Order.WellFoundedSet, lines 837-897.
+  rintro ⟨f, hf1, hf2⟩
+  have hnil : ∀ n, f n ≠ List.nil := fun n con =>
+    hf1.2 n n.succ n.lt_succ_self (con.symm ▸ List.SublistForall₂.nil)
+  obtain ⟨g, hg⟩ := h.exists_monotone_subseq fun n => hf1.1 n _ (List.head!_mem_self (hnil n))
+  have hf' :=
+    hf2 (g 0) (fun n => if n < g 0 then f n else List.tail (f (g (n - g 0))))
+      (fun m hm => (if_pos hm).symm) ?_
+  swap
+  · simp only [if_neg (lt_irrefl (g 0)), Nat.sub_self]
+    rw [List.length_tail, ← Nat.pred_eq_sub_one]
+    exact Nat.pred_lt fun con => hnil _ (List.length_eq_zero_iff.1 con)
+  rw [IsBadSeq] at hf'
+  push_neg at hf'
+  obtain ⟨m, n, mn, hmn⟩ := hf' fun n x hx => by
+    split_ifs at hx with hn
+    exacts [hf1.1 _ _ hx, hf1.1 _ _ (List.tail_subset _ hx)]
+  by_cases hn : n < g 0
+  · apply hf1.2 m n mn
+    rwa [if_pos hn, if_pos (mn.trans hn)] at hmn
+  · obtain ⟨n', rfl⟩ := Nat.exists_eq_add_of_le (not_lt.1 hn)
+    rw [if_neg hn, add_comm (g 0) n', Nat.add_sub_cancel_right] at hmn
+    split_ifs at hmn with hm
+    · apply hf1.2 m (g n') (lt_of_lt_of_le hm (g.monotone n'.zero_le))
+      exact _root_.trans hmn (List.tail_sublistForall₂_self _)
+    · rw [← Nat.sub_lt_iff_lt_add' (le_of_not_gt hm)] at mn
+      apply hf1.2 _ _ (g.lt_iff_lt.2 mn)
+      rw [← List.cons_head!_tail (hnil (g (m - g 0))), ← List.cons_head!_tail (hnil (g n'))]
+      exact List.SublistForall₂.cons (hg _ _ (le_of_lt mn)) hmn
+
+theorem subsetProdLex [PartialOrder α] [Preorder β] {s : Set (α ×ₗ β)}
+    (hα : ((fun (x : α ×ₗ β) => (ofLex x).1) '' s).IsPWO)
+    (hβ : ∀ a, {y | toLex (a, y) ∈ s}.IsPWO) : s.IsPWO := by
+  rw [IsPWO, partiallyWellOrderedOn_iff_exists_lt]
+  intro f hf
+  rw [isPWO_iff_exists_monotone_subseq] at hα
+  obtain ⟨g, hg⟩ : ∃ (g : (ℕ ↪o ℕ)), Monotone fun n => (ofLex f (g n)).1 :=
+    hα (fun n => (ofLex f n).1) (fun k => mem_image_of_mem (fun x => (ofLex x).1) (hf k))
+  have hhg : ∀ n, (ofLex f (g 0)).1 ≤ (ofLex f (g n)).1 := fun n => hg n.zero_le
+  by_cases! hc : ∃ n, (ofLex f (g 0)).1 < (ofLex f (g n)).1
+  · obtain ⟨n, hn⟩ := hc
+    use (g 0), (g n)
+    constructor
+    · by_contra hx
+      simp_all
+    · exact Prod.Lex.toLex_le_toLex.mpr <| .inl hn
+  · have hhc : ∀ n, (ofLex f (g 0)).1 = (ofLex f (g n)).1 := by
+      intro n
+      exact (hhg n).eq_of_not_lt (hc n)
+    obtain ⟨g', hg'⟩ : ∃ g' : ℕ ↪o ℕ, Monotone ((fun n ↦ (ofLex f (g (g' n))).2)) := by
+      simp_rw [isPWO_iff_exists_monotone_subseq] at hβ
+      apply hβ (ofLex f (g 0)).1 fun n ↦ (ofLex f (g n)).2
+      intro n
+      rw [hhc n]
+      simpa using hf _
+    use (g (g' 0)), (g (g' 1))
+    suffices (f (g (g' 0))) ≤ (f (g (g' 1))) by simpa
+    · refine Prod.Lex.toLex_le_toLex.mpr <| .inr ⟨?_, ?_⟩
+      · exact (hhc (g' 0)).symm.trans (hhc (g' 1))
+      · exact hg' (Nat.zero_le 1)
+
+theorem imageProdLex [Preorder α] [Preorder β] {s : Set (α ×ₗ β)}
+
+
+[import-Mathlib.Data.Sign.Defs-1691b232-L245-309]
+-- Lexical source excerpt: module Mathlib.Data.Sign.Defs, lines 245-309.
+  rfl
+
+@[simp, norm_cast]
+lemma coe_neg {α : Type*} [One α] [SubtractionMonoid α] (s : SignType) :
+    (↑(-s) : α) = -↑s := by
+  cases s <;> simp
+
+end cast
+
+end SignType
+
+variable {α : Type*}
+
+open SignType
+
+section Preorder
+
+variable [Zero α] [Preorder α] [DecidableLT α] {a : α}
+
+/-- The sign of an element is 1 if it's positive, -1 if negative, 0 otherwise. -/
+def SignType.sign : α →o SignType :=
+  ⟨fun a => if 0 < a then 1 else if a < 0 then -1 else 0, fun a b h => by
+    dsimp
+    split_ifs with h₁ h₂ h₃ h₄ _ _ h₂ h₃ <;> try constructor
+    · cases lt_irrefl 0 (h₁.trans <| h.trans_lt h₃)
+    · cases h₂ (h₁.trans_le h)
+    · cases h₄ (h.trans_lt h₃)⟩
+
+theorem sign_apply : sign a = ite (0 < a) 1 (ite (a < 0) (-1) 0) :=
+  rfl
+
+@[simp]
+theorem sign_zero : sign (0 : α) = 0 := by simp [sign_apply]
+
+@[simp]
+theorem sign_pos (ha : 0 < a) : sign a = 1 := by rwa [sign_apply, if_pos]
+
+@[simp]
+theorem sign_neg (ha : a < 0) : sign a = -1 := by rwa [sign_apply, if_neg <| asymm ha, if_pos]
+
+theorem sign_eq_one_iff : sign a = 1 ↔ 0 < a := by
+  refine ⟨fun h => ?_, fun h => sign_pos h⟩
+  by_contra hn
+  rw [sign_apply, if_neg hn] at h
+  split_ifs at h
+
+theorem sign_eq_neg_one_iff : sign a = -1 ↔ a < 0 := by
+  refine ⟨fun h => ?_, fun h => sign_neg h⟩
+  rw [sign_apply] at h
+  split_ifs at h
+  assumption
+
+end Preorder
+
+section LinearOrder
+
+variable [Zero α] [LinearOrder α] {a : α}
+
+/-- `SignType.sign` respects strictly monotone zero-preserving maps. -/
+lemma StrictMono.sign_comp {β F : Type*} [Zero β] [Preorder β] [DecidableLT β]
+    [FunLike F α β] [ZeroHomClass F α β] {f : F} (hf : StrictMono f) (a : α) :
+    sign (f a) = sign a := by
+  simp only [sign_apply, ← map_zero f, hf.lt_iff_lt]
+
+@[simp]
+
+
+[import-Mathlib.Analysis.Convex.SpecificFunctions.Deriv-9e9fd830-L62-126]
+-- Lexical source excerpt: module Mathlib.Analysis.Convex.SpecificFunctions.Deriv, lines 62-126.
+    [DecidablePred fun x => f x ≤ 0] {s : Finset α} (h0 : Even (s.filter fun x => f x ≤ 0).card) :
+    0 ≤ ∏ x ∈ s, f x :=
+  calc
+    0 ≤ ∏ x ∈ s, (if f x ≤ 0 then (-1 : β) else 1) * f x :=
+      Finset.prod_nonneg fun x _ => by
+        split_ifs with hx
+        · simp [hx]
+        linarith
+    _ = _ := by
+      rw [Finset.prod_mul_distrib, Finset.prod_ite, Finset.prod_const_one, mul_one,
+        Finset.prod_const, neg_one_pow_eq_pow_mod_two, Nat.even_iff.1 h0, pow_zero, one_mul]
+
+theorem int_prod_range_nonneg (m : ℤ) (n : ℕ) (hn : Even n) :
+    0 ≤ ∏ k ∈ Finset.range n, (m - k) := by
+  rcases hn with ⟨n, rfl⟩
+  induction n with
+  | zero => simp
+  | succ n ihn =>
+    rw [← two_mul] at ihn
+    rw [← two_mul, mul_add, mul_one, ← one_add_one_eq_two, ← add_assoc,
+      Finset.prod_range_succ, Finset.prod_range_succ, mul_assoc]
+    refine mul_nonneg ihn ?_; generalize (1 + 1) * n = k
+    rcases le_or_gt m k with hmk | hmk
+    · have : m ≤ k + 1 := hmk.trans (lt_add_one (k : ℤ)).le
+      convert mul_nonneg_of_nonpos_of_nonpos (sub_nonpos_of_le hmk) _
+      convert sub_nonpos_of_le this
+    · exact mul_nonneg (sub_nonneg_of_le hmk.le) (sub_nonneg_of_le hmk)
+
+theorem int_prod_range_pos {m : ℤ} {n : ℕ} (hn : Even n) (hm : m ∉ Ico (0 : ℤ) n) :
+    0 < ∏ k ∈ Finset.range n, (m - k) := by
+  refine (int_prod_range_nonneg m n hn).lt_of_ne fun h => hm ?_
+  rw [eq_comm, Finset.prod_eq_zero_iff] at h
+  obtain ⟨a, ha, h⟩ := h
+  rw [sub_eq_zero.1 h]
+  exact ⟨Int.natCast_nonneg _, Int.ofNat_lt.2 <| Finset.mem_range.1 ha⟩
+
+/-- `x^m`, `m : ℤ` is convex on `(0, +∞)` for all `m` except `0` and `1`. -/
+theorem strictConvexOn_zpow {m : ℤ} (hm₀ : m ≠ 0) (hm₁ : m ≠ 1) :
+    StrictConvexOn ℝ (Ioi 0) fun x : ℝ => x ^ m := by
+  apply strictConvexOn_of_deriv2_pos' (convex_Ioi 0)
+  · exact (continuousOn_zpow₀ m).mono fun x hx => ne_of_gt hx
+  intro x hx
+  rw [mem_Ioi] at hx
+  rw [iter_deriv_zpow]
+  refine mul_pos ?_ (zpow_pos hx _)
+  norm_cast
+  refine int_prod_range_pos (by decide) fun hm => ?_
+  rw [← Finset.coe_Ico] at hm
+  norm_cast at hm
+  fin_cases hm <;> simp_all
+
+section SqrtMulLog
+
+theorem hasDerivAt_sqrt_mul_log {x : ℝ} (hx : x ≠ 0) :
+    HasDerivAt (fun x => √x * log x) ((2 + log x) / (2 * √x)) x := by
+  convert (hasDerivAt_sqrt hx).mul (hasDerivAt_log hx) using 1
+  rw [add_div, div_mul_cancel_left₀ two_ne_zero, ← div_eq_mul_inv, sqrt_div_self', add_comm,
+    one_div, one_div, ← div_eq_inv_mul]
+
+theorem deriv_sqrt_mul_log (x : ℝ) :
+    deriv (fun x => √x * log x) x = (2 + log x) / (2 * √x) := by
+  rcases lt_or_ge 0 x with hx | hx
+  · exact (hasDerivAt_sqrt_mul_log hx.ne').deriv
+  · rw [sqrt_eq_zero_of_nonpos hx, mul_zero, div_zero]
+    refine HasDerivWithinAt.deriv_eq_zero ?_ (uniqueDiffOn_Iic 0 x hx)
+
+
+[import-Mathlib.Data.NNReal.Defs-0d4c10f1-L916-979]
+-- Lexical source excerpt: module Mathlib.Data.NNReal.Defs, lines 916-979.
+theorem nnabs_pos {x : ℝ} : 0 < x.nnabs ↔ x ≠ 0 := by simp [← NNReal.coe_pos]
+
+/-- Every real number nonnegative or nonpositive, phrased using `ℝ≥0`. -/
+lemma nnreal_dichotomy (r : ℝ) : ∃ x : ℝ≥0, r = x ∨ r = -x := by
+  obtain (hr | hr) : 0 ≤ r ∨ 0 ≤ -r := by simpa using le_total ..
+  all_goals
+    rw [← neg_neg r]
+    lift (_ : ℝ) to ℝ≥0 using hr with r
+    aesop
+
+/-- Every real number is either zero, positive or negative, phrased using `ℝ≥0`. -/
+lemma nnreal_trichotomy (r : ℝ) : r = 0 ∨ ∃ x : ℝ≥0, 0 < x ∧ (r = x ∨ r = -x) := by
+  obtain ⟨x, hx⟩ := nnreal_dichotomy r
+  rw [or_iff_not_imp_left]
+  aesop (add simp pos_iff_ne_zero)
+
+/-- To prove a property holds for real numbers it suffices to show that it holds for `x : ℝ≥0`,
+and if it holds for `x : ℝ≥0`, then it does also for `(-↑x : ℝ)`. -/
+@[elab_as_elim]
+lemma nnreal_induction_on {motive : ℝ → Prop} (nonneg : ∀ x : ℝ≥0, motive x)
+    (nonpos : ∀ x : ℝ≥0, motive x → motive (-x)) (r : ℝ) : motive r := by
+  obtain ⟨r, (rfl | rfl)⟩ := r.nnreal_dichotomy
+  all_goals simp_all
+
+/-- A version of `nnreal_induction_on` which splits into three cases (zero, positive and negative)
+instead of two. -/
+@[elab_as_elim]
+lemma nnreal_induction_on' {motive : ℝ → Prop} (zero : motive 0) (pos : ∀ x : ℝ≥0, 0 < x → motive x)
+    (neg : ∀ x : ℝ≥0, 0 < x → motive x → motive (-x)) (r : ℝ) : motive r := by
+  obtain rfl | ⟨r, hr, (rfl | rfl)⟩ := r.nnreal_trichotomy
+  all_goals simp_all
+
+end Real
+
+section StrictMono
+
+variable {Γ₀ : Type*} [LinearOrderedCommGroupWithZero Γ₀]
+
+/-- If `Γ₀ˣ` is nontrivial and `f : Γ₀ →*₀ ℝ≥0` is strictly monotone, then for any positive
+  `r : ℝ≥0`, there exists `d : Γ₀ˣ` with `f d < r`. -/
+theorem NNReal.exists_lt_of_strictMono [h : Nontrivial Γ₀ˣ] {f : Γ₀ →*₀ ℝ≥0} (hf : StrictMono f)
+    {r : ℝ≥0} (hr : 0 < r) : ∃ d : Γ₀ˣ, f d < r := by
+  obtain ⟨g, hg1⟩ := (nontrivial_iff_exists_ne (1 : Γ₀ˣ)).mp h
+  set u : Γ₀ˣ := if g < 1 then g else g⁻¹ with hu
+  have hfu : f u < 1 := by
+    rw [hu]
+    split_ifs with hu1
+    · rw [← map_one f]; exact hf hu1
+    · have hfg0 : f g ≠ 0 :=
+        fun h0 ↦ (Units.ne_zero g) ((map_eq_zero f).mp h0)
+      have hg1' : 1 < g := lt_of_le_of_ne (not_lt.mp hu1) hg1.symm
+      rw [Units.val_inv_eq_inv_val, map_inv₀, inv_lt_one_iff hfg0, ← map_one f]
+      exact hf hg1'
+  obtain ⟨n, hn⟩ := exists_pow_lt_of_lt_one hr hfu
+  use u ^ n
+  rwa [Units.val_pow_eq_pow_val, map_pow]
+
+/-- If `Γ₀ˣ` is nontrivial and `f : Γ₀ →*₀ ℝ≥0` is strictly monotone, then for any positive
+  real `r`, there exists `d : Γ₀ˣ` with `f d < r`. -/
+theorem Real.exists_lt_of_strictMono [h : Nontrivial Γ₀ˣ] {f : Γ₀ →*₀ ℝ≥0} (hf : StrictMono f)
+    {r : ℝ} (hr : 0 < r) : ∃ d : Γ₀ˣ, (f d : ℝ) < r := by
+  set s : NNReal := ⟨r, le_of_lt hr⟩
+  have hs : 0 < s := hr
+  exact NNReal.exists_lt_of_strictMono hf hs
+
+</original_context>
