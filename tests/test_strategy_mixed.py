@@ -163,6 +163,33 @@ class MixedRunnerTests(unittest.TestCase):
         self.assertFalse((f.output / 'steps/001/evaluation').exists())
         self.assertTrue(h.replay(f.output)['record_replay_passed'])
 
+    def test_free_read_candidate_does_not_reexpose_serialized_guided_labels(self):
+        f = self.fixture()
+        f.config['agent'].pop('portfolio')
+        f.config['limits']['max_calls'] = 4
+        values = [fixtures.proposal('by rfl -- free'),
+                  {**fixtures.proposal('by rfl -- guided', strategy='Bank label S1'), 'strategy_ids': ['S1']},
+                  {'action': 'read_candidate', 'candidate_id': 'c002'},
+                  fixtures.proposal('by rfl -- next free')]
+        f.run_case(values)
+        packet = f.packets[3]
+        self.assertEqual(packet['strategy_bank']['search_mode'], 'free')
+        self.assertNotIn('S1', json.dumps(packet))
+        self.assertNotIn('Bank label', json.dumps(packet))
+        self.assertEqual(packet['latest']['feedback']['details_ref'],
+                         'exploration.recent_actions[-1].observation')
+        self.assertTrue(packet['exploration']['recent_actions'][-1]['observation'])
+        # Immutable receipts still contain the original selected IDs and label.
+        state = a.read(f.output / 'steps/003/event.json')['state_after']
+        self.assertIn('S1', state['latest']['feedback']['details'])
+        self.assertTrue(h.replay(f.output)['record_replay_passed'])
+
+    def test_free_tool_feedback_redaction_handles_truncated_json(self):
+        value = {'status': 'tool_result', 'details': '{"strategy_ids":["S1"],"strategy":"truncated'}
+        result = sb.without_strategy_history(value)
+        self.assertNotIn('S1', json.dumps(result))
+        self.assertIn('details_ref', result)
+
 
 if __name__ == '__main__':
     unittest.main()
