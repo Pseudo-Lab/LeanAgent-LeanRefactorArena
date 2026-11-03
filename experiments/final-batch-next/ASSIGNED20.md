@@ -40,6 +40,8 @@ PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py route60 --team-
   --rounds 2 --limit 4 --policy issue61 --out runs/team60
 ```
 
+다른 프로세스와 Lean compiler를 함께 쓰는 환경에서는 `--compiler-parallelism 2`를 지정하고, Linux에서 PutnamBench·ArkLib 행을 평가할 때는 `ARENA_LEAN_MEMORY_MIB=16384`를 함께 설정한다([README](README.md#검증) 참고). 두 값은 `protocol.json`에 기록된다. `protocol.json`의 `code_hashes`는 제출 출처 검사(`scripts/check_submission_provenance.py --harness-root`)가 증명을 만든 코드와 제출할 하네스를 대조하는 데 쓴다. 행이 실패하면 `report.json`의 `failed` 항목과 `incomplete.json`에 마지막 평가의 환경별 오류 종류와 메시지가 남는다.
+
 `coverage.json`에 문제별 필수 버전과 준비 누락 사유를 남긴다. 준비된 문제에서는 이전 라운드의 승자도 다시 검증하고 이미 시험한 후보의 해시는 제외한다. 한 라운드가 새 후보 한도를 채우지 못하면 그 문제의 탐색을 끝낸다. 검증 중 오류가 난 행은 `incomplete.json`에 남기며, 그 행의 예전 결과를 다시 내보내지 않는다. `route60`은 모델 호출이 없는 로컬 탐색이다. 60문제를 전부 통과한 경우에만 전체 평균과 `submission.jsonl`을 기록한다. 일부만 통과하면 `partial.jsonl`을 쓴다.
 
 이미 검증한 20문제 선택 파일을 `--carry-jsonl PATH`로 전달하면 첫 라운드에 함께 재검증한다. 결과 보고서에는 팀 seed나 이전 풀이를 사용한 개발 실험임을 표시한다.

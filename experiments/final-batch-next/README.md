@@ -183,9 +183,24 @@ PYTHONPATH=src .venv/bin/python -B experiments/final-batch-next/report.py --root
 
 ## 검증
 
-WSL2 실행에는 `bwrap`가 `PATH`에 있어야 한다. 준비된 Lean toolchain과
+Linux(WSL2 포함) 실행에는 bubblewrap sandbox가 필요하다. `route60`/`route20`은 시작 전에
+`PATH`의 `bwrap`을, 없으면 준비된 `sources/final/bin/bwrap`을 찾아 평가기와 같은 옵션으로
+한 번 실행해 본다. 실패하면 출력 디렉터리를 만들기 전에 종료한다. `prepare`/`preflight`/`run`은
+아직 이 검사를 하지 않으므로 `bwrap`을 `PATH`에 둔다. 준비된 Lean toolchain과
 라이브러리는 WSL 내부 경로에 둔다. `ARENA_SOURCE_BUILD=1`을 설정하면
 Lake 소스 빌드에서 캐시 다운로드를 건너뛴다.
+
+Lean의 `-M` 메모리 한도는 기본 4096 MiB다. Linux는 mmap된 `.olean` 페이지도 상주 메모리로
+세므로 `import Mathlib`만으로 약 6 GB에 이르고, putnambench-v4.27.0 원본까지
+`lean::memory_exception`으로 실패한다(WSL2에서 측정, arklib-v4.30.0의 F032도 같은 오류).
+Linux에서 최종 행을 평가할 때는 `ARENA_LEAN_MEMORY_MIB=16384`처럼 한도를 명시한다
+(1024–262144 MiB). 값은 평가 캐시 식별자와 `route60`/`route20`의 `protocol.json`에 남는다.
+
+`route60`/`route20`의 `--compiler-parallelism 2`(최대 3)는 PR #68의 메모리 게이트 compiler
+pool을 다른 프로세스와 공유한다. 기본값 1은 같은 lock 파일에 배타 lock을 잡으므로 pool을 쓰는
+compiler가 모두 끝날 때까지 기다리고, 그동안 그들을 막는다. 다른 작업과 함께 돌릴 때는 2를 쓴다.
+`prepare`/`preflight`/`run`은 아직 직렬(1)이다. 최종 60문제 실행 중에는 개발용 Lean 작업을
+같은 pool에서 돌리지 않는다. 대기 시간이 실행 시간의 대부분을 차지할 수 있다.
 
 ```sh
 PYTHONPATH=src .venv/bin/python -B -m unittest discover -s experiments/final-batch-next -p 'test_*.py'
