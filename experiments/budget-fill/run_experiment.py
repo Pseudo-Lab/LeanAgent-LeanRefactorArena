@@ -41,13 +41,16 @@ def verify(root):
     return p
 
 def prepare(root, envrepo, slots):
+    from baseline_snapshot import verify_baseline_snapshot
     if root.exists(): raise ValueError('Fresh experiment root required')
+    verify_baseline_snapshot(REPO, BASE)  # Fail before making any run directory.
     rt = root/'runtime'; rt.mkdir(parents=True)
     for directory in ['src', 'examples/actions', 'experiments/final-batch-next', 'experiments/proof-analyze', 'experiments/budget-fill']:
         shutil.copytree(REPO/directory, rt/directory, ignore=shutil.ignore_patterns('__pycache__'))
+    baseline_verification = verify_baseline_snapshot(REPO, BASE, source_root=rt)
     (rt/'sources').mkdir(); (rt/'sources/final').symlink_to(envrepo/'sources/final', target_is_directory=True)
     (rt/'configs').mkdir(); shutil.copyfile(envrepo/'configs/final-environments.local.json',rt/'configs/final-environments.local.json')
-    save(root/'protocol.json', {'base_commit':BASE,'rows':ROWS,'arms':ARMS,'total_cap_usd':'18.00',
+    save(root/'protocol.json', {'base_commit':BASE,'baseline_verification':baseline_verification,'rows':ROWS,'arms':ARMS,'total_cap_usd':'18.00',
         'per_problem_per_arm_cap_usd':'3.00','minimum_output_tokens':2048,'model':'gpt-6.1-sol',
         'api_slots':str(slots.resolve()),'environment_repo':str(envrepo.resolve()),
         'cohort_reason':'F006 medium prior score 62.75, F045 low 48.88, F048 low 48.36; Strata/LeanPool, original token lengths 972/1756/2879. Selected using prior main20; exploratory Final adaptation.',
