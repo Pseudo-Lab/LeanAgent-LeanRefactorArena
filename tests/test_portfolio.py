@@ -270,6 +270,46 @@ class PortfolioTests(unittest.TestCase):
         self.assertTrue(h.replay(self.output)["record_replay_passed"])
 
 
+    def test_rounds_restart_scouts_from_the_incumbent_after_each_merger(self):
+        self.config["agent"]["portfolio"] = {"scout_evaluations": 1, "merger_evaluations": 1, "rounds": 2}
+        self.config["limits"]["max_calls"] = 8
+        result = self.run_case([proposal(f"by rfl -- round route {i}") for i in range(8)])
+        self.assertEqual([p["portfolio"]["branch"] for p in self.packets], list(portfolio.BRANCHES) * 2)
+        self.assertEqual([p["portfolio"]["round"] for p in self.packets], [1] * 4 + [2] * 4)
+        seeded = [p["portfolio"].get("seed_candidate_id") for p in self.packets[4:7]]
+        self.assertTrue(all(seeded) and len(set(seeded)) == 1)
+        self.assertEqual(result["portfolio"]["completed_rounds"],
+                         [{"evaluations": dict.fromkeys(portfolio.BRANCHES, 1), "calls": dict.fromkeys(portfolio.BRANCHES, 1)}])
+        self.assertTrue(result["portfolio"]["complete"])
+        self.assertEqual(result["stop_reason"], "portfolio_complete")
+        self.assertTrue(h.replay(self.output)["record_replay_passed"])
+
+    def test_merger_until_budget_runs_past_its_count_and_counts_as_complete(self):
+        self.config["agent"]["portfolio"] = {"scout_evaluations": 1, "merger_evaluations": 1,
+                                             "merger_until_budget": True}
+        self.config["limits"]["max_calls"] = 7
+        result = self.run_case([proposal(f"by rfl -- budget route {i}") for i in range(7)])
+        self.assertEqual([p["portfolio"]["branch"] for p in self.packets],
+                         ["scout-a", "scout-b", "scout-c"] + ["merge"] * 4)
+        self.assertIsNone(self.packets[-1]["portfolio"]["remaining_evaluations"])
+        self.assertEqual(self.packets[-1]["portfolio"]["stops_at"], "shared per-problem budget")
+        self.assertEqual(result["portfolio"]["evaluations"]["merge"], 4)
+        self.assertTrue(result["portfolio"]["complete"])
+        self.assertEqual(result["status"], "completed")
+
+    def test_default_portfolio_state_and_summary_keep_their_shape(self):
+        state = {}
+        portfolio.initialize(state, self.config)
+        self.assertNotIn("round", state["portfolio"])
+        self.assertNotIn("round", portfolio.summary(state, self.config))
+
+    def test_round_and_budget_settings_are_validated(self):
+        for bad in ({"rounds": 0}, {"rounds": 11}, {"rounds": True}, {"merger_until_budget": 1}):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                portfolio.validate(bad)
+        portfolio.validate({"rounds": 3, "merger_until_budget": True})
+
+
 class ExchangePolicyTests(unittest.TestCase):
     def setUp(self):
         self.config = {"agent": {"mode": "actions-v1", "approach_policy": "exchange-v1"},

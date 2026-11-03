@@ -680,6 +680,16 @@ def run_problem(root, row):
                 step_dir.mkdir(parents=True, exist_ok=True)
                 recover_pending(root, row, step, step_dir)
                 body = make_request(state, problem, config, prompt)
+                if (not (step_dir / "response.json").exists() and h.portfolio.enabled(config)
+                        and h.portfolio.budget_phase(state["portfolio"], config)):
+                    # Budget-ended merger: never start a call whose worst-case cost could cross the cap.
+                    bound = Decimal(transport.request_cost(body)["reserved_usd"])
+                    if Decimal(state["cost_usd"]) + bound > Decimal(str(config["limits"]["cost_stop_usd"])):
+                        try:
+                            step_dir.rmdir()
+                        except OSError:
+                            pass
+                        break
                 if (step_dir / "response.json").exists():
                     if a.read(step_dir / "request.json") != body:
                         raise ValueError("Saved pending request differs from reconstructed state")
@@ -739,7 +749,9 @@ def run_problem(root, row):
             atomic(output / "final/environment-fingerprints.json", {"full_content_verification": True,
                     "verified_at": now(), "environments": fingerprints})
             summary = {"row": row, "id": problem["id"], "name": problem["name"], "status": "completed",
-                       "stop_reason": h.portfolio.stop_reason(state, config) if h.portfolio.finished(state) else "cost_limit",
+                       "stop_reason": (h.portfolio.stop_reason(state, config) if h.portfolio.finished(state) else
+                                       "portfolio_budget_complete" if h.portfolio.enabled(config)
+                                       and h.portfolio.completed(state, config) else "cost_limit"),
                        "cost_usd": state["cost_usd"], "calls": state["calls"],
                        "baseline": h.metrics(baseline), "selected": {k: v for k, v in selected.items() if k != "code"},
                        "final": measured, "all_versions_valid": checked["valid"], "official_evaluation": False,
@@ -801,20 +813,29 @@ def main():
                         help="Prepare legacy single-context inputs instead of scouts/merger")
     parser.add_argument("--scout-evaluations", type=int, default=None)
     parser.add_argument("--merger-evaluations", type=int, default=None)
+    parser.add_argument("--rounds", type=int, default=None,
+                        help="Repeat scouts then merger this many times; later scouts start from the incumbent")
+    parser.add_argument("--merger-until-budget", action="store_true",
+                        help="Let the last merger run until the per-problem budget instead of its evaluation count")
     args = parser.parse_args()
     settings = UNSPECIFIED_PORTFOLIO
-    custom_quotas = args.scout_evaluations is not None or args.merger_evaluations is not None
+    custom_quotas = (args.scout_evaluations is not None or args.merger_evaluations is not None
+                     or args.rounds is not None or args.merger_until_budget)
     if args.portfolio is not None or custom_quotas:
         if args.command not in ("prepare", "inputs"):
             parser.error("Portfolio settings apply only to prepare/inputs on a fresh root")
         if args.portfolio is False and custom_quotas:
-            parser.error("Scout/merger quotas cannot be used with --no-portfolio")
+            parser.error("Scout/merger quotas, rounds and budget merging cannot be used with --no-portfolio")
     if args.portfolio is False:
         settings = None
     elif args.portfolio is True or custom_quotas:
         settings = {"progress_guard": "bounded-v1",
                     "scout_evaluations": 6 if args.scout_evaluations is None else args.scout_evaluations,
                     "merger_evaluations": 22 if args.merger_evaluations is None else args.merger_evaluations}
+        if args.rounds is not None:
+            settings["rounds"] = args.rounds
+        if args.merger_until_budget:
+            settings["merger_until_budget"] = True
         h.portfolio.validate(settings)
     root = args.root.resolve()
     require_policy(root)
