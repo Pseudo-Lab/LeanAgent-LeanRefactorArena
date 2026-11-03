@@ -1,0 +1,1169 @@
+{
+ "description": "main a517db2 final-batch-next driver, rows 14-30 (physlib/cslib), $1 per row, gpt-6.1-sol via OpenAI; J = T/T0 + H/H0 of the preserved best (valid on all versions)",
+ "conditions": {
+  "C0": "default 6x3 scouts + 22 merger",
+  "C0b": "C0 repeated",
+  "C1": "--scout-evaluations 10 --merger-evaluations 10",
+  "C2": "--scout-evaluations 5 --merger-evaluations 5 --rounds 2",
+  "C5": "default + hide_original_first_scout false (local --show-original)",
+  "C6": "--scout-evaluations 3 --merger-until-budget"
+ },
+ "rows": {
+  "F014": {
+   "C0": {
+    "J": 0.836,
+    "cost_usd": 1.0121,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 14,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 1.0956,
+    "cost_usd": 1.0039,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 10,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 1.5304,
+    "cost_usd": 1.0045,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 9
+    }
+   },
+   "C2": {
+    "J": 1.2466,
+    "cost_usd": 1.0163,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 3,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 1.4923,
+    "cost_usd": 1.0016,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 13,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 1.1895,
+    "cost_usd": 0.8006,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 8,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F015": {
+   "C0": {
+    "J": 1.0547,
+    "cost_usd": 1.0039,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 17,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 1.1394,
+    "cost_usd": 1.0114,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 8,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 1.6317,
+    "cost_usd": 1.0037,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 4
+    }
+   },
+   "C2": {
+    "J": 0.9516,
+    "cost_usd": 0.9709,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 5,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 1.3191,
+    "cost_usd": 1.011,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 12,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 1.7679,
+    "cost_usd": 0.7909,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 6,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F016": {
+   "C0": {
+    "J": 0.7331,
+    "cost_usd": 1.0071,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 4,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 1.0479,
+    "cost_usd": 1.0042,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 5
+    }
+   },
+   "C1": {
+    "J": 0.7783,
+    "cost_usd": 1.0279,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 9,
+     "scout-c": 0
+    }
+   },
+   "C2": {
+    "J": 0.7664,
+    "cost_usd": 1.0075,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 2,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 0.7528,
+    "cost_usd": 1.007,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 3,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 0.879,
+    "cost_usd": 0.7355,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 1,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F017": {
+   "C0": {
+    "J": 1.4012,
+    "cost_usd": 1.0038,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 2
+    }
+   },
+   "C0b": {
+    "J": 1.2769,
+    "cost_usd": 1.017,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 5,
+     "scout-b": 6,
+     "scout-c": 2
+    }
+   },
+   "C1": {
+    "J": 2.0,
+    "cost_usd": 1.0227,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 8,
+     "scout-b": 2,
+     "scout-c": 0
+    }
+   },
+   "C2": {
+    "J": 1.1979,
+    "cost_usd": 1.0311,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 2,
+     "scout-a": 4,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 1.2543,
+    "cost_usd": 1.0184,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 1.6396,
+    "cost_usd": 0.7944,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F018": {
+   "C0": {
+    "J": 0.3685,
+    "cost_usd": 1.0061,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 3,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 0.4308,
+    "cost_usd": 1.0191,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 4,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 0.3656,
+    "cost_usd": 1.0047,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 2
+    }
+   },
+   "C2": {
+    "J": 0.4047,
+    "cost_usd": 1.0055,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 4,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 0.3627,
+    "cost_usd": 1.0175,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 6,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 0.3986,
+    "cost_usd": 0.7612,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 1,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F019": {
+   "C0": {
+    "J": 0.1382,
+    "cost_usd": 1.0113,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 10,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 0.1445,
+    "cost_usd": 1.0107,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 6,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 0.1481,
+    "cost_usd": 1.0253,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 2
+    }
+   },
+   "C2": {
+    "J": 0.1483,
+    "cost_usd": 1.0124,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 0
+    }
+   },
+   "C5": {
+    "J": 0.1806,
+    "cost_usd": 1.0059,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 2,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 0.3176,
+    "cost_usd": 0.7705,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 2,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F020": {
+   "C0": {
+    "J": 0.6456,
+    "cost_usd": 1.0261,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 2
+    }
+   },
+   "C0b": {
+    "J": 0.8857,
+    "cost_usd": 1.0184,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 1
+    }
+   },
+   "C1": {
+    "J": 0.8399,
+    "cost_usd": 1.0396,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 7,
+     "scout-c": 0
+    }
+   },
+   "C2": {
+    "J": 0.5696,
+    "cost_usd": 1.0277,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 3
+    }
+   },
+   "C5": {
+    "J": 0.8082,
+    "cost_usd": 1.0001,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 2
+    }
+   },
+   "C6": {
+    "J": 1.3965,
+    "cost_usd": 0.8192,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F021": {
+   "C0": {
+    "J": 0.8092,
+    "cost_usd": 1.0028,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 11,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 1.0683,
+    "cost_usd": 1.001,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 5,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 1.0253,
+    "cost_usd": 1.0098,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 5
+    }
+   },
+   "C2": {
+    "J": 0.928,
+    "cost_usd": 1.0152,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 1
+    }
+   },
+   "C5": {
+    "J": 0.9436,
+    "cost_usd": 1.0045,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 12,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 1.0575,
+    "cost_usd": 0.805,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 9,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F022": {
+   "C0": {
+    "J": 0.9103,
+    "cost_usd": 1.0015,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 14,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 0.8475,
+    "cost_usd": 1.0172,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 16,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 0.9569,
+    "cost_usd": 1.0068,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 5,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 10
+    }
+   },
+   "C2": {
+    "J": 0.9088,
+    "cost_usd": 1.0135,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 1
+    }
+   },
+   "C5": {
+    "J": 0.9443,
+    "cost_usd": 1.002,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 18,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 0.7588,
+    "cost_usd": 0.7935,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 18,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F023": {
+   "C0": {
+    "J": 0.5157,
+    "cost_usd": 0.9293,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 22,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 0.5275,
+    "cost_usd": 1.0088,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 20,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 0.5279,
+    "cost_usd": 0.9115,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 10,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 10
+    }
+   },
+   "C2": {
+    "J": 0.4776,
+    "cost_usd": 0.9467,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 5,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 0.4636,
+    "cost_usd": 0.8841,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 22,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 0.6815,
+    "cost_usd": 0.8097,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 16,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F024": {
+   "C0": {
+    "J": 1.2708,
+    "cost_usd": 1.0107,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 19,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 1.1521,
+    "cost_usd": 0.9881,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 22,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 1.3121,
+    "cost_usd": 1.0175,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 3,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 10
+    }
+   },
+   "C2": {
+    "J": 1.1679,
+    "cost_usd": 1.0093,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 1,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 1.153,
+    "cost_usd": 0.9312,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 22,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 1.1731,
+    "cost_usd": 0.8023,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 17,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F025": {
+   "C0": {
+    "J": 1.1099,
+    "cost_usd": 1.0144,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 6,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 1.139,
+    "cost_usd": 1.0105,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 7,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 1.2366,
+    "cost_usd": 1.0082,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 7
+    }
+   },
+   "C2": {
+    "J": 1.0924,
+    "cost_usd": 1.0041,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 5,
+     "scout-b": 1,
+     "scout-c": 0
+    }
+   },
+   "C5": {
+    "J": 1.0607,
+    "cost_usd": 1.0197,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 13,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 1.1396,
+    "cost_usd": 0.8076,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 5,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F026": {
+   "C0": {
+    "J": 1.3573,
+    "cost_usd": 1.0145,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 5,
+     "scout-b": 6,
+     "scout-c": 4
+    }
+   },
+   "C0b": {
+    "J": 1.5097,
+    "cost_usd": 1.0008,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 5
+    }
+   },
+   "C1": {
+    "J": 1.379,
+    "cost_usd": 1.0063,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 10,
+     "scout-b": 2,
+     "scout-c": 0
+    }
+   },
+   "C2": {
+    "J": 1.1827,
+    "cost_usd": 1.0203,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 3,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 1.3075,
+    "cost_usd": 1.0103,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 1.2712,
+    "cost_usd": 0.7925,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 3,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F027": {
+   "C0": {
+    "J": 0.4124,
+    "cost_usd": 1.0107,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 22,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 0.4545,
+    "cost_usd": 0.9927,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 22,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 0.4017,
+    "cost_usd": 1.013,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 5,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 10
+    }
+   },
+   "C2": {
+    "J": 0.439,
+    "cost_usd": 1.0119,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 1,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 0.4059,
+    "cost_usd": 1.0133,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 20,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 0.4268,
+    "cost_usd": 0.8006,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 16,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F028": {
+   "C0": {
+    "J": 1.1414,
+    "cost_usd": 1.0121,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 20,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 1.0523,
+    "cost_usd": 1.0061,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 21,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 1.275,
+    "cost_usd": 1.01,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 2,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 10
+    }
+   },
+   "C2": {
+    "J": 1.0196,
+    "cost_usd": 0.9798,
+    "stop_reason": "portfolio_complete",
+    "evaluations": {
+     "merge": 5,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 0.9025,
+    "cost_usd": 1.0133,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 19,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 0.8727,
+    "cost_usd": 0.8088,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 18,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F029": {
+   "C0": {
+    "J": 0.7697,
+    "cost_usd": 1.0094,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 12,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 0.6688,
+    "cost_usd": 1.008,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 10,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 0.6731,
+    "cost_usd": 1.0192,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 4,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 10
+    }
+   },
+   "C2": {
+    "J": 0.6785,
+    "cost_usd": 1.016,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 1,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 5
+    }
+   },
+   "C5": {
+    "J": 0.6502,
+    "cost_usd": 1.0136,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 16,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 0.6856,
+    "cost_usd": 0.7799,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 10,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  },
+  "F030": {
+   "C0": {
+    "J": 1.1103,
+    "cost_usd": 1.003,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 12,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C0b": {
+    "J": 0.6691,
+    "cost_usd": 1.0131,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 16,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C1": {
+    "J": 1.1062,
+    "cost_usd": 1.0002,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 1,
+     "scout-a": 10,
+     "scout-b": 10,
+     "scout-c": 10
+    }
+   },
+   "C2": {
+    "J": 1.0229,
+    "cost_usd": 1.0026,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 0,
+     "scout-a": 5,
+     "scout-b": 5,
+     "scout-c": 2
+    }
+   },
+   "C5": {
+    "J": 1.1404,
+    "cost_usd": 1.0011,
+    "stop_reason": "cost_limit",
+    "evaluations": {
+     "merge": 15,
+     "scout-a": 6,
+     "scout-b": 6,
+     "scout-c": 6
+    }
+   },
+   "C6": {
+    "J": 1.3038,
+    "cost_usd": 0.8209,
+    "stop_reason": "portfolio_budget_complete",
+    "evaluations": {
+     "merge": 13,
+     "scout-a": 3,
+     "scout-b": 3,
+     "scout-c": 3
+    }
+   }
+  }
+ }
+}
