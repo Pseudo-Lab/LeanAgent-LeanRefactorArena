@@ -10,6 +10,55 @@ from unittest.mock import patch
 from contextlib import nullcontext
 
 from evaluator import FinalEvaluator, REPO, pending_command_start, proof_tokens, _comment_mask, target_is_private
+from evaluator import DEFAULT_LEAN_MEMORY_MIB, lean_memory_mib
+
+
+class LeanMemoryBoundTests(unittest.TestCase):
+    def test_default_is_frozen_bound_and_override_is_explicit(self):
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("ARENA_LEAN_MEMORY_MIB", None)
+            self.assertEqual(lean_memory_mib(), DEFAULT_LEAN_MEMORY_MIB)
+            self.assertEqual(DEFAULT_LEAN_MEMORY_MIB, 4096)
+        with patch.dict(os.environ, {"ARENA_LEAN_MEMORY_MIB": "16384"}):
+            self.assertEqual(lean_memory_mib(), 16384)
+        for bad in ("", "16G", "-1", "512", "999999999"):
+            with patch.dict(os.environ, {"ARENA_LEAN_MEMORY_MIB": bad}):
+                with self.assertRaises(ValueError):
+                    lean_memory_mib()
+
+    def test_compiler_command_uses_the_configured_bound(self):
+        # The evaluator's own compiles take the bound; an explicit caller value (AutoSolver) wins.
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        repo = Path(temporary.name)
+        (repo / "configs").mkdir()
+        (repo / "configs/final-environments.local.json").write_text(json.dumps({"dataset_sha256": "fixture"}))
+        evaluator = FinalEvaluator(repo_root=repo)
+        evaluator._prepared["env"] = SimpleNamespace(settings={"library_paths": []}, verify=lambda full=False: None)
+        state, folder = {"id": "env", "project": "project", "version": "v0"}, repo / "out"
+        (repo / "project").mkdir()
+        folder.mkdir()
+        commands = []
+
+        class Done:
+            pid, returncode = 0, 0
+
+            def __init__(self, command, **_):
+                commands.append(command)
+
+            def communicate(self, timeout=None):
+                return b"", b""
+
+        with patch("evaluator.subprocess.Popen", Done), patch("evaluator.shutil.which", return_value="/bin/true"), \
+                patch("resources.wait_for_memory"), patch("resources.memory_snapshot", return_value={}):
+            for env, explicit, expected in ((None, None, "-M4096"), ("16384", None, "-M16384"), ("16384", 2048, "-M2048")):
+                with patch.dict(os.environ, {} if env is None else {"ARENA_LEAN_MEMORY_MIB": env}):
+                    if env is None:
+                        os.environ.pop("ARENA_LEAN_MEMORY_MIB", None)
+                    kwargs = {} if explicit is None else {"memory_mib": explicit}
+                    evaluator._invoke("-- source", state, {"module": None}, folder, f"run-{len(commands)}", **kwargs)
+                    self.assertIn(expected, commands[-1])
+                    self.assertEqual(sum(part.startswith("-M") for part in commands[-1]), 1)
 
 
 class FinalEvaluatorContractTests(unittest.TestCase):

@@ -63,6 +63,21 @@ _token_module = importlib.util.module_from_spec(_token_spec)
 _token_spec.loader.exec_module(_token_module)
 proof_tokens = _token_module.proof_length
 TOKENIZER_ID = "arena-paper-compatible-v1"
+DEFAULT_LEAN_MEMORY_MIB = 4096
+
+
+def lean_memory_mib():
+    """Lean's -M bound for evaluator compiles in MiB; the default is the frozen 4 GiB.
+
+    Lean compares -M with resident memory. On Linux that includes mmapped .olean pages:
+    `import Mathlib` alone peaks near 6 GB and aborts under -M4096 before the target is
+    elaborated (Mathlib for Lean v4.27.0). ARENA_LEAN_MEMORY_MIB sets an explicit bound;
+    it is recorded in the evaluation-cache identity.
+    """
+    raw = os.environ.get("ARENA_LEAN_MEMORY_MIB", str(DEFAULT_LEAN_MEMORY_MIB))
+    if not raw.isdigit() or not 1024 <= int(raw) <= 262144:
+        raise ValueError("ARENA_LEAN_MEMORY_MIB must be a whole number of MiB from 1024 to 262144")
+    return int(raw)
 
 
 def digest(value):
@@ -277,6 +292,7 @@ class FinalEvaluator:
                 "setup_sha256": setup, "compiler_sha256": digest(compiler.read_bytes()),
                 "implementation": {str(path): digest(path.read_bytes()) for path in implementation},
                 "repetitions": repetitions, "trusted_reference": trusted_reference,
+                "lean_memory_mib": lean_memory_mib(),
                 "platform": platform.platform(), "machine": platform.machine()}
 
     def _cached_result(self, code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass=False):
@@ -373,7 +389,9 @@ class FinalEvaluator:
                                             "lock_held_seconds": released - acquired})
                 fcntl.flock(stream, fcntl.LOCK_UN)
 
-    def _invoke(self, source, state, context, folder, label, *, timeout_seconds=1200, memory_mib=4096):
+    def _invoke(self, source, state, context, folder, label, *, timeout_seconds=1200, memory_mib=None):
+        if memory_mib is None:  # evaluator compiles; AutoSolver's native inspection passes its own bound
+            memory_mib = lean_memory_mib()
         project = self.repo / state["project"]
         # Reuse Lake's exact compiler setup without invoking Lake's resolver:
         # the latter may try to rewrite normalized, shared dependency links.
