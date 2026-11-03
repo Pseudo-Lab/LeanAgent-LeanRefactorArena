@@ -24,7 +24,15 @@ def sha(text):
     return hashlib.sha256(text.encode()).hexdigest()
 
 
-def audit_budget_stop(folder, summary, spent, cap):
+def openrouter_transport_for(authorization):
+    """final60 hook 6: OpenRouter roots are audited by the OpenRouter adapter."""
+    if authorization.get("provider") == "OpenRouter":
+        import openrouter_transport
+        return openrouter_transport
+    return None
+
+
+def audit_budget_stop(folder, summary, spent, cap, cost_bound=None):
     from driver import make_request
     from lean_agent.artifacts import canonical
     state = read(folder / "state.json")
@@ -35,7 +43,7 @@ def audit_budget_stop(folder, summary, spent, cap):
     request = read(folder / "budget-stop-request.json")
     expected = make_request(state, read(folder / "input/problem.json"), config,
                             (folder / "input/prompt.txt").read_text())
-    bound = request_cost(request)
+    bound = (cost_bound or request_cost)(request)
     if (request != expected or stop.get("next_request_sha256") != sha(canonical(request))
             or summary.get("stop_reason") != "next_request_would_exceed_budget"
             or Decimal(stop["spent_usd"]) != spent or Decimal(stop["cap_usd"]) != cap
@@ -125,6 +133,8 @@ def build_report(root, *, require_complete=False):
     root = Path(root).resolve()
     authorization = read(root / "authorization.json")
     ledger = read(root / "ledger.json")
+    router = openrouter_transport_for(authorization)
+    cost_bound = router.request_cost if router is not None else request_cost
     errors, generations, by_row = [], set(), {}
     for attempt, item in ledger["attempts"].items():
         row = item["row"]
@@ -134,6 +144,24 @@ def build_report(root, *, require_complete=False):
         if item.get("cost_usd") is None:
             continue
         step = root / "problems" / f"F{row:03}" / "steps" / f"{item['step']:04}"
+        if router is not None:
+            try:
+                errors.extend(f"{attempt}: {error}" for error in router.audit_step(step, item))
+                generation = item.get("response_id")
+                lost = isinstance(generation, str) and generation == "lost-" + attempt
+                if not generation or (not lost and generation in generations):
+                    errors.append(attempt + ": missing/duplicate generation ID")
+                if not lost:
+                    generations.add(generation)
+                if read(step / "response.json").get("id") != generation:
+                    errors.append(attempt + ": response identity differs from ledger")
+                request = read(step / "request.json")
+                canonical = json.dumps(request, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
+                if sha(canonical) != item["request_sha256"]:
+                    errors.append(attempt + ": request hash differs from ledger")
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                errors.append(attempt + ": malformed evidence (" + type(exc).__name__ + ")")
+            continue
         try:
             response = read(step / "response.json")
             provider_response = read(step / "provider-response.json")
@@ -174,7 +202,7 @@ def build_report(root, *, require_complete=False):
             if authorization.get("last_call_may_overshoot") is False:
                 try:
                     request = read(folder / "steps" / f"{item['step']:04}" / "request.json")
-                    bound = Decimal(request_cost(request)["reserved_usd"])
+                    bound = Decimal(cost_bound(request)["reserved_usd"])
                     if bound != Decimal(item["maximum_request_cost_usd"]) or spent + bound > Decimal(authorization["per_problem_target_usd"]):
                         raise ValueError("Reservation exceeds strict cap")
                 except (OSError, KeyError, TypeError, ValueError) as exc:
@@ -235,7 +263,7 @@ def build_report(root, *, require_complete=False):
                     and spent < Decimal(authorization["per_problem_target_usd"])):
                 if authorization.get("last_call_may_overshoot") is False:
                     try:
-                        audit_budget_stop(folder, summary, spent, Decimal(authorization["per_problem_target_usd"]))
+                        audit_budget_stop(folder, summary, spent, Decimal(authorization["per_problem_target_usd"]), cost_bound)
                     except (OSError, KeyError, TypeError, ValueError) as exc:
                         errors.append(f"F{number:03}: invalid strict budget stop: {exc}")
                 else:
@@ -262,7 +290,8 @@ def build_report(root, *, require_complete=False):
               "known_mean_usd": str(sum(costs, Decimal(0)) / len(costs)),
               "known_max_usd": str(max(costs)), "attempts": len(ledger["attempts"]),
               "unique_generation_ids": len(generations), "audit_errors": errors,
-              "api_cost_basis": "OpenAI response usage times frozen public list prices",
+              "api_cost_basis": (authorization.get("budget_cost_basis") if router is not None else
+                                 "OpenAI response usage times frozen public list prices"),
               "provider_invoice_verified": False,
               "all_completed": complete, "audit_passed": not errors,
               "official_evaluation": False, "rows": rows}

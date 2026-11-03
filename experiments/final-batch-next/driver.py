@@ -43,6 +43,35 @@ DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22, "progress
 UNSPECIFIED_PORTFOLIO = object()
 UNSPECIFIED_STRATEGY = object()
 
+# final60 hooks (lean_agent.final60 orchestrator; one OpenRouter root per row).
+# Every final60 branch is taken only for a model with backend "openrouter", a row
+# whose inputs carry input/final60.json, or a root sealed with provider OpenRouter.
+# OpenAI-direct roots keep the code paths above and below unchanged.
+FINAL60_PROVIDER = "OpenRouter"
+FINAL60_SCHEMA = "final60-v1"
+FINAL60_MAX_CAP = Decimal("2.99")
+FINAL60_MONEY_FILES = ("contracts.py", "catalog.py", "transport.py", "ledger.py", "money.py")
+FINAL60_STOP_REASONS = ("skip_llm", "stop_exploration", "api_disabled", "row_api_frozen",
+                        "ledger_budget_exceeded", "salvage")
+FINAL60_COST_BASIS = "max(openrouter-usage-cost, cache-aware-public-list-price); lost responses at their bound"
+
+
+class Final60Stop(Exception):
+    """A clean end of paid exploration for one row; final selection still runs."""
+
+    def __init__(self, reason, detail=None):
+        super().__init__(reason)
+        self.reason, self.detail = reason, detail
+
+
+def transport_for(config):
+    """final60 hook 1: the frozen model backend selects the transport module."""
+    model = config.get("model", config) if isinstance(config, dict) else {}
+    if isinstance(model, dict) and model.get("backend") == "openrouter":
+        import openrouter_transport
+        return openrouter_transport
+    return transport
+
 
 def now():
     return datetime.now(timezone.utc).isoformat()
@@ -86,7 +115,40 @@ def evaluator_class():
 
 def evaluator(root):
     return evaluator_class()(repo_root=REPO, global_lock_path=REPO / "sources/final/final-batch-compiler.lock",
-                             cache_root=Path(root) / "evaluation-cache")
+                             cache_root=Path(root) / "evaluation-cache",
+                             compiler_parallelism=compiler_parallelism(root))
+
+
+def final60_root(root):
+    path = Path(root) / "authorization.json"
+    return path.exists() and a.read(path).get("provider") == FINAL60_PROVIDER
+
+
+def final60_inputs(root):
+    return final60_root(root) or any(Path(root).glob("problems/F[0-9][0-9][0-9]/input/final60.json"))
+
+
+def compiler_parallelism(root):
+    """final60 hook 5: shared pool size. Legacy roots keep the serial default (1).
+
+    A final60 process never falls back to the exclusive legacy lock: one exclusive
+    holder would stall every pooled compiler on the shared lock file.
+    """
+    if not final60_inputs(root):
+        return 1
+    value = os.environ.get("FINAL60_COMPILER_SLOTS")
+    if value is None and (Path(root) / "authorization.json").exists():
+        value = a.read(Path(root) / "authorization.json").get("compiler_slots")
+    if value is None:
+        settings = sorted(Path(root).glob("problems/F[0-9][0-9][0-9]/input/final60.json"))
+        value = a.read(settings[0]).get("compiler_slots") if settings else None
+    try:
+        slots = int(value)
+    except (TypeError, ValueError):
+        slots = 0
+    if not 2 <= slots <= 8:
+        raise ValueError("final60 roots require 2..8 shared compiler slots (FINAL60_COMPILER_SLOTS or sealed compiler_slots)")
+    return slots
 
 
 def folder(root, row):
@@ -100,10 +162,13 @@ def rows_from(args):
     return values
 
 
-def implementation_files():
+def implementation_files(final60=False):
     files = [h.BASE / name for name in h.CODE_FILES]
     files.extend(path for path in HERE.glob("*.py"))
     files.append(REPO / "experiments/proof-analyze/proof_tokens.py")
+    if final60:
+        # The OpenRouter money path is frozen with the run (missing files fail the seal).
+        files.extend(h.BASE / "final60" / name for name in FINAL60_MONEY_FILES)
     return sorted(set(path.resolve() for path in files))
 
 
@@ -121,18 +186,20 @@ def require_policy(root):
         raise ValueError("Different verification policy: use a new batch root; never migrate an active run")
 
 
-def prompt_text(context, variant="baseline", strict_cap=False):
+def prompt_text(context, variant="baseline", strict_cap=False, addendum=""):
     prompt_variants.policy(variant, strict_cap)
     base = (REPO / "examples/actions/prompt.txt").read_text()
     budget = ("Every action consumes paid model budget. The controller reserves each request and stops before exceeding the configured hard_budget.cap_usd. "
               if strict_cap else "Every action consumes paid model budget. The controller stops at the configured settled-cost threshold in budget.stop_at_usd. ")
+    # final60 hook 4: frozen routing hints (empty for every legacy root, so its prompt is unchanged).
+    hints = addendum.rstrip("\n") + "\n" if addendum else ""
     return base + "\n" + prompt_variants.VARIANTS[variant] + (
         "Search is lexical evidence only, not a theorem-prover or availability guarantee. ") + budget + (
         "The exact statement and original full source context are preserved by the evaluator. "
         "Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. "
         "At final selection the controller checks candidates in score order against every required version, "
         "falling back to another candidate if needed. All listed versions must accept the final candidate. "
-        "No extra imports or helper declarations.\n"
+        "No extra imports or helper declarations.\n" + hints +
         "<original_context>\n" + context + "\n</original_context>\n")
 
 
@@ -140,12 +207,13 @@ def make_request(state, problem, config, prompt):
     # Assemble without truncating the live archive; compact only the wire copy.
     assembly = {**config, "limits": {**config["limits"], "max_request_characters": 2000000}}
     common = h.make_request(state, problem, assembly, prompt)
-    body = transport.payload(common["messages"], config["model"])
+    wire = transport_for(config)
+    body = wire.payload(common["messages"], config["model"])
     def fits():
         if len(a.canonical(body)) > config["limits"]["max_request_characters"]:
             return False
         try:
-            transport.request_cost(body)
+            wire.request_cost(body)
             return True
         except ValueError:
             return False
@@ -258,6 +326,54 @@ def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO, autosolver_
     return config
 
 
+def final60_settings(root, row):
+    path = folder(root, row) / "input/final60.json"
+    return a.read(path) if path.is_file() else None
+
+
+def final60_configuration(problem, settings):
+    """final60 hook 4: the frozen route replaces the module defaults ($1 target, OpenAI model)."""
+    model = dict(settings["model"])
+    if len(problem["reference"]) > 12000:
+        model["max_tokens"] = max(model["max_tokens"], 16384)
+    cap = str(Decimal(settings["effective_cap_usd"]))
+    config = {"schema_version": 1, "model": model,
+        "limits": {"max_calls": None, "cost_stop_usd": cap, "cost_cap_usd": cap,
+                   "max_proof_characters": max(24000, len(problem["reference"]) * 3),
+                   "max_feedback_characters": 7000, "max_request_characters": 190000},
+        "agent": {"mode": "actions-v1", "corpus": "action-corpus.json", "history_limit": 4,
+                  "candidate_limit": 8, "allow_finish": False, "persistent_memory": True}}
+    if settings.get("portfolio") is not None:
+        h.portfolio.validate(settings["portfolio"])
+        config["agent"].update(portfolio=dict(settings["portfolio"]), approach_policy="exchange-v1")
+    return config
+
+
+def final60_validate(inputs, settings, problem, policy):
+    """Reject any final60 input that could seed, overspend or leave OpenRouter."""
+    if settings.get("schema") != FINAL60_SCHEMA or settings.get("row") != problem["row"]:
+        raise ValueError("Unexpected final60 input schema or row")
+    route = inputs / "route.json"
+    if not route.is_file() or a.sha(route.read_bytes()) != settings.get("route_sha256"):
+        raise ValueError("final60 route.json is missing or differs from final60.json")
+    cap, prior = Decimal(settings["cap_usd"]), Decimal(settings["prior_cost_usd"])
+    effective = Decimal(settings["effective_cap_usd"])
+    if not (0 < cap <= FINAL60_MAX_CAP) or prior < 0 or effective != cap - prior or effective <= 0:
+        raise ValueError("final60 cap must be 0 < cap - declared prior spend <= 2.99")
+    model = settings["model"]
+    if model.get("backend") != "openrouter" or not model.get("provider") or "max_price" not in model:
+        raise ValueError("final60 requires a pinned OpenRouter model with price ceilings")
+    if not policy["strict_cap"]:
+        raise ValueError("final60 requires the strict per-request budget reservation")
+    if settings.get("skip_llm") is not (settings.get("portfolio") is None):
+        raise ValueError("final60 skip_llm rows have no portfolio; LLM rows require one")
+    addendum = settings.get("prompt_addendum", "")
+    if not isinstance(addendum, str) or len(addendum) > 2000 or "original_context>" in addendum:
+        raise ValueError("final60 prompt addendum is oversized or contains a context marker")
+    if a.read(inputs / "warm-start.json").get("candidate") is not None:
+        raise ValueError("final60 never warm-starts from historical proofs")
+
+
 def validate_inputs(root, row):
     inputs = folder(root, row) / "input"
     missing = [name for name in INPUT_FILES if not (inputs / name).is_file()]
@@ -271,8 +387,13 @@ def validate_inputs(root, row):
     policy = a.read(inputs / "prompt-policy.json")
     if policy != prompt_variants.policy(**policy):
         raise ValueError("Invalid frozen prompt policy")
-    expected = configuration(problem, config.get("agent", {}).get("portfolio"), config.get("agent", {}).get("autosolver"),
-                             config.get("agent", {}).get("strategy_bank"), strict_cap=policy["strict_cap"])
+    settings = final60_settings(root, row)
+    if settings is not None:
+        final60_validate(inputs, settings, problem, policy)
+        expected = final60_configuration(problem, settings)
+    else:
+        expected = configuration(problem, config.get("agent", {}).get("portfolio"), config.get("agent", {}).get("autosolver"),
+                                 config.get("agent", {}).get("strategy_bank"), strict_cap=policy["strict_cap"])
     timeout = config.get("model", {}).get("timeout_seconds")
     if timeout not in (300, 900):
         raise ValueError(f"F{row:03} unexpected prelaunch timeout")
@@ -291,7 +412,8 @@ def validate_inputs(root, row):
     if marker not in prompt or not prompt.endswith(ending):
         raise ValueError("Prompt lacks frozen original context")
     context = prompt.split(marker, 1)[1][:-len(ending)]
-    if prompt != prompt_text(context, policy["variant"], policy["strict_cap"]):
+    addendum = settings.get("prompt_addendum", "") if settings is not None else ""
+    if prompt != prompt_text(context, policy["variant"], policy["strict_cap"], addendum):
         raise ValueError("Prompt differs from its frozen variant policy")
     h.portfolio.validate_shared_inputs(config, problem["reference"], prompt, corpus)
     seed = a.read(inputs / "warm-start.json")
@@ -358,6 +480,11 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
             problem = ev.load_problem(row)
             if problem.get("dataset_sha256") != DATASET_SHA:
                 raise ValueError("Unexpected final dataset identity")
+            settings = final60_settings(root, row)
+            if settings is not None and (not cold_start or not new_policy["strict_cap"]
+                                         or autosolver_settings is not None
+                                         or strategy_settings is not UNSPECIFIED_STRATEGY):
+                raise ValueError("final60 inputs require cold start, the strict cap and no Bank/AutoSolver")
             context = ev.source_context(problem)
             corpus = context["corpus"]
             actions.validate_corpus(corpus)
@@ -366,13 +493,15 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
                 raise ValueError("Initial context exceeds bounded 40000 characters")
             atomic(inputs / "problem.json", problem)
             atomic(inputs / "warm-start.json", warm_start.snapshot(manifest, problem, reason=seed_reason))
-            atomic(inputs / "config.json", configuration(problem, portfolio_settings, autosolver_settings,
+            atomic(inputs / "config.json", final60_configuration(problem, settings) if settings is not None else
+                   configuration(problem, portfolio_settings, autosolver_settings,
                    None if strategy_settings is UNSPECIFIED_STRATEGY else strategy_settings,
                    strict_cap=new_policy["strict_cap"]))
             atomic(inputs / "prompt-policy.json", new_policy)
             atomic(inputs / "action-corpus.json", corpus)
             atomic(inputs / "context-metadata.json", context.get("metadata", {}))
-            (inputs / "prompt.txt").write_text(prompt_text(text, new_policy["variant"], new_policy["strict_cap"]))
+            (inputs / "prompt.txt").write_text(prompt_text(text, new_policy["variant"], new_policy["strict_cap"],
+                                                           settings.get("prompt_addendum", "") if settings else ""))
             validate_inputs(root, row)
             return {"row": row, "input_status": "prepared"}
     if workers == 1:
@@ -405,25 +534,45 @@ def seal_inputs(root, rows):
         policies = [a.read(folder(root, row) / "input/prompt-policy.json") for row in rows]
         if any(policy != policies[0] for policy in policies):
             raise ValueError("A batch must use one prompt and budget policy")
+        settings = [final60_settings(root, row) for row in rows]
+        final60 = any(value is not None for value in settings)
+        if final60 and (any(value is None for value in settings)
+                        or len({value["effective_cap_usd"] for value in settings}) != 1):
+            raise ValueError("A final60 root seals only final60 rows with one per-problem cap")
+        target = Decimal(settings[0]["effective_cap_usd"]) if final60 else TARGET
         authorization = {"dataset_sha256": DATASET_SHA, "rows": rows, "problem_count": len(rows),
-                         "per_problem_target_usd": str(TARGET), "nominal_total_usd": str(TARGET * len(rows)),
+                         "per_problem_target_usd": str(target), "nominal_total_usd": str(target * len(rows)),
                          "last_call_may_overshoot": not policies[0]["strict_cap"], "max_api_parallel": 2, "max_lean_parallel": 1,
                          "prompt_variant": policies[0]["variant"],
                          "no_automatic_retries": True, "created_at": now(),
                          "verification_policy": VERIFICATION_POLICY}
-        authorization.update(provider="OpenAI direct", api_endpoint=transport.ENDPOINT,
-                             budget_cost_basis="provider-token-usage-times-frozen-public-list-prices")
+        if final60:
+            # final60 hook 1: OpenRouter-only authorization (PR #70 reads api_endpoint).
+            wire = transport_for(settings[0]["model"])
+            if not policies[0]["strict_cap"] or not wire.ENDPOINT.startswith("https://openrouter.ai/"):
+                raise ValueError("final60 roots must use the strict cap and the OpenRouter endpoint")
+            authorization.update(provider=FINAL60_PROVIDER, api_endpoint=wire.ENDPOINT,
+                                 budget_cost_basis=FINAL60_COST_BASIS, final60_schema=FINAL60_SCHEMA,
+                                 cap_usd=settings[0]["cap_usd"], prior_cost_usd=settings[0]["prior_cost_usd"],
+                                 cost_ledger=settings[0].get("cost_ledger"),
+                                 compiler_slots=compiler_parallelism(root), max_lean_parallel=compiler_parallelism(root),
+                                 no_automatic_retries=False,
+                                 retry_policy="unbilled HTTP errors only, recorded as $0 sub-attempts; billed or unknown outcomes are never re-sent")
+        else:
+            wire = transport
+            authorization.update(provider="OpenAI direct", api_endpoint=transport.ENDPOINT,
+                                 budget_cost_basis="provider-token-usage-times-frozen-public-list-prices")
         atomic(root / "authorization.json", authorization)
-        atomic(root / "pricing.json", transport.PRICING)
+        atomic(root / "pricing.json", wire.PRICING)
         if not (root / "ledger.json").exists():
             atomic(root / "ledger.json", {"schema_version": 1, "attempts": {}})
         code = root / "code"
         code.mkdir(exist_ok=True)
-        for path in implementation_files():
+        for path in implementation_files(final60):
             destination = code / path.relative_to(REPO)
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(path, destination)
-        files = [*implementation_files(), root / "authorization.json", root / "pricing.json"]
+        files = [*implementation_files(final60), root / "authorization.json", root / "pricing.json"]
         files.extend(path for path in (root / "problems").glob("*/input/*") if path.is_file())
         atomic(root / "frozen.json", {str(path): a.sha(path.read_bytes()) for path in files})
     print(json.dumps({"prepared": str(root), "rows": rows, "api_calls": 0}), flush=True)
@@ -528,6 +677,8 @@ def reseal(root):
     """Prelaunch-only timeout correction; preserve the previous seal and code."""
     root = Path(root).resolve()
     require_policy(root)
+    if final60_root(root):
+        raise ValueError("final60 roots are never resealed; prepare a fresh row root")
     with locked(root / "prepare.lock"), ExitStack() as stack:
         authorization = a.read(root / "authorization.json")
         for row in authorization["rows"]:
@@ -636,8 +787,196 @@ def check_dispatchable(root, ledger):
             pass
 
 
+def final60_run_dir(root, row):
+    settings = final60_settings(root, row) or {}
+    return (Path(root) / settings.get("run_dir", "../..")).resolve()
+
+
+def final60_flag(path, value):
+    """Write a stop marker once; the first reason is kept."""
+    if not Path(path).exists():
+        atomic(path, {**value, "at": now()})
+
+
+def final60_stop_reason(root, row):
+    """final60 hook 3: reasons that end paid exploration before the next request."""
+    root, settings = Path(root), final60_settings(root, row) or {}
+    if settings.get("skip_llm"):
+        return "skip_llm"
+    run_dir = final60_run_dir(root, row)
+    if (root / "api-disabled.json").exists() or (run_dir / "api-disabled.json").exists():
+        return "api_disabled"
+    if (root / "api-frozen.json").exists():
+        return "row_api_frozen"
+    if (root / "salvage.json").exists():
+        return "salvage"
+    if (root / "stop-exploration.json").exists() or (run_dir / "stop-exploration.json").exists():
+        return "stop_exploration"
+    return None
+
+
+def final60_ledger(root):
+    """The run's shared SQLite ledger (a mirror; ledger.json stays the audited truth)."""
+    from lean_agent.final60 import ledger as cost_ledger
+    authorization = a.read(Path(root) / "authorization.json")
+    if not authorization.get("cost_ledger"):
+        raise ValueError("final60 root lacks its shared cost ledger")
+    return cost_ledger.CostLedger((Path(root) / authorization["cost_ledger"]).resolve(),
+                                  cap_usd=Decimal(authorization["cap_usd"]))
+
+
+def final60_release(root, attempt):
+    """Drop a reservation that provably reached no billable send ($0 or refused)."""
+    with locked(Path(root) / "ledger.lock"):
+        ledger = a.read(Path(root) / "ledger.json")
+        if ledger["attempts"].get(attempt, {}).get("status") == "pending":
+            ledger["attempts"].pop(attempt)
+            atomic(Path(root) / "ledger.json", ledger)
+
+
+def final60_plain(value):
+    if hasattr(value, "__dataclass_fields__"):
+        from dataclasses import asdict
+        value = asdict(value)
+    return json.loads(json.dumps(value, default=str))
+
+
+def final60_settle(root, row, step, bound, normalized, result, model):
+    """One settled ledger.json attempt per driver step (report.py and PR #70 shape)."""
+    root, attempt = Path(root), f"F{row:03}-{step:04}"
+    receipt = getattr(result, "receipt", None)
+    cost = Decimal(str(normalized["usage"]["cost"]))
+    settled = Decimal(str(getattr(receipt, "cost_usd", cost)))
+    charged = max(cost, settled)
+    usage = normalized.get("usage") or {}
+    completion = usage.get("completion_tokens")
+    violated = charged > Decimal(str(bound["reserved_usd"])) or (
+        type(completion) is int and completion > int(model.get("max_tokens", completion)))
+    cost_receipt = normalized.get("_cost_receipt") or {}
+    with locked(root / "ledger.lock"):
+        ledger = a.read(root / "ledger.json")
+        item = ledger["attempts"][attempt]
+        item.update(status="settled", cost_usd=str(charged), response_id=normalized.get("id") or "lost-" + attempt,
+                    finished_at=now(), cost_basis=cost_receipt.get("basis"), invoice_verified=False,
+                    provider_response_sha256=cost_receipt.get("provider_response_sha256"),
+                    settlement_basis=getattr(receipt, "basis", cost_receipt.get("basis")),
+                    served_model=getattr(receipt, "model", normalized.get("model")),
+                    served_provider=getattr(receipt, "provider", normalized.get("provider")),
+                    http_calls=getattr(result, "http_calls", None),
+                    sub_attempts=final60_plain(getattr(result, "sub_attempts", None) or cost_receipt.get("sub_attempts") or []))
+        if violated:
+            item["bound_violated"] = True
+        atomic(root / "ledger.json", ledger)
+    if violated or charged != cost:
+        # Never under-report: a mismatch freezes this row's API; its audit then decides publication.
+        final60_flag(root / "api-frozen.json", {"reason": "bound_violated" if violated else "accounting_mismatch",
+                                                "attempt": attempt, "charged_usd": str(charged), "usage_cost_usd": str(cost)})
+    print(json.dumps({"row": row, "step": step, "call_cost_usd": str(charged)}), flush=True)
+    return normalized
+
+
+def final60_dispatch(root, row, step, body, model, step_dir):
+    """final60 hook 2: reserve in ledger.json, then money.dispatch_guarded (SQLite mirror)."""
+    from lean_agent.final60 import catalog, money
+    from lean_agent.final60.ledger import BudgetExceeded
+    root = Path(root)
+    wire = transport_for(model)
+    key = os.environ.get("OPENROUTER_API_KEY")
+    if not key:
+        raise ValueError("Missing explicitly configured OpenRouter credentials")
+    bound = wire.request_cost(body)
+    attempt = f"F{row:03}-{step:04}"
+    cap = Decimal(a.read(root / "authorization.json")["per_problem_target_usd"])
+    stops = tuple(getattr(money, name) for name in ("ApiDisabled", "RowApiDisabled", "RowApiFrozen")
+                  if isinstance(getattr(money, name, None), type))
+    with api_slot(root), locked(root / "dispatch-locks" / (attempt + ".lock"), blocking=False):
+        with locked(root / "ledger.lock"):
+            ledger = a.read(root / "ledger.json")
+            check_dispatchable(root, ledger)
+            if attempt in ledger["attempts"]:
+                raise ValueError("Attempt already dispatched; refusing duplicate API call")
+            if not request_fits_budget(ledger, row, bound, cap):
+                raise Final60Stop("ledger_budget_exceeded", "ledger.json reservation does not fit the cap")
+            ledger["attempts"][attempt] = {"row": row, "step": step, "status": "pending", "cost_usd": None,
+                                           "owner_pid": os.getpid(), "api_endpoint": wire.ENDPOINT,
+                                           "request_sha256": a.sha(a.canonical(body)), "started_at": now(),
+                                           "maximum_request_cost_usd": bound["reserved_usd"]}
+            atomic(root / "ledger.json", ledger)
+        start = time.monotonic()
+        try:
+            result = money.dispatch_guarded(body, catalog.spec_for_model(model), ledger=final60_ledger(root),
+                                            problem=f"F{row:03}", attempt_id=attempt, run_root=root,
+                                            step_dir=step_dir, key=key)
+        except BudgetExceeded as exc:
+            final60_release(root, attempt)
+            raise Final60Stop("ledger_budget_exceeded", str(exc)[:500]) from None
+        except stops as exc:
+            final60_release(root, attempt)
+            name = "api-disabled.json" if type(exc).__name__ == "ApiDisabled" else "api-frozen.json"
+            target = final60_run_dir(root, row) if name == "api-disabled.json" else root
+            final60_flag(target / name, {"reason": type(exc).__name__, "attempt": attempt, "message": str(exc)[:500]})
+            raise Final60Stop("api_disabled" if name == "api-disabled.json" else "row_api_frozen") from None
+        atomic(step_dir / "timing.json", {"seconds": time.monotonic() - start})
+        return final60_settle(root, row, step, bound, result.normalized, result, model)
+
+
+def final60_recover(root, row, step, step_dir):
+    """final60 hook 7: reconcile a step interrupted between reservation and settlement.
+
+    Never re-sends a possibly billed request. Unsent or unbilled-only steps are released
+    and dispatched again; billed steps without a usable response become one unevaluated
+    call whose cost is the exact generation charge or the reserved bound.
+    """
+    root, attempt = Path(root), f"F{row:03}-{step:04}"
+    with locked(root / "ledger.lock"):
+        item = a.read(root / "ledger.json")["attempts"].get(attempt)
+    if item is None:
+        return
+    if item["status"] == "settled":
+        if not (step_dir / "response.json").exists():
+            raise ValueError("Settled OpenRouter step lacks its saved response")
+        return
+    try:
+        with locked(root / "dispatch-locks" / (attempt + ".lock"), blocking=False):
+            pass
+    except BlockingIOError:
+        raise ValueError("A live dispatcher still owns this attempt; refusing concurrent recovery") from None
+    model = a.read(folder(root, row) / "input/config.json")["model"]
+    if (step_dir / "response.json").exists() and (step_dir / "cost-receipt.json").exists():
+        final60_settle(root, row, step, {"reserved_usd": item["maximum_request_cost_usd"]},
+                       a.read(step_dir / "response.json"), None, model)
+        return
+    sqlite = final60_ledger(root)
+    def ours(entry):
+        return str(entry.get("attempt_id", entry.get("id", ""))).split("#", 1)[0] == attempt
+    key = os.environ.get("OPENROUTER_API_KEY")
+    recovered = [final60_plain(sqlite.recover(entry.get("attempt_id", entry.get("id")), step_dir=step_dir, key=key))
+                 for entry in sqlite.open_attempts(run_root=str(root)) if ours(entry)]
+    subs = [final60_plain(entry) for entry in sqlite.attempts(f"F{row:03}") if ours(entry)]
+    total = sum((Decimal(str(entry.get("cost_usd") or 0)) for entry in subs), Decimal(0))
+    if total == 0 and all(entry.get("status") in ("void", "unbilled") for entry in subs):
+        archive = step_dir / ("unsent-" + str(time.time_ns()))
+        for name in ("request.json", "cost-bound.json", "endpoint.json", "provider-response.json", "http"):
+            if (step_dir / name).exists():
+                archive.mkdir(parents=True, exist_ok=True)
+                (step_dir / name).rename(archive / name)
+        final60_release(root, attempt)
+        return
+    basis = "generation-api" if any("generation" in str(entry.get("basis", "")) for entry in recovered) else "lost-bound"
+    lost = {"id": "lost-" + attempt, "object": "final60.lost_response", "model": model["id"],
+            "provider": FINAL60_PROVIDER, "choices": [], "final60_lost": True, "usage": {"cost": str(total)},
+            "_cost_receipt": {"cost_usd": str(total), "basis": basis, "invoice_verified": False,
+                              "provider_response_sha256": None, "sub_attempts": subs}}
+    atomic(step_dir / "response.json", lost)
+    atomic(step_dir / "cost-receipt.json", lost["_cost_receipt"])
+    final60_settle(root, row, step, {"reserved_usd": str(max(total, Decimal(item["maximum_request_cost_usd"])))},
+                   lost, None, model)
+
+
 def dispatch(root, row, step, body, model, step_dir):
     verify_frozen(root)
+    if model.get("backend") == "openrouter":
+        return final60_dispatch(root, row, step, body, model, step_dir)
     bound = transport.request_cost(body)
     data = transport.model_metadata()
     attempt = f"F{row:03}-{step:04}"
@@ -690,6 +1029,8 @@ def dispatch(root, row, step, body, model, step_dir):
 
 
 def recover_pending(root, row, step, step_dir):
+    if final60_root(root):
+        return final60_recover(root, row, step, step_dir)
     attempt = f"F{row:03}-{step:04}"
     with locked(root / "ledger.lock"):
         ledger = a.read(root / "ledger.json")
@@ -784,6 +1125,8 @@ def run_problem(root, row):
         prompt = (output / "input/prompt.txt").read_text()
         state = a.read(output / "state.json")
         baseline = a.read(output / "baseline/result.json")
+        final60 = final60_root(root)
+        wire = transport_for(config)
         atomic(output / "progress.json", {"status": "running", "at": now(), "row": row})
         try:
             initial_fingerprints = ev.verify_environments(problem, full=True)
@@ -798,11 +1141,21 @@ def run_problem(root, row):
                 step_dir = output / "steps" / f"{step:04}"
                 step_dir.mkdir(parents=True, exist_ok=True)
                 recover_pending(root, row, step, step_dir)
+                if final60 and not (step_dir / "response.json").exists():
+                    # final60 hook 3: skip_llm, deadline, API-disabled or salvage end paid work here.
+                    reason = final60_stop_reason(root, row)
+                    if reason:
+                        stop_reason = reason
+                        try:
+                            step_dir.rmdir()
+                        except OSError:
+                            pass
+                        break
                 body = make_request(state, problem, config, prompt)
                 if (not (step_dir / "response.json").exists() and h.portfolio.enabled(config)
                         and h.portfolio.budget_phase(state["portfolio"], config)):
                     # Budget-ended merger: never start a call whose worst-case cost could cross the cap.
-                    bound = Decimal(transport.request_cost(body)["reserved_usd"])
+                    bound = Decimal(wire.request_cost(body)["reserved_usd"])
                     if Decimal(state["cost_usd"]) + bound > Decimal(str(config["limits"]["cost_stop_usd"])):
                         try:
                             step_dir.rmdir()
@@ -816,7 +1169,7 @@ def run_problem(root, row):
                 else:
                     cap = config["limits"].get("cost_cap_usd")
                     if cap is not None:
-                        bound = transport.request_cost(body)
+                        bound = wire.request_cost(body)
                         with locked(root / "ledger.lock"):
                             ledger = a.read(root / "ledger.json")
                             check_dispatchable(root, ledger)
@@ -828,7 +1181,14 @@ def run_problem(root, row):
                                 "next_request_sha256": a.sha(a.canonical(body))})
                             atomic(output / "budget-stop-request.json", body)
                             break
-                    raw = dispatch(root, row, step, body, config["model"], step_dir)
+                    try:
+                        raw = dispatch(root, row, step, body, config["model"], step_dir)
+                    except Final60Stop as stop:
+                        # Released reservation: nothing billable was recorded for this step.
+                        stop_reason = stop.reason
+                        atomic(output / "final60-stop.json", {"at": now(), "step": step, "reason": stop.reason,
+                                                              "detail": stop.detail})
+                        break
                 atomic(step_dir / "usage.json", accounting.response_record(raw))
                 action, code, observation, rejection = h.prepare_response(raw, state, problem, config, output)
                 result = None
@@ -903,6 +1263,12 @@ def run_problem(root, row):
                 summary["autosolver"] = state.get("autosolver", {"searches": 0, "model_calls": 0})
             summary.update(cost_basis="provider-token-usage-times-frozen-public-list-prices", invoice_verified=False,
                            provider="OpenAI direct", model=MODEL["id"])
+            if final60:
+                summary.update(cost_basis=FINAL60_COST_BASIS, provider=FINAL60_PROVIDER, model=config["model"]["id"],
+                               model_provider=config["model"]["provider"], api_endpoint=wire.ENDPOINT)
+                if summary["stop_reason"] in FINAL60_STOP_REASONS:
+                    # A deliberate end before the portfolio/budget completed is never "completed".
+                    summary["status"] = "stopped"
             atomic(output / "summary.json", summary)
             atomic(output / "progress.json", {"row": row, "status": summary["status"], "cost_usd": state["cost_usd"], "at": now()})
             print(json.dumps({"row": row, "status": summary["status"], "cost_usd": state["cost_usd"], "calls": state["calls"]}), flush=True)
@@ -1033,10 +1399,16 @@ def main():
         reseal(root)
     else:
         verify_frozen(root)
-        if args.key_file:
-            os.environ["OPENAI_API_KEY"] = transport.load_key(args.key_file)
-        if not os.environ.get("OPENAI_API_KEY"):
-            raise ValueError("Missing explicitly configured OpenAI credentials")
+        if final60_root(root):
+            if args.key_file:
+                os.environ["OPENROUTER_API_KEY"] = transport_for({"backend": "openrouter"}).load_key(args.key_file)
+            if not os.environ.get("OPENROUTER_API_KEY"):
+                raise ValueError("Missing explicitly configured OpenRouter credentials")
+        else:
+            if args.key_file:
+                os.environ["OPENAI_API_KEY"] = transport.load_key(args.key_file)
+            if not os.environ.get("OPENAI_API_KEY"):
+                raise ValueError("Missing explicitly configured OpenAI credentials")
         failed = []
         with ThreadPoolExecutor(max_workers=args.workers or 1) as pool:
             futures = {pool.submit(run_with_preflight, root, row, args.ensure_preflight): row for row in rows}

@@ -215,8 +215,9 @@ class FinalEvaluator:
         self._contexts = {}
         self.cache = EvaluationCache(cache_root) if cache_root is not None else None
         self.timing_records = []
-        if type(compiler_parallelism) is not int or not 1 <= compiler_parallelism <= 3:
-            raise ValueError("Expected one to three compiler slots")
+        # final60 hook 5: up to 8 pooled slots (resources.compiler_slot gates admission by memory).
+        if type(compiler_parallelism) is not int or not 1 <= compiler_parallelism <= 8:
+            raise ValueError("Expected one to eight compiler slots")
         self.compiler_parallelism = compiler_parallelism
 
     def _compiler_setup(self, state, context):
