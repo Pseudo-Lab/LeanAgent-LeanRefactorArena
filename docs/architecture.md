@@ -167,7 +167,31 @@ embedding·reranker·judge를 사용하면 모델 공개와 호출 집계 대상
 
 중단 후에는 진행 중이던 요청과 검증 작업의 상태를 확인하고 누적 비용을 유지한 채 재개합니다.
 새 실행 ID로 이전 후보 생성 비용을 숨기거나 기존 풀이의 출처를 없애지 않습니다.
-개발 단계의 문제별 탐색과 여러 실행 중 후보 선택에 대한 비용 처리 기준은 추가 확인 사항입니다.
+개발 단계의 문제별 탐색과 여러 실행 중 후보 선택에 대한 비용 처리 기준은 아래 2026-11-03 재확인 내용을 따릅니다.
+
+### 2026-11-03 규칙 재확인 (Tracks & Rules, Submit 페이지)
+
+| 항목 | 공식 문구 |
+| --- | --- |
+| 모델 호출 | "every model call must go through OpenRouter; direct provider APIs are not allowed" |
+| 재현 | "Results must be reproducible from the submitted code within the stated budget; organizers will re-run top entries." |
+| 제출 반영 | "each scored run replaces your previous leaderboard entry, so the last one you send is the one that counts" |
+| 비용 집계 | "count every call, including retries and discarded candidates. Give the total, mean, and maximum per problem" |
+| 실격 사유 | 보고서 누락, 4개 절(Approach, Models, Budget accounting, Reproduction) 누락·순서 위반, 문제당 $3 초과, 비용 과소 보고, 모델 미공개, "A run the organizers cannot repeat" |
+| 코드 | 맨 위 README에 제출 JSONL을 다시 만드는 정확한 명령, 고정된 Lean toolchain·의존성 revision. 마감은 증명과 같은 November 3, 2026 AoE |
+| 금지 구문 | `#eval`, `#reduce`, `IO`, `unsafe`, `extern`, `initialize`, `implemented_by`, `sorry`/`admit`, `axiom`, `native_decide`/`decide +native`/`ofReduceBool`, `#count_heartbeats` 등 heartbeat API(`maxHeartbeats` 옵션 제외), `run_tac`/`by_elab`/`run_meta`/`simproc`/`eval%`, 보조 top-level 선언·문법 확장 |
+
+`aesop (add unsafe …)`는 금지어 필터를 통과한다는 운영진 답변이 Discord에 있다(2026-11-03). `#(…)` 같은 표기는 공식 금지 목록에 없다.
+
+이 문구에서 제출 운영에 따르는 점:
+
+- 제출 증명은 제출 코드의 실행으로 다시 만들어질 수 있어야 한다. 여러 실행·팀원 결과에서 문제별 최고를 골라 합친 파일은 코드 한 번 실행으로 재현되지 않는다.
+- 한 문제의 제출 증명을 만드는 데 쓴 모든 실행의 호출을 그 문제의 비용으로 합산한다. warm start로 이전 실행 결과를 이어받으면 이전 실행 비용도 포함한다.
+- 개인 CLI, 직접 provider API로 얻은 풀이는 개발·탐색 결과로만 기록하고 제출 증명에 쓰지 않는다(2절).
+
+관련 PR: main의 `experiments/final-batch-next/openai_transport.py`는 OpenAI를 직접 호출한다. #63의 `assigned_budget.py`는 OpenRouter 키(`sk-or-`)만 받고, 실행 간에 공유되는 문제별 비용 장부(이전 지출 포함, 상한 $2.99)로 호출 전 예약한다. #42의 `verification-repair-policy`도 OpenRouter backend를 따로 두고 직접 호출 결과를 대회 실행으로 보고하지 않는다.
+
+제출 직전 정적 검사(Lean 없음): `python scripts/check_submission_rules.py --jsonl benchmark_data_final.jsonl --submission <제출 JSONL>`
 
 최종 선택은 검증된 후보와 고정된 정책으로 결정합니다.
 제출 파일의 증명이 재검증한 후보와 동일한지 확인하고 코드·입력·환경·설정·호출 기록을 연결합니다.
