@@ -20,12 +20,13 @@ import sys
 import time
 
 from .orchestrator import (REPO, TERMINAL, Layout, atomic_json, coverage, load_dataset, load_rowstate, now_iso,
-                           plan, read_json, save_options, save_rowstate)
+                           plan, prepend_tool_paths, read_json, save_options, save_rowstate)
 from .rowworker import EXIT_RETRYABLE
 
 BACKOFF = (60, 180, 600)
 MAX_CRASHES = 8
 EXIT_BUSY = 3
+SLOT_FLOOR, SLOT_CEILING = 2, 8     # final60 roots need 2..8 shared compiler slots (driver.compiler_parallelism)
 
 
 def refresh_coverage(layout, opts):
@@ -59,16 +60,86 @@ def lock_held(path):
     return False
 
 
-def available_gib():
+def resources_module():
     if str(REPO / "experiments/final-batch-next") not in sys.path:
         sys.path.insert(0, str(REPO / "experiments/final-batch-next"))
     import resources
-    return resources.memory_snapshot().get("available_gib")
+    return resources
+
+
+def available_gib():
+    return resources_module().memory_snapshot().get("available_gib")
+
+
+def memory_total_gib(meminfo="/proc/meminfo"):
+    """MemTotal in GiB (Linux /proc/meminfo, macOS sysctl); None when unknown."""
+    try:
+        for line in Path(meminfo).read_text().splitlines():
+            if line.startswith("MemTotal:"):
+                return round(int(line.split()[1]) / 2 ** 20, 3)
+    except (OSError, ValueError, IndexError):
+        pass
+    total = resources_module()._read_command(["/usr/sbin/sysctl", "-n", "hw.memsize"])
+    return round(int(total) / 2 ** 30, 3) if total and total.isdigit() else None
+
+
+def lean_processes(proc="/proc"):
+    """Live `lean` compilers as [{pid, rss_gib, anon_gib}] (Linux procfs; `ps` elsewhere)."""
+    found = []
+    root = Path(proc)
+    if root.is_dir() and (root / "self").exists() or any(root.glob("[0-9]*/comm")):
+        for entry in root.iterdir():
+            if not entry.name.isdigit():
+                continue
+            try:
+                if (entry / "comm").read_text().strip() != "lean":
+                    continue
+                values = {}
+                for line in (entry / "status").read_text().splitlines():
+                    key, _, rest = line.partition(":")
+                    if key in ("VmRSS", "RssAnon"):
+                        values[key] = int(rest.split()[0])
+                found.append({"pid": int(entry.name), "rss_gib": round(values.get("VmRSS", 0) / 2 ** 20, 3),
+                              "anon_gib": round(values["RssAnon"] / 2 ** 20, 3) if "RssAnon" in values else None})
+            except (OSError, ValueError, IndexError):
+                continue
+        return found
+    try:
+        listing = subprocess.run(["ps", "-axo", "pid=,rss=,comm="], capture_output=True, text=True, timeout=10).stdout
+    except (OSError, subprocess.TimeoutExpired):
+        return found
+    for line in listing.splitlines():
+        parts = line.split(None, 2)
+        if len(parts) == 3 and parts[0].isdigit() and parts[1].isdigit() and Path(parts[2].strip()).name == "lean":
+            found.append({"pid": int(parts[0]), "rss_gib": round(int(parts[1]) / 2 ** 20, 3), "anon_gib": None})
+    return found
+
+
+def memory_sample(memory=available_gib, proc="/proc"):
+    """One line of supervisor/memory.jsonl: MemAvailable plus the RSS of every live lean process (item 4)."""
+    processes = lean_processes(proc)
+    return {"at": now_iso(), "available_gib": memory(), "lean_processes": len(processes),
+            "lean_rss_gib": round(sum(item["rss_gib"] for item in processes), 3),
+            "lean_rss_max_gib": round(max((item["rss_gib"] for item in processes), default=0.0), 3),
+            "lean_anon_gib": round(sum(item["anon_gib"] or 0.0 for item in processes), 3)}
+
+
+def size_compiler_slots(requested, total_gib, *, reserve_gib, gib_per_compile):
+    """Compiler slots the machine can hold: min(requested, (MemTotal - reserve) / per-compile), in 2..8.
+
+    Admission stays memory-gated per compile (resources.compiler_slot); this only keeps the pool
+    size itself honest, e.g. 8 requested on 31 GiB with 6 + 3.5 GiB per compile gives 7.
+    """
+    requested = int(requested)
+    if total_gib is None:
+        return max(SLOT_FLOOR, min(SLOT_CEILING, requested))
+    fit = int((float(total_gib) - float(reserve_gib)) // max(float(gib_per_compile), 0.1))
+    return max(SLOT_FLOOR, min(SLOT_CEILING, requested, fit))
 
 
 class Supervisor:
     def __init__(self, run_dir, opts, *, clock=time.time, sleep=time.sleep, popen=subprocess.Popen,
-                 memory=available_gib, assembler=None):
+                 memory=available_gib, assembler=None, total_memory=memory_total_gib, proc="/proc"):
         self.layout, self.opts = Layout(run_dir), opts
         self.clock, self.sleep, self.popen, self.memory = clock, sleep, popen, memory
         if assembler is None:
@@ -81,8 +152,39 @@ class Supervisor:
         self.last_final_assembly = 0.0
         self.last_coverage = 0.0
         self.last_rolling = 0.0
+        self.last_memory = 0.0
         self.closed = False
         self.ready = set()
+        self.proc = proc
+        self.total_gib = total_memory()
+        self.slots = size_compiler_slots(opts.compiler_slots, self.total_gib, reserve_gib=opts.mem_reserve_gib,
+                                         gib_per_compile=opts.gib_per_compile)
+        self.memory_last = None
+        self.memory_peak = {"lean_rss_gib": 0.0, "lean_processes": 0, "min_available_gib": None}
+
+    # -- memory log (research item 4) ---------------------------------------------------
+    def log_memory(self, now, *, force=False):
+        if not force and now - self.last_memory < self.opts.memory_log_seconds:
+            return None
+        self.last_memory = now
+        try:
+            sample = memory_sample(self.memory, self.proc)
+        except Exception as exc:       # the log is diagnostic only
+            self.event("memory_sample_error", error=f"{type(exc).__name__}: {exc}"[:300])
+            return None
+        sample.update(compiler_slots=self.slots, live_rows=len(self.children))
+        path = self.layout.supervisor / "memory.jsonl"
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("a") as stream:
+            stream.write(json.dumps(sample, sort_keys=True) + "\n")
+        self.memory_last = sample
+        peak = self.memory_peak
+        peak["lean_rss_gib"] = max(peak["lean_rss_gib"], sample["lean_rss_gib"])
+        peak["lean_processes"] = max(peak["lean_processes"], sample["lean_processes"])
+        if sample.get("available_gib") is not None:
+            peak["min_available_gib"] = (sample["available_gib"] if peak["min_available_gib"] is None
+                                         else min(peak["min_available_gib"], sample["available_gib"]))
+        return sample
 
     # -- persistence ---------------------------------------------------------------
     def event(self, kind, **values):
@@ -175,6 +277,10 @@ class Supervisor:
             command += ["--key-file", str(self.opts.key_file)]
         if self.opts.dry_run:
             command.append("--dry-run")
+        if self.opts.transport:
+            command += ["--transport", str(self.opts.transport)]
+        if self.opts.lean_memory_mib:
+            command += ["--lean-memory-mib", str(int(self.opts.lean_memory_mib))]
         return command
 
     def spawn(self, row, now):
@@ -182,9 +288,12 @@ class Supervisor:
         source = str(REPO / "src")
         paths = [value for value in environment.get("PYTHONPATH", "").split(os.pathsep) if value]
         environment["PYTHONPATH"] = os.pathsep.join([source] + [value for value in paths if value != source])
-        environment.update(FINAL60_COMPILER_SLOTS=str(self.opts.compiler_slots),
+        prepend_tool_paths(environment, self.opts.prepared_repo)      # shipped bwrap for compiler children
+        environment.update(FINAL60_COMPILER_SLOTS=str(self.slots),
                            FINAL60_MEM_RESERVE_GIB=str(self.opts.mem_reserve_gib),
                            FINAL60_GIB_PER_COMPILE=str(self.opts.gib_per_compile))
+        if self.opts.transport:
+            environment["FINAL60_TRANSPORT"] = str(self.opts.transport)
         log = self.layout.log_path(row)
         log.parent.mkdir(parents=True, exist_ok=True)
         with log.open("a") as stream:
@@ -268,7 +377,9 @@ class Supervisor:
             "soft_stop": (self.layout.run_dir / "stop-exploration.json").exists(),
             "api_disabled": (self.layout.run_dir / "api-disabled.json").exists(),
             "available_gib": self.memory(), "max_rows": self.opts.max_rows,
-            "compiler_slots": self.opts.compiler_slots, "published": len(self.published())})
+            "compiler_slots": self.slots, "compiler_slots_requested": self.opts.compiler_slots,
+            "memory_total_gib": self.total_gib, "memory": self.memory_last, "memory_peak": self.memory_peak,
+            "published": len(self.published())})
 
     def finished_all(self):
         return all(load_rowstate(self.layout, row).status in TERMINAL for row in self.opts.rows)
@@ -276,6 +387,7 @@ class Supervisor:
     def tick(self):
         now = self.clock()
         self.refresh_plan(now)
+        self.log_memory(now)
         self.deadline_actions(now)
         live = self.reap(now)
         self.start_rows(now, live)
@@ -301,7 +413,9 @@ class Supervisor:
                 print(json.dumps({"supervisor": "already running", "run_dir": str(self.layout.run_dir)}), flush=True)
                 return EXIT_BUSY
             save_options(self.layout, self.opts)
-            self.event("supervisor_start", pid=os.getpid(), rows=len(self.opts.rows))
+            self.event("supervisor_start", pid=os.getpid(), rows=len(self.opts.rows),
+                       compiler_slots=self.slots, compiler_slots_requested=self.opts.compiler_slots,
+                       memory_total_gib=self.total_gib, transport=self.opts.transport)
             self.refresh_plan(self.clock(), force=True)
             while not self.tick():
                 self.sleep(self.opts.poll_seconds)

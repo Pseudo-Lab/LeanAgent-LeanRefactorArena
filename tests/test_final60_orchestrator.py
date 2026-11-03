@@ -12,11 +12,13 @@ import fcntl
 import json
 import os
 from pathlib import Path
+import subprocess
 import sys
 import tempfile
 import types
 import unittest
 from unittest.mock import patch
+import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
 DRIVER_DIR = ROOT / "experiments/final-batch-next"
@@ -529,6 +531,43 @@ class AssemblyTests(unittest.TestCase):
         self.assemble()
         self.assertEqual(self.submission()[1]["proof"], dataset_rows()[1]["src"])
 
+    def test_official_filter_and_check_static_revert_rows_and_flag_rejected_originals(self):
+        fake = types.ModuleType("lean_agent.final60.rules")
+        fake.official_rejection = lambda proof: "forbidden token: #exit" if "#exit" in proof else None
+        fake.check_static = lambda proof, statement: ((["official: forbidden token: #exit"] if "#exit" in proof else [])
+                                                      + (["pr64: theorem at column 0"] if "column0" in proof else []))
+        publish_row(self.layout, 2, "theorem t2 : True := trivial\n")
+        publish_row(self.layout, 3, "theorem t3 : True := by\n  trivial\n  #exit\n")
+        publish_row(self.layout, 4, "theorem t4 : True := by\n  trivial -- column0\n")
+        with patch.dict(sys.modules, {"lean_agent.final60.rules": fake}), patch.object(package, "rules", fake, create=True):
+            result = self.assemble()
+        proofs = {row["name"]: row["proof"] for row in self.submission()}
+        self.assertEqual(proofs["Final.t2"], "theorem t2 : True := trivial\n")
+        self.assertEqual(proofs["Final.t3"], dataset_rows()[2]["src"])
+        self.assertEqual(proofs["Final.t4"], dataset_rows()[3]["src"])
+        self.assertEqual((result["improved"], result["checks"]["passed"], result["checks"]["static_checker"]),
+                         (1, True, "lean_agent.final60.rules"))
+        report_rows = {row["row"]: row for row in o.read_json(self.run_dir / "report.json")["rows"]}
+        self.assertIn("forbidden token", report_rows[3]["fallback_reason"])
+        self.assertIn("column 0", report_rows[4]["fallback_reason"])
+        official = o.read_json(self.run_dir / "checks/official.json")
+        self.assertEqual((official["originals_checked"], official["originals_rejected"], official["submission_rejected"]),
+                         (60, {}, {}))
+        # A rejected original cannot be reverted: the whole upload would be refused, so the file is flagged.
+        fake.official_rejection = lambda proof: "forbidden token: t60" if "t60 :" in proof else None
+        with patch.dict(sys.modules, {"lean_agent.final60.rules": fake}), patch.object(package, "rules", fake, create=True):
+            result = self.assemble(final=True)
+        self.assertFalse(result["checks"]["passed"])
+        self.assertEqual(result["checks"]["originals_rejected"], ["Final.t60"])
+        self.assertIn("DO NOT UPLOAD", (self.run_dir / "SUBMIT-READY.txt").read_text())
+        self.assertIn("1 original(s) rejected", (self.run_dir / "report.md").read_text())
+
+    def test_assembly_without_the_rules_module_records_it(self):
+        with patch.dict(sys.modules, {"lean_agent.final60.rules": None}):
+            result = self.assemble()
+        self.assertEqual((result["checks"]["passed"], result["checks"]["static_checker"]), (True, "unavailable"))
+        self.assertEqual(o.read_json(self.run_dir / "checks/official.json")["originals_checked"], 0)
+
     def test_nested_dashboard_proofs_are_flattened(self):
         folder = self.run_dir.parent / "dash"
         nested = {"problems": [{"name": "Final.t9", "proof": "theorem t9 : True := by\n  exact True.intro\n",
@@ -651,6 +690,63 @@ class SupervisorTests(unittest.TestCase):
             fcntl.flock(stream, fcntl.LOCK_EX)
             self.assertEqual(self.supervisor().run(), sup.EXIT_BUSY)
 
+    def test_spawn_passes_tool_path_transport_memory_bound_and_sized_slots(self):
+        self.opts.transport, self.opts.lean_memory_mib = "variant-x", 16384
+        self.opts.compiler_slots, self.opts.max_rows = 8, 1
+        captured = {}
+
+        def popen(command, **kwargs):
+            captured.update(command=command, env=kwargs["env"])
+            return types.SimpleNamespace(poll=lambda: None, pid=4242)
+
+        with tempfile.TemporaryDirectory() as temp:
+            tools = Path(temp) / "sources/final/bin"
+            tools.mkdir(parents=True)
+            self.opts.prepared_repo = Path(temp)
+            supervisor = sup.Supervisor(self.run_dir, self.opts, clock=lambda: self.now, sleep=lambda s: None,
+                                        popen=popen, memory=lambda: 30.0, total_memory=lambda: 31.0,
+                                        assembler=lambda run_dir, final, dataset=None: {"improved": 0})
+            supervisor.tick()
+            paths = captured["env"]["PATH"].split(os.pathsep)
+            self.assertIn(str(tools.resolve()), paths[:2])
+            self.assertEqual(paths.count(str(tools.resolve())), 1)
+        self.assertEqual(supervisor.slots, 7)                     # (31 - 6) / 3.5 holds 7 of the 8 requested
+        self.assertEqual(captured["env"]["FINAL60_COMPILER_SLOTS"], "7")
+        self.assertEqual(captured["env"]["FINAL60_TRANSPORT"], "variant-x")
+        command = captured["command"]
+        self.assertEqual(command[command.index("--transport") + 1], "variant-x")
+        self.assertEqual(command[command.index("--lean-memory-mib") + 1], "16384")
+        lines = (self.layout.supervisor / "memory.jsonl").read_text().splitlines()
+        self.assertEqual(len(lines), 1)
+        sample = json.loads(lines[0])
+        self.assertEqual((sample["compiler_slots"], sample["available_gib"]), (7, 30.0))
+        self.assertIn("lean_rss_gib", sample)
+        supervisor.tick()                                         # within the 30 s period: no second line
+        self.assertEqual(len((self.layout.supervisor / "memory.jsonl").read_text().splitlines()), 1)
+        supervisor.heartbeat(self.now, set(), force=True)
+        status = o.read_json(self.layout.supervisor / "status.json")
+        self.assertEqual((status["compiler_slots"], status["compiler_slots_requested"], status["memory_total_gib"],
+                          status["memory"]["available_gib"]), (7, 8, 31.0, 30.0))
+
+    def test_memory_sample_reads_lean_processes_from_proc_and_slots_fit_memory(self):
+        with tempfile.TemporaryDirectory() as temp:
+            proc = Path(temp)
+            for pid, comm, rss_kib in ((100, "lean", 2 * 2 ** 20), (101, "python3", 5 * 2 ** 20), (102, "lean", 2 ** 20)):
+                (proc / str(pid)).mkdir()
+                (proc / str(pid) / "comm").write_text(comm + "\n")
+                (proc / str(pid) / "status").write_text(f"Name:\t{comm}\nVmRSS:\t{rss_kib} kB\nRssAnon:\t{rss_kib // 2} kB\n")
+            (proc / "meminfo").write_text("MemTotal:       32000000 kB\nMemAvailable:   16000000 kB\n")
+            sample = sup.memory_sample(memory=lambda: 15.0, proc=proc)
+            self.assertEqual((sample["lean_processes"], sample["lean_rss_gib"], sample["lean_rss_max_gib"],
+                              sample["lean_anon_gib"], sample["available_gib"]), (2, 3.0, 2.0, 1.5, 15.0))
+            self.assertAlmostEqual(sup.memory_total_gib(proc / "meminfo"), 30.518, places=2)
+        self.assertEqual(sup.size_compiler_slots(8, 31.0, reserve_gib=6, gib_per_compile=3.5), 7)
+        self.assertEqual(sup.size_compiler_slots(8, 46.0, reserve_gib=6, gib_per_compile=3.5), 8)
+        self.assertEqual(sup.size_compiler_slots(6, 46.0, reserve_gib=6, gib_per_compile=3.5), 6)
+        self.assertEqual(sup.size_compiler_slots(8, 8.0, reserve_gib=6, gib_per_compile=3.5), 2)
+        self.assertEqual(sup.size_compiler_slots(5, None, reserve_gib=6, gib_per_compile=3.5), 5)
+        self.assertEqual(sup.size_compiler_slots(12, None, reserve_gib=6, gib_per_compile=3.5), 8)
+
 
 class RowWorkerTests(unittest.TestCase):
     def setUp(self):
@@ -704,7 +800,7 @@ class RowWorkerTests(unittest.TestCase):
 
     def run_fake_row(self):
         problem = {"row": 1, "name": "Final.t1", "source": "synthetic", "statement": "theorem t1 : True",
-                   "reference": "theorem t1 : True := by\n  trivial\n", "environments": ["e"]}
+                   "reference": "theorem t1 : True := by\n  trivial\n", "environments": ["synthetic-v4.31.0"]}
         o.atomic_json(self.layout.row_folder(1) / "input/problem.json", problem)
         with patch.dict(os.environ), patch.object(rw, "driver_modules", return_value=self.fake_driver()), \
                 patch.object(rw, "coverage", return_value={1: {"missing": []}}), \
@@ -778,6 +874,44 @@ class RowWorkerTests(unittest.TestCase):
         worker.explore({"exploring": 3})
         self.assertTrue((self.layout.row_root(1) / "salvage.json").exists())
 
+    def test_configure_environment_sets_memory_bound_transport_and_tool_paths(self):
+        opts = o.RunOptions(run_dir=self.run_dir, transport="variant-y", dry_run=True)
+        mathlib = {"row": 51, "source": "putnambench", "environments": ["putnambench-v4.27.0"]}
+        with patch.dict(os.environ, {}, clear=False), patch.object(o, "registry", return_value={"environments": {}}):
+            os.environ.pop("FINAL60_LEAN_MEMORY_MIB", None)
+            info = rw.configure_environment(opts, mathlib)
+            self.assertEqual((os.environ["ARENA_LEAN_MEMORY_MIB"], os.environ["FINAL60_TRANSPORT"]), ("16384", "variant-y"))
+            self.assertEqual((info["lean_memory_mib"], info["transport"]), ("16384", "variant-y"))
+            self.assertEqual(info["PATH"].split(os.pathsep)[:len(info["tool_paths"])], info["tool_paths"])
+            rw.configure_environment(opts, {"row": 1, "source": "strata", "environments": ["strata-v4.31.0"]})
+            self.assertEqual(os.environ["ARENA_LEAN_MEMORY_MIB"], "4096")
+            opts.lean_memory_mib = 8192
+            rw.configure_environment(opts, mathlib)
+            self.assertEqual(os.environ["ARENA_LEAN_MEMORY_MIB"], "8192")
+
+    def test_allocator_abort_exit_134_is_diagnosed_and_failed_preflight_evidence_set_aside(self):
+        message = ("lean::memory_exception: excessive memory consumption detected at 'x' "
+                   "(potential solution: increase memory consumption threshold)")
+        for code in (-6, 134):
+            result = {"valid": False, "environments": {"e": {"valid": False, "error": {"kind": "compile", "message": message},
+                      "runs": [{"returncode": code, "command": ["lean", "x.lean", "-j1", "-M16384"]}]}}}
+            guarded = d.guard_compiler_signal(result)
+            self.assertEqual((guarded["error"]["kind"], guarded["error"]["resource"], guarded["error"]["limit_mib"]),
+                             ("resource", "lean_allocator_limit", 16384), code)
+            self.assertTrue(rw.allocator_abort(result))
+        ordinary = {"valid": False, "environments": {"e": {"valid": False, "runs": [{"returncode": 1, "command": []}],
+                                                           "error": {"kind": "compile", "message": "error: unsolved goals"}}}}
+        self.assertFalse(rw.allocator_abort(ordinary))
+        self.assertEqual(d.guard_compiler_signal(ordinary)["environments"]["e"]["error"]["kind"], "compile")
+        worker = rw.RowWorker.__new__(rw.RowWorker)
+        worker.layout, worker.row, worker.opts = self.layout, 1, self.opts
+        worker.root, worker.folder = self.layout.row_root(1), self.layout.row_folder(1)
+        o.atomic_json(worker.folder / "preflight.json", {"status": "failed"})
+        o.atomic_json(worker.folder / "baseline/result.json", {"valid": False, "environments": {"e": {
+            "valid": False, "runs": [{"returncode": 134}], "error": {"kind": "compile", "message": message}}}})
+        worker.reset_failed_preflight()
+        self.assertFalse((worker.folder / "baseline").exists())
+
 
 class CliTests(unittest.TestCase):
     def test_rows_deadline_and_fallback_route(self):
@@ -798,6 +932,126 @@ class CliTests(unittest.TestCase):
             self.assertEqual(o.sha_bytes(vendored), item["sha256"], name)
             if (ROOT / item["source"]).exists():
                 self.assertEqual((ROOT / item["source"]).read_bytes(), vendored, name)
+
+    def test_cli_transport_and_memory_passthrough_options(self):
+        from lean_agent.final60 import __main__ as cli
+        with tempfile.TemporaryDirectory() as temp:
+            args = cli.build_parser().parse_args(["run", "--run-dir", temp, "--dry-run", "--transport", "variant-z",
+                                                  "--lean-memory-mib", "12288", "--memory-log-seconds", "45"])
+            opts = cli.options(args)
+            self.assertEqual((opts.transport, opts.lean_memory_mib, opts.memory_log_seconds), ("variant-z", 12288, 45.0))
+            o.save_options(o.Layout(temp), opts)
+            row_opts = cli.options(cli.build_parser().parse_args(["row", "--run-dir", temp, "--row", "3"]))
+            self.assertEqual((row_opts.transport, row_opts.lean_memory_mib), ("variant-z", 12288))
+            plain = cli.options(cli.build_parser().parse_args(["run", "--run-dir", temp, "--dry-run"]))
+            self.assertEqual((plain.transport, plain.lean_memory_mib), (None, None))
+            with self.assertRaises(SystemExit):
+                cli.options(cli.build_parser().parse_args(["run", "--run-dir", temp, "--dry-run", "--lean-memory-mib", "10"]))
+            self.assertIn("package", cli.build_parser().format_help())
+
+
+class RouteAndMemoryTests(unittest.TestCase):
+    def test_primary_toolchain_must_be_the_newest_listed(self):
+        ordered = {"row": 1, "source": "strata", "environments": ["strata-v4.31.0", "strata-v4.27.0", "strata-v4.26.0"]}
+        self.assertEqual(o.assert_primary_newest(ordered), "strata-v4.31.0")
+        candidate = {"row": 41, "source": "leanpool", "environments": ["leanpool-v4.35.0-rc3", "leanpool-v4.34.0"]}
+        self.assertEqual(o.assert_primary_newest(candidate), "leanpool-v4.35.0-rc3")
+        self.assertLess(o.version_key("v4.35.0-rc3"), o.version_key("v4.35.0"))
+        self.assertIsNone(o.version_key("e"))
+        for bad in ({"row": 2, "source": "strata", "environments": ["strata-v4.27.0", "strata-v4.31.0"]},
+                    {"row": 3, "source": "x", "environments": ["x-v4.35.0-rc3", "x-v4.35.0"]}):
+            with self.assertRaisesRegex(ValueError, "not the newest"):
+                o.assert_primary_newest(bad)
+        with self.assertRaisesRegex(ValueError, "unparsable"):
+            o.assert_primary_newest({"row": 4, "source": "s", "environments": ["e"]})
+        with self.assertRaisesRegex(ValueError, "no environments"):
+            o.assert_primary_newest({"row": 5, "source": "s", "environments": []})
+        with self.assertRaisesRegex(ValueError, "not the newest"):       # route time: the route fails
+            o.route_for({"row": 2, "name": "n", "source": "strata", "reference": "r",
+                         "environments": ["strata-v4.27.0", "strata-v4.31.0"]})
+
+    def test_real_rows_list_the_newest_toolchain_first(self):
+        problems = ROOT / "sources/final/problems"
+        if not problems.is_dir():
+            self.skipTest("prepared problem packets are not available")
+        for row in range(1, 61):
+            self.assertTrue(o.assert_primary_newest(o.problem_packet(row)), row)
+
+    def test_lean_memory_bound_by_source_registry_and_override(self):
+        mathlib = {"row": 51, "source": "putnambench", "environments": ["putnambench-v4.27.0"]}
+        other = {"row": 1, "source": "strata", "environments": ["strata-v4.31.0"]}
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("FINAL60_LEAN_MEMORY_MIB", None)
+            with patch.object(o, "registry", return_value={"environments": {}}):
+                self.assertEqual((o.lean_memory_mib(mathlib), o.lean_memory_mib(other)), (16384, 4096))
+                self.assertEqual(o.lean_memory_mib(other, override=8192), 8192)
+                with self.assertRaises(ValueError):
+                    o.lean_memory_mib(other, override=512)
+            with tempfile.TemporaryDirectory() as temp:
+                repo = Path(temp)
+                o.atomic_json(repo / "configs/final-environments.local.json",
+                              {"environments": {"strata-v4.31.0": {"project": "proj"}}})
+                (repo / "proj").mkdir()
+                (repo / "proj/lake-manifest.json").write_text('{"packages": [{"name": "mathlib"}]}')
+                self.assertTrue(o.mathlib_based(other, prepared_repo=repo))
+                self.assertEqual(o.lean_memory_mib(other, prepared_repo=repo), 16384)
+            with patch.dict(os.environ, {"FINAL60_LEAN_MEMORY_MIB": "12288"}), \
+                    patch.object(o, "registry", return_value={"environments": {}}):
+                self.assertEqual(o.lean_memory_mib(other), 12288)
+
+    def test_tool_paths_are_prepended_once(self):
+        with tempfile.TemporaryDirectory() as temp:
+            tools = Path(temp) / "sources/final/bin"
+            tools.mkdir(parents=True)
+            with patch.object(o, "REPO", Path(temp) / "nowhere"):
+                self.assertEqual(o.tool_paths(), [])
+                environment = {"PATH": "/usr/bin:" + str(tools.resolve())}
+                o.prepend_tool_paths(environment, Path(temp))
+                self.assertEqual(environment["PATH"].split(os.pathsep), [str(tools.resolve()), "/usr/bin"])
+
+
+class PackageTests(unittest.TestCase):
+    def test_code_zip_excludes_foreign_artifacts_and_asserts_the_listing(self):
+        from lean_agent.final60 import package as pk
+        with tempfile.TemporaryDirectory() as temp:
+            repo = Path(temp) / "harness-repo"
+            files = {"README.md": "# harness\n", "src/a.py": "x = 1\n", "tools/.keep": "",
+                     "declaration-indexes/Cslib-v4.34.1.sqlite": "db", "quarantine/notes.md": "n",
+                     "competitors/vexorium.json": "{}", "docs/lean-refactor-arena-indexes.md": "m", "data/Hrushi-rows.json": "[]"}
+            for name, text in files.items():
+                (repo / name).parent.mkdir(parents=True, exist_ok=True)
+                (repo / name).write_text(text)
+
+            def git(*args):
+                subprocess.run(["git", "-C", str(repo), "-c", "user.email=t@example.com", "-c", "user.name=t", *args],
+                               check=True, capture_output=True)
+
+            git("init", "-q")
+            git("add", "-A")
+            git("commit", "-q", "-m", "fixture")
+            out = Path(temp) / "code.zip"
+            manifest = pk.package_code(repo, out, name="harness")
+            with zipfile.ZipFile(out) as archive:
+                names = archive.namelist()
+            self.assertEqual(sorted(names), ["harness/README.md", "harness/src/a.py", "harness/tools/.keep"])
+            kept = {"README.md", "src/a.py", "tools/.keep"}
+            self.assertEqual(manifest["excluded"], sorted(name for name in files if name not in kept))
+            self.assertEqual(manifest["files"], 3)
+            self.assertTrue(out.with_name("code.zip.manifest.json").exists())
+            with self.assertRaisesRegex(ValueError, "excluded"):
+                pk.assert_clean(["harness/x/declaration-indexes/y.sqlite"])
+            self.assertTrue(pk.assert_clean(names))
+            (repo / "key.env").write_text("OPENROUTER_API_KEY=sk-or-v1-" + "a" * 40 + "\n")
+            git("add", "-A")
+            git("commit", "-q", "-m", "secret")
+            with self.assertRaisesRegex(ValueError, "Secret"):
+                pk.package_code(repo, out, name="harness")
+            git("rm", "-q", "key.env")
+            os.symlink("README.md", repo / "link.md")
+            git("add", "-A")
+            git("commit", "-q", "-m", "symlink")
+            with self.assertRaisesRegex(ValueError, "ymlink"):
+                pk.package_code(repo, out, name="harness")
 
 
 if __name__ == "__main__":

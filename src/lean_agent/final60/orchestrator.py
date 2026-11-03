@@ -34,6 +34,12 @@ DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22, "progress
                      "merger_until_budget": True}
 # Repository folders that hold proofs produced outside OpenRouter (A3). More come from --non-openrouter.
 REPO_NON_OPENROUTER = ("dashboard/public/data", "solutions", "submissions", "experiments/assigned-route-results")
+# Sources whose prepared projects list Mathlib in lake-manifest.json (checked on every registry entry,
+# 2026-11-04). `import Mathlib` alone peaks near 6.1 GB RSS on Linux and aborts under the frozen -M4096.
+MATHLIB_SOURCES = ("arklib", "cslib", "leanpool", "physlib", "putnambench")
+LEAN_MEMORY_MIB_MATHLIB = 16384
+LEAN_MEMORY_MIB_DEFAULT = 4096
+TOOLCHAIN_VERSION = re.compile(r"v?(\d+)\.(\d+)\.(\d+)(?:-rc(\d+))?$")
 
 
 def now_iso():
@@ -112,6 +118,9 @@ class RunOptions:
     dry_run: bool = False
     dataset: Path | None = None
     prepared_repo: Path | None = None
+    transport: str | None = None                        # passed through to row workers (FINAL60_TRANSPORT)
+    lean_memory_mib: int | None = None                  # ARENA_LEAN_MEMORY_MIB for every row; None = per source
+    memory_log_seconds: float = 30.0                    # supervisor/memory.jsonl sampling period
     non_openrouter: list = field(default_factory=list)
     cap_usd: Decimal = CAP_USD
     prior_costs: dict = field(default_factory=dict)      # row -> Decimal spend outside the row root (A11)
@@ -271,7 +280,100 @@ def fallback_route(problem):
                  golf=dict(DEFAULT_GOLF), priority=float(len(problem["reference"])), wallclock_budget_s=4500)
 
 
+def version_key(text):
+    """Sortable key of a toolchain tag; 'v4.35.0-rc3' sorts below 'v4.35.0'. None when unparsable."""
+    match = TOOLCHAIN_VERSION.search(str(text).strip())
+    if not match:
+        return None
+    major, minor, patch, candidate = match.groups()
+    return (int(major), int(minor), int(patch), int(candidate) if candidate else 10 ** 6)
+
+
+def assert_primary_newest(problem):
+    """Research item 10a: heartbeats are compared on the newest toolchain, so the primary must be it.
+
+    The primary environment is the first listed one (the evaluator measures it); the assertion
+    fails the route when any other listed toolchain is newer. Returns the primary id.
+    """
+    row = int(problem.get("row") or 0)
+    environments = [str(item) for item in problem.get("environments") or ()]
+    if not environments:
+        raise ValueError(f"F{row:03}: no environments listed for the row")
+    source = str(problem.get("source", ""))
+    keyed = []
+    for item in environments:
+        version = item.split("-", 1)[1] if item.startswith(source + "-") else item
+        key = version_key(version)
+        if key is None:
+            raise ValueError(f"F{row:03}: unparsable toolchain version in environment id {item!r}")
+        keyed.append((key, item))
+    newest = max(keyed)
+    if keyed[0][0] < newest[0]:
+        raise ValueError(f"F{row:03}: primary toolchain {environments[0]} is not the newest listed ({newest[1]})")
+    return environments[0]
+
+
+def mathlib_based(problem, prepared_repo=None):
+    """True when the row's primary environment depends on Mathlib (registry project manifest, else source name)."""
+    environments = [str(item) for item in problem.get("environments") or ()]
+    repo = Path(prepared_repo or REPO)
+    entry = registry(repo).get("environments", {}).get(environments[0]) if environments else None
+    if isinstance(entry, dict) and entry.get("project"):
+        project = repo / str(entry["project"])
+        try:
+            manifest = project / "lake-manifest.json"
+            if manifest.is_file():
+                return "mathlib" in manifest.read_text(encoding="utf-8", errors="replace").lower()
+            if (project / ".lake/packages/mathlib").exists():
+                return True
+        except OSError:
+            pass
+    return str(problem.get("source", "")).lower() in MATHLIB_SOURCES
+
+
+def lean_memory_mib(problem, *, prepared_repo=None, override=None):
+    """ARENA_LEAN_MEMORY_MIB for a row: override, else FINAL60_LEAN_MEMORY_MIB, else by source.
+
+    Mathlib-based sources get 16384 MiB (measured: PutnamBench v4.27.0 and some ArkLib rows abort
+    under -M4096 and pass under 16384); other sources keep the frozen 4096.
+    """
+    value = override if override is not None else os.environ.get("FINAL60_LEAN_MEMORY_MIB")
+    if value in (None, ""):
+        mib = LEAN_MEMORY_MIB_MATHLIB if mathlib_based(problem, prepared_repo) else LEAN_MEMORY_MIB_DEFAULT
+    else:
+        mib = int(value)
+    if not 1024 <= mib <= 262144:
+        raise ValueError("Lean memory bound must be 1024..262144 MiB")
+    return mib
+
+
+def tool_paths(prepared_repo=None):
+    """Existing <sources>/final/bin folders (the shipped bwrap on Linux), this checkout's first."""
+    candidates = [REPO / "sources/final/bin"]
+    if prepared_repo is not None:
+        candidates.append(Path(prepared_repo) / "sources/final/bin")
+    found = []
+    for path in candidates:
+        try:
+            if path.is_dir():
+                resolved = str(path.resolve())
+                if resolved not in found:
+                    found.append(resolved)
+        except OSError:
+            continue
+    return found
+
+
+def prepend_tool_paths(environment, prepared_repo=None):
+    """PATH with the tool folders first, so shutil.which('bwrap') finds the shipped sandbox (lesson 1)."""
+    current = [item for item in environment.get("PATH", "").split(os.pathsep) if item]
+    tools = tool_paths(prepared_repo)
+    environment["PATH"] = os.pathsep.join(tools + [item for item in current if item not in tools])
+    return environment
+
+
 def route_for(problem, *, non_openrouter_proofs=(), diversity=False):
+    assert_primary_newest(problem)      # route-time assertion (item 10a); a ValueError fails the route
     routing = routing_module()
     if routing is not None:
         try:
@@ -464,13 +566,23 @@ def plan(run_dir, *, dataset=None, prepared_repo=None, rows=None, diversity=Fals
     entries, routes = [], {}
     for row in rows:
         problem = problem_packet(row)
-        route = route_for(problem, non_openrouter_proofs=proofs, diversity=diversity)
+        missing = list(covered[row].get("missing", []))
+        try:
+            route = route_for(problem, non_openrouter_proofs=proofs, diversity=diversity)
+        except ValueError as exc:       # primary-toolchain assertion (item 10a): the row keeps its original
+            missing.append("route: " + str(exc)[:300])
+            route = fallback_route(problem)
         routes[row] = route
-        missing = covered[row].get("missing", [])
+        try:
+            memory_mib = lean_memory_mib(problem, prepared_repo=prepared_repo)
+        except (OSError, ValueError):
+            memory_mib = None
         entries.append({"row": row, "name": problem["name"], "source": problem["source"],
                         "ready": not missing, "missing": missing, "problem_type": route.problem_type,
                         "skip_llm": route.skip_llm, "priority": route.priority,
-                        "wallclock_budget_s": route.wallclock_budget_s})
+                        "wallclock_budget_s": route.wallclock_budget_s,
+                        "primary_environment": (problem.get("environments") or [None])[0],
+                        "lean_memory_mib": memory_mib})
     ready = [entry["row"] for entry in entries if entry["ready"]]
     sources = {str(Path(prepared_repo or REPO).resolve() / "sources"): str((Path(prepared_repo or REPO) / "sources").resolve()),
                str(REPO / "sources"): str((REPO / "sources").resolve())}
@@ -479,6 +591,7 @@ def plan(run_dir, *, dataset=None, prepared_repo=None, rows=None, diversity=Fals
              "prepared_repo": str(Path(prepared_repo or REPO).resolve()), "repo": str(REPO),
              "sources_resolved": sources, "same_sources": len(set(sources.values())) == 1,
              "rows": entries, "ready": ready, "order": schedule(routes, ready),
+             "tool_paths": tool_paths(prepared_repo),
              "non_openrouter_proofs": len(outside), "api_calls": 0, "lean_runs": 0}
     atomic_json(layout.plan, value)
     if assemble_submission:

@@ -126,11 +126,50 @@ def row_facts(layout, row):
     return facts
 
 
-def failing_names(rules, provenance):
+def failing_names(rules, provenance, static=None):
     names = set(rules.get("problems", {}))
     for line in provenance.get("errors", []):
         names.add(line.split(": ", 1)[0])
+    names.update((static or {}).get("problems", {}))
     return names
+
+
+def static_rules():
+    """The golf component's rules module (verbatim app.py filter + check_static), or None when absent."""
+    try:
+        from . import rules
+    except ImportError:
+        return None
+    return rules if hasattr(rules, "official_rejection") and hasattr(rules, "check_static") else None
+
+
+def static_issues(rules, proof, statement):
+    """Research item 3: the Space's verbatim intake filter plus check_static on one submitted proof."""
+    issues = []
+    try:
+        verdict = rules.official_rejection(proof)
+    except Exception as exc:
+        verdict = "official filter error: " + type(exc).__name__
+    if verdict:
+        issues.append("official: " + str(verdict))
+    try:
+        issues += [str(item) for item in rules.check_static(proof, statement) if str(item) not in issues]
+    except Exception as exc:
+        issues.append("check_static error: " + type(exc).__name__)
+    return issues
+
+
+def official_filter(rules, data):
+    """The verbatim app.py filter over every original (item 3): a hit would reject the whole upload."""
+    rejected = {}
+    for item in data:
+        try:
+            verdict = rules.official_rejection(item["src"])
+        except Exception as exc:
+            verdict = "official filter error: " + type(exc).__name__
+        if verdict:
+            rejected[item["name"]] = str(verdict)
+    return rejected
 
 
 def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
@@ -155,6 +194,7 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
             reasons[row] = reason
     benchmark = [{"name": item["name"], "statement": item["statement"], "reference": item["src"]} for item in data]
     by_name = {item["name"]: index + 1 for index, item in enumerate(data)}
+    static_checker = static_rules()
     checks = {}
     # Each failing round reverts at least one improved row, so the last round always checks
     # exactly the submission that is written (at most 61 rounds).
@@ -166,15 +206,35 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
         manifest = [{"name": data[row - 1]["name"], "prior_cost_usd": facts[row]["prior_cost_usd"]}
                     for row in range(1, 61) if choice[row] is not None and Decimal(facts[row]["prior_cost_usd"]) > 0]
         provenance = provenance_checker.check(benchmark, submission, roots, manifest, outside, OFFICIAL_CAP)
-        checks = {"round": round_number, "rules": rules, "provenance": provenance}
-        bad = [by_name[name] for name in failing_names(rules, provenance) if name in by_name and choice[by_name[name]] is not None]
+        # Third checker (item 3): the verbatim app.py intake filter and check_static on every improved row.
+        static = {"checker": "lean_agent.final60.rules" if static_checker else "unavailable", "problems": {}}
+        if static_checker is not None:
+            for row in range(1, 61):
+                if choice[row] is not None:
+                    issues = static_issues(static_checker, choice[row], data[row - 1]["statement"])
+                    if issues:
+                        static["problems"][data[row - 1]["name"]] = issues
+        checks = {"round": round_number, "rules": rules, "provenance": provenance, "static": static}
+        bad = [by_name[name] for name in failing_names(rules, provenance, static)
+               if name in by_name and choice[by_name[name]] is not None]
         if not bad:
             break
         for row in bad:
             messages = rules.get("problems", {}).get(data[row - 1]["name"], []) + [
-                line for line in provenance.get("errors", []) if line.startswith(data[row - 1]["name"] + ": ")]
+                line for line in provenance.get("errors", []) if line.startswith(data[row - 1]["name"] + ": ")] + \
+                static["problems"].get(data[row - 1]["name"], [])
             reasons[row] = "checker rejected the published proof: " + "; ".join(messages)[:600]
             choice[row] = None
+    # The loop never reverts an original, so the official filter runs over all 60 originals too:
+    # one rejected original would reject the whole upload ("Rejected - fix these and re-upload").
+    originals_rejected = official_filter(static_checker, data) if static_checker is not None else {}
+    official = {"checker": checks["static"]["checker"], "originals_checked": 60 if static_checker else 0,
+                "originals_rejected": originals_rejected,
+                "submission_rejected": {name: verdict for name, verdict in
+                                        (official_filter(static_checker, [{"name": entry["name"], "src": entry["proof"]}
+                                                                          for entry in submission]).items()
+                                         if static_checker else ())}}
+    atomic_json(layout.run_dir / "checks/official.json", official)
     lines = "".join(json.dumps(entry, ensure_ascii=False) + "\n" for entry in submission)
     atomic_bytes(layout.run_dir / "submission.jsonl", lines.encode("utf-8"))
     atomic_bytes(layout.run_dir / "provenance-benchmark.jsonl",
@@ -199,10 +259,12 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
         rows.append(entry)
     spend = [Decimal(entry["total_spend_usd"]) for entry in rows]
     issues = len(checks["rules"].get("problems", {})) + len(checks["rules"].get("missing", [])) + \
-        len(checks["provenance"].get("errors", [])) + len(checks["provenance"].get("missing", []))
+        len(checks["provenance"].get("errors", [])) + len(checks["provenance"].get("missing", [])) + \
+        len(checks["static"].get("problems", {})) + len(official["submission_rejected"])
     report = {"at": now_iso(), "final": final, "rows_submitted": len(submission),
               "improved": sum(entry["origin"] == "openrouter-run" for entry in rows),
               "checker_issues": issues, "checks_passed": issues == 0,
+              "official_filter": official,
               "mean_local_score_estimate": sum(entry["local_score_estimate"] for entry in rows) / 60,
               "score_note": "local estimate: (L + H + C)/3 with C = 100 for all-version-validated proofs; not official",
               "spend": {"total_usd": str(sum(spend, Decimal(0))), "mean_per_problem_usd": str(sum(spend, Decimal(0)) / 60),
@@ -220,16 +282,21 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
     if final:
         atomic_bytes(layout.run_dir / "SUBMIT-READY.txt", submit_ready(layout, report).encode("utf-8"))
     return {"rows": len(submission), "improved": report["improved"], "checks": {
-        "passed": issues == 0, "issues": issues, "round": checks["round"]},
+        "passed": issues == 0, "issues": issues, "round": checks["round"], "static_checker": official["checker"],
+        "originals_rejected": sorted(originals_rejected)},
         "mean_local_score_estimate": report["mean_local_score_estimate"],
         "submission": str(layout.run_dir / "submission.jsonl")}
 
 
 def render_markdown(report):
+    official = report.get("official_filter") or {}
     lines = [f"# final60 run report ({'final' if report['final'] else 'rolling'})", "",
              f"- Generated: {report['at']}",
              f"- Rows submitted: {report['rows_submitted']}; improved (OpenRouter run): {report['improved']}",
              f"- Checkers: {'passed' if report['checks_passed'] else str(report['checker_issues']) + ' issue(s)'}",
+             f"- Official intake filter ({official.get('checker', 'n/a')}): "
+             f"{len(official.get('submission_rejected') or {})} submitted row(s) rejected, "
+             f"{len(official.get('originals_rejected') or {})} original(s) rejected",
              f"- Mean local score estimate (not official): {report['mean_local_score_estimate']:.2f}",
              f"- Spend: total ${report['spend']['total_usd']}, mean ${report['spend']['mean_per_problem_usd'][:8]} per problem, "
              f"max ${report['spend']['max_per_problem_usd']} (cap ${report['spend']['cap_per_problem_usd']}), "
@@ -246,12 +313,16 @@ def render_markdown(report):
 
 
 def submit_ready(layout, report):
-    lines = ["final60 submission ready", f"generated_at: {report['at']}",
+    rejected = (report.get("official_filter") or {}).get("submission_rejected") or {}
+    lines = ["final60 submission ready" if not rejected else "final60 submission NOT ready: DO NOT UPLOAD",
+             f"generated_at: {report['at']}",
              f"file: {layout.run_dir / 'submission.jsonl'}", f"sha256: {report['submission_sha256']}",
              f"rows: {report['rows_submitted']}  improved: {report['improved']}  checks_passed: {report['checks_passed']}",
-             f"mean_local_score_estimate: {report['mean_local_score_estimate']:.2f} (local, not official)",
-             "Upload this file once, before 20:45 KST. The leaderboard keeps only the latest submission.", "",
-             "row\torigin\tlast_validated_at\tnote"]
+             f"mean_local_score_estimate: {report['mean_local_score_estimate']:.2f} (local, not official)"]
+    if rejected:
+        lines.append("official intake filter rejects: " + "; ".join(f"{name}: {why}" for name, why in sorted(rejected.items()))[:1000])
+    lines += ["Upload this file once, before 20:45 KST. The leaderboard keeps only the latest submission.", "",
+              "row\torigin\tlast_validated_at\tnote"]
     for entry in report["rows"]:
         published = layout.row_root(entry["row"]) / "published.json"
         at = read_json(published).get("at") if published.exists() else "-"

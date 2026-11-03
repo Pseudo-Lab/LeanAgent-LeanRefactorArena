@@ -8,7 +8,8 @@ from pathlib import Path
 import sys
 
 from .contracts import CAP_USD
-from .orchestrator import DEFAULT_DEADLINE, Layout, RunOptions, parse_deadline, parse_rows, plan, read_json, status
+from .orchestrator import (DEFAULT_DEADLINE, REPO, Layout, RunOptions, parse_deadline, parse_rows, plan, read_json,
+                           status)
 
 
 def prior_costs(path):
@@ -41,8 +42,18 @@ def add_run(parser):
     parser.add_argument("--mem-reserve-gib", type=float, default=6.0)
     parser.add_argument("--gib-per-compile", type=float, default=3.5)
     parser.add_argument("--poll-seconds", type=float, default=15.0)
+    parser.add_argument("--memory-log-seconds", type=float, default=30.0,
+                        help="Period of supervisor/memory.jsonl (lean RSS and MemAvailable)")
     parser.add_argument("--diversity", action="store_true", help="Pass to routing; per-role models stay off (critic A9)")
     parser.add_argument("--dry-run", action="store_true", help="Mock transport (no network, no spend); never submitted")
+    add_passthrough(parser)
+
+
+def add_passthrough(parser):
+    parser.add_argument("--transport", help="Transport variant name handed to row workers unchanged "
+                                            "(FINAL60_TRANSPORT and --transport); the transport component interprets it")
+    parser.add_argument("--lean-memory-mib", type=int, help="ARENA_LEAN_MEMORY_MIB for every row "
+                                                            "(default: 16384 for Mathlib-based sources, else 4096)")
 
 
 def options(args):
@@ -66,15 +77,20 @@ def options(args):
                       cap_usd=Decimal(str(pick("cap", None) or saved.get("cap_usd") or CAP_USD)), prior_costs=priors,
                       exploration_minutes=int(pick("exploration_minutes", 75)),
                       mem_start_gib=float(pick("mem_start_gib", 10.0)), mem_reserve_gib=float(pick("mem_reserve_gib", 6.0)),
-                      gib_per_compile=float(pick("gib_per_compile", 3.5)), poll_seconds=float(pick("poll_seconds", 15.0)))
+                      gib_per_compile=float(pick("gib_per_compile", 3.5)), poll_seconds=float(pick("poll_seconds", 15.0)),
+                      transport=(str(pick("transport")) if pick("transport") else None),
+                      lean_memory_mib=(int(pick("lean_memory_mib")) if pick("lean_memory_mib") else None),
+                      memory_log_seconds=float(pick("memory_log_seconds", 30.0)))
     if not 0 < opts.cap_usd <= CAP_USD:
         raise SystemExit("--cap must be in (0, 2.99]")
     if not 2 <= opts.compiler_slots <= 8 or not 1 <= opts.max_rows <= 14:
         raise SystemExit("--compiler-slots must be 2..8 and --max-rows 1..14")
+    if opts.lean_memory_mib is not None and not 1024 <= opts.lean_memory_mib <= 262144:
+        raise SystemExit("--lean-memory-mib must be 1024..262144")
     return opts
 
 
-def main(argv=None):
+def build_parser():
     parser = argparse.ArgumentParser(prog="python -m lean_agent.final60", description=__doc__)
     commands = parser.add_subparsers(dest="command", required=True)
     plan_parser = commands.add_parser("plan", help="Coverage, routes and an all-original submission; no API, no Lean")
@@ -89,6 +105,7 @@ def main(argv=None):
     row_parser.add_argument("--row", type=int, required=True)
     row_parser.add_argument("--key-file", type=Path)
     row_parser.add_argument("--dry-run", action="store_true")
+    add_passthrough(row_parser)
     status_parser = commands.add_parser("status", help="Per-row state, spend and frozen-code check (JSON)")
     status_parser.add_argument("--run-dir", type=Path, required=True)
     assemble_parser = commands.add_parser("assemble", help="60-row submission, checkers and report")
@@ -96,8 +113,23 @@ def main(argv=None):
     assemble_parser.add_argument("--final", action="store_true")
     assemble_parser.add_argument("--refresh-non-openrouter", action="store_true")
     assemble_parser.add_argument("--allow-dry-run", action="store_true", help="Testing only: include dry-run roots")
-    args = parser.parse_args(argv)
+    package_parser = commands.add_parser("package", help="Code ZIP of tracked files (no symlinks, indexes, quarantine "
+                                                        "or competitor artifacts); asserts the exclusions")
+    package_parser.add_argument("--out", type=Path, required=True)
+    package_parser.add_argument("--repo", type=Path, help="Checkout to pack (default: this one)")
+    package_parser.add_argument("--name", help="Top-level folder inside the ZIP (default: the checkout's name)")
+    package_parser.add_argument("--exclude", action="append", default=[], help="Extra path regex to leave out (repeatable)")
+    return parser
 
+
+def main(argv=None):
+    args = build_parser().parse_args(argv)
+
+    if args.command == "package":
+        from .package import package_code
+        print(json.dumps(package_code(args.repo or REPO, args.out, name=args.name, extra_excludes=args.exclude),
+                         ensure_ascii=False))
+        return 0
     if args.command == "plan":
         value = plan(args.run_dir, dataset=args.dataset, prepared_repo=args.prepared_repo, rows=parse_rows(args.rows),
                      diversity=args.diversity, non_openrouter=args.non_openrouter)

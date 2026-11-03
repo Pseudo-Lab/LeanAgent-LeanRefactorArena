@@ -16,13 +16,15 @@ import threading
 import time
 import traceback
 
-from .orchestrator import (REPO, Layout, atomic_bytes, atomic_json, coverage, driver_modules, json_bytes, load_dataset,
-                           load_non_openrouter, load_rowstate, normalized_sha, now_iso, problem_packet,
-                           prompt_addendum, read_json, route_dict, route_for, row_settings, row_spend, save_rowstate,
-                           sha_bytes, sha_text)
+from .orchestrator import (Layout, atomic_bytes, atomic_json, coverage, driver_modules, json_bytes, lean_memory_mib,
+                           load_dataset, load_non_openrouter, load_rowstate, normalized_sha, now_iso, prepend_tool_paths,
+                           problem_packet, prompt_addendum, read_json, route_dict, route_for, row_settings, row_spend,
+                           save_rowstate, sha_bytes, sha_text, tool_paths)
 
 RESOURCE_PHRASES = ("safe compiler capacity", "memory pressure stayed", "memory monitor unavailable")
 EXIT_RETRYABLE = 75   # EX_TEMPFAIL: resource wait timed out; the supervisor does not count a crash
+ABORT_CODES = (-6, 134)   # SIGABRT directly, or 128 + SIGABRT as the bwrap sandbox reports it
+ABORT_MARKERS = ("excessive memory consumption", "lean::memory_exception")
 
 
 class WorkerBusy(Exception):
@@ -53,18 +55,36 @@ def resource_error(exc, folder=None):
     return any(phrase in text for phrase in RESOURCE_PHRASES)
 
 
-def configure_environment(opts):
-    """Pool and memory settings for this process and its evaluators (driver hook 5, resources.py)."""
-    tools = REPO / "sources/final/bin"
-    if tools.is_dir() and str(tools) not in os.environ.get("PATH", "").split(os.pathsep):
-        # The prepared sources ship the sandbox helper (bwrap on Linux) here; other runs add it too.
-        os.environ["PATH"] = str(tools) + os.pathsep + os.environ.get("PATH", "")
+def allocator_abort(result):
+    """A Lean memory abort (-M bound): exit -6/134 or the allocator's own message in any environment."""
+    for value in (result.get("environments") or {}).values():
+        message = str((value.get("error") or {}).get("message", "")).lower()
+        if any(marker in message for marker in ABORT_MARKERS):
+            return True
+        if any(run.get("returncode") in ABORT_CODES for run in value.get("runs") or []):
+            return True
+    return False
+
+
+def configure_environment(opts, problem=None):
+    """Pool, sandbox PATH and memory settings for this process and its evaluators (driver hook 5)."""
+    # The prepared sources ship the sandbox helper (bwrap on Linux) in <sources>/final/bin (lesson 1).
+    prepend_tool_paths(os.environ, opts.prepared_repo)
     os.environ.setdefault("FINAL60_COMPILER_SLOTS", str(opts.compiler_slots))
     os.environ.setdefault("FINAL60_MEM_RESERVE_GIB", str(opts.mem_reserve_gib))
     os.environ.setdefault("FINAL60_GIB_PER_COMPILE", str(opts.gib_per_compile))
     os.environ.setdefault("FINAL60_ADMISSION_SPACING_S", "5")
     remaining = max(300, int(opts.deadline_epoch() - time.time()))
     os.environ["FINAL60_RESOURCE_WAIT_S"] = str(remaining)
+    if opts.transport:
+        os.environ["FINAL60_TRANSPORT"] = str(opts.transport)      # --transport passthrough for the transport component
+    if problem is not None:
+        # Lesson 4: the frozen -M4096 aborts Mathlib-based compiles; the evaluator reads this bound per compile.
+        os.environ["ARENA_LEAN_MEMORY_MIB"] = str(lean_memory_mib(problem, prepared_repo=opts.prepared_repo,
+                                                                  override=opts.lean_memory_mib))
+    return {"PATH": os.environ["PATH"], "tool_paths": tool_paths(opts.prepared_repo),
+            "lean_memory_mib": os.environ.get("ARENA_LEAN_MEMORY_MIB"), "transport": opts.transport,
+            "compiler_slots": os.environ.get("FINAL60_COMPILER_SLOTS")}
 
 
 class RowWorker:
@@ -101,7 +121,13 @@ class RowWorker:
     def run(self):
         if (self.root / "published.json").exists() and self.state.status == "published":
             return self.state
-        configure_environment(self.opts)
+        try:
+            packet = problem_packet(self.row)
+        except (OSError, ValueError):
+            packet = None
+        environment = configure_environment(self.opts, packet)
+        self.update_worker(environment={key: environment[key] for key in ("tool_paths", "lean_memory_mib", "transport",
+                                                                           "compiler_slots")})
         if self.opts.key_file is not None and not self.opts.dry_run:
             os.environ["OPENROUTER_API_KEY"] = self.driver.transport_for({"backend": "openrouter"}).load_key(Path(self.opts.key_file))
         crashes = self.crashes()
@@ -164,7 +190,9 @@ class RowWorker:
         """The driver caches a failed baseline; set aside evidence of environment failures only.
 
         A host/sandbox/memory failure says nothing about the original proof, so it is retried.
-        A compile failure of the frozen original stays (the row then falls back after 3 tries).
+        A Lean allocator abort (-6, or 134 under bwrap; lesson 4) is retried too, under the row's
+        ARENA_LEAN_MEMORY_MIB. A compile failure of the frozen original stays (the row then falls
+        back after 3 tries).
         """
         if read_or(self.folder / "preflight.json", {}).get("status") != "failed":
             return
@@ -173,7 +201,7 @@ class RowWorker:
             if not result or result.get("valid"):
                 continue
             kinds = {(value.get("error") or {}).get("kind") for value in result.get("environments", {}).values()}
-            if kinds & {"environment", "timeout"} or not result.get("environments"):
+            if kinds & {"environment", "timeout", "resource"} or allocator_abort(result) or not result.get("environments"):
                 (self.folder / name).rename(self.folder / f"{name}-failed-{time.time_ns()}")
 
     def exploration_budget(self):
