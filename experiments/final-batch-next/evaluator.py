@@ -236,8 +236,15 @@ class FinalEvaluator:
                 # Resolve checkout/build-directory aliases while retaining a
                 # final file symlink that the manifest itself already pins.
                 artifact = artifact.parent.resolve() / artifact.name
-                if str(artifact) not in self._prepared[state['id']].settings['files']:
-                    raise ValueError('Compiler setup imports an unpinned artifact: ' + str(artifact))
+                files = self._prepared[state['id']].settings['files']
+                if str(artifact) not in files:
+                    # On Linux the sandbox overlays checkout libraries with
+                    # frozen copies; the manifest pins those mounted files.
+                    mounted = (Path(frozen) / artifact.relative_to(Path(original))
+                               for original, frozen in state.get('library_mounts', {}).items()
+                               if artifact.is_relative_to(Path(original)))
+                    if sys.platform != 'linux' or not any(str(path) in files for path in mounted):
+                        raise ValueError('Compiler setup imports an unpinned artifact: ' + str(artifact))
         return path, checksum
 
     def _cache_identity(self, code, problem, state, context, repetitions, trusted_reference):
@@ -370,7 +377,7 @@ class FinalEvaluator:
             mounts = [part for original, frozen in state.get("library_mounts", {}).items()
                       for part in ("--ro-bind", frozen, original)]
             command = [sandbox, "--die-with-parent", "--unshare-all", "--ro-bind", "/", "/",
-                       "--dev", "/dev", "--proc", *mounts, "--", *command]
+                       "--dev", "/dev", "--proc", "/proc", *mounts, "--", *command]
         else:
             sandbox = shutil.which("sandbox-exec")
             if not sandbox:

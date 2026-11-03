@@ -4,6 +4,7 @@ import os
 import tempfile
 import re
 from pathlib import Path
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 from contextlib import nullcontext
@@ -25,6 +26,24 @@ class FinalEvaluatorContractTests(unittest.TestCase):
             "id": "F001", "row": 1, "dataset_sha256": "fixture", "name": "sample",
             "statement": "theorem sample : True", "reference": "theorem sample : True := by trivial",
             "header": "", "environments": ["fixture-env"]}))
+
+    def test_linux_setup_accepts_only_pinned_mounted_artifacts(self):
+        evaluator = FinalEvaluator(repo_root=self.fixture_repo)
+        checkout = self.fixture_repo / 'checkout/lib'
+        artifact = checkout / 'Qq/Typ.olean'
+        frozen = self.fixture_repo / 'frozen'
+        mounted = frozen / 'Qq/Typ.olean'
+        setup = self.fixture_repo / 'project/.lake/build/ir/Test.setup.json'
+        setup.parent.mkdir(parents=True)
+        setup.write_text(json.dumps({'importArts': [str(artifact)]}))
+        state = {'id': 'fixture-env', 'project': 'project',
+                 'library_mounts': {str(checkout): str(frozen)}}
+        evaluator._prepared['fixture-env'] = SimpleNamespace(settings={'files': {str(mounted): 'pinned'}})
+        with patch('evaluator.sys.platform', 'linux'):
+            self.assertEqual(evaluator._compiler_setup(state, {'module': 'Test'})[0], setup)
+            evaluator._prepared['fixture-env'].settings['files'].clear()
+            with self.assertRaisesRegex(ValueError, 'unpinned artifact'):
+                evaluator._compiler_setup(state, {'module': 'Test'})
 
     def test_module_visibility_and_explicit_modifiers(self):
         cases = [
