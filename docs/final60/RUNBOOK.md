@@ -1,9 +1,10 @@
 # final60 runbook
 
 One autonomous, resumable run over all 60 final problems through OpenRouter only.
-Entry point: `python -m lean_agent.final60 {plan,run,row,status,assemble}` from the repository
-root with `PYTHONPATH=src`. Paths below are placeholders (`$REPO`, `$RUN`, `$KEY`, `$PY`); nothing
-machine-specific is tracked. Linux uses the bwrap sandbox and macOS uses sandbox-exec, both unchanged.
+Entry point: `python -m lean_agent.final60 {plan,run,row,status,assemble,package}` from the repository
+root with `PYTHONPATH=src`. Paths below are placeholders (`$REPO`, `$RUN`, `$KEY`, `$PY`); the harness
+reads no machine-specific path (historical record files under `experiments/` keep the paths of the
+machines that produced them). Linux uses the bwrap sandbox and macOS uses sandbox-exec, both unchanged.
 
 ## What runs
 
@@ -84,9 +85,9 @@ row's cap to `2.99 - prior`, and assembly passes it to the PR #70 checker as `pr
 ## 4. Launch
 
 ```bash
-nohup setsid scripts/final60_supervise.sh "$RUN" --key-file "$KEY" --rows 1-60 \
+nohup scripts/final60_supervise.sh "$RUN" --key-file "$KEY" --rows 1-60 \
     --max-rows 8 --compiler-slots 6 --deadline 2026-11-04T20:59:59+09:00 --soft-stop-min 100 \
-    > "$RUN.watchdog.out" 2>&1 < /dev/null &
+    > "$RUN.watchdog.out" 2>&1 < /dev/null &     # Linux: setsid optional; macOS has none
 ```
 
 Set `FINAL60_PYTHON` to the virtualenv's python. The watchdog restarts the supervisor every 30 s
@@ -119,8 +120,9 @@ A compiler-capacity or memory wait timeout exits 75 and is not counted as a cras
 - deadline - 100 min: `<run-dir>/stop-exploration.json` (no new paid requests in any row).
 - deadline - 60 min: final assembly every 10 min; no new rows are prepared.
 - deadline - 20 min: last assembly, `SUBMIT-READY.txt`, no new workers.
-- The user uploads `submission.jsonl` **once**, by 20:45 KST. The leaderboard keeps only the
-  latest submission, so never upload an interim file after a better one (critic A18).
+- Uploads follow `docs/final-run.md` section 4 (interim, final, at most one later upload, none
+  after 20:45 KST). The leaderboard keeps only the latest submission, so never upload an interim
+  file after a better one (critic A18).
 
 Manual assembly at any time (no Lean, no API): `... assemble --run-dir "$RUN" --final`.
 Stop everything gracefully: `touch "$RUN/supervisor/STOP"` (workers finish their current step).
@@ -162,8 +164,9 @@ Scores in reports are local estimates, not official worker scores.
   (`open_attempts(run_root=)`, `recover(id, step_dir=, key=)`, `attempts(problem)`),
   `ledger.BudgetExceeded`, `money.dispatch_guarded(...)` returning `.normalized`, `.receipt`,
   `.http_calls` (optional `.sub_attempts`), `money.ApiDisabled` (optional `RowApiDisabled`,
-  `RowApiFrozen`), `transport.MockOpenRouter(responder)` where the responder maps a request body
-  to the assistant content string, and the adapter's `ENDPOINT`, `PRICING`, `payload`,
+  `RowApiFrozen`), `transport.MockOpenRouter(responder)` where the responder is a str, a list
+  (one outcome per call) or a callable `(body, spec, index) -> content | raw response dict | exception`,
+  and the adapter's `ENDPOINT`, `PRICING`, `payload`,
   `request_cost`, `load_key`, `audit_step`.
   `normalized["usage"]["cost"]` must equal the step's total charge; a mismatch freezes the row's API.
   A recovered lost step is saved as `response.json` `{"id": "lost-F0NN-SSSS", "final60_lost": true,

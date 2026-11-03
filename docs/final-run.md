@@ -3,7 +3,8 @@
 Companion to `docs/final60/RUNBOOK.md` (commands and flags). This page is the order of operations
 for the one real run and what the user, not an agent, does by hand. Placeholders: `$REPO` (a
 clone), `$PROD` (the run worktree), `$RUN` (the run directory), `$KEY` (the OpenRouter dotenv),
-`$PY` (the virtualenv's python). No machine path is tracked anywhere.
+`$PY` (the virtualenv's python). No machine path is read by the harness; historical record files
+under `experiments/` carry the absolute paths of the machines that produced them (evidence only).
 
 ## 0. The assembled harness (tag `final60-rc1`)
 
@@ -72,7 +73,8 @@ there with the same `--run-dir` (rows resume from disk).
 
 ## 2. Machine preparation, WSL restart before launch (never during)
 
-- `C:\Users\user\.wslconfig` holds the memory limit for WSL2 (`[wsl2] memory=46GB`, `swap=16GB`).
+- The Windows host's `%UserProfile%\.wslconfig` holds the memory limit for WSL2 (for example
+  `[wsl2] memory=46GB`, `swap=16GB`).
   It takes effect only after `wsl --shutdown`, which kills every Lean process, every environment
   build and every row worker. Restart WSL **before** the launch, at a quiet point agreed with the
   other agents, and never while the run is live.
@@ -102,11 +104,14 @@ there with the same `--run-dir` (rows resume from disk).
 ```bash
 cd "$PROD"
 PYTHONPATH=src $PY -m lean_agent.final60 plan --run-dir "$RUN" --prepared-repo "$PROD"   # 60 ready expected
-nohup setsid scripts/final60_supervise.sh "$RUN" --key-file "$KEY" --rows 1-60 \
+nohup scripts/final60_supervise.sh "$RUN" --key-file "$KEY" --rows 1-60 \
     --max-rows 8 --compiler-slots 6 --deadline 2026-11-04T20:59:59+09:00 --soft-stop-min 100 \
     > "$RUN.watchdog.out" 2>&1 < /dev/null &
 PYTHONPATH=src $PY -m lean_agent.final60 status --run-dir "$RUN"
 ```
+
+(`setsid` before the script is optional on Linux and absent on macOS; workers start in their own
+sessions either way.)
 
 `plan` fails a route (the row keeps its original) when the primary toolchain, the first listed
 one on which heartbeats are measured, is not the newest listed toolchain (research item 10a); the
