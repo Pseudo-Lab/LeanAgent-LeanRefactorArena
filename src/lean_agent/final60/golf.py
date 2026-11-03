@@ -9,9 +9,10 @@ Delta L + Delta H > 0. Final selection re-validates on every listed version.
 Pass order (amendment A14: linter and closer passes first):
   G5 decide variants (tiny ``decide`` proofs only), G1 linter-guided removals from the
   incumbent's own compile log, G2 ``try?`` closer probes (whole proof for short proofs,
-  then terminal blocks), G3 local rewrites, G4 deletions, G2s ``simp?`` probe
-  (``simp`` -> ``simp only [...]``, fewer heartbeats for more tokens; the score decides);
-  then G1 again on a changed incumbent. Batches of non-overlapping edits are screened together and split in halves
+  then terminal blocks), G3 local rewrites, G4 deletions, G6 heartbeat swaps (``decide``
+  -> ``decide +kernel``, whole-line ``linarith``/``norm_num``/``norm_cast`` -> ``omega``),
+  G2s ``simp?`` probe (``simp`` -> ``simp only [...]``, fewer heartbeats for more tokens;
+  the score decides); then G1 again on a changed incumbent. Batches of non-overlapping edits are screened together and split in halves
   on failure (ddmin style; no splitting of deletions when T0 > ``ddmin_max_tokens``).
 
 Stop rules: per-candidate compile budget, a per-call total, ``non_improving_stop``
@@ -52,6 +53,8 @@ DEFAULTS = {
     "linter_probe": "auto",
     "linter_probe_min_compiles": 3,
     "risky_rewrites": 2,
+    "heartbeat_swaps": True,        # G6: decide -> decide +kernel, linarith/norm_num/norm_cast -> omega
+    "heartbeat_swap_sites": 3,
     "simp_probe": True,
     # A caller deadline also bounds the final validation that follows golf; keep this
     # much of it free (all versions + fresh 3x is about 4-12 Lean processes).
@@ -405,8 +408,17 @@ def pass_decide(session: _Session) -> int:
     return sum(session.try_variant(name, code) for name, code in ranked)
 
 
+def pass_heartbeat(session: _Session) -> int:
+    """G6 heartbeat swaps (research item 12): ``decide +kernel``, closers -> ``omega``."""
+    if not session.settings.get("heartbeat_swaps", True):
+        return 0
+    edits = rw.heartbeat_span_edits(session.code, session.statement,
+                                    max_sites=int(session.settings.get("heartbeat_swap_sites", 3)))
+    return search_edits(session, edits, "G6")
+
+
 PASSES = (("G5", pass_decide), ("G1", pass_linter), ("G2", pass_closers), ("G3", pass_local), ("G4", pass_delete),
-          ("G2s", pass_simp_only))
+          ("G6", pass_heartbeat), ("G2s", pass_simp_only))
 
 
 def _run(session: _Session) -> None:

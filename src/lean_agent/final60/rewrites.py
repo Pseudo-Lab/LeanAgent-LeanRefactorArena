@@ -1036,3 +1036,31 @@ def decide_variants(code: str, statement: str) -> list[tuple[str, str]]:
             seen.add(new)
             out.append((name, new))
     return out
+
+
+# ---- G6: heartbeat swaps (research item 12) ---------------------------------------------------
+_SWAP_LINE = re.compile(r"^(?P<lead> *(?:[·.] +)?)(?P<tac>linarith|norm_num|norm_cast)(?P<args>\s*\[[^\[\]\n]*\])?[ \t]*$")
+_DECIDE = re.compile(r"(?<![\w.'])decide(?![\w.'])(?![ \t]*(?:\+|:=))")
+
+
+def heartbeat_span_edits(code: str, statement: str, *, max_sites: int = 3) -> list[Edit]:
+    """Score-decided heartbeat swaps: ``decide`` -> ``decide +kernel`` (two more tokens,
+    kernel evaluation instead of the elaborator's) and whole-line goal-closing
+    ``linarith``/``norm_num``/``norm_cast`` -> ``omega``. At most ``max_sites`` sites,
+    earliest first; golf screens them as one batch and splits it on failure.
+    """
+    layout = Layout(code, statement)
+    edits = []
+    for line in range(layout.by_line + 1, len(layout.mlines)):
+        match = _SWAP_LINE.match(layout.mlines[line])
+        if not match or _inside_conv(layout, line):
+            continue
+        start = layout.spans[line][0] + len(match["lead"])
+        end = layout.spans[line][0] + len(layout.mlines[line].rstrip())
+        edits.append(Edit(f"G6:{match['tac']}-to-omega", start, end, "omega"))
+    for match in _DECIDE.finditer(layout.masked, layout.by_end):
+        if layout.masked[:match.start()].rstrip()[-1:] in ("[", ","):   # a simp argument, not the tactic
+            continue
+        edits.append(Edit("G6:decide-kernel", match.start(), match.end(), "decide +kernel"))
+    edits.sort(key=lambda edit: edit.start)
+    return edits[:max(0, int(max_sites))]

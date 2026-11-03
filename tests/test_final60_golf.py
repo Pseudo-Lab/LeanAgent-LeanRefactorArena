@@ -369,6 +369,37 @@ class CloserTests(unittest.TestCase):
         self.assertEqual(rw.suggestions(rw.Message(1, 0, "info", "Try this: sorry")), [])
 
 
+class HeartbeatSwapTests(unittest.TestCase):
+    statement = "theorem t : P"
+
+    def test_sites(self):
+        code = (self.statement + " := by\n  simp [decide]\n  · norm_cast\n  linarith [h, sq_nonneg x]\n"
+                "  norm_num at h\n  decide\n  simp (config := {decide := true})\n  exact (by decide +kernel)\n")
+        edits = rw.heartbeat_span_edits(code, self.statement, max_sites=9)
+        self.assertEqual([e.name for e in edits], ["G6:norm_cast-to-omega", "G6:linarith-to-omega", "G6:decide-kernel"])
+        self.assertEqual(rw.apply_edits(code, edits),
+                         self.statement + " := by\n  simp [decide]\n  · omega\n  omega\n  norm_num at h\n"
+                         "  decide +kernel\n  simp (config := {decide := true})\n  exact (by decide +kernel)\n")
+        self.assertEqual(len(rw.heartbeat_span_edits(code, self.statement, max_sites=2)), 2)
+        self.assertEqual(rw.heartbeat_span_edits(self.statement + " := by\n  simp\n", self.statement), [])
+
+    def test_golf_pass_keeps_the_passing_half(self):
+        code = self.statement + " := by\n  constructor\n  · linarith\n  · norm_num\n"
+
+        def oracle(text):   # omega closes the first goal only; fewer heartbeats when it does
+            if "· omega\n  · omega" in text:
+                return False, None
+            return True, 50 if "omega" in text else 100
+        adapter = FakeAdapter(self.statement, code, oracle)
+        result, = golf.improve(adapter, {"statement": self.statement}, [candidate(code, "model", "c001", adapter)],
+                               {"max_compiles_best": 8, "simp_probe": False})
+        self.assertEqual(result.best.code, self.statement + " := by\n  constructor\n  · omega\n  · norm_num\n")
+        self.assertEqual([name for name in result.accepted if name.startswith("G6:")], ["G6:linarith-to-omegax1"])
+        off, = golf.improve(FakeAdapter(self.statement, code, oracle), {"statement": self.statement},
+                            [candidate(code, "model", "c001")], {"max_compiles_best": 8, "heartbeat_swaps": False})
+        self.assertFalse(any(name.startswith("G6:") for name in off.accepted))
+
+
 class DecideTests(unittest.TestCase):
     statement = "lemma q : (I : Config) →\n    IsClosed I.charges (viable I)"
 
