@@ -165,7 +165,7 @@ def hints(value):
 
 
 def search_mode(settings, request, *, hidden=False):
-    """Alternate by completed candidates, not tool calls or truncated history."""
+    """Alternate by model-proposed candidates, not tool calls, seeds, AutoSolver children or truncated history."""
     if hidden:
         return "withheld"
     if settings.get("search_policy", "guided") == "alternating-v1":
@@ -177,7 +177,16 @@ def search_mode(settings, request, *, hidden=False):
             if type(evaluated) is not int or evaluated < 0:
                 raise ValueError("alternating-v1 requires portfolio evaluated count")
             return "free" if evaluated % 2 == 0 else "guided"
-        count = request.get("exploration", {}).get("candidate_count")
+        exploration = request.get("exploration", {})
+        proposals = exploration.get("proposal_count")
+        if proposals is not None:
+            # Model-proposed candidates only: a warm-start seed (seed-best) or an AutoSolver
+            # child (<cid>-auto) must not shift or repeat a free-first alternation.
+            if type(proposals) is not int or proposals < 0:
+                raise ValueError("alternating-v1 requires a nonnegative proposal_count")
+            return "free" if proposals % 2 == 0 else "guided"
+        # Request snapshots made before proposal_count existed: every candidate except the baseline.
+        count = exploration.get("candidate_count")
         if type(count) is not int or count < 1:
             raise ValueError("alternating-v1 requires actions candidate_count")
         return "free" if (count - 1) % 2 == 0 else "guided"

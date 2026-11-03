@@ -55,9 +55,13 @@ PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py prepare \
 - `alternating-v1`은 각 scout/merger의 첫 후보를 `free`로 시작한 뒤 `guided`와 교대한다.
   다중 라운드에서도 각 역할이 새로 시작할 때 free로 초기화한다. portfolio의 역할별 평가 수를
   사용하므로 다른 scout의 후보나 이전 라운드 seed가 순서를 바꾸지 않는다.
-- portfolio가 없는 actions 실행에서는 baseline을 제외한 누적 후보 수로 교대한다.
+- portfolio가 없는 actions 실행에서는 모델이 제안한 누적 후보 수
+  (`exploration.proposal_count`)로 교대한다. baseline, warm start의 `seed-best`,
+  AutoSolver가 만든 `<cid>-auto` 후보는 세지 않으므로 첫 모델 후보는 항상 free이고
+  AutoSolver 후보 뒤에도 free/guided 순서가 반복되지 않는다.
   유효·무효 Lean 평가와 repair는 후보 수에 포함한다. 도구 조회, 응답 형식 오류,
-  평가 전에 거절된 중복 후보는 교대 횟수에 포함하지 않는다.
+  평가 전에 거절된 중복 후보는 교대 횟수에 포함하지 않는다. `proposal_count`가 없는
+  이전 요청 스냅샷은 baseline을 제외한 누적 후보 수로 재현한다.
 - free 요청에는 카드·추천 신호·힌트를 넣지 않는다. 과거 action과 후보 요약의 명시적
   `strategy`·`strategy_ids` 등은 복사본에서 제거한다. 응답 작성에 필요한 action schema의
   `strategy` 필드는 유지한다. 저장된 원본 기록은 바꾸지 않는다.

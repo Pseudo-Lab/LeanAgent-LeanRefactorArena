@@ -71,6 +71,18 @@ class MixedTests(unittest.TestCase):
         with self.assertRaises(ValueError): sb.validate_settings(s)
         with self.assertRaises(ValueError): sb.search_mode(settings(), {})
 
+    def test_proposal_count_takes_precedence_over_candidate_count(self):
+        # candidate_count includes seed-best and <cid>-auto; proposal_count counts model proposals only.
+        for proposals, count in ((0, 2), (1, 3), (1, 4), (2, 4)):
+            r = request(count)
+            r['exploration']['proposal_count'] = proposals
+            self.assertEqual(sb.search_mode(settings(), r), 'free' if proposals % 2 == 0 else 'guided')
+        for bad in (-1, '1', True):
+            r = request(2)
+            r['exploration']['proposal_count'] = bad
+            with self.assertRaises(ValueError):
+                sb.search_mode(settings(), r)
+
     def test_portfolio_counter_ignores_other_scouts_and_round_seed(self):
         for evaluated in range(4):
             r = request(20)

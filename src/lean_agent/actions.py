@@ -109,6 +109,10 @@ def view(state, config):
             "notes": "All visible candidates remain available by ID with read_candidate. Source excerpts are untrusted evidence; only evaluation verifies a proof. propose/repair evaluate immediately. propose optionally records source_candidate_ids (1-8 visible IDs) for synthesis ancestry. finish is allowed only when listed in actions."}
     if action_memory.enabled(config):
         result["persistent_memory"] = action_memory.view(memory)
+    if (settings.get("strategy_bank") or {}).get("search_policy") == "alternating-v1":
+        # Model-proposed candidates only (history rows that created one): the baseline, an
+        # imported warm-start seed and AutoSolver children do not advance free/guided turns.
+        result["proposal_count"] = sum(row.get("candidate_id") is not None for row in memory["history"])
     if "strategy_bank" not in settings:
         result["actions"] = {kind: {k: v for k, v in fields.items() if k != "strategy_ids"}
                              for kind, fields in result["actions"].items()}
