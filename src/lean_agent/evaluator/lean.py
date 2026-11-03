@@ -12,7 +12,7 @@ import subprocess
 import time
 import uuid
 
-from .tokens import proof_tokens, validate_declaration
+from .tokens import proof_tokens, validate_declaration, without_comments
 
 MARKERS = ("{{HARNESS_IMPORT}}", "{{HARNESS_COMMANDS}}", "{{DECLARATION}}")
 ALLOWED_AXIOMS = {"propext", "Classical.choice", "Quot.sound"}
@@ -100,13 +100,41 @@ def validate_template(template: str) -> None:
         raise ValueError("Template markers must be ordered: import, commands, declaration")
 
 
+def declaration_prefix(template: str) -> tuple[str, str]:
+    """Keep target docstrings/scoped modifiers inside the measured command.
+
+    The common source adapters leave these immediately before the declaration
+    slot. Moving them into cmd preserves their scope when wrapping the target.
+    Unrecognized syntax stays untouched and remains a compiler error.
+    """
+    before, after = template.split("{{DECLARATION}}")
+    prefix = ""
+    while True:
+        start = None
+        for match in re.finditer(r"/--", before):
+            try:
+                if not without_comments(before[match.start():]).strip():
+                    start = match.start()
+                    break
+            except ValueError:
+                continue
+        if start is None:
+            match = re.search(r"(?m)^[ \t]*(?:omit|include|open|set_option)\b[^\n]*\bin[ \t]*\s*\Z", before)
+            start = match.start() if match else None
+        if start is None:
+            return before + "{{DECLARATION}}" + after, prefix
+        prefix = before[start:] + prefix
+        before = before[:start]
+
+
 def render(template: str, code: str, name: str, nonce: str | None) -> str:
     if nonce is None:
         values = ("", "", code)
     else:
+        template, prefix = declaration_prefix(template)
         module = bool(re.search(r"(?m)^module\s*$", template))
         target = ("set_option Elab.async false in\n"
-                  f"#refactor_eval {json.dumps(nonce)} {json.dumps(name, ensure_ascii=False)}\n{code}")
+                  f"#refactor_eval {json.dumps(nonce)} {json.dumps(name, ensure_ascii=False)}\n{prefix}{code}")
         values = (("public import Lean" if module else "import Lean"), WRAPPER, target)
     # Replace in one pass: never interpret marker-looking text in user proofs.
     replacements = dict(zip(MARKERS, values))

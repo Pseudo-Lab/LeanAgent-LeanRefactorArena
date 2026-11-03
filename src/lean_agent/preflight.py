@@ -1,4 +1,4 @@
-"""Feature 1: check a prepared compiler and declaration-free context before generation."""
+"""Feature 1: check a prepared compiler and target-free context before generation."""
 from __future__ import annotations
 
 import os
@@ -112,8 +112,11 @@ def check(environment, root, evaluator, *, progress=None):
             progress.finish(paths=["environment.json"])
             progress.enter("context", phase="preflight")
         validate_template(environment["template"])
-        # No proof declaration, measurement wrapper, extra import or Lean options.
-        context = render(environment["template"], "", "", None)
+        # A harmless anonymous declaration consumes docstrings and scoped
+        # `omit/open/set_option ... in` prefixes attached to the target slot.
+        # The target itself remains absent: no original/candidate proof,
+        # measurement wrapper, extra import or options are introduced.
+        context = render(environment["template"], "example : True := True.intro\n", "", None)
         directory = root / "checks/context"
         directory.mkdir(parents=True, exist_ok=True)
         source = directory / "context.lean"
@@ -124,7 +127,7 @@ def check(environment, root, evaluator, *, progress=None):
         if response["timed_out"]:
             raise CheckFailed(stage, "local_timeout", "Context check exceeded the local process limit; cause undetermined", kind="timeout")
         if response["returncode"]:
-            raise CheckFailed(stage, "context_compile_failed", "Declaration-free context did not compile; inspect the compiler log (context or unsupported template)", kind="unknown")
+            raise CheckFailed(stage, "context_compile_failed", "Target-free context did not compile; inspect the compiler log (context or unsupported template)", kind="unknown")
         # Detect changes during the probes before accepting the prepared environment.
         if sha(compiler.read_bytes()) != fingerprint["compiler_sha256"]:
             raise CheckFailed("environment", "compiler_changed", "Compiler changed during preflight")

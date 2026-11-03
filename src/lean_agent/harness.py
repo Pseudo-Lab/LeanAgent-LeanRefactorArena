@@ -14,14 +14,14 @@ import statistics
 import subprocess
 import sys
 
-from . import accounting, actions, budgeting, diagnostics, models, portfolio, prepared, search_policy, status
+from . import accounting, actions, budgeting, diagnostics, models, portfolio, prepared, search_policy, status, strategy_bank
 from .artifacts import canonical, inventory, read, sha as digest, write
 from .evaluator.lean import LeanEvaluator, validate_template
 from .evaluator.tokens import TOKENIZER_ID, proof_body
 
 BASE = Path(__file__).resolve().parent
 CODE_FILES = ("__init__.py", "__main__.py", "harness.py", "models.py", "provenance.json",
-              "artifacts.py", "actions.py", "portfolio.py", "search_policy.py", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py",
+              "artifacts.py", "actions.py", "strategy_bank.py", "strategy_signals.py", "portfolio.py", "search_policy.py", "budgeting.py", "preflight.py", "diagnostics.py", "status.py", "accounting.py", "prepared.py", "usage_cost.py",
               "evaluator/__init__.py", "evaluator/lean.py", "evaluator/tokens.py", "evaluator/provenance.json")
 SELECTION = "ratio-sum-v1: tokens*baseline_raw + raw*baseline_tokens; then tokens, declaration SHA256"
 
@@ -250,6 +250,15 @@ def make_request(state, problem, config, prompt):
     if search_policy.enabled(config):
         packet["approach_policy"] = search_policy.packet(state, config, context)
         prompt += "\n" + search_policy.GUIDANCE
+    bank_settings = config.get("agent", {}).get("strategy_bank")
+    if bank_settings is not None:
+        mode = strategy_bank.search_mode(bank_settings, packet, hidden=hidden)
+        # Retrieve against the original visible history before redacting labels:
+        # failed guided strategies still stay excluded on the next guided turn.
+        bank_packet = strategy_bank.for_request(problem, bank_settings, packet, hidden=hidden)
+        if mode in {"free", "withheld"}:
+            packet = strategy_bank.without_strategy_history(packet)
+        packet["strategy_bank"] = bank_packet
     threshold = config["limits"].get("cost_stop_usd")
     if threshold is not None:
         spent = Decimal(state["cost_usd"])

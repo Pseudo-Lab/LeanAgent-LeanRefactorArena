@@ -38,6 +38,7 @@ DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22, "progress
 # Omitted policy means new-run defaults, while explicit None preserves legacy
 # single-context inputs during validation and supports --no-portfolio.
 UNSPECIFIED_PORTFOLIO = object()
+UNSPECIFIED_STRATEGY = object()
 
 
 def now():
@@ -224,7 +225,7 @@ def guard_compiler_signal(result):
 INPUT_FILES = ("problem.json", "config.json", "action-corpus.json", "context-metadata.json", "prompt.txt")
 
 
-def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO):
+def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO, strategy_settings=None):
     if portfolio_settings is UNSPECIFIED_PORTFOLIO:
         portfolio_settings = DEFAULT_PORTFOLIO
     model = {**MODEL, "max_tokens": 16384 if len(problem["reference"]) > 12000 else 8192}
@@ -237,6 +238,9 @@ def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO):
     if portfolio_settings is not None:
         h.portfolio.validate(portfolio_settings)
         config["agent"].update(portfolio=dict(portfolio_settings), approach_policy="exchange-v1")
+    if strategy_settings is not None:
+        h.strategy_bank.validate_settings(strategy_settings)
+        config["agent"]["strategy_bank"] = json.loads(a.canonical(strategy_settings))
     return config
 
 
@@ -250,7 +254,8 @@ def validate_inputs(root, row):
     if problem != original or problem.get("dataset_sha256") != DATASET_SHA:
         raise ValueError(f"F{row:03} frozen problem identity differs")
     config = a.read(inputs / "config.json")
-    expected = configuration(problem, config.get("agent", {}).get("portfolio"))
+    expected = configuration(problem, config.get("agent", {}).get("portfolio"),
+                             config.get("agent", {}).get("strategy_bank"))
     timeout = config.get("model", {}).get("timeout_seconds")
     if timeout not in (300, 900):
         raise ValueError(f"F{row:03} unexpected prelaunch timeout")
@@ -268,7 +273,8 @@ def validate_inputs(root, row):
     return problem
 
 
-def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOLIO):
+def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOLIO,
+                   strategy_settings=UNSPECIFIED_STRATEGY):
     """Prepare disjoint row inputs only; no authorization, API ledger or seal."""
     if workers not in (1, 2):
         raise ValueError("Input preparation workers must be 1 or 2")
@@ -288,6 +294,8 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
                 validate_inputs(root, row)
                 if portfolio_settings is not UNSPECIFIED_PORTFOLIO and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
                     raise ValueError("Existing inputs have a different policy; use a fresh batch root")
+                if strategy_settings is not UNSPECIFIED_STRATEGY and a.read(inputs / "config.json")["agent"].get("strategy_bank") != strategy_settings:
+                    raise ValueError("Existing inputs have a different Bank; use a fresh batch root")
                 return {"row": row, "input_status": "reused"}
             inputs.mkdir(parents=True, exist_ok=True)
             problem = ev.load_problem(row)
@@ -300,7 +308,8 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOL
             if len(text) > 40000:
                 raise ValueError("Initial context exceeds bounded 40000 characters")
             atomic(inputs / "problem.json", problem)
-            atomic(inputs / "config.json", configuration(problem, portfolio_settings))
+            atomic(inputs / "config.json", configuration(problem, portfolio_settings,
+                   None if strategy_settings is UNSPECIFIED_STRATEGY else strategy_settings))
             atomic(inputs / "action-corpus.json", corpus)
             atomic(inputs / "context-metadata.json", context.get("metadata", {}))
             (inputs / "prompt.txt").write_text(prompt_text(text))
@@ -356,16 +365,23 @@ def seal_inputs(root, rows):
     print(json.dumps({"prepared": str(root), "rows": rows, "api_calls": 0}), flush=True)
 
 
-def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO):
+def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO,
+            strategy_settings=UNSPECIFIED_STRATEGY):
     if (Path(root) / "frozen.json").exists():
         if portfolio_settings is not UNSPECIFIED_PORTFOLIO:
             for row in rows:
                 config = a.read(folder(root, row) / "input/config.json")
                 if config.get("agent", {}).get("portfolio") != portfolio_settings:
                     raise ValueError("Sealed policy differs; use a fresh batch root")
+        if strategy_settings is not UNSPECIFIED_STRATEGY:
+            for row in rows:
+                config = a.read(folder(root, row) / "input/config.json")
+                if config.get("agent", {}).get("strategy_bank") != strategy_settings:
+                    raise ValueError("Sealed Bank differs; use a fresh batch root")
         seal_inputs(root, rows)
         return
-    prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings)
+    prepare_inputs(root, rows, workers=workers, portfolio_settings=portfolio_settings,
+                   strategy_settings=strategy_settings)
     seal_inputs(root, rows)
 
 
@@ -817,7 +833,21 @@ def main():
                         help="Repeat scouts then merger this many times; later scouts start from the incumbent")
     parser.add_argument("--merger-until-budget", action="store_true",
                         help="Let the last merger run until the per-problem budget instead of its evaluation count")
+    parser.add_argument("--strategy-bank", type=Path,
+                        help="Freeze an optional Bank JSON in new prepare/inputs configurations")
+    parser.add_argument("--strategy-top-k", type=int, choices=(1, 2, 3), default=None)
+    parser.add_argument("--strategy-contextual", action="store_true")
+    parser.add_argument("--strategy-search-policy", choices=("guided", "alternating-v1"), default=None)
     args = parser.parse_args()
+    bank_settings = UNSPECIFIED_STRATEGY
+    if args.strategy_bank or args.strategy_top_k is not None or args.strategy_contextual or args.strategy_search_policy:
+        if args.command not in ("prepare", "inputs") or args.strategy_bank is None:
+            parser.error("Bank settings require --strategy-bank and fresh prepare/inputs")
+        bank_settings = {"bank": a.read(args.strategy_bank),
+                         "top_k": 3 if args.strategy_top_k is None else args.strategy_top_k,
+                         "contextual": args.strategy_contextual,
+                         "search_policy": args.strategy_search_policy or "guided"}
+        h.strategy_bank.validate_settings(bank_settings)
     settings = UNSPECIFIED_PORTFOLIO
     custom_quotas = (args.scout_evaluations is not None or args.merger_evaluations is not None
                      or args.rounds is not None or args.merger_until_budget)
@@ -841,9 +871,11 @@ def main():
     require_policy(root)
     rows = rows_from(args)
     if args.command == "prepare":
-        prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings)
+        prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings,
+                strategy_settings=bank_settings)
     elif args.command == "inputs":
-        prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings)
+        prepare_inputs(root, rows, workers=args.workers or 1, portfolio_settings=settings,
+                       strategy_settings=bank_settings)
     elif args.command == "seal":
         seal_inputs(root, rows)
     elif args.command == "preflight":
