@@ -62,7 +62,15 @@ from urllib.parse import urlparse
 
 OPENROUTER_HOST = "openrouter.ai"
 MIN_LEAK_CHARS = 40
-HARNESS_CODE = Path(__file__).resolve().parents[1] / "experiments" / "final-batch-next"
+def _harness_code() -> Path:
+    """experiments/final-batch-next of the checkout holding this file (also from a vendored copy)."""
+    for parent in Path(__file__).resolve().parents:
+        if (parent / "experiments" / "final-batch-next" / "route60.py").is_file():
+            return parent / "experiments" / "final-batch-next"
+    return Path(__file__).resolve().parents[1] / "experiments" / "final-batch-next"
+
+
+HARNESS_CODE = _harness_code()
 # Files whose bytes decide which proof text a route20/route60 run can produce.
 GENERATOR_FILES = ("assigned_routes.py", "assigned_route_hints.json", "reuse_scout.py")
 ROUTE60_GENERATOR_FILES = GENERATOR_FILES + ("route60.py",)
