@@ -23,6 +23,7 @@ import importlib
 import json
 import os
 from pathlib import Path
+import re
 import statistics
 import sys
 import time
@@ -110,6 +111,22 @@ class EvalAdapter:
 
     def tokens(self, code: str) -> int:
         return scoring.count_tokens(code, self.statement)
+
+    def screen_timeout(self) -> int:
+        """Single-pass screen limit: 4x the slowest baseline compile, within 120..1200 s.
+
+        A golf variant far slower than the original cannot win on heartbeats, so a long
+        timeout only blocks a compiler slot. ``FINAL60_GOLF_SCREEN_TIMEOUT_S`` overrides.
+        """
+        override = os.environ.get("FINAL60_GOLF_SCREEN_TIMEOUT_S")
+        if override:
+            return max(30, int(override))
+        try:
+            runs = _read(self.folder / "baseline/result.json")["environments"][self.primary]["runs"]
+            slowest = max(float(run.get("seconds") or 0) for run in runs)
+        except (OSError, KeyError, ValueError, TypeError):
+            slowest = 0.0
+        return int(min(1200, max(120, 4 * slowest)))
 
     def screen_score(self, result: EvalResult) -> float | None:
         if not result.valid or result.tokens is None or result.raw_heartbeats is None:
@@ -232,7 +249,8 @@ class EvalAdapter:
                 source = (module.add_lean_import(prefix[:cut]) + "\n" + wrapper +
                           "\nset_option Elab.async false in\n#refactor_eval " + json.dumps(nonce) + " " +
                           json.dumps(self.problem["name"], ensure_ascii=False) + "\n" + prefix[cut:] + code + suffix)
-                record, log = self.ev._invoke(source, state, context, env_folder, "measure-1")
+                record, log = self.ev._invoke(source, state, context, env_folder, "measure-1",
+                                              timeout_seconds=self.screen_timeout())
                 self.compiles += 1
                 row["runs"].append(record)
                 if record["returncode"] or record["timed_out"]:
@@ -242,7 +260,6 @@ class EvalAdapter:
                     kind = "environment" if host else "timeout" if record["timed_out"] else "compile"
                     row["error"] = {"kind": kind, "message": log[-8000:]}
                 else:
-                    import re
                     matches = re.findall(r"REFACTOR_EVAL " + nonce + r" (\{[^\n]*\})", log)
                     if len(matches) != 1:
                         raise ValueError("Expected exactly one fresh target measurement")

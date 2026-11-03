@@ -430,6 +430,23 @@ class GolfTests(unittest.TestCase):
         self.assertIn("  · omega\n  · exact y", result.best.code)
         self.assertTrue(any(name.startswith("G2:") for name in result.accepted))
 
+    def test_blocked_variants_are_skipped_and_winners_persist(self):
+        adapter = self.adapter()
+        start = candidate(self.reference, "original", "c000", adapter)
+        target = self.statement + " := by\n  have h : True := trivial\n  exact h\n"
+        blocked = {golf.provenance_sha(target + "\n")}
+        result, = golf.improve(adapter, {"statement": self.statement}, [start], {"original_compiles": 6},
+                               non_openrouter_sha256=blocked)
+        self.assertEqual(result.best.origin, "golf")
+        self.assertNotEqual(golf.provenance_sha(result.best.code), golf.provenance_sha(target))
+        self.assertTrue(any(entry.get("skipped") == "equals-non-openrouter-proof" for entry in result.log))
+        winners = golf.load_winners(adapter.golf_dir)
+        self.assertEqual([w.sha256 for w in winners], [result.best.sha256])
+        self.assertEqual(winners[0].screen.tokens, result.best.screen.tokens)
+        golf.improve(adapter, {"statement": self.statement}, [start], {"original_compiles": 6},
+                     non_openrouter_sha256=blocked)
+        self.assertEqual(len(golf.load_winners(adapter.golf_dir)), 1)
+
     def test_candidate_budgets(self):
         adapter = self.adapter(lambda code: (True, 10 * scoring.count_tokens(code, self.statement)))
         pool = [candidate(self.reference, "model", f"c00{i}", adapter) for i in range(1, 2)]
@@ -643,6 +660,29 @@ class PublicationTests(unittest.TestCase):
         built = self.report()
         self.assertTrue(built["audit_passed"], built["audit_errors"])
         self.assertEqual((self.output / "selected.lean").read_text(), self.reference)
+
+    def test_finalize_row_entry_points(self):
+        self.run_driver()
+        adapter = evaladapter.EvalAdapter(self.root, 1, evaluator=self.evaluator, screen_mode="check-measure")
+        early = select.golf_original(self.root, 1, {"original_compiles": 3}, adapter=adapter)
+        self.assertEqual(len(early), 1)
+        outcome = select.finalize_row(self.root, 1, {"max_compiles_best": 6, "top_k": 1}, adapter=adapter)
+        self.assertTrue(outcome["beat_original"])
+        self.assertIn(outcome["origin"], ("golf", "model"))
+        self.assertEqual(outcome["status"], "completed")
+        built = self.report()
+        self.assertTrue(built["audit_passed"], built["audit_errors"])
+        self.assertEqual(built["rows"][0]["selected_sha256"], outcome["selected_sha256"])
+        # A restarted worker sees the persisted golf winners again.
+        labels = [c.label for c in select.candidates_from_run(self.root, 1)]
+        self.assertTrue(any(label.startswith("golf:") for label in labels))
+        self.assertEqual(labels[-1], "c000")
+
+    def test_screen_timeout_bounds(self):
+        adapter = evaladapter.EvalAdapter(self.root, 1, evaluator=self.evaluator, screen_mode="check-measure")
+        self.assertEqual(adapter.screen_timeout(), 120)
+        with patch.dict(os.environ, {"FINAL60_GOLF_SCREEN_TIMEOUT_S": "45"}):
+            self.assertEqual(adapter.screen_timeout(), 45)
 
     def test_screen_cache_is_content_addressed(self):
         adapter = evaladapter.EvalAdapter(self.root, 1, evaluator=self.evaluator, screen_mode="check-measure")

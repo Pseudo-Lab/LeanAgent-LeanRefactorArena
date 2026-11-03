@@ -54,6 +54,12 @@ def sha(text: str) -> str:
     return hashlib.sha256(text.encode()).hexdigest()
 
 
+def provenance_sha(text: str) -> str:
+    """PR #70 normalisation (strip outer newlines, trailing spaces per line)."""
+    normalized = "\n".join(line.rstrip() for line in text.strip("\n").splitlines())
+    return hashlib.sha256(normalized.encode()).hexdigest()
+
+
 @dataclass
 class GolfResult:
     best: Candidate
@@ -81,9 +87,10 @@ class _Session:
     """Golf state for one candidate: incumbent, budget, stop rules and the log."""
 
     def __init__(self, adapter, statement: str, candidate: Candidate, *, budget: _Budget, deadline: float,
-                 settings: dict):
+                 settings: dict, blocked=frozenset()):
         self.adapter, self.statement, self.root = adapter, statement, candidate
         self.budget, self.deadline, self.settings = budget, deadline, settings
+        self.blocked = frozenset(blocked)
         self.t0, self.hb0 = adapter.baseline()
         self.code, self.result, self.score = candidate.code, candidate.screen, None
         self.seen = {sha(candidate.code)}
@@ -130,8 +137,8 @@ class _Session:
             self.budget.spend(used)
         if used:
             self.tried += 1
-        if result.error_kind in ("environment", "timeout"):
-            self.environment_failures += 1
+        if result.error_kind == "environment":
+            self.environment_failures += 1   # a timeout is a slow variant, not a broken machine
         return result
 
     def try_variant(self, name: str, code: str) -> bool:
@@ -143,6 +150,10 @@ class _Session:
             return False
         self.seen.add(digest)
         entry = {"pass": name.split(":")[0], "name": name, "sha256": digest}
+        if self.blocked and provenance_sha(code) in self.blocked:
+            # PR #70 rejects a submission equal to a non-OpenRouter proof (amendment A12).
+            self.log.append({**entry, "skipped": "equals-non-openrouter-proof"})
+            return False
         issues = rules.check_static(code, self.statement)
         if issues:
             self.log.append({**entry, "skipped": "static", "issues": issues[:3]})
@@ -324,8 +335,12 @@ def _run(session: _Session) -> None:
 
 
 def improve(adapter, problem: dict, candidates: list[Candidate], route_golf: dict, *,
-            deadline: float | None = None) -> list[GolfResult]:
-    """Golf each candidate in order within the route's compile and time budgets."""
+            deadline: float | None = None, non_openrouter_sha256=frozenset()) -> list[GolfResult]:
+    """Golf each candidate in order within the route's compile and time budgets.
+
+    Winners are also persisted under ``golf/winners/`` (see ``load_winners``) so a
+    restarted row worker can still select them.
+    """
     settings = {**DEFAULTS, **(route_golf or {})}
     started = time.time()
     stop_at = started + 60.0 * float(settings["minutes"])
@@ -346,7 +361,7 @@ def improve(adapter, problem: dict, candidates: list[Candidate], route_golf: dic
         else:
             allowance = settings["max_compiles_best"] if index == 0 else settings["max_compiles_other"]
         session = _Session(adapter, statement, candidate, budget=_Budget(allowance, total), deadline=stop_at,
-                           settings=settings)
+                           settings=settings, blocked=non_openrouter_sha256)
         try:
             if session.ready():
                 _run(session)
@@ -355,7 +370,60 @@ def improve(adapter, problem: dict, candidates: list[Candidate], route_golf: dic
         results.append(GolfResult(best=session.best_candidate(), tried=session.tried,
                                   accepted=list(session.accepted), log=session.log))
     _write_report(adapter, settings, results, started, total)
+    _persist_winners(adapter, results)
     return results
+
+
+WINNERS_SCHEMA = "final60-golf-winners-v1"
+
+
+def _persist_winners(adapter, results) -> None:
+    """Append golf winners (code + screen numbers) to ``golf/winners.json``."""
+    try:
+        folder = adapter.golf_dir
+        index_path = folder / "winners.json"
+        index = json.loads(index_path.read_text()) if index_path.exists() else {"schema": WINNERS_SCHEMA, "winners": []}
+        known = {item["sha256"] for item in index["winners"]}
+        changed = False
+        for result in results:
+            best = result.best
+            if best.origin != "golf" or best.sha256 in known or best.screen is None:
+                continue
+            path = folder / "winners" / (best.sha256[:12] + ".lean")
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(best.code)
+            index["winners"].append({"sha256": best.sha256, "label": best.label, "parent_sha256": best.parent_sha256,
+                                     "tokens": best.screen.tokens, "raw_heartbeats": best.screen.raw_heartbeats,
+                                     "envs": best.screen.envs, "evidence_dir": best.screen.evidence_dir,
+                                     "accepted": result.accepted, "code_path": path.name, "at": time.time()})
+            known.add(best.sha256)
+            changed = True
+        if changed:
+            temporary = index_path.with_name(index_path.name + f".tmp-{time.time_ns()}")
+            temporary.write_text(json.dumps(index, ensure_ascii=False, indent=2) + "\n")
+            temporary.replace(index_path)
+    except (OSError, ValueError, TypeError, AttributeError, KeyError):
+        pass
+
+
+def load_winners(golf_dir) -> list[Candidate]:
+    """Golf winners persisted by ``improve`` for this row, oldest first."""
+    from pathlib import Path
+    folder = Path(golf_dir)
+    index_path = folder / "winners.json"
+    if not index_path.exists():
+        return []
+    out = []
+    for item in json.loads(index_path.read_text()).get("winners", []):
+        path = folder / "winners" / item["code_path"]
+        if not path.exists():
+            continue
+        code = path.read_text()
+        if sha(code) != item["sha256"]:
+            continue
+        screen = EvalResult(True, item["tokens"], item["raw_heartbeats"], item["envs"], None, "", item["evidence_dir"])
+        out.append(Candidate(code, item["sha256"], "golf", item.get("parent_sha256"), item["label"], screen))
+    return out
 
 
 def _write_report(adapter, settings, results, started, budget) -> None:

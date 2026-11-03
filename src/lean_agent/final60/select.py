@@ -68,9 +68,11 @@ def _evidence(folder: Path, cid: str, value: dict) -> Path:
     return base / "autosolver" / "evaluation" if cid.endswith("-auto") else base / "evaluation"
 
 
-def candidates_from_run(run_root: Path, row: int, *, top: int = 6) -> list[Candidate]:
-    """Top valid exploration candidates, the current selected.lean, then the original."""
+def candidates_from_run(run_root: Path, row: int, *, top: int = 6, include_golf: bool = True) -> list[Candidate]:
+    """Top valid exploration candidates, persisted golf winners, the current selected.lean,
+    then the original (always last)."""
     from lean_agent import harness as h
+    from . import golf
     d = _driver()
     folder = d.folder(Path(run_root).resolve(), row)
     problem = _read(folder / "input/problem.json")
@@ -93,6 +95,11 @@ def candidates_from_run(run_root: Path, row: int, *, top: int = 6) -> list[Candi
                                 str(_evidence(folder, cid, value)))
             out.append(Candidate(value["code"], value["sha256"], "model", None, cid, screen))
             seen.add(value["sha256"])
+    if include_golf:
+        for winner in golf.load_winners(folder / "golf"):
+            if winner.sha256 not in seen and winner.code != reference:
+                out.append(winner)
+                seen.add(winner.sha256)
     selected = folder / "selected.lean"
     if selected.exists():
         code = selected.read_text()
@@ -370,3 +377,50 @@ def write_selection(run_root: Path, row: int, selection: Selection, *, stop_reas
         if value.get("selected", {}).get("sha256") == digest:
             d.atomic(record, {**value, "published": True, "published_at": _now()})
     return summary
+
+
+# ---- convenience entry points for the row worker ------------------------------------------------
+def golf_original(run_root: Path, row: int, route_golf: dict | None = None, *, deadline: float | None = None,
+                  non_openrouter_sha256=frozenset(), adapter=None) -> list:
+    """golf-0: golf the original once (early fallback). Winners persist for selection."""
+    from . import golf
+    from .evaladapter import EvalAdapter
+    adapter = adapter or EvalAdapter(run_root, row)
+    reference = adapter.problem["reference"]
+    original = Candidate(reference, sha(reference), "original", None, "c000", adapter.reference_result())
+    return golf.improve(adapter, adapter.problem, [original], route_golf or {}, deadline=deadline,
+                        non_openrouter_sha256=non_openrouter_sha256)
+
+
+def finalize_row(run_root: Path, row: int, route_golf: dict | None = None, *, golf_deadline: float | None = None,
+                 validation_deadline: float | None = None, non_openrouter_sha256=frozenset(),
+                 stop_reason: str | None = None, adapter=None, run_golf: bool = True, k: int = 3) -> dict:
+    """golf-1 on the top exploration candidates, then select_final and write_selection.
+
+    Never raises for golf problems; raises only if nothing (not even the original) can be
+    validated and published, so the caller can fall back to the dataset original.
+    """
+    from . import golf
+    from .evaladapter import EvalAdapter
+    adapter = adapter or EvalAdapter(run_root, row)
+    problem = adapter.problem
+    settings = {**golf.DEFAULTS, **(route_golf or {})}
+    results, golf_error = [], None
+    if run_golf:
+        parents = [c for c in candidates_from_run(run_root, row) if c.origin == "model"][:settings["top_k"]]
+        if parents:
+            try:
+                results = golf.improve(adapter, problem, parents, settings, deadline=golf_deadline,
+                                       non_openrouter_sha256=non_openrouter_sha256)
+            except Exception as exc:  # golf never fails the row
+                golf_error = f"{type(exc).__name__}: {exc}"[:500]
+    pool = candidates_from_run(run_root, row)
+    selection = select_final(adapter, problem, pool, k=k, deadline=validation_deadline,
+                             non_openrouter_sha256=non_openrouter_sha256)
+    summary = write_selection(run_root, row, selection, stop_reason=stop_reason)
+    return {"row": row, "selected_sha256": selection.candidate.sha256, "origin": selection.candidate.origin,
+            "label": selection.candidate.label, "beat_original": selection.beat_original,
+            "score_estimate": summary["golf"]["score_estimate"], "considered": list(selection.considered),
+            "status": summary["status"], "golf_error": golf_error, "compiles": adapter.compiles,
+            "golf": [{"best_sha256": r.best.sha256, "origin": r.best.origin, "tried": r.tried,
+                      "accepted": r.accepted} for r in results]}
