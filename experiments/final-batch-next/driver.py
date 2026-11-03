@@ -1037,8 +1037,11 @@ def final60_settle(root, row, step, bound, normalized, result, model):
     return normalized
 
 
-def final60_dry_responder(body):
-    """Dry-run model: searches, then re-proposes the visible original with a marker comment."""
+def final60_dry_responder(body, spec=None, index=None):
+    """Dry-run model: searches, then re-proposes the visible original with a marker comment.
+
+    MockOpenRouter calls a responder as ``(body, spec, index)``; older fixtures pass the body only.
+    """
     packet = json.loads(body["messages"][-1]["content"])
     reference = packet.get("problem", {}).get("reference")
     statement = packet.get("problem", {}).get("statement", "")
