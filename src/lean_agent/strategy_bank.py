@@ -192,10 +192,17 @@ def without_strategy_history(value):
     if isinstance(value, dict):
         # Action examples describe required protocol fields, not past strategy
         # choices. Keep the required `strategy` field usable in free requests.
-        return {k: ({kind: {field: sample for field, sample in fields.items() if field != "strategy_ids"}
+        result = {k: ({kind: {field: sample for field, sample in fields.items() if field != "strategy_ids"}
                      for kind, fields in v.items()} if k == "actions" else without_strategy_history(v))
                 for k, v in value.items()
                 if k not in {"strategy", "strategy_ids", "strategy_hints", "recommended_ids"}}
+        if value.get("status") == "tool_result" and "details" in result:
+            # details is a serialized, possibly truncated copy of the tool
+            # observation. Its embedded labels evade structural redaction.
+            # The same observation is already available as a redacted dict.
+            result.pop("details")
+            result["details_ref"] = "exploration.recent_actions[-1].observation"
+        return result
     if isinstance(value, list):
         return [without_strategy_history(v) for v in value]
     return value

@@ -61,6 +61,8 @@ PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py prepare \
 - free 요청에는 카드·추천 신호·힌트를 넣지 않는다. 과거 action과 후보 요약의 명시적
   `strategy`·`strategy_ids` 등은 복사본에서 제거한다. 응답 작성에 필요한 action schema의
   `strategy` 필드는 유지한다. 저장된 원본 기록은 바꾸지 않는다.
+  도구 결과의 문자열 피드백은 명시적 전략 이름이 다시 노출되지 않도록 제거하고,
+  같은 결과를 담은 정리된 `recent_actions[-1].observation`을 참조한다.
 - 원본 비공개 scout-a에서는 후보 수와 무관하게 Bank 추천을 차단한다.
   이미 생성된 증명과 검증 피드백은 공유한다. free는 독립 실험군이나 편향 제거가 아니다.
 - guided의 `propose`/`repair`는 선택한 카드 ID를 선택적 `strategy_ids` 배열(중복 없는 0~3개)에
