@@ -10,8 +10,9 @@
     "check_submission_provenance.py": {
       "source": "scripts/check_submission_provenance.py",
       "pull_request": 70,
-      "commit": "376a0727720f657b7fe3c27eb26b531a652482d5",
-      "sha256": "cfcb946315cdd4250eca9585886bd83199aeca222829e2d5710de959d631c934"
+      "commit": "a125315005743fd41d5c5c9f749e5f444a1c8b69",
+      "sha256": "77dbaeff913a09d5ca9ca07a2b532992cf92248ca66cfc46c86050a84773ce99",
+      "note": "integration head: PR #70 plus the per-call api_endpoint check of the final60 transport"
     }
   }
 }

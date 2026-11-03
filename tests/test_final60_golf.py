@@ -835,14 +835,21 @@ class PublicationTests(unittest.TestCase):
             response["id"] += str(len(count))
             return response
 
+        # The fixture dispatches through the legacy transport stub; its ledger items record the sealed
+        # (OpenRouter) endpoint so the PR #70 per-call endpoint check sees what a real root records.
         with patch.object(d, "verify_frozen"), patch.object(d, "evaluator", return_value=self.evaluator), \
                 patch.object(d.transport, "model_metadata", return_value={}), \
+                patch.object(d.transport, "ENDPOINT", "https://openrouter.ai/api/v1/chat/completions"), \
                 patch.object(d.transport, "query", side_effect=query):
             return d.run_problem(self.root, 1)
 
     def report(self):
         report = evaladapter.final_batch_module("report")
-        return report.build_report(self.root)
+        # The OpenRouter request-evidence audit (hook 6) is covered by the transport tests; this
+        # fixture's steps are legacy-shaped, so only the report's own accounting is exercised here.
+        adapter = evaladapter.final_batch_module("openrouter_transport")
+        with patch.object(adapter, "audit_step", return_value=[]):
+            return report.build_report(self.root)
 
     def provenance(self, built):
         (self.root / "report.json").write_text(json.dumps(built))

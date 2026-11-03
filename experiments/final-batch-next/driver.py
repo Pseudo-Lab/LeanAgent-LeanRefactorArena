@@ -204,6 +204,11 @@ def compiler_parallelism(root):
     return slots
 
 
+def compiler_pool_size(root):
+    """Alias of compiler_parallelism for callers whose keyword of that name shadows the function."""
+    return compiler_parallelism(root)
+
+
 def sealed_compiler_parallelism(requested=None):
     """The pool size to seal: the explicit request, else ARENA_COMPILER_PARALLELISM, else 1."""
     if requested is not None:
@@ -697,13 +702,19 @@ def seal_inputs(root, rows, *, compiler_parallelism=None):
                 raise ValueError("final60 roots must use the strict cap and the endpoint of the sealed transport")
             if profile.name != "openai" and not wire.ENDPOINT.startswith("https://openrouter.ai/"):
                 raise ValueError("final60 roots must use the strict cap and the OpenRouter endpoint")
+            # The keyword shadows the module function: the pool size is the explicit request, else the
+            # root's own rule (environment override, else the row settings' compiler_slots; 2..8).
+            pool = slots if compiler_parallelism is not None else compiler_pool_size(root)
+            if pool < 2:
+                raise ValueError(FINAL60_POOL_RULE)
             authorization.update(provider=profile.provider, api_endpoint=wire.ENDPOINT, transport=profile.name,
                                  submittable=profile.submittable,
-                                 budget_cost_basis=wire.COST_BASIS, final60_schema=FINAL60_SCHEMA,
+                                 budget_cost_basis=getattr(wire, "COST_BASIS", FINAL60_COST_BASIS),
+                                 final60_schema=FINAL60_SCHEMA,
                                  cap_usd=settings[0]["cap_usd"], prior_cost_usd=settings[0]["prior_cost_usd"],
                                  cost_ledger=settings[0].get("cost_ledger"),
                                  dry_run=bool(settings[0].get("dry_run")) or profile.dry_run,
-                                 compiler_slots=compiler_parallelism(root), max_lean_parallel=compiler_parallelism(root),
+                                 compiler_slots=pool, max_lean_parallel=pool,
                                  no_automatic_retries=False,
                                  retry_policy="unbilled HTTP errors only, recorded as $0 sub-attempts; billed or unknown outcomes are never re-sent")
             if not profile.submittable:
@@ -1166,7 +1177,8 @@ def final60_recover(root, row, step, step_dir):
 
 def dispatch(root, row, step, body, model, step_dir):
     verify_frozen(root)
-    if model.get("backend") == "openrouter" or final60_root(root):
+    if model.get("backend") == "openrouter" or (model.get("backend") == "openai"
+                                                 and os.environ.get("FINAL60_TRANSPORT") == "openai"):
         return final60_dispatch(root, row, step, body, model, step_dir)
     bound = transport.request_cost(body)
     data = transport.model_metadata()

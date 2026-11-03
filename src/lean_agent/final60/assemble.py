@@ -163,7 +163,7 @@ def failing_names(rules, provenance, static=None):
 def static_rules():
     """The golf component's rules module (verbatim app.py filter + check_static), or None when absent."""
     try:
-        from . import rules
+        rules = importlib.import_module(__package__ + ".rules")   # honours sys.modules (tests unset it)
     except ImportError:
         return None
     return rules if hasattr(rules, "official_rejection") and hasattr(rules, "check_static") else None

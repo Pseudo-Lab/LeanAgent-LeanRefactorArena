@@ -229,7 +229,9 @@ class DriverTests(unittest.TestCase):
                 "libc++abi: lean::memory_exception: excessive memory consumption detected at 'interpreter'"},
             "runs": [{"returncode": -6, "command": ["lean", "candidate.lean", "-j1", "-M16384"]}]}}}
         guarded = d.guard_compiler_signal(original)
-        self.assertFalse(h.environment_failed(guarded))
+        # An allocator abort is a retryable environment failure (never candidate feedback); the bound is reported.
+        self.assertTrue(h.environment_failed(guarded))
+        self.assertEqual((guarded["error"]["kind"], guarded["error"]["resource"]), ("environment", "lean_allocator_limit"))
         self.assertEqual(guarded["error"]["limit_mib"], 16384)
         ambiguous = json.loads(json.dumps(original))
         ambiguous["environments"]["primary"]["runs"][0]["command"].append("-M4096")

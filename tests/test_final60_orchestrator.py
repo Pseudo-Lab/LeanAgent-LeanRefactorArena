@@ -503,7 +503,8 @@ class AssemblyTests(unittest.TestCase):
         self.assertIn("Upload this file once", (self.run_dir / "SUBMIT-READY.txt").read_text())
 
     def test_published_openrouter_row_is_used_and_bad_rows_fall_back(self):
-        publish_row(self.layout, 2, "theorem t2 : True := trivial\n")
+        # Tactic proofs only: the static checker (golf rules, Final batch policy) reverts term-mode proofs.
+        publish_row(self.layout, 2, "theorem t2 : True := by trivial\n")
         publish_row(self.layout, 3, "theorem t3 : True := by simp\n", dry_run=True)
         publish_row(self.layout, 4, "theorem t4 : True := by exact trivial\n", provider="OpenAI direct")
         publish_row(self.layout, 5, "theorem t5 : True := by decide\n", audit=False)
@@ -514,7 +515,7 @@ class AssemblyTests(unittest.TestCase):
                        "proof": "theorem t7 : True := by\n  exact True.intro\n"}) + "\n").encode())
         result = self.assemble()
         proofs = {row["name"]: row["proof"] for row in self.submission()}
-        self.assertEqual(proofs["Final.t2"], "theorem t2 : True := trivial\n")
+        self.assertEqual(proofs["Final.t2"], "theorem t2 : True := by trivial\n")
         for row in (3, 4, 5, 6, 7, 8):
             self.assertEqual(proofs[f"Final.t{row}"], dataset_rows()[row - 1]["src"], row)
         self.assertEqual(result["improved"], 1)
@@ -526,8 +527,8 @@ class AssemblyTests(unittest.TestCase):
         self.assertIn("dry-run", report_rows[3]["fallback_reason"])
 
     def test_changed_selection_after_publication_is_not_submitted(self):
-        publish_row(self.layout, 2, "theorem t2 : True := trivial\n")
-        (self.layout.row_folder(2) / "selected.lean").write_text("theorem t2 : True := by trivial\n")
+        publish_row(self.layout, 2, "theorem t2 : True := by trivial\n")
+        (self.layout.row_folder(2) / "selected.lean").write_text("theorem t2 : True := by exact trivial\n")
         self.assemble()
         self.assertEqual(self.submission()[1]["proof"], dataset_rows()[1]["src"])
 
@@ -536,13 +537,13 @@ class AssemblyTests(unittest.TestCase):
         fake.official_rejection = lambda proof: "forbidden token: #exit" if "#exit" in proof else None
         fake.check_static = lambda proof, statement: ((["official: forbidden token: #exit"] if "#exit" in proof else [])
                                                       + (["pr64: theorem at column 0"] if "column0" in proof else []))
-        publish_row(self.layout, 2, "theorem t2 : True := trivial\n")
+        publish_row(self.layout, 2, "theorem t2 : True := by trivial\n")
         publish_row(self.layout, 3, "theorem t3 : True := by\n  trivial\n  #exit\n")
         publish_row(self.layout, 4, "theorem t4 : True := by\n  trivial -- column0\n")
         with patch.dict(sys.modules, {"lean_agent.final60.rules": fake}), patch.object(package, "rules", fake, create=True):
             result = self.assemble()
         proofs = {row["name"]: row["proof"] for row in self.submission()}
-        self.assertEqual(proofs["Final.t2"], "theorem t2 : True := trivial\n")
+        self.assertEqual(proofs["Final.t2"], "theorem t2 : True := by trivial\n")
         self.assertEqual(proofs["Final.t3"], dataset_rows()[2]["src"])
         self.assertEqual(proofs["Final.t4"], dataset_rows()[3]["src"])
         self.assertEqual((result["improved"], result["checks"]["passed"], result["checks"]["static_checker"]),
@@ -831,7 +832,10 @@ class RowWorkerTests(unittest.TestCase):
         settings = o.read_json(self.layout.row_folder(1) / "input/final60.json")
         self.assertEqual(settings["route_sha256"], o.sha_bytes((self.layout.row_folder(1) / "input/route.json").read_bytes()))
         self.assertEqual(route["row"], 1)
-        self.assertIn("unavailable", o.read_json(self.layout.worker_path(1))["golf"])
+        # The golf component is present in the assembled harness; this fixture world has no baseline
+        # result for it, so it must record that the driver selection was kept (never fail the row).
+        golf = o.read_json(self.layout.worker_path(1))["golf"]
+        self.assertTrue("unavailable" in golf or "driver selection kept" in golf, golf)
 
     def test_second_worker_for_a_live_row_refuses(self):
         path = self.layout.row_root(5) / "worker.lock"
@@ -896,8 +900,10 @@ class RowWorkerTests(unittest.TestCase):
             result = {"valid": False, "environments": {"e": {"valid": False, "error": {"kind": "compile", "message": message},
                       "runs": [{"returncode": code, "command": ["lean", "x.lean", "-j1", "-M16384"]}]}}}
             guarded = d.guard_compiler_signal(result)
+            # Runtime rule (lesson 4): an allocator abort is a retryable environment failure, never candidate feedback.
             self.assertEqual((guarded["error"]["kind"], guarded["error"]["resource"], guarded["error"]["limit_mib"]),
-                             ("resource", "lean_allocator_limit", 16384), code)
+                             ("environment", "lean_allocator_limit", 16384), code)
+            self.assertTrue(guarded["error"]["retryable"])
             self.assertTrue(rw.allocator_abort(result))
         ordinary = {"valid": False, "environments": {"e": {"valid": False, "runs": [{"returncode": 1, "command": []}],
                                                            "error": {"kind": "compile", "message": "error: unsolved goals"}}}}
