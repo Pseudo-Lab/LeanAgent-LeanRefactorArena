@@ -10,7 +10,7 @@ theorem of_consensus [Fintype P] (f : ℕ) (hf : f < card P)
   have dest := omega_forall_actions hd s trivial (simpleDeliver_forallActions ps) (by simp [DestIn])
   have keep : ∀ p ∈ ps, ProcFair p zz xs := by
     intro p hp
-    rw [← Algorithm.drop_procFair_iff hz p xl.length]
+    apply (Algorithm.drop_procFair_iff hz p xl.length).mp
     simpa [xs, ht, drop_append_of_ge_length] using fair p hp
   have hb : numProcFaulty zz xs ≤ f := by
     have := numProcFaulty_le_not_procFair keep

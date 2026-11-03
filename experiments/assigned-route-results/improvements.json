@@ -347,42 +347,41 @@
       "family": "FLP 합의에서 의사합의로",
       "controls": {
         "reference": 33.33333333333333,
-        "previous-round": 60.28368709691868
+        "previous-round": 60.51101118172547
       },
-      "control_reuse": 0.2803738317757009,
-      "selected_reuse": 0.2830188679245283,
+      "control_reuse": 0.2830188679245283,
+      "selected_reuse": 0.26588235294117646,
       "scout_allocated": false,
-      "selected": "previous-round/fairness-contrapositive",
-      "score": 60.51177479342957,
-      "gain_over_control": 0.22808769651089023,
+      "selected": "previous-round/apply-suffix-fairness",
+      "score": 60.54516741941159,
+      "gain_over_control": 0.034156237686119084,
       "metrics": {
         "proof_length_reduction_pct": 8.314087759815248,
-        "heartbeat_reduction_pct": 73.22123662047346,
+        "heartbeat_reduction_pct": 73.32141449841953,
         "version_transfer_pct": 100.0
       },
-      "attempts": 3,
+      "attempts": 2,
       "screened_hashes": [
-        "365f2a2bc508a5312608b0afe70cbf8412a36635a94e25ca02b0c918974aca5d",
-        "b8698c31db33ad57c9c2e7b835140d8ec3898512148aeba8c42e1a7e9316777c",
-        "e7d4e52d3463cb3012f6ea5dba19482be429210cfca8db9e609b5ebb1690bd88"
+        "b8c648bd89d22eedc4ffb6d7bf15487cea53c05aed37f9b541a39efedd10fbf6",
+        "5b4023129a1eeccbc60de53660468122fd1af8933811cff1a42dcd47a652b23e"
       ],
       "call": null,
-      "group": "research-children-F025-fairness-bounds-nov04",
-      "proof_sha256": "365f2a2bc508a5312608b0afe70cbf8412a36635a94e25ca02b0c918974aca5d",
+      "group": "research-children-F025-fairness-transport-nov04",
+      "proof_sha256": "b8c648bd89d22eedc4ffb6d7bf15487cea53c05aed37f9b541a39efedd10fbf6",
       "versions": {
         "cslib-v4.34.1": {
           "raw_samples": [
-            3112591,
-            3112743,
-            3112456
+            3100868,
+            3100974,
+            3100859
           ],
-          "receipt_sha256": "b5e4bcede2f707127241e657186383b16943aadd62d4f237550be007cdaa58a8"
+          "receipt_sha256": "8afbfc6575dbe1f336bbbfe0017517ed7325de1ccb1658cb1060eb04a623371f"
         },
         "cslib-v4.33.1": {
           "raw_samples": [
-            3140321
+            3127523
           ],
-          "receipt_sha256": "1b1801799ad7df17d610360bb2b46b904b44a6dadef2036829a9155123e92fbe"
+          "receipt_sha256": "aace7a5c4a4d7bc9d65e4ac5733b043356a30a92f131479d78473921d77905ec"
         }
       }
     },
