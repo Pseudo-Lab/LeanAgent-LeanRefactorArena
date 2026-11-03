@@ -54,6 +54,8 @@ class StrategyBatchTests(unittest.TestCase):
         f.config['agent']['strategy_bank'] = settings()
         path = f.output / 'input/config.json'
         d.atomic(path, f.config)
+        # Integration: PR #62 freezes a prompt policy in every prepared row.
+        d.atomic(f.output / 'input/prompt-policy.json', d.prompt_variants.policy())
         before = path.read_bytes()
         d.atomic(f.root / 'frozen.json', {})
         d.atomic(f.root / 'authorization.json', {'rows': [1], 'verification_policy': d.VERIFICATION_POLICY})
