@@ -370,6 +370,8 @@ def final60_validate(inputs, settings, problem, policy):
     addendum = settings.get("prompt_addendum", "")
     if not isinstance(addendum, str) or len(addendum) > 2000 or "original_context>" in addendum:
         raise ValueError("final60 prompt addendum is oversized or contains a context marker")
+    if settings.get("screening", "check-and-measure") not in ("check-and-measure", "single-pass"):
+        raise ValueError("final60 screening must be check-and-measure or single-pass")
     if a.read(inputs / "warm-start.json").get("candidate") is not None:
         raise ValueError("final60 never warm-starts from historical proofs")
 
@@ -1147,6 +1149,9 @@ def run_problem(root, row):
         baseline = a.read(output / "baseline/result.json")
         final60 = final60_root(root)
         wire = transport_for(config)
+        # final60 (critic A7): sealed single-pass exploration screens; final selection keeps full checks.
+        screening = ({"screen_single_pass": True} if final60 and
+                     (final60_settings(root, row) or {}).get("screening") == "single-pass" else {})
         atomic(output / "progress.json", {"status": "running", "at": now(), "row": row})
         try:
             initial_fingerprints = ev.verify_environments(problem, full=True)
@@ -1216,7 +1221,7 @@ def run_problem(root, row):
                     (step_dir / "candidate.lean").write_text(code)
                     evaluation = step_dir / "evaluation/result.json"
                     if not evaluation.exists():
-                        evaluate_cached(ev, code, problem, evaluation.parent, repetitions=1)
+                        evaluate_cached(ev, code, problem, evaluation.parent, repetitions=1, **screening)
                     result = guard_compiler_signal(a.read(evaluation))
                     result = check_improvement_compatibility(ev, problem, code, result, state, baseline, step_dir)
                     atomic(step_dir / "selection-result.json", result)

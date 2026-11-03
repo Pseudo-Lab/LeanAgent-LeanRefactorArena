@@ -42,7 +42,10 @@ def evaluation(tokens=10, heartbeat=100, *, all_versions=False):
 class Evaluator:
     """Compile oracle: every candidate verifies (2 tokens, 50 raw HB); evidence files are real."""
 
+    calls = []
+
     def evaluate(self, code, problem, path, **kwargs):
+        Evaluator.calls.append((Path(path).parent.name, kwargs))
         measured = json.loads(a.canonical(evaluation(2, 50, all_versions=kwargs.get("all_versions", False))))
         for environment, row in measured["environments"].items():
             destination = Path(path) / environment
@@ -194,7 +197,7 @@ def settings(*, skip_llm=False, dry_run=False, prior="0", route_sha="", portfoli
             "effective_cap_usd": str(Decimal("2.99") - Decimal(prior)), "model": dict(MODEL), "skip_llm": skip_llm,
             "portfolio": portfolio, "prompt_addendum": "Prefer short closers.", "route_sha256": route_sha,
             "cost_ledger": "../../final60.sqlite", "run_dir": "../..", "compiler_slots": 4, "dry_run": dry_run,
-            "role_models": {}, "role_models_requested": {}}
+            "screening": "single-pass", "role_models": {}, "role_models_requested": {}}
 
 
 def make_root(run_dir, *, skip_llm=False, dry_run=False):
@@ -243,7 +246,12 @@ class DriverHookTests(unittest.TestCase):
 
     def test_full_row_settles_one_attempt_per_step_and_passes_both_audits(self):
         root, output = make_root(self.run_dir)
+        Evaluator.calls.clear()
         summary = self.run_row(root)
+        screens = [kwargs for folder, kwargs in Evaluator.calls if folder.isdigit()]
+        finals = [kwargs for folder, kwargs in Evaluator.calls if not folder.isdigit()]
+        self.assertTrue(screens and all(kwargs.get("screen_single_pass") for kwargs in screens))
+        self.assertTrue(finals and not any(kwargs.get("screen_single_pass") for kwargs in finals))
         self.assertEqual(summary["status"], "completed")
         self.assertEqual(summary["provider"], "OpenRouter")
         self.assertEqual(summary["stop_reason"], "portfolio_complete")
@@ -404,6 +412,17 @@ class DriverHookTests(unittest.TestCase):
                 d.compiler_parallelism(root)
             with patch.dict(os.environ, {"FINAL60_COMPILER_SLOTS": "6"}):
                 self.assertEqual(d.compiler_parallelism(root), 6)
+
+    def test_single_pass_screening_never_applies_to_final_validation(self):
+        repo = self.run_dir / "repo"
+        d.atomic(repo / "configs/final-environments.local.json", {"dataset_sha256": "x", "environments": {}})
+        ev = d.evaluator_class()(repo_root=repo, compiler_parallelism=8)
+        for options in ({"all_versions": True}, {"fresh": True}):
+            with self.subTest(options=options), self.assertRaisesRegex(ValueError, "exploration only"):
+                ev.evaluate("theorem t : True := trivial\n", PROBLEM, self.run_dir / "out", screen_single_pass=True,
+                            **options)
+        with self.assertRaisesRegex(ValueError, "one to eight"):
+            d.evaluator_class()(repo_root=repo, compiler_parallelism=9)
 
     def test_pool_slots_and_absolute_memory_rule(self):
         self.assertTrue(resources.admits({"available_gib": 10.0}, 5, reserve_gib=6, gib_per_compile=3.5))

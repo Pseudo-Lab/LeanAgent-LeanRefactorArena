@@ -280,10 +280,14 @@ class FinalEvaluator:
                 "repetitions": repetitions, "trusted_reference": trusted_reference,
                 "platform": platform.platform(), "machine": platform.machine()}
 
-    def _cached_result(self, code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass=False):
+    def _cached_result(self, code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass=False,
+                       screen_single_pass=False):
         identity = self._cache_identity(code, problem, state, context, repetitions, trusted_reference)
         if reference_single_pass:
             identity = {**identity, "reference_single_pass": True}
+        if screen_single_pass:
+            # final60: exploration screens skip the separate plain compile; never shared with full checks.
+            identity = {**identity, "screen_single_pass": True}
         if not self.cache.contains(identity):
             return identity, None, 0
         started = time.monotonic()
@@ -491,11 +495,13 @@ class FinalEvaluator:
         return record, resolved, error
 
     def evaluate(self, code, problem, output_folder, *, repetitions=1, all_versions=False,
-                 trusted_reference=False, fresh=False, reference_single_pass=False):
+                 trusted_reference=False, fresh=False, reference_single_pass=False, screen_single_pass=False):
         if type(repetitions) is not int or repetitions < 1:
             raise ValueError("Expected a positive measurement count")
         if reference_single_pass and not trusted_reference:
             raise ValueError("Single-pass compilation is only for an exact frozen reference")
+        if screen_single_pass and (all_versions or fresh or reference_single_pass):
+            raise ValueError("Single-pass screening is for primary-version exploration only")
         evaluation_started = time.monotonic()
         first_timing = len(getattr(self, "timing_records", []))
         problem = self.load_problem(problem)
@@ -504,6 +510,8 @@ class FinalEvaluator:
         result = {"valid": False, "tokens": None, "environments": {}, "error": None}
         if reference_single_pass:
             result["reference_compile_mode"] = "instrumented-compile-and-axioms"
+        if screen_single_pass:
+            result["screen_compile_mode"] = "instrumented-compile-and-axioms"
         try:
             result["tokens"] = proof_tokens(code, problem["statement"])
             result["tokenizer"] = {"id": TOKENIZER_ID, "source_sha256": digest(Path(_token_spec.origin).read_bytes())}
@@ -538,7 +546,8 @@ class FinalEvaluator:
                     state = self._states[environment_id]
                     context = self._contexts[context_key]
                     _, cached, seconds = self._cached_result(
-                        code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass)
+                        code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass,
+                        screen_single_pass)
                     cache_verification_seconds += seconds
                     if cached is not None:
                         result["environments"][environment_id] = cached
@@ -548,7 +557,8 @@ class FinalEvaluator:
                     context = self._context(problem, environment_id)
                     if self.cache is not None and not fresh:
                         cache_identity, cached, seconds = self._cached_result(
-                            code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass)
+                            code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass,
+                            screen_single_pass)
                         cache_verification_seconds += seconds
                         if cached is not None:
                             result["environments"][environment_id] = cached
@@ -557,7 +567,7 @@ class FinalEvaluator:
                     # The unchanged wrapper calls elabCommand, checks the created
                     # target, and collects axioms. For exact original references
                     # this is also the compile check; no synthetic check record.
-                    jobs = ([] if reference_single_pass else [("check", None)]) + [
+                    jobs = ([] if reference_single_pass or screen_single_pass else [("check", None)]) + [
                         (f"measure-{i+1}", uuid.uuid4().hex) for i in range(repetitions)]
                     raw = []
                     for label, nonce in jobs:

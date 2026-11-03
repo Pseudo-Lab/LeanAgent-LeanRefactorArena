@@ -357,6 +357,8 @@ def row_settings(layout, row, route, *, cap, prior, compiler_slots, dry_run, rou
             "prompt_addendum": addendum, "route_sha256": route_sha256,
             "cost_ledger": os.path.relpath(layout.sqlite, root), "run_dir": os.path.relpath(layout.run_dir, root),
             "compiler_slots": int(compiler_slots), "dry_run": bool(dry_run),
+            # Critic A7: exploration screens compile once (instrumented); final validation is unchanged.
+            "screening": "single-pass",
             # Per-role models need a per-step model audit (critic A9); every role uses gen_primary.
             "role_models": {}, "role_models_requested": dict(route.role_models)}
 
