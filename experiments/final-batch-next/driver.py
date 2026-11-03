@@ -925,7 +925,13 @@ def status(root):
 
 
 def main():
-    parser = argparse.ArgumentParser(description=__doc__)
+    if sys.argv[1:2] == ["route60"]:
+        from route60 import main as run_full
+        return run_full(sys.argv[2:])
+    if sys.argv[1:2] == ["route20"]:
+        from assigned_routes import main as run_assigned
+        return run_assigned(sys.argv[2:])
+    parser = argparse.ArgumentParser(description=__doc__, epilog="Proof search: route20 --help or route60 --help")
     parser.add_argument("command", choices=("prepare", "inputs", "seal", "preflight", "run", "status", "reseal"))
     parser.add_argument("--root", type=Path, required=True)
     parser.add_argument("--rows", nargs="+", type=int)
