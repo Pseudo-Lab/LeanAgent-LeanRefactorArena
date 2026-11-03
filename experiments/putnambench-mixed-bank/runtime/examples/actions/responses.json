@@ -1,0 +1,12 @@
+[
+  "{\"action\": \"analyze\", \"candidate_id\": \"c000\"}",
+  "{\"action\": \"search\", \"query\": \"Nat.add_zero\"}",
+  "{\"action\": \"inspect\", \"name\": \"Nat.add_zero\"}",
+  "{\"action\": \"propose\", \"parent_id\": \"c000\", \"strategy\": \"failed shortcut\", \"proof\": \"by\\n  exact False.elim (by assumption)\"}",
+  "{\"action\": \"repair\", \"parent_id\": \"c004\", \"strategy\": \"apply inspected lemma\", \"proof\": \"by\\n  simpa using Nat.add_zero n\"}",
+  "{\"action\": \"propose\", \"parent_id\": \"c000\", \"strategy\": \"alternative branch\", \"proof\": \"by\\n  have h : n + 0 = n := Nat.add_zero n\\n  have h2 : n + 0 = n := h\\n  exact h2\"}",
+  "{\"action\": \"read_candidate\", \"candidate_id\": \"c006\"}",
+  "{\"action\": \"propose\", \"parent_id\": \"c006\", \"strategy\": \"reduce alternative to definitional equality\", \"proof\": \"by rfl\"}",
+  "{\"action\": \"read_candidate\", \"candidate_id\": \"c004\"}",
+  "{\"action\": \"finish\"}"
+]

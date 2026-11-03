@@ -1,0 +1,170 @@
+{
+  "scope": "final-adaptation",
+  "official_evaluation": false,
+  "cost_basis": "OpenAI token usage times frozen public list prices; not invoice verified",
+  "completed_count": 4,
+  "remaining_count": 6,
+  "rows": [
+    {
+      "row": 51,
+      "name": "putnam_1964_a4",
+      "selected_candidate": "c102",
+      "proof_sha256": "905d85668034eb64a8c2d0f77799317a8677a45d99fb6c6e8145695cd2213f5c",
+      "proof_file": "proofs/putnam_1964_a4.lean",
+      "baseline": {
+        "tokens": 1769,
+        "raw_heartbeats": 111470971,
+        "raw_samples": [
+          111471000,
+          111470968,
+          111470971
+        ]
+      },
+      "final": {
+        "tokens": 186,
+        "raw_heartbeats": 3116088,
+        "raw_samples": [
+          3116088,
+          3116088,
+          3116088
+        ]
+      },
+      "token_reduction_pct": 89.4855850763143,
+      "hb_reduction_pct": 97.20457445373827,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 95.56338651001752,
+      "cost_usd": "2.4391398",
+      "stop_threshold_usd": "2.50",
+      "calls": 102,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T10:46:29.938635+00:00"
+    },
+    {
+      "row": 52,
+      "name": "putnam_1995_a3",
+      "selected_candidate": "c082",
+      "proof_sha256": "3ae7cd1cee967fcb87e81f561b9e89e1cd5f5f339f879955381fb436d30ff666",
+      "proof_file": "proofs/putnam_1995_a3.lean",
+      "baseline": {
+        "tokens": 4085,
+        "raw_heartbeats": 14127586,
+        "raw_samples": [
+          14127586,
+          14127586,
+          14127586
+        ]
+      },
+      "final": {
+        "tokens": 410,
+        "raw_heartbeats": 1762265,
+        "raw_samples": [
+          1762265,
+          1762265,
+          1762265
+        ]
+      },
+      "token_reduction_pct": 89.96328029375765,
+      "hb_reduction_pct": 87.52607133306427,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 92.49645054227398,
+      "cost_usd": "2.5345832",
+      "stop_threshold_usd": "2.50",
+      "calls": 82,
+      "stop_reason": "cost_limit",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T11:13:44.960911+00:00"
+    },
+    {
+      "row": 53,
+      "name": "putnam_1988_a2",
+      "selected_candidate": "c062",
+      "proof_sha256": "14f0bbd2254b5d5a5907099c4398a6beac58a66d87156cda9d7d4ba68beb59da",
+      "proof_file": "proofs/putnam_1988_a2.lean",
+      "baseline": {
+        "tokens": 2162,
+        "raw_heartbeats": 58090725,
+        "raw_samples": [
+          58090725,
+          58090725,
+          58090725
+        ]
+      },
+      "final": {
+        "tokens": 224,
+        "raw_heartbeats": 4574665,
+        "raw_samples": [
+          4574665,
+          4574665,
+          4574665
+        ]
+      },
+      "token_reduction_pct": 89.63922294172063,
+      "hb_reduction_pct": 92.12496487175879,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 93.92139593782647,
+      "cost_usd": "1.4621914",
+      "stop_threshold_usd": "2.50",
+      "calls": 63,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T11:39:41.257830+00:00"
+    },
+    {
+      "row": 54,
+      "name": "putnam_2001_b1",
+      "selected_candidate": "c069",
+      "proof_sha256": "ff0609f4ea4bd4abf99faad8b583984025f3c2a35657b260ce247e5b9dabd0ec",
+      "proof_file": "proofs/putnam_2001_b1.lean",
+      "baseline": {
+        "tokens": 3178,
+        "raw_heartbeats": 50251248,
+        "raw_samples": [
+          50251248,
+          50251248,
+          50251248
+        ]
+      },
+      "final": {
+        "tokens": 213,
+        "raw_heartbeats": 3960512,
+        "raw_samples": [
+          3960512,
+          3960512,
+          3960512
+        ]
+      },
+      "token_reduction_pct": 93.29767149150409,
+      "hb_reduction_pct": 92.11857982114195,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 95.13875043754868,
+      "cost_usd": "1.9696948",
+      "stop_threshold_usd": "2.50",
+      "calls": 70,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T12:05:20.165638+00:00"
+    }
+  ],
+  "finalized_cost_usd": "8.4056092"
+}
