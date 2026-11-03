@@ -75,6 +75,10 @@ PYTHONPATH=src .venv/bin/python -B experiments/final-batch-next/report.py --root
 
 ## 검증
 
+WSL2 실행에는 `bwrap`가 `PATH`에 있어야 한다. 준비된 Lean toolchain과
+라이브러리는 WSL 내부 경로에 둔다. `ARENA_SOURCE_BUILD=1`을 설정하면
+Lake 소스 빌드에서 캐시 다운로드를 건너뛴다.
+
 ```sh
 PYTHONPATH=src .venv/bin/python -B -m unittest discover -s experiments/final-batch-next -p 'test_*.py'
 ```
