@@ -16,7 +16,7 @@ import threading
 import time
 import traceback
 
-from .orchestrator import (Layout, atomic_bytes, atomic_json, coverage, driver_modules, json_bytes, load_dataset,
+from .orchestrator import (REPO, Layout, atomic_bytes, atomic_json, coverage, driver_modules, json_bytes, load_dataset,
                            load_non_openrouter, load_rowstate, normalized_sha, now_iso, problem_packet,
                            prompt_addendum, read_json, route_dict, route_for, row_settings, row_spend, save_rowstate,
                            sha_bytes, sha_text)
@@ -55,6 +55,10 @@ def resource_error(exc, folder=None):
 
 def configure_environment(opts):
     """Pool and memory settings for this process and its evaluators (driver hook 5, resources.py)."""
+    tools = REPO / "sources/final/bin"
+    if tools.is_dir() and str(tools) not in os.environ.get("PATH", "").split(os.pathsep):
+        # The prepared sources ship the sandbox helper (bwrap on Linux) here; other runs add it too.
+        os.environ["PATH"] = str(tools) + os.pathsep + os.environ.get("PATH", "")
     os.environ.setdefault("FINAL60_COMPILER_SLOTS", str(opts.compiler_slots))
     os.environ.setdefault("FINAL60_MEM_RESERVE_GIB", str(opts.mem_reserve_gib))
     os.environ.setdefault("FINAL60_GIB_PER_COMPILE", str(opts.gib_per_compile))
@@ -153,7 +157,24 @@ class RowWorker:
 
     def preflight(self):
         if not self.preflight_ready():
+            self.reset_failed_preflight()
             self.driver.preflight(self.root, [self.row])
+
+    def reset_failed_preflight(self):
+        """The driver caches a failed baseline; set aside evidence of environment failures only.
+
+        A host/sandbox/memory failure says nothing about the original proof, so it is retried.
+        A compile failure of the frozen original stays (the row then falls back after 3 tries).
+        """
+        if read_or(self.folder / "preflight.json", {}).get("status") != "failed":
+            return
+        for name in ("baseline", "reference-compatibility"):
+            result = read_or(self.folder / name / "result.json", None)
+            if not result or result.get("valid"):
+                continue
+            kinds = {(value.get("error") or {}).get("kind") for value in result.get("environments", {}).values()}
+            if kinds & {"environment", "timeout"} or not result.get("environments"):
+                (self.folder / name).rename(self.folder / f"{name}-failed-{time.time_ns()}")
 
     def exploration_budget(self):
         route = read_or(self.folder / "input/route.json", {})

@@ -740,6 +740,20 @@ class RowWorkerTests(unittest.TestCase):
             self.assertTrue(rw.resource_error(exc))
         self.assertFalse(rw.resource_error(ValueError("No all-version compatible final candidate")))
 
+    def test_failed_preflight_environment_evidence_is_set_aside_but_compile_failures_stay(self):
+        worker = rw.RowWorker.__new__(rw.RowWorker)
+        worker.layout, worker.row, worker.opts = self.layout, 1, self.opts
+        worker.root, worker.folder = self.layout.row_root(1), self.layout.row_folder(1)
+        o.atomic_json(worker.folder / "preflight.json", {"status": "failed"})
+        def failed(kind):
+            return {"valid": False, "environments": {"e": {"valid": False, "error": {"kind": kind, "message": "x"}}}}
+        o.atomic_json(worker.folder / "baseline/result.json", failed("environment"))
+        o.atomic_json(worker.folder / "reference-compatibility/result.json", failed("compile"))
+        worker.reset_failed_preflight()
+        self.assertFalse((worker.folder / "baseline").exists())
+        self.assertTrue(any(path.name.startswith("baseline-failed-") for path in worker.folder.iterdir()))
+        self.assertTrue((worker.folder / "reference-compatibility/result.json").exists())
+
     def test_exploration_clock_already_spent_sets_row_stop_flag(self):
         worker = rw.RowWorker.__new__(rw.RowWorker)
         worker.layout, worker.row, worker.opts = self.layout, 1, self.opts
