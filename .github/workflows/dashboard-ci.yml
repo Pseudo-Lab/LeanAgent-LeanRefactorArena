@@ -6,6 +6,7 @@ on:
     paths:
       - 'dashboard/**'
       - 'solutions/final20/**'
+      - 'solutions/physlib-cslib20/**'
       - 'docs/measurements/final60-baselines.json'
       - 'configs/final-environments.lock.json'
       - '.github/workflows/dashboard-ci.yml'
@@ -14,6 +15,7 @@ on:
     paths:
       - 'dashboard/**'
       - 'solutions/final20/**'
+      - 'solutions/physlib-cslib20/**'
       - 'docs/measurements/final60-baselines.json'
       - 'configs/final-environments.lock.json'
       - '.github/workflows/dashboard-ci.yml'

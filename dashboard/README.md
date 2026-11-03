@@ -1,6 +1,6 @@
 # 팀 대시보드
 
-기본 화면은 **최종 F001–F060의 원본 기준값과 Strata·LeanPool 20문제 검증 풀이**입니다. 상단에서 웜업 팀 결과로 전환합니다.
+기본 화면은 **최종 F001–F060의 원본 기준값과 Strata·PhysLib·CSLib·LeanPool 40문제 검증 풀이**입니다. 상단에서 웜업 팀 결과로 전환합니다.
 기존 문제 타일·상세 패널 양식을 사용합니다. 개선 결과가 없으면 회색이며, 점수가 있으면
 60점 이하 빨강, 60점 초과 초록 농도로 표시합니다. 원본 측정값을 개선 점수로 취급하지 않습니다.
 타일 하단은 원본 length·raw HB이고, 원본 표본·실행 근거는 상세 패널에서 펼칩니다.
@@ -9,8 +9,9 @@
 검증 풀이 F001–F010·F041–F050은 PR #53의 `public/data/final-results.json`과
 `../solutions/final20/`에서 가져옵니다. 점수는 해당 후보 실행에서 측정한 원본·후보의
 각 3회 HB 표본으로 계산합니다. 다른 실행의 원본 기준값으로 바꾸어 계산하지 않습니다.
-검증된 20문제 평균만 표시하고 나머지 40문제와 전체 60문제 평균은 미확보로 남깁니다.
-PR #54의 PhysLib·CSLib 후보는 이번 반영에서 제외했습니다.
+검증된 40문제 평균만 표시하고 나머지 20문제와 전체 60문제 평균은 미확보로 남깁니다.
+PR #54의 PhysLib·CSLib F011–F030은 `public/data/physlib-cslib-results.json`에 공개 manifest와 JSONL을 대조해 연결합니다. 대표 버전 3회 측정·42개 버전 통과라는 요약을 보존하며, 원시 HB 표본·compiler 로그·실행 fingerprint를 만들어 넣지 않습니다. UI에서 검증 요약과 원시 기록이 있는 후보를 구분합니다. JSONL 선언 SHA와 끝 개행이 하나 더 있는 Lean 파일 SHA를 각각 보존합니다.
+재생성: `python3 -B dashboard/scripts/publish_physlib_cslib_results.py` (repo root). `npm run data:check`는 원본 manifest/JSONL/파일/버전/점수를 다시 대조합니다.
 상세의 원본 버전별 측정표와 후보 증명·버전 검증은 별도로 표시합니다.
 배포 후 검사는 원본 기준값과 후보 결과 JSON 모두를 검증한 소스와 대조합니다.
 

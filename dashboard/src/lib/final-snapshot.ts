@@ -33,7 +33,7 @@ export function resultSnapshot(data: FinalBaselines, results: FinalResults): Sna
         baselineCompatibility: c.baselineCompatibility, candidateHash: c.candidateHash,
         versions: c.versions.map(v => ({version:v.version, revision:v.revision, status:v.status})),
         evidence: c.evidence.map(e => `${c.runId}/${e.path} · ${e.sha256}`),
-        note: `지정 버전 전체 통과 · 원본/후보 HB 각 3회 중앙값. ${c.runId === results.runId ? '$3 실행' : '기존 $1 실행'}에서 선택한 검증 풀이입니다. 공식 점수가 아닙니다.`,
+        note: c.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약 · 지정 버전 전체 통과로 보고됨. 대표 버전 각 3회 측정 보고값이며 원시 HB 표본·컴파일 로그는 미공개입니다. 공식 점수가 아닙니다.' : `지정 버전 전체 통과 · 원본/후보 HB 각 3회 중앙값. ${c.runId === results.runId ? '$3 실행' : '기존 $1 실행'}에서 선택한 검증 풀이입니다. 공식 점수가 아닙니다.`,
       };
     }),
   };

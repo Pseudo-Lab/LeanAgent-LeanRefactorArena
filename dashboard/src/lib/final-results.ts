@@ -1,11 +1,12 @@
 import type { FinalBaselines } from './final-baselines.ts';
 import type { VersionCheck } from './model.ts';
-export type FinalMeasurement = { tokens: number; raw_heartbeats: number; raw_samples: number[] };
+export type FinalMeasurement = { tokens: number; raw_heartbeats: number; raw_samples: number[] | null };
 export type FinalResult = {
   row: number; name: string; source: string; runId: string; proofPath: string; proof: string;
   candidateHash: string; baseline: FinalMeasurement; candidate: FinalMeasurement;
-  versions: (VersionCheck & { environment: string; fingerprint: string })[];
-  baselineCompatibility: number | null; measuredAt: string; score: number; currentRunCostUsd: string;
+  versions: (VersionCheck & { environment: string; fingerprint: string | null })[];
+  baselineCompatibility: number | null; measuredAt: string | null; score: number; currentRunCostUsd: string;
+  evidenceLevel?: 'published-summary'; proofFileHash?: string;
   alternatives: {runId: string; score: number; candidateHash: string}[];
   evidence: {path: string; sha256: string}[];
 };

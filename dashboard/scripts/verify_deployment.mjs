@@ -9,7 +9,7 @@ if (!Array.isArray(files) || !files.length || files.some(f => !/^[a-z0-9-]+\.jso
   throw new Error('Invalid local snapshot index');
 }
 const expected = new Map([['index.json', index]]);
-for (const file of [...files, 'final-baselines.json', 'final-results.json']) {
+for (const file of [...files, 'final-baselines.json', 'final-results.json', 'physlib-cslib-results.json']) {
   expected.set(file, await readFile(new URL(`../public/data/${file}`, import.meta.url), 'utf8'));
 }
 
