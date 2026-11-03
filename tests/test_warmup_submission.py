@@ -12,9 +12,17 @@ ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('exporter', ROOT / 'scripts/export_warmup_submission.py')
 exporter = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(exporter)
+# build_bundle() reads the pinned warm-up benchmark snapshot, which is gitignored and
+# distributed separately. Skip (with the fetch hint) instead of erroring in a fresh checkout.
+BENCHMARK_SNAPSHOT = json.loads((ROOT / 'submissions/warmup/manifest.json').read_text())['benchmarkSnapshot']
+needs_benchmark = unittest.skipUnless(
+    (ROOT / BENCHMARK_SNAPSHOT).is_file(),
+    f'{BENCHMARK_SNAPSHOT} is absent (gitignored); copy the pinned warm-up JSONL there, '
+    'e.g. via scripts/verify_p12_pins.py benchmark_bytes(), which downloads and checks it')
 
 
 class SubmissionTests(unittest.TestCase):
+    @needs_benchmark
     def test_current_p12_is_a_single_selected_declaration(self):
         payload, audit = exporter.build_bundle()
         rows = [json.loads(line) for line in payload.decode().splitlines()]
@@ -24,6 +32,7 @@ class SubmissionTests(unittest.TestCase):
         self.assertFalse(audit['officiallySubmitted'])
         self.assertIsNone(audit['officialEvaluationPassed'])
 
+    @needs_benchmark
     def test_current_team_p12_packages_repaired_candidate_without_fallback(self):
         payload, audit = exporter.build_bundle()
         rows = [json.loads(line) for line in payload.decode().splitlines()]
@@ -36,6 +45,7 @@ class SubmissionTests(unittest.TestCase):
         self.assertEqual(audit['problems'][11]['versions'], p12['versions'])
         self.assertIsNone(audit['officialEvaluationPassed'])
 
+    @needs_benchmark
     def test_bundle_preserves_every_selected_source(self):
         payload, audit = exporter.build_bundle(p12_reference=True)
         rows = [json.loads(line) for line in payload.decode().splitlines()]
@@ -73,6 +83,7 @@ class SubmissionTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 exporter.validate_proof(proof, meta)
 
+    @needs_benchmark
     def test_tampered_best_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)

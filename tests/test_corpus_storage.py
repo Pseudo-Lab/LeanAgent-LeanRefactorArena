@@ -20,7 +20,8 @@ def digest(value):
 
 class CorpusStorageTests(unittest.TestCase):
     def setUp(self):
-        self.temp = tempfile.TemporaryDirectory(dir=os.environ['PROJECT_CACHE_DIR'])
+        # Like the sibling suites: use PROJECT_CACHE_DIR when set, else the default temp dir.
+        self.temp = tempfile.TemporaryDirectory(dir=os.environ.get('PROJECT_CACHE_DIR'))
         self.addCleanup(self.temp.cleanup)
         self.root = Path(self.temp.name)
         self.folder = self.root / 'data/corpora/sample/revision'

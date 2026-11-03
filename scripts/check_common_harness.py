@@ -5,6 +5,7 @@ Separate processes isolate historical experiment modules named worker/report/etc
 Frozen-dataset checks run when the separately distributed dataset is installed;
 full environment inspection requires ARENA_FINAL_INTEGRATION=1 explicitly.
 """
+import argparse
 import os
 from pathlib import Path
 import subprocess
@@ -17,14 +18,18 @@ CORE = (
     "test_autosolver.py", "test_autosolver_native.py",
     "test_runtime_integration.py", "test_api_integration.py", "test_prepared_cache.py",
     "test_accounting.py", "test_usage_*.py", "test_evaluation.py", "test_corpus_storage.py",
-    "test_final_*.py", "test_strategy_bank.py", "test_strategy_mixed.py",
+    "test_final_*.py", "test_strategy_bank.py", "test_strategy_mixed.py", "test_strategy_retriever.py",
+    # Submission gates (PR #64 rules, PR #70 OpenRouter/$3 provenance).
+    "test_submission_rules.py", "test_submission_provenance.py",
 )
 EXPERIMENTS = (
     "api-comparison", "usage-cost", "final-batch-next",
 )
 
 
-def main():
+def main(argv=None):
+    # No options; this makes --help print the description instead of running every suite.
+    argparse.ArgumentParser(description=__doc__).parse_args(argv)
     env = dict(os.environ)
     env["PYTHONPATH"] = str(ROOT / "src")
     # macOS /var and /private/var aliases must not break path identity assertions.
