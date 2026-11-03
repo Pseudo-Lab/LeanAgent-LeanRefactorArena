@@ -437,6 +437,29 @@ def declaration_start_line(source: str, code: str) -> int | None:
     return None if at < 0 else source.count("\n", 0, at) + 1
 
 
+_UNKNOWN_OPTION = re.compile(r"(?i)unknown option\s*[`'\"]?(?P<name>[A-Za-z_][\w.]*)")
+
+
+def unknown_options(log: str) -> list[str]:
+    """Option names a toolchain rejected (``Unknown option `x``` since v4.31, ``unknown option 'x'`` before)."""
+    return list(dict.fromkeys(match["name"] for match in _UNKNOWN_OPTION.finditer(log)))
+
+
+def warning_key(text: str) -> str:
+    """Normalised first line of a warning, for comparing one declaration's warnings across texts."""
+    return re.sub(r"\s+", " ", text.strip().split("\n", 1)[0]).strip()
+
+
+def declaration_warnings(log: str, source: str, code: str) -> list[tuple[int, str]]:
+    """``(line within the declaration, warning_key)`` of the warnings inside ``code`` in a compiled file."""
+    start = declaration_start_line(source, code)
+    if start is None:
+        return []
+    end = start + code.count("\n")
+    return [(message.line - start, warning_key(message.text)) for message in parse_messages(log)
+            if message.severity == "warning" and start <= message.line <= end]
+
+
 # ---- G3: local rewrites --------------------------------------------------------------------
 _RW = re.compile(r"^(?P<indent> *)(?P<tac>rw|rewrite|rwa)\s*\[(?P<args>[^\[\]\n]*)\](?P<loc>\s+at\s+[^\n;]+?)?\s*$")
 _INTRO = re.compile(r"^(?P<indent> *)intro\s+(?P<names>[^\n;<>]+?)\s*$")
@@ -624,9 +647,23 @@ def _simp_only_to_simp(layout: Layout, limit: int = 3) -> list[Edit]:
     return [Edit("G3:simp-only-to-simp", m.start(), m.end(), m["tac"]) for _, m in found[:limit]]
 
 
+def _join_by(layout: Layout) -> list[Edit]:
+    """``:=`` ending the statement line with ``by`` on the next line -> ``:= by``.
+
+    The official counter slices the proof body right after ``:=``; the empty remainder of
+    that line is one phantom token (``"".split(" ")``), which the join removes. Only the
+    top-level ``:=`` matters: inner lines keep their own tokens either way.
+    """
+    match = re.compile(r"\s*:=(?P<gap>[ \t]*\n\s*)by\b").match(layout.masked, len(layout.statement))
+    if not match:
+        return []
+    return [Edit("G3:join-by", match.start("gap"), match.end("gap"), " ")]
+
+
 def local_span_edits(code: str, statement: str) -> list[Edit]:
     layout = Layout(code, statement)
     edits = []
+    edits += _join_by(layout)
     edits += _term_by_exact(layout)
     edits += _merge_runs(layout, _RW, _combine_rw, "G3:merge-rw")
     edits += _merge_runs(layout, _INTRO, _combine_intro, "G3:merge-intro")
@@ -725,8 +762,12 @@ def _blocks(layout: Layout) -> list[dict]:
     return found
 
 
-CORE_CLOSERS = ("rfl", "omega", "simp_all", "grind")
-MATHLIB_CLOSERS = ("aesop", "norm_num", "linarith", "positivity")
+# One cheap-first ordered list per row kind (research item 6). In a ``first`` alternation
+# the first success wins, so cheap closers (rfl, assumption, omega, decide) precede the
+# heavy ones (simp_all, aesop, grind); the whole probe runs under golf's heartbeat cap.
+CORE_CLOSERS = ("rfl", "assumption", "omega", "decide", "simp", "simp_all", "grind")
+MATHLIB_CLOSERS = ("rfl", "assumption", "omega", "decide", "positivity", "norm_num", "linarith", "simp",
+                   "simp_all", "aesop", "grind")
 MARKER = "G2M"
 
 

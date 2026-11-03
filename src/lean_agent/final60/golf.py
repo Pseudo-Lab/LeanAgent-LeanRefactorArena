@@ -47,7 +47,10 @@ DEFAULTS = {
     "probe_heartbeat_factor": 1.0,
     "suggestions_per_block": 2,
     "decide_max_tokens": 40,
-    "linter_probe": False,
+    # Research item 7: "auto" probes the linters on the best candidate of Mathlib rows while at
+    # least ``linter_probe_min_compiles`` compiles remain (probe + verify); True/False force it.
+    "linter_probe": "auto",
+    "linter_probe_min_compiles": 3,
     "risky_rewrites": 2,
     "simp_probe": True,
     # A caller deadline also bounds the final validation that follows golf; keep this
@@ -95,10 +98,12 @@ class _Session:
     """Golf state for one candidate: incumbent, budget, stop rules and the log."""
 
     def __init__(self, adapter, statement: str, candidate: Candidate, *, budget: _Budget, deadline: float,
-                 settings: dict, blocked=frozenset()):
+                 settings: dict, blocked=frozenset(), index: int = 0):
         self.adapter, self.statement, self.root = adapter, statement, candidate
         self.budget, self.deadline, self.settings = budget, deadline, settings
         self.blocked = frozenset(blocked)
+        self.index = int(index)          # position among the golfed candidates (0 = best)
+        self.linter_probed = False       # one linter probe round per candidate (1 probe + 1 verify)
         self.t0, self.hb0 = adapter.baseline()
         self.code, self.result, self.score = candidate.code, candidate.screen, None
         self.seen = {sha(candidate.code)}
@@ -250,13 +255,47 @@ def _linter_edits(session: _Session) -> list:
     return edits
 
 
+def _imports_mathlib(session: _Session) -> bool:
+    try:
+        return bool(getattr(session.adapter, "imports_mathlib", lambda: False)())
+    except Exception:
+        return False
+
+
+def _linter_probe_wanted(session: _Session) -> bool:
+    setting = session.settings.get("linter_probe")
+    if session.linter_probed or not setting:
+        return False
+    if setting != "auto":
+        return True
+    minimum = int(session.settings.get("linter_probe_min_compiles", 3))
+    return session.index == 0 and session.budget.left >= minimum and _imports_mathlib(session)
+
+
+def _linter_probe(session: _Session) -> list:
+    """Compile the incumbent with the linter options on; drop options a toolchain rejects."""
+    options = list(LINTER_OPTIONS)
+    for _ in range(2):
+        probed = session.probe(session.code, "G1:linter-probe", options=tuple(options))
+        if not probed or not probed[2]:
+            return []
+        _, log, start = probed
+        unknown = rw.unknown_options(log)
+        dropped = [option for option in options if option.split()[0] in unknown]
+        if not dropped:
+            return rw.linter_span_edits(session.code, session.statement, log, start)
+        options = [option for option in options if option not in dropped]
+        session.log.append({"event": "probe-unknown-options", "dropped": dropped})
+        if not options:
+            break
+    return []
+
+
 def pass_linter(session: _Session) -> int:
     edits = _linter_edits(session)
-    if not edits and session.settings.get("linter_probe"):
-        probed = session.probe(session.code, "G1:linter-probe", options=LINTER_OPTIONS)
-        if probed and probed[2]:
-            _, log, start = probed
-            edits = rw.linter_span_edits(session.code, session.statement, log, start)
+    if not edits and _linter_probe_wanted(session):
+        session.linter_probed = True
+        edits = _linter_probe(session)
     # Removing an unused have outright and anonymising it overlap; the deletion goes first.
     edits.sort(key=lambda edit: (edit.name != "G1:drop-unused-have", edit.start))
     return search_edits(session, edits, "G1")
@@ -277,14 +316,10 @@ def probe_heartbeat_cap(session: _Session, searches: int) -> int:
 
 
 def _closers(session: _Session):
+    """One cheap-first list (research item 6): Mathlib rows add positivity/norm_num/linarith/aesop."""
     if session.settings["closer_tactic"] == "try?":
         return None
-    mathlib = False
-    try:
-        mathlib = bool(getattr(session.adapter, "imports_mathlib", lambda: False)())
-    except Exception:
-        mathlib = False
-    return rw.CORE_CLOSERS + (rw.MATHLIB_CLOSERS if mathlib else ())
+    return rw.MATHLIB_CLOSERS if _imports_mathlib(session) else rw.CORE_CLOSERS
 
 
 def pass_closers(session: _Session) -> int:
@@ -419,7 +454,7 @@ def improve(adapter, problem: dict, candidates: list[Candidate], route_golf: dic
         else:
             allowance = settings["max_compiles_best"] if index == 0 else settings["max_compiles_other"]
         session = _Session(adapter, statement, candidate, budget=_Budget(allowance, total), deadline=stop_at,
-                           settings=settings, blocked=non_openrouter_sha256)
+                           settings=settings, blocked=non_openrouter_sha256, index=index)
         try:
             if session.ready():
                 _run(session)

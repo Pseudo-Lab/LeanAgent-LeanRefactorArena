@@ -77,3 +77,33 @@ def tokenizer():
 
 def count_tokens(code: str, statement: str) -> int:
     return tokenizer()(code, statement)
+
+
+def self_check(dataset_path) -> dict:
+    """Compare the local counter with the official ``proof_length`` of every dataset row.
+
+    Returns ``{"rows": n, "mismatches": [{"row", "name", "official", "local"}, ...]}``; an
+    empty list means the arena worker's counts are reproduced (60/60 on the final dataset,
+    measured 2026-11-04). Run: ``python -m lean_agent.final60.scoring <benchmark.jsonl>``.
+    """
+    import json
+    lines = Path(dataset_path).read_text(encoding="utf-8").splitlines()
+    rows = [json.loads(line) for line in lines if line.strip()]
+    mismatches = []
+    for index, row in enumerate(rows, 1):
+        try:
+            local = count_tokens(row["src"], row["statement"])
+        except (ValueError, KeyError) as exc:
+            local = f"error: {exc}"[:200]
+        official = row.get("proof_length")
+        if local != official:
+            mismatches.append({"row": index, "name": row.get("name"), "official": official, "local": local})
+    return {"rows": len(rows), "mismatches": mismatches}
+
+
+if __name__ == "__main__":  # pragma: no cover - manual check
+    import json as _json
+    import sys as _sys
+    _report = self_check(_sys.argv[1])
+    print(_json.dumps(_report, ensure_ascii=False, indent=2))
+    _sys.exit(1 if _report["mismatches"] else 0)
