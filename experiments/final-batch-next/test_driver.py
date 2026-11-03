@@ -61,6 +61,16 @@ class DriverTests(unittest.TestCase):
         ambiguous["environments"]["primary"]["runs"][0]["command"].append("-M4096")
         self.assertTrue(h.environment_failed(d.guard_compiler_signal(ambiguous)))
 
+    def test_preflight_and_run_probe_the_sandbox_before_any_work(self):
+        for command, work in (("preflight", "preflight"), ("run", "verify_frozen")):
+            with self.subTest(command=command), \
+                    patch.object(d.sys, "argv", ["driver.py", command, "--root", str(self.root)]), \
+                    patch("route60.preflight", side_effect=SystemExit("no bwrap")) as sandbox, \
+                    patch.object(d, work) as started, self.assertRaisesRegex(SystemExit, "no bwrap"):
+                d.main()
+            sandbox.assert_called_once_with(d.REPO)
+            started.assert_not_called()
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.root = Path(self.temp.name)

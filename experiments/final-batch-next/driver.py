@@ -1016,6 +1016,10 @@ def main():
     root = args.root.resolve()
     require_policy(root)
     rows = rows_from(args)
+    if args.command in ("preflight", "run"):
+        # The same Linux sandbox check as route60/route20 (bundled bwrap fallback and probe).
+        from route60 import preflight as sandbox_preflight
+        sandbox_preflight(REPO)
     if args.command == "prepare":
         prepare(root, rows, workers=args.workers or 2, portfolio_settings=settings,
                 autosolver_settings={} if args.autosolver else None, strategy_settings=bank_settings,
