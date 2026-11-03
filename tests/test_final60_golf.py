@@ -55,6 +55,24 @@ class ScoringTests(unittest.TestCase):
         statement = "theorem t : True"
         self.assertEqual(scoring.count_tokens(statement + " := by trivial", statement), 2)
         self.assertEqual(scoring.count_tokens(statement + " := by\n  -- comment\n  trivial", statement), 2)
+        # The empty remainder of a line ending in ":=" is one phantom token (official code).
+        self.assertEqual(scoring.count_tokens(statement + " :=\n  by\n  trivial", statement), 3)
+
+    def test_self_check(self):
+        statement = "theorem t : True"
+        rows = [{"name": "ok", "statement": statement, "src": statement + " := by trivial", "proof_length": 2},
+                {"name": "off", "statement": statement, "src": statement + " := by trivial", "proof_length": 99}]
+        with tempfile.TemporaryDirectory() as folder:
+            path = Path(folder) / "rows.jsonl"
+            path.write_text("\n".join(json.dumps(row) for row in rows) + "\n")
+            report = scoring.self_check(path)
+        self.assertEqual(report["rows"], 2)
+        self.assertEqual(report["mismatches"], [{"row": 2, "name": "off", "official": 99, "local": 2}])
+        dataset = REPO / "benchmarks/arena/final-d53690b057f9/benchmark_data_final.jsonl"
+        if dataset.exists():  # gitignored; 60/60 reproduced on 2026-11-04
+            report = scoring.self_check(dataset)
+            self.assertEqual(report["rows"], 60)
+            self.assertEqual(report["mismatches"], [])
 
 
 class RulesTests(unittest.TestCase):
@@ -222,6 +240,27 @@ class LocalRewriteTests(unittest.TestCase):
         self.check("G3:merge-simp-only", "  simp only [a]\n  simp only [b]\n", "  simp only [a, b]\n")
         self.check("G3:simp-only-to-simp", "  simp only [a, b] at h\n  exact h\n", "  simp at h\n  exact h\n")
 
+    def test_join_by(self):
+        split = self.statement + " :=\n  by \n  trivial\n"
+        joined = self.statement + " := by \n  trivial\n"
+        self.assertEqual(dict(rw.local_rewrites(split, self.statement))["G3:join-by"], joined)
+        self.assertEqual(scoring.count_tokens(split, self.statement) - scoring.count_tokens(joined, self.statement), 1)
+        self.absent("G3:join-by", "  have h : Q :=\n    by simp\n  exact h\n")
+        self.assertNotIn("G3:join-by", dict(rw.local_rewrites(self.statement + " := by trivial\n", self.statement)))
+
+    def test_warning_helpers(self):
+        self.assertEqual(rw.unknown_options("f.lean:3:0: error: Unknown option `linter.unusedTactic`\n"
+                                            "f.lean:4:0: error: unknown option 'linter.foo'\n"),
+                         ["linter.unusedTactic", "linter.foo"])
+        code = self.code("  have u : Q := p\n  exact h\n")
+        source = "import X\n\n" + code + "\ntheorem other : True := by\n  simp\n"
+        log = ("f.lean:4:7: warning: unused variable `u`\n\nNote: this linter can be disabled\n"
+               "f.lean:1:0: warning: outside\n"
+               "f.lean:7:2: warning: declaration uses 'sorry'\n"
+               "f.lean:5:2: error: not a warning\n")
+        self.assertEqual(rw.declaration_warnings(log, source, code), [(1, "unused variable `u`")])
+        self.assertEqual(rw.declaration_warnings(log, "elsewhere", code), [])
+
     def test_span_edits_compose(self):
         code = self.code("  intro a\n  intro b\n  rw [x]\n  rw [y]\n  exact rfl\n")
         edits = rw.non_overlapping(rw.local_span_edits(code, self.statement))
@@ -282,7 +321,8 @@ class CloserTests(unittest.TestCase):
     def test_portfolio_probe_markers(self):
         probe, blocks = rw.closer_probe(self.code, self.statement, closers=rw.CORE_CLOSERS)
         self.assertNotIn("try?", probe)
-        self.assertIn('first | (rfl; trace "G2M:0:rfl") | (omega; trace "G2M:0:omega")', probe)
+        self.assertIn('first | (rfl; trace "G2M:0:rfl") | (assumption; trace "G2M:0:assumption") | '
+                      '(omega; trace "G2M:0:omega") | (decide; trace "G2M:0:decide")', probe)
         self.assertIn('(grind; trace "G2M:1:grind")', probe)
         log = ('probe.lean:9:6: info: G2M:1:grind\n'
                'probe.lean:7:4: error: unsolved goals\n'
@@ -293,6 +333,17 @@ class CloserTests(unittest.TestCase):
         self.assertTrue(variants[0][1].endswith("  · grind\n"))
         root, root_map = rw.closer_probe(self.code, self.statement, scope="root", closers=("omega",))
         self.assertEqual(root, self.statement + ' := by\n  first | (omega; trace "G2M:0:omega")\n')
+
+    def test_cheap_first_closer_lists(self):
+        # Research item 6: one ordered list per row kind, cheap closers first, grind last.
+        self.assertEqual(rw.CORE_CLOSERS, ("rfl", "assumption", "omega", "decide", "simp", "simp_all", "grind"))
+        self.assertEqual(rw.MATHLIB_CLOSERS[:4], rw.CORE_CLOSERS[:4])
+        self.assertEqual(rw.MATHLIB_CLOSERS[-1], "grind")
+        self.assertLess(rw.MATHLIB_CLOSERS.index("positivity"), rw.MATHLIB_CLOSERS.index("simp_all"))
+        self.assertLess(rw.MATHLIB_CLOSERS.index("linarith"), rw.MATHLIB_CLOSERS.index("aesop"))
+        self.assertTrue(set(rw.CORE_CLOSERS) <= set(rw.MATHLIB_CLOSERS))
+        for closer in rw.MATHLIB_CLOSERS:
+            self.assertFalse(rw.SUGGESTION_BLOCKLIST.search(closer), closer)
 
     def test_simp_probe_and_suggestions(self):
         code = (self.statement + " := by\n  simp [a] at h\n  · simp\n  simp only [b]\n  cases x <;> simp\n"
@@ -334,13 +385,20 @@ class DecideTests(unittest.TestCase):
 class FakeAdapter:
     """Compile oracle: oracle(code) -> (valid, raw_heartbeats)."""
 
-    def __init__(self, statement, reference, oracle, *, folder=None, probe_log="", environments=("p", "s")):
+    def __init__(self, statement, reference, oracle, *, folder=None, probe_log="", environments=("p", "s"),
+                 mathlib=None, logs=None):
         self.statement, self.reference, self.oracle = statement, reference, oracle
-        self.compiles, self.screens, self.validations, self.probe_log = 0, [], [], probe_log
+        self.compiles, self.screens, self.validations = 0, [], []
+        # One probe log, or a list consumed in order (the last one repeats).
+        self.probe_logs = list(probe_log) if isinstance(probe_log, list) else [probe_log]
+        self.probe_options = []
+        self.logs = dict(logs or {})          # code -> {env: (log, source)} for version_logs
         self.environments = list(environments)
         self.folder = Path(folder) if folder else Path(tempfile.mkdtemp())
         self.golf_dir = self.folder / "golf"
         self.t0 = scoring.count_tokens(reference, statement)
+        if mathlib is not None:
+            self.imports_mathlib = lambda: mathlib
 
     def baseline(self):
         return self.t0, 1000
@@ -378,10 +436,15 @@ class FakeAdapter:
     def probe(self, text, label, *, timeout_s=300, options=()):
         self.compiles += 1
         self.probed = text
-        return 1, self.probe_log
+        self.probe_options.append(tuple(options))
+        log = self.probe_logs.pop(0) if len(self.probe_logs) > 1 else self.probe_logs[0]
+        return 1, log
 
     def probe_start_line(self, text, options=()):
         return 1
+
+    def version_logs(self, code):
+        return dict(self.logs.get(code, {}))
 
     def verify_environments(self):
         return None
@@ -485,6 +548,44 @@ class GolfTests(unittest.TestCase):
         self.assertEqual(len(results), 1)
         self.assertLessEqual(adapter.compiles - 1, 3)
 
+    def test_linter_probe_auto_best_candidate_on_mathlib_rows(self):
+        code = self.statement + " := by\n  have u : True := trivial\n  trivial\n"
+        line, col = at(code, "u :")
+        log = f"/p/probe.lean:{line}:{col}: warning: unused variable `u`\n\nNote: this linter can be disabled\n"
+        oracle = lambda text: (True, 100)
+        adapter = FakeAdapter(self.statement, code, oracle, probe_log=log, mathlib=True)
+        result, = golf.improve(adapter, {"statement": self.statement}, [candidate(code, "model", "c001", adapter)],
+                               {"max_compiles_best": 6})
+        self.assertEqual(result.best.code, self.statement + " := by\n  trivial\n")
+        self.assertTrue(result.accepted[0].startswith("G1:"), result.accepted)
+        self.assertEqual(adapter.probe_options[0], golf.LINTER_OPTIONS)
+        # Core-only rows, later candidates and tight budgets get no probe (G4 still finds the have).
+        for kwargs, pool_size, settings in ((dict(mathlib=False), 1, {"max_compiles_best": 6}),
+                                            (dict(mathlib=True), 2, {"max_compiles_best": 6, "max_compiles_other": 6,
+                                                                     "max_compiles_total": 12, "top_k": 2}),
+                                            (dict(mathlib=True), 1, {"max_compiles_best": 2})):
+            adapter = FakeAdapter(self.statement, code, oracle, probe_log=log, **kwargs)
+            pool = [candidate(code if i == 0 else code.replace("trivial\n", "exact trivial\n", 1), "model",
+                              f"c00{i}", adapter) for i in range(pool_size)]
+            results = golf.improve(adapter, {"statement": self.statement}, pool, settings)
+            probes = [options for options in adapter.probe_options if options == golf.LINTER_OPTIONS]
+            self.assertEqual(len(probes), 1 if (pool_size == 2) else 0, (kwargs, settings))
+            if pool_size == 1:
+                self.assertFalse(any(name.startswith("G1:") for name in results[0].accepted))
+
+    def test_linter_probe_drops_unknown_options(self):
+        code = self.statement + " := by\n  have u : True := trivial\n  trivial\n"
+        line, col = at(code, "u :")
+        logs = ["/p/probe.lean:1:0: error: Unknown option `linter.unusedTactic`\n",
+                f"/p/probe.lean:{line}:{col}: warning: unused variable `u`\n"]
+        adapter = FakeAdapter(self.statement, code, lambda text: (True, 100), probe_log=logs, mathlib=True)
+        result, = golf.improve(adapter, {"statement": self.statement}, [candidate(code, "model", "c001", adapter)],
+                               {"max_compiles_best": 8})
+        self.assertTrue(result.accepted[0].startswith("G1:"), result.accepted)
+        self.assertEqual(adapter.probe_options[0], golf.LINTER_OPTIONS)
+        self.assertEqual(adapter.probe_options[1], tuple(o for o in golf.LINTER_OPTIONS if "unusedTactic" not in o))
+        self.assertTrue(any(entry.get("event") == "probe-unknown-options" for entry in result.log))
+
 
 class SelectTests(unittest.TestCase):
     statement = "theorem t : True"
@@ -524,6 +625,80 @@ class SelectTests(unittest.TestCase):
                                deadline=clock.time() + 300)
         self.assertEqual(result.tried, 0)
 
+    def test_validation_depth_on_wide_toolchain_rows(self):
+        depth = select.validation_depth
+        self.assertEqual(depth({"environments": ["strata-v4.31.0", "strata-v4.27.0"]}), 5)       # span 4
+        self.assertEqual(depth({"environments": ["physlib-v4.34.1", "physlib-v4.34.0"]}), 3)
+        self.assertEqual(depth({"environments": ["cslib-v4.34.1", "cslib-v4.33.1", "cslib-v4.31.0"]}), 5)
+        self.assertEqual(depth({"environments": ["a", "b"], "version_info": [{"v4.34.1": "x"}, {"v4.31.0": "y"}]}), 5)
+        self.assertEqual(depth({"environments": ["a", "b"]}, base=2), 2)
+        self.assertEqual(select.version_span({"environments": ["p-v4.35.0-rc3", "p-v4.34.0"]}), (2, 1))
+        # Five candidates in screening order; the first four fail another listed version.
+        variants = [self.statement + " := by\n  exact " + "(id " * i + "trivial" + ")" * i + "\n" for i in range(5)]
+        oracle = lambda code, all_versions=False: (not (all_versions and code in variants[:4]), 10)
+        for environments, expected in ((["p"], "original"), (["p", "s", "t"], "model")):
+            adapter = FakeAdapter(self.statement, self.reference, oracle, environments=environments)
+            pool = [candidate(text, "model", f"c{i}", adapter) for i, text in enumerate(variants, 1)]
+            selection = select.select_final(adapter, {"statement": self.statement, "reference": self.reference,
+                                                      "environments": environments}, pool)
+            self.assertEqual(selection.candidate.origin, expected, environments)
+            self.assertEqual(len([v for v in adapter.validations if v != "c000"]), 3 if expected == "original" else 5)
+            record = json.loads((adapter.golf_dir / "selection.json").read_text())
+            self.assertEqual(record["validations"], 3 if expected == "original" else 5)
+        adapter = FakeAdapter(self.statement, self.reference, oracle, environments=["p", "s", "t"])
+        pool = [candidate(text, "model", f"c{i}", adapter) for i, text in enumerate(variants, 1)]
+        selection = select.select_final(adapter, {"statement": self.statement, "reference": self.reference,
+                                                  "environments": ["p", "s", "t"]}, pool, deep_k=None)
+        self.assertEqual(selection.candidate.origin, "original")
+
+    def test_warning_gate_rejects_demotes_or_fixes(self):
+        problem = {"statement": self.statement, "reference": self.reference, "environments": ["p", "s"],
+                   "source": "strata"}
+        deprecated = self.statement + " := by\n  exact old_lemma\n"
+        unused = self.statement + " := by\n  have u : True := trivial\n  trivial\n"
+
+        def warn(code, needle, text):
+            line, col = at(code, needle)
+            return f"/x/check.lean:{line}:{col}: warning: {text}\n"
+        logs = {deprecated: {"p": (warn(deprecated, "old_lemma", "`old_lemma` has been deprecated: use `new_lemma`"),
+                                   deprecated)},
+                unused: {"s": (warn(unused, "u :", "unused variable `u`\n\nNote: this linter can be disabled"), unused)},
+                self.reference: {"p": ("", self.reference), "s": ("", self.reference)}}
+        oracle = lambda code, all_versions=False: (True, 10)
+
+        def run(code, label, mode="reject", source="strata", logs=logs):
+            adapter = FakeAdapter(self.statement, self.reference, oracle, logs=logs)
+            pool = [candidate(code, "model", label, adapter)]
+            with patch.dict(os.environ, {"FINAL60_WARNING_GATE": mode}):
+                selection = select.select_final(adapter, {**problem, "source": source}, pool)
+            return selection, adapter, json.loads((adapter.golf_dir / "selection.json").read_text())
+        # An unfixable new warning rejects the finalist; the original is published.
+        selection, adapter, record = run(deprecated, "c1")
+        self.assertEqual(selection.candidate.origin, "original")
+        self.assertEqual(record["warning_gate"]["mode"], "reject")
+        self.assertEqual(record["warning_gate"]["entries"][0]["warnings"],
+                         {"p": ["`old_lemma` has been deprecated: use `new_lemma`"]})
+        self.assertEqual(record["validation_errors"][0]["error_kind"], "warning-gate")
+        # demote keeps it when nothing clean beats the original; off and other sources ignore warnings.
+        self.assertEqual(run(deprecated, "c1", mode="demote")[0].candidate.code, deprecated)
+        self.assertEqual(run(deprecated, "c1", mode="off")[0].candidate.code, deprecated)
+        self.assertEqual(run(deprecated, "c1", source="physlib")[2]["warning_gate"]["mode"], "off")
+        with patch.dict(os.environ, {"FINAL60_WARNING_GATE_SOURCES": "physlib, cslib"}):
+            self.assertEqual(select.warning_gate_mode({"source": "physlib"}), "reject")
+            self.assertEqual(select.warning_gate_mode({"source": "strata"}), "off")
+        # A fixable warning (unused have) gets one G1 fix that is re-validated and selected.
+        selection, adapter, record = run(unused, "c2")
+        self.assertEqual(selection.candidate.code, self.statement + " := by\n  trivial\n")
+        self.assertEqual((selection.candidate.origin, selection.candidate.label), ("golf", "golf:G1fix:c2"))
+        self.assertEqual(selection.candidate.parent_sha256, sha(unused))
+        self.assertEqual(adapter.validations, ["c2", "golf:G1fix:c2"])
+        self.assertEqual(record["warning_gate"]["entries"][0]["fix"]["valid"], True)
+        # The same warning shown by the original in that version is tolerated.
+        tolerant = {**logs, self.reference: {"s": (warn(self.reference, "h :", "unused variable `u`"), self.reference)}}
+        selection, adapter, record = run(unused, "c3", logs=tolerant)
+        self.assertEqual((selection.candidate.code, selection.candidate.origin), (unused, "model"))
+        self.assertEqual(record["warning_gate"]["entries"], [])
+
     def test_never_below_original(self):
         worse = self.statement + " := by\n  have h : True := trivial\n  have g : True := h\n  exact g\n"
         adapter = FakeAdapter(self.statement, self.reference, lambda code, all_versions=False: (True, 5000))
@@ -546,8 +721,8 @@ class SelectTests(unittest.TestCase):
 class FixtureEvaluator:
     """FinalEvaluator stand-in with saved source/log evidence (Lean is not invoked)."""
 
-    def __init__(self, oracle):
-        self.oracle, self.calls = oracle, []
+    def __init__(self, oracle, log_for=None):
+        self.oracle, self.calls, self.log_for = oracle, [], log_for
 
     def evaluate(self, code, problem, path, **kwargs):
         self.calls.append((sha(code)[:8], kwargs))
@@ -560,7 +735,7 @@ class FixtureEvaluator:
         for env in envs:
             folder = Path(path) / env
             folder.mkdir(parents=True, exist_ok=True)
-            log = "Synthetic evidence; Lean was not invoked."
+            log = self.log_for(code, env) if self.log_for else "Synthetic evidence; Lean was not invoked."
             (folder / "check.lean").write_text(code)
             (folder / "check.log").write_text(log)
             runs = [{"source": "check.lean", "source_sha256": sha(code), "log": "check.log", "log_sha256": sha(log),
@@ -692,6 +867,28 @@ class PublicationTests(unittest.TestCase):
         summary = select.write_selection(self.root, 1, selection, stop_reason="skip_llm")
         self.assertEqual(summary["status"], "stopped")
         self.assertEqual(summary["calls"], 0)
+        built = self.report()
+        self.assertTrue(built["audit_passed"], built["audit_errors"])
+        self.assertEqual(self.provenance(built)["errors"], [])
+
+    def test_warning_gate_reads_version_logs_and_publishes_the_fix(self):
+        unused = self.statement + " := by\n  have u : True := trivial\n  trivial\n"
+        line, col = at(unused, "u :")
+
+        def log_for(code, env):
+            if code == unused and env == "secondary":
+                return f"/x/check.lean:{line}:{col}: warning: unused variable `u`\n"
+            return "Synthetic evidence; Lean was not invoked."
+        self.evaluator.log_for = log_for
+        adapter = evaladapter.EvalAdapter(self.root, 1, evaluator=self.evaluator, screen_mode="check-measure")
+        pool = [candidate(unused, "model", "c001", adapter)] + select.candidates_from_run(self.root, 1)
+        with patch.dict(os.environ, {"FINAL60_WARNING_GATE_SOURCES": "synthetic fixture"}):
+            selection = select.select_final(adapter, self.problem, pool)
+        self.assertEqual(adapter.version_logs(unused).keys(), {"primary", "secondary"})
+        self.assertEqual(select.new_warnings(adapter, unused, self.reference), {"secondary": ["unused variable `u`"]})
+        self.assertEqual((selection.candidate.origin, selection.candidate.label), ("golf", "golf:G1fix:c001"))
+        self.assertEqual(selection.candidate.code, self.statement + " := by\n  trivial\n")
+        select.write_selection(self.root, 1, selection, stop_reason="skip_llm")
         built = self.report()
         self.assertTrue(built["audit_passed"], built["audit_errors"])
         self.assertEqual(self.provenance(built)["errors"], [])

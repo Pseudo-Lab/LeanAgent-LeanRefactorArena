@@ -374,6 +374,28 @@ class EvalAdapter:
                                "raw_heartbeats": result.raw_heartbeats, "evidence": str(fresh_dir)})
         return result
 
+    def version_logs(self, code: str) -> dict[str, tuple[str, str]]:
+        """Per listed version, ``(log, compiled source)`` of the all-version check compile.
+
+        Candidates leave ``compatibility/<sha>/<env>/check.*``; the original also has the
+        preflight's ``reference-compatibility/<env>/check.*``. Versions whose evidence came
+        from the evaluation cache without log files are left out.
+        """
+        roots = [self.folder / "compatibility" / sha(code)]
+        if code == self.reference:
+            roots.insert(0, self.folder / "reference-compatibility")
+        out = {}
+        for env in self.environments:
+            for root in roots:
+                for stem in ("check", "measure-1"):
+                    log, source = root / env / (stem + ".log"), root / env / (stem + ".lean")
+                    if log.is_file() and source.is_file():
+                        out[env] = (log.read_text(errors="replace"), source.read_text(errors="replace"))
+                        break
+                if env in out:
+                    break
+        return out
+
     def imports_mathlib(self) -> bool:
         """Whether the primary context imports Mathlib (Mathlib-only closers are allowed)."""
         if not hasattr(self, "_mathlib"):

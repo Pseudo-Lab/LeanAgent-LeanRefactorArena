@@ -20,20 +20,108 @@ assembly can fall back to the next validated candidate before the original.
 """
 from __future__ import annotations
 
+import collections
 from datetime import datetime, timezone
 from decimal import Decimal
 import hashlib
 import os
 from pathlib import Path
+import re
 import shutil
 import time
 
 from .contracts import Candidate, EvalResult, Selection
-from . import rules, scoring
+from . import rewrites as rw, rules, scoring
 from .evaladapter import driver as _driver, sha, _read
 
 SELECTION_SCHEMA = "final60-golf-selection-v1"
 SUMMARY_SOURCE = "final60.select.write_selection"
+# Research item 8: validate up to ``DEEP_K`` finalists on rows that list >= 3 toolchains or span
+# >= 3 minor versions (the 10 Strata rows, 2 CSLib and 3 ArkLib rows of the final dataset).
+DEEP_K = 5
+# Research item 5: the final Strata checkout (v4.31.0, 33faa3268be1...) sets
+# ``[leanOptions] warningAsError = true``; our evaluator never applies lakefile options, so a
+# finalist with a new warning inside its declaration could fail on the organizers' worker.
+WARNING_GATE_SOURCES = ("strata",)
+WARNING_GATE_MODES = ("reject", "demote", "off")
+
+
+def version_span(problem: dict) -> tuple[int, int]:
+    """(listed toolchains, minor-version span) from the environment ids or ``version_info``."""
+    versions = []
+    for env in problem.get("environments", []):
+        match = re.search(r"v(\d+)\.(\d+)\.(\d+)", str(env))
+        if match:
+            versions.append((int(match[1]), int(match[2])))
+    for item in problem.get("version_info", []) or []:
+        for name in (item.keys() if isinstance(item, dict) else [item]):
+            match = re.search(r"v(\d+)\.(\d+)\.(\d+)", str(name))
+            if match:
+                versions.append((int(match[1]), int(match[2])))
+    count = max(len(problem.get("environments", [])), len(set(versions)))
+    minors = sorted({major * 1000 + minor for major, minor in versions})
+    return count, (minors[-1] - minors[0]) if minors else 0
+
+
+def validation_depth(problem: dict, *, base: int = 3, deep: int = DEEP_K) -> int:
+    """Validations allowed for a row: ``deep`` on wide-toolchain rows, otherwise ``base``."""
+    count, span = version_span(problem)
+    return max(base, deep) if (count >= 3 or span >= 3) else base
+
+
+def warning_gate_mode(problem: dict) -> str:
+    """``reject`` (default), ``demote`` or ``off`` for this row (``FINAL60_WARNING_GATE``).
+
+    ``FINAL60_WARNING_GATE_SOURCES`` (comma separated) replaces the gated sources; the
+    gate is ``off`` on every other source. Relax it (``demote``/``off``) if an interim
+    upload shows a warned Strata proof keeping full zero-shot transfer.
+    """
+    mode = (os.environ.get("FINAL60_WARNING_GATE") or "reject").strip().lower()
+    if mode not in WARNING_GATE_MODES:
+        raise ValueError("FINAL60_WARNING_GATE must be one of " + ", ".join(WARNING_GATE_MODES))
+    listed = os.environ.get("FINAL60_WARNING_GATE_SOURCES")
+    sources = {item.strip().lower() for item in listed.split(",") if item.strip()} if listed else set(WARNING_GATE_SOURCES)
+    return mode if str(problem.get("source") or "").strip().lower() in sources else "off"
+
+
+def new_warnings(adapter, code: str, reference: str) -> dict[str, list[str]]:
+    """Per version, warnings inside the candidate's declaration that the original lacks there.
+
+    Compared by normalised message text per version (a warning the original shows too, such
+    as an unused statement binder, is tolerated). Versions without log evidence are skipped.
+    """
+    logs = getattr(adapter, "version_logs", None)
+    if logs is None:
+        return {}
+    mine, base = logs(code), logs(reference)
+    out = {}
+    for env, (log, source) in mine.items():
+        shown = collections.Counter(key for _, key in rw.declaration_warnings(log, source, code))
+        known = collections.Counter(key for _, key in rw.declaration_warnings(*base[env], reference)) \
+            if env in base else collections.Counter()
+        extra = sorted((shown - known).elements())
+        if extra:
+            out[env] = extra
+    return out
+
+
+def _gate_fix(adapter, statement: str, code: str) -> str | None:
+    """One G1 fix for the gate: apply every linter-guided edit the version logs support."""
+    edits, seen = [], set()
+    for log, source in adapter.version_logs(code).values():
+        start = rw.declaration_start_line(source, code)
+        if start is None:
+            continue
+        for edit in rw.linter_span_edits(code, statement, log, start):
+            key = (edit.start, edit.end, edit.replacement)
+            if key not in seen:
+                seen.add(key)
+                edits.append(edit)
+    edits.sort(key=lambda edit: (edit.name != "G1:drop-unused-have", edit.start))
+    fixed = rw.apply_edits(code, rw.non_overlapping(edits)) if edits else None
+    if not fixed or fixed == code or rules.check_static(fixed, statement):
+        return None
+    return fixed
 
 
 def provenance_normalize(text: str) -> str:
@@ -135,12 +223,20 @@ def _existing_selection(adapter) -> tuple[str, Path] | None:
 
 
 def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, deadline: float | None = None,
-                 non_openrouter_sha256=frozenset(), keep: int = 3) -> Selection:
-    """Validate in screening order; return the best validated candidate or the original."""
+                 non_openrouter_sha256=frozenset(), keep: int = 3, deep_k: int | None = DEEP_K) -> Selection:
+    """Validate in screening order; return the best validated candidate or the original.
+
+    ``k`` is raised to ``deep_k`` on wide-toolchain rows (``validation_depth``). On gated
+    sources a validated finalist with a warning the original lacks gets one G1 fix attempt
+    (re-validated); if that fails it is rejected (or ranked last in ``demote`` mode).
+    """
     t0, hb0 = adapter.baseline()
     total = len(problem["environments"])
     reference, statement = problem["reference"], problem["statement"]
     blocked = {str(value) for value in non_openrouter_sha256}
+    if deep_k is not None:
+        k = validation_depth(problem, base=int(k), deep=int(deep_k))
+    gate = warning_gate_mode(problem)
     dropped, unique = [], {}
     existing = _existing_selection(adapter)
     for candidate in pool:
@@ -173,7 +269,7 @@ def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, d
         ranked.append((estimate, candidate))
     # The current audited selection (driver or earlier golf) is re-checked first: free, cached.
     ranked.sort(key=lambda item: (not (existing and item[1].code == existing[0]), -item[0], item[1].sha256))
-    validated, considered, errors = [], [], []
+    validated, considered, errors, gated = [], [], [], []
     best = scoring.ORIGINAL_SCORE
     attempts = 0
     for estimate, candidate in ranked:
@@ -195,13 +291,41 @@ def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, d
         if not result.valid:
             errors.append({"label": candidate.label, "error_kind": result.error_kind, "message": result.message[-300:]})
             continue
+        warned = new_warnings(adapter, candidate.code, reference) if gate != "off" else {}
+        if warned:
+            fixed = _gate_fix(adapter, statement, candidate.code)
+            entry = {"label": candidate.label, "sha256": candidate.sha256, "warnings": warned, "mode": gate,
+                     "fix": None}
+            if fixed and sha(fixed) not in unique and provenance_sha(fixed) not in blocked:
+                label = "golf:G1fix:" + candidate.label
+                considered.append(label)
+                try:
+                    repaired = adapter.validate(fixed, label, as_final=False)
+                except Exception as exc:
+                    repaired = None
+                    errors.append({"label": label, "error": f"{type(exc).__name__}: {exc}"[:500]})
+                still = new_warnings(adapter, fixed, reference) if repaired is not None and repaired.valid else None
+                if repaired is not None and repaired.valid and not still:
+                    unique[sha(fixed)] = candidate = Candidate(fixed, sha(fixed), "golf", candidate.sha256, label, None)
+                    result, warned = repaired, {}
+                    entry["fix"] = {"label": label, "sha256": sha(fixed), "valid": True}
+                else:
+                    entry["fix"] = {"label": label, "sha256": sha(fixed),
+                                    "valid": bool(repaired is not None and repaired.valid), "warnings": still}
+            gated.append(entry)
+            if warned and gate == "reject":
+                errors.append({"label": candidate.label, "error_kind": "warning-gate",
+                               "message": "; ".join(f"{env}: {', '.join(items)}" for env, items in warned.items())[-300:]})
+                continue
         score = scoring.problem_score(result.tokens, result.raw_heartbeats, total, total, t0, hb0)
-        validated.append((score, candidate, result))
-        best = max(best, score)
-    validated.sort(key=lambda item: (-item[0], item[1].sha256))
+        validated.append((score, candidate, result, bool(warned)))
+        if not warned:
+            best = max(best, score)
+    # Clean finalists first; demoted (warned) ones only when nothing clean beats the original.
+    validated.sort(key=lambda item: (item[3], -item[0], item[1].sha256))
     winners = [item for item in validated if scoring.improves(item[0], scoring.ORIGINAL_SCORE)]
     if winners:
-        score, chosen, result = winners[0]
+        score, chosen, result, _ = winners[0]
         beat = True
     else:
         chosen = Candidate(reference, sha(reference), "original", None, "c000", adapter.reference_result())
@@ -213,7 +337,7 @@ def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, d
     selection = Selection(candidate=chosen, validated=result, score=score, beat_original=beat,
                           considered=tuple(considered))
     _fingerprint(adapter, result)
-    _record(adapter, selection, winners[1:1 + max(0, keep - 1)], dropped, errors)
+    _record(adapter, selection, winners[1:1 + max(0, keep - 1)], dropped, errors, gated=gated, k=k, gate=gate)
     return selection
 
 
@@ -237,10 +361,11 @@ def _entry(score: float, candidate: Candidate, result: EvalResult) -> dict:
             "raw_heartbeats": result.raw_heartbeats, "envs": result.envs, "evidence_dir": result.evidence_dir}
 
 
-def _record(adapter, selection: Selection, alternates, dropped, errors) -> None:
+def _record(adapter, selection: Selection, alternates, dropped, errors, *, gated=(), k: int | None = None,
+            gate: str | None = None) -> None:
     folder = adapter.golf_dir
     stored = []
-    for score, candidate, result in alternates:
+    for score, candidate, result, *_ in alternates:
         path = folder / "alternates" / (candidate.sha256[:12] + ".lean")
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(candidate.code)
@@ -249,7 +374,8 @@ def _record(adapter, selection: Selection, alternates, dropped, errors) -> None:
         "schema": SELECTION_SCHEMA, "at": _now(), "beat_original": selection.beat_original,
         "selected": _entry(selection.score, selection.candidate, selection.validated),
         "considered": list(selection.considered), "alternates": stored, "dropped": dropped,
-        "validation_errors": errors, "published": False})
+        "validation_errors": errors, "validations": k, "warning_gate": {"mode": gate, "entries": list(gated)},
+        "published": False})
 
 
 def alternates(run_root: Path, row: int) -> list[Selection]:
