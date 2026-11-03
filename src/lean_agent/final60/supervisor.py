@@ -80,6 +80,7 @@ class Supervisor:
         self.last_heartbeat = 0.0
         self.last_final_assembly = 0.0
         self.last_coverage = 0.0
+        self.last_rolling = 0.0
         self.closed = False
         self.ready = set()
 
@@ -279,8 +280,12 @@ class Supervisor:
         live = self.reap(now)
         self.start_rows(now, live)
         published = self.published()
-        if published != self.published_seen:
+        # Rolling assembly re-reads every published row's requests for the PR #70 leak test,
+        # so it runs at most every assemble_seconds (and whenever no worker is live).
+        if published != self.published_seen and (self.published_seen is None or not live
+                                                 or now - self.last_rolling >= self.opts.assemble_seconds):
             self.published_seen = published
+            self.last_rolling = now
             self.assemble(final=False)
         self.heartbeat(now, live)
         if now >= self.opts.deadline_epoch() or (self.layout.supervisor / "STOP").exists():

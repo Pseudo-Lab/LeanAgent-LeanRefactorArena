@@ -121,6 +121,7 @@ class RunOptions:
     gib_per_compile: float = 3.5
     poll_seconds: float = 15.0
     coverage_seconds: float = 120.0
+    assemble_seconds: float = 300.0
     python: str = sys.executable
 
     def deadline_epoch(self):
