@@ -172,7 +172,8 @@ class Supervisor:
         except Exception as exc:       # the log is diagnostic only
             self.event("memory_sample_error", error=f"{type(exc).__name__}: {exc}"[:300])
             return None
-        sample.update(compiler_slots=self.slots, live_rows=len(self.children))
+        # Live rows include workers adopted from an earlier supervisor (not in self.children).
+        sample.update(compiler_slots=self.slots, live_rows=len(self.alive_before | set(self.children)))
         path = self.layout.supervisor / "memory.jsonl"
         path.parent.mkdir(parents=True, exist_ok=True)
         with path.open("a") as stream:

@@ -42,7 +42,7 @@ def cacheable(result):
         "no such file", "failed to open", "unknown module prefix", "object file",
         "permission denied", "input/output error", "stack overflow", "heartbeat",
         "maximum recursion depth", "timeout", "timed out",
-        "operation not permitted", "sandbox-exec:", "sandbox_apply:",
+        "operation not permitted", "sandbox-exec:", "sandbox_apply:", "bwrap:",
     )):
         return False
     return (error["kind"] == "axioms" or any((r.get("returncode") or 0) > 0 for r in runs))

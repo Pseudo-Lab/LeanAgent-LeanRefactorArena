@@ -1,4 +1,4 @@
-"""python -m lean_agent.final60 {plan,run,row,status,assemble} (see docs/final60/RUNBOOK.md)."""
+"""python -m lean_agent.final60 {plan,run,row,status,assemble,package} (see docs/final60/RUNBOOK.md)."""
 from __future__ import annotations
 
 import argparse
@@ -76,13 +76,16 @@ def options(args):
         transport = "mock"
     if transport == "mock":
         dry_run = True
-    opts = RunOptions(run_dir=args.run_dir.resolve(), key_file=getattr(args, "key_file", None), rows=rows,
+    # Row workers are spawned with cwd=REPO: every input path is made absolute here (same type as given).
+    def absolute(value):
+        return type(value)(Path(value).resolve()) if isinstance(value, (str, Path)) else value
+    opts = RunOptions(run_dir=args.run_dir.resolve(), key_file=absolute(getattr(args, "key_file", None)), rows=rows,
                       max_rows=int(pick("max_rows", 8)), compiler_slots=int(pick("compiler_slots", 6)),
                       deadline=deadline, soft_stop_min=int(pick("soft_stop_min", 100)),
                       diversity=bool(pick("diversity", False)), dry_run=dry_run,
-                      dataset=Path(pick("dataset")) if pick("dataset") else None,
-                      prepared_repo=Path(pick("prepared_repo")) if pick("prepared_repo") else None,
-                      non_openrouter=[Path(path) for path in (getattr(args, "non_openrouter", None) or saved.get("non_openrouter", []))],
+                      dataset=Path(pick("dataset")).resolve() if pick("dataset") else None,
+                      prepared_repo=Path(pick("prepared_repo")).resolve() if pick("prepared_repo") else None,
+                      non_openrouter=[Path(path).resolve() for path in (getattr(args, "non_openrouter", None) or saved.get("non_openrouter", []))],
                       cap_usd=Decimal(str(pick("cap", None) or saved.get("cap_usd") or CAP_USD)), prior_costs=priors,
                       exploration_minutes=int(pick("exploration_minutes", 75)),
                       mem_start_gib=float(pick("mem_start_gib", 10.0)), mem_reserve_gib=float(pick("mem_reserve_gib", 6.0)),

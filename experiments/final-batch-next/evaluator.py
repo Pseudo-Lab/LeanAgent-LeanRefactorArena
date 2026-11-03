@@ -664,8 +664,9 @@ class FinalEvaluator:
                         record, log = self._invoke(source, state, context, folder, label)
                         row["runs"].append(record)
                         if record["returncode"] or record["timed_out"]:
+                            # macOS sandbox-exec and Linux bubblewrap setup failures are host failures alike.
                             host_failure = any(marker in log.lower() for marker in
-                                ("sandbox-exec:", "sandbox_apply:", "operation not permitted", "permission denied", "input/output error"))
+                                ("sandbox-exec:", "sandbox_apply:", "bwrap:", "operation not permitted", "permission denied", "input/output error"))
                             kind = "environment" if host_failure else "timeout" if record["timed_out"] else "compile"
                             # An allocator abort or signal death is the machine's result, not the candidate's.
                             row["error"] = compiler_abort(record, log) or {"kind": kind, "message": log[-8000:]}

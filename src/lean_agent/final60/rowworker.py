@@ -281,6 +281,11 @@ class RowWorker:
             self.update_worker(golf="error: " + f"{type(exc).__name__}: {exc}"[:500] + "; driver selection kept",
                                golf_traceback=traceback.format_exc()[-4000:])
 
+    # Minimum local-estimate gain (points) before a model proof replaces the original. The official
+    # counter reports heartbeats in thousands and the measured run-to-run noise is far below this;
+    # a noise-level or equal variant gains nothing and only adds provenance and transfer risk.
+    PUBLISH_MARGIN = 0.25
+
     def audit_and_publish(self):
         problem = read_json(self.folder / "input/problem.json")
         report = self.report.build_report(self.root)
@@ -290,11 +295,11 @@ class RowWorker:
         selected = self.folder / "selected.lean"
         code = selected.read_text(encoding="utf-8") if selected.exists() else None
         score = entry.get("local_score_estimate")
-        # A non-original proof is submitted only when it scores strictly better than the original
-        # (33.33); an equal-score variant would only add provenance risk.
+        # A non-original proof is submitted only when it scores better than the original (33.33) by
+        # at least PUBLISH_MARGIN; an equal or noise-level variant would only add provenance risk.
         improved = (report["audit_passed"] and code is not None and "final" in entry
                     and normalized_sha(code) != normalized_sha(problem["reference"])
-                    and isinstance(score, (int, float)) and score > 100 / 3 + 1e-6)
+                    and isinstance(score, (int, float)) and score >= 100 / 3 + self.PUBLISH_MARGIN)
         value = {"row": self.row, "name": problem["name"], "at": now_iso(),
                  "origin": "openrouter-run" if improved else "original",
                  "selected_sha256": sha_text(code) if code is not None else None,

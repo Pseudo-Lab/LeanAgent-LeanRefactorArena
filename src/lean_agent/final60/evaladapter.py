@@ -275,8 +275,9 @@ class EvalAdapter:
                 row["runs"].append(record)
                 if record["returncode"] or record["timed_out"]:
                     lowered = log.lower()
-                    host = any(marker in lowered for marker in ("sandbox-exec:", "sandbox_apply:", "operation not permitted",
-                                                                "permission denied", "input/output error"))
+                    host = any(marker in lowered for marker in ("sandbox-exec:", "sandbox_apply:", "bwrap:",
+                                                                "operation not permitted", "permission denied",
+                                                                "input/output error"))
                     kind = "environment" if host else "timeout" if record["timed_out"] else "compile"
                     row["error"] = {"kind": kind, "message": log[-8000:]}
                 else:

@@ -33,7 +33,10 @@ DEFAULT_GOLF = {"original_compiles": 4, "top_k": 2, "max_compiles_best": 8, "max
 DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22, "progress_guard": "bounded-v1",
                      "merger_until_budget": True}
 # Repository folders that hold proofs produced outside OpenRouter (A3). More come from --non-openrouter.
-REPO_NON_OPENROUTER = ("dashboard/public/data", "solutions", "submissions", "experiments/assigned-route-results")
+REPO_NON_OPENROUTER = ("dashboard/public/data", "solutions", "submissions", "experiments/assigned-route-results",
+                       # tracked OpenAI-direct (gpt-6.1-sol) result files of earlier experiments
+                       "experiments/arklib-strategy-bank-pilot", "experiments/putnambench-mixed-bank",
+                       "experiments/main-scout20")
 # Sources whose prepared projects list Mathlib in lake-manifest.json (checked on every registry entry,
 # 2026-11-04). `import Mathlib` alone peaks near 6.1 GB RSS on Linux and aborts under the frozen -M4096.
 MATHLIB_SOURCES = ("arklib", "cslib", "leanpool", "physlib", "putnambench")
