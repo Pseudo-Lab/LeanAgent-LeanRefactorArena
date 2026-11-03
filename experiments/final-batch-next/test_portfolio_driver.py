@@ -53,7 +53,9 @@ class PortfolioBatchTests(unittest.TestCase):
             packet = json.loads(body["messages"][1]["content"])
             self.packets.append(packet)
             action = {"action": "propose", "parent_id": "c000", "strategy": packet["portfolio"]["route"],
-                      "proof": "by trivial -- " + packet["portfolio"]["branch"]}
+                      "proof": "by trivial -- " + packet["portfolio"]["branch"]
+                               + (f" round {packet['portfolio']['round']}" if "round" in packet["portfolio"] else "")
+                               + (f" try {len(self.packets)}" if packet["portfolio"].get("stops_at") else "")}
             if packet["portfolio"]["branch"] == "merge":
                 action["source_candidate_ids"] = ["c001", "c002", "c003"]
             if actions is not None:
@@ -186,6 +188,36 @@ class PortfolioBatchTests(unittest.TestCase):
         self.assertFalse(exported["audit_passed"])
         self.assertEqual(exported["completed"], 0)
         self.assertIn("All authorized problems must complete before final export", exported["audit_errors"])
+
+    def use_settings(self, settings, cost_stop=None):
+        self.config = d.configuration(self.problem, settings)
+        if cost_stop is not None:
+            self.config["limits"]["cost_stop_usd"] = cost_stop
+        d.atomic(self.output / "input/config.json", self.config)
+        d.atomic(self.output / "state.json", h.initial_state(self.problem, result(), self.config))
+
+    def test_two_rounds_complete_and_pass_the_routing_audit(self):
+        self.use_settings({"progress_guard": "bounded-v1", "scout_evaluations": 1, "merger_evaluations": 1, "rounds": 2})
+        summary = self.run_batch()
+        self.assertEqual([p["portfolio"]["branch"] for p in self.packets], list(h.portfolio.BRANCHES) * 2)
+        self.assertEqual(summary["stop_reason"], "portfolio_complete")
+        self.assertEqual(summary["status"], "completed")
+        self.assertTrue(report.audit_portfolio(self.output, summary, self.attempts()))
+
+    def test_budget_ended_merger_is_a_completed_portfolio(self):
+        self.use_settings({"progress_guard": "bounded-v1", "scout_evaluations": 1, "merger_evaluations": 1,
+                           "merger_until_budget": True},
+                          cost_stop="0.15")
+        summary = self.run_batch()
+        branches = [p["portfolio"]["branch"] for p in self.packets]
+        self.assertEqual(branches[:3], ["scout-a", "scout-b", "scout-c"])
+        self.assertGreater(branches.count("merge"), 1)
+        # Stops before a call whose worst-case reservation could cross the cap, so actual spend stays under it.
+        self.assertLessEqual(d.Decimal(summary["cost_usd"]), d.Decimal("0.15"))
+        self.assertLess(d.Decimal(summary["cost_usd"]), d.Decimal("0.15") - d.Decimal("0.05"))
+        self.assertEqual(summary["stop_reason"], "portfolio_budget_complete")
+        self.assertEqual(summary["status"], "completed")
+        self.assertTrue(report.audit_portfolio(self.output, summary, self.attempts()))
 
     def test_prepared_inputs_freeze_policy_and_reject_mode_changes(self):
         repository = self.root / "repo"

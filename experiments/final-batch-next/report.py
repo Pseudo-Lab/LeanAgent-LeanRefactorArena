@@ -55,7 +55,7 @@ def audit_portfolio(folder, summary, attempts):
         raise ValueError("Portfolio summary/state differs from recorded routing")
     if saved["calls"] != len(attempts):
         raise ValueError("Portfolio state call count differs from ledger")
-    if (summary["stop_reason"] == "portfolio_complete") != expected["complete"]:
+    if (summary["stop_reason"] in ("portfolio_complete", "portfolio_budget_complete")) != expected["complete"]:
         raise ValueError("Portfolio completion reason differs from recorded routing")
     if portfolio.finished(state) and summary["stop_reason"] != portfolio.stop_reason(state, config):
         raise ValueError("Portfolio terminal reason differs from recorded routing")

@@ -21,7 +21,8 @@ def enabled(config):
 
 def validate(settings):
     if (not isinstance(settings, dict) or set(settings) - {
-            "scout_evaluations", "merger_evaluations", "hide_original_first_scout", "progress_guard"}):
+            "scout_evaluations", "merger_evaluations", "hide_original_first_scout", "progress_guard",
+            "rounds", "merger_until_budget"}):
         raise ValueError("Expected portfolio evaluation quotas")
     for key, default in (("scout_evaluations", 6), ("merger_evaluations", 22)):
         value = settings.get(key, default)
@@ -31,6 +32,23 @@ def validate(settings):
         raise ValueError("Expected progress_guard bounded-v1")
     if type(settings.get("hide_original_first_scout", True)) is not bool:
         raise ValueError("Expected boolean hide_original_first_scout")
+    if type(settings.get("rounds", 1)) is not int or not 1 <= settings.get("rounds", 1) <= 10:
+        raise ValueError("Expected portfolio rounds between 1 and 10")
+    if type(settings.get("merger_until_budget", False)) is not bool:
+        raise ValueError("Expected boolean merger_until_budget")
+
+
+def extended(config):
+    """Rounds or budget-ended merging requested; otherwise state and summaries keep their shape."""
+    settings = config["agent"]["portfolio"]
+    return settings.get("rounds", 1) > 1 or settings.get("merger_until_budget", False)
+
+
+def budget_phase(scope, config):
+    """The last round's merger runs until the shared per-problem budget instead of a count."""
+    settings = config["agent"]["portfolio"]
+    return (settings.get("merger_until_budget", False) and scope["active"] == "merge"
+            and scope.get("round", 1) == settings.get("rounds", 1))
 
 
 def quotas(config):
@@ -50,6 +68,8 @@ def initialize(state, config):
 
         if guarded(config):
             state["portfolio"].update(stalled_calls=dict.fromkeys(BRANCHES, 0), exits={})
+        if extended(config):
+            state["portfolio"].update(round=1, completed_rounds=[])
 
 
 def guarded(config):
@@ -76,7 +96,7 @@ def progress(state, config):
     return {"mode": "bounded-v1", "consecutive_unevaluated_calls": stalled,
             "force_candidate": stalled >= 4 or bool(repeated),
             "max_consecutive_unevaluated_calls": 8,
-            "max_branch_calls": 3 * quotas(config)[branch] + 8,
+            "max_branch_calls": None if budget_phase(scope, config) else 3 * quotas(config)[branch] + 8,
             "repeated_actions": repeated[:3],
             "instruction": "After four calls without an evaluation or a repeated read, submit a complete propose/repair using collected evidence. Reads cannot advance the evaluation quota. Never repeat the listed actions. A stalled branch is closed without claiming its quota was completed."}
 
@@ -88,23 +108,52 @@ def record_progress(state, config, evaluated):
     scope["calls"][branch] += 1
     if evaluated:
         scope["evaluations"][branch] += 1
-    reason = "quota" if scope["evaluations"][branch] == quotas(config)[branch] else None
+    open_ended = budget_phase(scope, config)
+    reason = "quota" if not open_ended and scope["evaluations"][branch] == quotas(config)[branch] else None
     if guarded(config):
         scope["stalled_calls"][branch] = 0 if evaluated else scope["stalled_calls"][branch] + 1
         if reason is None and scope["stalled_calls"][branch] >= 8:
             reason = "stalled"
-        if reason is None and scope["calls"][branch] >= 3 * quotas(config)[branch] + 8:
+        if reason is None and not open_ended and scope["calls"][branch] >= 3 * quotas(config)[branch] + 8:
             reason = "call_limit"
         if reason:
             scope["exits"][branch] = reason
     if reason:
         index = BRANCHES.index(branch) + 1
-        scope["active"] = BRANCHES[index] if index < len(BRANCHES) else "complete"
+        if index < len(BRANCHES):
+            scope["active"] = BRANCHES[index]
+        elif scope.get("round", 1) < config["agent"]["portfolio"].get("rounds", 1):
+            start_round(state, config)
+        else:
+            scope["active"] = "complete"
+
+
+def start_round(state, config):
+    """Archive this round's counts and restart the scouts from the incumbent (seed)."""
+    scope = state["portfolio"]
+    scope["completed_rounds"].append({"evaluations": dict(scope["evaluations"]), "calls": dict(scope["calls"]),
+                                      **({"exits": dict(scope["exits"])} if guarded(config) else {})})
+    scope["round"] += 1
+    scope["evaluations"] = dict.fromkeys(BRANCHES, 0)
+    scope["calls"] = dict.fromkeys(BRANCHES, 0)
+    if guarded(config):
+        scope["stalled_calls"] = dict.fromkeys(BRANCHES, 0)
+        scope["exits"] = {}
+    scope["active"] = BRANCHES[0]
+    seed = state.get("exploration", {}).get("best_candidate_id")
+    if seed is not None:  # the receipt-only audit has no candidates; routing does not depend on the seed
+        scope["seed_id"] = seed
+        for scout in BRANCHES[:-1]:
+            scope["best_ids"][scout] = seed
 
 
 def completed(state, config):
-    return finished(state) and all(state["portfolio"]["evaluations"][b] == n
-                                   for b, n in quotas(config).items())
+    scope, limits = state["portfolio"], quotas(config)
+    earlier = all(row["evaluations"][b] == n for row in scope.get("completed_rounds", []) for b, n in limits.items())
+    if budget_phase(scope, config):
+        # Every scout quota was met; the open-ended merger ends only at the budget.
+        return earlier and all(scope["evaluations"][b] == limits[b] for b in BRANCHES[:-1])
+    return finished(state) and earlier and all(scope["evaluations"][b] == n for b, n in limits.items())
 
 
 def stop_reason(state, config):
@@ -138,6 +187,8 @@ def scoped_state(state, config):
     memory = view["exploration"]
     if branch != "merge":
         allowed = {cid for cid, owner in scope["owners"].items() if owner in ("baseline", branch)}
+        if scope.get("seed_id"):
+            allowed.add(scope["seed_id"])
         memory["candidates"] = {cid: row for cid, row in memory["candidates"].items() if cid in allowed}
         memory["history"] = [row for row in memory["history"] if row.get("branch") == branch]
         cid = scope["best_ids"][branch]
@@ -153,9 +204,10 @@ def packet(state, config):
     branch = scope["active"]
     if branch == "complete":
         raise ValueError("Portfolio evaluation quotas are complete")
-    value = {"branch": branch, "route": ROUTES[branch], "quota": limits[branch],
+    open_ended = budget_phase(scope, config)
+    value = {"branch": branch, "route": ROUTES[branch], "quota": None if open_ended else limits[branch],
              "evaluated": scope["evaluations"][branch],
-             "remaining_evaluations": limits[branch] - scope["evaluations"][branch],
+             "remaining_evaluations": None if open_ended else limits[branch] - scope["evaluations"][branch],
              "branch_calls": scope["calls"][branch],
              "original_proof_hidden": hidden_original(state, config),
              "execution": "serial dispatch with separate scout-visible contexts; one shared budget",
@@ -163,6 +215,13 @@ def packet(state, config):
     if guarded(config):
         value["progress_guard"] = progress(state, config)
         value["branch_exits"] = dict(scope["exits"])
+    if extended(config):
+        value["round"] = scope["round"]
+        value["rounds"] = config["agent"]["portfolio"].get("rounds", 1)
+        if open_ended:
+            value["stops_at"] = "shared per-problem budget"
+        if scope.get("seed_id") and branch != "merge":
+            value["seed_candidate_id"] = scope["seed_id"]
     if branch == "merge":
         value["scout_results"] = [{"branch": scout, "evaluated": scope["evaluations"][scout],
                                     "best_candidate_id": scope["best_ids"][scout],
@@ -197,4 +256,8 @@ def summary(state, config):
     return {"complete": completed(state, config), "active": scope["active"],
             "quotas": quotas(config), "evaluations": scope["evaluations"],
             "calls": scope["calls"], "execution": "serial-scoped-scouts-then-merger",
-            **({"exits": scope["exits"], "stalled_calls": scope["stalled_calls"]} if guarded(config) else {})}
+            **({"exits": scope["exits"], "stalled_calls": scope["stalled_calls"]} if guarded(config) else {}),
+            **({"round": scope["round"], "rounds": config["agent"]["portfolio"].get("rounds", 1),
+                "completed_rounds": scope["completed_rounds"],
+                "merger_until_budget": config["agent"]["portfolio"].get("merger_until_budget", False)}
+               if extended(config) else {})}

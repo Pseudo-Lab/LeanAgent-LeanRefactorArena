@@ -50,6 +50,46 @@ PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py prepare --root 
 이는 FIFO 검증 큐나 한 문제 내부의 병렬 scout 실행을 추가한 변경은 아니다.
 범용 `lean-agent run --config`는 사용자가 제공한 명시적 설정을 따르며 과거 config에 portfolio를 자동 삽입하지 않는다.
 
+## 선택적 여러 라운드와 예산 기준 merger 종료
+
+scout→merger(기본)와 함께 쓰는 opt-in 옵션이다. 옵션이 없으면 기존 scout 6×3 → merger 22와 같다. `--no-portfolio`와는 함께 쓸 수 없다.
+
+- `--rounds N`: scout-a/b/c → merger를 N번 반복한다. 2라운드부터 scout는 직전까지의 최선 후보(seed)에서 시작하고,
+  다른 scout의 후보는 여전히 볼 수 없다. 라운드별 평가 수는 `portfolio.completed_rounds`에 남는다.
+- `--merger-until-budget`: 마지막 라운드의 merger가 평가 횟수 대신 문제별 비용 한도에 닿을 때까지 돈다.
+  이때 merger 요청의 `remaining_evaluations`는 `null`, `stops_at`은 공유 예산이다. 모든 scout 할당을 채운 뒤
+  예산으로 끝난 문제는 `stop_reason: portfolio_budget_complete`, `status: completed`로 기록하고 report 감사도 통과한다.
+  이 단계에서는 다음 요청의 최악 비용(`request_cost`의 예약액)을 더했을 때 문제별 한도를 넘으면 그 요청을 보내지 않고 멈춘다.
+  한도에 닿는 것이 일상이 되는 모드라, 마지막 호출이 한도를 넘는 일을 막기 위해서다(대회 규칙: 문제당 $3, 재시도 포함).
+- 라운드 전환 규칙은 `portfolio.transition()` 하나로 실행기와 `report.py` 감사가 같이 쓴다.
+
+배경: 평가 40회를 다 써도 문제당 약 $1.5만 쓰고 끝나는 문제가 있었다(ArkLib F039·F040). 같은 예산을 더 쓰는 방식과
+scout·merger 배분을 바꾸는 방식을 비교하기 위한 옵션이다.
+
+### 비교 조건(예시)
+
+| 조건 | 옵션 | 평가 수 |
+| --- | --- | --- |
+| C0 기본 | (옵션 없음) | 6×3 + 22 = 40 |
+| C1 넓은 scout | `--scout-evaluations 10 --merger-evaluations 10` | 10×3 + 10 = 40 |
+| C2 두 라운드 | `--scout-evaluations 5 --merger-evaluations 5 --rounds 2` | (5×3 + 5)×2 = 40 |
+| C3 예산까지 merger | `--merger-until-budget` | 18 + 예산까지 |
+| C4 두 라운드 + 예산 | `--scout-evaluations 5 --merger-evaluations 5 --rounds 2 --merger-until-budget` | 35 + 예산까지 |
+
+같은 문제 묶음에서 조건마다 새 root를 쓴다. 예: Strata F002·F006·F008(빠름), LeanPool F045·F048, ArkLib F039.
+
+```sh
+ROWS="2 6 8 45 48 39"
+PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py prepare --root runs/final-batch-next/AB-C2 --rows $ROWS --workers 1 \
+  --scout-evaluations 5 --merger-evaluations 5 --rounds 2
+PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py run --root runs/final-batch-next/AB-C2 --rows $ROWS --workers 1 --ensure-preflight --key-file /ABSOLUTE/PATH/TO/.env
+python3 experiments/final-batch-next/compare_conditions.py runs/final-batch-next/AB-C0 runs/final-batch-next/AB-C1 runs/final-batch-next/AB-C2 runs/final-batch-next/AB-C3 runs/final-batch-next/AB-C4
+```
+
+`compare_conditions.py`는 각 root의 summary로 문제별 점수·비용·평가 수와 공통 문제 평균을 보여 준다(Lean·API 없음).
+조건당 한 번 실행은 실행 간 변동을 구분하지 못하므로, 가능하면 C0을 한 번 더 돌려 변동 폭과 함께 본다.
+비용 한도는 실행기의 문제별 한도를 따른다.
+
 ## 증거와 재시작
 
 캐시는 run root 내부에만 생성한다. 기존 실험의 결과를 가져오지 않는다.
