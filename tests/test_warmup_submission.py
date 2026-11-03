@@ -24,6 +24,18 @@ class SubmissionTests(unittest.TestCase):
         self.assertFalse(audit['officiallySubmitted'])
         self.assertIsNone(audit['officialEvaluationPassed'])
 
+    def test_current_team_p12_packages_repaired_candidate_without_fallback(self):
+        payload, audit = exporter.build_bundle()
+        rows = [json.loads(line) for line in payload.decode().splitlines()]
+        self.assertEqual(rows[11]['proof'],
+                         (ROOT / 'submissions/warmup/best/P12.lean').read_text())
+        self.assertEqual(audit['problems'][11]['selection'], 'team_best')
+        manifest = json.loads((ROOT / 'submissions/warmup/manifest.json').read_text())
+        p12 = next(p for p in manifest['problems'] if p['id'] == 12)
+        self.assertEqual(audit['problems'][11]['localStatus'], p12['status'])
+        self.assertEqual(audit['problems'][11]['versions'], p12['versions'])
+        self.assertIsNone(audit['officialEvaluationPassed'])
+
     def test_bundle_preserves_every_selected_source(self):
         payload, audit = exporter.build_bundle(p12_reference=True)
         rows = [json.loads(line) for line in payload.decode().splitlines()]

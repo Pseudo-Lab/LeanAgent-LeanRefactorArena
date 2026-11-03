@@ -3,7 +3,7 @@
   "dataset": "warmup",
   "selectionPolicy": "verified-paired-token-heartbeat-mean",
   "benchmarkRevision": "56aa7b8f738d1d6a0a24a55e03cdea1a84007b6c",
-  "dashboardSnapshotSha256": "90e36eb7ca4ab330dd4f6a9c955a9233b8f78a1e216b0af6c6be78ab4a03249d",
+  "dashboardSnapshotSha256": "164eccb8e512df64013a46168428d4b01c98cff63c2f16cd70988d3e29d12afd",
   "measuredAt": "2026-10-25T22:59:21.036939+00:00",
   "officiallySubmitted": false,
   "apiEligibility": "not_assessed; no complete per-problem model-cost ledger or budgeted OpenRouter reproduction run",

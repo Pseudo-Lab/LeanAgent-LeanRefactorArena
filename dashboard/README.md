@@ -76,7 +76,7 @@ python3 dashboard/scripts/export_final_baselines.py \
 
 결과 JSON은 `public/data/`에 두고 `index.json`에 파일 이름을 적습니다.
 파일 형식은 `src/lib/model.ts`에 있습니다. `warmup`은 15문제, `competition`은 50문제를 받습니다.
-P10·P11·P13·P14·P15의 웜업 JSON은 `scripts/publish_warmup_verification.py`로 검증 artifact에서 갱신하며 점수를 직접 편집하지 않습니다. 나머지 문제는 기존 측정 결과를 유지합니다. 확인하지 않은 결과는 대기로 표시합니다.
+P07·P10·P11·P12·P13·P14·P15의 웜업 JSON은 `scripts/publish_warmup_verification.py`로 검증 artifact에서 갱신하며 점수를 직접 편집하지 않습니다. 이전 실행 [40301978929](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40301978929)의 7개 summary를 반영했으며, P12 수정 후보도 지정된 세 버전의 Linux 검증을 통과했습니다. P07은 Cslib 지정 버전 3개의 CI 준비를 새로 연결한 상태로, Linux 검증·결과 게시 전까지 대기로 표시합니다. 현재 전체 실행은 10개 환경이며 Cslib 결과도 모두 전달해야 합니다. P07의 대표 측정 버전은 v4.32.0입니다. 평가 대상이 아닌 문제의 측정과 근거 링크는 유지합니다.
 JSON 불러오기는 현재 화면에서만 적용됩니다.
 
 ## 팀 PR과 개선 조사
