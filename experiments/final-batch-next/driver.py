@@ -34,6 +34,10 @@ MODEL = {"backend": "openai", "id": "gpt-6.1-sol", "provider": "openai",
          "reasoning_effort": "high", "max_tokens": 8192, "timeout_seconds": 900,
          "seed": 42}
 TARGET = Decimal("1.00")
+DEFAULT_PORTFOLIO = {"scout_evaluations": 6, "merger_evaluations": 22}
+# Omitted policy means new-run defaults, while explicit None preserves legacy
+# single-context inputs during validation and supports --no-portfolio.
+UNSPECIFIED_PORTFOLIO = object()
 
 
 def now():
@@ -124,7 +128,7 @@ def prompt_text(context):
         "search/inspect: retrieve a specific missing definition or theorem rather than repeatedly browsing. "
         "After repeated failure of the same approach, branch from another candidate or change the proof structure. "
         "Search is lexical evidence only, not a theorem-prover or availability guarantee. "
-        "Every action consumes paid model budget. The controller stops after actual settled cost reaches $1. "
+        "Every action consumes paid model budget. The controller stops at the configured settled-cost threshold in budget.stop_at_usd. "
         "The exact statement and original full source context are preserved by the evaluator. "
         "Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. "
         "At final selection the controller checks candidates in score order against every required version, "
@@ -220,7 +224,9 @@ def guard_compiler_signal(result):
 INPUT_FILES = ("problem.json", "config.json", "action-corpus.json", "context-metadata.json", "prompt.txt")
 
 
-def configuration(problem, portfolio_settings=None):
+def configuration(problem, portfolio_settings=UNSPECIFIED_PORTFOLIO):
+    if portfolio_settings is UNSPECIFIED_PORTFOLIO:
+        portfolio_settings = DEFAULT_PORTFOLIO
     model = {**MODEL, "max_tokens": 16384 if len(problem["reference"]) > 12000 else 8192}
     config = {"schema_version": 1, "model": model,
         "limits": {"max_calls": None, "cost_stop_usd": str(TARGET),
@@ -262,7 +268,7 @@ def validate_inputs(root, row):
     return problem
 
 
-def prepare_inputs(root, rows, workers=1, portfolio_settings=None):
+def prepare_inputs(root, rows, workers=1, portfolio_settings=UNSPECIFIED_PORTFOLIO):
     """Prepare disjoint row inputs only; no authorization, API ledger or seal."""
     if workers not in (1, 2):
         raise ValueError("Input preparation workers must be 1 or 2")
@@ -280,7 +286,7 @@ def prepare_inputs(root, rows, workers=1, portfolio_settings=None):
             inputs = output / "input"
             if all((inputs / name).is_file() for name in INPUT_FILES):
                 validate_inputs(root, row)
-                if portfolio_settings is not None and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
+                if portfolio_settings is not UNSPECIFIED_PORTFOLIO and a.read(inputs / "config.json")["agent"].get("portfolio") != portfolio_settings:
                     raise ValueError("Existing inputs have a different policy; use a fresh batch root")
                 return {"row": row, "input_status": "reused"}
             inputs.mkdir(parents=True, exist_ok=True)
@@ -350,9 +356,9 @@ def seal_inputs(root, rows):
     print(json.dumps({"prepared": str(root), "rows": rows, "api_calls": 0}), flush=True)
 
 
-def prepare(root, rows, workers=2, portfolio_settings=None):
+def prepare(root, rows, workers=2, portfolio_settings=UNSPECIFIED_PORTFOLIO):
     if (Path(root) / "frozen.json").exists():
-        if portfolio_settings is not None:
+        if portfolio_settings is not UNSPECIFIED_PORTFOLIO:
             for row in rows:
                 config = a.read(folder(root, row) / "input/config.json")
                 if config.get("agent", {}).get("portfolio") != portfolio_settings:
@@ -788,14 +794,24 @@ def main():
     parser.add_argument("--key-file", type=Path)
     parser.add_argument("--ensure-preflight", action="store_true",
                         help="Finish each problem's no-API baseline checks before its first paid request")
-    parser.add_argument("--portfolio", action="store_true", help="Prepare isolated scouts then merger with exchange-v1 policy")
+    policy = parser.add_mutually_exclusive_group()
+    policy.add_argument("--portfolio", dest="portfolio", action="store_true", default=None,
+                        help="Use isolated scouts then merger (default for new inputs)")
+    policy.add_argument("--no-portfolio", dest="portfolio", action="store_false",
+                        help="Prepare legacy single-context inputs instead of scouts/merger")
     parser.add_argument("--scout-evaluations", type=int, default=None)
     parser.add_argument("--merger-evaluations", type=int, default=None)
     args = parser.parse_args()
-    settings = None
-    if args.portfolio or args.scout_evaluations is not None or args.merger_evaluations is not None:
-        if not args.portfolio or args.command not in ("prepare", "inputs"):
-            parser.error("Portfolio settings require --portfolio with prepare/inputs on a fresh root")
+    settings = UNSPECIFIED_PORTFOLIO
+    custom_quotas = args.scout_evaluations is not None or args.merger_evaluations is not None
+    if args.portfolio is not None or custom_quotas:
+        if args.command not in ("prepare", "inputs"):
+            parser.error("Portfolio settings apply only to prepare/inputs on a fresh root")
+        if args.portfolio is False and custom_quotas:
+            parser.error("Scout/merger quotas cannot be used with --no-portfolio")
+    if args.portfolio is False:
+        settings = None
+    elif args.portfolio is True or custom_quotas:
         settings = {"scout_evaluations": 6 if args.scout_evaluations is None else args.scout_evaluations,
                     "merger_evaluations": 22 if args.merger_evaluations is None else args.merger_evaluations}
         h.portfolio.validate(settings)
