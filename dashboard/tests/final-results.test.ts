@@ -23,7 +23,7 @@ test('20 verified proofs use paired measurements; other 40 stay gray and whole-s
     assert.equal(readFileSync(new URL(`../../${result.proofPath}`, import.meta.url), 'utf8'), result.proof);
     assert.ok(result.versions.every(v => v.status === 'pass'));
   }
-  assert.deepEqual(results.problems.filter(p => p.runId !== results.runId).map(p => p.row), [2,6,7,8]);
+  assert.deepEqual(results.problems.filter(p => p.runId !== results.runId).map(p => p.row), [1,2,3,4,5,7,9,10,41,43,45,47]);
 });
 test('reject missing versions, stale identity, duplicate rows, invented samples/score and overspend', () => {
   const mutations = [
