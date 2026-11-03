@@ -506,10 +506,17 @@ def main(argv=None):
         "--prior-spend", type=Path, help="JSON mapping theorem names to prior list-price USD"
     )
     ap.add_argument("--key-file", type=Path, help="OpenRouter dotenv; otherwise use OPENROUTER_API_KEY")
+    ap.add_argument(
+        "--compiler-parallelism",
+        type=int,
+        choices=(1, 2, 3),
+        default=1,
+        help="Memory-gated compiler slots shared with other processes (PR #68); 1 keeps the exclusive lock",
+    )
     args = ap.parse_args(argv)
     if args.limit < 0 or len(set(args.rows)) != len(args.rows):
         ap.error("Use distinct rows and a nonnegative candidate limit")
-    ev = FinalEvaluator(repo_root=args.prepared_repo)
+    ev = FinalEvaluator(repo_root=args.prepared_repo, compiler_parallelism=args.compiler_parallelism)
     if ev.registry["dataset_sha256"] != DATASET_SHA:
         raise ValueError("Unexpected final dataset")
     if bool(args.ledger) != bool(args.prior_spend) or (args.key_file and not args.ledger):
@@ -534,6 +541,7 @@ def main(argv=None):
             "paid": bool(paid),
             "dataset_sha256": DATASET_SHA,
             "team_seeds": str(args.team_seeds) if args.team_seeds else None,
+            "compiler_parallelism": args.compiler_parallelism,
             "code_hashes": {
                 path.name: hashlib.sha256(path.read_bytes()).hexdigest()
                 for path in (

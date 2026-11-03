@@ -3,11 +3,29 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
+import shutil
+import sys
 
 from assigned_routes import assigned_mean, compare
 from driver import DATASET_SHA, REPO, atomic
 from evaluator import FinalEvaluator
+
+
+def preflight(repo):
+    """Find the Linux compiler sandbox before any work (macOS uses sandbox-exec).
+
+    The evaluator looks bwrap up on PATH; fall back to the prepared bundled build.
+    """
+    if sys.platform != "linux" or shutil.which("bwrap"):
+        return
+    bundled = repo / "sources/final/bin/bwrap"
+    if not (bundled.is_file() and os.access(bundled, os.X_OK)):
+        raise SystemExit("bwrap (bubblewrap) is not on PATH and sources/final/bin/bwrap is absent; "
+                         "the Linux evaluator sandbox requires it")
+    os.environ["PATH"] = str(bundled.parent) + os.pathsep + os.environ.get("PATH", "")
+    print(f"Using the prepared bubblewrap {bundled}", flush=True)
 
 
 def inspect_row(repo, row, ref, registry):
@@ -80,6 +98,13 @@ def main(argv=None):
     ap.add_argument("--rounds", type=int, default=2)
     ap.add_argument("--limit", type=int, default=2, help="New deterministic proposals per row per round")
     ap.add_argument("--policy", choices=("local", "issue61", "portfolio"), default="local")
+    ap.add_argument(
+        "--compiler-parallelism",
+        type=int,
+        choices=(1, 2, 3),
+        default=1,
+        help="Memory-gated compiler slots shared with other processes (PR #68); 1 keeps the exclusive lock",
+    )
     ap.add_argument("--plan-only", action="store_true")
     args = ap.parse_args(argv)
     if args.rounds < 1 or args.limit < 0 or len(set(args.rows)) != len(args.rows):
@@ -88,13 +113,18 @@ def main(argv=None):
     dataset = (
         args.dataset or repo / f"benchmarks/arena/final-{DATASET_SHA[:12]}/benchmark_data_final.jsonl"
     )
+    if not dataset.is_file():
+        ap.error(f"Final benchmark JSONL not found: {dataset} (gitignored; copy the pinned file or pass --dataset)")
     raw = dataset.read_bytes()
     if hashlib.sha256(raw).hexdigest() != DATASET_SHA:
         raise ValueError("Dataset hash mismatch")
     rows = [json.loads(line) for line in raw.splitlines() if line.strip()]
     if len(rows) != 60 or len({r["name"] for r in rows}) != 60:
         raise ValueError("Expected 60 unique theorems")
-    ev = FinalEvaluator(repo_root=repo)
+    try:
+        ev = FinalEvaluator(repo_root=repo, compiler_parallelism=args.compiler_parallelism)
+    except FileNotFoundError as exc:
+        ap.error(f"Prepared environment registry not found: {exc.filename} (untracked; prepare or copy it)")
     if ev.registry["dataset_sha256"] != DATASET_SHA:
         raise ValueError("Dataset registry mismatch")
     inventory = [inspect_row(repo, n, rows[n - 1], ev.registry["environments"]) for n in args.rows]
@@ -112,6 +142,7 @@ def main(argv=None):
     print(f"Prepared metadata: {len(ready)}/{len(inventory)}. Details in coverage.json", flush=True)
     if args.plan_only:
         return
+    preflight(repo)
     prior = {}
     if args.carry_jsonl:
         allowed = {r["name"]: r["statement"] for r in rows}
@@ -138,6 +169,7 @@ def main(argv=None):
             "team_seeds": bool(args.team_seeds),
             "carry_sha256": carry_hashes[0] if carry_hashes else None,
             "carry_sha256s": carry_hashes,
+            "compiler_parallelism": args.compiler_parallelism,
         },
     )
     selected = {}
@@ -213,6 +245,12 @@ def main(argv=None):
             },
         },
     )
+    unselected = sorted(set(args.rows) - set(selected))
+    if unselected:
+        # Outputs are written; a nonzero status tells wrappers the requested coverage is incomplete.
+        print(f"Incomplete: {len(selected)}/{len(args.rows)} requested rows selected; "
+              f"failed or unprepared rows: {unselected}. See coverage.json and report.json", flush=True)
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

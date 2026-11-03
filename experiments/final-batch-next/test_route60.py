@@ -74,9 +74,11 @@ class Route60Tests(unittest.TestCase):
                 )
 
             with (
-                patch.object(route60, "FinalEvaluator", return_value=ev),
+                patch.object(route60, "FinalEvaluator", return_value=ev) as factory,
                 patch.object(route60, "DATASET_SHA", digest),
+                patch.object(route60, "preflight") as sandbox,
                 patch.object(route60, "compare", side_effect=run) as comp,
+                self.assertRaises(SystemExit) as stopped,
             ):
                 route60.main(
                     [
@@ -90,6 +92,10 @@ class Route60Tests(unittest.TestCase):
                         "1",
                     ]
                 )
+            # 59 of the 60 requested rows have no prepared environment: outputs, then status 1.
+            self.assertEqual(stopped.exception.code, 1)
+            sandbox.assert_called_once_with(repo.resolve())
+            self.assertEqual(factory.call_args.kwargs["compiler_parallelism"], 1)
             self.assertEqual(comp.call_count, 2)
             self.assertFalse((repo / "run/submission.jsonl").exists())
             self.assertEqual(json.loads((repo / "run/partial.jsonl").read_text())["proof"], winner)
@@ -111,17 +117,20 @@ class Route60Tests(unittest.TestCase):
                             attempts=0, screened_hashes=[])
 
             with (
-                patch.object(route60, "FinalEvaluator", return_value=ev),
+                patch.object(route60, "FinalEvaluator", return_value=ev) as factory,
                 patch.object(route60, "DATASET_SHA", digest),
+                patch.object(route60, "preflight"),
                 patch.object(route60, "compare", side_effect=compare_carried) as comp,
             ):
                 route60.main([
                     "--prepared-repo", str(repo), "--dataset", str(ds),
                     "--out", str(repo / "carry-run"), "--rows", "41",
                     "--rounds", "1", "--limit", "0", "--carry-jsonl", str(carry),
-                    "--carry-jsonl", str(carry_second),
+                    "--carry-jsonl", str(carry_second), "--compiler-parallelism", "2",
                 ])
             self.assertEqual(comp.call_count, 1)
+            self.assertEqual(factory.call_args.kwargs["compiler_parallelism"], 2)
+            self.assertEqual(json.loads((repo / "carry-run/protocol.json").read_text())["compiler_parallelism"], 2)
             self.assertTrue(json.loads((repo / "carry-run/report.json").read_text())["assisted"])
             carried_inputs = json.loads((repo / "carry-run/report.json").read_text())["rows"]["41"]["carried_inputs"]
             self.assertEqual(carried_inputs, [
@@ -139,6 +148,7 @@ class Route60Tests(unittest.TestCase):
             with (
                 patch.object(route60, "FinalEvaluator", return_value=ev),
                 patch.object(route60, "DATASET_SHA", digest),
+                patch.object(route60, "preflight"),
                 patch.object(route60, "compare") as comp,
                 self.assertRaisesRegex(ValueError, "duplicate carried theorem"),
             ):
@@ -148,3 +158,30 @@ class Route60Tests(unittest.TestCase):
                     "--carry-jsonl", str(duplicate),
                 ])
             comp.assert_not_called()
+
+    def test_missing_prerequisites_fail_before_any_output(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            repo = Path(tmp)
+            out = repo / "run"
+            with patch("sys.stderr"), self.assertRaises(SystemExit) as stopped:
+                route60.main(["--prepared-repo", str(repo), "--out", str(out), "--plan-only"])
+            self.assertEqual(stopped.exception.code, 2)  # argparse error naming the dataset path
+            self.assertFalse(out.exists())
+            with (
+                patch.object(route60.sys, "platform", "linux"),
+                patch.object(route60.shutil, "which", return_value=None),
+                self.assertRaisesRegex(SystemExit, "bwrap"),
+            ):
+                route60.preflight(repo)
+            bundled = repo / "sources/final/bin/bwrap"
+            bundled.parent.mkdir(parents=True)
+            bundled.write_text("#!/bin/sh\n")
+            bundled.chmod(0o755)
+            with (
+                patch.object(route60.sys, "platform", "linux"),
+                patch.object(route60.shutil, "which", return_value=None),
+                patch.dict(route60.os.environ, {"PATH": "/usr/bin"}),
+                patch("builtins.print"),
+            ):
+                route60.preflight(repo)
+                self.assertEqual(route60.os.environ["PATH"].split(route60.os.pathsep)[0], str(bundled.parent))
