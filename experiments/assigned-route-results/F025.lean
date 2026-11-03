@@ -26,8 +26,9 @@ theorem of_consensus [Fintype P] (f : ℕ) (hf : f < card P)
       refine ⟨n + xl.length, ⟨m, (stay _ (by omega)).1, hm⟩, ?_⟩
       intro j hj m' hj'
       simp only [xs, get_append_right', show xl.length ≤ j by omega] at hj'
-      have := dest (j - xl.length)
-      grind only [DestIn]
+      have d := dest (j - xl.length)
+      rw [hj'] at d
+      exact fun eq => np (eq ▸ d)
   obtain ⟨p, hp⟩ := not_procFaulty_of_numProcFaulty (hb.trans_lt hf)
   obtain ⟨n, b, h⟩ := Or.resolve_left (hc.2 inp zz xs adm p) hp
   refine ⟨ss n, b, ⟨seg.flatten.extract 0 n, ?_, ?_⟩, ?_⟩
