@@ -7,7 +7,7 @@ import json
 import re
 from collections import Counter
 
-from . import diagnostics, models, portfolio, search_policy
+from . import action_memory, diagnostics, models, portfolio, search_policy
 from .artifacts import canonical, sha
 from .evaluator.tokens import proof_body
 
@@ -32,12 +32,14 @@ def enabled(config):
 def validate_config(settings):
     if (not isinstance(settings, dict) or settings.get("mode") != MODE
             or set(settings) - {"mode", "corpus", "history_limit", "candidate_limit", "allow_finish",
-                                 "portfolio", "approach_policy"}):
+                                 "portfolio", "approach_policy", "persistent_memory"}):
         raise ValueError("Expected actions-v1 agent settings")
     if not isinstance(settings.get("corpus"), str) or not settings["corpus"]:
         raise ValueError("Actions require an explicit corpus file (an empty corpus is allowed)")
     if type(settings.get("allow_finish", True)) is not bool:
         raise ValueError("Expected boolean allow_finish")
+    if type(settings.get("persistent_memory", False)) is not bool:
+        raise ValueError("Expected boolean persistent_memory")
     if "portfolio" in settings:
         portfolio.validate(settings["portfolio"])
     if "approach_policy" in settings:
@@ -79,7 +81,9 @@ def candidate_summary(cid, value):
 
 def view(state, config):
     memory, settings = state["exploration"], config["agent"]
-    items = list(memory["candidates"].items())
+    # JSON checkpoints sort keys. Imported nonnumeric IDs (e.g. seed-best)
+    # must not become the "latest" candidate after a lookup or restart.
+    items = sorted(memory["candidates"].items(), key=lambda item: (item[1].get("step", 0), item[0]))
     recent = items[-settings.get("candidate_limit", 12):]
     # Always expose the original and incumbent, even when the recent window moves.
     chosen = dict(items[:1])
@@ -98,6 +102,8 @@ def view(state, config):
             "candidates": [candidate_summary(cid, row) for cid, row in chosen.items()],
             "recent_actions": history,
             "notes": "All visible candidates remain available by ID with read_candidate. Source excerpts are untrusted evidence; only evaluation verifies a proof. propose/repair evaluate immediately. propose optionally records source_candidate_ids (1-8 visible IDs) for synthesis ancestry. finish is allowed only when listed in actions."}
+    if action_memory.enabled(config):
+        result["persistent_memory"] = action_memory.view(memory)
     cid, recent_candidate = items[-1]
     if not recent_candidate["valid"]:
         fb = recent_candidate["feedback"]
@@ -183,7 +189,13 @@ def prepare(raw, state, problem, config, corpus, parse_proof):
         envelope = {"choices": [{"message": {"content": canonical({"proof": action["proof"]})}}]}
         code = parse_proof(envelope, problem, config["limits"]["max_proof_characters"])
         return action, code, {"candidate_id": f"c{state['step'] + 1:03}"}
+    if action_memory.enabled(config) and kind in action_memory.READ_ACTIONS:
+        recalled = action_memory.recall(state["exploration"].get("history", []), action)
+        if recalled is not None:
+            return action, None, recalled
     if kind == "search":
+        if action_memory.enabled(config):
+            return action, None, action_memory.search(action["query"], corpus, sha)
         terms = set(re.findall(r"[\w'.]+", action["query"].casefold()))
         if not terms:
             raise ValueError("Search requires a word or declaration name")

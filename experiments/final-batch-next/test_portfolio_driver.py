@@ -21,6 +21,7 @@ class PortfolioBatchTests(unittest.TestCase):
                         "reference": "theorem test : True := by trivial\n"}
         self.config = d.configuration(self.problem, {"scout_evaluations": 1, "merger_evaluations": 1})
         for name, value in (("problem", self.problem), ("config", self.config),
+                            ("warm-start", d.warm_start.snapshot(None, self.problem, reason="portfolio_isolation")),
                             ("action-corpus", {"schema_version": 1, "entries": []})):
             d.atomic(self.output / "input" / (name + ".json"), value)
         (self.output / "input/prompt.txt").write_text("test")
@@ -113,6 +114,13 @@ class PortfolioBatchTests(unittest.TestCase):
         self.assertFalse(exported["audit_passed"])
         self.assertEqual(exported["completed"], 0)
         self.assertIn("All authorized problems must complete before final export", exported["audit_errors"])
+
+    def test_current_policy_requires_warm_start_snapshot_even_for_cold_portfolio(self):
+        self.run_batch()
+        (self.output / "input/warm-start.json").unlink()
+        exported = self.export_report()
+        self.assertFalse(exported["audit_passed"])
+        self.assertTrue(any("invalid warm-start evidence" in error for error in exported["audit_errors"]))
 
     def test_prepared_inputs_freeze_policy_and_reject_mode_changes(self):
         repository = self.root / "repo"
