@@ -162,6 +162,12 @@ def check(benchmark, submission, roots, manifest, outside, cap):
                         Decimal(0))
             result.update(origin=str(folder), api_endpoint=endpoint, calls=len(attempts),
                           cost_usd=str(spent + prior))
+            # Every call is stamped with its own endpoint (final60 ledger schema); a step sent
+            # through the OpenAI-direct development transport fails even under an OpenRouter seal.
+            foreign = sorted({str(item.get("api_endpoint")) for item in attempts
+                              if "api_endpoint" in item and not via_openrouter(item.get("api_endpoint"))})
+            if foreign:
+                fail(name, f"run {run.root} recorded F{row:03} calls against {', '.join(foreign)}, not OpenRouter")
             if not via_openrouter(endpoint):
                 fail(name, f"run {run.root} called {endpoint or 'an unrecorded endpoint'}, not OpenRouter")
             if any(item.get("status") != "settled" for item in attempts):

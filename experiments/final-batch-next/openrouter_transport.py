@@ -25,7 +25,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from lean_agent import artifacts as a
-from lean_agent.final60 import catalog, ledger as cost_ledger, money, transport as t
+from lean_agent.final60 import catalog, ledger as cost_ledger, money, transport as t, transports
 from lean_agent.final60.contracts import CAP_USD
 
 MODEL_ID = catalog.spec(catalog.DEFAULT_KEY).model_id
@@ -39,6 +39,7 @@ DEFAULT_LEDGER_NAME = "cost-ledger.sqlite"
 BudgetExceeded = cost_ledger.BudgetExceeded
 ApiDisabled = money.ApiDisabled
 MockOpenRouter = t.MockOpenRouter
+OPENROUTER_PROFILE = transports.profile("openrouter")
 
 _STATE = {"transport": None, "policy": None, "sleep": None}
 _LEDGERS = {}
@@ -67,12 +68,18 @@ def model_metadata(model=None):
     return t.endpoint_evidence(spec)
 
 
-def current_key():
-    """The key from OPENROUTER_API_KEY, or None when a fixture transport is bound."""
+def current_key(profile=OPENROUTER_PROFILE):
+    """The key from the profile's environment variable (OPENROUTER_API_KEY by default),
+    or None when a fixture transport is bound."""
     if _STATE["transport"] is not None:
         return None
-    value = os.environ.get(KEY_ENV)
-    return t.require_key(value)
+    value = os.environ.get(profile.key_env)
+    return profile.wire.require_key(value)
+
+
+def fixture():
+    """The bound fixture transport (``use_transport``), or None for real HTTP."""
+    return _STATE["transport"]
 
 
 def query(body, model, step):
@@ -111,8 +118,16 @@ def normalize(raw, bound=None):
     return normalized
 
 
+def _wire_for_item(ledger_item):
+    """The wire a settled ledger.json item was sent through (its recorded provider/transport)."""
+    name = ledger_item.get("transport") if isinstance(ledger_item, dict) else None
+    if name is None and isinstance(ledger_item, dict) and ledger_item.get("provider") == transports.profile("openai").provider:
+        name = "openai"
+    return transports.profile(name).wire if name in ("openai",) else t
+
+
 def audit_step(step_dir, ledger_item):
-    return t.audit_step(Path(step_dir), ledger_item)
+    return _wire_for_item(ledger_item).audit_step(Path(step_dir), ledger_item)
 
 
 def endpoint_check(model=None):
@@ -133,25 +148,18 @@ def use_transport(transport=None, *, policy=None, sleep=None):
     _STATE.update(transport=transport, policy=policy, sleep=sleep)
 
 
-def seal_fields(*, cost_ledger_path: str, target_usd: Decimal = CAP_USD, prior_usd: Decimal = Decimal(0)) -> dict:
-    """Authorization fields for an OpenRouter root (hook 1); ``cost_ledger_path`` may be relative to the root.
+def seal_fields(*, cost_ledger_path: str, target_usd: Decimal = CAP_USD, prior_usd: Decimal = Decimal(0),
+                transport: str = transports.DEFAULT) -> dict:
+    """Authorization fields for a final60 root (hook 1); ``cost_ledger_path`` may be relative to the root.
 
     ``prior_usd`` is spend for this problem outside this root (amendment A11). The
     adapter then enforces prior + root spend + bound <= target, and the row config's
     ``limits.cost_cap_usd`` must be sealed as ``config_cap(target, prior)``.
+    ``transport`` is the sealed run setting (openrouter, openai or mock): it fixes the
+    provider, endpoint and whether the root may ever be submitted.
     """
-    target, prior = Decimal(str(target_usd)), Decimal(str(prior_usd))
-    if not target.is_finite() or target <= 0 or target > CAP_USD:
-        raise ValueError(f"Per-problem target must be in (0, {CAP_USD}]")
-    if not prior.is_finite() or prior < 0 or prior >= target:
-        raise ValueError("Prior spend must be nonnegative and below the target")
-    fields = {"provider": PROVIDER, "api_endpoint": ENDPOINT, "per_problem_target_usd": t.usd(target),
-              "last_call_may_overshoot": False, "max_api_parallel": 2, "cost_ledger": str(cost_ledger_path),
-              "budget_cost_basis": COST_BASIS, "no_automatic_retries": False,
-              "retry_policy": "unbilled 4xx retried at $0 with backoff; lost responses charged their bound"}
-    if prior:
-        fields["prior_cost_usd"] = t.usd(prior)
-    return fields
+    return transports.profile(transport).seal_fields(cost_ledger_path=cost_ledger_path, target_usd=target_usd,
+                                                     prior_usd=prior_usd)
 
 
 def config_cap(target_usd: Decimal = CAP_USD, prior_usd: Decimal = Decimal(0)) -> str:
@@ -167,9 +175,11 @@ def _prior(authorization) -> Decimal:
 
 
 def summary_fields(model) -> dict:
-    spec = catalog.spec_for_model(model)
-    return {"cost_basis": COST_BASIS, "invoice_verified": False, "provider": PROVIDER, "model": spec.model_id,
-            "provider_pin": spec.provider, "api_endpoint": ENDPOINT}
+    profile = transports.profile_for_model(model)
+    spec = profile.spec_for_model(model)
+    return {"cost_basis": profile.wire.COST_BASIS, "invoice_verified": False, "provider": profile.provider,
+            "model": spec.model_id, "provider_pin": spec.provider, "api_endpoint": profile.api_endpoint,
+            "transport": profile.name, "submittable": profile.submittable}
 
 
 def is_openrouter(authorization: dict) -> bool:
@@ -179,10 +189,18 @@ def is_openrouter(authorization: dict) -> bool:
 
 
 def _authorization(root):
+    """The sealed authorization of a final60 root: OpenRouter (real or mock) or the
+    OpenAI-direct development transport; a legacy OpenAI root is refused."""
     authorization = a.read(Path(root) / "authorization.json")
-    if not is_openrouter(authorization):
-        raise ValueError("Run root is not authorized for OpenRouter")
+    try:
+        transports.profile_for_authorization(authorization)
+    except ValueError as exc:
+        raise ValueError("Run root is not authorized for OpenRouter (" + str(exc) + ")") from None
     return authorization
+
+
+def _profile(authorization):
+    return transports.profile_for_authorization(authorization)
 
 
 def ledger_path(root, authorization=None) -> Path:
@@ -262,14 +280,16 @@ def dispatch(root, row, step, body, model, step_dir, *, driver):
     root, step_dir = Path(root).resolve(), Path(step_dir)
     driver.verify_frozen(root)
     authorization = _authorization(root)
-    spec = catalog.spec_for_model(model)
-    bound = t.request_bound(body, spec)
-    cost = t.bound_json(bound, body, spec)
+    profile = _profile(authorization)
+    wire = profile.wire
+    spec = profile.spec_for_model(model)      # a model of another transport is refused here
+    bound = wire.request_bound(body, spec)
+    cost = wire.bound_json(bound, body, spec)
     target = min(CAP_USD, Decimal(str(authorization["per_problem_target_usd"])))
     prior = _prior(authorization)
     attempt = _attempt(row, step)
     led = ledger_for_root(root, authorization)
-    key = current_key()
+    key = current_key(profile)
     if prior:
         led.declare_prior(_problem(row), prior, note="sealed authorization prior_cost_usd")
     money.check_api_enabled(root, ledger=led, problem=_problem(row))
@@ -288,18 +308,20 @@ def dispatch(root, row, step, body, model, step_dir, *, driver):
             ledger["attempts"][attempt] = {
                 "row": row, "step": step, "status": "pending", "cost_usd": None, "owner_pid": os.getpid(),
                 "request_sha256": a.sha(a.canonical(body)), "started_at": driver.now(),
-                "maximum_request_cost_usd": cost["reserved_usd"], "api_endpoint": ENDPOINT,
+                "maximum_request_cost_usd": cost["reserved_usd"], "api_endpoint": wire.ENDPOINT,
+                "provider": profile.provider, "transport": profile.name,
                 "catalog_key": spec.key, "model": spec.model_id, "provider_pin": spec.provider}
             driver.atomic(root / "ledger.json", ledger)
         try:
             result = money.dispatch_guarded(body, spec, ledger=led, problem=_problem(row), attempt_id=attempt,
-                                            run_root=root, step_dir=step_dir, key=key, **_call_options())
+                                            run_root=root, step_dir=step_dir, key=key, wire=wire, **_call_options())
         except (BudgetExceeded, ApiDisabled) as exc:
             _void_pending(root, attempt, step_dir, driver, f"{type(exc).__name__}: {exc}")
             raise
         _settle_item(root, attempt, result, driver)
     print(json.dumps({"row": row, "step": step, "call_cost_usd": t.usd(result.step_cost_usd),
                       "http_calls": result.http_calls, "settlement_basis": result.settlement_basis,
+                      "transport": profile.name,
                       **({"stopped": result.stopped} if result.stopped else {})}), flush=True)
     return result.normalized
 
@@ -316,11 +338,13 @@ def recover_pending(root, row, step, step_dir, *, driver):
     root, step_dir = Path(root).resolve(), Path(step_dir)
     attempt = _attempt(row, step)
     authorization = _authorization(root)
+    profile = _profile(authorization)
+    wire = profile.wire
     led = ledger_for_root(root, authorization)
     with driver.locked(root / "ledger.lock"):
         item = a.read(root / "ledger.json")["attempts"].get(attempt)
     if item is None:
-        if money.settle_orphans(led, attempt, step_dir, transport=_STATE["transport"]):
+        if money.settle_orphans(led, attempt, step_dir, transport=_STATE["transport"], wire=wire):
             raise ValueError("SQLite spend without a ledger.json attempt: " + attempt)
         return None
     if item["status"] == "settled":
@@ -333,24 +357,25 @@ def recover_pending(root, row, step, step_dir, *, driver):
         raise ValueError(f"{attempt}: unexpected ledger status {item['status']}")
     with driver.api_slot(root), driver.locked(root / "dispatch-locks" / (attempt + ".lock"), blocking=False):
         if not (step_dir / "request.json").exists():
-            if money.settle_orphans(led, attempt, step_dir, transport=_STATE["transport"]):
+            if money.settle_orphans(led, attempt, step_dir, transport=_STATE["transport"], wire=wire):
                 raise ValueError("Charged sub-attempt without saved request evidence: " + attempt)
             _void_pending(root, attempt, step_dir, driver, "crashed before the first reservation was sent")
             return None
         body = a.read(step_dir / "request.json")
         if a.sha(a.canonical(body)) != item["request_sha256"]:
             raise ValueError("Saved request differs from the ledger reservation: " + attempt)
-        spec = catalog.spec_for_body(body)
+        spec = wire.spec_for_body(body)
         try:
-            key = current_key()
+            key = current_key(profile)
         except ValueError:
             key = None    # settle-only: dispatch_guarded refuses to send without a key
         try:
             if key is None and _STATE["transport"] is None:
-                spent = money.settle_orphans(led, attempt, step_dir)
-                raise ValueError(f"{attempt}: pending step needs {KEY_ENV} to finish (spent so far {t.usd(spent)})")
+                spent = money.settle_orphans(led, attempt, step_dir, wire=wire)
+                raise ValueError(f"{attempt}: pending step needs {profile.key_env} to finish "
+                                 f"(spent so far {t.usd(spent)})")
             result = money.dispatch_guarded(body, spec, ledger=led, problem=_problem(row), attempt_id=attempt,
-                                            run_root=root, step_dir=step_dir, key=key, **_call_options())
+                                            run_root=root, step_dir=step_dir, key=key, wire=wire, **_call_options())
         except (BudgetExceeded, ApiDisabled) as exc:
             _void_pending(root, attempt, step_dir, driver, f"recovery: {type(exc).__name__}: {exc}")
             return None
@@ -362,11 +387,14 @@ def audit_root(root) -> list[str]:
     """Every OpenRouter step of a root re-audited from evidence, plus the SQLite mirror check."""
     root = Path(root).resolve()
     authorization = _authorization(root)
+    profile = _profile(authorization)
     ledger = a.read(root / "ledger.json")
     errors = []
     for attempt, item in ledger["attempts"].items():
         step_dir = root / "problems" / f"F{item['row']:03}" / "steps" / f"{item['step']:04}"
-        errors.extend(f"{attempt}: {message}" for message in audit_step(step_dir, item))
+        if item.get("transport", profile.name) != profile.name or item.get("provider", profile.provider) != profile.provider:
+            errors.append(f"{attempt}: step transport/provider differs from the sealed {profile.name} root")
+        errors.extend(f"{attempt}: {message}" for message in profile.wire.audit_step(step_dir, item))
     path = ledger_path(root, authorization)
     if path.exists():
         errors.extend(ledger_for_root(root, authorization).reconcile(root, ledger))
@@ -412,7 +440,11 @@ def smoke_summary(root) -> dict:
                       "sub_attempt_statuses": [sub["status"] for sub in receipt["sub_attempts"]],
                       "bound_violated": receipt["bound_violated"]})
     completed = [call for call in calls if call["outcome"] == "ok"]
-    return {"root": str(root), "calls": calls, "completed_calls": len(completed),
+    authorization = a.read(root / "authorization.json")
+    submittable, refusal = transports.is_submittable(authorization)
+    return {"root": str(root), "transport": transports.profile_for_authorization(authorization).name,
+            "submittable": submittable, "submission_refusal": refusal,
+            "calls": calls, "completed_calls": len(completed),
             "all_json_objects": all(call["json_object"] for call in completed),
             "providers": sorted({str(call["returned_provider"]) for call in completed}),
             "models": sorted({str(call["returned_model"]) for call in completed}),
