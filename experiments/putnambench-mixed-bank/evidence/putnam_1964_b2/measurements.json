@@ -1,0 +1,81 @@
+{
+  "summary": {
+    "row": 55,
+    "name": "putnam_1964_b2",
+    "selected_candidate": "c108",
+    "proof_sha256": "a060075d5eba7ae4b0058fd5eb418efdcc6029355abffc3746affc54dadff18b",
+    "proof_file": "proofs/putnam_1964_b2.lean",
+    "baseline": {
+      "tokens": 1754,
+      "raw_heartbeats": 134489543,
+      "raw_samples": [
+        134489542,
+        134489544,
+        134489543
+      ]
+    },
+    "final": {
+      "tokens": 91,
+      "raw_heartbeats": 667679,
+      "raw_samples": [
+        667679,
+        667679,
+        667680
+      ]
+    },
+    "token_reduction_pct": 94.81185860889396,
+    "hb_reduction_pct": 99.50354578868634,
+    "compatibility_ratio": 1,
+    "versions": [
+      "putnambench-v4.26.0"
+    ],
+    "local_score_estimate": 98.10513479919344,
+    "cost_usd": "2.5127760",
+    "stop_threshold_usd": "2.50",
+    "calls": 112,
+    "stop_reason": "cost_limit",
+    "official_evaluation": false,
+    "provider_invoice_verified": false,
+    "finished_at": "2026-11-03T12:33:53.071117+00:00"
+  },
+  "tokenizer": {
+    "id": "arena-paper-compatible-v1",
+    "source_sha256": "746f0c5b6d21015062f686b9bde4ea3623c17c2421d12f1436d741860c5404ed"
+  },
+  "versions": {
+    "putnambench-v4.26.0": {
+      "valid": true,
+      "median_raw_heartbeats": 667680,
+      "runs": [
+        {
+          "source_sha256": "b8be2600df2b8bb5adc7d1999fbe779224b3251cb64ac9a652250592288f391a",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "returncode": 0,
+          "measurement": null
+        },
+        {
+          "source_sha256": "a2dd4657b7d456e9d6cb96a2498aa5e32814f7f8715d4120a91ac5c4c258604a",
+          "log_sha256": "cf90adb01c0baa4db45ef9b671f5f9d342b852689d26e4d18ed219c50e8d900c",
+          "returncode": 0,
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Quot.sound",
+              "Classical.choice"
+            ],
+            "raw": 667680,
+            "scaled": 667,
+            "target": "putnam_1964_b2"
+          }
+        }
+      ]
+    }
+  },
+  "source_receipt_sha256": {
+    "baseline": "5bff950c7c27c100eb37a0b374c4c588283e36576828d5a55ece15e9accb9c5d",
+    "final": "d1c68f5c355d03bbd92f28932a49bd94f784c7ca05bb48f3fbf718194cbefe17",
+    "compatibility": "7804bd721d10f939250b26156d12c53b67fc3928a463852b21cfb864db72aadd",
+    "summary": "b9cad2571a5566a2357e7b12ae3e606b2e006ff6bbd07d3236514a9eee2850fc"
+  },
+  "baseline_policy": "Original-only receipts reused from earlier offline preparation; final primary HB freshly measured three times."
+}

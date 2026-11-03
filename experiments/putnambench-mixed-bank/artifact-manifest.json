@@ -1,6 +1,6 @@
 {
   ".gitattributes": "4e2966ddb31dbd7d376ce78dd69655c7b3098aae0d7b366c669863246d40daef",
-  "README.md": "cd78877f87d103bec46deb5663a0bbe9f0560aac4fcb0369304b3519b85ef2d7",
+  "README.md": "ecb7a3f6d5a9e919d1e4fd4d6f3eeff864978085e345c428fe7ea04ffb6d2392",
   "bank/README.md": "af78482b745ba7b48557fe2d832931820242961ca3230959cce38f48d092921c",
   "bank/bank.json": "bf3197e116088eb8d85c50d8b09f159747653f8a09ecb19b971b38e2e5da8e45",
   "bank/evidence.jsonl": "b786eec664454bc80471ae7c7ae2335cc6a4d01a450f238625219bc8d13033c2",
@@ -8,6 +8,10 @@
   "evidence/putnam_1964_a4/costs.json": "053f10c648a75c7df39e92df081e6639d7fba554dd641247aa30867e95340c26",
   "evidence/putnam_1964_a4/measurements.json": "3303436d95a3050af536e562246a47b28c3796cc025f8cda148be41759c547bf",
   "evidence/putnam_1964_a4/prompt.txt": "c778428df63b58cb2d0e69cf3c0ba661e091e2133424ad1624d5ca8bc5bd4056",
+  "evidence/putnam_1964_b2/config.json": "b3a50b8f3b67234c6bc82ccfe90f22813b0f2a96d8fc00d40ccf30b3d89013f0",
+  "evidence/putnam_1964_b2/costs.json": "e79c5612adc4d19c39fd7c932f0a5fbdb1ef2a6c0cc9d1bb16b8d3bdaadd557f",
+  "evidence/putnam_1964_b2/measurements.json": "faf3e36837e21d6834907de20edeac80b7a2117a4b7fe16e3a01c84d8638162e",
+  "evidence/putnam_1964_b2/prompt.txt": "0bb7af95bfab6eea63f206f78265c279d2c7672f0d7f0e8b6b0e97a3a640eeac",
   "evidence/putnam_1988_a2/config.json": "93fd595ee71f0d7b3a5a47517b5c34ed59fdaf087f8425e89165aeccd1e1f0af",
   "evidence/putnam_1988_a2/costs.json": "c08c151845857fdc4c2a2f385ccfc66790127e0677c8e9f1c1c9a216e6ed5bbe",
   "evidence/putnam_1988_a2/measurements.json": "c768d4e7c88bd146cee3ae3f39c7f976f5c3a67f1926b1950f7cdd5ce5ff8920",
@@ -24,11 +28,12 @@
   "mixed-search.patch": "f01a22eb94cbfea4fbfb91d7734266e26d7853f8141575908a37a4e1e675d8a7",
   "pricing.json": "d9a4089c57e9691a6db516c7b695e242f0708651e242141e2eb063fb9243999b",
   "proofs/putnam_1964_a4.lean": "905d85668034eb64a8c2d0f77799317a8677a45d99fb6c6e8145695cd2213f5c",
+  "proofs/putnam_1964_b2.lean": "a060075d5eba7ae4b0058fd5eb418efdcc6029355abffc3746affc54dadff18b",
   "proofs/putnam_1988_a2.lean": "14f0bbd2254b5d5a5907099c4398a6beac58a66d87156cda9d7d4ba68beb59da",
   "proofs/putnam_1995_a3.lean": "3ae7cd1cee967fcb87e81f561b9e89e1cd5f5f339f879955381fb436d30ff666",
   "proofs/putnam_2001_b1.lean": "ff0609f4ea4bd4abf99faad8b583984025f3c2a35657b260ce247e5b9dabd0ec",
-  "results.csv": "7964c7b18769e26fee48cf88c973d123aa657b0033c00dc0fe137f7a70097d1a",
-  "results.json": "4988b6d22853b239bc2d86136e48dd43f8279cb0002b7ddc052a2b405f541a0e",
+  "results.csv": "b2780da9258d13db32a99fafda3a2458a98eb973271855b40719da5eaa4087c7",
+  "results.json": "d00a7ee0a5df7ae150406d0fb8289ffe717886c0b42e235f89951d01d20f5bdf",
   "run-policy.json": "4535347e9e61a523273681e6f811006c55173691912e06659c3fda910a50084c",
   "runtime/examples/actions/README.md": "7a9d0d9af40cfabdde54dcea76fd662090233d58b21dee1765c2e01e68d3b2de",
   "runtime/examples/actions/corpus.json": "98dfd0254874fe41f26dd4229ab065f26d9cf8b7f27866572ac3c92f48140852",
@@ -80,5 +85,5 @@
   "runtime/src/lean_agent/usage_cost.py": "58051772ef305ce532c18035c6d9473fa15835ea5f27b63a4ce5e969e31075be",
   "runtime/tests/test_strategy_mixed.py": "5e3944ad88c9224c98fdea47ed8de33ebb6d9a5169fb49db5b795caad02e542f",
   "runtime-manifest.json": "2c8aaea24f3f03427c75a559f7f5cf92899e4ad5e3c5c5a3168dd2cb015041bb",
-  "submission.partial.jsonl": "1642260c92f0144a29c64d50584735cfab813f5e1b5059cb3bf50fa056fca4ce"
+  "submission.partial.jsonl": "59f5b906b0501e90bccfddd19a4bfad76642921820ec12570ed5034d1f77bd8f"
 }
