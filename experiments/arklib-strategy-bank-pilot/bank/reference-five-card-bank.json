@@ -1,0 +1,890 @@
+{
+  "schema_version": 1,
+  "version": "dashboard-diff-v1",
+  "scope": "final-adaptation",
+  "strategies": [
+    {
+      "id": "D01",
+      "title": "Inline or remove redundant intermediate facts",
+      "match": {
+        "tactic_min": {
+          "have": 3
+        }
+      },
+      "guide": "Inspect intermediate have facts and their uses. Try inlining a single-use fact or removing one unused fact; check the complete declaration after each candidate.",
+      "risks": "Apparently unused facts can support inference or automation. Removing them can break elaboration or increase heartbeats.",
+      "evidence": [
+        {
+          "problem": "Core.InitsUpdatesComm",
+          "candidate_sha256": "113f8feecbdacbdd62c03a6d5c5ff70a6f916312328a766e126150a8481452a3"
+        },
+        {
+          "problem": "Lambda.denote_suffix_irrel",
+          "candidate_sha256": "2dc3417b0bc2e1beba2a1a5ca8348597d36d823e67723d510267c622f34acb46"
+        },
+        {
+          "problem": "Lambda.denote_Denotes",
+          "candidate_sha256": "728a8f29c8e421867b279560efa99afe9626bf080b8034b43bac80883dd20d65"
+        },
+        {
+          "problem": "Lambda.callOfLFunc_eraseMetadata_congr",
+          "candidate_sha256": "d338a534902357df4fd5994ce211546a922f4ee4d16ec486c4ad83fd0ddcd338"
+        },
+        {
+          "problem": "Lambda.liftBVars_denote",
+          "candidate_sha256": "288d3d1e381fb78a6164d946c307f8ab98929c0f7056235d1e88fab6a7b73634"
+        },
+        {
+          "problem": "Lambda.LExpr.typeCheck_to_HasTypeA",
+          "candidate_sha256": "559e740da88c27e6afbb851632165d29717714c163ce64c83a2dd1f1592cdc1d"
+        },
+        {
+          "problem": "Lambda.callOfLFunc_constr_disjoint_denote",
+          "candidate_sha256": "68f2e92320d0eafda43a2d60b72590467160e1d2abdd7aaf15321f9b0ca007e0"
+        },
+        {
+          "problem": "Lambda.denote_replaceMetadata",
+          "candidate_sha256": "08a88eb6c3b4df469f043f10c0452a7358ec8cb305100ea7eb0f65d82b8e3ba0"
+        },
+        {
+          "problem": "Lambda.denote_ext",
+          "candidate_sha256": "7308cc034213e3aa2d91668f651393bdb9911e821138ce93b4124152e16f9b16"
+        },
+        {
+          "problem": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+          "candidate_sha256": "5aa1a4618f6a420e42eba5cb80fd035f2505974285fdf7b5b2ad6e220674900b"
+        },
+        {
+          "problem": "CoxeterSystem.matsumoto_reduced_aux",
+          "candidate_sha256": "cc70888d2ddead0fe7af9c996423ae1c43232dda62c955c2fc34707bf76ea19d"
+        },
+        {
+          "problem": "Vlasov.transportedIntegral_continuousOn",
+          "candidate_sha256": "8f2fd92ca32a1896ce06f5a3faddd3316432435f40975b57df1b728bd00ad15c"
+        },
+        {
+          "problem": "ZetaZeros.step1_double",
+          "candidate_sha256": "ecfb726790c86b169b5189c7dd7d145b16bf6d1b82a72e704c33c8272258b9ba"
+        },
+        {
+          "problem": "LocalComplexGeometry.holomorphic_constant_rank",
+          "candidate_sha256": "0b5f32af6f47a85be8294c9f3a8e6e6fdb0bdd771bb03127c6daa4f3ac0700db"
+        },
+        {
+          "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+          "candidate_sha256": "021b30d9e3059ab28862da98e68c2dd8705edd642e8e0f3984026cd40ee5af9d"
+        },
+        {
+          "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+          "candidate_sha256": "1b05aefd784c98a69ab7da100e11736a606bb59e79c8b835c1e8936d797843b2"
+        },
+        {
+          "problem": "IsoGraph.Canon.dfsNode_dom",
+          "candidate_sha256": "a21031fbb2a8e160acaee4cb01d42bec12aa97c39857413f153b059d1cd57141"
+        },
+        {
+          "problem": "FirstOrder.Language.schemaTruthStage_imp",
+          "candidate_sha256": "a5a2fca5d9a5fccca3d50d984d2af94d280df39abade65980512841ffc411f79"
+        },
+        {
+          "problem": "RS.cechCount",
+          "candidate_sha256": "8d58a7be6db38663b7f16b533a08f56d8de402c6f9a895439ddde87cc2519fbd"
+        },
+        {
+          "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+          "candidate_sha256": "e76695dc11377f1b42989527e60f1ea19e6bc60156bcc223bae7498a143ac39d"
+        },
+        {
+          "problem": "fundamental_theorem_of_variational_calculus'",
+          "candidate_sha256": "d0293814a98d5db2e8fdca6fec03c5c419f0847244376124e4265a4ba9b6ba12"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "2fc0f3336c199da4083bb0ec464e2979bf07e99903f05496b49a45eaa9afcee4"
+        },
+        {
+          "problem": "cauchyBinet",
+          "candidate_sha256": "a4544a8ce7b367b3bd64229eac87fba425acb3fff74f2ccab1dde23c00ee6d59"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+          "candidate_sha256": "4709bb91f052bbdfd3823a492812bb8d7f13ef95263b8217de43f061e3d8092c"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+          "candidate_sha256": "08fb4d9fd39d06dba965fd90dac95b3705dfea6a708705d5125b66688200a545"
+        },
+        {
+          "problem": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+          "candidate_sha256": "77c66c53e307348c8263581e8d5d0c4a0b21321cc02ec58925fda76e6df6eed7"
+        },
+        {
+          "problem": "fundamental_theorem_of_variational_calculus'",
+          "candidate_sha256": "454cfd9104d1270c9fe338d4ebd8bf05d54b441b350584fd453775412f5f221b"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "d64294ae40589ba94537216ee35805090268ac2d80418fe46ab14aa05c7bb7a7"
+        },
+        {
+          "problem": "cauchyBinet",
+          "candidate_sha256": "994790e80889baaefcc81f42bf1fa6c1f627098c41c5e5809b64ff97e90bd5df"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+          "candidate_sha256": "9dba3ee518a7186c7733e4ed7f9dce9fe7daa9b8c6655cbf6dcd8b79d91cbfae"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+          "candidate_sha256": "2c6bc9c3e19216e54e756dbae552c12ba7a94471e3c79d6235d43bd2be39decc"
+        },
+        {
+          "problem": "Cslib.FLP.PseudoConsensus.of_consensus",
+          "candidate_sha256": "868168edb118fb405d432b4dc2a11315ffa925c01f6469b355e0a3e2af68f526"
+        },
+        {
+          "problem": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+          "candidate_sha256": "1f3e64d6de568f04043f7ddf29e94cd8f0676c2ca6016aeaaea214ae69430bc3"
+        },
+        {
+          "problem": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+          "candidate_sha256": "4b9e199dfa87d8e870a4fa0d012cae1c5714147cf9dcdd711e70f4e5d19c6024"
+        },
+        {
+          "problem": "Cslib.LTS.OmegaExecution.flatten_execution",
+          "candidate_sha256": "0e050b205358f5f8eeda2a3114587f9bc874d764aa3e1c98fd46a0092d37c5a2"
+        },
+        {
+          "problem": "Cslib.FLP.CanReachVia.subset_inp",
+          "candidate_sha256": "4c84305a345e8a9d383d86afed491748c5568ef7c6805c7fac90bfeae60cd885"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+          "candidate_sha256": "b7e2d9d219ac718a609e1626a89a58815d3992b58aee611ea2f8e8cbb77ec233"
+        },
+        {
+          "problem": "interleaved_affine_gaps_imply_tensor_gaps",
+          "candidate_sha256": "c65148e1e2550dab63c34a2f4dc7650e0244cc97a5c49bf224c1dc1d7e292177"
+        },
+        {
+          "problem": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+          "candidate_sha256": "c817d213b218cbd682c009ba87dd070c393fce50e9178d45b89725893859a193"
+        },
+        {
+          "problem": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+          "candidate_sha256": "411958a042babbbee99d03e9bceaa7924533e39dc0537039681066242fed1255"
+        },
+        {
+          "problem": "JohnsonBound.johnson_bound_alphabet_free",
+          "candidate_sha256": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716"
+        },
+        {
+          "problem": "ProximityToRS.dir_close_of_many_close_pts",
+          "candidate_sha256": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5"
+        },
+        {
+          "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+          "candidate_sha256": "35af063aba4dd437ec2ecbb09ec10ede57e468870462e89b1f7599c2cc55c7bd"
+        },
+        {
+          "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+          "candidate_sha256": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000"
+        },
+        {
+          "problem": "putnam_1964_a4",
+          "candidate_sha256": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6"
+        },
+        {
+          "problem": "putnam_1995_a3",
+          "candidate_sha256": "61db6f57f1837d1fa7bf9615b01d58a2e6970af8d2c1c687bc4b687d71e0ca37"
+        },
+        {
+          "problem": "putnam_1988_a2",
+          "candidate_sha256": "89f9a454d95427b3e912c4aedd9c257aa93e249c1fb1eeb415aaf59eede728f9"
+        },
+        {
+          "problem": "putnam_2001_b1",
+          "candidate_sha256": "70bceffde22ead4869449e126cb7fad3d065f733758361c012b5c8dc97b0a5a7"
+        },
+        {
+          "problem": "putnam_1964_b2",
+          "candidate_sha256": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7"
+        },
+        {
+          "problem": "putnam_2007_a1",
+          "candidate_sha256": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c"
+        },
+        {
+          "problem": "putnam_1970_b5",
+          "candidate_sha256": "0b67223ef0c871c3e2c2839f70f59b1e841d774c5e59e6bd45524a87317a5472"
+        },
+        {
+          "problem": "putnam_1968_a1",
+          "candidate_sha256": "d629f763edb942ecabf48596012230777f4416e3ce5756737b0ab17702ee30c3"
+        },
+        {
+          "problem": "putnam_1991_b1",
+          "candidate_sha256": "4e4dc3b5911539ab71326e9835b286359fd8802098304d063ad7801fac39a629"
+        },
+        {
+          "problem": "putnam_2019_a1",
+          "candidate_sha256": "6a25c2f7138ece39862fc0c5ef6edbfc91bfcf352c7b6b018c95dc0bf49a36a1"
+        }
+      ]
+    },
+    {
+      "id": "D02",
+      "title": "Focus broad automation",
+      "match": {
+        "tactic_min": {
+          "grind": 1,
+          "aesop": 1,
+          "simp_all": 1
+        }
+      },
+      "guide": "Inspect one broad automation call. Try a direct lemma, explicit arithmetic certificate, or focused sufficient facts instead of searching the whole context.",
+      "risks": "Lexical frequency is not a heartbeat profile. Preserve required unfolding and side conditions; a direct replacement may be longer or version-sensitive.",
+      "evidence": [
+        {
+          "problem": "Core.InitsUpdatesComm",
+          "candidate_sha256": "113f8feecbdacbdd62c03a6d5c5ff70a6f916312328a766e126150a8481452a3"
+        },
+        {
+          "problem": "Lambda.denote_Denotes",
+          "candidate_sha256": "728a8f29c8e421867b279560efa99afe9626bf080b8034b43bac80883dd20d65"
+        },
+        {
+          "problem": "Lambda.callOfLFunc_eraseMetadata_congr",
+          "candidate_sha256": "d338a534902357df4fd5994ce211546a922f4ee4d16ec486c4ad83fd0ddcd338"
+        },
+        {
+          "problem": "Lambda.liftBVars_typeCheck",
+          "candidate_sha256": "3b8c35139ad1d75cfae6a64dd034b7614180a541fdd4a89326d410ebf27d4dbd"
+        },
+        {
+          "problem": "Lambda.liftBVars_denote",
+          "candidate_sha256": "288d3d1e381fb78a6164d946c307f8ab98929c0f7056235d1e88fab6a7b73634"
+        },
+        {
+          "problem": "Lambda.LExpr.typeCheck_to_HasTypeA",
+          "candidate_sha256": "559e740da88c27e6afbb851632165d29717714c163ce64c83a2dd1f1592cdc1d"
+        },
+        {
+          "problem": "Lambda.callOfLFunc_constr_disjoint_denote",
+          "candidate_sha256": "68f2e92320d0eafda43a2d60b72590467160e1d2abdd7aaf15321f9b0ca007e0"
+        },
+        {
+          "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+          "candidate_sha256": "e76695dc11377f1b42989527e60f1ea19e6bc60156bcc223bae7498a143ac39d"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "2fc0f3336c199da4083bb0ec464e2979bf07e99903f05496b49a45eaa9afcee4"
+        },
+        {
+          "problem": "cauchyBinet",
+          "candidate_sha256": "a4544a8ce7b367b3bd64229eac87fba425acb3fff74f2ccab1dde23c00ee6d59"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+          "candidate_sha256": "4709bb91f052bbdfd3823a492812bb8d7f13ef95263b8217de43f061e3d8092c"
+        },
+        {
+          "problem": "Cslib.SKI.parallelReduction_diamond",
+          "candidate_sha256": "ab0fb3335e9b0538a105305bdf74c1ec96a5b845d2307479047c0f334ae14de2"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+          "candidate_sha256": "08fb4d9fd39d06dba965fd90dac95b3705dfea6a708705d5125b66688200a545"
+        },
+        {
+          "problem": "Cslib.FLP.PseudoConsensus.of_consensus",
+          "candidate_sha256": "902341994921bc8512261ec477dc54a2db9ac6bf65ebb5748d9759cf1032ae81"
+        },
+        {
+          "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+          "candidate_sha256": "5f37b92cf5d19f8a426d68b2681e2b36cba4e98a8818bdec7dd9f972fda73197"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "d64294ae40589ba94537216ee35805090268ac2d80418fe46ab14aa05c7bb7a7"
+        },
+        {
+          "problem": "cauchyBinet",
+          "candidate_sha256": "994790e80889baaefcc81f42bf1fa6c1f627098c41c5e5809b64ff97e90bd5df"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+          "candidate_sha256": "9dba3ee518a7186c7733e4ed7f9dce9fe7daa9b8c6655cbf6dcd8b79d91cbfae"
+        },
+        {
+          "problem": "Cslib.SKI.parallelReduction_diamond",
+          "candidate_sha256": "5c2a7303ea16d306ce2405678aace6d2adbe518a38358b04b449b30b61dd55be"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+          "candidate_sha256": "2c6bc9c3e19216e54e756dbae552c12ba7a94471e3c79d6235d43bd2be39decc"
+        },
+        {
+          "problem": "Cslib.FLP.PseudoConsensus.of_consensus",
+          "candidate_sha256": "868168edb118fb405d432b4dc2a11315ffa925c01f6469b355e0a3e2af68f526"
+        },
+        {
+          "problem": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+          "candidate_sha256": "1f3e64d6de568f04043f7ddf29e94cd8f0676c2ca6016aeaaea214ae69430bc3"
+        },
+        {
+          "problem": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+          "candidate_sha256": "4b9e199dfa87d8e870a4fa0d012cae1c5714147cf9dcdd711e70f4e5d19c6024"
+        },
+        {
+          "problem": "Cslib.LTS.OmegaExecution.flatten_execution",
+          "candidate_sha256": "0e050b205358f5f8eeda2a3114587f9bc874d764aa3e1c98fd46a0092d37c5a2"
+        },
+        {
+          "problem": "Cslib.FLP.CanReachVia.subset_inp",
+          "candidate_sha256": "4c84305a345e8a9d383d86afed491748c5568ef7c6805c7fac90bfeae60cd885"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+          "candidate_sha256": "b7e2d9d219ac718a609e1626a89a58815d3992b58aee611ea2f8e8cbb77ec233"
+        },
+        {
+          "problem": "Combine.master_lemma",
+          "candidate_sha256": "378acfb8c612685d3415a0458ccad2b11785c2af3b1683236c4aef9583e2ca09"
+        },
+        {
+          "problem": "JohnsonBound.johnson_bound_alphabet_free",
+          "candidate_sha256": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716"
+        },
+        {
+          "problem": "putnam_1964_a4",
+          "candidate_sha256": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6"
+        },
+        {
+          "problem": "putnam_2001_b1",
+          "candidate_sha256": "70bceffde22ead4869449e126cb7fad3d065f733758361c012b5c8dc97b0a5a7"
+        },
+        {
+          "problem": "putnam_1964_b2",
+          "candidate_sha256": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7"
+        },
+        {
+          "problem": "putnam_2007_a1",
+          "candidate_sha256": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c"
+        },
+        {
+          "problem": "putnam_1970_b5",
+          "candidate_sha256": "0b67223ef0c871c3e2c2839f70f59b1e841d774c5e59e6bd45524a87317a5472"
+        },
+        {
+          "problem": "putnam_1991_b1",
+          "candidate_sha256": "4e4dc3b5911539ab71326e9835b286359fd8802098304d063ad7801fac39a629"
+        }
+      ]
+    },
+    {
+      "id": "D03",
+      "title": "Consolidate calculation and rewrite chains",
+      "match": {
+        "tactic_min": {
+          "calc": 1,
+          "rw": 3
+        }
+      },
+      "guide": "Inspect a long calculation or rewrite chain. Search the current context for an identity or bound that replaces intermediate equalities; preserve casts and nonzero assumptions.",
+      "risks": "An identity may not match the required type or orientation. Fewer source steps do not establish a lower verification cost.",
+      "evidence": [
+        {
+          "problem": "Lambda.denote_suffix_irrel",
+          "candidate_sha256": "2dc3417b0bc2e1beba2a1a5ca8348597d36d823e67723d510267c622f34acb46"
+        },
+        {
+          "problem": "Lambda.liftBVars_denote",
+          "candidate_sha256": "288d3d1e381fb78a6164d946c307f8ab98929c0f7056235d1e88fab6a7b73634"
+        },
+        {
+          "problem": "Lambda.callOfLFunc_constr_disjoint_denote",
+          "candidate_sha256": "68f2e92320d0eafda43a2d60b72590467160e1d2abdd7aaf15321f9b0ca007e0"
+        },
+        {
+          "problem": "Lambda.denote_replaceMetadata",
+          "candidate_sha256": "08a88eb6c3b4df469f043f10c0452a7358ec8cb305100ea7eb0f65d82b8e3ba0"
+        },
+        {
+          "problem": "Lambda.denote_ext",
+          "candidate_sha256": "7308cc034213e3aa2d91668f651393bdb9911e821138ce93b4124152e16f9b16"
+        },
+        {
+          "problem": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+          "candidate_sha256": "5aa1a4618f6a420e42eba5cb80fd035f2505974285fdf7b5b2ad6e220674900b"
+        },
+        {
+          "problem": "CoxeterSystem.matsumoto_reduced_aux",
+          "candidate_sha256": "cc70888d2ddead0fe7af9c996423ae1c43232dda62c955c2fc34707bf76ea19d"
+        },
+        {
+          "problem": "Vlasov.transportedIntegral_continuousOn",
+          "candidate_sha256": "8f2fd92ca32a1896ce06f5a3faddd3316432435f40975b57df1b728bd00ad15c"
+        },
+        {
+          "problem": "ZetaZeros.step1_double",
+          "candidate_sha256": "ecfb726790c86b169b5189c7dd7d145b16bf6d1b82a72e704c33c8272258b9ba"
+        },
+        {
+          "problem": "LocalComplexGeometry.holomorphic_constant_rank",
+          "candidate_sha256": "0b5f32af6f47a85be8294c9f3a8e6e6fdb0bdd771bb03127c6daa4f3ac0700db"
+        },
+        {
+          "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+          "candidate_sha256": "021b30d9e3059ab28862da98e68c2dd8705edd642e8e0f3984026cd40ee5af9d"
+        },
+        {
+          "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+          "candidate_sha256": "1b05aefd784c98a69ab7da100e11736a606bb59e79c8b835c1e8936d797843b2"
+        },
+        {
+          "problem": "IsoGraph.Canon.dfsNode_dom",
+          "candidate_sha256": "a21031fbb2a8e160acaee4cb01d42bec12aa97c39857413f153b059d1cd57141"
+        },
+        {
+          "problem": "FirstOrder.Language.schemaTruthStage_imp",
+          "candidate_sha256": "a5a2fca5d9a5fccca3d50d984d2af94d280df39abade65980512841ffc411f79"
+        },
+        {
+          "problem": "RS.cechCount",
+          "candidate_sha256": "8d58a7be6db38663b7f16b533a08f56d8de402c6f9a895439ddde87cc2519fbd"
+        },
+        {
+          "problem": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+          "candidate_sha256": "ddcdb25df74de488575e894c9b31ed484db9f9029790b91e11978a56afa77306"
+        },
+        {
+          "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+          "candidate_sha256": "e76695dc11377f1b42989527e60f1ea19e6bc60156bcc223bae7498a143ac39d"
+        },
+        {
+          "problem": "fundamental_theorem_of_variational_calculus'",
+          "candidate_sha256": "d0293814a98d5db2e8fdca6fec03c5c419f0847244376124e4265a4ba9b6ba12"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "2fc0f3336c199da4083bb0ec464e2979bf07e99903f05496b49a45eaa9afcee4"
+        },
+        {
+          "problem": "cauchyBinet",
+          "candidate_sha256": "a4544a8ce7b367b3bd64229eac87fba425acb3fff74f2ccab1dde23c00ee6d59"
+        },
+        {
+          "problem": "Cslib.SKI.parallelReduction_diamond",
+          "candidate_sha256": "ab0fb3335e9b0538a105305bdf74c1ec96a5b845d2307479047c0f334ae14de2"
+        },
+        {
+          "problem": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+          "candidate_sha256": "be92461298ddee92be29048978ba13018495091ac16dbbd02d9739df9c6c49e4"
+        },
+        {
+          "problem": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+          "candidate_sha256": "381228863b7b423dd072954b7cffcf8e587de2daf4272e7bc2426ed249f65f46"
+        },
+        {
+          "problem": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+          "candidate_sha256": "5e948837ea78b6de16f8a5a3cb1a445304b6af07f5e52564f277346ce12c3163"
+        },
+        {
+          "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+          "candidate_sha256": "5f37b92cf5d19f8a426d68b2681e2b36cba4e98a8818bdec7dd9f972fda73197"
+        },
+        {
+          "problem": "fundamental_theorem_of_variational_calculus'",
+          "candidate_sha256": "454cfd9104d1270c9fe338d4ebd8bf05d54b441b350584fd453775412f5f221b"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "d64294ae40589ba94537216ee35805090268ac2d80418fe46ab14aa05c7bb7a7"
+        },
+        {
+          "problem": "Cslib.SKI.parallelReduction_diamond",
+          "candidate_sha256": "5c2a7303ea16d306ce2405678aace6d2adbe518a38358b04b449b30b61dd55be"
+        },
+        {
+          "problem": "interleaved_affine_gaps_imply_tensor_gaps",
+          "candidate_sha256": "c65148e1e2550dab63c34a2f4dc7650e0244cc97a5c49bf224c1dc1d7e292177"
+        },
+        {
+          "problem": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+          "candidate_sha256": "c817d213b218cbd682c009ba87dd070c393fce50e9178d45b89725893859a193"
+        },
+        {
+          "problem": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+          "candidate_sha256": "411958a042babbbee99d03e9bceaa7924533e39dc0537039681066242fed1255"
+        },
+        {
+          "problem": "Combine.master_lemma",
+          "candidate_sha256": "378acfb8c612685d3415a0458ccad2b11785c2af3b1683236c4aef9583e2ca09"
+        },
+        {
+          "problem": "JohnsonBound.johnson_bound_alphabet_free",
+          "candidate_sha256": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716"
+        },
+        {
+          "problem": "ProximityToRS.dir_close_of_many_close_pts",
+          "candidate_sha256": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5"
+        },
+        {
+          "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+          "candidate_sha256": "35af063aba4dd437ec2ecbb09ec10ede57e468870462e89b1f7599c2cc55c7bd"
+        },
+        {
+          "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+          "candidate_sha256": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000"
+        },
+        {
+          "problem": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+          "candidate_sha256": "e20021b5a3e44ca8869edf83516c514cf58b6943e69775ff617151c22b39da3a"
+        },
+        {
+          "problem": "putnam_1964_a4",
+          "candidate_sha256": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6"
+        },
+        {
+          "problem": "putnam_1995_a3",
+          "candidate_sha256": "61db6f57f1837d1fa7bf9615b01d58a2e6970af8d2c1c687bc4b687d71e0ca37"
+        },
+        {
+          "problem": "putnam_1988_a2",
+          "candidate_sha256": "89f9a454d95427b3e912c4aedd9c257aa93e249c1fb1eeb415aaf59eede728f9"
+        },
+        {
+          "problem": "putnam_2001_b1",
+          "candidate_sha256": "70bceffde22ead4869449e126cb7fad3d065f733758361c012b5c8dc97b0a5a7"
+        },
+        {
+          "problem": "putnam_1964_b2",
+          "candidate_sha256": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7"
+        },
+        {
+          "problem": "putnam_2007_a1",
+          "candidate_sha256": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c"
+        },
+        {
+          "problem": "putnam_1970_b5",
+          "candidate_sha256": "0b67223ef0c871c3e2c2839f70f59b1e841d774c5e59e6bd45524a87317a5472"
+        },
+        {
+          "problem": "putnam_1968_a1",
+          "candidate_sha256": "d629f763edb942ecabf48596012230777f4416e3ce5756737b0ab17702ee30c3"
+        },
+        {
+          "problem": "putnam_1991_b1",
+          "candidate_sha256": "4e4dc3b5911539ab71326e9835b286359fd8802098304d063ad7801fac39a629"
+        },
+        {
+          "problem": "putnam_2019_a1",
+          "candidate_sha256": "6a25c2f7138ece39862fc0c5ef6edbfc91bfcf352c7b6b018c95dc0bf49a36a1"
+        }
+      ]
+    },
+    {
+      "id": "D04",
+      "title": "Reduce repeated case analysis",
+      "match": {
+        "tactic_min": {
+          "cases": 2,
+          "rcases": 3,
+          "induction": 1
+        }
+      },
+      "guide": "Look for a predicate lemma, shared branch argument, or appropriate induction principle that removes repeated decomposition. Retain branches whose local assumptions differ.",
+      "risks": "Do not merge incompatible branches or change the induction invariant. Required constructors and available principles depend on the pinned environment.",
+      "evidence": [
+        {
+          "problem": "Lambda.denote_suffix_irrel",
+          "candidate_sha256": "2dc3417b0bc2e1beba2a1a5ca8348597d36d823e67723d510267c622f34acb46"
+        },
+        {
+          "problem": "Lambda.callOfLFunc_eraseMetadata_congr",
+          "candidate_sha256": "d338a534902357df4fd5994ce211546a922f4ee4d16ec486c4ad83fd0ddcd338"
+        },
+        {
+          "problem": "Lambda.liftBVars_typeCheck",
+          "candidate_sha256": "3b8c35139ad1d75cfae6a64dd034b7614180a541fdd4a89326d410ebf27d4dbd"
+        },
+        {
+          "problem": "Lambda.liftBVars_denote",
+          "candidate_sha256": "288d3d1e381fb78a6164d946c307f8ab98929c0f7056235d1e88fab6a7b73634"
+        },
+        {
+          "problem": "Lambda.denote_replaceMetadata",
+          "candidate_sha256": "08a88eb6c3b4df469f043f10c0452a7358ec8cb305100ea7eb0f65d82b8e3ba0"
+        },
+        {
+          "problem": "Lambda.denote_ext",
+          "candidate_sha256": "7308cc034213e3aa2d91668f651393bdb9911e821138ce93b4124152e16f9b16"
+        },
+        {
+          "problem": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+          "candidate_sha256": "5aa1a4618f6a420e42eba5cb80fd035f2505974285fdf7b5b2ad6e220674900b"
+        },
+        {
+          "problem": "CoxeterSystem.matsumoto_reduced_aux",
+          "candidate_sha256": "cc70888d2ddead0fe7af9c996423ae1c43232dda62c955c2fc34707bf76ea19d"
+        },
+        {
+          "problem": "Vlasov.transportedIntegral_continuousOn",
+          "candidate_sha256": "8f2fd92ca32a1896ce06f5a3faddd3316432435f40975b57df1b728bd00ad15c"
+        },
+        {
+          "problem": "FirstOrder.Language.schemaTruthStage_imp",
+          "candidate_sha256": "a5a2fca5d9a5fccca3d50d984d2af94d280df39abade65980512841ffc411f79"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "2fc0f3336c199da4083bb0ec464e2979bf07e99903f05496b49a45eaa9afcee4"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+          "candidate_sha256": "4709bb91f052bbdfd3823a492812bb8d7f13ef95263b8217de43f061e3d8092c"
+        },
+        {
+          "problem": "Cslib.SKI.parallelReduction_diamond",
+          "candidate_sha256": "ab0fb3335e9b0538a105305bdf74c1ec96a5b845d2307479047c0f334ae14de2"
+        },
+        {
+          "problem": "Cslib.CCS.bisimilarity_congr_choice",
+          "candidate_sha256": "69f5978093ad7448ecf078c2d1aabc652d3eb631966b15d12e34da4e7cf75e93"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "d64294ae40589ba94537216ee35805090268ac2d80418fe46ab14aa05c7bb7a7"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+          "candidate_sha256": "9dba3ee518a7186c7733e4ed7f9dce9fe7daa9b8c6655cbf6dcd8b79d91cbfae"
+        },
+        {
+          "problem": "Cslib.CCS.bisimilarity_congr_choice",
+          "candidate_sha256": "bc3333780748a56c35847431d0a8b6d17453b671d85de2a27a404d87f925bbe6"
+        },
+        {
+          "problem": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+          "candidate_sha256": "411958a042babbbee99d03e9bceaa7924533e39dc0537039681066242fed1255"
+        },
+        {
+          "problem": "JohnsonBound.johnson_bound_alphabet_free",
+          "candidate_sha256": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716"
+        },
+        {
+          "problem": "ProximityToRS.dir_close_of_many_close_pts",
+          "candidate_sha256": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5"
+        },
+        {
+          "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+          "candidate_sha256": "35af063aba4dd437ec2ecbb09ec10ede57e468870462e89b1f7599c2cc55c7bd"
+        },
+        {
+          "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+          "candidate_sha256": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000"
+        },
+        {
+          "problem": "putnam_1964_a4",
+          "candidate_sha256": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6"
+        },
+        {
+          "problem": "putnam_1995_a3",
+          "candidate_sha256": "61db6f57f1837d1fa7bf9615b01d58a2e6970af8d2c1c687bc4b687d71e0ca37"
+        },
+        {
+          "problem": "putnam_1964_b2",
+          "candidate_sha256": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7"
+        },
+        {
+          "problem": "putnam_2007_a1",
+          "candidate_sha256": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c"
+        },
+        {
+          "problem": "putnam_1970_b5",
+          "candidate_sha256": "0b67223ef0c871c3e2c2839f70f59b1e841d774c5e59e6bd45524a87317a5472"
+        },
+        {
+          "problem": "putnam_1991_b1",
+          "candidate_sha256": "4e4dc3b5911539ab71326e9835b286359fd8802098304d063ad7801fac39a629"
+        },
+        {
+          "problem": "putnam_2019_a1",
+          "candidate_sha256": "6a25c2f7138ece39862fc0c5ef6edbfc91bfcf352c7b6b018c95dc0bf49a36a1"
+        }
+      ]
+    },
+    {
+      "id": "D05",
+      "title": "Replace manual witnesses with a sufficient library result",
+      "match": {
+        "tactic_min": {
+          "refine": 2,
+          "have": 4
+        }
+      },
+      "guide": "For an explicit witness construction, search available lemmas for the exact existence, cardinality, support or derivative property needed. Prefer a sufficient result over proving a stronger characterization.",
+      "risks": "New lemma names in a diff are only a clue, not proof of transfer. Check assumptions, namespace, arity and every required version.",
+      "evidence": [
+        {
+          "problem": "Core.InitsUpdatesComm",
+          "candidate_sha256": "113f8feecbdacbdd62c03a6d5c5ff70a6f916312328a766e126150a8481452a3"
+        },
+        {
+          "problem": "Lambda.denote_suffix_irrel",
+          "candidate_sha256": "2dc3417b0bc2e1beba2a1a5ca8348597d36d823e67723d510267c622f34acb46"
+        },
+        {
+          "problem": "Lambda.liftBVars_denote",
+          "candidate_sha256": "288d3d1e381fb78a6164d946c307f8ab98929c0f7056235d1e88fab6a7b73634"
+        },
+        {
+          "problem": "Lambda.denote_replaceMetadata",
+          "candidate_sha256": "08a88eb6c3b4df469f043f10c0452a7358ec8cb305100ea7eb0f65d82b8e3ba0"
+        },
+        {
+          "problem": "Lambda.denote_ext",
+          "candidate_sha256": "7308cc034213e3aa2d91668f651393bdb9911e821138ce93b4124152e16f9b16"
+        },
+        {
+          "problem": "LeanPool.Erdos132ConvexK3.erlv_case12_other_d1_bone_impossible",
+          "candidate_sha256": "5aa1a4618f6a420e42eba5cb80fd035f2505974285fdf7b5b2ad6e220674900b"
+        },
+        {
+          "problem": "CoxeterSystem.matsumoto_reduced_aux",
+          "candidate_sha256": "cc70888d2ddead0fe7af9c996423ae1c43232dda62c955c2fc34707bf76ea19d"
+        },
+        {
+          "problem": "Vlasov.transportedIntegral_continuousOn",
+          "candidate_sha256": "8f2fd92ca32a1896ce06f5a3faddd3316432435f40975b57df1b728bd00ad15c"
+        },
+        {
+          "problem": "ZetaZeros.step1_double",
+          "candidate_sha256": "ecfb726790c86b169b5189c7dd7d145b16bf6d1b82a72e704c33c8272258b9ba"
+        },
+        {
+          "problem": "LocalComplexGeometry.holomorphic_constant_rank",
+          "candidate_sha256": "0b5f32af6f47a85be8294c9f3a8e6e6fdb0bdd771bb03127c6daa4f3ac0700db"
+        },
+        {
+          "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+          "candidate_sha256": "021b30d9e3059ab28862da98e68c2dd8705edd642e8e0f3984026cd40ee5af9d"
+        },
+        {
+          "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+          "candidate_sha256": "1b05aefd784c98a69ab7da100e11736a606bb59e79c8b835c1e8936d797843b2"
+        },
+        {
+          "problem": "FirstOrder.Language.schemaTruthStage_imp",
+          "candidate_sha256": "a5a2fca5d9a5fccca3d50d984d2af94d280df39abade65980512841ffc411f79"
+        },
+        {
+          "problem": "RS.cechCount",
+          "candidate_sha256": "8d58a7be6db38663b7f16b533a08f56d8de402c6f9a895439ddde87cc2519fbd"
+        },
+        {
+          "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+          "candidate_sha256": "e76695dc11377f1b42989527e60f1ea19e6bc60156bcc223bae7498a143ac39d"
+        },
+        {
+          "problem": "fundamental_theorem_of_variational_calculus'",
+          "candidate_sha256": "d0293814a98d5db2e8fdca6fec03c5c419f0847244376124e4265a4ba9b6ba12"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "2fc0f3336c199da4083bb0ec464e2979bf07e99903f05496b49a45eaa9afcee4"
+        },
+        {
+          "problem": "cauchyBinet",
+          "candidate_sha256": "a4544a8ce7b367b3bd64229eac87fba425acb3fff74f2ccab1dde23c00ee6d59"
+        },
+        {
+          "problem": "HermitianMat.inv_convex",
+          "candidate_sha256": "d64294ae40589ba94537216ee35805090268ac2d80418fe46ab14aa05c7bb7a7"
+        },
+        {
+          "problem": "cauchyBinet",
+          "candidate_sha256": "994790e80889baaefcc81f42bf1fa6c1f627098c41c5e5809b64ff97e90bd5df"
+        },
+        {
+          "problem": "Cslib.FLP.PseudoConsensus.of_consensus",
+          "candidate_sha256": "868168edb118fb405d432b4dc2a11315ffa925c01f6469b355e0a3e2af68f526"
+        },
+        {
+          "problem": "Cslib.FLP.CanReachVia.subset_inp",
+          "candidate_sha256": "4c84305a345e8a9d383d86afed491748c5568ef7c6805c7fac90bfeae60cd885"
+        },
+        {
+          "problem": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+          "candidate_sha256": "b7e2d9d219ac718a609e1626a89a58815d3992b58aee611ea2f8e8cbb77ec233"
+        },
+        {
+          "problem": "interleaved_affine_gaps_imply_tensor_gaps",
+          "candidate_sha256": "c65148e1e2550dab63c34a2f4dc7650e0244cc97a5c49bf224c1dc1d7e292177"
+        },
+        {
+          "problem": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+          "candidate_sha256": "c817d213b218cbd682c009ba87dd070c393fce50e9178d45b89725893859a193"
+        },
+        {
+          "problem": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+          "candidate_sha256": "411958a042babbbee99d03e9bceaa7924533e39dc0537039681066242fed1255"
+        },
+        {
+          "problem": "JohnsonBound.johnson_bound_alphabet_free",
+          "candidate_sha256": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716"
+        },
+        {
+          "problem": "ProximityToRS.dir_close_of_many_close_pts",
+          "candidate_sha256": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5"
+        },
+        {
+          "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+          "candidate_sha256": "35af063aba4dd437ec2ecbb09ec10ede57e468870462e89b1f7599c2cc55c7bd"
+        },
+        {
+          "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+          "candidate_sha256": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000"
+        },
+        {
+          "problem": "putnam_1964_a4",
+          "candidate_sha256": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6"
+        },
+        {
+          "problem": "putnam_1995_a3",
+          "candidate_sha256": "61db6f57f1837d1fa7bf9615b01d58a2e6970af8d2c1c687bc4b687d71e0ca37"
+        },
+        {
+          "problem": "putnam_1988_a2",
+          "candidate_sha256": "89f9a454d95427b3e912c4aedd9c257aa93e249c1fb1eeb415aaf59eede728f9"
+        },
+        {
+          "problem": "putnam_2001_b1",
+          "candidate_sha256": "70bceffde22ead4869449e126cb7fad3d065f733758361c012b5c8dc97b0a5a7"
+        },
+        {
+          "problem": "putnam_1964_b2",
+          "candidate_sha256": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7"
+        },
+        {
+          "problem": "putnam_2007_a1",
+          "candidate_sha256": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c"
+        },
+        {
+          "problem": "putnam_1970_b5",
+          "candidate_sha256": "0b67223ef0c871c3e2c2839f70f59b1e841d774c5e59e6bd45524a87317a5472"
+        },
+        {
+          "problem": "putnam_1968_a1",
+          "candidate_sha256": "d629f763edb942ecabf48596012230777f4416e3ce5756737b0ab17702ee30c3"
+        },
+        {
+          "problem": "putnam_1991_b1",
+          "candidate_sha256": "4e4dc3b5911539ab71326e9835b286359fd8802098304d063ad7801fac39a629"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "problem": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+  "selected_candidate": "c039",
+  "review_status": "agent-source-comparison",
+  "human_approved": false,
+  "attribution": "joint",
+  "observed_bank_mechanisms": [
+    {
+      "strategy_id": "M10",
+      "observation_ko": "불일치 집합을 fiber 이미지의 합집합 안에 포함시키고 card_biUnion_le_card_mul/card_image_le로 상계한다. 정확한 합집합 크기·서로소성·전단사 증명을 생략한다."
+    },
+    {
+      "strategy_id": "M11",
+      "observation_ko": "거리·코드거리 부등식을 자연수의 곱 상계로 정리하고 마지막에만 ENat로 옮긴다. WithTop/ENat 표현 왕복과 중간 형변환을 줄인다."
+    }
+  ],
+  "additional_observed_transformations_ko": [
+    "반복되는 dependent Fin 인덱스와 경계 증거를 a/b, hi/his로 공유해 같은 구성의 재추론을 줄인다."
+  ],
+  "interpretation": "Joint whole-candidate metrics only. Three fresh HB measurements per required version passed; no individual-strategy causal gain is established."
+}

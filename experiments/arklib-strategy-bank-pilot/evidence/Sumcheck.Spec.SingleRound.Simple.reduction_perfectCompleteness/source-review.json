@@ -1,0 +1,15 @@
+{
+  "problem": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+  "selected_candidate": "c039",
+  "review_status": "agent-source-comparison",
+  "human_approved": false,
+  "attribution": "joint",
+  "observed_bank_mechanisms": [],
+  "additional_observed_transformations_ko": [
+    "실패 확률 0과 모든 출력의 타당성이라는 두 목표를 first로 같은 형태의 support 가정 hmem까지 맞춘 뒤, all_goals 아래에서 simulateQ/StateT 분해 절차를 공유한다.",
+    "none/some을 여러 번 나누는 대신 유효 입력 hValid를 hval2에 단순화하여 성공 출력의 형태를 직접 얻는다.",
+    "불필요해진 중간 가정을 clear해 마지막 단순화의 문맥을 줄인다."
+  ],
+  "bank_alignment_note_ko": "초기 추천 M06은 유한 입력 분해 후 kernel decide 전략이지만 최종 변환의 중심은 아니다. 반복 절차 공유는 M02와 관련되나 현재 카드의 매개변수화한 국소 보조정리 방식과 달라 일치 전략으로 강제 분류하지 않았다.",
+  "interpretation": "Both designated versions passed. This run supplies an observed proof-script-sharing recipe candidate, not proof that the initially recommended strategy caused improvement."
+}

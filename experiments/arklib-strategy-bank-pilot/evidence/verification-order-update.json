@@ -1,0 +1,6 @@
+{
+  "generation_policy_changed": false,
+  "model_calls_repeated": 0,
+  "rule": "Known deterministic compile failures determine required-version test order; every accepted proof still passes all versions with3measurements.",
+  "existing_responses": 270
+}

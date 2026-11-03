@@ -1,0 +1,23 @@
+{
+  "problem": "interleaved_affine_gaps_imply_tensor_gaps",
+  "selected_candidate": "c040",
+  "review_status": "agent-source-comparison",
+  "human_approved": false,
+  "attribution": "joint",
+  "observed_bank_mechanisms": [
+    {
+      "strategy_id": "M10",
+      "observation_ko": "원본의 R_star 정확한 기수 변환·분모 소거 보조논증을 제거하고, 확률 하계와 Pr_le_Pr_of_implies를 직접 연결한다."
+    },
+    {
+      "strategy_id": "M05",
+      "observation_ko": "한 번 쓰거나 최종 논증에 불필요한 중간 별칭·등식·보조사실을 제거하고 직접 정리 적용으로 연결한다."
+    }
+  ],
+  "additional_observed_transformations_ko": [
+    "양의 차원을 먼저 분해하고 predecessor에 귀납해 반복 양수 가정을 줄인다.",
+    "전체 random vector에 multilinearCombine_recursive_form을 직접 적용해 수동 snoc 복원 증명과 추가 rewrite를 제거한다.",
+    "최종 정규화는 제한된 simp only 정리 목록을 사용한다."
+  ],
+  "interpretation": "All-version success and total metric change belong to the complete candidate. No independent strategy effect is established."
+}
