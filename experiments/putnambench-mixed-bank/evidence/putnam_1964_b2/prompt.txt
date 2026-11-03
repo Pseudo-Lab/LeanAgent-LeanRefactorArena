@@ -1,0 +1,495 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. Then reduce repeated whole-context simplification or broad search using recorded evidence. Judge complete proof-token and heartbeat ratios together; a shorter proof can be worse. propose: state a short concrete approach in strategy and supply the complete replacement proof. repair: fix the reported errors in the named rejected parent, preserving working branches. search/inspect: retrieve a specific missing definition or theorem rather than repeatedly browsing. After repeated failure of the same approach, branch from another candidate or change the proof structure. Search is lexical evidence only, not a theorem-prover or availability guarantee. Every action consumes paid model budget. The controller stops after actual settled cost reaches $2.50. The exact statement and original full source context are preserved by the evaluator. Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. At final selection the controller checks candidates in score order against every required version, falling back to another candidate if needed. All listed versions must accept the final candidate. No extra imports or helper declarations.
+<original_context>
+[Original imports/header]
+import Mathlib
+import Aesop
+
+[Original prefix scope-command excerpts in source order]
+L4: set_option maxHeartbeats 0
+L5: 
+L6: open Set Function Filter Topology
+L7: 
+L8: 
+
+[Original prefix immediately before target]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Set Function Filter Topology
+
+
+
+[context-lines-1-8]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Set Function Filter Topology
+
+
+
+[import-Mathlib.LinearAlgebra.Dimension.Localization-ffe11c96-L166-224]
+-- Lexical source excerpt: module Mathlib.LinearAlgebra.Dimension.Localization, lines 166-224.
+  let _ : Algebra FT (FR ⊗[R] FT) := Algebra.TensorProduct.rightAlgebra
+  let _ := isLocalizedModule_iff_isLocalization.mp this |>.atUnits _ _ ?_ |>.symm.isField
+    (Field.toIsField FT) |>.toField
+  on_goal 2 => rintro _ ⟨_, mem, rfl⟩; exact (map_ne_zero_of_mem_nonZeroDivisors _ inj mem).isUnit
+  have := bc.comp_iff.2 ((isLocalizedModule_iff_isBaseChange T⁰ FT g).1 inferInstance)
+  rw [← lift_inj.{_, max uT uP}, lift_lift, lift_lift, ← lift_lift.{max uT uP, uM},
+    ← IsLocalizedModule.lift_rank_eq T⁰ g le_rfl, lift_lift, ← lift_lift.{uM},
+    ← IsLocalization.rank_eq FT T⁰ le_rfl,
+    lift_rank_eq_of_le_nonZeroDivisors FR (LocalizedModule.mkLinearMap R⁰ M) le_rfl
+      (map_le_nonZeroDivisors_of_injective _ inj le_rfl) this, lift_lift]
+
+theorem finrank_eq : finrank T P = finrank R M := by simpa using congr_arg toNat bc.lift_rank_eq
+
+omit bc
+theorem rank_eq {P : Type uM} [AddCommGroup P] [Module R P] [Module T P] [IsScalarTower R T P]
+    {g : M →ₗ[R] P} (bc : IsBaseChange T g) : Module.rank T P = Module.rank R M := by
+  simpa using bc.lift_rank_eq
+
+end IsBaseChange
+
+end CommRing
+
+section Ring
+
+variable {R} [Ring R] [IsDomain R]
+
+/-- A domain that is not (left) Ore is of infinite rank.
+See [cohn_1995] Proposition 1.3.6 -/
+lemma aleph0_le_rank_of_isEmpty_oreSet (hS : IsEmpty (OreLocalization.OreSet R⁰)) :
+    ℵ₀ ≤ Module.rank R R := by
+  classical
+  rw [← not_nonempty_iff, OreLocalization.nonempty_oreSet_iff_of_noZeroDivisors] at hS
+  push_neg at hS
+  obtain ⟨r, s, h⟩ := hS
+  refine Cardinal.aleph0_le.mpr fun n ↦ ?_
+  suffices LinearIndependent R (fun (i : Fin n) ↦ r * s ^ (i : ℕ)) by
+    simpa using this.cardinal_lift_le_rank
+  suffices ∀ (g : ℕ → R) (x), (∑ i ∈ Finset.range n, g i • (r * s ^ (i + x))) = 0 →
+      ∀ i < n, g i = 0 by
+    refine Fintype.linearIndependent_iff.mpr fun g hg i ↦ ?_
+    simpa only [dif_pos i.prop] using this (fun i ↦ if h : i < n then g ⟨i, h⟩ else 0) 0
+      (by simp [← Fin.sum_univ_eq_sum_range, ← hg]) i i.prop
+  intro g x hg i hin
+  induction n generalizing g x i with
+  | zero => exact (hin.not_ge (zero_le i)).elim
+  | succ n IH =>
+    rw [Finset.sum_range_succ'] at hg
+    by_cases hg0 : g 0 = 0
+    · simp only [hg0, zero_smul, add_zero, add_assoc] at hg
+      cases i; exacts [hg0, IH _ _ hg _ (Nat.succ_lt_succ_iff.mp hin)]
+    simp only [zero_add, pow_add _ _ x,
+      ← mul_assoc, pow_succ, ← Finset.sum_mul, smul_eq_mul] at hg
+    rw [← neg_eq_iff_add_eq_zero, ← neg_mul, ← neg_mul] at hg
+    have := mul_right_cancel₀ (mem_nonZeroDivisors_iff_ne_zero.mp (s ^ x).prop) hg
+    exact (h _ ⟨(g 0), mem_nonZeroDivisors_iff_ne_zero.mpr (by simpa)⟩ this.symm).elim
+
+-- TODO: Upgrade this to an iff. See [lam_1999] Exercise 10.21
+lemma nonempty_oreSet_of_strongRankCondition [StrongRankCondition R] :
+    Nonempty (OreLocalization.OreSet R⁰) := by
+
+
+[import-Mathlib.Algebra.Module.ZLattice.Summable-834d2e83-L172-223]
+-- Lexical source excerpt: module Mathlib.Algebra.Module.ZLattice.Summable, lines 172-223.
+set_option linter.flexible false in -- simp followed by positivity
+lemma exists_finsetSum_norm_rpow_le_tsum :
+    ∃ A > (0 : ℝ), ∀ r < (-Module.finrank ℤ L : ℝ), ∀ s : Finset L,
+      ∑ z ∈ s, ‖z‖ ^ r ≤ A ^ r * ∑' k : ℕ, (k : ℝ) ^ (Module.finrank ℤ L - 1 + r) := by
+  classical
+  cases subsingleton_or_nontrivial L
+  · refine ⟨1, zero_lt_one, fun r hr s ↦ ?_⟩
+    have hr : r ≠ 0 := by linarith
+    simpa [Subsingleton.elim _ (0 : L), Real.zero_rpow hr] using tsum_nonneg fun _ ↦ by positivity
+  classical
+  let I : Type _ := Module.Free.ChooseBasisIndex ℤ L
+  have : Fintype I := inferInstance
+  let b : Basis I ℤ L := Module.Free.chooseBasis ℤ L
+  simp_rw [Module.finrank_eq_card_basis b]
+  set d := Fintype.card I
+  have hd : d ≠ 0 := by simp [d]
+  let ε := normBound b
+  obtain ⟨A, hA, B, hB, H⟩ : ∃ A > (0 : ℝ), ∃ B > (0 : ℝ), ∀ r < (-d : ℝ), ∀ s : Finset L,
+      ∑ z ∈ s, ‖z‖ ^ r ≤ A * B ^ r * ∑' k : ℕ, (k : ℝ) ^ (d - 1 + r) := by
+    refine ⟨2 * d * 3 ^ (d - 1), by positivity, ε, normBound_pos b, fun r hr u ↦ ?_⟩
+    let e : (I → ℤ) ≃ₗ[ℤ] L := (b.repr ≪≫ₗ Finsupp.linearEquivFunOnFinite _ _ _).symm
+    obtain ⟨u, rfl⟩ : ∃ u' : Finset _, u = u'.image e.toEmbedding :=
+      ⟨u.image e.symm.toEmbedding, Finset.coe_injective
+        (by simpa using (e.image_symm_image _).symm)⟩
+    dsimp
+    simp only [EmbeddingLike.apply_eq_iff_eq, implies_true, Set.injOn_of_eq_iff_eq,
+      Finset.sum_image, ge_iff_le]
+    obtain ⟨n, hn⟩ : ∃ n : ℕ, u ⊆ Fintype.piFinset fun _ : I ↦ Finset.Icc (-n : ℤ) n := by
+      obtain ⟨r, hr, hr'⟩ := u.finite_toSet.isCompact.isBounded.subset_closedBall_lt 0 0
+      refine ⟨⌊r⌋.toNat, fun x hx ↦ ?_⟩
+      have hr'' : ⌊r⌋ ⊔ 0 = ⌊r⌋ := by simp; positivity
+      have := hr' hx
+      simp only [Metric.mem_closedBall, dist_zero_right, pi_norm_le_iff_of_nonneg hr.le,
+        Int.norm_eq_abs, ← Int.cast_abs, ← Int.le_floor] at this
+      simpa only [Int.ofNat_toNat, Fintype.mem_piFinset, Finset.mem_Icc, ← abs_le, hr'']
+    refine (Finset.sum_le_sum_of_subset_of_nonneg hn (by intros; positivity)).trans ?_
+    dsimp
+    simp only [Submodule.norm_coe]
+    convert sum_piFinset_Icc_rpow_le b rfl n r hr with x
+    simp [e, Finsupp.linearCombination]
+    rfl
+  by_cases hA' : A ≤ 1
+  · refine ⟨B, hB, fun r hr s ↦ (H r hr s).trans ?_⟩
+    rw [mul_assoc]
+    exact mul_le_of_le_one_left (mul_nonneg (by positivity) (by positivity)) hA'
+  · refine ⟨A⁻¹ * B, mul_pos (inv_pos.mpr hA) hB, fun r hr s ↦ (H r hr s).trans ?_⟩
+    rw [Real.mul_rpow (inv_pos.mpr hA).le hB.le, mul_assoc, mul_assoc]
+    refine mul_le_mul_of_nonneg_right ?_ (mul_nonneg (by positivity) (by positivity))
+    rw [← Real.rpow_neg_one, ← Real.rpow_mul hA.le]
+    refine Real.self_le_rpow_of_one_le (not_le.mp hA').le ?_
+    simp only [neg_mul, one_mul, le_neg (b := r)]
+    refine hr.le.trans ?_
+
+
+[import-Mathlib.Topology.Compactness.Compact-c712e0a4-L500-560]
+-- Lexical source excerpt: module Mathlib.Topology.Compactness.Compact, lines 500-560.
+  obtain ⟨W, hsubW, W_op, hWU⟩ := exists_open_set_nhds hU
+  suffices ∃ i, V i ⊆ W from this.imp fun i hi => hi.trans hWU
+  by_contra! H
+  replace H : ∀ i, (V i ∩ Wᶜ).Nonempty := fun i => Set.inter_compl_nonempty_iff.mpr (H i)
+  have : (⋂ i, V i ∩ Wᶜ).Nonempty := by
+    refine
+      IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed _ (fun i j => ?_) H
+        (fun i => (hV_cpct i).inter_right W_op.isClosed_compl) fun i =>
+        (hV_closed i).inter W_op.isClosed_compl
+    rcases hV i j with ⟨k, hki, hkj⟩
+    refine ⟨k, ⟨fun x => ?_, fun x => ?_⟩⟩ <;> simp only [and_imp, mem_inter_iff, mem_compl_iff] <;>
+      tauto
+  have : ¬⋂ i : ι, V i ⊆ W := by simpa [← iInter_inter, inter_compl_nonempty_iff]
+  contradiction
+
+omit [TopologicalSpace X] in
+/--
+**Alexander's subbasis theorem**. Suppose `X` is a topological space with a subbasis `S` and `s` is
+a subset of `X`. Then `s` is compact if for any open cover of `s` with all elements taken from `S`,
+there is a finite subcover.
+-/
+theorem isCompact_generateFrom [T : TopologicalSpace X]
+    {S : Set (Set X)} (hTS : T = generateFrom S) {s : Set X}
+    (h : ∀ P ⊆ S, s ⊆ ⋃₀ P → ∃ Q ⊆ P, Q.Finite ∧ s ⊆ ⋃₀ Q) :
+    IsCompact s := by
+  rw [isCompact_iff_ultrafilter_le_nhds', hTS]
+  intro F hsF
+  by_contra hF
+  have hSF : ∀ x ∈ s, ∃ t, x ∈ t ∧ t ∈ S ∧ t ∉ F := by simpa [nhds_generateFrom] using hF
+  choose! U hxU hSU hUF using hSF
+  obtain ⟨Q, hQU, hQ, hsQ⟩ := h (U '' s) (by simpa [Set.subset_def])
+    (fun x hx ↦ Set.mem_sUnion_of_mem (hxU _ hx) (by aesop))
+  have : ∀ s ∈ Q, s ∉ F := fun s hsQ ↦ (hQU hsQ).choose_spec.2 ▸ hUF _ (hQU hsQ).choose_spec.1
+  have hQF : ⋂₀ (compl '' Q) ∈ F.sets := by simpa [Filter.biInter_mem hQ, F.compl_mem_iff_notMem]
+  have : ⋃₀ Q ∉ F := by
+    simpa [-Set.sInter_image, ← Set.compl_sUnion, hsQ, F.compl_mem_iff_notMem] using hQF
+  exact this (F.mem_of_superset hsF hsQ)
+
+omit [TopologicalSpace X] in
+theorem isCompact_generateFrom' [T : TopologicalSpace X]
+    {S : Set (Set X)} (hTS : T = generateFrom S) {s : Set X}
+    (h : ∀ (ι : Type u) (U : ι → S), s ⊆ ⋃ i, U i → ∃ J : Set ι, J.Finite ∧ s ⊆ ⋃ i ∈ J, U i) :
+    IsCompact s := by
+  apply isCompact_generateFrom hTS
+  intro P hP hs
+  rw [Set.sUnion_eq_iUnion] at hs
+  obtain ⟨J, hJ, cover⟩ := h P (fun a ↦ ⟨a.1, hP a.2⟩) hs
+  refine ⟨(fun x ↦ x.1) '' J, ⟨by simp, Set.Finite.image _ hJ, ?_⟩⟩
+  simpa only [Set.sUnion_eq_iUnion, Set.iUnion_coe_set, Set.mem_image, Subtype.exists,
+    exists_and_right, exists_eq_right, Set.iUnion_exists] using cover
+
+namespace Filter
+
+theorem hasBasis_cocompact : (cocompact X).HasBasis IsCompact compl :=
+  hasBasis_biInf_principal'
+    (fun s hs t ht =>
+      ⟨s ∪ t, hs.union ht, compl_subset_compl.2 subset_union_left,
+        compl_subset_compl.2 subset_union_right⟩)
+    ⟨∅, isCompact_empty⟩
+
+theorem mem_cocompact : s ∈ cocompact X ↔ ∃ t, IsCompact t ∧ tᶜ ⊆ s :=
+
+
+[import-Mathlib.LinearAlgebra.Matrix.Irreducible.Defs-142298a0-L123-187]
+-- Lexical source excerpt: module Mathlib.LinearAlgebra.Matrix.Irreducible.Defs, lines 123-187.
+    rw [pow_succ, mul_apply]
+    constructor
+    · intro h_pos
+      obtain ⟨l, hl_mem, hl_pos⟩ :
+          ∃ l ∈ (Finset.univ : Finset n), 0 < (A ^ m) i l * A l j := by
+        simpa [Finset.sum_pos_iff_of_nonneg
+                 (fun x _ => mul_nonneg (pow_apply_nonneg hA m i x) (hA x j))]
+          using h_pos
+      have hAm_nonneg : 0 ≤ (A ^ m) i l := pow_apply_nonneg hA m i l
+      have hA_nonneg' : 0 ≤ A l j := hA l j
+      have h_Am : 0 < (A ^ m) i l := by by_contra! h; simp [le_antisymm h hAm_nonneg] at hl_pos
+      have h_A : 0 < A l j := by by_contra! h; simp [le_antisymm h hA_nonneg'] at hl_pos
+      obtain ⟨⟨p, rfl⟩⟩ := (ih i l).mp h_Am
+      exact ⟨p.cons h_A, by simp⟩
+    · rintro ⟨p, hp_len⟩
+      cases p with
+      | nil => simp [Quiver.Path.length] at hp_len
+      | @cons b _ q e =>
+        simp only [Quiver.Path.length_cons, Nat.succ.injEq] at hp_len
+        have h_Am_pos : 0 < (A ^ m) i b := (ih i b).mpr ⟨q, hp_len⟩
+        let h_A_pos := e
+        have h_prod : 0 < (A ^ m) i b * A b j := mul_pos h_Am_pos h_A_pos
+        exact
+          (Finset.sum_pos_iff_of_nonneg
+            (fun x _ => mul_nonneg (pow_apply_nonneg hA m i x) (hA x j))).2
+            ⟨b, Finset.mem_univ b, h_prod⟩
+
+/-- Irreducibility of a nonnegative matrix `A` is equivalent to entrywise positivity of some
+power: between any two indices `i, j` there exists a positive integer `k` such that the
+`(i, j)`-entry of `A ^ k` is strictly positive. -/
+theorem isIrreducible_iff_exists_pow_pos
+    [Fintype n] [IsOrderedRing R] [PosMulStrictMono R] [Nontrivial R] [DecidableEq n]
+    (hA : ∀ i j, 0 ≤ A i j) :
+    IsIrreducible A ↔ ∀ i j, ∃ k > 0, 0 < (A ^ k) i j := by
+  letI : Quiver n := toQuiver A
+  constructor
+  · intro h_irr i j
+    obtain ⟨p, hp_len⟩ := h_irr.2 i j
+    refine ⟨p.length, hp_len, ?_⟩
+    have : Nonempty {q : Path i j // q.length = p.length} := ⟨⟨p, rfl⟩⟩
+    have hpos :=
+      (pow_apply_pos_iff_nonempty_path (A := A) hA p.length i j).2 this
+    simpa using hpos
+  · intro h_exists
+    constructor
+    · exact hA
+    · intro i j
+      obtain ⟨k, hk_pos, hk_entry⟩ := h_exists i j
+      obtain ⟨⟨p, hp_len⟩⟩ :=
+        (pow_apply_pos_iff_nonempty_path (A := A) hA k i j).mp hk_entry
+      subst hp_len
+      exact ⟨p, hk_pos⟩
+
+/-- If a nonnegative square matrix `A` is primitive, then `A` is irreducible. -/
+theorem IsPrimitive.isIrreducible
+    [Fintype n] [IsOrderedRing R] [PosMulStrictMono R] [Nontrivial R] [DecidableEq n]
+    (h_prim : IsPrimitive A) : IsIrreducible A := by
+  obtain ⟨h_nonneg, k, hk_pos, hk_all⟩ := h_prim
+  rw [isIrreducible_iff_exists_pow_pos h_nonneg]
+  aesop
+
+/-! ## Transposition -/
+
+/-- Reverse a path in `toQuiver A` to a path in `toQuiver Aᵀ`, swapping endpoints. -/
+def transposePath {i j : n} (p : @Quiver.Path n A.toQuiver i j) :
+
+
+[import-Mathlib.Topology.Irreducible-c495441f-L288-347]
+-- Lexical source excerpt: module Mathlib.Topology.Irreducible, lines 288-347.
+    subset_compl_iff_disjoint_right, not_disjoint_iff_nonempty_inter]
+
+/-- A nonempty open subset of a preirreducible subspace is dense in the subspace. -/
+theorem subset_closure_inter_of_isPreirreducible_of_isOpen {S U : Set X} (hS : IsPreirreducible S)
+    (hU : IsOpen U) (h : (S ∩ U).Nonempty) : S ⊆ closure (S ∩ U) := by
+  by_contra h'
+  obtain ⟨x, h₁, h₂, h₃⟩ :=
+    hS _ (closure (S ∩ U))ᶜ hU isClosed_closure.isOpen_compl h (inter_compl_nonempty_iff.mpr h')
+  exact h₃ (subset_closure ⟨h₁, h₂⟩)
+
+/-- If `∅ ≠ U ⊆ S ⊆ t` such that `U` is open and `t` is preirreducible, then `S` is irreducible. -/
+theorem IsPreirreducible.subset_irreducible {S U : Set X} (ht : IsPreirreducible t)
+    (hU : U.Nonempty) (hU' : IsOpen U) (h₁ : U ⊆ S) (h₂ : S ⊆ t) : IsIrreducible S := by
+  obtain ⟨z, hz⟩ := hU
+  replace ht : IsIrreducible t := ⟨⟨z, h₂ (h₁ hz)⟩, ht⟩
+  refine ⟨⟨z, h₁ hz⟩, ?_⟩
+  rintro u v hu hv ⟨x, hx, hx'⟩ ⟨y, hy, hy'⟩
+  classical
+  obtain ⟨x, -, hx'⟩ : Set.Nonempty (t ∩ ⋂₀ ↑({U, u, v} : Finset (Set X))) := by
+    refine isIrreducible_iff_sInter.mp ht {U, u, v} ?_ ?_
+    · simp [*]
+    · intro U H
+      simp only [Finset.mem_insert, Finset.mem_singleton] at H
+      rcases H with (rfl | rfl | rfl)
+      exacts [⟨z, h₂ (h₁ hz), hz⟩, ⟨x, h₂ hx, hx'⟩, ⟨y, h₂ hy, hy'⟩]
+  replace hx' : x ∈ U ∧ x ∈ u ∧ x ∈ v := by simpa using hx'
+  exact ⟨x, h₁ hx'.1, hx'.2⟩
+
+theorem IsPreirreducible.open_subset {U : Set X} (ht : IsPreirreducible t) (hU : IsOpen U)
+    (hU' : U ⊆ t) : IsPreirreducible U :=
+  U.eq_empty_or_nonempty.elim (fun h => h.symm ▸ isPreirreducible_empty) fun h =>
+    (ht.subset_irreducible h hU (fun _ => id) hU').2
+
+theorem IsPreirreducible.interior (ht : IsPreirreducible t) : IsPreirreducible (interior t) :=
+  ht.open_subset isOpen_interior interior_subset
+
+theorem IsPreirreducible.preimage (ht : IsPreirreducible t) {f : Y → X}
+    (hf : IsOpenEmbedding f) : IsPreirreducible (f ⁻¹' t) := by
+  rintro U V hU hV ⟨x, hx, hx'⟩ ⟨y, hy, hy'⟩
+  obtain ⟨_, h₁, ⟨y, h₂, rfl⟩, ⟨y', h₃, h₄⟩⟩ :=
+    ht _ _ (hf.isOpenMap _ hU) (hf.isOpenMap _ hV) ⟨f x, hx, Set.mem_image_of_mem f hx'⟩
+      ⟨f y, hy, Set.mem_image_of_mem f hy'⟩
+  cases hf.injective h₄
+  exact ⟨y, h₁, h₂, h₃⟩
+
+section
+
+open Set.Notation
+
+@[stacks 004Z]
+lemma IsPreirreducible.preimage_of_dense_isPreirreducible_fiber
+    {V : Set Y} (hV : IsPreirreducible V) (f : X → Y) (hf' : IsOpenMap f)
+    (hf'' : V ⊆ closure (V ∩ { x | IsPreirreducible (f ⁻¹' {x}) })) :
+    IsPreirreducible (f ⁻¹' V) := by
+  rintro U₁ U₂ hU₁ hU₂ ⟨x, hxV, hxU₁⟩ ⟨y, hyV, hyU₂⟩
+  obtain ⟨z, hzV, hz₁, hz₂⟩ :=
+    hV _ _ (hf' _ hU₁) (hf' _ hU₂) ⟨f x, hxV, x, hxU₁, rfl⟩ ⟨f y, hyV, y, hyU₂, rfl⟩
+  obtain ⟨z, ⟨⟨z₁, hz₁, e₁⟩, ⟨z₂, hz₂, e₂⟩⟩, hzV, hz⟩ :=
+    mem_closure_iff.mp (hf'' hzV) _ ((hf' _ hU₁).inter (hf' _ hU₂)) ⟨hz₁, hz₂⟩
+  obtain ⟨z₃, hz₃, hz₃'⟩ := hz _ _ hU₁ hU₂ ⟨z₁, e₁, hz₁⟩ ⟨z₂, e₂, hz₂⟩
+
+
+[import-Mathlib.Topology.Separation.Basic-d0730a95-L1000-1055]
+-- Lexical source excerpt: module Mathlib.Topology.Separation.Basic, lines 1000-1055.
+  exact ⟨K \ O₁, K \ O₂, hK.diff h1O₁, hK.diff h1O₂, diff_subset_comm.mp h2O₁,
+    diff_subset_comm.mp h2O₂, by rw [← diff_inter, hO.inter_eq, diff_empty]⟩
+
+/-- For every finite open cover `Uᵢ` of a compact set, there exists a compact cover `Kᵢ ⊆ Uᵢ`. -/
+theorem IsCompact.finite_compact_cover {s : Set X} (hs : IsCompact s) {ι : Type*}
+    (t : Finset ι) (U : ι → Set X) (hU : ∀ i ∈ t, IsOpen (U i)) (hsC : s ⊆ ⋃ i ∈ t, U i) :
+    ∃ K : ι → Set X, (∀ i, IsCompact (K i)) ∧ (∀ i, K i ⊆ U i) ∧ s = ⋃ i ∈ t, K i := by
+  classical
+  induction t using Finset.induction generalizing U s with
+  | empty =>
+    refine ⟨fun _ => ∅, fun _ => isCompact_empty, fun i => empty_subset _, ?_⟩
+    simpa only [subset_empty_iff, Finset.notMem_empty, iUnion_false, iUnion_empty] using hsC
+  | insert x t hx ih =>
+    simp only [Finset.set_biUnion_insert] at hsC
+    simp only [Finset.forall_mem_insert] at hU
+    have hU' : ∀ i ∈ t, IsOpen (U i) := fun i hi => hU.2 i hi
+    rcases hs.binary_compact_cover hU.1 (isOpen_biUnion hU') hsC with
+      ⟨K₁, K₂, h1K₁, h1K₂, h2K₁, h2K₂, hK⟩
+    rcases ih h1K₂ U hU' h2K₂ with ⟨K, h1K, h2K, h3K⟩
+    refine ⟨update K x K₁, ?_, ?_, ?_⟩
+    · intro i
+      rcases eq_or_ne i x with rfl | hi
+      · simp only [update_self, h1K₁]
+      · simp only [update_of_ne hi, h1K]
+    · intro i
+      rcases eq_or_ne i x with rfl | hi
+      · simp only [update_self, h2K₁]
+      · simp only [update_of_ne hi, h2K]
+    · simp only [Finset.set_biUnion_insert_update _ hx, hK, h3K]
+
+theorem R1Space.of_continuous_specializes_imp [TopologicalSpace Y] {f : Y → X} (hc : Continuous f)
+    (hspec : ∀ x y, f x ⤳ f y → x ⤳ y) : R1Space Y where
+  specializes_or_disjoint_nhds x y := (specializes_or_disjoint_nhds (f x) (f y)).imp (hspec x y) <|
+    ((hc.tendsto _).disjoint · (hc.tendsto _))
+
+theorem Topology.IsInducing.r1Space [TopologicalSpace Y] {f : Y → X} (hf : IsInducing f) :
+    R1Space Y := .of_continuous_specializes_imp hf.continuous fun _ _ ↦ hf.specializes_iff.1
+
+protected theorem R1Space.induced (f : Y → X) : @R1Space Y (.induced f ‹_›) :=
+  @IsInducing.r1Space _ _ _ _ (.induced f _) f (.induced f)
+
+instance (p : X → Prop) : R1Space (Subtype p) := .induced _
+
+protected theorem R1Space.sInf {X : Type*} {T : Set (TopologicalSpace X)}
+    (hT : ∀ t ∈ T, @R1Space X t) : @R1Space X (sInf T) := by
+  let _ := sInf T
+  refine ⟨fun x y ↦ ?_⟩
+  simp only [Specializes, nhds_sInf]
+  by_cases! hTd : ∃ t ∈ T, Disjoint (@nhds X t x) (@nhds X t y)
+  · rcases hTd with ⟨t, htT, htd⟩
+    exact .inr <| htd.mono (iInf₂_le t htT) (iInf₂_le t htT)
+  · exact .inl <| iInf₂_mono fun t ht ↦ ((hT t ht).1 x y).resolve_right (hTd t ht)
+
+protected theorem R1Space.iInf {ι X : Type*} {t : ι → TopologicalSpace X}
+    (ht : ∀ i, @R1Space X (t i)) : @R1Space X (iInf t) :=
+  .sInf <| forall_mem_range.2 ht
+
+
+[import-Mathlib.Topology.Connected.Clopen-5ebd3f28-L225-285]
+-- Lexical source excerpt: module Mathlib.Topology.Connected.Clopen, lines 225-285.
+    {x y : α} (hx : x ∈ s) (hy : y ∈ s) : P x y := by
+  let Q : s → s → Prop := fun a b ↦ P a b
+  change Q ⟨x, hx⟩ ⟨y, hy⟩
+  have : PreconnectedSpace s := Subtype.preconnectedSpace hs
+  apply PreconnectedSpace.induction₂'
+  · rintro ⟨x, hx⟩
+    have Z := h x hx
+    rwa [nhdsWithin_eq_map_subtype_coe] at Z
+  · rintro ⟨a, ha⟩ ⟨b, hb⟩ ⟨c, hc⟩ hab hbc
+    exact h' a b c ha hb hc hab hbc
+
+/-- In a preconnected set, if a symmetric transitive relation `P x y` is true for `y` close
+enough to `x`, then it holds for all `x, y`. This is a version of the fact that, if an equivalence
+relation has open classes, then it has a single equivalence class. -/
+lemma IsPreconnected.induction₂ {s : Set α} (hs : IsPreconnected s) (P : α → α → Prop)
+    (h : ∀ x ∈ s, ∀ᶠ y in 𝓝[s] x, P x y)
+    (h' : ∀ x y z, x ∈ s → y ∈ s → z ∈ s → P x y → P y z → P x z)
+    (h'' : ∀ x y, x ∈ s → y ∈ s → P x y → P y x)
+    {x y : α} (hx : x ∈ s) (hy : y ∈ s) : P x y := by
+  apply hs.induction₂' P (fun z hz ↦ ?_) h' hx hy
+  filter_upwards [h z hz, self_mem_nhdsWithin] with a ha h'a
+  exact ⟨ha, h'' z a hz h'a ha⟩
+
+/-- A set `s` is preconnected if and only if for every cover by two open sets that are disjoint on
+`s`, it is contained in one of the two covering sets. -/
+theorem isPreconnected_iff_subset_of_disjoint {s : Set α} :
+    IsPreconnected s ↔
+      ∀ u v, IsOpen u → IsOpen v → s ⊆ u ∪ v → s ∩ (u ∩ v) = ∅ → s ⊆ u ∨ s ⊆ v := by
+  constructor <;> intro h
+  · intro u v hu hv hs huv
+    specialize h u v hu hv hs
+    contrapose! huv
+    simp only [not_subset] at huv
+    rcases huv with ⟨⟨x, hxs, hxu⟩, ⟨y, hys, hyv⟩⟩
+    have hxv : x ∈ v := or_iff_not_imp_left.mp (hs hxs) hxu
+    have hyu : y ∈ u := or_iff_not_imp_right.mp (hs hys) hyv
+    exact h ⟨y, hys, hyu⟩ ⟨x, hxs, hxv⟩
+  · intro u v hu hv hs hsu hsv
+    by_contra H
+    specialize h u v hu hv hs (Set.not_nonempty_iff_eq_empty.mp H)
+    apply H
+    rcases h with h | h
+    · rcases hsv with ⟨x, hxs, hxv⟩
+      exact ⟨x, hxs, ⟨h hxs, hxv⟩⟩
+    · rcases hsu with ⟨x, hxs, hxu⟩
+      exact ⟨x, hxs, ⟨hxu, h hxs⟩⟩
+
+/-- A set `s` is connected if and only if
+for every cover by a finite collection of open sets that are pairwise disjoint on `s`,
+it is contained in one of the members of the collection. -/
+theorem isConnected_iff_sUnion_disjoint_open {s : Set α} :
+    IsConnected s ↔
+      ∀ U : Finset (Set α), (∀ u v : Set α, u ∈ U → v ∈ U → (s ∩ (u ∩ v)).Nonempty → u = v) →
+        (∀ u ∈ U, IsOpen u) → (s ⊆ ⋃₀ ↑U) → ∃ u ∈ U, s ⊆ u := by
+  rw [IsConnected, isPreconnected_iff_subset_of_disjoint]
+  classical
+  refine ⟨fun ⟨hne, h⟩ U hU hUo hsU => ?_, fun h => ⟨?_, fun u v hu hv hs hsuv => ?_⟩⟩
+  · induction U using Finset.induction_on with
+    | empty => exact absurd (by simpa using hsU) hne.not_subset_empty
+    | insert u U uU IH =>
+      simp only [← forall_cond_comm, Finset.forall_mem_insert, Finset.exists_mem_insert,
+
+</original_context>

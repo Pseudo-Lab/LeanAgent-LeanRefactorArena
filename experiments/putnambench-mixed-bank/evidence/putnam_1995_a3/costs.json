@@ -1,0 +1,3938 @@
+[
+  {
+    "attempt_id": "F052-0001",
+    "step": 1,
+    "cost_usd": "0.028661",
+    "cost_receipt": {
+      "cost_usd": "0.028661",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 1293,
+      "cached_input_tokens": 0,
+      "cache_write_30m_tokens": 8942,
+      "completion_tokens_including_reasoning": 372,
+      "reasoning_tokens_already_included": 335,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "e38bccbcaf5a5d1572597bc471f1b59da26f66951556671b22ef384be293d8e3"
+    },
+    "usage": {
+      "prompt_tokens": 10235,
+      "completion_tokens": 372,
+      "total_tokens": 10607,
+      "prompt_tokens_details": {
+        "cached_tokens": 0,
+        "cache_write_tokens": 8942,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 335,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "41451f74dd4a718d1562c30bb3b5e850a986219f21b5f86b8283bfe7f43b0e92"
+  },
+  {
+    "attempt_id": "F052-0002",
+    "step": 2,
+    "cost_usd": "0.0135802",
+    "cost_receipt": {
+      "cost_usd": "0.0135802",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 4853,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 298,
+      "reasoning_tokens_already_included": 260,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "3f48b8334eaf2d377f064b7aec3dc32d0c60d34311db80b6a0c45f25c64e358b"
+    },
+    "usage": {
+      "prompt_tokens": 13795,
+      "completion_tokens": 298,
+      "total_tokens": 14093,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 260,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "8c695f3ca5f079924bbc4117deacc57b9c0e1ced564bbe64350f5fe8e2589f91"
+  },
+  {
+    "attempt_id": "F052-0003",
+    "step": 3,
+    "cost_usd": "0.0187482",
+    "cost_receipt": {
+      "cost_usd": "0.0187482",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 6392,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 507,
+      "reasoning_tokens_already_included": 476,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "c90e0ca4c958c4c5175419a4d81c4a059b7ecda5262a2decc2068f15c24a8d6e"
+    },
+    "usage": {
+      "prompt_tokens": 15334,
+      "completion_tokens": 507,
+      "total_tokens": 15841,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 476,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "ee3b237afe9171a8ca7460b652d2519af3e40ed45c2f7e6c9efc6c9aa929feff"
+  },
+  {
+    "attempt_id": "F052-0004",
+    "step": 4,
+    "cost_usd": "0.0202502",
+    "cost_receipt": {
+      "cost_usd": "0.0202502",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 8023,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 331,
+      "reasoning_tokens_already_included": 284,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "ee35dd3a58ffe8f1b67e2a53d482806c3182c7db1b308d030611c9efc8a50cac"
+    },
+    "usage": {
+      "prompt_tokens": 16965,
+      "completion_tokens": 331,
+      "total_tokens": 17296,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 284,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "28b8b8ddb81fa311c1e241cb3a343619020d64e5873a568448687d5d3e0b5daf"
+  },
+  {
+    "attempt_id": "F052-0005",
+    "step": 5,
+    "cost_usd": "0.0277522",
+    "cost_receipt": {
+      "cost_usd": "0.0277522",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9114,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 863,
+      "reasoning_tokens_already_included": 814,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "d6a402c7bdb6941f2889ce7fef9928907986446e29c38e0c51fc0855434f9642"
+    },
+    "usage": {
+      "prompt_tokens": 18056,
+      "completion_tokens": 863,
+      "total_tokens": 18919,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 814,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "cb533e3ce32ff11247af2b58e98830fad6fa4d95fb75e9d016ca9a507c8ec581"
+  },
+  {
+    "attempt_id": "F052-0006",
+    "step": 6,
+    "cost_usd": "0.0404982",
+    "cost_receipt": {
+      "cost_usd": "0.0404982",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9527,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 2055,
+      "reasoning_tokens_already_included": 1363,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "617d8a3c100ddcc427e9a3044210e0ebb4dfdeb687f6a1e337fd41840e86c32d"
+    },
+    "usage": {
+      "prompt_tokens": 18469,
+      "completion_tokens": 2055,
+      "total_tokens": 20524,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1363,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "669e8bd50ef53e736156b981e642f6543e368a4c3ca3b141343e1b7988362b38"
+  },
+  {
+    "attempt_id": "F052-0007",
+    "step": 7,
+    "cost_usd": "0.0300722",
+    "cost_receipt": {
+      "cost_usd": "0.0300722",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 8239,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1270,
+      "reasoning_tokens_already_included": 512,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "3efd5eb3cc5c22c6264425c9d895f5a0e3f32a901bf241505bd38194c1258cee"
+    },
+    "usage": {
+      "prompt_tokens": 17181,
+      "completion_tokens": 1270,
+      "total_tokens": 18451,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 512,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "58343f614c5e0e1c3b7cba55d79196e3a8a99d3175e48dafddd2d5c9b35f01f2"
+  },
+  {
+    "attempt_id": "F052-0008",
+    "step": 8,
+    "cost_usd": "0.0232242",
+    "cost_receipt": {
+      "cost_usd": "0.0232242",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 6565,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 920,
+      "reasoning_tokens_already_included": 161,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "cefa21131b840fd6de93e09fe5f45e04b3368909f4765423672f971a17ca52b7"
+    },
+    "usage": {
+      "prompt_tokens": 15507,
+      "completion_tokens": 920,
+      "total_tokens": 16427,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 161,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "17c831e890fdf84c636a065d12d4ac4c78923012609d7e3e283ac5ca6697709c"
+  },
+  {
+    "attempt_id": "F052-0009",
+    "step": 9,
+    "cost_usd": "0.0253422",
+    "cost_receipt": {
+      "cost_usd": "0.0253422",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 5739,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1297,
+      "reasoning_tokens_already_included": 512,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "99a482adb74c22afc85684bd6716af21c2e8efa5d321eb3681a8c6ebbceb9870"
+    },
+    "usage": {
+      "prompt_tokens": 14681,
+      "completion_tokens": 1297,
+      "total_tokens": 15978,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 512,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "6c6125efd133209e901ea68934658155b534b46e6b9b87e4d0778e4f5c0ad4de"
+  },
+  {
+    "attempt_id": "F052-0010",
+    "step": 10,
+    "cost_usd": "0.0118922",
+    "cost_receipt": {
+      "cost_usd": "0.0118922",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 4319,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 236,
+      "reasoning_tokens_already_included": 212,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "10095a9a3f082619cc2c8a4d5bf4b252fe7d7d61258095b2da0b8c56421c551b"
+    },
+    "usage": {
+      "prompt_tokens": 13261,
+      "completion_tokens": 236,
+      "total_tokens": 13497,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 212,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "9000b2cb25485318d70d445813cfa775acfc9f28f743af1174a4d2b6284b2b23"
+  },
+  {
+    "attempt_id": "F052-0011",
+    "step": 11,
+    "cost_usd": "0.0091402",
+    "cost_receipt": {
+      "cost_usd": "0.0091402",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 3368,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 151,
+      "reasoning_tokens_already_included": 123,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "88e5a7d5b382f7737efc0979554eb503949d02853b52302ef74f1cdb694febe0"
+    },
+    "usage": {
+      "prompt_tokens": 12310,
+      "completion_tokens": 151,
+      "total_tokens": 12461,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 123,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "6785799e4b4d26d60131b1aea92becee9db83fd73624594461f99de3325a6239"
+  },
+  {
+    "attempt_id": "F052-0012",
+    "step": 12,
+    "cost_usd": "0.0287482",
+    "cost_receipt": {
+      "cost_usd": "0.0287482",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 5572,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1671,
+      "reasoning_tokens_already_included": 902,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "fbb4ba7f13b13297fa6eb1a101648d75e1a40a069f36b4d7825b1b2512e3c0a8"
+    },
+    "usage": {
+      "prompt_tokens": 14514,
+      "completion_tokens": 1671,
+      "total_tokens": 16185,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 902,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "82bb09cfeb2a610449cafdade81f4b7cd4b69fedae60ebd54a5cb45aafd185bf"
+  },
+  {
+    "attempt_id": "F052-0013",
+    "step": 13,
+    "cost_usd": "0.0173962",
+    "cost_receipt": {
+      "cost_usd": "0.0173962",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 6581,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 334,
+      "reasoning_tokens_already_included": 292,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "d143aff40bc612eef38ffc8af6be50e4af276f99642b7a9126ffefb3d787e5a6"
+    },
+    "usage": {
+      "prompt_tokens": 15523,
+      "completion_tokens": 334,
+      "total_tokens": 15857,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 292,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "9dc2d639a52460b0d151efe5552015a479098be413037b93fa616b1e19d816bb"
+  },
+  {
+    "attempt_id": "F052-0014",
+    "step": 14,
+    "cost_usd": "0.0248282",
+    "cost_receipt": {
+      "cost_usd": "0.0248282",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9882,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 417,
+      "reasoning_tokens_already_included": 375,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "249a9edbe20db010a12401b283e57893f48565223e5cba5b6116bb6026ea78cf"
+    },
+    "usage": {
+      "prompt_tokens": 18824,
+      "completion_tokens": 417,
+      "total_tokens": 19241,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 375,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "a6caff37991755652d13d66672a49fd4eb0159cf4cc49913899bf0bbef2e7dfe"
+  },
+  {
+    "attempt_id": "F052-0015",
+    "step": 15,
+    "cost_usd": "0.0395822",
+    "cost_receipt": {
+      "cost_usd": "0.0395822",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 10524,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1764,
+      "reasoning_tokens_already_included": 947,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "f472b03f923be2adbca2098c6761193fe95bee01fa6857341e59e566dc9b2de7"
+    },
+    "usage": {
+      "prompt_tokens": 19466,
+      "completion_tokens": 1764,
+      "total_tokens": 21230,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 947,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "d313dfa284ca1ae1bea86b66cbeb80955e51c0099948615a68cdb920a0252fec"
+  },
+  {
+    "attempt_id": "F052-0016",
+    "step": 16,
+    "cost_usd": "0.0204242",
+    "cost_receipt": {
+      "cost_usd": "0.0204242",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 7485,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 456,
+      "reasoning_tokens_already_included": 390,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "b3d177192c3425a0c9c35fc5213cf33d70bd64f93494f5780bfb4a87a3c695b3"
+    },
+    "usage": {
+      "prompt_tokens": 16427,
+      "completion_tokens": 456,
+      "total_tokens": 16883,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 390,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "d7c7e7834bc0928bb976fac800329f410eb8f614b4e7e0b9b86b8e748eb42a4b"
+  },
+  {
+    "attempt_id": "F052-0017",
+    "step": 17,
+    "cost_usd": "0.0280962",
+    "cost_receipt": {
+      "cost_usd": "0.0280962",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 7596,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1201,
+      "reasoning_tokens_already_included": 512,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "1c4c000306da90eba3fbe86ccf5d4b311a0e2f64e8ffe59a04969f1554d8569c"
+    },
+    "usage": {
+      "prompt_tokens": 16538,
+      "completion_tokens": 1201,
+      "total_tokens": 17739,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 512,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "f717f3b47800f1559e14bddd87d759e70e8e5edc51857bd635282ead2c81ca2f"
+  },
+  {
+    "attempt_id": "F052-0018",
+    "step": 18,
+    "cost_usd": "0.0238162",
+    "cost_receipt": {
+      "cost_usd": "0.0238162",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 10796,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 133,
+      "reasoning_tokens_already_included": 109,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "255a207ae0eeff0d89f97f49182a3d587cdb2686044b9280fbf22a051672ae80"
+    },
+    "usage": {
+      "prompt_tokens": 19738,
+      "completion_tokens": 133,
+      "total_tokens": 19871,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 109,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "ffe996e3628398cf956725a43b26632edc05bf31d1f69a6dec81e04f4d82f800"
+  },
+  {
+    "attempt_id": "F052-0019",
+    "step": 19,
+    "cost_usd": "0.0317802",
+    "cost_receipt": {
+      "cost_usd": "0.0317802",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 10078,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1073,
+      "reasoning_tokens_already_included": 351,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "63a672a03ac6268c265fc1340d9078bf7c279599bd997fa66423535a2529da09"
+    },
+    "usage": {
+      "prompt_tokens": 19020,
+      "completion_tokens": 1073,
+      "total_tokens": 20093,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 351,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "a9066f08eceb3e1d7728ef2878b6a4fc16100ed11f2ce95bb53e2ce35c04222f"
+  },
+  {
+    "attempt_id": "F052-0020",
+    "step": 20,
+    "cost_usd": "0.0274022",
+    "cost_receipt": {
+      "cost_usd": "0.0274022",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9889,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 673,
+      "reasoning_tokens_already_included": 619,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "880f6ca8dcb8c88940bf4ae407ee5e1b0a593314b9aca2ab78ab84aa48d5ee5a"
+    },
+    "usage": {
+      "prompt_tokens": 18831,
+      "completion_tokens": 673,
+      "total_tokens": 19504,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 619,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "3c37fddd9392fe9ea9efd2a83a95b3e5fe1d5788b74b9647604964952656d5b8"
+  },
+  {
+    "attempt_id": "F052-0021",
+    "step": 21,
+    "cost_usd": "0.0307402",
+    "cost_receipt": {
+      "cost_usd": "0.0307402",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9003,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1184,
+      "reasoning_tokens_already_included": 433,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "ff3002f06e40b11d94d79b01a20067b1dd86de6632e37537038cf42dcca22e51"
+    },
+    "usage": {
+      "prompt_tokens": 17945,
+      "completion_tokens": 1184,
+      "total_tokens": 19129,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 433,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "f6e30cc487edd2ff74565a4cd77345c2573f7be11ddf0d5009712ca2cb642b87"
+  },
+  {
+    "attempt_id": "F052-0022",
+    "step": 22,
+    "cost_usd": "0.0334362",
+    "cost_receipt": {
+      "cost_usd": "0.0334362",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11726,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 909,
+      "reasoning_tokens_already_included": 159,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "3e33c7a05b2452255100f7efe247540bea787e262b1e9b17c9b9f51881429b3b"
+    },
+    "usage": {
+      "prompt_tokens": 20668,
+      "completion_tokens": 909,
+      "total_tokens": 21577,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 159,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "910ffb2061977d60068ca00ef67f89a796044d899c37d6b0e6103e064f7d1a17"
+  },
+  {
+    "attempt_id": "F052-0023",
+    "step": 23,
+    "cost_usd": "0.0386842",
+    "cost_receipt": {
+      "cost_usd": "0.0386842",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 10080,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1763,
+      "reasoning_tokens_already_included": 1024,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "30aa0303c4316472147a0a35e60152fa2cc9291bcc3042aa9715369faafa1508"
+    },
+    "usage": {
+      "prompt_tokens": 19022,
+      "completion_tokens": 1763,
+      "total_tokens": 20785,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1024,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "b24b8ec44d0bc8d8cc5b81e1a0d4af3a34173b83080cf94190e4c7e46a8fdaf7"
+  },
+  {
+    "attempt_id": "F052-0024",
+    "step": 24,
+    "cost_usd": "0.0418662",
+    "cost_receipt": {
+      "cost_usd": "0.0418662",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11706,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1756,
+      "reasoning_tokens_already_included": 1001,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "e9656850181c84208156fdf4b87a93e928832c5be57e0893b4e5aa8b7ce96c81"
+    },
+    "usage": {
+      "prompt_tokens": 20648,
+      "completion_tokens": 1756,
+      "total_tokens": 22404,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 1001,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "1d0c1401f07930c70e500cfcd040db382f3520ed752af629e924d6e92173d837"
+  },
+  {
+    "attempt_id": "F052-0025",
+    "step": 25,
+    "cost_usd": "0.0196742",
+    "cost_receipt": {
+      "cost_usd": "0.0196742",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 7490,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 380,
+      "reasoning_tokens_already_included": 320,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "cfba0ccb29336aca569c1e232167594d759f816ef6cdbaa1eaaa623b03ea3e2b"
+    },
+    "usage": {
+      "prompt_tokens": 16432,
+      "completion_tokens": 380,
+      "total_tokens": 16812,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 320,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "77c15971e31f2837543f6a40e3c3400be23e2a5774b4829636ef74a217d127d5"
+  },
+  {
+    "attempt_id": "F052-0026",
+    "step": 26,
+    "cost_usd": "0.0317462",
+    "cost_receipt": {
+      "cost_usd": "0.0317462",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 7601,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1565,
+      "reasoning_tokens_already_included": 803,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "c88416fa39c7e19b573a45e28f7027d590413cbe2e11a15e966d8c92d6f5ca26"
+    },
+    "usage": {
+      "prompt_tokens": 16543,
+      "completion_tokens": 1565,
+      "total_tokens": 18108,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 803,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "bc6f0f3196822f7951000aa473d9ced4c41caefbf4f372c961c24087829c5fbd"
+  },
+  {
+    "attempt_id": "F052-0027",
+    "step": 27,
+    "cost_usd": "0.0299582",
+    "cost_receipt": {
+      "cost_usd": "0.0299582",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 10362,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 834,
+      "reasoning_tokens_already_included": 95,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "9a282cbddcf8cdaec05f53505f4ae606bd0e41fced3ee0176d5d9ebcb4ac49a0"
+    },
+    "usage": {
+      "prompt_tokens": 19304,
+      "completion_tokens": 834,
+      "total_tokens": 20138,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 95,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "edd80ca635e05387379f8101fea9334fe61b3306931bae72b7f0b73acea4a186"
+  },
+  {
+    "attempt_id": "F052-0028",
+    "step": 28,
+    "cost_usd": "0.0336702",
+    "cost_receipt": {
+      "cost_usd": "0.0336702",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9763,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1325,
+      "reasoning_tokens_already_included": 506,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "d145284f2fda2631ce2666087e2106c81a035d12d913a12d6c5e407cb310cb1e"
+    },
+    "usage": {
+      "prompt_tokens": 18705,
+      "completion_tokens": 1325,
+      "total_tokens": 20030,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 506,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "595d742a67084424641fccea6d8195f2f31a14e23cc67ea237fad21c87675b92"
+  },
+  {
+    "attempt_id": "F052-0029",
+    "step": 29,
+    "cost_usd": "0.0255242",
+    "cost_receipt": {
+      "cost_usd": "0.0255242",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11635,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 136,
+      "reasoning_tokens_already_included": 106,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "5009f7593e6d343f031d732c9f5755508d8c4bf59459e5862487b5af0c638921"
+    },
+    "usage": {
+      "prompt_tokens": 20577,
+      "completion_tokens": 136,
+      "total_tokens": 20713,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 106,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "df874795d22a16e7ecb17050b003a6406941e2e69c59623a1bc1d3b4f4f28744"
+  },
+  {
+    "attempt_id": "F052-0030",
+    "step": 30,
+    "cost_usd": "0.0310442",
+    "cost_receipt": {
+      "cost_usd": "0.0310442",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 14095,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 196,
+      "reasoning_tokens_already_included": 172,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "679f4a02d408b0fc8553b10bd50d49b9b5301b88a1db931fa0b097d3fd47dcc9"
+    },
+    "usage": {
+      "prompt_tokens": 23037,
+      "completion_tokens": 196,
+      "total_tokens": 23233,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 172,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "a4b32ced0542ae8aebdc30167f7a600eaf1390cf9da05b32b788d412490e23aa"
+  },
+  {
+    "attempt_id": "F052-0031",
+    "step": 31,
+    "cost_usd": "0.0311042",
+    "cost_receipt": {
+      "cost_usd": "0.0311042",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 12370,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 547,
+      "reasoning_tokens_already_included": 512,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "ca30c2b5e7e4a844c6618e476a1c5b6606ec471cbf3fdcaad8adab51a50092a2"
+    },
+    "usage": {
+      "prompt_tokens": 21312,
+      "completion_tokens": 547,
+      "total_tokens": 21859,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 512,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "61206679c06dc17d3d9691f10f8e60b644dd47ccf6cee5e6bd40ce1fe2c6a2c9"
+  },
+  {
+    "attempt_id": "F052-0032",
+    "step": 32,
+    "cost_usd": "0.0495582",
+    "cost_receipt": {
+      "cost_usd": "0.0495582",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 15527,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1761,
+      "reasoning_tokens_already_included": 915,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "b99aded41662da75a22286bb05771521e71d38fae4abc84d1c43bfc3c57099c9"
+    },
+    "usage": {
+      "prompt_tokens": 24469,
+      "completion_tokens": 1761,
+      "total_tokens": 26230,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 915,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "7441a63fae0d581b44bf83432abd200b8344603982a81623eea05fe940c74b4f"
+  },
+  {
+    "attempt_id": "F052-0033",
+    "step": 33,
+    "cost_usd": "0.0455782",
+    "cost_receipt": {
+      "cost_usd": "0.0455782",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 13577,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1753,
+      "reasoning_tokens_already_included": 909,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "2badb846006fe53f82983a925a6cd0b01aec331ba512c5fea736c142af49a381"
+    },
+    "usage": {
+      "prompt_tokens": 22519,
+      "completion_tokens": 1753,
+      "total_tokens": 24272,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 909,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "4822628c0e0a9461ef96a46cfaeb22999ad3c133c0e92a81b43894aefa0a2f87"
+  },
+  {
+    "attempt_id": "F052-0034",
+    "step": 34,
+    "cost_usd": "0.0400002",
+    "cost_receipt": {
+      "cost_usd": "0.0400002",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 13558,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1199,
+      "reasoning_tokens_already_included": 430,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "7539e31d2d147cde3570f4ce5258ec71aa44dd3e2574a7fd6416fc44266d1e8b"
+    },
+    "usage": {
+      "prompt_tokens": 22500,
+      "completion_tokens": 1199,
+      "total_tokens": 23699,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 430,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "739526b6ae5b363c3bbd7432fb1d8db14b5da2f5ee36ba2eaba5d3ff6f952445"
+  },
+  {
+    "attempt_id": "F052-0035",
+    "step": 35,
+    "cost_usd": "0.0241042",
+    "cost_receipt": {
+      "cost_usd": "0.0241042",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11255,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 70,
+      "reasoning_tokens_already_included": 17,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "f0997cacb55bb8be3f36e7146539d96220cc1797166a147e08dc517f7aa28fc0"
+    },
+    "usage": {
+      "prompt_tokens": 20197,
+      "completion_tokens": 70,
+      "total_tokens": 20267,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 17,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "b11c80f786321b07f357b3b82495d50793ef9617d310ec01fbda12dc9b631c32"
+  },
+  {
+    "attempt_id": "F052-0036",
+    "step": 36,
+    "cost_usd": "0.0212882",
+    "cost_receipt": {
+      "cost_usd": "0.0212882",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9697,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 100,
+      "reasoning_tokens_already_included": 54,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "4320e3dc7ba18beb12f47d759cf42ff10df4c518715f78b8b0bb007292ab8c04"
+    },
+    "usage": {
+      "prompt_tokens": 18639,
+      "completion_tokens": 100,
+      "total_tokens": 18739,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 54,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "1f55c9e9ec6e1e0f66567711e598618608d8fe87910d145bc8cb40d79084665d"
+  },
+  {
+    "attempt_id": "F052-0037",
+    "step": 37,
+    "cost_usd": "0.0214782",
+    "cost_receipt": {
+      "cost_usd": "0.0214782",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9672,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 124,
+      "reasoning_tokens_already_included": 96,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "1cdf04d8148300fddfd599dc3f9a1923ce5930269adee0a9001365b1b1f6b621"
+    },
+    "usage": {
+      "prompt_tokens": 18614,
+      "completion_tokens": 124,
+      "total_tokens": 18738,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 96,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "fbd8216c4875b96e61b4b065d0c830ed003c84f522da8282c122d54111da3be8"
+  },
+  {
+    "attempt_id": "F052-0038",
+    "step": 38,
+    "cost_usd": "0.0261222",
+    "cost_receipt": {
+      "cost_usd": "0.0261222",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11894,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 144,
+      "reasoning_tokens_already_included": 88,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "614d03e58db80386f5e596a12755536580137affa38c273a39f60615dbd7b997"
+    },
+    "usage": {
+      "prompt_tokens": 20836,
+      "completion_tokens": 144,
+      "total_tokens": 20980,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 88,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "42121bd125261f2761e9e48fcac704202fbec1c371ae9ef563b1d89b379da8d3"
+  },
+  {
+    "attempt_id": "F052-0039",
+    "step": 39,
+    "cost_usd": "0.0237182",
+    "cost_receipt": {
+      "cost_usd": "0.0237182",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 10732,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 136,
+      "reasoning_tokens_already_included": 108,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "75da72836e819f4d9ea44384b40f85b0fe17102f7f29cbe780158dabd44b1228"
+    },
+    "usage": {
+      "prompt_tokens": 19674,
+      "completion_tokens": 136,
+      "total_tokens": 19810,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 108,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "e8247d8630fae04d27206a0fb2f60af70be394ca4acab207250cb82431c441c5"
+  },
+  {
+    "attempt_id": "F052-0040",
+    "step": 40,
+    "cost_usd": "0.0395842",
+    "cost_receipt": {
+      "cost_usd": "0.0395842",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 13010,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1267,
+      "reasoning_tokens_already_included": 474,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "4ae0843a627f8fe2fbc17a0e94c0c206e5872debeb1b7343bd6cbcfa9975b501"
+    },
+    "usage": {
+      "prompt_tokens": 21952,
+      "completion_tokens": 1267,
+      "total_tokens": 23219,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 474,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "b8eb323719146dce1555aec4545d514627bf7af638000f07bad0523dbf4ecb2c"
+  },
+  {
+    "attempt_id": "F052-0041",
+    "step": 41,
+    "cost_usd": "0.0314402",
+    "cost_receipt": {
+      "cost_usd": "0.0314402",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 14578,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 139,
+      "reasoning_tokens_already_included": 111,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "36e9cad14bc844bbaef60e873540bce41d0e616dfc3cfe31e0b9b0f172279b10"
+    },
+    "usage": {
+      "prompt_tokens": 23520,
+      "completion_tokens": 139,
+      "total_tokens": 23659,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 111,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "438b43461a9225a585038d266f933058a57a82db109c4af0b0cf726866a6d327"
+  },
+  {
+    "attempt_id": "F052-0042",
+    "step": 42,
+    "cost_usd": "0.0338922",
+    "cost_receipt": {
+      "cost_usd": "0.0338922",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 15639,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 172,
+      "reasoning_tokens_already_included": 146,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "3f5ec6a7f91e5283fcde2d1e6bbac86ab7dccbde71b63473513bb744bb933953"
+    },
+    "usage": {
+      "prompt_tokens": 24581,
+      "completion_tokens": 172,
+      "total_tokens": 24753,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 146,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "25d2c1deba2534be1bab330d7ea840abe0e664fbe4b14cf0ef3a430ab3a88cd5"
+  },
+  {
+    "attempt_id": "F052-0043",
+    "step": 43,
+    "cost_usd": "0.0362942",
+    "cost_receipt": {
+      "cost_usd": "0.0362942",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 17305,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 79,
+      "reasoning_tokens_already_included": 55,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "0214ee42a9f3aa4c567bcef8cc51c9295bbe4a4becdf27b7a33f781a13f9f08c"
+    },
+    "usage": {
+      "prompt_tokens": 26247,
+      "completion_tokens": 79,
+      "total_tokens": 26326,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 55,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "a6c41ef677555860a8ebe9ffde06f17c1d0271ad490e524b6a3004e54a46cdcc"
+  },
+  {
+    "attempt_id": "F052-0044",
+    "step": 44,
+    "cost_usd": "0.0312242",
+    "cost_receipt": {
+      "cost_usd": "0.0312242",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 14600,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 113,
+      "reasoning_tokens_already_included": 85,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "7da816b32b5e733a85377c5b621ae9a29778fbf5116aae001acc8410e915663e"
+    },
+    "usage": {
+      "prompt_tokens": 23542,
+      "completion_tokens": 113,
+      "total_tokens": 23655,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 85,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "96eaaf54db574f9ffe35d9c2e4b0ff93fba112d0806130d306f7c52a9c6717c2"
+  },
+  {
+    "attempt_id": "F052-0045",
+    "step": 45,
+    "cost_usd": "0.0372662",
+    "cost_receipt": {
+      "cost_usd": "0.0372662",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 16786,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 280,
+      "reasoning_tokens_already_included": 252,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "61652fa71d967dd54b31c5ec52a9b4486f0c91e2078038aa142e7fdc9429647e"
+    },
+    "usage": {
+      "prompt_tokens": 25728,
+      "completion_tokens": 280,
+      "total_tokens": 26008,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 252,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "8970aed8a635ee8fd12c65200e0e5ed2ccdc0c292ad9daff48ccf3573c9025e9"
+  },
+  {
+    "attempt_id": "F052-0046",
+    "step": 46,
+    "cost_usd": "0.0353602",
+    "cost_receipt": {
+      "cost_usd": "0.0353602",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 16498,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 147,
+      "reasoning_tokens_already_included": 119,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "5d2293089e4020b122f4e202469b08ebc9cacaec7a8d904d63534c64e9659317"
+    },
+    "usage": {
+      "prompt_tokens": 25440,
+      "completion_tokens": 147,
+      "total_tokens": 25587,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 119,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "7f1c02cc02f3b3ae5c835b41b32ab441835d3f6c32fac2ee3db7aa2732fdab4b"
+  },
+  {
+    "attempt_id": "F052-0047",
+    "step": 47,
+    "cost_usd": "0.0342742",
+    "cost_receipt": {
+      "cost_usd": "0.0342742",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 15990,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 140,
+      "reasoning_tokens_already_included": 116,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "e4ce612d0334baf105e3f27266f2a9ef26f76b3dee364f4fe33ec2b4b475a830"
+    },
+    "usage": {
+      "prompt_tokens": 24932,
+      "completion_tokens": 140,
+      "total_tokens": 25072,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 116,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "ddb6df51b59f13fad874772a6f28998b5141c14ddff47f38d814d5ffb5ea18d0"
+  },
+  {
+    "attempt_id": "F052-0048",
+    "step": 48,
+    "cost_usd": "0.0384302",
+    "cost_receipt": {
+      "cost_usd": "0.0384302",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 18123,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 129,
+      "reasoning_tokens_already_included": 82,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "d87c6a91790b1a312e18f50c10ecdc0991cbe14e253b03f4691a12540ee03dd8"
+    },
+    "usage": {
+      "prompt_tokens": 27065,
+      "completion_tokens": 129,
+      "total_tokens": 27194,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 82,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "894c1b21cc0baaeb95b9ededc825a3a6a9e3811da495ee8ab7f85d8e963bdc67"
+  },
+  {
+    "attempt_id": "F052-0049",
+    "step": 49,
+    "cost_usd": "0.0480902",
+    "cost_receipt": {
+      "cost_usd": "0.0480902",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 17953,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1129,
+      "reasoning_tokens_already_included": 359,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "8eb48c497ceaf0592df27a2d7bacf74b52a35a2ad12bcbfbb8a40e01e151dace"
+    },
+    "usage": {
+      "prompt_tokens": 26895,
+      "completion_tokens": 1129,
+      "total_tokens": 28024,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 359,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "8dbc73ffcfb5083441edf147590ff862b92cf6f0b635a559ed8af5f335410d4f"
+  },
+  {
+    "attempt_id": "F052-0050",
+    "step": 50,
+    "cost_usd": "0.0431702",
+    "cost_receipt": {
+      "cost_usd": "0.0431702",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 14743,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1279,
+      "reasoning_tokens_already_included": 512,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "262806a967a76f6dd8e00c5b6bd257f714bfbac4f727d444de393bd0c0cfb348"
+    },
+    "usage": {
+      "prompt_tokens": 23685,
+      "completion_tokens": 1279,
+      "total_tokens": 24964,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 512,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "eb5ba3fef95cb7c16b7d02452e3a929cfcd1014e14d534cfe99cf5bc4fb05375"
+  },
+  {
+    "attempt_id": "F052-0051",
+    "step": 51,
+    "cost_usd": "0.0442722",
+    "cost_receipt": {
+      "cost_usd": "0.0442722",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 15334,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1271,
+      "reasoning_tokens_already_included": 512,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "3240d959872b755acb74c82c9836a34b8bcf57cbea727a526a09b9fd277b5bf3"
+    },
+    "usage": {
+      "prompt_tokens": 24276,
+      "completion_tokens": 1271,
+      "total_tokens": 25547,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 512,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "946efb09d967c16553cb96f38a4c9fe6a68513fbfe1789e365c33ed1d75a4a20"
+  },
+  {
+    "attempt_id": "F052-0052",
+    "step": 52,
+    "cost_usd": "0.0353042",
+    "cost_receipt": {
+      "cost_usd": "0.0353042",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11965,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1048,
+      "reasoning_tokens_already_included": 283,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "eb70b37929f5d268ea1087bea3dbb1960bda474ab823a22a55e570dab9a300eb"
+    },
+    "usage": {
+      "prompt_tokens": 20907,
+      "completion_tokens": 1048,
+      "total_tokens": 21955,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 283,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "c35619efdaf1fea23857385935e2a31da4f8fb9e7b5c32ccfe0a36cb4db09dbe"
+  },
+  {
+    "attempt_id": "F052-0053",
+    "step": 53,
+    "cost_usd": "0.0358382",
+    "cost_receipt": {
+      "cost_usd": "0.0358382",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 12382,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1018,
+      "reasoning_tokens_already_included": 262,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "9f71d3619bcb277abdaade194848540c2cbed8b269b9c7c40cece14af10a524a"
+    },
+    "usage": {
+      "prompt_tokens": 21324,
+      "completion_tokens": 1018,
+      "total_tokens": 22342,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 262,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "a7dff9213647e5062aa6c88453146ddd03d71ab750256563dc61f569915a6e7b"
+  },
+  {
+    "attempt_id": "F052-0054",
+    "step": 54,
+    "cost_usd": "0.0238242",
+    "cost_receipt": {
+      "cost_usd": "0.0238242",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 10650,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 163,
+      "reasoning_tokens_already_included": 120,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "aa887afcf9f4b23aaab43f9241308465cfcc3c87803335f51e41dca2c14da2a3"
+    },
+    "usage": {
+      "prompt_tokens": 19592,
+      "completion_tokens": 163,
+      "total_tokens": 19755,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 120,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "a733126f9d7d6d2b7dd473b5bee29f752b823b35f13f06a3914e39bc4f0da6f5"
+  },
+  {
+    "attempt_id": "F052-0055",
+    "step": 55,
+    "cost_usd": "0.0216642",
+    "cost_receipt": {
+      "cost_usd": "0.0216642",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9705,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 136,
+      "reasoning_tokens_already_included": 96,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "a7337052edb5b073a25c3db2367437bccc22e4c237aaf1dcace7ab6b8e54f483"
+    },
+    "usage": {
+      "prompt_tokens": 18647,
+      "completion_tokens": 136,
+      "total_tokens": 18783,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 96,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "0ce8a2ee9bef813197e590617ac26eadd0aed309cdb5bcfd3cebc0f53dfaa311"
+  },
+  {
+    "attempt_id": "F052-0056",
+    "step": 56,
+    "cost_usd": "0.0222382",
+    "cost_receipt": {
+      "cost_usd": "0.0222382",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9682,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 198,
+      "reasoning_tokens_already_included": 149,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "3f32df3d6d07dfcb76ac70c573b3b8226acb274a49266ccca68a2575127eab90"
+    },
+    "usage": {
+      "prompt_tokens": 18624,
+      "completion_tokens": 198,
+      "total_tokens": 18822,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 149,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "ad44128e6155400ea91bc1befdf3bb0125471b5613a7213f1fb265b4e1a18fe5"
+  },
+  {
+    "attempt_id": "F052-0057",
+    "step": 57,
+    "cost_usd": "0.0212322",
+    "cost_receipt": {
+      "cost_usd": "0.0212322",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9659,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 102,
+      "reasoning_tokens_already_included": 54,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "e842cc2e1fc4b91e2329af194a6ac460e7103af798994e0e05dd309e4de2d5af"
+    },
+    "usage": {
+      "prompt_tokens": 18601,
+      "completion_tokens": 102,
+      "total_tokens": 18703,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 54,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "66b314d7fdfa19d760027a4b485ed42d834200fcf52d637350fa29cf524dce3d"
+  },
+  {
+    "attempt_id": "F052-0058",
+    "step": 58,
+    "cost_usd": "0.0214662",
+    "cost_receipt": {
+      "cost_usd": "0.0214662",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9636,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 130,
+      "reasoning_tokens_already_included": 85,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "ca945d58d335810361aec1378c47e5c7160de11148456638c342d449e14f46a4"
+    },
+    "usage": {
+      "prompt_tokens": 18578,
+      "completion_tokens": 130,
+      "total_tokens": 18708,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 85,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "cd94b315c41505d42e94dab78f8457b22ffaae85c6ad735cf618d123eef3a769"
+  },
+  {
+    "attempt_id": "F052-0059",
+    "step": 59,
+    "cost_usd": "0.0224262",
+    "cost_receipt": {
+      "cost_usd": "0.0224262",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9636,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 226,
+      "reasoning_tokens_already_included": 198,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "bd8a681e5cfc3700aee94f3a68def0ddf968f7c91eb04f28ed38c5a9942d2271"
+    },
+    "usage": {
+      "prompt_tokens": 18578,
+      "completion_tokens": 226,
+      "total_tokens": 18804,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 198,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "0bf870e6c71cbdbdd9a1801eaf0d2703529071175a54a2c211a6e2b71f61b802"
+  },
+  {
+    "attempt_id": "F052-0060",
+    "step": 60,
+    "cost_usd": "0.0348562",
+    "cost_receipt": {
+      "cost_usd": "0.0348562",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11886,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1019,
+      "reasoning_tokens_already_included": 247,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "f493a00ad553da5bc0c3e26fb93a99661eb8905650683f3a77a9c3308d8fcab8"
+    },
+    "usage": {
+      "prompt_tokens": 20828,
+      "completion_tokens": 1019,
+      "total_tokens": 21847,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 247,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "30cdc6dfc198667aa16d998beb4b5bbe1a7042cd99acddca34460f602898d87e"
+  },
+  {
+    "attempt_id": "F052-0061",
+    "step": 61,
+    "cost_usd": "0.0285682",
+    "cost_receipt": {
+      "cost_usd": "0.0285682",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 13352,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 97,
+      "reasoning_tokens_already_included": 73,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "c5501713863e964f098548830af48ffc27afc13205228f3c353d6924b8f5a94d"
+    },
+    "usage": {
+      "prompt_tokens": 22294,
+      "completion_tokens": 97,
+      "total_tokens": 22391,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 73,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "154acd6d198bd0277db01653f950d0b07978d4d056b9be5e531cab51151c8114"
+  },
+  {
+    "attempt_id": "F052-0062",
+    "step": 62,
+    "cost_usd": "0.0351622",
+    "cost_receipt": {
+      "cost_usd": "0.0351622",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 15764,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 274,
+      "reasoning_tokens_already_included": 248,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "57904b1c9b233ed481ef4a1fbc7b1f2b7d4902077e87d84540935cd6a2a49be4"
+    },
+    "usage": {
+      "prompt_tokens": 24706,
+      "completion_tokens": 274,
+      "total_tokens": 24980,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 248,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "35630a0a7fd33fc91e50c86b52c3e3b1ba3c794681302431c5aeba2b97bcc63c"
+  },
+  {
+    "attempt_id": "F052-0063",
+    "step": 63,
+    "cost_usd": "0.0362322",
+    "cost_receipt": {
+      "cost_usd": "0.0362322",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 17324,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 69,
+      "reasoning_tokens_already_included": 22,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "9f7ff8fdd6eaae48d7ca8f8ceaf2d758d68ed40b4c083db62413ed36820699bb"
+    },
+    "usage": {
+      "prompt_tokens": 26266,
+      "completion_tokens": 69,
+      "total_tokens": 26335,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 22,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "b351a6d32a499a94e42c95a556f143bfe1a81fee5e501f55eedcf590f93f8aa7"
+  },
+  {
+    "attempt_id": "F052-0064",
+    "step": 64,
+    "cost_usd": "0.0412562",
+    "cost_receipt": {
+      "cost_usd": "0.0412562",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 17201,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 596,
+      "reasoning_tokens_already_included": 559,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "fbe7420f937049e24c95b0f13f2d917473251d23216085f23e1442afe5c29a14"
+    },
+    "usage": {
+      "prompt_tokens": 26143,
+      "completion_tokens": 596,
+      "total_tokens": 26739,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 559,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "c772f31342ea0a071c414e5339c42a7f4a5e9ad0f7e78ee2e85b0541008a32d5"
+  },
+  {
+    "attempt_id": "F052-0065",
+    "step": 65,
+    "cost_usd": "0.0515882",
+    "cost_receipt": {
+      "cost_usd": "0.0515882",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 19102,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1249,
+      "reasoning_tokens_already_included": 512,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "b9c35ddf36c2ea2586ff8696d1e5b35c4666893f8bdbcc6d2172221bdb4057b4"
+    },
+    "usage": {
+      "prompt_tokens": 28044,
+      "completion_tokens": 1249,
+      "total_tokens": 29293,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 512,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "2f2aa29fc4b8850f130d286ce21b53f8f3202d257deded5ab9b6bc6257e85ab6"
+  },
+  {
+    "attempt_id": "F052-0066",
+    "step": 66,
+    "cost_usd": "0.0317062",
+    "cost_receipt": {
+      "cost_usd": "0.0317062",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 15076,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 66,
+      "reasoning_tokens_already_included": 24,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "6230bff4d00bc7f95e18207c4adf647efa7d601139cf75479c61b1da12f828e4"
+    },
+    "usage": {
+      "prompt_tokens": 24018,
+      "completion_tokens": 66,
+      "total_tokens": 24084,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 24,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "10ce87f9a25706c8ad2621778f1558428bc13986ef942c8ae01fd2cec5cd066e"
+  },
+  {
+    "attempt_id": "F052-0067",
+    "step": 67,
+    "cost_usd": "0.0354402",
+    "cost_receipt": {
+      "cost_usd": "0.0354402",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 12573,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 940,
+      "reasoning_tokens_already_included": 202,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "31e9cb61e79dce0b1e4c1a3cae55bc8bb08d59e9daf0f743d8178b3baf25022c"
+    },
+    "usage": {
+      "prompt_tokens": 21515,
+      "completion_tokens": 940,
+      "total_tokens": 22455,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 202,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "b7c18dcc68b240fef1d7ac7f5087fd8cf5a002890494cd64663ef1f76792913d"
+  },
+  {
+    "attempt_id": "F052-0068",
+    "step": 68,
+    "cost_usd": "0.0410622",
+    "cost_receipt": {
+      "cost_usd": "0.0410622",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 13804,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 1256,
+      "reasoning_tokens_already_included": 512,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "12552272c30d95187b471e6fe30473271e43f0dba0ab317a7cd9c43f0a84e67d"
+    },
+    "usage": {
+      "prompt_tokens": 22746,
+      "completion_tokens": 1256,
+      "total_tokens": 24002,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 512,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "0fcd8ddc14e68fb62ec25c603684d8535befb8e7734e0cfe4904ab41c4e9413a"
+  },
+  {
+    "attempt_id": "F052-0069",
+    "step": 69,
+    "cost_usd": "0.0236062",
+    "cost_receipt": {
+      "cost_usd": "0.0236062",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 10541,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 163,
+      "reasoning_tokens_already_included": 118,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "50ef6a46acc35ecf15a18d39ea3e50cfe7f1dcbb42be7b8be768f824022ff339"
+    },
+    "usage": {
+      "prompt_tokens": 19483,
+      "completion_tokens": 163,
+      "total_tokens": 19646,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 118,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "412870fe98714b2e307f4c7ebb83cbbbaaf9e635d3b930a5164c88e48be830a9"
+  },
+  {
+    "attempt_id": "F052-0070",
+    "step": 70,
+    "cost_usd": "0.0218082",
+    "cost_receipt": {
+      "cost_usd": "0.0218082",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 9612,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 169,
+      "reasoning_tokens_already_included": 145,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "898e364e7372f4f7fdfdc4580ec5d6708d340bba5179fdc446f8933a67d4e9d8"
+    },
+    "usage": {
+      "prompt_tokens": 18554,
+      "completion_tokens": 169,
+      "total_tokens": 18723,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 145,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "6581932390b33628827d4ad45a2c13c0ecce1de3af848126dde6f36d1e3eba41"
+  },
+  {
+    "attempt_id": "F052-0071",
+    "step": 71,
+    "cost_usd": "0.0276402",
+    "cost_receipt": {
+      "cost_usd": "0.0276402",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 12963,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 82,
+      "reasoning_tokens_already_included": 42,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "c2378eb66636f9fedd747fc692f84f8cb88eedeb4e78b93b069ac849a4b6bd35"
+    },
+    "usage": {
+      "prompt_tokens": 21905,
+      "completion_tokens": 82,
+      "total_tokens": 21987,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 42,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "8cebc268bb7d4ed8ee93f305001d3dbc531026e039eaa5702bb94de2af338ae5"
+  },
+  {
+    "attempt_id": "F052-0072",
+    "step": 72,
+    "cost_usd": "0.0253082",
+    "cost_receipt": {
+      "cost_usd": "0.0253082",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11257,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 190,
+      "reasoning_tokens_already_included": 142,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "6bee0940c498bc9030ac576e2d618a024c4a00c31879dd286f34b2382ea615be"
+    },
+    "usage": {
+      "prompt_tokens": 20199,
+      "completion_tokens": 190,
+      "total_tokens": 20389,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 142,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "5ce2a4a86e369fc592ff77b2dbde5128e21b960a16def831d7a06c7e394afd1d"
+  },
+  {
+    "attempt_id": "F052-0073",
+    "step": 73,
+    "cost_usd": "0.0255462",
+    "cost_receipt": {
+      "cost_usd": "0.0255462",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11236,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 218,
+      "reasoning_tokens_already_included": 145,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "6de22ec7da7a5dd53ffdd3ba1de9a81bb1d6a578002545a80e8a3bfee0b85da1"
+    },
+    "usage": {
+      "prompt_tokens": 20178,
+      "completion_tokens": 218,
+      "total_tokens": 20396,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 145,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "7245d87e16d13406c0673e83946b12b53d76246d59b685d8ac4667d1d84ef700"
+  },
+  {
+    "attempt_id": "F052-0074",
+    "step": 74,
+    "cost_usd": "0.0249142",
+    "cost_receipt": {
+      "cost_usd": "0.0249142",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 11235,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 155,
+      "reasoning_tokens_already_included": 108,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "dc6bff4f2b32988c3961fb843267d1d71179596093d34000c2ea8cef00230023"
+    },
+    "usage": {
+      "prompt_tokens": 20177,
+      "completion_tokens": 155,
+      "total_tokens": 20332,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 108,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "e59b2e42504e905be7411a7248ff5ea7c55bd54b1e3e051a84580260bc1a67cf"
+  },
+  {
+    "attempt_id": "F052-0075",
+    "step": 75,
+    "cost_usd": "0.0341362",
+    "cost_receipt": {
+      "cost_usd": "0.0341362",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 12221,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 880,
+      "reasoning_tokens_already_included": 137,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "ac6a153a96858f90269e4e3f234521327c686e07b9349e7913ba9ed137eccf4d"
+    },
+    "usage": {
+      "prompt_tokens": 21163,
+      "completion_tokens": 880,
+      "total_tokens": 22043,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 137,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "027dfd2c2b5b4e9f33376870e19de6cdb65ada3d1456f089061d1742d64b541a"
+  },
+  {
+    "attempt_id": "F052-0076",
+    "step": 76,
+    "cost_usd": "0.0287882",
+    "cost_receipt": {
+      "cost_usd": "0.0287882",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 13457,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 98,
+      "reasoning_tokens_already_included": 65,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "4720e8d0c7b34f6c8e19eb2cfb075c08013ca0f90e2b06ae6ad887edb8cbdf5a"
+    },
+    "usage": {
+      "prompt_tokens": 22399,
+      "completion_tokens": 98,
+      "total_tokens": 22497,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 65,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "03c3b02da985c42b0e6147f415c417afa330bb26e3c0eea362bea054bd26e656"
+  },
+  {
+    "attempt_id": "F052-0077",
+    "step": 77,
+    "cost_usd": "0.0333362",
+    "cost_receipt": {
+      "cost_usd": "0.0333362",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 15616,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 121,
+      "reasoning_tokens_already_included": 93,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "eed57d7acd6189fbb828f58bdee37685a2f3325e25cd8110b5d0c775b4ecc97f"
+    },
+    "usage": {
+      "prompt_tokens": 24558,
+      "completion_tokens": 121,
+      "total_tokens": 24679,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 93,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "c86f302aba7a83a116c8095f5bbe1b8ba0280d0f5616bf99c3f28ae35fcdee0d"
+  },
+  {
+    "attempt_id": "F052-0078",
+    "step": 78,
+    "cost_usd": "0.0391602",
+    "cost_receipt": {
+      "cost_usd": "0.0391602",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 17288,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 369,
+      "reasoning_tokens_already_included": 332,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "330acb4c32c847619d9d5b203b38f911c193303baf244a8bca6749020ec0d5b2"
+    },
+    "usage": {
+      "prompt_tokens": 26230,
+      "completion_tokens": 369,
+      "total_tokens": 26599,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 332,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "20a18584327f32f8d7a34e4c54c505f04eb30b0264fae6494dd3c5cc2510b471"
+  },
+  {
+    "attempt_id": "F052-0079",
+    "step": 79,
+    "cost_usd": "0.0374962",
+    "cost_receipt": {
+      "cost_usd": "0.0374962",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 17591,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 142,
+      "reasoning_tokens_already_included": 95,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "53be5347e48dc9fce83f143206739fa9c422323f39d768eb5c32e9a64cd8a99e"
+    },
+    "usage": {
+      "prompt_tokens": 26533,
+      "completion_tokens": 142,
+      "total_tokens": 26675,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 95,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "7801c5474e7a3af7e055a573de925f46b5a3d5322e9bd61a24be8be7e1803212"
+  },
+  {
+    "attempt_id": "F052-0080",
+    "step": 80,
+    "cost_usd": "0.0476002",
+    "cost_receipt": {
+      "cost_usd": "0.0476002",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 18608,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 949,
+      "reasoning_tokens_already_included": 243,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "d949dc7626728b5e4c844f17431a81689aed508a8d6e16f1dc4aa1d7512694f5"
+    },
+    "usage": {
+      "prompt_tokens": 27550,
+      "completion_tokens": 949,
+      "total_tokens": 28499,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 243,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "a10c36dcda12f5c77b78b296f8b82fec07cb32fbae6e73bb4c87cf8bae9769f2"
+  },
+  {
+    "attempt_id": "F052-0081",
+    "step": 81,
+    "cost_usd": "0.0406362",
+    "cost_receipt": {
+      "cost_usd": "0.0406362",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 14971,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 980,
+      "reasoning_tokens_already_included": 281,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "95bbe2356e9c12a82b3011807734646156215c42189f7d72aa8e035e4b787fb8"
+    },
+    "usage": {
+      "prompt_tokens": 23913,
+      "completion_tokens": 980,
+      "total_tokens": 24893,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 281,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "10bd0dcb1f442c759e7e1b19151cc5b892775ca062233146afdbddd9b83b444e"
+  },
+  {
+    "attempt_id": "F052-0082",
+    "step": 82,
+    "cost_usd": "0.0409122",
+    "cost_receipt": {
+      "cost_usd": "0.0409122",
+      "basis": "provider-token-usage-times-frozen-public-list-prices",
+      "invoice_verified": false,
+      "ordinary_input_tokens": 15014,
+      "cached_input_tokens": 8942,
+      "cache_write_30m_tokens": 0,
+      "completion_tokens_including_reasoning": 999,
+      "reasoning_tokens_already_included": 299,
+      "pricing": {
+        "model": "gpt-6.1-sol",
+        "provider": "OpenAI",
+        "service_tier": "default",
+        "currency": "USD",
+        "unit": "per_million_tokens",
+        "input": "2",
+        "cached_input": "0.10",
+        "cache_write_30m": "2.50",
+        "output_including_reasoning": "10",
+        "long_context_threshold": 272000,
+        "source": "https://developers.openai.com/api/docs/pricing",
+        "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+        "verified_date": "2026-11-01"
+      },
+      "provider_response_sha256": "044f183718719f701c7cf60dfeb561ee8b8cd03b3da3d967bbc3ebabab20a754"
+    },
+    "usage": {
+      "prompt_tokens": 23956,
+      "completion_tokens": 999,
+      "total_tokens": 24955,
+      "prompt_tokens_details": {
+        "cached_tokens": 8942,
+        "cache_write_tokens": 0,
+        "audio_tokens": 0
+      },
+      "completion_tokens_details": {
+        "reasoning_tokens": 299,
+        "audio_tokens": 0,
+        "accepted_prediction_tokens": 0,
+        "rejected_prediction_tokens": 0
+      }
+    },
+    "request_sha256": "e2ff72a459e0ec566a96bf12435675de391359fe1effe126429fed0fc88912cc"
+  }
+]
