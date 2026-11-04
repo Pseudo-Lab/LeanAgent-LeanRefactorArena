@@ -146,6 +146,39 @@ disagrees). Records: `rows/F0NN/regolf/*.json`, the `regolf` list in `worker-sta
 (mock/OpenAI-direct roots) is for testing on copies only. Run it from the hot-fix worktree while idle
 compile slots exist; the next rolling assembly picks the new proof up.
 
+### Transfer repair (deprecated-alias renames; `transfer.py`, hot-fix 2026-11-04)
+
+A candidate that compiles on the first-listed toolchain but fails an older listed toolchain
+only with unknown identifiers that the newer pinned library maps through
+`@[deprecated] alias OLD := NEW` (rehearsal F036: `Finset.card_univ_sdiff` -> `Finset.card_univ_diff`,
+token-neutral, 84.21 -> 89.22 measured) is repaired automatically, without any API call:
+
+* `select_final` reads the failing toolchain's saved `compatibility/<sha>/<env>/check.log`; when
+  every unknown-identifier/unknown-constant error names a key of the row's alias map, the repaired
+  text (`repair:<parent label>`, origin `golf`, parent sha, edit list in `golf/selection.json`
+  `repairs` and `golf/winners.json`) is validated like any finalist (at most 2 per selection).
+* Golf never spends its budget on a parent whose saved all-version check failed
+  (`compatibility/<sha>/skipped.json` or an invalid result): its repair is validated first and
+  golfed instead when it holds (`select.golf_parents`).
+* Alias maps (NEW -> OLD, kept only when OLD is declared in every other listed toolchain and NEW
+  is missing in at least one) are built once per environment set from the prepared sources
+  (project + `.lake/packages`, 6-14 s) and cached under `<run>/alias-maps/`
+  (`FINAL60_ALIAS_MAP_DIR` overrides). Measured 2026-11-04: ArkLib v4.31.0/v4.30.0 598 pairs,
+  CSLib v4.34.1 -> v4.31.0 1020 / -> v4.33.1 302, PutnamBench 398, LeanPool and PhysLib 0.
+* Never on Strata rows (its v4.31.0 lakefile sets `warningAsError`, read from the checkout) or
+  under a warning gate other than `off` (`FINAL60_WARNING_GATE`): the deprecation warning would
+  break the build.
+
+Post-hoc, for terminal rows (model proofs and worker publications of the original alike):
+
+```bash
+PYTHONPATH=src $PY -m lean_agent.final60 regolf --run-dir "$RUN" --rows 31-40 --transfer-repair [--repairs 3] [--margin 0.25]
+```
+
+re-examines the recorded candidates that failed only non-primary toolchains, repairs and validates
+them (`--repairs` validations per row) and publishes through the regolf path when the validated
+estimate beats the published one by `--margin`. A later plain `regolf` golfs the repaired incumbent.
+
 ## 7. Outputs
 
 `submission.jsonl`, `provenance-benchmark.jsonl` (name, statement, `reference=src`, required by

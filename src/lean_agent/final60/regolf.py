@@ -22,6 +22,16 @@ OpenAI-direct development roots, for testing only), the pass
    not show the gain, the previous selection is restored the same way (``write_selection``
    from the kept ``final-prev-*`` evidence, report, then ``published.json``).
 
+``--transfer-repair`` (hotfix 2026-11-04) replaces step 2 by the deprecated-alias transfer
+repair (``transfer``): the row's recorded candidates whose saved all-version check failed
+only on non-primary toolchains (exploration's own check or the selection's validation)
+are repaired by the alias map of the row's environment set, validated like any finalist,
+and the best one is published through the same path (step 3-4) when it beats the published
+estimate by ``--margin``. In this mode rows that publish the original (not a fallback) are
+eligible too, since those are the rows that lost the most. At most
+``transfer.MAX_REPAIRS_POSTHOC`` repairs are validated per row. No golf pass runs; a
+later plain ``regolf`` golfs the repaired incumbent.
+
 Never any API call: no transport is imported and the ledger is untouched. Rows that are not
 terminal are never touched. ``--report-only`` lists what would run (no Lean, no write).
 Every attempt is recorded under ``rows/F0NN/regolf/`` and appended to the ``regolf`` list of
@@ -42,7 +52,7 @@ from .contracts import Candidate, EvalResult, Selection
 from .orchestrator import (DEFAULT_DEADLINE, TERMINAL, Layout, RunOptions, atomic_bytes, atomic_json, driver_modules,
                            json_bytes, load_non_openrouter, load_rowstate, normalized_sha, now_iso, parse_deadline,
                            parse_rows, problem_packet, read_json, save_rowstate, sha_bytes, sha_text)
-from . import golf, scoring, select
+from . import golf, scoring, select, transfer
 
 DEFAULT_COMPILES = 24
 DEFAULT_MARGIN = 0.25
@@ -95,8 +105,12 @@ def read_or(path, default):
         return default
 
 
-def eligibility(layout, row, *, allow_dev_roots=False):
-    """(ok, reason): a terminal row whose publication is a model proof of a submittable root."""
+def eligibility(layout, row, *, allow_dev_roots=False, allow_original=False):
+    """(ok, reason): a terminal row whose publication is a model proof of a submittable root.
+
+    With ``allow_original`` (transfer repair) a worker publication of the original (one that
+    carries ``selected_sha256`` and ``report_sha256``; not a fallback) is eligible too.
+    """
     from . import transports
     root, folder = layout.row_root(row), layout.row_folder(row)
     state = load_rowstate(layout, row)
@@ -105,7 +119,9 @@ def eligibility(layout, row, *, allow_dev_roots=False):
     if not (root / "published.json").exists():
         return False, "not published"
     published = read_or(root / "published.json", {})
-    if published.get("origin") != "openrouter-run":
+    original_ok = (allow_original and published.get("origin") == "original"
+                   and isinstance(published.get("selected_sha256"), str) and isinstance(published.get("report_sha256"), str))
+    if published.get("origin") != "openrouter-run" and not original_ok:
         return False, "publishes the original (" + str(published.get("reason") or "no reason")[:160] + ")"
     missing = [name for name in ("authorization.json", "ledger.json", "report.json") if not (root / name).exists()]
     missing += [name for name in ("selected.lean", "summary.json", "final/result.json", "input/problem.json")
@@ -180,15 +196,20 @@ class RegolfRow:
     """One regolf pass over one published row. Every Lean compile goes through EvalAdapter."""
 
     def __init__(self, layout, row, opts, *, compiles=DEFAULT_COMPILES, margin=DEFAULT_MARGIN,
-                 minutes=DEFAULT_MINUTES, allow_dev_roots=False):
+                 minutes=DEFAULT_MINUTES, allow_dev_roots=False, transfer_repair=False, repairs=None):
         self.layout, self.row, self.opts = layout, int(row), opts
         self.compiles, self.margin, self.minutes = int(compiles), float(margin), float(minutes)
         self.allow_dev_roots = bool(allow_dev_roots)
+        self.transfer_repair = bool(transfer_repair)
+        self.repairs = int(repairs) if repairs is not None else transfer.MAX_REPAIRS_POSTHOC
         self.root = layout.row_root(row)
         self.folder = layout.row_folder(row)
         self.started = time.time()
         self.record = {"schema": SCHEMA, "row": self.row, "at": now_iso(), "compiles_budget": self.compiles,
-                       "margin": self.margin, "action": None, "reason": None}
+                       "margin": self.margin, "action": None, "reason": None, "mode": "transfer-repair" if self.transfer_repair else "golf"}
+
+    def eligible(self):
+        return eligibility(self.layout, self.row, allow_dev_roots=self.allow_dev_roots, allow_original=self.transfer_repair)
 
     # -- hooks (tests patch these) -------------------------------------------------------------
     def adapter(self):
@@ -232,7 +253,7 @@ class RegolfRow:
 
     # -- the pass ------------------------------------------------------------------------------
     def run(self):
-        ok, reason = eligibility(self.layout, self.row, allow_dev_roots=self.allow_dev_roots)
+        ok, reason = self.eligible()
         if not ok:
             return self.note(action="skipped", reason=reason)
         try:
@@ -243,7 +264,7 @@ class RegolfRow:
 
     def locked(self):
         # Re-read under the lock: a worker may have republished between the check and the lock.
-        ok, reason = eligibility(self.layout, self.row, allow_dev_roots=self.allow_dev_roots)
+        ok, reason = self.eligible()
         if not ok:
             return self.note(action="skipped", reason=reason)
         try:
@@ -255,9 +276,70 @@ class RegolfRow:
         if deadline - VALIDATION_RESERVE_S <= time.time():
             return self.finish("skipped", "no time left before the run deadline")
         try:
-            return self.golf_and_select(deadline)
+            return self.repair_and_select(deadline) if self.transfer_repair else self.golf_and_select(deadline)
         except Exception as exc:   # a failed pass never changes the row
             return self.finish("error", f"{type(exc).__name__}: {exc}"[:500], traceback=traceback.format_exc()[-4000:])
+
+    def repair_and_select(self, deadline):
+        """``--transfer-repair``: alias-repair the recorded transfer failures, then select/publish."""
+        published = read_json(self.root / "published.json")
+        incumbent_estimate = float(published.get("local_score_estimate") or scoring.ORIGINAL_SCORE)
+        problem = read_json(self.folder / "input/problem.json")
+        try:
+            packet = problem_packet(self.row)
+        except (OSError, ValueError):
+            packet = None
+        environment = self.configure(packet)
+        outside = {normalized_sha(entry["proof"]) for entry in load_non_openrouter(self.layout)}
+        adapter = self.adapter()
+        incumbent = incumbent_candidate(self.root, self.row, self.folder)
+        self.note(incumbent_estimate=incumbent_estimate, incumbent_sha256=incumbent.sha256,
+                  incumbent_label=incumbent.label, environment=environment,
+                  compiler_parallelism=getattr(getattr(adapter, "ev", None), "compiler_parallelism", None))
+        blocked = transfer.gate_blocks(adapter, problem)
+        if blocked:
+            return self.finish("skipped", "transfer repair not allowed: " + blocked, compiles=adapter.compiles)
+        pool, known = [incumbent], {incumbent.sha256}
+        records, budget = [], self.repairs
+        # Recorded candidates whose saved all-version check failed, best screen estimate first.
+        failed = [candidate for candidate in select.candidates_from_run(self.root, self.row)
+                  if candidate.origin != "original" and candidate.sha256 not in known
+                  and transfer.compat_status(self.folder, candidate.sha256) == "invalid"]
+        failed.sort(key=lambda candidate: (-(adapter.screen_score(candidate.screen) or 0.0) if candidate.screen else 0.0,
+                                           candidate.sha256))
+        for candidate in failed:
+            if budget <= 0 or time.time() >= deadline:
+                break
+            repaired, _, record = transfer.repair_known(adapter, problem, candidate, blocked=frozenset(outside))
+            records.append(record)
+            if "valid" in record or "error" in record:
+                budget -= 1
+            if repaired is not None and repaired.sha256 not in known and normalized_sha(repaired.code) not in outside:
+                pool.append(repaired)
+                known.add(repaired.sha256)
+        self.note(repairs=records, examined=len(failed), accepted=[c.label for c in pool[1:]],
+                  winners=[item.sha256 for item in pool[1:]], compiles=adapter.compiles)
+        if len(pool) == 1:
+            return self.finish("kept", "no transfer failure repaired", compiles=adapter.compiles)
+        record_path = self.folder / "golf" / "selection.json"
+        previous_record = record_path.read_bytes() if record_path.exists() else None
+        selection = select.select_final(adapter, problem, pool, k=3, deadline=deadline,
+                                        non_openrouter_sha256=frozenset(outside))
+        gain = selection.score - incumbent_estimate
+        self.note(regolf_estimate=selection.score, selected_sha256=selection.candidate.sha256,
+                  label=selection.candidate.label, considered=list(selection.considered), gain=gain,
+                  compiles=adapter.compiles)
+        improves = (selection.beat_original and selection.candidate.sha256 != incumbent.sha256
+                    and gain + 1e-9 >= self.margin
+                    and selection.score >= scoring.ORIGINAL_SCORE + PUBLISH_MARGIN)
+        if not improves:
+            if previous_record is not None:
+                atomic_bytes(self.folder / "golf" / f"regolf-selection-{time.time_ns()}.json", record_path.read_bytes())
+                atomic_bytes(record_path, previous_record)
+            reason = ("validated estimate does not beat the incumbent by the margin"
+                      if selection.candidate.sha256 != incumbent.sha256 else "incumbent stays the best validated")
+            return self.finish("kept", reason, compiles=adapter.compiles)
+        return self.publish_selection(adapter, incumbent, incumbent_estimate, selection)
 
     def golf_and_select(self, deadline):
         published = read_json(self.root / "published.json")
@@ -368,10 +450,10 @@ class RegolfRow:
         return value
 
 
-def report_only(layout, rows, *, allow_dev_roots=False):
+def report_only(layout, rows, *, allow_dev_roots=False, allow_original=False):
     out = []
     for row in rows:
-        ok, reason = eligibility(layout, row, allow_dev_roots=allow_dev_roots)
+        ok, reason = eligibility(layout, row, allow_dev_roots=allow_dev_roots, allow_original=allow_original)
         entry = {"row": row, "eligible": ok, "reason": reason}
         if ok:
             published = read_or(layout.row_root(row) / "published.json", {})
@@ -396,12 +478,13 @@ def lock_held(path):
 
 
 def regolf(run_dir, rows, *, compiles=DEFAULT_COMPILES, margin=DEFAULT_MARGIN, minutes=DEFAULT_MINUTES,
-           compiler_slots=None, deadline=None, report_only_mode=False, allow_dev_roots=False, row_class=RegolfRow):
+           compiler_slots=None, deadline=None, report_only_mode=False, allow_dev_roots=False, row_class=RegolfRow,
+           transfer_repair=False, repairs=None):
     layout = Layout(run_dir)
     rows = [int(row) for row in rows]
     if report_only_mode:
-        return {"run_dir": str(layout.run_dir), "report_only": True,
-                "rows": report_only(layout, rows, allow_dev_roots=allow_dev_roots)}
+        return {"run_dir": str(layout.run_dir), "report_only": True, "transfer_repair": bool(transfer_repair),
+                "rows": report_only(layout, rows, allow_dev_roots=allow_dev_roots, allow_original=bool(transfer_repair))}
     opts = run_options(layout, compiler_slots=compiler_slots, deadline=deadline)
     if compiler_slots:
         os.environ["FINAL60_COMPILER_SLOTS"] = str(opts.compiler_slots)
@@ -409,10 +492,10 @@ def regolf(run_dir, rows, *, compiles=DEFAULT_COMPILES, margin=DEFAULT_MARGIN, m
     out = []
     for row in rows:
         record = row_class(layout, row, opts, compiles=compiles, margin=margin, minutes=minutes,
-                           allow_dev_roots=allow_dev_roots).run()
+                           allow_dev_roots=allow_dev_roots, transfer_repair=transfer_repair, repairs=repairs).run()
         out.append({key: record.get(key) for key in (
-            "row", "action", "reason", "incumbent_estimate", "regolf_estimate", "gain", "selected_sha256", "label",
-            "accepted", "considered", "tried", "compiles", "seconds", "published", "audit_passed")})
+            "row", "mode", "action", "reason", "incumbent_estimate", "regolf_estimate", "gain", "selected_sha256", "label",
+            "accepted", "considered", "tried", "compiles", "seconds", "published", "audit_passed", "repairs")})
         print(json.dumps(out[-1], ensure_ascii=False, default=str), flush=True)
     counts = {}
     for item in out:
@@ -433,6 +516,11 @@ def add_parser(commands):
     parser.add_argument("--report-only", action="store_true", help="List eligible rows; no Lean, no write")
     parser.add_argument("--allow-dev-roots", action="store_true",
                         help="Testing only: also mock/dry-run and OpenAI-direct roots")
+    parser.add_argument("--transfer-repair", action="store_true",
+                        help="Alias-repair recorded candidates that failed only non-primary toolchains instead of golfing "
+                             "(rows publishing the original are eligible too); no API, validation only")
+    parser.add_argument("--repairs", type=int, default=transfer.MAX_REPAIRS_POSTHOC,
+                        help="--transfer-repair: repair validations per row (each is all versions + fresh 3x)")
     return parser
 
 
@@ -444,7 +532,8 @@ def main(args):
         raise SystemExit("--margin must be >= 0")
     value = regolf(args.run_dir, rows, compiles=args.compiles, margin=args.margin, minutes=args.minutes,
                    compiler_slots=args.compiler_slots, deadline=args.deadline, report_only_mode=args.report_only,
-                   allow_dev_roots=args.allow_dev_roots)
+                   allow_dev_roots=args.allow_dev_roots, transfer_repair=bool(getattr(args, "transfer_repair", False)),
+                   repairs=getattr(args, "repairs", None))
     print(json.dumps({key: item for key, item in value.items() if key != "rows"} if not args.report_only else value,
                      ensure_ascii=False, default=str), flush=True)
     return 0

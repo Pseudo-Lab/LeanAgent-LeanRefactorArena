@@ -31,7 +31,7 @@ import shutil
 import time
 
 from .contracts import Candidate, EvalResult, Selection
-from . import rewrites as rw, rules, scoring
+from . import rewrites as rw, rules, scoring, transfer
 from .evaladapter import driver as _driver, sha, _read
 
 SELECTION_SCHEMA = "final60-golf-selection-v1"
@@ -222,13 +222,64 @@ def _existing_selection(adapter) -> tuple[str, Path] | None:
     return (code, folder / "final") if _read(receipt).get("candidate_sha256") == sha(code) else None
 
 
+def _repair(adapter, problem: dict, candidate: Candidate, result: EvalResult, unique: dict, blocked: set,
+            considered: list, errors: list):
+    """Transfer repair of a finalist that compiled on the primary toolchain but failed another one.
+
+    Returns (repaired candidate, its validation, record) or (None, None, record); the record
+    is None when the failure is not alias-repairable (``transfer.plan``).
+    """
+    primary = problem["environments"][0]
+    try:
+        logs = adapter.version_logs(candidate.code)
+    except Exception:
+        logs = {}
+    plan = transfer.plan(result, primary, logs, transfer.alias_map_for(adapter, problem))
+    if plan is None:
+        return None, None, None
+    entry = {"label": candidate.label, "parent_sha256": candidate.sha256, "envs": plan["envs"], "mapping": plan["mapping"]}
+    fixed, edits, rejection = transfer.repair_text(candidate, problem["statement"], plan["mapping"])
+    entry["edits"] = edits
+    if fixed is None:
+        entry["skipped"] = rejection
+        return None, None, entry
+    if sha(fixed) in unique:
+        entry["skipped"] = "already a finalist"
+        return None, None, entry
+    if provenance_sha(fixed) in blocked:
+        entry["skipped"] = "equals-non-openrouter-proof"
+        return None, None, entry
+    repaired = transfer.repair_candidate(candidate, fixed)
+    entry.update(label=repaired.label, sha256=repaired.sha256)
+    considered.append(repaired.label)
+    try:
+        validated = adapter.validate(fixed, repaired.label, as_final=False)
+    except Exception as exc:
+        entry["error"] = f"{type(exc).__name__}: {exc}"[:500]
+        errors.append({"label": repaired.label, "error": entry["error"]})
+        return None, None, entry
+    entry.update(valid=validated.valid, validated_envs=validated.envs)
+    if not validated.valid:
+        errors.append({"label": repaired.label, "error_kind": validated.error_kind, "message": validated.message[-300:]})
+        return None, None, entry
+    transfer.persist(adapter, repaired, validated, edits, plan)
+    return repaired, validated, entry
+
+
 def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, deadline: float | None = None,
-                 non_openrouter_sha256=frozenset(), keep: int = 3, deep_k: int | None = DEEP_K) -> Selection:
+                 non_openrouter_sha256=frozenset(), keep: int = 3, deep_k: int | None = DEEP_K,
+                 repairs: int = transfer.MAX_REPAIRS) -> Selection:
     """Validate in screening order; return the best validated candidate or the original.
 
     ``k`` is raised to ``deep_k`` on wide-toolchain rows (``validation_depth``). On gated
     sources a validated finalist with a warning the original lacks gets one G1 fix attempt
     (re-validated); if that fails it is rejected (or ranked last in ``demote`` mode).
+
+    A finalist that compiles on the primary toolchain but fails another listed toolchain
+    only on unknown identifiers that the toolchains' deprecated aliases map to older names
+    gets one transfer repair (``transfer``): the repaired text (``repair:<label>``, origin
+    ``golf``, parent sha) is validated like any other finalist, at most ``repairs`` per
+    call. Never on gated sources or when the primary checkout sets ``warningAsError``.
     """
     t0, hb0 = adapter.baseline()
     total = len(problem["environments"])
@@ -237,6 +288,8 @@ def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, d
     if deep_k is not None:
         k = validation_depth(problem, base=int(k), deep=int(deep_k))
     gate = warning_gate_mode(problem)
+    repairs_left = int(repairs) if (int(repairs) > 0 and total > 1 and transfer.gate_blocks(adapter, problem) is None) else 0
+    repaired_entries = []
     dropped, unique = [], {}
     existing = _existing_selection(adapter)
     for candidate in pool:
@@ -290,7 +343,16 @@ def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, d
             continue
         if not result.valid:
             errors.append({"label": candidate.label, "error_kind": result.error_kind, "message": result.message[-300:]})
-            continue
+            if repairs_left <= 0 or (deadline is not None and time.time() >= deadline):
+                continue
+            repaired, result, entry = _repair(adapter, problem, candidate, result, unique, blocked, considered, errors)
+            if entry is not None:
+                repaired_entries.append(entry)
+                if "valid" in entry or "error" in entry:
+                    repairs_left -= 1
+            if repaired is None:
+                continue
+            unique[repaired.sha256] = candidate = repaired
         warned = new_warnings(adapter, candidate.code, reference) if gate != "off" else {}
         if warned:
             fixed = _gate_fix(adapter, statement, candidate.code)
@@ -337,8 +399,40 @@ def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, d
     selection = Selection(candidate=chosen, validated=result, score=score, beat_original=beat,
                           considered=tuple(considered))
     _fingerprint(adapter, result)
-    _record(adapter, selection, winners[1:1 + max(0, keep - 1)], dropped, errors, gated=gated, k=k, gate=gate)
+    _record(adapter, selection, winners[1:1 + max(0, keep - 1)], dropped, errors, gated=gated, k=k, gate=gate,
+            repairs=repaired_entries)
     return selection
+
+
+def golf_parents(adapter, problem: dict, pool: list[Candidate], top: int, *, non_openrouter_sha256=frozenset(),
+                 repairs: int = transfer.MAX_REPAIRS) -> list[Candidate]:
+    """The first ``top`` golf parents of ``pool``, in order, without known transfer failures.
+
+    A model candidate whose saved all-version check failed (``compatibility/<sha>/skipped.json``
+    or an invalid result) is not golfed: its alias repair is validated instead (at most
+    ``repairs`` validations), and the repaired text becomes the parent when it validates;
+    otherwise the candidate is skipped. Candidates without a saved check are kept as before.
+    """
+    out, records, budget = [], [], int(repairs)
+    folder = getattr(adapter, "folder", None)
+    for candidate in pool:
+        if len(out) >= max(0, int(top)):
+            break
+        if candidate.origin != "model" or folder is None or transfer.compat_status(folder, candidate.sha256) != "invalid":
+            out.append(candidate)
+            continue
+        repaired, record = None, {"label": candidate.label, "skipped": "repair budget spent"}
+        if budget > 0:
+            repaired, _, record = transfer.repair_known(adapter, problem, candidate, blocked=non_openrouter_sha256)
+            if "valid" in record or "error" in record:
+                budget -= 1
+        records.append({**record, "parent": candidate.label, "golfed": repaired is not None})
+        if repaired is not None:
+            out.append(repaired)
+    log = getattr(adapter, "_log", None)
+    if records and callable(log):
+        log("golf-parents", {"records": records})
+    return out
 
 
 def _fingerprint(adapter, result: EvalResult) -> None:
@@ -362,7 +456,7 @@ def _entry(score: float, candidate: Candidate, result: EvalResult) -> dict:
 
 
 def _record(adapter, selection: Selection, alternates, dropped, errors, *, gated=(), k: int | None = None,
-            gate: str | None = None) -> None:
+            gate: str | None = None, repairs=()) -> None:
     folder = adapter.golf_dir
     stored = []
     for score, candidate, result, *_ in alternates:
@@ -375,7 +469,7 @@ def _record(adapter, selection: Selection, alternates, dropped, errors, *, gated
         "selected": _entry(selection.score, selection.candidate, selection.validated),
         "considered": list(selection.considered), "alternates": stored, "dropped": dropped,
         "validation_errors": errors, "validations": k, "warning_gate": {"mode": gate, "entries": list(gated)},
-        "published": False})
+        "repairs": list(repairs), "published": False})
 
 
 def _rebased(stored: str, folder: Path) -> Path:
@@ -565,7 +659,8 @@ def finalize_row(run_root: Path, row: int, route_golf: dict | None = None, *, go
     settings = {**golf.DEFAULTS, **(route_golf or {})}
     results, golf_error = [], None
     if run_golf:
-        parents = [c for c in candidates_from_run(run_root, row) if c.origin == "model"][:settings["top_k"]]
+        parents = golf_parents(adapter, problem, [c for c in candidates_from_run(run_root, row) if c.origin == "model"],
+                               settings["top_k"], non_openrouter_sha256=non_openrouter_sha256)
         if parents:
             try:
                 results = golf.improve(adapter, problem, parents, settings, deadline=golf_deadline,
