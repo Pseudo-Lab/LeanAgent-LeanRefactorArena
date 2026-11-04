@@ -31,6 +31,38 @@ class WorkerBusy(Exception):
     pass
 
 
+class WallClockAlarm:
+    """Call ``callback`` once ``time.time()`` reaches ``deadline`` (a wall-clock epoch).
+
+    ``threading.Timer`` waits on the monotonic clock. On the WSL2 run host the monotonic
+    clock ran about 7% slower than the host-synced wall clock (rehearsal 2026-11-04: every
+    600 s exploration clock fired 43-46 s late), so the row exploration clock polls the
+    wall clock instead; the poll period bounds how late the callback can be.
+    """
+
+    def __init__(self, deadline, callback, *, poll_s=5.0):
+        self.deadline, self.callback, self.poll_s = float(deadline), callback, float(poll_s)
+        self._stop = threading.Event()
+        self.thread = threading.Thread(target=self._run, daemon=True)
+        self.fired = False
+
+    def start(self):
+        self.thread.start()
+        return self
+
+    def cancel(self):
+        self._stop.set()
+
+    def _run(self):
+        while not self._stop.is_set():
+            remaining = self.deadline - time.time()
+            if remaining <= 0:
+                self.fired = True
+                self.callback()
+                return
+            self._stop.wait(min(self.poll_s, max(remaining, 0.01)))
+
+
 def read_or(path, default):
     try:
         return read_json(path)
@@ -225,20 +257,19 @@ class RowWorker:
         if started is None:
             started = time.time()
             self.update_worker(exploration_started_at=started)
-        remaining = started + self.exploration_budget() - time.time()
-        timer = None
-        if remaining <= 0:
+        deadline = started + self.exploration_budget()
+        alarm = None
+        if time.time() >= deadline:
             self.flag("stop-exploration.json", "row exploration clock")
         else:
-            timer = threading.Timer(remaining, self.flag, ("stop-exploration.json", "row exploration clock"))
-            timer.daemon = True
-            timer.start()
+            # Wall-clock alarm (not threading.Timer): the monotonic clock may run slow (WSL2).
+            alarm = WallClockAlarm(deadline, lambda: self.flag("stop-exploration.json", "row exploration clock")).start()
         self.status("salvage" if (self.root / "salvage.json").exists() else "exploring")
         try:
             self.driver.run_problem(self.root, self.row)
         finally:
-            if timer is not None:
-                timer.cancel()
+            if alarm is not None:
+                alarm.cancel()
 
     def golf_and_select(self, crashes):
         if self.worker_state().get("golf"):
