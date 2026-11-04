@@ -68,5 +68,5 @@ export function selectTeamBest(incumbents: FinalResultsView, shared: SharedResul
     return {...best, comparisons: group.map(p=>({author:p.author!,runId:p.runId,score:p.score,
       candidateHash:p.candidateHash,proofPath:p.proofPath,selected:p===best}))};
   }).sort((a,b)=>a.row-b.row);
-  return {...incumbents,generatedAt:shared.generatedAt,problems};
+  return {...incumbents,generatedAt: new Date(incumbents.generatedAt) > new Date(shared.generatedAt) ? incumbents.generatedAt : shared.generatedAt,problems};
 }

@@ -9,77 +9,60 @@ theorem liftBVars_denote
     : LExpr.denote tcInterp opInterp fvarVal vt (HList.append bv₁ (HList.append bv_insert bv_outer))
         (LExpr.liftBVars Δ_insert.length e Δ₁.length) τ h_lifted =
       LExpr.denote tcInterp opInterp fvarVal vt (HList.append bv₁ bv_outer) e τ h_orig := by
-  have unlift {a : LExpr T.mono} {σ : LMonoTy} {Δ : List LMonoTy}
-      (h : LExpr.HasTypeA (Δ ++ (Δ_insert ++ Δ_outer))
-        (LExpr.liftBVars Δ_insert.length a Δ.length) σ) :
-      LExpr.HasTypeA (Δ ++ Δ_outer) a σ := by
-    apply LExpr.typeCheck_to_HasTypeA
-    have ht := LExpr.HasTypeA_to_typeCheck h
-    rw [← List.append_assoc, liftBVars_typeCheck] at ht
-    exact ht
-  induction e generalizing Δ₁ bv₁ τ <;> dsimp only [LExpr.liftBVars] at h_lifted ⊢
-  case const m c => rfl
-  case op m o ty => cases ty <;> rfl
-  case fvar m name ty => cases ty <;> rfl
+  have liftTy {Δ : List LMonoTy} {a : LExpr T.mono} {t : LMonoTy}
+      (h : LExpr.HasTypeA (Δ ++ Δ_outer) a t) :
+      LExpr.HasTypeA (Δ ++ (Δ_insert ++ Δ_outer)) (LExpr.liftBVars Δ_insert.length a Δ.length) t := by
+    simpa only [LExpr.HasTypeA_iff_typeCheck, ← List.append_assoc, liftBVars_typeCheck] using h
+  induction e generalizing Δ₁ bv₁ τ <;> simp only [LExpr.liftBVars] at h_lifted ⊢
+  case const => rfl
+  case op m o ty => cases h_orig; rfl
+  case fvar m name ty => cases h_orig; rfl
   case bvar m i =>
-    have ho := HasTypeA.bvar_inv h_orig
-    by_cases h_ge : i ≥ Δ₁.length
-    · simp only [if_pos h_ge] at h_lifted ⊢
-      rw [denote_bvar _ _ _ _ _ h_lifted, denote_bvar _ _ _ _ _ h_orig]
-      rw [List.getElem?_append_right h_ge] at ho
+    by_cases hg : Δ₁.length ≤ i <;> simp only [hg, ↓reduceIte] at h_lifted ⊢
+    all_goals rw [denote_bvar _ _ _ _ _ h_lifted, denote_bvar _ _ _ _ _ h_orig]
+    · have ho := HasTypeA.bvar_inv h_orig
+      rw [List.getElem?_append_right hg] at ho
+      have hm := HasTypeA.bvar_inv h_lifted
+      rw [List.getElem?_append_right (by omega : Δ₁.length ≤ i + Δ_insert.length)] at hm
       have hi : i + Δ_insert.length - Δ₁.length - Δ_insert.length = i - Δ₁.length := by omega
-      have hm : (Δ_insert ++ Δ_outer)[i + Δ_insert.length - Δ₁.length]? = some τ := by
-        rw [List.getElem?_append_right (by omega), hi]
-        exact ho
-      rw [HList.get_append_right bv₁ (bv_insert.append bv_outer) _ (HasTypeA.bvar_inv h_lifted) hm (by omega),
-          HList.get_append_right bv_insert bv_outer _ hm (by simpa only [hi] using ho) (by omega),
-          HList.get_append_right bv₁ bv_outer i (HasTypeA.bvar_inv h_orig) ho h_ge]
+      rw [HList.get_append_right bv₁ (bv_insert.append bv_outer) _ _ hm (by omega),
+        HList.get_append_right bv_insert bv_outer _ hm (by simpa only [hi] using ho) (by omega),
+        HList.get_append_right bv₁ bv_outer _ _ ho hg]
       simp only [hi]
-    · simp only [if_neg h_ge] at h_lifted ⊢
-      rw [denote_bvar _ _ _ _ _ h_lifted, denote_bvar _ _ _ _ _ h_orig]
-      rw [List.getElem?_append_left (by omega)] at ho
-      rw [HList.get_append_left bv₁ _ i (HasTypeA.bvar_inv h_lifted) ho,
-          HList.get_append_left bv₁ _ i (HasTypeA.bvar_inv h_orig) ho]
+    · have hp := HasTypeA.bvar_inv h_orig
+      rw [List.getElem?_append_left (by omega : i < Δ₁.length)] at hp
+      rw [HList.get_append_left bv₁ (bv_insert.append bv_outer) i _ hp,
+        HList.get_append_left bv₁ bv_outer i _ hp]
   case app m fn arg ih_fn ih_arg =>
-    obtain ⟨aty_l, h_fn_l, h_arg_l⟩ := HasTypeA.app_inv h_lifted
-    have h_fn_o := unlift h_fn_l
-    have h_arg_o := unlift h_arg_l
-    rw [denote_app _ h_fn_l h_arg_l h_lifted, denote_app _ h_fn_o h_arg_o h_orig,
-        ih_fn h_fn_o h_fn_l bv₁, ih_arg h_arg_o h_arg_l bv₁]
+    let ⟨aty, hf, ha⟩ := HasTypeA.app_inv h_orig
+    rw [denote_app _ (liftTy hf) (liftTy ha) h_lifted, denote_app _ hf ha h_orig,
+      ih_fn hf _ bv₁, ih_arg ha _ bv₁]
   case abs m name ty body ih =>
-    cases ty with
-    | none => rfl
-    | some aty =>
-      obtain ⟨rty_l, h_eq_l, h_body_l⟩ := HasTypeA.abs_inv h_lifted
-      subst h_eq_l
-      have h_body_o := unlift (Δ := aty :: Δ₁) h_body_l
-      rw [denote_abs _ h_body_l h_lifted, denote_abs _ h_body_o h_orig]
-      funext x
-      exact ih h_body_o h_body_l (.cons x bv₁)
+    cases h_orig with
+    | abs hb =>
+      have hl := liftTy (Δ := _ :: Δ₁) hb
+      exact (denote_abs _ hl h_lifted).trans
+        ((funext fun x => ih hb hl (.cons x bv₁)).trans (denote_abs _ hb (.abs hb)).symm)
   case ite m c t e ih_c ih_t ih_e =>
-    obtain ⟨h_c_l, h_t_l, h_e_l⟩ := HasTypeA.ite_inv h_lifted
-    have h_c_o := unlift h_c_l
-    have h_t_o := unlift h_t_l
-    have h_e_o := unlift h_e_l
-    rw [denote_ite _ h_c_l h_t_l h_e_l h_lifted,
-        denote_ite _ h_c_o h_t_o h_e_o h_orig,
-        ih_c h_c_o h_c_l bv₁, ih_t h_t_o h_t_l bv₁, ih_e h_e_o h_e_l bv₁]
+    let ⟨hc, ht, he⟩ := HasTypeA.ite_inv h_orig
+    rw [denote_ite _ (liftTy hc) (liftTy ht) (liftTy he) h_lifted,
+      denote_ite _ hc ht he h_orig,
+      ih_c hc _ bv₁, ih_t ht _ bv₁, ih_e he _ bv₁]
   case eq m e1 e2 ih1 ih2 =>
-    generalize hl : HasTypeA.eq_inv h_lifted = dl
-    generalize ho : HasTypeA.eq_inv h_orig = dorig
-    rcases dl with ⟨ty_l, h_τ_l, h_1_l, h_2_l⟩
-    rcases dorig with ⟨ty_o, h_τ_o, h_1_o, h_2_o⟩
-    subst h_τ_o
-    have h_ty := HasTypeA_unique (unlift h_1_l) h_1_o
-    subst h_ty
-    simp only [LExpr.denote, hl, ho]
-    rw [ih1 h_1_o h_1_l bv₁, ih2 h_2_o h_2_l bv₁]
+    let ⟨ty, he, h1, h2⟩ := HasTypeA.eq_inv h_orig
+    subst he
+    have hh1 := ih1 h1 (liftTy h1) bv₁
+    have hh2 := ih2 h2 (liftTy h2) bv₁
+    apply Classical.byCases
+    · intro heq
+      rw [denote_eq_true _ h1 h2 h_orig heq]
+      exact denote_eq_true _ _ _ h_lifted (by rw [hh1, hh2]; exact heq)
+    · intro heq
+      rw [denote_eq_false _ h1 h2 h_orig heq]
+      exact denote_eq_false _ _ _ h_lifted (by rw [hh1, hh2]; exact heq)
   case quant m qk name qty tr body ih_tr ih_body =>
-    cases qty with
-    | none => rfl
-    | some qty' =>
-      obtain ⟨_, h_τ_l, h_tr_l, h_body_l⟩ := HasTypeA.quant_inv h_lifted
-      subst h_τ_l
-      have h_body_o := unlift (Δ := qty' :: Δ₁) h_body_l
-      exact denote_quant_congr h_body_l h_body_o h_lifted h_orig
-        (fun x => ih_body h_body_o h_body_l (.cons x bv₁))
+    cases h_orig with
+    | quant ht hb =>
+      have hl := liftTy (Δ := _ :: Δ₁) hb
+      exact denote_quant_congr hl hb h_lifted (.quant ht hb) fun x =>
+        ih_body hb hl (.cons x bv₁)

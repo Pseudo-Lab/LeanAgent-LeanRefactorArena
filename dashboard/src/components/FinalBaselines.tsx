@@ -78,6 +78,7 @@ export function FinalBaselines() {
       <article className="summary-card"><div className="summary-label">최고 점수 풀이 · {completed} / 60문제</div><div className="big-number">{format(meanScore)}<span>점</span></div><p>선택한 {completed}문제 평균 · 대회식 종합 로컬 추정</p></article>
     </div>
     <p className="measurement-note">원본은 127개 지정 버전 조합의 기준값을 확보했습니다. 선택한 풀이는 모두 지정 버전 전체 통과 기록 또는 보고값이 있습니다. 점수는 각 풀이와 함께 공유된 원본·후보 측정값으로 계산하며, 이번 업데이트에서 Lean 측정을 다시 실행하지 않았습니다. 공식 대회 점수가 아닙니다.</p>
+    <p className="measurement-note"><strong>하네스 비교는 실행별 평균으로 판단합니다.</strong> 여러 실행의 최고 풀이를 합친 타일 평균과 다릅니다. <a href="/reports/scout20.html">Strata·LeanPool 20문제 실행 결과 · 시도별 그래프</a></p>
     <p className="measurement-note">선택 출처 · {Object.entries(authorCounts).map(([author,count])=>`${author} ${count}문제`).join(' · ')}</p>
     <div className="dataset-bar">
       <span className="warmup-label">F001–F060 · 팀 공유 결과 반영</span>
@@ -88,7 +89,7 @@ export function FinalBaselines() {
       <DetailPanel problem={selected} metric={metric} snapshot={snapshot}>
         {candidate ? <section className="team-results" aria-label="선택한 검증 증명">
           <h3>선택한 검증 증명</h3>
-          <p>{candidate.author} · {candidate.evidenceLevel === 'shared-report' ? '팀원 공유 결과' : candidate.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약' : `${candidate.runId === results.runId ? '$3 실행' : '기존 $1 실행'}`} · 확보한 후보 중 최고 점수</p>
+          <p>{candidate.author} · {candidate.evidenceLevel === 'shared-report' ? '팀원 공유 결과' : candidate.evidenceLevel === 'published-summary' ? 'PR #54 공개 검증 요약' : candidate.runId} · 확보한 후보 중 최고 점수</p>
           {candidate.baseline.raw_samples && candidate.candidate.raw_samples ? <p>원본 HB: {candidate.baseline.raw_samples.map(n => format(n, 0)).join(' / ')}<br/>후보 HB: {candidate.candidate.raw_samples.map(n => format(n, 0)).join(' / ')}</p> : <p>공유 자료의 원본·후보 HB 집계값을 사용했습니다.</p>}
           <a href={candidate.evidenceLevel === 'shared-report' ? '/data/team-shared-results.json' : candidate.evidenceLevel === 'published-summary' ? '/data/physlib-cslib-results.json' : '/data/final-results.json'} download>선택 출처 JSON</a>
           {candidate.comparisons && candidate.comparisons.length > 1 ? <div className="reference-table-wrap"><table className="metrics-table"><caption>팀원 후보 비교 · 대회식 종합 점수</caption><thead><tr><th>출처</th><th>점수</th><th>선택</th></tr></thead><tbody>{candidate.comparisons.map(c=><tr key={c.runId}><th><a href={`https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/blob/main/${c.proofPath}`} target="_blank" rel="noreferrer">{c.author}</a></th><td>{format(c.score, 5)}</td><td>{c.selected ? '최고 점수' : '비교 후보'}</td></tr>)}</tbody></table></div> : null}
