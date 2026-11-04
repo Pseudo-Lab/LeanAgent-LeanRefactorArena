@@ -1,0 +1,175 @@
+{
+ "source": "손지연 LeanRefactor_Report_2026-11-02_v4 DEVLOG.md \"마지막 추가 개선의 문제별 판단\" 표 (main #60: solutions/team-shared-20261102)",
+ "labeling": "S01-S09만 표기(S10·S11 일반 전략 제외). 문장과 bank 설명만 보고, Retriever 출력을 보기 전에 모델로 분류한 블라인드 라벨. 사람 검토 전.",
+ "items": [
+  {
+   "id": "R01",
+   "problem": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+   "applied": "Bound the fiber union by card_biUnion_le_card_mul; avoid exact cardinality and ENat round trips.",
+   "labels": [],
+   "why": "Library bound lemma replaces exact cardinality (S10-like); no S01-S09 edit stated."
+  },
+  {
+   "id": "R02",
+   "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+   "applied": "Use sum/cardinality identities, full-code dimension, map degree bounds and shared row witnesses.",
+   "labels": [
+    "S05"
+   ],
+   "why": "Shared row witnesses reused across parts; identities/library lemmas otherwise S10-like."
+  },
+  {
+   "id": "R03",
+   "problem": "ps_coprime_case_constant",
+   "applied": "Clear positive rational denominators once, use a natural-number cross-product inequality, preserve efficient zero-product handling.",
+   "labels": [],
+   "why": "Change of mathematical route (clear denominators, Nat inequality); no bank edit clearly stated."
+  },
+  {
+   "id": "R04",
+   "problem": "ProximityToRS.dir_close_of_many_close_pts",
+   "applied": "Replace explicit pair bijections by sum_comm and sum inequalities; use linear_combination for coordinate equalities.",
+   "labels": [],
+   "why": "Library sum_comm replaces bijections (S10-like); linear_combination use does not clearly replace a search step."
+  },
+  {
+   "id": "R05",
+   "problem": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+   "applied": "Share branch decomposition; use support_simulateQ_run'_subset to remove state tracking; trim unused simp arguments.",
+   "labels": [
+    "S05",
+    "S09"
+   ],
+   "why": "Shares branch decomposition once; trims unused simp arguments."
+  },
+  {
+   "id": "R06",
+   "problem": "JohnsonBound.johnson_bound_alphabet_free",
+   "applied": "Replace broad grind calls by ring and explicit inequalities; prove strong condition through a positive quadratic denominator.",
+   "labels": [
+    "S06"
+   ],
+   "why": "Replaces broad grind calls with ring and explicit inequalities."
+  },
+  {
+   "id": "R07",
+   "problem": "putnam_1964_a4",
+   "applied": "Apply infinite-to-finite pigeonhole to the four-term state, then a direct strong induction on the recurrence.",
+   "labels": [],
+   "why": "New proof route (pigeonhole + strong induction); S11/S10-like."
+  },
+  {
+   "id": "R08",
+   "problem": "putnam_1970_b5",
+   "applied": "Use min/max continuity and a direct epsilon-delta argument with the clipping thresholds outside the target neighborhood.",
+   "labels": [],
+   "why": "Direct mathematical argument; route change only."
+  },
+  {
+   "id": "R09",
+   "problem": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+   "applied": "Use the one-level fiber formula and first basis vector lemma; reuse statement let-bindings; replace long polynomial rearrangements by ring/linear_combination.",
+   "labels": [],
+   "why": "Library lemmas and reuse of let-bindings; ring/linear_combination replace manual rearrangement, not a search."
+  },
+  {
+   "id": "R10",
+   "problem": "putnam_1991_b1",
+   "applied": "Prove square-gap invariance using absolute values and a parity contradiction; simplify induction and the two directions.",
+   "labels": [],
+   "why": "Different invariant argument and general simplification; no specific bank edit."
+  },
+  {
+   "id": "R11",
+   "problem": "interleaved_affine_gaps_imply_tensor_gaps",
+   "applied": "Apply probability monotonicity and the induction hypothesis directly, removing repeated explicit predicates and intermediate bounds.",
+   "labels": [
+    "S04"
+   ],
+   "why": "Applies facts directly, removing intermediate predicates and bounds."
+  },
+  {
+   "id": "R12",
+   "problem": "putnam_2007_a1",
+   "applied": "Compute the derivative once, exclude nontrivial two-cycles, use explicit polynomial certificates and share the quadratic-root construction.",
+   "labels": [
+    "S05",
+    "S07"
+   ],
+   "why": "Derivative computed once and quadratic-root construction shared; explicit polynomial certificates."
+  },
+  {
+   "id": "R13",
+   "problem": "putnam_1988_a2",
+   "applied": "Reuse HasDerivAt proofs for the product and its factors; finish with the square-root square identity.",
+   "labels": [
+    "S05"
+   ],
+   "why": "Reuses HasDerivAt proofs for product and factors instead of re-proving."
+  },
+  {
+   "id": "R14",
+   "problem": "Combine.master_lemma",
+   "applied": "Use explicit interpolation and polynomial evaluation identities; replace broad automation and remove unused shadowed facts.",
+   "labels": [
+    "S06",
+    "S04"
+   ],
+   "why": "Replaces broad automation; removes unused shadowed facts."
+  },
+  {
+   "id": "R15",
+   "problem": "putnam_2001_b1",
+   "applied": "Share the parity balance lemma and calculate the indicator-weighted sum directly.",
+   "labels": [
+    "S05"
+   ],
+   "why": "Shares the parity balance lemma across uses."
+  },
+  {
+   "id": "R16",
+   "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+   "applied": "Bound adjugate degree by natDegree_mul_le and the explicit minor matrix; assemble the kernel witness directly. Reject shorter convert-based candidate after v4.30 heartbeat timeout.",
+   "labels": [
+    "S07"
+   ],
+   "why": "Explicit minor matrix bound and directly assembled kernel witness."
+  },
+  {
+   "id": "R17",
+   "problem": "putnam_1995_a3",
+   "applied": "Reuse transformed digit-replacement divisibility conditions; combine the sum and subtraction arguments without intermediate repeated expressions.",
+   "labels": [
+    "S05"
+   ],
+   "why": "Reuses transformed conditions and removes repeated intermediate expressions."
+  },
+  {
+   "id": "R18",
+   "problem": "putnam_1968_a1",
+   "applied": "Discharge continuity side conditions within fun_prop, removing a separate continuity helper.",
+   "labels": [
+    "S04"
+   ],
+   "why": "Inlines separate continuity helper into fun_prop call."
+  },
+  {
+   "id": "R19",
+   "problem": "putnam_1964_b2",
+   "applied": "Use disjointness monotonicity to prove complementary coverage; inline the exclusion argument and simplify the power recurrence.",
+   "labels": [
+    "S04"
+   ],
+   "why": "Inlines the exclusion argument."
+  },
+  {
+   "id": "R20",
+   "problem": "putnam_2019_a1",
+   "applied": "Share the cast from integer congruences to the two ZMod obstructions; simplify the zero witness. Preserve kernel-checked finite computation.",
+   "labels": [
+    "S05"
+   ],
+   "why": "Shares the cast to the two ZMod obstructions once."
+  }
+ ]
+}
