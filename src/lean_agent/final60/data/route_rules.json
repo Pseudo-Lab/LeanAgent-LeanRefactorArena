@@ -47,7 +47,7 @@
   "hints": {
     "max_hints": 6,
     "playbook_core": 3,
-    "bank_cards": 1,
+    "bank_cards": 0,
     "lessons": 1,
     "many_versions_min": 3,
     "hb_heavy_min_raw": 100000000

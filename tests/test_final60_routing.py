@@ -13,6 +13,7 @@ import random
 import sys
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -380,11 +381,15 @@ class Banks(unittest.TestCase):
                     "evidence": [{"problem": problem, "candidate_sha256": "0" * 64}]}
         bank = {"schema_version": 1, "version": "fixture-team", "scope": "final-adaptation",
                 "strategies": [card("own", STRUCT["name"]), card("other", "Some.Other")]}
-        self.assertFalse(any(s.startswith("team-bank") for s in route(STRUCT).hint_sources))
-        with tempfile.TemporaryDirectory() as tmp:
-            path = Path(tmp) / "team.json"
-            path.write_text(json.dumps(bank))
-            value = route(STRUCT, bank_paths=[path])
+        # Production rules set bank_cards to 0 (no warm-up cards); the opt-in team bank is tested with one card.
+        base = routing.rules()
+        opted = {**base, "hints": {**base["hints"], "bank_cards": 1}}
+        with mock.patch.object(routing, "rules", return_value=opted):
+            self.assertFalse(any(s.startswith("team-bank") for s in route(STRUCT).hint_sources))
+            with tempfile.TemporaryDirectory() as tmp:
+                path = Path(tmp) / "team.json"
+                path.write_text(json.dumps(bank))
+                value = route(STRUCT, bank_paths=[path])
         self.assertIn("team-bank:fixture-team:other", value.hint_sources)
         self.assertNotIn("team-bank:fixture-team:own", value.hint_sources)
 
