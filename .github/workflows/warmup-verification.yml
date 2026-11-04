@@ -20,6 +20,14 @@ jobs:
       max-parallel: 4
       matrix:
         include:
+          - source: strata
+            version: v4.26.0
+          - source: strata
+            version: v4.27.0
+          - source: strata
+            version: v4.29.1
+          - source: physlib
+            version: v4.32.0
           - source: putnambench
             version: v4.25.0
           - source: putnambench
@@ -34,11 +42,34 @@ jobs:
             version: v4.30.0
           - source: arklib
             version: v4.31.0
+          - source: cslib
+            version: v4.30.0
+          - source: cslib
+            version: v4.31.0
+          - source: cslib
+            version: v4.32.0
+          - source: cslib
+            version: v4.33.0-rc2
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           fetch-depth: 0
           persist-credentials: false
+      - name: Check out frozen evaluator revision
+        # The evaluator came from a squash-merged PR and need not be reachable
+        # from any current branch, even with fetch-depth: 0.
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: c18ec56682462847e2f4d8b6d60aa79ec071a10b
+          path: .warmup-evaluator-source
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Import frozen evaluator revision
+        # Import locally so the private-repository token is neither persisted
+        # nor passed to subsequent dependency builds or proof evaluation.
+        run: git fetch --no-tags --depth=1 ./.warmup-evaluator-source c18ec56682462847e2f4d8b6d60aa79ec071a10b
+      - name: Check validator and publication regressions
+        run: python3 -m unittest discover -s tests -p test_warmup_validator.py
       - name: Install pinned Elan
         run: |
           export ELAN_HOME="$RUNNER_TEMP/elan"
