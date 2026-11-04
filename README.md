@@ -5,6 +5,137 @@
 
 팀 실험 결과 대시보드: [lean-arena-dashboard.pages.dev](https://lean-arena-dashboard.pages.dev)
 
+## Reproduction (final60)
+
+The final submission is produced by the final60 harness, `python -m lean_agent.final60`, at tag
+`final60-rc2` (`01f8c703ae8ac9ab94a352ecf15705283bf63c9c`). This section was added on top of that tag
+in a commit that changes only this README and the file mode of `scripts/final60_supervise.sh`.
+Commands and flags: [docs/final60/RUNBOOK.md](docs/final60/RUNBOOK.md).
+Order of operations, deadline actions and uploads: [docs/final-run.md](docs/final-run.md).
+
+### Requirements
+
+- **OS and sandbox:** Linux x86_64 with bubblewrap, or macOS with `sandbox-exec`. On Linux the
+  evaluator takes `bwrap` from `PATH`, then `$ARENA_BWRAP`, then `sources/final/bin/bwrap`, and
+  refuses to compile without one.
+- **Run machine (measured):** Windows 11 host, WSL2 Ubuntu 24.04.2 LTS, x86_64, 28 hardware threads,
+  45 GiB `MemTotal` (WSL2 memory limit 46 GB).
+- **Python 3.12, standard library only.** `pyproject.toml` declares `requires-python >= 3.10` and no
+  dependencies; the run machine uses Python 3.12.3 for the run and the test suites, and the
+  environment preparation README asks for 3.12 or newer. Git and zstd are also needed.
+- **Disk:** about 100 GB for the prepared environments (`sources/final` measured 97,183 MiB on the
+  run machine), plus about 1-2 GB per run directory (estimate).
+- **Memory:** 32 GiB or more (estimate; the run machine has 45 GiB). Each Lean compile runs with
+  `-M16384` for the Mathlib-based sources (ArkLib, CSLib, LeanPool, PhysLib, PutnamBench) and
+  `-M4096` for Strata (`--lean-memory-mib` overrides both). The supervisor sizes the shared compile
+  pool to `min(--compiler-slots, (MemTotal - --mem-reserve-gib) / --gib-per-compile)`, within 2..8,
+  and admits each compile only while free memory allows it.
+- **Money:** an OpenRouter key with credit. At most US$2.99 is spent per problem, so at most
+  US$179.40 for the 60 problems.
+
+### Pinned inputs (untracked; put them in place before `plan`)
+
+| Input | Path | Pin |
+| --- | --- | --- |
+| Final dataset (the organizers' file: 60 rows, 502,056 bytes) | `benchmarks/arena/final-d53690b057f9/benchmark_data_final.jsonl` | SHA-256 `d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682` (measured); the harness refuses other bytes |
+| Prepared environments | `sources/` (`sources/final/checkouts`, `toolchains`, `environments`, caches) | `configs/final-environments.lock.json` |
+| Local environment registry | `configs/final-environments.local.json` | written by the environment preparation |
+
+- `configs/final-environments.lock.json` pins 17 source/toolchain environments (exact Git
+  revisions) for the 6 sources ArkLib, CSLib, LeanPool, PhysLib, PutnamBench and Strata, covering
+  127 problem-version pairs, on the toolchains v4.26.0, v4.27.0, v4.30.0, v4.31.0, v4.33.1, v4.34.0,
+  v4.34.1 and v4.35.0-rc3. Preparation steps:
+  [experiments/final-environment/README.md](experiments/final-environment/README.md).
+- The lock was produced on macOS arm64 (`"platform": "darwin_aarch64"`), and the tracked toolchain
+  downloaders (`experiments/final-environment/toolchains.py`, `scripts/download_final_toolchain.py`)
+  fetch the `darwin_aarch64` archives. On Linux, install the official x86_64 Linux release of each
+  version under `sources/final/toolchains/<version>/`; the run machine has the
+  `x86_64-unknown-linux-gnu` builds of all eight there (measured with `lean --version`).
+
+### Model, provider and budget (pinned in code)
+
+- One model for every role (each row seals `role_models: {}`): `openai/gpt-6.1-sol` through
+  OpenRouter (`src/lean_agent/final60/catalog.py`, entry `gen_primary`) with
+  `provider.only` = `provider.order` = `["openai"]`, `allow_fallbacks: false`,
+  `require_parameters: true`, `max_price` US$2 per million prompt tokens and US$10 per million
+  completion tokens, `reasoning.effort: "high"`, `seed: 42`, `max_tokens: 8192`, a 900 s timeout,
+  non-streaming JSON mode (`response_format: {"type": "json_object"}`). `transport.validate_body`
+  refuses any other request body. The catalog entries `gen_alt`, `gen_alt2` and `cheap` are off by
+  default.
+- **Hard cap US$2.99 per problem** (`contracts.CAP_USD`; `--cap` accepts only values in (0, 2.99]).
+  Every request is reserved at its worst-case bound in the row's `ledger.json` before it is sent
+  (`spent + open reservations + bound <= 2.99 - declared prior spend`), and every billed call
+  counts, including retries and lost responses (unbilled 4xx refusals cost US$0).
+- Debit per call: max(OpenRouter `usage.cost`, list price of the returned token usage), at the list
+  prices frozen on 2026-11-04 02:57 KST (US$2/M input, US$10/M output, US$0.10/M cache read,
+  US$2.50/M cache write). A lost response is charged its generation cost if known, else its bound.
+- A fixed seed does not make sampling deterministic, so a rerun gives different candidates. The run
+  directory keeps every request, response and charge: `rows/F0NN/problems/F0NN/steps/NNNN/`, each
+  row's `ledger.json`, and the SQLite mirror `final60.sqlite`.
+
+### Key
+
+A dotenv file with one line `OPENROUTER_API_KEY=sk-or-...` (the loader also reads `OPENROUTER=`, and
+accepts only `sk-or-` keys). Only the transport reads it, through `--key-file`. Keep it outside the
+repository and never print it.
+
+### Commands
+
+From the repository root. `PY` is the Python 3.12 interpreter, `RUN` a new run directory outside the
+checkout, `KEY` the dotenv file and `DEADLINE` an ISO 8601 time with a UTC offset (the competition run:
+`2026-11-04T20:59:59+09:00`).
+
+```bash
+export PYTHONPATH=src FINAL60_PYTHON="$PY"
+# Tests (no API). At final60-rc2 the three suites hold 215, 167 and 568 test cases.
+export PROJECT_CACHE_DIR="$(mktemp -d)"
+"$PY" -B -m unittest discover -s tests -p 'test_final60_*.py'
+"$PY" -B -m unittest discover -s experiments/final-batch-next -p 'test_*.py'
+"$PY" -B -m unittest discover -s tests
+# 1. plan: environment coverage, routes and an all-original submission.jsonl (no API, no Lean)
+"$PY" -B -m lean_agent.final60 plan --run-dir "$RUN"
+# 2. Free OpenRouter checks (no spend)
+"$PY" -B experiments/final-batch-next/openrouter_transport.py key-status --key-file "$KEY"
+"$PY" -B experiments/final-batch-next/openrouter_transport.py endpoint-check
+# 3. run, through the watchdog (it restarts the supervisor every 30 s until it exits 0)
+nohup bash scripts/final60_supervise.sh "$RUN" --key-file "$KEY" --rows 1-60 --deadline "$DEADLINE" \
+    > "$RUN.watchdog.out" 2>&1 < /dev/null &
+# 4. status: frozen-code check first, then per-row state and spend (JSON)
+"$PY" -B -m lean_agent.final60 status --run-dir "$RUN"
+# 5. Final assembly by hand (the supervisor also runs it near the deadline)
+"$PY" -B -m lean_agent.final60 assemble --run-dir "$RUN" --final
+# 6. Code ZIP of the tracked files (needs a git checkout)
+"$PY" -B -m lean_agent.final60 package --out "$RUN/code.zip" --repo . --name LeanAgent-LeanRefactorArena
+```
+
+- Start the watchdog with `bash`: the code ZIP stores every file with mode 0644, so
+  `scripts/final60_supervise.sh` is not executable after unpacking.
+- `--deadline` defaults to the competition deadline, `2026-11-04T20:59:59+09:00`. A later rerun must
+  pass a future time, or the supervisor stops at once. Relative to the deadline: no new paid requests
+  from `--soft-stop-min` (100) minutes before it, no new rows and a final assembly every 10 min from
+  60 min before it, the last assembly and `SUBMIT-READY.txt` 20 min before it.
+- `run` defaults: `--max-rows 8` (1..14), `--compiler-slots 6` (2..8), `--exploration-minutes 75`,
+  `--mem-start-gib 10`, `--mem-reserve-gib 6`, `--gib-per-compile 3.5`, `--transport openrouter`
+  (the only submittable transport; `--dry-run` uses the `mock` transport: no network, no spend,
+  never submitted). The options of a run are saved in `$RUN/run-options.json`; restarting with the
+  same `--run-dir` resumes every row from disk. Stop gracefully with `touch "$RUN/supervisor/STOP"`.
+- `FINAL60_WARNING_GATE=reject|demote|off` (default `reject`) decides whether a Strata candidate with
+  warnings may be kept.
+- `--non-openrouter PATH` (repeatable) adds proofs produced outside OpenRouter, such as development
+  runs, to the set the provenance checker refuses; the tracked result folders are built in.
+- `plan` reads environment readiness from this checkout's `configs/` and `sources/`; pass
+  `--prepared-repo` to read them from another checkout.
+
+### Outputs
+
+`$RUN/submission.jsonl` always has 60 rows. A row uses its new proof only when its root is a real
+(not dry-run) OpenRouter root, its audit passed, its recorded spend is at most US$2.99, and the rules
+(PR #64), provenance (PR #70) and Space intake-filter checks accept it; every other row keeps the
+dataset original. Also written: `report.json` and `report.md` (per-row origin, local score estimate,
+calls, spend, served providers), `checks/rules.json`, `checks/provenance.json`, `checks/official.json`
+and, from the final assembly, `SUBMIT-READY.txt`. Scores in the reports are local estimates, not
+official scores.
+
 ## 목표
 
 원래 명제와 필요한 문맥을 유지하면서 증명 길이와 검증 비용을 줄이고, 지정된 Lean 버전에서
