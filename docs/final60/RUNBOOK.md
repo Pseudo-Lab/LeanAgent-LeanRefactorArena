@@ -172,7 +172,8 @@ compile slots exist. Operator rules (from the rc3 verification findings, 2026-11
   default `G1,G2,G3,G3s[,G4]` since rc4, tiny kernel-decide rows `G5,G3`). G5/G6/G2s/G4h do not run on
   default routes unless listed there (rc2 ran every pass on every row; on 53 rc2 records no accepted edit
   came from a pass outside the route list, measured). A row keeps the pass list sealed in its
-  `input/route.json`, so rows routed before rc4 golf without G3s until regolfed from a rc4 checkout.
+  `input/route.json`, and regolf reads that same list (`regolf.golf_settings`), so a row routed before the
+  rc4 switch never runs G3s; only rows prepared from a rc4 checkout do.
 
 ### Transfer repair (deprecated-alias renames; `transfer.py`, hot-fix 2026-11-04)
 
