@@ -7,6 +7,7 @@ never treated as permanent proof rejections. Final measurements bypass this cach
 """
 from __future__ import annotations
 
+import errno
 import hashlib
 import json
 import os
@@ -160,4 +161,12 @@ class EvaluationCache:
             receipt = {"schema": SCHEMA, "key": key, "identity": identity,
                        "origin": str(source.resolve()), "files": files}
             (stage / "receipt.json").write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n")
-            os.replace(stage, entry)
+            try:
+                os.replace(stage, entry)
+            except OSError as exc:
+                if exc.errno not in (errno.EEXIST, errno.ENOTEMPTY):
+                    raise
+                # A concurrent verifier won publication. Validate its immutable
+                # evidence; never replace it or silently accept corruption.
+                if self._read(identity) is None:
+                    raise ValueError("Concurrent cache publication disappeared") from exc
