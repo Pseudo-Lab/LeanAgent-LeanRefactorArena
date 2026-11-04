@@ -455,40 +455,40 @@
       "family": "FLP 합의에서 의사합의로",
       "controls": {
         "reference": 33.33333333333333,
-        "previous-round": 60.647583171238054
+        "previous-round": 60.79672080831546
       },
-      "control_reuse": 0.2586605080831409,
-      "selected_reuse": 0.2511415525114155,
+      "control_reuse": 0.2511415525114155,
+      "selected_reuse": 0.25229357798165136,
       "scout_allocated": false,
-      "selected": "previous-round/extract-simp-only-grind",
-      "score": 60.796552715074654,
-      "gain_over_control": 0.14896954383659988,
+      "selected": "previous-round/drop-length-take",
+      "score": 60.94324358433333,
+      "gain_over_control": 0.14652277601786778,
       "metrics": {
-        "proof_length_reduction_pct": 5.311778290993074,
-        "heartbeat_reduction_pct": 77.0778798542309,
+        "proof_length_reduction_pct": 5.773672055427248,
+        "heartbeat_reduction_pct": 77.05605869757277,
         "version_transfer_pct": 100.0
       },
       "attempts": 1,
       "screened_hashes": [
-        "03ceb800ccd6539b6a9a8184c6484f70f1eae668fb14c7139320c62a3ec7fdf3"
+        "4faa339c3e855d51fabf257ecb7f9e6abc29d2a64172edb9192fa194a09aca4e"
       ],
       "call": null,
-      "group": "research-children-F025-extract-simp-only-nov04",
-      "proof_sha256": "03ceb800ccd6539b6a9a8184c6484f70f1eae668fb14c7139320c62a3ec7fdf3",
+      "group": "research-children-F025-extract-rule-prune-nov04",
+      "proof_sha256": "4faa339c3e855d51fabf257ecb7f9e6abc29d2a64172edb9192fa194a09aca4e",
       "versions": {
         "cslib-v4.34.1": {
           "raw_samples": [
-            2664237,
-            2664321,
-            2664310
+            2666829,
+            2666894,
+            2666892
           ],
-          "receipt_sha256": "177608aad264beadd91b6a92d694bf56e422606d5f95ad745270f7cdbf93dd2c"
+          "receipt_sha256": "489a2d126bea5ddbb8426b0224030483a6ffb9ab8c682dc80797a7b9df509a6e"
         },
         "cslib-v4.33.1": {
           "raw_samples": [
-            2690285
+            2692806
           ],
-          "receipt_sha256": "cb7cea2370b69e778343cc2a629343237a46cbd56a67d31514116826877add15"
+          "receipt_sha256": "f7dfb95268fd1a621861ac38bb4c9bc95f312dc52f6b0248017f26a67be05ee3"
         }
       }
     },
