@@ -878,6 +878,41 @@ class RowWorkerTests(unittest.TestCase):
         worker.explore({"exploring": 3})
         self.assertTrue((self.layout.row_root(1) / "salvage.json").exists())
 
+    def test_exploration_clock_fires_by_wall_clock_during_run_problem(self):
+        import time
+        worker = rw.RowWorker.__new__(rw.RowWorker)
+        worker.layout, worker.row, worker.opts = self.layout, 1, self.opts
+        worker.root, worker.folder = self.layout.row_root(1), self.layout.row_folder(1)
+        worker.state = RowState(row=1, status="preflighted")
+        worker.opts.exploration_minutes = 1
+        o.atomic_json(worker.folder / "input/route.json", {"wallclock_budget_s": 1})
+        seen = {}
+        def run_problem(root, row):
+            deadline = time.time() + 3
+            while not (worker.root / "stop-exploration.json").exists() and time.time() < deadline:
+                time.sleep(0.05)
+            seen["flag_at"] = time.time()
+        worker.driver = types.SimpleNamespace(run_problem=run_problem)
+        started = time.time()
+        worker.explore({})
+        flag = o.read_json(self.layout.row_root(1) / "stop-exploration.json")
+        self.assertEqual(flag["reason"], "row exploration clock")
+        self.assertLess(seen["flag_at"] - started, 2.5)      # the 1 s budget, polled on the wall clock
+        self.assertGreaterEqual(seen["flag_at"] - started, 0.9)
+
+    def test_wall_clock_alarm_fires_once_and_cancels(self):
+        import time
+        fired = []
+        alarm = rw.WallClockAlarm(time.time() + 0.2, lambda: fired.append(time.time()), poll_s=0.02).start()
+        alarm.thread.join(2)
+        self.assertEqual(len(fired), 1)
+        self.assertTrue(alarm.fired)
+        cancelled = rw.WallClockAlarm(time.time() + 0.3, lambda: fired.append(time.time()), poll_s=0.02).start()
+        cancelled.cancel()
+        cancelled.thread.join(2)
+        self.assertEqual(len(fired), 1)
+        self.assertFalse(cancelled.fired)
+
     def test_configure_environment_sets_memory_bound_transport_and_tool_paths(self):
         opts = o.RunOptions(run_dir=self.run_dir, transport="variant-y", dry_run=True)
         mathlib = {"row": 51, "source": "putnambench", "environments": ["putnambench-v4.27.0"]}
