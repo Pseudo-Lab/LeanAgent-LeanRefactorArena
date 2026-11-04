@@ -673,6 +673,12 @@ def default_route(problem: dict) -> Route:
 
 # ---------------------------------------------------------------- validation
 
+# Every pass golf.py implements (golf.PASSES, in its run order); routing imports no golf
+# module, so the two lists are kept equal by a test. Routes enable a subset of these
+# (route_rules.json golf.passes): rc4 default G1, G2, G3, G3s[, G4]; kernel-decide-tiny G5, G3.
+GOLF_PASSES = ("G5", "G1", "G2", "G3", "G3s", "G4h", "G4", "G6", "G2s")
+
+
 def validate_route(value: Route, problem: dict | None = None) -> None:
     """Every constraint of design 11.3; raises ValueError on the first violation."""
     if value.problem_type not in TYPES:
@@ -692,7 +698,7 @@ def validate_route(value: Route, problem: dict | None = None) -> None:
     for key in ("original_compiles", "top_k", "max_compiles_best", "max_compiles_other", "max_compiles_row", "minutes"):
         if type(golf.get(key)) is not int or golf[key] < 0:
             raise ValueError("Golf budget needs non-negative integer " + key)
-    if not isinstance(golf.get("passes"), list) or set(golf["passes"]) - {"G1", "G2", "G3", "G4", "G5"}:
+    if not isinstance(golf.get("passes"), list) or set(golf["passes"]) - set(GOLF_PASSES):
         raise ValueError("Unknown golf pass")
     if type(value.wallclock_budget_s) is not int or value.wallclock_budget_s <= 0:
         raise ValueError("wallclock_budget_s must be a positive integer")

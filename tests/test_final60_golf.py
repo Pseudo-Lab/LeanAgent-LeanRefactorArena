@@ -1225,6 +1225,33 @@ class SugarPassTests(unittest.TestCase):
                                 [candidate(code, "model", "c001")], {"max_compiles_best": 8, "passes": ["G4"]})
         self.assertEqual([entry for entry in only_g4.log if "name" in entry], [])
 
+    def test_production_default_route_runs_the_sugar_pass(self):
+        """rc4: route_rules.json lists G3s after G3; golf.improve runs it (G3 before G3s before G4)."""
+        from lean_agent.final60 import routing
+        route_golf = routing.golf_for("algebra-analysis-long", 500)
+        self.assertEqual(route_golf["passes"], ["G1", "G2", "G3", "G3s", "G4"])
+        code = self.statement + " := by\n  rw [<- h]; simp\n  exact foo bar (g x)\n"
+        oracle = lambda text: ("$" not in text, 100)
+        adapter = FakeAdapter(self.statement, code, oracle)
+        result, = golf.improve(adapter, {"statement": self.statement}, [candidate(code, "model", "c001", adapter)],
+                               route_golf)
+        tried = [entry["pass"] for entry in result.log if "pass" in entry]
+        self.assertIn("G3s", tried)
+        self.assertIn("G3s:arrowx1", result.accepted)
+        self.assertTrue(result.best.code.startswith(self.statement + " := by\n  rw [← h]\n  simp\n"))
+        self.assertLessEqual(adapter.compiles - 1, route_golf["max_compiles_best"])
+        # Order: every G3s try comes after the last G3 try and before the first G4 try.
+        positions = {name: [k for k, item in enumerate(tried) if item == name] for name in ("G3", "G3s", "G4")}
+        if positions["G3"] and positions["G3s"]:
+            self.assertLess(max(positions["G3"]), min(positions["G3s"]))
+        if positions["G4"] and positions["G3s"]:
+            self.assertLess(max(positions["G3s"]), min(positions["G4"]))
+        # A route without G3s (the rc3 default) never tries it.
+        without = {**route_golf, "passes": ["G1", "G2", "G3", "G4"]}
+        plain, = golf.improve(FakeAdapter(self.statement, code, oracle), {"statement": self.statement},
+                              [candidate(code, "model", "c001")], without)
+        self.assertNotIn("G3s", [entry["pass"] for entry in plain.log if "pass" in entry])
+
 
 class HintPassTests(unittest.TestCase):
     statement = "theorem t : P"
