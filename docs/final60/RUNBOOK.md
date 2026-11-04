@@ -127,6 +127,25 @@ A compiler-capacity or memory wait timeout exits 75 and is not counted as a cras
 Manual assembly at any time (no Lean, no API): `... assemble --run-dir "$RUN" --final`.
 Stop everything gracefully: `touch "$RUN/supervisor/STOP"` (workers finish their current step).
 
+### Second golf pass over published rows (`regolf`, hot-fix track)
+
+```bash
+PYTHONPATH=src $PY -m lean_agent.final60 regolf --run-dir "$RUN" --rows 11-30 --report-only   # eligibility only
+PYTHONPATH=src $PY -m lean_agent.final60 regolf --run-dir "$RUN" --rows 11-30 [--compiles 24] [--margin 0.25]
+```
+
+No API call, no transport import. Only terminal rows whose `published.json` is a model-produced
+publication (`origin: openrouter-run` of a submittable OpenRouter root) are considered; a row whose
+worker holds `worker.lock` is skipped. Under the lock the pass checks the frozen code, golfs the
+incumbent `selected.lean` with the normal passes (`--compiles` screens, cached by content), runs
+`select_final` over incumbent + winners (all versions, fresh 3x) and only when the validated estimate
+beats the published one by `--margin` points writes `selected.lean`/`final/`/`summary.json`, rebuilds
+`report.json` and rewrites `published.json` last (rolled back the same way if the rebuilt audit
+disagrees). Records: `rows/F0NN/regolf/*.json`, the `regolf` list in `worker-state.json`, the usual
+`golf/` evidence, and `published.json` `regolf` (previous sha and estimate). `--allow-dev-roots`
+(mock/OpenAI-direct roots) is for testing on copies only. Run it from the hot-fix worktree while idle
+compile slots exist; the next rolling assembly picks the new proof up.
+
 ## 7. Outputs
 
 `submission.jsonl`, `provenance-benchmark.jsonl` (name, statement, `reference=src`, required by

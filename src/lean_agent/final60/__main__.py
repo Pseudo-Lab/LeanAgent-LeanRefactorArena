@@ -1,4 +1,4 @@
-"""python -m lean_agent.final60 {plan,run,row,status,assemble,package} (see docs/final60/RUNBOOK.md)."""
+"""python -m lean_agent.final60 {plan,run,row,status,assemble,package,regolf} (see docs/final60/RUNBOOK.md)."""
 from __future__ import annotations
 
 import argparse
@@ -131,6 +131,8 @@ def build_parser():
     package_parser.add_argument("--repo", type=Path, help="Checkout to pack (default: this one)")
     package_parser.add_argument("--name", help="Top-level folder inside the ZIP (default: the checkout's name)")
     package_parser.add_argument("--exclude", action="append", default=[], help="Extra path regex to leave out (repeatable)")
+    from .regolf import add_parser as add_regolf
+    add_regolf(commands)   # second API-free golf pass over published rows (Stage 10; no transport import)
     return parser
 
 
@@ -159,6 +161,9 @@ def main(argv=None):
         print(json.dumps(assemble(args.run_dir, final=args.final, dataset=args.dataset,
                                   allow_dry_run=args.allow_dry_run), ensure_ascii=False))
         return 0
+    if args.command == "regolf":
+        from .regolf import main as regolf_main
+        return regolf_main(args)
     opts = options(args)
     if args.command == "run":
         if opts.key_file is None and not opts.dry_run:
