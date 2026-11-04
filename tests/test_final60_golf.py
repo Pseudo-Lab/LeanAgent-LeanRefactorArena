@@ -10,6 +10,7 @@ import os
 from pathlib import Path
 import shutil
 import tempfile
+import types
 import unittest
 from unittest.mock import patch
 
@@ -894,6 +895,43 @@ class PublicationTests(unittest.TestCase):
         # Publishing again is idempotent with respect to the audit.
         select.write_selection(self.root, 1, selection)
         self.assertTrue(self.report()["audit_passed"])
+
+    def test_assembly_fallback_republishes_a_validated_alternate_with_real_evidence(self):
+        from lean_agent.final60 import orchestrator as o, rowworker as rw
+        self.run_driver()
+        adapter = evaladapter.EvalAdapter(self.root, 1, evaluator=self.evaluator, screen_mode="check-measure")
+        pool = select.candidates_from_run(self.root, 1)
+        models = [c for c in pool if c.origin == "model"]
+        self.assertGreaterEqual(len(models), 2)
+        selection = select.select_final(adapter, self.problem, pool)
+        self.assertTrue(selection.beat_original)
+        other = next(c for c in models if c.sha256 != selection.candidate.sha256)
+        result = adapter.validate(other.code, other.label)
+        self.assertTrue(result.valid)
+        score = scoring.problem_score(result.tokens, result.raw_heartbeats, 2, 2, *adapter.baseline())
+        select._record(adapter, selection, [(score, other, result, False)], [], [])
+        select.write_selection(self.root, 1, selection)
+        self.assertTrue(self.report()["audit_passed"])
+        layout = o.Layout(self.root.parent)
+        layout.row_root, layout.row_folder = (lambda row: self.root), (lambda row: self.output)
+        rejected = selection.candidate.code
+        report_module = types.SimpleNamespace(build_report=lambda root: self.report())
+        code, published = rw.fallback_to_alternate(layout, 1, reason="checker rejected the published proof: test",
+                                                   rejects=lambda text: ["rejected by test"] if text == rejected else [],
+                                                   report_module=report_module)
+        self.assertEqual(code, other.code)
+        self.assertEqual((published["origin"], published["alternate"]["fallback_from"]),
+                         ("openrouter-run", selection.candidate.sha256))
+        self.assertEqual((self.output / "selected.lean").read_text(), other.code)
+        built = json.loads((self.root / "report.json").read_text())
+        self.assertTrue(built["audit_passed"], built["audit_errors"])
+        self.assertEqual(built["rows"][0]["selected_sha256"], other.sha256)
+        self.assertEqual(published["report_sha256"], o.sha_bytes((self.root / "report.json").read_bytes()))
+        self.assertEqual(self.provenance(built)["errors"], [])
+        record = json.loads((self.root / "alternates.json").read_text())
+        self.assertEqual(record["tried"], [selection.candidate.sha256, other.sha256])
+        again = rw.fallback_to_alternate(layout, 1, reason="again", rejects=lambda text: ["x"], report_module=report_module)
+        self.assertEqual(again, (None, "no validated alternate left"))
 
     def test_skip_llm_row_gets_auditable_synthesized_summary(self):
         adapter = evaladapter.EvalAdapter(self.root, 1, evaluator=self.evaluator, screen_mode="check-measure")

@@ -30,8 +30,8 @@ import report  # noqa: E402
 import resources  # noqa: E402
 from lean_agent import artifacts as a, harness as h, models  # noqa: E402
 import lean_agent.final60 as package  # noqa: E402
-from lean_agent.final60 import assemble as assembly, orchestrator as o, rowworker as rw, supervisor as sup  # noqa: E402
-from lean_agent.final60.contracts import CAP_USD, OPENROUTER_ENDPOINT, Receipt, Route, RowState  # noqa: E402
+from lean_agent.final60 import assemble as assembly, orchestrator as o, rowworker as rw, select, supervisor as sup  # noqa: E402
+from lean_agent.final60.contracts import CAP_USD, OPENROUTER_ENDPOINT, Candidate, EvalResult, Receipt, Route, RowState  # noqa: E402
 
 MODEL = dict(o.DEFAULT_MODEL)
 
@@ -465,7 +465,10 @@ def publish_row(layout, row, proof, *, provider="OpenRouter", dry_run=False, aud
     """A minimal published OpenRouter root as the row worker leaves it."""
     root, folder = layout.row_root(row), layout.row_folder(row)
     name = f"Final.t{row}"
-    d.atomic(folder / "input/problem.json", {"name": name, "row": row})
+    item = dataset_rows()[row - 1]
+    d.atomic(folder / "input/problem.json", {"name": name, "row": row, "source": item["source"],
+                                             "statement": item["statement"], "reference": item["src"],
+                                             "environments": ["p", "s"]})
     (folder / "selected.lean").write_text(proof)
     d.atomic(root / "authorization.json", {"provider": provider, "dry_run": dry_run,
              "api_endpoint": OPENROUTER_ENDPOINT if provider == "OpenRouter" else "https://api.openai.com/v1/chat/completions"})
@@ -477,7 +480,7 @@ def publish_row(layout, row, proof, *, provider="OpenRouter", dry_run=False, aud
                                             "report_sha256": o.sha_bytes(report_bytes), "at": o.now_iso()})
 
 
-class AssemblyTests(unittest.TestCase):
+class AssemblyFixture(unittest.TestCase):
     def setUp(self):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
@@ -493,6 +496,8 @@ class AssemblyTests(unittest.TestCase):
     def submission(self):
         return [json.loads(line) for line in (self.run_dir / "submission.jsonl").read_text().splitlines()]
 
+
+class AssemblyTests(AssemblyFixture):
     def test_unready_rows_still_give_sixty_originals_that_pass_both_checks(self):
         result = self.assemble(final=True)
         self.assertEqual((result["rows"], result["improved"], result["checks"]["passed"]), (60, 0, True))
@@ -580,6 +585,130 @@ class AssemblyTests(unittest.TestCase):
         found = o.collect_non_openrouter([folder])
         self.assertEqual(sorted(row["proof"].split(":=", 1)[1].strip() for row in found),
                          ["by\n  constructor", "by\n  exact True.intro", "by\n  simp"])
+
+
+def record_alternates(layout, row, entries):
+    """golf/selection.json alternates as select._record writes them: (label, code, score, envs, stored_text)."""
+    folder = layout.row_folder(row) / "golf"
+    stored = []
+    for label, code, score, envs, stored_text in entries:
+        path = folder / "alternates" / (o.sha_text(code)[:12] + ".lean")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(code if stored_text is None else stored_text)
+        stored.append({"label": label, "sha256": o.sha_text(code), "origin": "model", "parent_sha256": None,
+                       "score": score, "tokens": 5, "raw_heartbeats": 500, "envs": envs,
+                       "evidence_dir": str(folder / "validate" / o.sha_text(code)[:12] / "final"), "code_path": str(path)})
+    o.atomic_json(folder / "selection.json", {"schema": select.SELECTION_SCHEMA, "selected": {}, "alternates": stored})
+
+
+def fake_report_module(score=60.0):
+    """report.build_report stand-in: audits nothing, scores whatever selected.lean holds."""
+    def build_report(root):
+        root = Path(root)
+        row = int(root.name[1:])
+        code = (root / "problems" / root.name / "selected.lean").read_text()
+        return {"audit_passed": True, "audit_errors": [], "rows": [{
+            "row": row, "name": f"Final.t{row}", "status": "completed", "known_cost_usd": "0.40", "calls": 1,
+            "baseline": {"tokens": 10, "raw_heartbeats": 1000}, "final": {"tokens": 5, "raw_heartbeats": 500},
+            "length_reduction_pct": 50.0, "heartbeat_reduction_pct": 50.0, "local_score_estimate": score,
+            "selected_sha256": o.sha_text(code)}]}
+    return types.SimpleNamespace(build_report=build_report)
+
+
+class AlternatesAssemblyTests(AssemblyFixture):
+    """Assembly fallback: a rejected published proof is replaced by the row's next validated alternate."""
+
+    def fake_write_selection(self, root, row, selection, **kwargs):
+        (self.layout.row_folder(row) / "selected.lean").write_text(selection.candidate.code)
+        return {}
+
+    def test_rejected_proof_takes_the_next_validated_alternate_then_the_original(self):
+        rejected = "theorem t2 : True := by\n  sorry\n"                 # rules checker: forbidden
+        blocked = "theorem t2 : True := by\n  simp\n"
+        clean = "theorem t2 : True := by\n  exact trivial\n"            # differs from the dataset original
+        publish_row(self.layout, 2, rejected)
+        o.atomic_bytes(self.layout.non_openrouter, (json.dumps({"name": "x", "source": "codex", "proof": blocked}) + "\n").encode())
+        record_alternates(self.layout, 2, [
+            ("c9", blocked, 90.0, {"p": True, "s": True}, None),                                   # non-OpenRouter proof
+            ("c8", "theorem t2 : True := by\n  sorry -- again\n", 80.0, {"p": True, "s": True}, None),  # rules: forbidden
+            ("c7", "theorem t2 : True := by\n  constructor\n", 75.0, {"p": True, "s": True}, "theorem t2 : True := by\n  decide\n"),  # tampered file
+            ("c6", "theorem t2 : True := by\n  exact True.intro\n", 70.0, {"p": True, "s": False}, None),   # not validated everywhere
+            ("c5", clean, 60.0, {"p": True, "s": True}, None)])
+        publish_row(self.layout, 3, "theorem t3 : True := by\n  sorry\n")       # alternates all bad -> original
+        record_alternates(self.layout, 3, [("c1", "theorem t3 : True := by\n  sorry\n  -- 2\n", 70.0, {"p": True}, None)])
+        publish_row(self.layout, 4, "theorem t4 : True := by\n  sorry\n")       # no alternates -> original
+        # select.alternates never yields a tampered, partially validated or blocklisted proof.
+        self.assertEqual([s.candidate.label for s in select.alternates(self.layout.row_root(2), 2)], ["c9", "c8", "c5"])
+        self.assertEqual([s.candidate.label for s in select.alternates(self.layout.row_root(2), 2,
+                                                                       non_openrouter_sha256={o.normalized_sha(blocked)})], ["c8", "c5"])
+        with patch.object(rw, "driver_modules", return_value=(None, fake_report_module())), \
+                patch.object(select, "write_selection", self.fake_write_selection):
+            result = self.assemble()
+        proofs = {row["name"]: row["proof"] for row in self.submission()}
+        self.assertEqual(proofs["Final.t2"], clean)
+        self.assertEqual(proofs["Final.t3"], dataset_rows()[2]["src"])
+        self.assertEqual(proofs["Final.t4"], dataset_rows()[3]["src"])
+        self.assertEqual((result["improved"], result["checks"]["passed"]), (1, True))
+        # The provenance checker certifies the re-published root (selected.lean + report.json) as is.
+        self.assertEqual(o.read_json(self.run_dir / "checks/provenance.json")["errors"], [])
+        report_rows = {row["row"]: row for row in o.read_json(self.run_dir / "report.json")["rows"]}
+        self.assertEqual([item["label"] for item in report_rows[2]["alternates_used"]], ["c5"])
+        self.assertEqual(report_rows[2]["origin"], "openrouter-run")
+        self.assertIn("alternates: no validated alternate left", report_rows[3]["fallback_reason"])
+        self.assertIn("checker rejected", report_rows[3]["fallback_reason"])
+        self.assertIn("alternates", report_rows[4]["fallback_reason"])
+        published = o.read_json(self.layout.row_root(2) / "published.json")
+        self.assertEqual((published["origin"], published["alternate"]["label"], published["alternate"]["fallback_from"]),
+                         ("openrouter-run", "c5", o.sha_text(rejected)))
+        self.assertEqual(published["selected_sha256"], o.sha_text(clean))
+        record = o.read_json(self.layout.row_root(2) / "alternates.json")
+        self.assertEqual([(item["label"], item["event"]) for item in record["log"] if "label" in item],
+                         [("c9", "skipped"), ("c8", "skipped"), ("c5", "published")])
+        self.assertEqual(record["tried"], [o.sha_text(rejected), o.sha_text(blocked),
+                                           o.sha_text("theorem t2 : True := by\n  sorry -- again\n"), o.sha_text(clean)])
+        # A later assembly keeps the alternate and tries nothing again.
+        with patch.object(rw, "driver_modules", return_value=(None, fake_report_module())), \
+                patch.object(select, "write_selection", self.fake_write_selection):
+            again = self.assemble()
+        self.assertEqual((again["improved"], again["checks"]["passed"]), (1, True))
+        self.assertEqual(len(o.read_json(self.layout.row_root(2) / "alternates.json")["log"]), len(record["log"]))
+        self.assertEqual({row["name"]: row["proof"] for row in self.submission()}["Final.t2"], clean)
+
+    def test_alternates_wait_for_a_live_worker_and_a_failed_worker_audit_also_falls_back(self):
+        clean = "theorem t5 : True := by\n  exact trivial\n"
+        publish_row(self.layout, 5, "theorem t5 : True := by\n  sorry\n")
+        record_alternates(self.layout, 5, [("c1", clean, 60.0, {"p": True, "s": True}, None)])
+        # Row 6: the worker's own audit rejected its proof (published as original) -> the alternate is tried.
+        publish_row(self.layout, 6, "theorem t6 : True := by\n  simp\n")
+        o.atomic_json(self.layout.row_root(6) / "published.json", {"row": 6, "origin": "original", "at": o.now_iso(),
+                                                                  "reason": "row audit failed: F006: final verification incomplete"})
+        record_alternates(self.layout, 6, [("c1", clean.replace("t5", "t6"), 55.0, {"p": True, "s": True}, None)])
+        lock = self.layout.row_root(5) / "worker.lock"
+        with lock.open("a+") as stream, patch.object(rw, "driver_modules", return_value=(None, fake_report_module())), \
+                patch.object(select, "write_selection", self.fake_write_selection):
+            fcntl.flock(stream, fcntl.LOCK_EX)
+            result = self.assemble()
+        proofs = {row["name"]: row["proof"] for row in self.submission()}
+        self.assertEqual(proofs["Final.t5"], dataset_rows()[4]["src"])
+        self.assertEqual(proofs["Final.t6"], clean.replace("t5", "t6"))
+        self.assertEqual((result["improved"], result["checks"]["passed"]), (1, True))
+        report_rows = {row["row"]: row for row in o.read_json(self.run_dir / "report.json")["rows"]}
+        self.assertIn("worker is live", report_rows[5]["fallback_reason"])
+        self.assertFalse((self.layout.row_root(5) / "alternates.json").exists())
+        self.assertEqual(report_rows[6]["alternates_used"][0]["replaced"][:16], "row audit failed")
+        # Once the worker is gone the deferred row gets its alternate.
+        with patch.object(rw, "driver_modules", return_value=(None, fake_report_module())), \
+                patch.object(select, "write_selection", self.fake_write_selection):
+            result = self.assemble()
+        self.assertEqual({row["name"]: row["proof"] for row in self.submission()}["Final.t5"], clean)
+        self.assertEqual(result["improved"], 2)
+
+    def test_alternates_can_be_disabled(self):
+        publish_row(self.layout, 2, "theorem t2 : True := by\n  sorry\n")
+        record_alternates(self.layout, 2, [("c1", "theorem t2 : True := by\n  exact trivial\n", 60.0, {"p": True, "s": True}, None)])
+        result = self.assemble(alternates=False)
+        self.assertEqual(result["improved"], 0)
+        self.assertFalse((self.layout.row_root(2) / "alternates.json").exists())
 
 
 class SupervisorTests(unittest.TestCase):
@@ -836,6 +965,72 @@ class RowWorkerTests(unittest.TestCase):
         # result for it, so it must record that the driver selection was kept (never fail the row).
         golf = o.read_json(self.layout.worker_path(1))["golf"]
         self.assertTrue("unavailable" in golf or "driver selection kept" in golf, golf)
+
+    def test_golf_and_select_get_the_blocklist_and_the_row_selects_its_best_clean_candidate(self):
+        from lean_agent.final60 import evaladapter, golf, scoring
+        statement = "theorem t1 : True"
+        reference = statement + " := by\n  have h : True := trivial\n  exact h\n"
+        blocked, clean = statement + " := by trivial\n", statement + " := by\n  exact trivial\n"
+        worker = rw.RowWorker.__new__(rw.RowWorker)
+        worker.layout, worker.row, worker.opts = self.layout, 1, self.opts
+        worker.root, worker.folder = self.layout.row_root(1), self.layout.row_folder(1)
+        worker.state = RowState(row=1, status="preflighted")
+        o.atomic_json(worker.folder / "input/route.json", {"golf": {"top_k": 2, "minutes": 1}})
+        o.atomic_json(worker.folder / "input/problem.json", {"row": 1, "name": "Final.t1", "source": "synthetic",
+                                                             "statement": statement, "reference": reference,
+                                                             "environments": ["p", "s"]})
+        o.atomic_bytes(self.layout.non_openrouter, (json.dumps({"name": "x", "source": "codex", "proof": blocked + "\n"}) + "\n").encode())
+
+        class Adapter:
+            folder, compiles = worker.folder, 0
+            golf_dir = worker.folder / "golf"
+
+            def __init__(self, *args, **kwargs):
+                pass
+
+            def baseline(self):
+                return scoring.count_tokens(reference, statement), 1000
+
+            def screen_score(self, result):
+                return scoring.screen_score(result.tokens, result.raw_heartbeats, *self.baseline()) if result.valid else None
+
+            def _eval(self, code, envs):
+                return EvalResult(True, scoring.count_tokens(code, statement), 10, {env: True for env in envs}, None, "",
+                                  str(self.folder / "v" / o.sha_text(code)[:8]))
+
+            def reference_result(self):
+                return self._eval(reference, ["p"])
+
+            def validate(self, code, label, *, as_final=False):
+                return self._eval(code, ["p", "s"])
+
+            def verify_environments(self):
+                return None
+
+        def cand(code, label, origin="model"):
+            return Candidate(code, o.sha_text(code), origin, None, label, Adapter()._eval(code, ["p"]))
+        pool = [cand(blocked, "c1"), cand(clean, "c2"), cand(reference, "c000", "original")]
+        self.assertGreater(Adapter().screen_score(pool[0].screen), Adapter().screen_score(pool[1].screen))
+        seen = {}
+        real_select = select.select_final
+
+        def improve(adapter, problem, candidates, settings, **kwargs):
+            seen["golf"] = ([c.label for c in candidates], kwargs)
+            return []
+
+        def select_final(adapter, problem, candidates, **kwargs):
+            seen["select"] = ([c.label for c in candidates], kwargs)
+            return real_select(adapter, problem, candidates, **kwargs)
+        with patch.object(evaladapter, "EvalAdapter", Adapter), patch.object(select, "candidates_from_run", return_value=pool), \
+                patch.object(golf, "improve", improve), patch.object(select, "select_final", select_final), \
+                patch.object(select, "write_selection", lambda root, row, selection, **kw: seen.__setitem__("written", selection)):
+            worker.golf_and_select({})
+        expected = {o.normalized_sha(blocked)}
+        self.assertEqual(seen["golf"][1]["non_openrouter_sha256"], expected)
+        self.assertEqual(seen["select"][1]["non_openrouter_sha256"], expected)
+        self.assertEqual((seen["golf"][0], seen["select"][0]), (["c2", "c000"], ["c2", "c000"]))
+        self.assertEqual((seen["written"].candidate.label, seen["written"].beat_original), ("c2", True))
+        self.assertEqual(o.read_json(self.layout.worker_path(1))["golf"]["selected"], "c2")
 
     def test_second_worker_for_a_live_row_refuses(self):
         path = self.layout.row_root(5) / "worker.lock"

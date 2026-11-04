@@ -15,7 +15,7 @@ from pathlib import Path
 from . import transports
 from .contracts import CAP_USD
 from .orchestrator import (REPO, Layout, atomic_bytes, atomic_json, load_dataset, load_non_openrouter,
-                           now_iso, read_json, row_spend, sha_bytes, sha_text)
+                           normalized_sha, now_iso, read_json, row_spend, sha_bytes, sha_text)
 
 OFFICIAL_CAP = Decimal("3")
 
@@ -198,7 +198,43 @@ def official_filter(rules, data):
     return rejected
 
 
-def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
+def proof_rejections(code, statement, *, outside_hashes, rules_checker, static_checker):
+    """Per-proof pre-checks an alternate must pass before it is re-published (no run-root checks)."""
+    issues = []
+    if normalized_sha(code) in outside_hashes:
+        issues.append("equals a non-OpenRouter proof")
+    try:
+        issues += [str(item) for item in rules_checker.check_row(statement, code)]
+    except Exception as exc:
+        issues.append("rules checker error: " + type(exc).__name__)
+    if static_checker is not None:
+        issues += static_issues(static_checker, code, statement)
+    return issues
+
+
+# Alternates tried per row before it reverts to its original (select_final keeps at most two).
+MAX_ALTERNATES = 4
+
+
+def alternate_for(layout, row, item, reason, *, outside_hashes, rules_checker, static_checker, enabled=True):
+    """Re-publish the row's best untried validated alternate (rowworker.fallback_to_alternate).
+
+    Returns (code, info) when an alternate was published as an OpenRouter-run proof, else
+    (None, why). Never raises: a failure here means the row keeps its original this round.
+    """
+    if not enabled:
+        return None, "alternates disabled"
+    try:
+        from . import rowworker
+        return rowworker.fallback_to_alternate(
+            layout, row, reason=reason, rejects=lambda code: proof_rejections(
+                code, item["statement"], outside_hashes=outside_hashes, rules_checker=rules_checker,
+                static_checker=static_checker))
+    except Exception as exc:
+        return None, f"alternates unavailable: {type(exc).__name__}: {exc}"[:300]
+
+
+def assemble(run_dir, *, final, dataset=None, allow_dry_run=False, alternates=True):
     layout = Layout(run_dir)
     layout.run_dir.mkdir(parents=True, exist_ok=True)
     if dataset is None and layout.plan.exists():
@@ -208,7 +244,25 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
     provenance_checker, provenance_path = checker("check_submission_provenance")
     outside = [(f"{row['source']}#{row['name']}", row["proof"]) for row in load_non_openrouter(layout)]
     outside.extend(development_proofs(layout))
-    choice, reasons, facts = {}, {}, {}
+    outside_hashes = {normalized_sha(proof) for _, proof in outside}
+    static_checker = static_rules()
+    choice, reasons, facts, swapped = {}, {}, {}, {}
+
+    def try_alternate(row, reason):
+        """A rejected row: its next validated alternate (published into the root), else the original."""
+        swaps = swapped.setdefault(row, [])
+        code, info = (None, "alternate limit reached") if len(swaps) >= MAX_ALTERNATES else alternate_for(
+            layout, row, data[row - 1], reason, outside_hashes=outside_hashes, rules_checker=rules_checker,
+            static_checker=static_checker, enabled=alternates)
+        if code is None:
+            reasons[row] = reason + (" | alternates: " + str(info) if info else "")
+            return None
+        swaps.append({"label": info["alternate"]["label"], "sha256": info["selected_sha256"],
+                      "local_score_estimate": info["local_score_estimate"], "replaced": reason[:300]})
+        facts[row] = row_facts(layout, row)
+        reasons.pop(row, None)
+        return code
+
     for row in range(1, 61):
         facts[row] = row_facts(layout, row)
         code, reason = published_proof(layout, row, allow_dry_run=allow_dry_run)
@@ -216,16 +270,20 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
             code, reason = None, "recorded spend exceeds the 2.99 cap"
         if code is not None and facts[row].get("ledger_mirror_agrees") is False:
             code, reason = None, "SQLite mirror spend exceeds ledger.json plus declared prior"
+        if code is None and str(reason).startswith("row audit failed"):
+            # The worker's audit rejected its chosen proof: a validated alternate may still pass.
+            code = try_alternate(row, reason)
+            reason = reasons.get(row)
         choice[row] = code
         if reason:
             reasons[row] = reason
     benchmark = [{"name": item["name"], "statement": item["statement"], "reference": item["src"]} for item in data]
     by_name = {item["name"]: index + 1 for index, item in enumerate(data)}
-    static_checker = static_rules()
     checks = {}
-    # Each failing round reverts at least one improved row, so the last round always checks
-    # exactly the submission that is written (at most 61 rounds).
-    for round_number in range(1, 62):
+    # Each failing round reverts at least one improved row to its original or swaps it for one
+    # of its never-tried alternates (at most MAX_ALTERNATES per row), so the last round always
+    # checks exactly the submission that is written.
+    for round_number in range(1, 62 + 60 * MAX_ALTERNATES):
         submission = [{"name": item["name"], "proof": choice[index + 1] if choice[index + 1] is not None else item["src"]}
                       for index, item in enumerate(data)]
         rules = rules_checker.check(data, submission)
@@ -250,8 +308,9 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
             messages = rules.get("problems", {}).get(data[row - 1]["name"], []) + [
                 line for line in provenance.get("errors", []) if line.startswith(data[row - 1]["name"] + ": ")] + \
                 static["problems"].get(data[row - 1]["name"], [])
-            reasons[row] = "checker rejected the published proof: " + "; ".join(messages)[:600]
-            choice[row] = None
+            # The next validated alternate (re-published into the row root and re-checked in the
+            # next round), the original only when none is left.
+            choice[row] = try_alternate(row, "checker rejected the published proof: " + "; ".join(messages)[:600])
     # The loop never reverts an original, so the official filter runs over all 60 originals too:
     # one rejected original would reject the whole upload ("Rejected - fix these and re-upload").
     originals_rejected = official_filter(static_checker, data) if static_checker is not None else {}
@@ -283,6 +342,8 @@ def assemble(run_dir, *, final, dataset=None, allow_dry_run=False):
         elif entry.get("local_score_estimate") is None:
             published = read_json(layout.row_root(row) / "published.json")
             entry["local_score_estimate"] = float(published.get("local_score_estimate") or 100 / 3)
+        if swapped.get(row):
+            entry["alternates_used"] = swapped[row]
         rows.append(entry)
     spend = [Decimal(entry["total_spend_usd"]) for entry in rows]
     issues = len(checks["rules"].get("problems", {})) + len(checks["rules"].get("missing", [])) + \
