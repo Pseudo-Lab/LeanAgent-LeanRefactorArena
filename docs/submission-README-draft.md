@@ -1,14 +1,14 @@
 # PseudoLab-LA — Lean Refactor Arena, Closed-source LLM track
 
 This archive reproduces our submitted proof JSONL for the 60-problem final benchmark with the
-final60 harness (`python -m lean_agent.final60`, tag `final60-rc4`).
+final60 harness (`python -m lean_agent.final60`, PR #75 branch `final60/integrated-harness-20261104`, rc5).
 
 - Every model call goes through OpenRouter (`--transport openrouter`, the only submittable transport).
 - Hard cap US$2.99 per problem. Each request is reserved at its worst-case cost before it is sent,
   and every billed call counts, including retries, failed and discarded candidates.
 - No previously found proofs are used: rows start cold (no warm start, no seeds, no carried proofs),
   and proofs produced outside OpenRouter are refused by the provenance check.
-- **TODO: PR #75에서 warm-up bank(`route_rules.json`의 `hints.bank_cards`)를 0으로 껐다면 "Warm-up bank hints are off." 한 줄로 바꾸면 될 것 같습니다.**
+- Warm-up bank hints are off from rc5 (`route_rules.json` `hints.bank_cards: 0`). Rows started before rc5 are listed under Per-problem settings.
 
 ## Contact
 <!-- 필수: 연락처 -->
@@ -88,4 +88,5 @@ the original proof and its source), not by row, except:
 | Setting | Rows | Effect |
 | --- | --- | --- |
 | `route_rules.json` `priority.weak_rows` | 2, 6, 14, 15, 35, 39, 40, 45, 48 | start earlier in the schedule (chosen from earlier team results); prompts unchanged |
-| **TODO: 위 외에 문제별로 다르게 쓴 설정(재실행, 옵션 변경 등)이 있으면 추가하고, 없으면 이 줄을 지우면 될 것 같습니다.** | | |
+| warm-up bank hint (`bank_cards: 1`, before rc5) | **TODO: 서버의 rows/F0NN/input/route.json에서 warmup-bank:이 있는 행 번호** | one generic strategy card from the warm-up bank in the prompt; turned off in rc5 |
+| **TODO: 위 외에 문제별로 다르게 쓴 설정(재실행, regolf 등)이 있으면 추가하고, 없으면 이 줄을 지우면 될 것 같습니다.** | | |
