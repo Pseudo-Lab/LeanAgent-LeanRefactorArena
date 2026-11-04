@@ -1,0 +1,1238 @@
+{
+  "schema_version": 1,
+  "problem": "<INITIAL_RUN>/inputs/08/problem.json",
+  "template": "<INITIAL_RUN>/inputs/08/context.lean.in",
+  "project": "<LOCAL_HOME>/_feynlang/temp2/work/repos/arklib",
+  "prompt": "<INITIAL_RUN>/inputs/08/prompt.txt",
+  "lean": {
+    "toolchain": "leanprover/lean4:v4.31.0",
+    "command": [
+      "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+      "-j1",
+      "-M8192",
+      "-DautoImplicit=false"
+    ],
+    "timeout_seconds": 300,
+    "repetitions": 1,
+    "prepared_environment": "<INITIAL_RUN>/prepared-v4.31.0.json"
+  },
+  "limits": {
+    "max_calls": 40,
+    "cost_stop_usd": "2.50",
+    "cost_cap_usd": "2.50",
+    "max_proof_characters": 81726,
+    "max_feedback_characters": 6000,
+    "max_request_characters": 180000
+  },
+  "model": {
+    "backend": "openai",
+    "id": "gpt-6.1-sol",
+    "provider": "openai",
+    "reasoning_effort": "high",
+    "seed": 42,
+    "max_tokens": 32768,
+    "max_price": {
+      "prompt": 2,
+      "completion": 10
+    },
+    "timeout_seconds": 600
+  },
+  "agent": {
+    "mode": "actions-v1",
+    "corpus": "<INITIAL_RUN>/inputs/08/corpus.json",
+    "history_limit": 4,
+    "candidate_limit": 4,
+    "allow_finish": false,
+    "strategy_bank": {
+      "bank": {
+        "schema_version": 2,
+        "version": "dashboard-mechanisms-v2-team-1",
+        "scope": "final-adaptation",
+        "strategies": [
+          {
+            "id": "M01",
+            "title": "Syntax recursion to evidence",
+            "title_ko": "귀납 대상을 증거·trace에 맞추거나 관계 정리로 귀납 제거",
+            "mechanism": "syntax-recursion-to-evidence",
+            "match": {
+              "requires": [
+                [
+                  "typing_recursion",
+                  "trace_recursion",
+                  "state_relation_recursion"
+                ]
+              ],
+              "optional": [
+                "branch_duplication",
+                "repeated_derivation"
+              ]
+            },
+            "guide": "If syntax recursion repeatedly reconstructs typing, semantics, or execution facts, consider induction on their derivation or trace. First check for a theorem relating the executable function to an inductive relation; it may eliminate recursion entirely.",
+            "risks": "The evidence induction hypothesis must generalize environments and result types sufficiently. Do not change the statement or recursively use the target theorem.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Typing/semantic derivation induction instead of expression cases.",
+              "Trace derivation/list induction instead of scanning a full execution by indices.",
+              "Bridge function semantics to its relational characterization before induction."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Core.InitsUpdatesComm",
+                "candidate_sha256": "113f8feecbdacbdd62c03a6d5c5ff70a6f916312328a766e126150a8481452a3"
+              },
+              {
+                "problem": "Lambda.denote_suffix_irrel",
+                "candidate_sha256": "2dc3417b0bc2e1beba2a1a5ca8348597d36d823e67723d510267c622f34acb46"
+              },
+              {
+                "problem": "Lambda.denote_Denotes",
+                "candidate_sha256": "728a8f29c8e421867b279560efa99afe9626bf080b8034b43bac80883dd20d65"
+              },
+              {
+                "problem": "Lambda.liftBVars_denote",
+                "candidate_sha256": "288d3d1e381fb78a6164d946c307f8ab98929c0f7056235d1e88fab6a7b73634"
+              },
+              {
+                "problem": "Lambda.denote_replaceMetadata",
+                "candidate_sha256": "08a88eb6c3b4df469f043f10c0452a7358ec8cb305100ea7eb0f65d82b8e3ba0"
+              },
+              {
+                "problem": "Lambda.denote_ext",
+                "candidate_sha256": "7308cc034213e3aa2d91668f651393bdb9911e821138ce93b4124152e16f9b16"
+              },
+              {
+                "problem": "Cslib.SKI.parallelReduction_diamond",
+                "candidate_sha256": "ab0fb3335e9b0538a105305bdf74c1ec96a5b845d2307479047c0f334ae14de2"
+              },
+              {
+                "problem": "Cslib.SKI.parallelReduction_diamond",
+                "candidate_sha256": "5c2a7303ea16d306ce2405678aace6d2adbe518a38358b04b449b30b61dd55be"
+              },
+              {
+                "problem": "Cslib.FLP.OnePseudoConsensus.nonUniform_step",
+                "candidate_sha256": "4b9e199dfa87d8e870a4fa0d012cae1c5714147cf9dcdd711e70f4e5d19c6024"
+              },
+              {
+                "problem": "Cslib.FLP.CanReachVia.subset_inp",
+                "candidate_sha256": "4c84305a345e8a9d383d86afed491748c5568ef7c6805c7fac90bfeae60cd885"
+              },
+              {
+                "problem": "putnam_1964_a4",
+                "candidate_sha256": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6"
+              }
+            ],
+            "metadata": {
+              "description": "귀납 대상을 증거·trace에 맞추거나 관계 정리로 귀납 제거",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"typing_recursion\", \"trace_recursion\", \"state_relation_recursion\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M02",
+            "title": "Share parametric subproof",
+            "title_ko": "반복 논증을 매개변수화한 국소 보조정리로 공유",
+            "mechanism": "share-parametric-subproof",
+            "match": {
+              "requires": [
+                [
+                  "repeated_derivation"
+                ]
+              ],
+              "optional": [
+                "typing_recursion",
+                "finite_sum_counts",
+                "derivative_expression"
+              ]
+            },
+            "guide": "Identify an actually repeated subderivation, abstract only its varying arguments into one local helper, and replace the repeated proofs. Keep independent assumptions explicit and verify elaboration at each call site.",
+            "risks": "A helper can increase inference cost or capture accidental context. Repeated surface text alone is insufficient to establish a reusable proposition.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Share environment transfer, fresh-variable/open-close reasoning, or two symmetric fiber evaluations.",
+              "Share row/column balance, digit replacement, or path-composition lemmas."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Lambda.denote_suffix_irrel",
+                "candidate_sha256": "2dc3417b0bc2e1beba2a1a5ca8348597d36d823e67723d510267c622f34acb46"
+              },
+              {
+                "problem": "Lambda.liftBVars_denote",
+                "candidate_sha256": "288d3d1e381fb78a6164d946c307f8ab98929c0f7056235d1e88fab6a7b73634"
+              },
+              {
+                "problem": "CoxeterSystem.matsumoto_reduced_aux",
+                "candidate_sha256": "cc70888d2ddead0fe7af9c996423ae1c43232dda62c955c2fc34707bf76ea19d"
+              },
+              {
+                "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+                "candidate_sha256": "1b05aefd784c98a69ab7da100e11736a606bb59e79c8b835c1e8936d797843b2"
+              },
+              {
+                "problem": "FirstOrder.Language.schemaTruthStage_imp",
+                "candidate_sha256": "a5a2fca5d9a5fccca3d50d984d2af94d280df39abade65980512841ffc411f79"
+              },
+              {
+                "problem": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+                "candidate_sha256": "ddcdb25df74de488575e894c9b31ed484db9f9029790b91e11978a56afa77306"
+              },
+              {
+                "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+                "candidate_sha256": "e76695dc11377f1b42989527e60f1ea19e6bc60156bcc223bae7498a143ac39d"
+              },
+              {
+                "problem": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+                "candidate_sha256": "5e948837ea78b6de16f8a5a3cb1a445304b6af07f5e52564f277346ce12c3163"
+              },
+              {
+                "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+                "candidate_sha256": "5f37b92cf5d19f8a426d68b2681e2b36cba4e98a8818bdec7dd9f972fda73197"
+              },
+              {
+                "problem": "cauchyBinet",
+                "candidate_sha256": "994790e80889baaefcc81f42bf1fa6c1f627098c41c5e5809b64ff97e90bd5df"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+                "candidate_sha256": "2c6bc9c3e19216e54e756dbae552c12ba7a94471e3c79d6235d43bd2be39decc"
+              },
+              {
+                "problem": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+                "candidate_sha256": "1f3e64d6de568f04043f7ddf29e94cd8f0676c2ca6016aeaaea214ae69430bc3"
+              },
+              {
+                "problem": "Cslib.FLP.CanReachVia.subset_inp",
+                "candidate_sha256": "4c84305a345e8a9d383d86afed491748c5568ef7c6805c7fac90bfeae60cd885"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+                "candidate_sha256": "b7e2d9d219ac718a609e1626a89a58815d3992b58aee611ea2f8e8cbb77ec233"
+              },
+              {
+                "problem": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+                "candidate_sha256": "c817d213b218cbd682c009ba87dd070c393fce50e9178d45b89725893859a193"
+              },
+              {
+                "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+                "candidate_sha256": "35af063aba4dd437ec2ecbb09ec10ede57e468870462e89b1f7599c2cc55c7bd"
+              },
+              {
+                "problem": "putnam_1995_a3",
+                "candidate_sha256": "61db6f57f1837d1fa7bf9615b01d58a2e6970af8d2c1c687bc4b687d71e0ca37"
+              },
+              {
+                "problem": "putnam_2001_b1",
+                "candidate_sha256": "70bceffde22ead4869449e126cb7fad3d065f733758361c012b5c8dc97b0a5a7"
+              },
+              {
+                "problem": "putnam_1964_b2",
+                "candidate_sha256": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7"
+              },
+              {
+                "problem": "putnam_2007_a1",
+                "candidate_sha256": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c"
+              }
+            ],
+            "metadata": {
+              "description": "반복 논증을 매개변수화한 국소 보조정리로 공유",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"repeated_derivation\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M03",
+            "title": "Factor common branches",
+            "title_ko": "공통 분기 준비와 마무리를 묶기",
+            "mechanism": "factor-common-branches",
+            "match": {
+              "requires": [
+                [
+                  "branch_duplication"
+                ]
+              ],
+              "optional": [
+                "repeated_derivation",
+                "typing_recursion"
+              ]
+            },
+            "guide": "Find genuinely identical branch preparation or endings. Hoist shared intros and simplification, combine compatible constructor cases, then keep exceptional branches separate. Prefer sufficient local rules for the common ending.",
+            "risks": "Different dependent indices or assumptions can make superficially similar branches incompatible. Uniform heavy search can increase heartbeats.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "all_goals/case alternatives for shared constructors and rewrites.",
+              "Share both conclusions of a support/protocol argument without changing witnesses."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Lambda.denote_Denotes",
+                "candidate_sha256": "728a8f29c8e421867b279560efa99afe9626bf080b8034b43bac80883dd20d65"
+              },
+              {
+                "problem": "Lambda.callOfLFunc_eraseMetadata_congr",
+                "candidate_sha256": "d338a534902357df4fd5994ce211546a922f4ee4d16ec486c4ad83fd0ddcd338"
+              },
+              {
+                "problem": "Lambda.liftBVars_typeCheck",
+                "candidate_sha256": "3b8c35139ad1d75cfae6a64dd034b7614180a541fdd4a89326d410ebf27d4dbd"
+              },
+              {
+                "problem": "Lambda.LExpr.typeCheck_to_HasTypeA",
+                "candidate_sha256": "559e740da88c27e6afbb851632165d29717714c163ce64c83a2dd1f1592cdc1d"
+              },
+              {
+                "problem": "Lambda.denote_ext",
+                "candidate_sha256": "7308cc034213e3aa2d91668f651393bdb9911e821138ce93b4124152e16f9b16"
+              },
+              {
+                "problem": "IsoGraph.Canon.dfsNode_dom",
+                "candidate_sha256": "a21031fbb2a8e160acaee4cb01d42bec12aa97c39857413f153b059d1cd57141"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+                "candidate_sha256": "4709bb91f052bbdfd3823a492812bb8d7f13ef95263b8217de43f061e3d8092c"
+              },
+              {
+                "problem": "Cslib.SKI.parallelReduction_diamond",
+                "candidate_sha256": "ab0fb3335e9b0538a105305bdf74c1ec96a5b845d2307479047c0f334ae14de2"
+              },
+              {
+                "problem": "Cslib.CCS.bisimilarity_congr_choice",
+                "candidate_sha256": "69f5978093ad7448ecf078c2d1aabc652d3eb631966b15d12e34da4e7cf75e93"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+                "candidate_sha256": "9dba3ee518a7186c7733e4ed7f9dce9fe7daa9b8c6655cbf6dcd8b79d91cbfae"
+              },
+              {
+                "problem": "Cslib.SKI.parallelReduction_diamond",
+                "candidate_sha256": "5c2a7303ea16d306ce2405678aace6d2adbe518a38358b04b449b30b61dd55be"
+              },
+              {
+                "problem": "Cslib.CCS.bisimilarity_congr_choice",
+                "candidate_sha256": "bc3333780748a56c35847431d0a8b6d17453b671d85de2a27a404d87f925bbe6"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+                "candidate_sha256": "2c6bc9c3e19216e54e756dbae552c12ba7a94471e3c79d6235d43bd2be39decc"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+                "candidate_sha256": "b7e2d9d219ac718a609e1626a89a58815d3992b58aee611ea2f8e8cbb77ec233"
+              },
+              {
+                "problem": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+                "candidate_sha256": "e20021b5a3e44ca8869edf83516c514cf58b6943e69775ff617151c22b39da3a"
+              }
+            ],
+            "metadata": {
+              "description": "공통 분기 준비와 마무리를 묶기",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"branch_duplication\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M04",
+            "title": "Focus search with evidence",
+            "title_ko": "자동 탐색을 명시적 사실·정리·문맥으로 제한",
+            "mechanism": "focus-search-with-evidence",
+            "match": {
+              "requires": [
+                [
+                  "broad_search"
+                ]
+              ],
+              "optional": [
+                "typing_recursion",
+                "cast_roundtrip",
+                "repeated_derivation"
+              ]
+            },
+            "guide": "Inspect one broad search. Replace it with an available constructor, inversion theorem, equality rewrite or explicit arithmetic facts. Alternatively use a sufficient only-list and remove irrelevant local hypotheses from that search scope.",
+            "risks": "Occurrence counts are not tactic costs. Do not reuse generated local-fact hashes across contexts; reconstruct the required facts and check pinned versions.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Supply well-formedness premises directly to reflexivity/inversion.",
+              "Narrow grind/aesop with proved facts or specialize a family to the current index."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Core.InitsUpdatesComm",
+                "candidate_sha256": "113f8feecbdacbdd62c03a6d5c5ff70a6f916312328a766e126150a8481452a3"
+              },
+              {
+                "problem": "Lambda.liftBVars_typeCheck",
+                "candidate_sha256": "3b8c35139ad1d75cfae6a64dd034b7614180a541fdd4a89326d410ebf27d4dbd"
+              },
+              {
+                "problem": "Lambda.liftBVars_denote",
+                "candidate_sha256": "288d3d1e381fb78a6164d946c307f8ab98929c0f7056235d1e88fab6a7b73634"
+              },
+              {
+                "problem": "Lambda.LExpr.typeCheck_to_HasTypeA",
+                "candidate_sha256": "559e740da88c27e6afbb851632165d29717714c163ce64c83a2dd1f1592cdc1d"
+              },
+              {
+                "problem": "Lambda.callOfLFunc_constr_disjoint_denote",
+                "candidate_sha256": "68f2e92320d0eafda43a2d60b72590467160e1d2abdd7aaf15321f9b0ca007e0"
+              },
+              {
+                "problem": "IsoGraph.Canon.dfsNode_dom",
+                "candidate_sha256": "a21031fbb2a8e160acaee4cb01d42bec12aa97c39857413f153b059d1cd57141"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+                "candidate_sha256": "4709bb91f052bbdfd3823a492812bb8d7f13ef95263b8217de43f061e3d8092c"
+              },
+              {
+                "problem": "Cslib.CCS.bisimilarity_congr_choice",
+                "candidate_sha256": "69f5978093ad7448ecf078c2d1aabc652d3eb631966b15d12e34da4e7cf75e93"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+                "candidate_sha256": "08fb4d9fd39d06dba965fd90dac95b3705dfea6a708705d5125b66688200a545"
+              },
+              {
+                "problem": "Cslib.FLP.PseudoConsensus.of_consensus",
+                "candidate_sha256": "902341994921bc8512261ec477dc54a2db9ac6bf65ebb5748d9759cf1032ae81"
+              },
+              {
+                "problem": "Cslib.FLP.CanReachVia.subset_inp",
+                "candidate_sha256": "ed55f4423336647dc47a6e150beb6bc63d0ca71158016f3ddfae36a5745b3c9b"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Untyped.Term.parallel_diamond",
+                "candidate_sha256": "db2c46947ad69f221d3b2dd59e0fce5023ecbbb772aa1fee34b7468af0e12c36"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.progress",
+                "candidate_sha256": "9dba3ee518a7186c7733e4ed7f9dce9fe7daa9b8c6655cbf6dcd8b79d91cbfae"
+              },
+              {
+                "problem": "Cslib.CCS.bisimilarity_congr_choice",
+                "candidate_sha256": "bc3333780748a56c35847431d0a8b6d17453b671d85de2a27a404d87f925bbe6"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+                "candidate_sha256": "2c6bc9c3e19216e54e756dbae552c12ba7a94471e3c79d6235d43bd2be39decc"
+              },
+              {
+                "problem": "Cslib.FLP.PseudoConsensus.of_consensus",
+                "candidate_sha256": "868168edb118fb405d432b4dc2a11315ffa925c01f6469b355e0a3e2af68f526"
+              },
+              {
+                "problem": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+                "candidate_sha256": "1f3e64d6de568f04043f7ddf29e94cd8f0676c2ca6016aeaaea214ae69430bc3"
+              },
+              {
+                "problem": "Cslib.LTS.OmegaExecution.flatten_execution",
+                "candidate_sha256": "0e050b205358f5f8eeda2a3114587f9bc874d764aa3e1c98fd46a0092d37c5a2"
+              },
+              {
+                "problem": "interleaved_affine_gaps_imply_tensor_gaps",
+                "candidate_sha256": "c65148e1e2550dab63c34a2f4dc7650e0244cc97a5c49bf224c1dc1d7e292177"
+              },
+              {
+                "problem": "Combine.master_lemma",
+                "candidate_sha256": "378acfb8c612685d3415a0458ccad2b11785c2af3b1683236c4aef9583e2ca09"
+              },
+              {
+                "problem": "JohnsonBound.johnson_bound_alphabet_free",
+                "candidate_sha256": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716"
+              }
+            ],
+            "metadata": {
+              "description": "자동 탐색을 명시적 사실·정리·문맥으로 제한",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"broad_search\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M05",
+            "title": "Administrative proof contraction",
+            "title_ko": "단일 사용 사실·불필요한 래퍼·추론 부담 정리",
+            "mechanism": "administrative-proof-contraction",
+            "match": {
+              "requires": [
+                [
+                  "single_use_fact",
+                  "proof_wrapper"
+                ]
+              ],
+              "optional": [
+                "repeated_derivation"
+              ]
+            },
+            "guide": "Inspect a named local fact with at most one explicit later use or a by-exact wrapper. Inline a direct term when types still infer, or remove truly unused construction. Keep named equality witnesses where unfolding an expensive definition would be harmful.",
+            "risks": "Automation can use a fact with zero explicit textual uses. This is only a candidate-use scan; dependency and elaboration checks are required.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Inline a monotonicity fact used once.",
+              "Remove by exact around a structure literal.",
+              "Use opaque witnesses plus explicit equations to avoid repeated definitional expansion."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Lambda.callOfLFunc_constr_disjoint_denote",
+                "candidate_sha256": "68f2e92320d0eafda43a2d60b72590467160e1d2abdd7aaf15321f9b0ca007e0"
+              },
+              {
+                "problem": "LocalComplexGeometry.holomorphic_constant_rank",
+                "candidate_sha256": "0b5f32af6f47a85be8294c9f3a8e6e6fdb0bdd771bb03127c6daa4f3ac0700db"
+              },
+              {
+                "problem": "IsoGraph.Canon.dfsNode_dom",
+                "candidate_sha256": "a21031fbb2a8e160acaee4cb01d42bec12aa97c39857413f153b059d1cd57141"
+              },
+              {
+                "problem": "Cslib.LambdaCalculus.LocallyNameless.Fsub.Typing.preservation",
+                "candidate_sha256": "08fb4d9fd39d06dba965fd90dac95b3705dfea6a708705d5125b66688200a545"
+              },
+              {
+                "problem": "Cslib.Automata.NA.Buchi.buchiFamily_saturation",
+                "candidate_sha256": "77c66c53e307348c8263581e8d5d0c4a0b21321cc02ec58925fda76e6df6eed7"
+              },
+              {
+                "problem": "Cslib.LTS.OmegaExecution.flatten_execution",
+                "candidate_sha256": "8adbbd90a6546967d7f895c7766adf3a03af063022d9434db2cc668a7df99b5f"
+              },
+              {
+                "problem": "Cslib.FLP.PseudoConsensus.of_consensus",
+                "candidate_sha256": "868168edb118fb405d432b4dc2a11315ffa925c01f6469b355e0a3e2af68f526"
+              }
+            ],
+            "metadata": {
+              "description": "단일 사용 사실·불필요한 래퍼·추론 부담 정리",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"single_use_fact\", \"proof_wrapper\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M06",
+            "title": "Split before kernel decision",
+            "title_ko": "유한 입력을 분해한 뒤 커널 결정",
+            "mechanism": "split-before-kernel-decision",
+            "match": {
+              "requires": [
+                [
+                  "finite_decision"
+                ]
+              ],
+              "optional": []
+            },
+            "guide": "When a universally quantified finite input is fed to a large kernel decision, try introducing or splitting that input before deciding each branch. Compare the complete proof cost against a single reverted decision.",
+            "risks": "Enumeration can duplicate work. Preserve the kernel-checked route; native bypasses are not interchangeable.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Split a finite configuration after applying the appropriate closure lemma."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+                "candidate_sha256": "8ab157299563e2419119cbaad1a0a88d5437e67fe3e395703949391949d31382"
+              },
+              {
+                "problem": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+                "candidate_sha256": "5688df18625a8e1d6a02ed0102a289fe77bb4bc777328cded571c1e87401df5f"
+              },
+              {
+                "problem": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ5_viableCharges",
+                "candidate_sha256": "9184a468261926d66a00cee1b6b19df52cf41f080e32ae950e3c30379164ef8c"
+              },
+              {
+                "problem": "FTheory.SU5.ChargeSpectrum.isPhenoClosedQ10_viableCharges",
+                "candidate_sha256": "3bcf9843aa99e0a40a4c3b4262717fc927ec4185978acc5ad999cec9dad116db"
+              }
+            ],
+            "metadata": {
+              "description": "유한 입력을 분해한 뒤 커널 결정",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"finite_decision\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M07",
+            "title": "Pullback ring hom expression",
+            "title_ko": "사상 아래 등식을 원래 대수 구조로 되돌리기",
+            "mechanism": "pullback-ring-hom-expression",
+            "match": {
+              "requires": [
+                [
+                  "homomorphic_representation"
+                ]
+              ],
+              "optional": [
+                "linear_basis",
+                "rational_algebra"
+              ]
+            },
+            "guide": "Use the available map-add/map-mul/map-neg identities backwards to express both sides as images of algebraic expressions. Prove the preimage equality and transport it with congruence; retain exact scalar signs and product order.",
+            "risks": "Do not assume a map is injective. Congruence can transport a preimage equality; a reverse inference requires a proved injectivity theorem. Check scalar conventions.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Complex/Gaussian-integer tensor coefficients reduced through a ring homomorphism."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "PauliMatrix.pauliContrDown_mul_pauliContr_mul_pauliContrDown",
+                "candidate_sha256": "be92461298ddee92be29048978ba13018495091ac16dbbd02d9739df9c6c49e4"
+              },
+              {
+                "problem": "PauliMatrix.pauliContr_mul_pauliContrDown_mul_pauliContr",
+                "candidate_sha256": "381228863b7b423dd072954b7cffcf8e587de2daf4272e7bc2426ed249f65f46"
+              }
+            ],
+            "metadata": {
+              "description": "사상 아래 등식을 원래 대수 구조로 되돌리기",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"homomorphic_representation\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M08",
+            "title": "Use linear structure api",
+            "title_ko": "선형·다중선형 구조의 ext/map API로 전개 대체",
+            "mechanism": "use-linear-structure-api",
+            "match": {
+              "requires": [
+                [
+                  "linear_basis"
+                ]
+              ],
+              "optional": [
+                "finite_sum_counts",
+                "repeated_derivation"
+              ]
+            },
+            "guide": "Express the target as equality of linear/bilinear maps or apply an existing multilinear functional. Use basis extensionality and map-sum/map-smul laws instead of manually duplicating span induction or determinant expansions.",
+            "risks": "Linearity in each argument must be established. Basis orientation and scalar conventions matter; imported target declarations cannot be used circularly.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Bilinear basis extensionality instead of two span inductions.",
+              "Multilinearity of determinant instead of a raw permutation/product expansion."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+                "candidate_sha256": "e76695dc11377f1b42989527e60f1ea19e6bc60156bcc223bae7498a143ac39d"
+              },
+              {
+                "problem": "cauchyBinet",
+                "candidate_sha256": "a4544a8ce7b367b3bd64229eac87fba425acb3fff74f2ccab1dde23c00ee6d59"
+              },
+              {
+                "problem": "FieldSpecification.WickAlgebra.ι_timeOrderF_superCommuteF_eq_time",
+                "candidate_sha256": "5f37b92cf5d19f8a426d68b2681e2b36cba4e98a8818bdec7dd9f972fda73197"
+              }
+            ],
+            "metadata": {
+              "description": "선형·다중선형 구조의 ext/map API로 전개 대체",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"linear_basis\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M09",
+            "title": "Positive matrix certificate",
+            "title_ko": "행렬 양성을 Schur·합동 이차형식 인증으로 증명",
+            "mechanism": "positive-matrix-certificate",
+            "match": {
+              "requires": [
+                [
+                  "positive_matrix"
+                ]
+              ],
+              "optional": [
+                "rational_algebra"
+              ]
+            },
+            "guide": "For a positive matrix inequality, search for a block/Schur-complement theorem before expanding coordinates. An alternative is a PSD congruence quadratic form whose weighted sum is the desired residual. Separate zero-coefficient boundary cases.",
+            "risks": "Positive definiteness, invertibility and nonnegative weights are genuine obligations. The two certificates are alternative recipes, not two independent performance wins.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Use a block Schur equivalence with explicit invertibility instances.",
+              "Build a congruence of a PSD matrix and simplify its weighted residual."
+            ],
+            "status": "observed-single-problem",
+            "evidence": [
+              {
+                "problem": "HermitianMat.inv_convex",
+                "candidate_sha256": "2fc0f3336c199da4083bb0ec464e2979bf07e99903f05496b49a45eaa9afcee4"
+              },
+              {
+                "problem": "HermitianMat.inv_convex",
+                "candidate_sha256": "d64294ae40589ba94537216ee35805090268ac2d80418fe46ab14aa05c7bb7a7"
+              }
+            ],
+            "metadata": {
+              "description": "행렬 양성을 Schur·합동 이차형식 인증으로 증명",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"positive_matrix\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M10",
+            "title": "Weaken to sufficient bound",
+            "title_ko": "정확한 크기·표현 대신 필요한 상계·단조성만 증명",
+            "mechanism": "weaken-to-sufficient-bound",
+            "match": {
+              "requires": [
+                [
+                  "set_cardinality",
+                  "probability_implication"
+                ]
+              ],
+              "optional": [
+                "finite_sum_counts",
+                "cast_roundtrip"
+              ]
+            },
+            "guide": "Check the direction actually required by the final inequality. If only an upper bound is needed, use image/union cardinal bounds or event implication monotonicity rather than proving an exact cardinality, disjointness, or an equivalent probability representation.",
+            "risks": "Weakening is valid only in the required inequality direction. Do not discard exactness needed later; event measurability and finite-fiber assumptions still apply.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Bound a fiber union by the number of fibers times an image-size bound.",
+              "Apply probability monotonicity to a direct event implication."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "interleaved_affine_gaps_imply_tensor_gaps",
+                "candidate_sha256": "c65148e1e2550dab63c34a2f4dc7650e0244cc97a5c49bf224c1dc1d7e292177"
+              },
+              {
+                "problem": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+                "candidate_sha256": "411958a042babbbee99d03e9bceaa7924533e39dc0537039681066242fed1255"
+              },
+              {
+                "problem": "ProximityToRS.dir_close_of_many_close_pts",
+                "candidate_sha256": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5"
+              }
+            ],
+            "metadata": {
+              "description": "정확한 크기·표현 대신 필요한 상계·단조성만 증명",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"set_cardinality\", \"probability_implication\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M11",
+            "title": "Normalize then algebra certificate",
+            "title_ko": "분모·cast를 정규화하고 대수 인증식으로 마무리",
+            "mechanism": "normalize-then-algebra-certificate",
+            "match": {
+              "requires": [
+                [
+                  "rational_algebra",
+                  "cast_roundtrip"
+                ]
+              ],
+              "optional": [
+                "polynomial_degree",
+                "finite_sum_counts"
+              ]
+            },
+            "guide": "Normalize coercions and nonzero denominators once. Use explicit ring identities, linear combinations of existing equalities, or a small sufficient inequality list. When possible do counting arithmetic in naturals/integers and cast only at the boundary.",
+            "risks": "Track denominator signs, truncated natural subtraction, and square-root nonnegativity. A certificate must follow from actual hypotheses; ring normalization does not prove inequalities.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Clear rational denominators into a natural cross-product bound.",
+              "Use linear_combination instead of repeated coordinate rearrangement.",
+              "Use a few positive squares/cancellation identities instead of broad nonlinear search."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+                "candidate_sha256": "c817d213b218cbd682c009ba87dd070c393fce50e9178d45b89725893859a193"
+              },
+              {
+                "problem": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+                "candidate_sha256": "411958a042babbbee99d03e9bceaa7924533e39dc0537039681066242fed1255"
+              },
+              {
+                "problem": "JohnsonBound.johnson_bound_alphabet_free",
+                "candidate_sha256": "e7cf1b7edeb4337fe17ee576dae11308d0e81e18dd63ecdb23f22558eb624716"
+              },
+              {
+                "problem": "ProximityToRS.dir_close_of_many_close_pts",
+                "candidate_sha256": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5"
+              },
+              {
+                "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+                "candidate_sha256": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000"
+              },
+              {
+                "problem": "ps_coprime_case_constant",
+                "candidate_sha256": "b222c852cbca39516d66506032de2ddc74a444bcb72cbfba2a47784fefe1a9ce"
+              },
+              {
+                "problem": "putnam_1995_a3",
+                "candidate_sha256": "61db6f57f1837d1fa7bf9615b01d58a2e6970af8d2c1c687bc4b687d71e0ca37"
+              },
+              {
+                "problem": "putnam_1988_a2",
+                "candidate_sha256": "89f9a454d95427b3e912c4aedd9c257aa93e249c1fb1eeb415aaf59eede728f9"
+              },
+              {
+                "problem": "putnam_2007_a1",
+                "candidate_sha256": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c"
+              },
+              {
+                "problem": "putnam_1968_a1",
+                "candidate_sha256": "d629f763edb942ecabf48596012230777f4416e3ce5756737b0ab17702ee30c3"
+              },
+              {
+                "problem": "putnam_1991_b1",
+                "candidate_sha256": "4e4dc3b5911539ab71326e9835b286359fd8802098304d063ad7801fac39a629"
+              },
+              {
+                "problem": "putnam_2019_a1",
+                "candidate_sha256": "6a25c2f7138ece39862fc0c5ef6edbfc91bfcf352c7b6b018c95dc0bf49a36a1"
+              }
+            ],
+            "metadata": {
+              "description": "분모·cast를 정규화하고 대수 인증식으로 마무리",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"rational_algebra\", \"cast_roundtrip\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M12",
+            "title": "Bundle and reuse derivative evidence",
+            "title_ko": "미분 증거를 조합해 재사용",
+            "mechanism": "bundle-and-reuse-derivative-evidence",
+            "match": {
+              "requires": [
+                [
+                  "derivative_expression"
+                ]
+              ],
+              "optional": [
+                "repeated_derivation",
+                "rational_algebra"
+              ]
+            },
+            "guide": "Construct a parameterized HasDerivAt/HasFDerivAt proof using product, sum and chain APIs. Reuse it for differentiability and derivative equalities; share the required smoothness levels instead of rebuilding each side condition.",
+            "risks": "Check domains, derivative order, and nonzero/square-root hypotheses at each point. Shared proof terms may affect elaboration cost.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "One derivative bundle for both factors and their product.",
+              "Compose Frechet derivative evidence through a finite sum and subtraction."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+                "candidate_sha256": "ddcdb25df74de488575e894c9b31ed484db9f9029790b91e11978a56afa77306"
+              },
+              {
+                "problem": "Electromagnetism.ElectromagneticPotential.time_deriv_time_deriv_electricField_of_isExtrema",
+                "candidate_sha256": "5e948837ea78b6de16f8a5a3cb1a445304b6af07f5e52564f277346ce12c3163"
+              },
+              {
+                "problem": "putnam_1988_a2",
+                "candidate_sha256": "89f9a454d95427b3e912c4aedd9c257aa93e249c1fb1eeb415aaf59eede728f9"
+              },
+              {
+                "problem": "putnam_2007_a1",
+                "candidate_sha256": "8cdabb852bdc8024c027ded376049605ca5893f110fc5f2f0068fd55a5bde98c"
+              }
+            ],
+            "metadata": {
+              "description": "미분 증거를 조합해 재사용",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"derivative_expression\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M13",
+            "title": "Reindex and count with sum api",
+            "title_ko": "합·indicator·순열 API로 계수 정리",
+            "mechanism": "reindex-and-count-with-sum-api",
+            "match": {
+              "requires": [
+                [
+                  "finite_sum_counts"
+                ]
+              ],
+              "optional": [
+                "set_cardinality",
+                "symmetry_context",
+                "polynomial_degree"
+              ]
+            },
+            "guide": "Represent the count as an indicator sum or orient the determinant sum to match its indices. Apply sum interchange, filter/complement identities, permutation determinant laws, or an involutive cardinal pairing rather than rebuilding bijection obligations.",
+            "risks": "Check finiteness, indices, permutation signs, and integrability when moving integrals. Equal source lengths do not establish correctness of a reindexing.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Row/column balance via one weighted double sum.",
+              "Use determinant-permutation identities after aligning row/column expansion.",
+              "Use complement-pair cardinal identities instead of a bespoke full count."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "ZetaZeros.step1_double",
+                "candidate_sha256": "ecfb726790c86b169b5189c7dd7d145b16bf6d1b82a72e704c33c8272258b9ba"
+              },
+              {
+                "problem": "cauchyBinet",
+                "candidate_sha256": "994790e80889baaefcc81f42bf1fa6c1f627098c41c5e5809b64ff97e90bd5df"
+              },
+              {
+                "problem": "ProximityToRS.dir_close_of_many_close_pts",
+                "candidate_sha256": "1c2bfa42e7418635310f3b74269df5a5509430bb6bf9dd626cda998035d076e5"
+              },
+              {
+                "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+                "candidate_sha256": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000"
+              },
+              {
+                "problem": "putnam_2001_b1",
+                "candidate_sha256": "70bceffde22ead4869449e126cb7fad3d065f733758361c012b5c8dc97b0a5a7"
+              },
+              {
+                "problem": "putnam_1964_b2",
+                "candidate_sha256": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7"
+              }
+            ],
+            "metadata": {
+              "description": "합·indicator·순열 API로 계수 정리",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"finite_sum_counts\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M14",
+            "title": "Reduce by symmetry",
+            "title_ko": "대칭·방향 선택을 먼저 고정",
+            "mechanism": "reduce-by-symmetry",
+            "match": {
+              "requires": [
+                [
+                  "symmetry_context"
+                ]
+              ],
+              "optional": [
+                "branch_duplication",
+                "finite_sum_counts"
+              ]
+            },
+            "guide": "Identify a proved symmetry or involution, fix one orientation, and transport the other case through it. Share sign-reversal or path-composition arguments rather than copying a full mirrored proof.",
+            "risks": "A symmetric-looking statement need not preserve all hypotheses. Supply the swapped assumptions and check signs/order explicitly.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "wlog ordered polygon indices before endpoint cases.",
+              "Use an interval sign substitution and evenness.",
+              "Orient braid paths or pair complementary subsets through an involution."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "CoxeterSystem.matsumoto_reduced_aux",
+                "candidate_sha256": "cc70888d2ddead0fe7af9c996423ae1c43232dda62c955c2fc34707bf76ea19d"
+              },
+              {
+                "problem": "ZetaZeros.step1_double",
+                "candidate_sha256": "ecfb726790c86b169b5189c7dd7d145b16bf6d1b82a72e704c33c8272258b9ba"
+              },
+              {
+                "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PolygonalCircle.insertZero_nonadjacent_disjoint",
+                "candidate_sha256": "1b05aefd784c98a69ab7da100e11736a606bb59e79c8b835c1e8936d797843b2"
+              },
+              {
+                "problem": "putnam_1964_b2",
+                "candidate_sha256": "b048ec31c756af2b8875b8b2974e5d377f602292d55b02fdcc1d901c875903c7"
+              }
+            ],
+            "metadata": {
+              "description": "대칭·방향 선택을 먼저 고정",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"symmetry_context\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M15",
+            "title": "Continuous test function zero",
+            "title_ko": "연속성·test function으로 영함수 목표 환원",
+            "mechanism": "continuous-test-function-zero",
+            "match": {
+              "requires": [
+                [
+                  "test_function_zero"
+                ]
+              ],
+              "optional": []
+            },
+            "guide": "Scalarize a vector zero goal with an inner product. Prefer an existing almost-everywhere-zero theorem followed by continuity when its measure assumptions hold. Otherwise local positivity with one test bump can yield a contradiction.",
+            "risks": "Borel/trim, local integrability and positivity assumptions must be proved. The scalarization alone does not imply the vector equality without the self-inner-product argument.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "AE-zero plus continuous pointwise equality bridge.",
+              "One scalar positive neighborhood and a compactly supported test bump."
+            ],
+            "status": "observed-single-problem",
+            "evidence": [
+              {
+                "problem": "fundamental_theorem_of_variational_calculus'",
+                "candidate_sha256": "d0293814a98d5db2e8fdca6fec03c5c419f0847244376124e4265a4ba9b6ba12"
+              },
+              {
+                "problem": "fundamental_theorem_of_variational_calculus'",
+                "candidate_sha256": "454cfd9104d1270c9fe338d4ebd8bf05d54b441b350584fd453775412f5f221b"
+              }
+            ],
+            "metadata": {
+              "description": "연속성·test function으로 영함수 목표 환원",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"test_function_zero\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M16",
+            "title": "Compositional continuity control",
+            "title_ko": "연속성 API와 명시적 거리·콤팩트 제어 활용",
+            "mechanism": "compositional-continuity-control",
+            "match": {
+              "requires": [
+                [
+                  "continuity_control"
+                ]
+              ],
+              "optional": [
+                "repeated_derivation",
+                "rational_algebra"
+              ]
+            },
+            "guide": "Replace repeated continuity side proofs with composition/min/max APIs. For neighborhood or inverse-map arguments use compact minimum/uniform-continuity and a precise distance bound; use a squeeze or thresholds outside the target neighborhood.",
+            "risks": "A pointwise bound is not automatically uniform. Keep compactness, boundary values and positive radii explicit; fun_prop cannot discharge missing analytic assumptions.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Clipping expressed as min/max composition plus local epsilon-delta recovery.",
+              "Compact positive distance minimum and uniform radius.",
+              "Inverse-flow continuity from a forward distance bound and squeeze."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Vlasov.transportedIntegral_continuousOn",
+                "candidate_sha256": "8f2fd92ca32a1896ce06f5a3faddd3316432435f40975b57df1b728bd00ad15c"
+              },
+              {
+                "problem": "LeanEval.Topology.ClassificationOfSurfaces.Moise.PartialTriangulation.exists_chartMatchingControlOn_of_metricSpace",
+                "candidate_sha256": "021b30d9e3059ab28862da98e68c2dd8705edd642e8e0f3984026cd40ee5af9d"
+              },
+              {
+                "problem": "putnam_1970_b5",
+                "candidate_sha256": "0b67223ef0c871c3e2c2839f70f59b1e841d774c5e59e6bd45524a87317a5472"
+              },
+              {
+                "problem": "putnam_1968_a1",
+                "candidate_sha256": "d629f763edb942ecabf48596012230777f4416e3ce5756737b0ab17702ee30c3"
+              }
+            ],
+            "metadata": {
+              "description": "연속성 API와 명시적 거리·콤팩트 제어 활용",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"continuity_control\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M17",
+            "title": "Finite state pigeonhole",
+            "title_ko": "유한 상태 반복을 직접 비둘기집 정리로 얻기",
+            "mechanism": "finite-state-pigeonhole",
+            "match": {
+              "requires": [
+                [
+                  "finite_state_sequence"
+                ]
+              ],
+              "optional": []
+            },
+            "guide": "Package the recurrence history into a finite-dimensional state and prove it maps into a finite bounded set. Apply infinite-to-finite collision existence directly, order the two indices, then propagate equal states using the recurrence.",
+            "risks": "The state must include every dependency of the recurrence. A repeated state is not yet eventual periodicity; prove propagation and a positive period.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Finite tuple of consecutive sequence values followed by strong induction."
+            ],
+            "status": "observed-single-problem",
+            "evidence": [
+              {
+                "problem": "putnam_1964_a4",
+                "candidate_sha256": "207faa8d28e8f593cccb72889427141dd2f4196adbc429747c7f473c52d7fee6"
+              }
+            ],
+            "metadata": {
+              "description": "유한 상태 반복을 직접 비둘기집 정리로 얻기",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"finite_state_sequence\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M18",
+            "title": "Project support away from state",
+            "title_ko": "stateful 실행에서 필요한 값의 support만 투영",
+            "mechanism": "project-support-away-from-state",
+            "match": {
+              "requires": [
+                [
+                  "stateful_support"
+                ]
+              ],
+              "optional": []
+            },
+            "guide": "If the goal depends only on an output value, use an existing support-projection theorem for the simulated computation. Analyze that projected support instead of expanding every state transition; preserve the separate state-dependent obligations.",
+            "risks": "Projection loses information. Do not use it for a goal that still requires the final state, and verify the support theorem for the exact transformer stack.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Use a run-prime support inclusion while sharing the remaining protocol cases."
+            ],
+            "status": "observed-single-problem",
+            "evidence": [
+              {
+                "problem": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+                "candidate_sha256": "e20021b5a3e44ca8869edf83516c514cf58b6943e69775ff617151c22b39da3a"
+              }
+            ],
+            "metadata": {
+              "description": "stateful 실행에서 필요한 값의 support만 투영",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"stateful_support\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M19",
+            "title": "Structural polynomial degree",
+            "title_ko": "다항식 차수의 구조적 상계 사용",
+            "mechanism": "structural-polynomial-degree",
+            "match": {
+              "requires": [
+                [
+                  "polynomial_degree"
+                ]
+              ],
+              "optional": [
+                "cast_roundtrip",
+                "linear_basis"
+              ]
+            },
+            "guide": "Use degree/natDegree bounds under map, evaluation, sum, product or minors. Stay in the appropriate ordered degree type where possible and avoid a full coefficient expansion or repeated zero-polynomial cases.",
+            "risks": "Degree and natDegree differ at zero; map/evaluation may lower degree. Adjugate minor size and constant factors must be justified.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Bound an adjugate entry using its minor determinant degree.",
+              "Use degree order lemmas instead of WithBot representation case analysis.",
+              "Bound bivariate evaluation/coefficient degrees structurally."
+            ],
+            "status": "observed-multiple-problems",
+            "evidence": [
+              {
+                "problem": "Combine.master_lemma",
+                "candidate_sha256": "378acfb8c612685d3415a0458ccad2b11785c2af3b1683236c4aef9583e2ca09"
+              },
+              {
+                "problem": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+                "candidate_sha256": "35af063aba4dd437ec2ecbb09ec10ede57e468870462e89b1f7599c2cc55c7bd"
+              },
+              {
+                "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+                "candidate_sha256": "5559d97467a652c3bcd47c7938f675e1c5d1b71217dd647929455c8c8e7d7000"
+              }
+            ],
+            "metadata": {
+              "description": "다항식 차수의 구조적 상계 사용",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"polynomial_degree\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          },
+          {
+            "id": "M20",
+            "title": "Finite quotient reduction",
+            "title_ko": "정수 잔여류 논증을 유한 quotient로 옮기기",
+            "mechanism": "finite-quotient-reduction",
+            "match": {
+              "requires": [
+                [
+                  "modular_integer_cases"
+                ]
+              ],
+              "optional": [
+                "rational_algebra",
+                "finite_decision"
+              ]
+            },
+            "guide": "For a polynomial congruence obstruction, formulate the finite quotient property once, prove it by kernel-checked finite decision, and transport it through the integer-cast congruence equivalence. Keep integer positivity and witness construction separate.",
+            "risks": "Choose the correct modulus and prove the cast bridge. Finite computation cannot replace the unbounded integer witness argument or use a kernel bypass.",
+            "constraints": "Use only facts available before the target in the pinned module. Preserve statement and validate the complete candidate in required versions.",
+            "recipes": [
+              "Combine two forbidden residues into one finite quotient theorem."
+            ],
+            "status": "observed-single-problem",
+            "evidence": [
+              {
+                "problem": "putnam_2019_a1",
+                "candidate_sha256": "6a25c2f7138ece39862fc0c5ef6edbfc91bfcf352c7b6b018c95dc0bf49a36a1"
+              }
+            ],
+            "metadata": {
+              "description": "정수 잔여류 논증을 유한 quotient로 옮기기",
+              "when_to_apply": "Required signal groups (AND of OR): [[\"modular_integer_cases\"]]",
+              "objectives": [],
+              "review_status": "review_required",
+              "attribution": "joint"
+            }
+          }
+        ]
+      },
+      "top_k": 1,
+      "contextual": true
+    }
+  }
+}

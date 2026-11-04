@@ -1,0 +1,303 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+This is an ArkLib refactoring experiment. Minimize combined source-token and raw-heartbeat ratios. Only edit the proof body; preserve the exact statement. No new imports, global helpers, options, axioms, sorry or unsafe evaluation. Use original input and generic strategy hints; historical improved proofs are unavailable. On propose/repair include strategy_ids for Bank strategies you selected (empty if none); the IDs are declarations, not verified attribution. Try concrete changes and repair from the diagnostics. All search/analysis calls also cost money. Stop after the configured reservation budget; do not finish early solely because one candidate passes. Screening uses Lean v4.31.0; final compatibility is checked separately on every required version.
+Pre-target source context (tail only, truncated; full proof in problem.reference):
+ndomQuery : Unit ⊕ Unit → Type := fun _ => R⦃≤ deg⦄[X]
+
+def relationAfterRandomQuery :
+    Set (((StmtAfterRandomQuery R) × (∀ i, OStmtAfterRandomQuery R deg i)) × Unit) :=
+  { ⟨⟨chal, oStmt⟩, _⟩ | (oStmt (Sum.inr ())).1.eval chal = (oStmt (Sum.inl ())).1.eval chal }
+
+@[reducible, simp] def StmtOut : Type := R × R
+@[reducible, simp] def OStmtOut : Unit → Type := fun _ => R⦃≤ deg⦄[X]
+
+def outputRelation :
+    Set (((StmtOut R) × (∀ i, OStmtOut R deg i)) × Unit) :=
+  { ⟨⟨⟨newTarget, chal⟩, oStmt⟩, _⟩ | (oStmt ()).1.eval chal = newTarget }
+
+variable {ι : Type} (oSpec : OracleSpec ι)
+
+def oracleReduction.sendClaim : OracleReduction oSpec (StmtIn R) (OStmtIn R deg) Unit
+    (StmtAfterSendClaim R) (OStmtAfterSendClaim R deg) Unit ⟨!v[.P_to_V], !v[R⦃≤ deg⦄[X]]⟩ := sorry
+  -- by
+  -- refine SendClaim.oracleReduction oSpec (StmtIn R) (OStmtIn R deg) ?_
+  -- (SendClaim.oracleReduction oSpec (StmtIn R) (OStmtIn R deg) Unit)
+
+def oracleReduction.checkClaim : OracleReduction oSpec
+    (StmtAfterSendClaim R) (OStmtAfterSendClaim R deg) Unit
+    (StmtAfterCheckClaim R) (OStmtAfterCheckClaim R deg) Unit !p[] :=
+  sorry
+
+def oracleReduction.randomQuery : OracleReduction oSpec
+    (StmtAfterCheckClaim R) (OStmtAfterCheckClaim R deg) Unit
+    (StmtAfterRandomQuery R) (OStmtAfterRandomQuery R deg) Unit ⟨!v[.V_to_P], !v[R]⟩ :=
+  sorry
+
+def oracleReduction.reduceClaim : OracleReduction oSpec
+    (StmtAfterRandomQuery R) (OStmtAfterRandomQuery R deg) Unit
+    (StmtOut R) (OStmtOut R deg) Unit !p[] := by
+  refine ReduceClaim.oracleReduction oSpec
+    ?_ (fun _ _ => ()) (Function.Embedding.inl) (by simp)
+  · simp; sorry
+
+def oracleReduction : OracleReduction oSpec (StmtIn R) (OStmtIn R deg) Unit
+    (StmtOut R) (OStmtOut R deg) Unit (pSpec R deg) :=
+  ((oracleReduction.sendClaim R deg oSpec)
+  |>.append (oracleReduction.checkClaim R deg oSpec)
+  |>.append (oracleReduction.randomQuery R deg oSpec)
+  |>.append (oracleReduction.reduceClaim R deg oSpec))
+
+open NNReal
+
+variable [SampleableType R]
+  {σ : Type} {init : ProbComp σ} {impl : QueryImpl oSpec (StateT σ ProbComp)}
+
+theorem oracleReduction_perfectCompleteness :
+    (oracleReduction R deg oSpec).perfectCompleteness init impl
+      (inputRelation R deg D) (outputRelation R deg) := by
+  simp [oracleReduction]
+  refine OracleReduction.append_perfectCompleteness
+    (rel₂ := relationAfterRandomQuery R deg)
+    ((((oracleReduction.sendClaim R deg oSpec).append
+        (oracleReduction.checkClaim R deg oSpec)).append
+        (oracleReduction.randomQuery R deg oSpec)))
+    (oracleReduction.reduceClaim R deg oSpec) ?_ ?_
+  · refine OracleReduction.append_perfectCompleteness
+      (rel₂ := relationAfterCheckClaim R deg)
+      ((oracleReduction.sendClaim R deg oSpec).append
+        (oracleReduction.checkClaim R deg oSpec))
+      (oracleReduction.randomQuery R deg oSpec) ?_ ?_
+    · refine OracleReduction.append_perfectCompleteness
+        (rel₂ := relationAfterSendClaim R deg D)
+        (oracleReduction.sendClaim R deg oSpec)
+        (oracleReduction.checkClaim R deg oSpec) ?_ ?_
+      · sorry
+      · sorry
+    · sorry
+  · simp [oracleReduction.reduceClaim]
+    refine ReduceClaim.oracleReduction_completeness _ _ ?_
+    sorry
+
+theorem oracleVerifier_rbrKnowledgeSoundness [Fintype R] :
+    (oracleReduction R deg oSpec).verifier.rbrKnowledgeSoundness init impl
+      (inputRelation R deg D) (outputRelation R deg)
+        (fun _ => (deg : ℝ≥0) / (Fintype.card R)) := by
+  sorry
+
+end Simpler
+
+namespace Simple
+
+-- Let's try to simplify a single round of sum-check, and appeal to compositionality to lift
+-- the result to the full protocol.
+
+-- In this simplified setting, the sum-check protocol consists of a _univariate_ polynomial
+-- `p : R⦃≤ d⦄[X]` of degree at most `d`, and the relation is that
+-- `∑ x ∈ univ.map D, p.eval x = newTarget`.
+
+@[reducible, simp]
+def StmtIn : Type := R
+
+@[reducible, simp]
+def StmtOut : Type := R × R
+
+@[reducible, simp]
+def OStmtIn : Unit → Type := fun _ => R⦃≤ deg⦄[X]
+
+@[reducible, simp]
+def OStmtOut : Unit → Type := fun _ => R⦃≤ deg⦄[X]
+
+def inputRelation : Set ((StmtIn R × (∀ i, OStmtIn R deg i)) × Unit) :=
+  { ⟨⟨target, oStmt⟩, _⟩ | ∑ x ∈ (univ.map D), (oStmt ()).1.eval x = target }
+
+def outputRelation : Set ((StmtOut R × (∀ i, OStmtOut R deg i)) × Unit) :=
+  { ⟨⟨⟨newTarget, chal⟩, oStmt⟩, _⟩ | (oStmt ()).1.eval chal = newTarget }
+
+variable {ι : Type} (oSpec : OracleSpec ι)
+
+/-- The prover in the simple description of a single round of sum-check.
+
+  Takes in input `target : R` and `poly : R⦃≤ deg⦄[X]`, and:
+  - Sends a message `poly' := poly` to the verifier
+  - Receive `chal` from the verifier
+  - Outputs `(newTarget, chal) : R × R`, where `newTarget := poly.eval chal`
+-/
+def prover : OracleProver oSpec (StmtIn R) (OStmtIn R deg) Unit (StmtOut R) (OStmtOut R deg) Unit
+    (pSpec R deg) where
+  PrvState
+    | 0 => R⦃≤ deg⦄[X]
+    | 1 => R⦃≤ deg⦄[X]
+    | 2 => R⦃≤ deg⦄[X] × R
+
+  input := fun ⟨⟨_, oStmt⟩, _⟩ => oStmt ()
+
+  sendMessage
+  | ⟨0, _⟩ => fun polyLE => pure ⟨polyLE, polyLE⟩
+  | ⟨1, h⟩ => nomatch h
+
+  receiveChallenge
+  | ⟨0, h⟩ => nomatch h
+  | ⟨1, _⟩ => fun polyLE => pure fun chal => ⟨polyLE, chal⟩
+
+  output := fun ⟨polyLE, chal⟩ => pure (((polyLE.val.eval chal, chal), fun _ => polyLE), ())
+
+variable [DecidableEq R] [SampleableType R]
+
+/-- The verifier for the simple description of a single round of sum-check -/
+def verifier : Verifier oSpec (StmtIn R × (∀ i, OStmtIn R deg i))
+                              (StmtOut R × (∀ i, OStmtOut R deg i)) (pSpec R deg) where
+  verify := fun ⟨target, oStmt⟩ transcript => do
+    letI polyLE := transcript 0
+    guard (∑ x ∈ (univ.map D), polyLE.val.eval x = target)
+    letI chal := transcript 1
+    pure ⟨⟨(oStmt ()).val.eval chal, chal⟩, fun _ => oStmt ()⟩
+
+/-- The reduction for the simple description of a single round of sum-check -/
+def reduction : Reduction oSpec (StmtIn R × (∀ i, OStmtIn R deg i)) Unit
+                                (StmtOut R × (∀ i, OStmtOut R deg i)) Unit (pSpec R deg) where
+  prover := prover R deg oSpec
+  verifier := verifier R deg D oSpec
+
+-- dtumad: Why is this instance needed?
+instance t {ι₁ ι₂ ι₃}
+  {spec₁ : OracleSpec ι₁} {spec₂ : OracleSpec ι₂}
+  {spec₃ : OracleSpec ι₃} : MonadLiftT (OracleQuery spec₂)
+  (OracleQuery (spec₁ + (spec₂ + spec₃))) := by
+  infer_instance
+
+open Function in
+def oracleVerifier : OracleVerifier oSpec (StmtIn R) (OStmtIn R deg) (StmtOut R) (OStmtOut R deg)
+    (pSpec R deg) where
+  verify := fun target chal => do
+    let evals : Vector R m ← (Vector.finRange m).mapM
+      (fun i => OptionT.lift <| OracleComp.liftComp
+        (OracleComp.lift <|
+          OracleSpec.query (show [(pSpec R deg).Message]ₒ.Domain from ⟨default, D i⟩))
+        _)
+    guard (evals.sum = target)
+    let newTarget ← OptionT.lift <| OracleComp.liftComp
+      (OracleComp.lift <|
+        OracleSpec.query (show [OStmtIn R deg]ₒ.Domain from ⟨(), chal default⟩))
+      _
+    pure (newTarget, chal default)
+  embed := .inl
+  hEq := fun i => by simp [pSpec]; rfl
+
+def oracleReduction : OracleReduction oSpec (StmtIn R) (OStmtIn R deg) Unit
+                                            (StmtOut R) (OStmtOut R deg) Unit (pSpec R deg) where
+  prover := prover R deg oSpec
+  verifier := oracleVerifier R deg D oSpec
+
+open Reduction
+open scoped NNReal
+
+-- instance : ∀ i, SampleableType (OracleInterface.Response (Challenge (pSpec R deg) i))
+--   | ⟨1, _⟩ => by dsimp [pSpec, OracleInterface.Response]; infer_instance
+
+-- instance : Nonempty []ₒ.QueryLog := by simp [QueryLog]; infer_instance
+-- instance : Nonempty ((pSpec R deg).FullTranscript) := by
+--   refine ⟨fun i => ?_⟩
+--   rcases i with _ | _
+--   · simp; exact default
+--   · simp; exact default
+
+theorem oracleVerifier_eq_verifier :
+    (oracleVerifier R deg D oSpec).toVerifier = verifier R deg D oSpec := by
+  ext ⟨target, oStmt⟩ transcript
+  simp only [OracleVerifier.toVerifier, verifier, oracleVerifier, pSpec,
+    OracleInterface.simOracle2,
+    QueryImpl.addLift_def,
+    QueryImpl.add_apply_inl, QueryImpl.add_apply_inr, QueryImpl.liftTarget_apply,
+    OptionT.run, OptionT.mk, OptionT.lift, OptionT.run_bind, OptionT.run_pure, OptionT.run_mk,
+    OracleComp.liftComp_bind, OracleComp.liftComp_pure, OracleComp.liftComp_query,
+    OracleComp.liftComp_map, OracleComp.liftComp_seq,
+    OracleQuery.cont_query, OracleQuery.input_query,
+    pure_bind, bind_pure_comp, bind_assoc, map_pure, id_map, Functor.map_id, Function.comp,
+    FullTranscript.challenges, FullTranscript.messages]
+  -- Push simulateQ through the outer bind (mapM >>= rest)
+  erw [simulateQ_bind]
+  -- Each oracle query in mapM resolves to pure evaluation
+  set impl := (QueryImpl.liftTarget (OracleComp oSpec) (QueryImpl.id oSpec) +
+    QueryImpl.liftTarget (OracleComp oSpec)
+      ((OracleInterface.simOracle0 (OStmtIn R deg) oStmt).add
+        (OracleInterface.simOracle0
+          (fun i => (pSpec R deg).Message i) transcript.messages)))
+  have hmapM := simulateQ_optionT_mapM_pure impl
+    (fun (i : Fin m) => (some <$> (OracleComp.liftComp
+        (OracleComp.lift <|
+          OracleSpec.query (show [(pSpec R deg).Message]ₒ.Domain from ⟨default, D i⟩))
+        _ : OracleComp _ R) : OracleComp _ (Option R)))
+    (fun i => (transcript.messages default).1.eval (D i))
+    (Vector.finRange m)
+    (by
+      intro i; simp only [impl,
+        simulateQ_map, simulateQ_bind, simulateQ_pure, simulateQ_query,
+        QueryImpl.addLift_def,
+        QueryImpl.add_apply_inl, QueryImpl.add_apply_inr, QueryImpl.liftTarget_apply,
+        QueryImpl.simulateQ_add_liftComp_right, QueryImpl.simulateQ_add_liftComp_left,
+        OracleComp.liftComp_bind, OracleComp.liftComp_pure, OracleComp.liftComp_query,
+        OracleComp.liftComp_map,
+        OracleQuery.cont_query, OracleQuery.input_query,
+        OracleInterface.simOracle0, OracleInterface.answer,
+        pure_bind, bind_pure_comp, map_pure, Function.comp, id_map]
+      -- The query goes through SubSpec lifts; each liftM = liftComp (lift ...)
+      -- After simulateQ, the message oracle answers with transcript.messages
+      rfl)
+  erw [hmapM]; clear hmapM
+  simp only [pure_bind]
+  -- Push simulateQ through the guard bind
+  erw [simulateQ_bind]
+  simp only [guard, Alternative.failure, OptionT.fail, OptionT.mk]
+  erw [simulateQ_ite, simulateQ_pure, simulateQ_pure]
+  -- Bridge: Vector.sum to Finset.sum
+  have hsum : (Vector.map (fun i => (transcript.messages default).1.eval (D i))
+      (Vector.finRange _)).sum = ∑ x ∈ Finset.map D Finset.univ,
+      Polynomial.eval x ↑(transcript.messages default).1 := by
+    simp only [Vector.sum]
+    rw [← Array.sum_eq_sum_toList, Vector.toList_toArray, Vector.toList_map,
+        Vector.finRange, Vector.toList_ofFn, List.map_ofFn, List.sum_ofFn, Finset.sum_map]
+    simp [Function.comp]
+  rw [hsum]
+  simp only [OracleComp.ite_bind, pure_bind, simulateQ_pure, apply_ite (Functor.map _)]
+  split_ifs with h1 h2
+  · -- Both true: resolve newTarget query
+    erw [simulateQ_bind]
+    simp only [OracleComp.liftComp_bind, OracleComp.liftComp_pure, OracleComp.liftComp_query,
+      QueryImpl.simulateQ_add_liftComp_right,
+      simulateQ_query, OracleQuery.cont_query, OracleQuery.input_query,
+      QueryImpl.add_apply_inl, QueryImpl.add_apply_inr, QueryImpl.liftTarget_apply,
+      OracleInterface.simOracle0, OracleInterface.answer,
+      pure_bind, bind_pure_comp, map_pure, Function.comp,
+      simulateQ_map, simulateQ_pure]
+    rfl
+  · exfalso; simp only [FullTranscript.messages, pSpec] at *; tauto
+  · exfalso; simp only [FullTranscript.messages, pSpec] at *; tauto
+  · rfl
+
+/-- The oracle reduction is equivalent to the non-oracle reduction -/
+theorem oracleReduction_eq_reduction :
+    (oracleReduction R deg D oSpec).toReduction = reduction R deg D oSpec := by
+  ext : 1 <;>
+  simp [OracleReduction.toReduction, oracleReduction, reduction, oracleVerifier_eq_verifier]
+
+variable {σ : Type} {init : ProbComp σ} {impl : QueryImpl oSpec (StateT σ ProbComp)}
+
+/-- Perfect completeness for the (non-oracle) reduction -/

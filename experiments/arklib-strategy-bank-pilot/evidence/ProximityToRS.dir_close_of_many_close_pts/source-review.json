@@ -1,0 +1,36 @@
+{
+  "problem": "ProximityToRS.dir_close_of_many_close_pts",
+  "selected_candidate": "c030",
+  "review_status": "agent-source-comparison",
+  "human_approved": false,
+  "attribution": "joint",
+  "observed_bank_mechanisms": [
+    {
+      "strategy_id": "M02",
+      "observation_ko": "중복된 두 scalar/codeword 차이 계산을 r/s/j 매개변수의 diff와 slope 보조정리로 공유한다."
+    },
+    {
+      "strategy_id": "M13",
+      "observation_ko": "Sigma pair 집합·두 fiber embedding·기수 등식 증명을 indicator 합과 sum_comm의 이중합으로 대체한다."
+    },
+    {
+      "strategy_id": "M10",
+      "observation_ko": "오류 좌표 D에 대한 합을 전체 좌표의 합으로 상계하고, 합집합·image 기수도 필요한 상계만 사용한다."
+    },
+    {
+      "strategy_id": "M11",
+      "observation_ko": "3으로 나눈 초기 부등식을 lt_div_iff₀와 exact_mod_cast로 직접 자연수 부등식으로 옮기고, 마지막 곱 부등식도 자연수 산술로 정리한다."
+    }
+  ],
+  "additional_observed_transformations_ko": [
+    "목표가 v의 근접성만 요구하므로 cBase 전체 affine 표현과 u/cBase 불일치 조건을 제거하고 c r - c r0 관계와 v≠w인 좌표만 유지한다.",
+    "Finset R과 membership subtype을 거치는 대신 P를 직접 만족하는 subtype RS로 표현해 기수 왕복 정리를 줄인다."
+  ],
+  "budget_observation": {
+    "stop_reason": "budget_reservation",
+    "cost_usd": "1.9397206",
+    "per_problem_cap_usd": "2.50",
+    "reason": "Next conservative request reservation did not fit remaining budget; no extra call dispatched."
+  },
+  "interpretation": "All designated versions passed. Four observed mechanisms co-occur; their separate cost or score contribution is not established."
+}

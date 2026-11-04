@@ -1,0 +1,281 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+This is an ArkLib refactoring experiment. Minimize combined source-token and raw-heartbeat ratios. Only edit the proof body; preserve the exact statement. No new imports, global helpers, options, axioms, sorry or unsafe evaluation. Use original input and generic strategy hints; historical improved proofs are unavailable. On propose/repair include strategy_ids for Bank strategies you selected (empty if none); the IDs are declarations, not verified attribution. Try concrete changes and repair from the diagnostics. All search/analysis calls also cost money. Stop after the configured reservation budget; do not finish early solely because one candidate passes. Screening uses Lean v4.31.0; final compatibility is checked separately on every required version.
+Pre-target source context (tail only, truncated; full proof in problem.reference):
+ JohnsonDenominator (B : Finset (Fin n → F)) (v : Fin n → F) : ℚ :=
+  let e := e B v
+  let d := d B
+  let q : ℚ := card F
+  let frac := q / (q - 1)
+  (1 - frac * e / n) ^ 2 - (1 - frac * d / n)
+
+/-- Unfolds `JohnsonDenominator` into an explicit rational expression. -/
+lemma johnson_denominator_def :
+    JohnsonDenominator B v = ((1 - (card F) / (card F - 1) * (e B v / n)) ^ 2
+      - (1 - (card F) / (card F - 1) * (d B / n))) := by
+  simp [JohnsonDenominator]
+  field_simp
+
+/-- The strong Johnson condition: the denominator of Theorem 3.1 is positive. -/
+def JohnsonConditionStrong (B : Finset (Fin n → F)) (v : Fin n → F) : Prop :=
+  let e := e B v
+  let d := d B
+  let q : ℚ := card F
+  let frac := q / (q - 1)
+  (1 - frac * d / n) < (1 - frac * e / n) ^ 2
+
+/-- The function used for the `q`-ary Johnson Bound. -/
+noncomputable def J (q δ : ℚ) : ℝ :=
+  let frac := q / (q - 1)
+  (1 / frac) * (1 - √(1 - frac * δ))
+
+/-- Rationalization of `a - √b` via conjugate multiplication. -/
+lemma division_by_conjugate {a b : ℝ} (hpos : 0 ≤ b) (hnonzero : a + √b ≠ 0) :
+    a - √b = (a ^ 2 - b) / (a + √b) := by
+  rw [eq_div_iff hnonzero]
+  ring_nf
+  simp_all
+
+/-- The binary Johnson bound `1 - √(1-δ)` is at most the `q`-ary bound `J q δ`. -/
+lemma sqrt_le_J {q δ : ℚ} (hq : q > 1) (hx0 : 0 ≤ δ) (hx1 : δ ≤ 1)
+    (hqx : q / (q - 1) * δ ≤ 1) :
+    1 - √(1 - δ) ≤ J q δ := by
+  unfold J
+  set frac := q / (q - 1) with hfrac
+  have hfrac_ge : frac ≥ 1 := by
+    rw [hfrac, ge_iff_le, one_le_div] <;> grind
+  have hx' : 1 - δ ≥ 0 := by grind only
+  have hfracx' : 1 - frac * δ ≥ 0 := by grind only
+  suffices 1 - √(1 - δ) ≤ (1 / frac) * (1 - √(1 - frac * δ)) by grind only
+  field_simp
+  norm_cast
+  by_cases hδ : δ = 0
+  · simp [hδ]
+  · have hδ_pos : (0 : ℚ) < δ := lt_of_le_of_ne hx0 (Ne.symm hδ)
+    have hfracx'2 : 1 - δ * frac ≥ 0 := by linarith [mul_comm frac δ]
+    rw [division_by_conjugate (b := ↑(1 - δ)) (by exact_mod_cast hx') (by positivity)]
+    rw [division_by_conjugate (b := ↑(1 - δ * frac))
+        (by exact_mod_cast hfracx'2) (by positivity)]
+    simp only [one_pow]
+    push_cast
+    rw [show (1 : ℝ) - (1 - (δ : ℝ)) = δ from by ring,
+        show (1 : ℝ) - (1 - (δ : ℝ) * (frac : ℝ)) = δ * frac from by ring,
+        div_mul_eq_mul_div]
+    have hsqrt_le : √(1 - ↑δ * ↑frac) ≤ √(1 - ↑δ) := by
+      apply sqrt_le_sqrt
+      nlinarith [show (1 : ℝ) ≤ ↑frac from by exact_mod_cast hfrac_ge,
+                 show (0 : ℝ) ≤ ↑δ from by exact_mod_cast hx0]
+    exact div_le_div_of_nonneg_left (by positivity) (by positivity) (by linarith)
+
+/-- The `q`-ary Johnson bound condition (weak form via `J`). -/
+def JohnsonConditionWeak (B : Finset (Fin n → F)) (e : ℕ) : Prop :=
+  let d := sInf { d | ∃ u ∈ B, ∃ v ∈ B, u ≠ v ∧ hammingDist u v = d }
+  let q : ℚ := card F
+  (e : ℚ) / n < J q (d / n)
+
+/-- The weak Johnson condition implies the strong one on the ball intersection. -/
+lemma johnson_condition_weak_implies_strong [Field F]
+    {B : Finset (Fin n → F)} {v : Fin n → F} {e : ℕ}
+    (h_J_cond_weak : JohnsonConditionWeak B e)
+    (h_B2_not_one : 1 < (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)).card)
+    (h_F_nontriv : 2 ≤ card F) :
+    JohnsonConditionStrong (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)) v := by
+  have h_n_pos : 0 < n := by
+    by_contra hn
+    push Not at hn
+    have : n = 0 := by omega
+    subst this
+    have B_singleton : B.card ≤ 1 :=
+      card_le_one.2 (fun _ _ _ _ => funext (Fin.elim0 ·))
+    have : (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)).card ≤ 1 :=
+      le_trans (card_le_card inter_subset_left) B_singleton
+    omega
+  unfold JohnsonConditionStrong
+  intro e_1 d q frac
+  by_cases h_dsqrt_pos : (0 : ℝ) ≤ 1 - frac * d / ↑n
+  · have h_B2_nonempty : (0 : ℚ) < ((B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)).card : ℚ) :=
+      by norm_cast; omega
+    have h_frac_pos : frac > 0 := by
+      unfold frac
+      have : 1 < card F := by
+        simpa [Fintype.one_lt_card_iff] using (⟨(0 : F), (1 : F), by simp⟩ : ∃ a b : F, a ≠ b)
+      field_simp
+      unfold q
+      simp only [Nat.cast_pos, Fintype.zero_lt_card, div_pos_iff_of_pos_left, sub_pos,
+        Nat.one_lt_cast]
+      exact h_F_nontriv
+    have j_fun_bound : (↑e / ↑n : ℝ) < (1 / ↑frac * (1 - √(1 - ↑frac * ↑d / ↑n))) := by
+      unfold JohnsonConditionWeak J at h_J_cond_weak
+      simp_all only [Rat.cast_natCast, Rat.cast_div, Rat.cast_sub, Rat.cast_one, one_div, inv_div,
+        ne_eq, sub_nonneg, Nat.cast_pos, Finset.card_pos, gt_iff_lt]
+      let d_weak := sInf { d | ∃ u ∈ B, ∃ v ∈ B, ¬u = v ∧ Δ₀(u, v) = d }
+      have d_subset : ↑d_weak ≤ (d : ℚ) := by
+          unfold d
+          unfold JohnsonBound.d
+          unfold d_weak
+          have min_dist := min_dist_le_d h_B2_not_one
+          have subset_inf_ineq :
+              sInf { d | ∃ u ∈ B, ∃ v ∈ B, u ≠ v ∧ Δ₀(u, v) = d } ≤
+              sInf { d |
+              ∃ u ∈ (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)),
+              ∃ v_1 ∈ (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)),
+              u ≠ v_1 ∧ Δ₀(u, v_1) = d } := by
+              have subset : { d |
+                          ∃ u ∈ (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)),
+                          ∃ v_1 ∈ (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)),
+                          u ≠ v_1 ∧ Δ₀(u, v_1) = d }
+                          ⊆ { d | ∃ u ∈ B, ∃ v ∈ B, u ≠ v ∧ Δ₀(u, v) = d } := by
+                intro d ⟨u, hu_in, v_1, hv_in, hne, heq⟩
+                exact
+                  ⟨u, by
+                    simp only [mem_inter, mem_filter, mem_univ, true_and] at hu_in; exact hu_in.1,
+                  v_1, by
+                    simp only [mem_inter, mem_filter, mem_univ, true_and] at hv_in; exact hv_in.1,
+                  hne, heq⟩
+              gcongr
+              obtain ⟨u, hu, v_1, hv_1, hne⟩ := one_lt_card.mp h_B2_not_one
+              use Δ₀(u, v_1)
+              exact ⟨u, hu, v_1, hv_1, hne, rfl⟩
+          calc ↑d_weak
+              = ↑(sInf { d | ∃ u ∈ B, ∃ v ∈ B, ¬u = v ∧ Δ₀(u, v) = d }) := by rfl
+            _ ≤ ↑(sInf { d |
+              ∃ u ∈ (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)),
+              ∃ v_1 ∈ (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)),
+              u ≠ v_1 ∧ Δ₀(u, v_1) = d }) := by exact_mod_cast subset_inf_ineq
+            _ ≤ JohnsonBound.d (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)) :=
+              by exact_mod_cast min_dist
+      have bound : (↑frac)⁻¹ * (1 - √(1 - ↑frac * ↑d_weak / ↑n))
+          ≤ (↑frac)⁻¹ * (1 - √(1 - ↑frac * ↑d / ↑n)) := by
+        have ineq1 : (↑d_weak / ↑n) ≤ (d / ↑n) := by
+          rw [← mul_le_mul_iff_of_pos_left (Nat.cast_pos.mpr h_n_pos)]
+          field_simp
+          exact d_subset
+        have ineq2 : frac * (d_weak / n) ≤ frac * (d / n) :=
+          mod_cast (mul_le_mul_iff_of_pos_left h_frac_pos).mpr ineq1
+        have ineq3' : (1 : ℝ) - frac * d / n ≤ (1 : ℝ) - frac * d_weak / n := by
+          norm_cast; grind
+        have ineq4 : √(1 - ↑frac * ↑d / ↑n) ≤ √(1 - ↑frac * ↑d_weak / ↑n) :=
+          sqrt_le_sqrt ineq3'
+        have ineq5 :
+            (1 - √(1 - ↑frac * ↑d_weak / ↑n)) ≤ (1 - √(1 - ↑frac * ↑d / ↑n)) := by linarith
+        simp_all
+      have h_J_cond_weak' : ↑e / ↑n < 1 / (↑frac) * (1 - √(1 - frac * (d_weak / ↑n))) := by
+        unfold frac
+        unfold q
+        unfold d_weak
+        push_cast
+        rw [one_div_div]
+        exact h_J_cond_weak
+      field_simp
+      field_simp at h_J_cond_weak'
+      field_simp at bound
+      nlinarith [mul_le_mul_of_nonneg_left bound (Nat.cast_nonneg n)]
+    have err_n : (↑e_1 / ↑n : ℝ) ≤ (↑e / ↑n : ℝ) := by
+      apply div_le_div_of_nonneg_right _ (Nat.cast_nonneg n)
+      exact_mod_cast e_ball_le_radius v e
+        (by simpa using show 0 < (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)).card by omega)
+    have j_fun_bound_e1 : (↑e_1 / ↑n : ℝ) < (1 / ↑frac * (1 - √(1 - ↑frac * ↑d / ↑n))) :=
+      lt_of_le_of_lt err_n j_fun_bound
+    have rearrange_jboundw_e1 : √(1 - ↑frac * ↑d / ↑n) < 1 - frac * e_1 / ↑n := by
+      have : frac * e_1 / ↑n < 1 - √(1 - frac * d / ↑n) := by
+        calc ↑frac * ↑e_1 / ↑n
+            = ↑frac * (↑e_1 / ↑n) := by ring
+          _ < ↑frac * (1 / ↑frac * (1 - √(1 - ↑frac * ↑d / ↑n))) := by
+            simp_all only [Rat.cast_div, Rat.cast_natCast, Rat.cast_sub, Rat.cast_one, sub_nonneg,
+              Nat.cast_pos, Finset.card_pos, gt_iff_lt, zero_lt_card, div_pos_iff_of_pos_left,
+              sub_pos, Nat.one_lt_cast, one_div, inv_div, mul_lt_mul_iff_right₀, frac, q, d, e_1]
+          _ = 1 - √(1 - ↑frac * ↑d / ↑n) := by
+            grind only [= division_by_conjugate, = sqrt_one]
+      grind only
+    have h_esqrtpos : (0 : ℝ) ≤ 1 - frac * e_1 / ↑n := by
+      have : (0 : ℝ) ≤ √(1 - ↑frac * ↑d / ↑n) := by
+        simp_all only [Rat.cast_div, Rat.cast_natCast, Rat.cast_sub, Rat.cast_one, sub_nonneg,
+          Nat.cast_pos, Finset.card_pos, gt_iff_lt, zero_lt_card, div_pos_iff_of_pos_left,
+          sub_pos, Nat.one_lt_cast, one_div, inv_div, sqrt_nonneg, frac, q, d, e_1]
+      grind only
+    suffices recast_main_goal : (1 - frac * d / ↑n : ℝ) < (1 - frac * e_1 / ↑n) ^ 2 by
+      exact_mod_cast recast_main_goal
+    suffices roots : √(1 - frac * d / ↑n) < 1 - frac * e_1 / ↑n by
+      rw [← sqrt_lt h_dsqrt_pos h_esqrtpos]
+      exact_mod_cast roots
+    exact rearrange_jboundw_e1
+  · have strict_neg : 1 - ↑frac * ↑d / ↑n < (0 : ℚ) := by
+      have : ¬(0 : ℚ) ≤ 1 - frac * d / ↑n := by exact_mod_cast h_dsqrt_pos
+      rw [Rat.not_le] at this
+      exact this
+    calc 1 - ↑frac * ↑d / ↑n < (0 : ℚ) := strict_neg
+      _ ≤ (1 - ↑frac * ↑e_1 / ↑n) ^ 2 := by exact_mod_cast sq_nonneg (1 - frac * ↑e_1 / ↑n)
+
+/-- The strong Johnson condition forces the block length to be positive. -/
+lemma johnson_condition_strong_implies_n_pos
+    (h_johnson : JohnsonConditionStrong B v) :
+    0 < n := by
+  cases n <;> try simp [JohnsonConditionStrong] at *
+
+/-- The strong Johnson condition forces the alphabet to have at least two elements. -/
+lemma johnson_condition_strong_implies_2_le_F_card
+    (h_johnson : JohnsonConditionStrong B v) :
+    2 ≤ card F := by
+  revert h_johnson
+  dsimp [JohnsonConditionStrong]
+  rcases card F with _ | _ | _ <;> aesop
+
+/-- The strong Johnson condition forces the code to have at least two codewords. -/
+lemma johnson_condition_strong_implies_2_le_B_card
+    (h_johnson : JohnsonConditionStrong B v) :
+    2 ≤ B.card := by
+  dsimp [JohnsonConditionStrong] at h_johnson
+  rcases eq : B.card with _ | card | _ <;> [simp_all; skip; omega]
+  obtain ⟨a, ha⟩ := card_eq_one.1 eq
+  replace h_johnson : 1 < |1 - (card F) / ((card F) - 1) * Δ₀(v, a) / (n : ℚ)| := by
+    simp_all [choose_2]
+  generalize eq₁ : card F = q
+  rcases q with _ | _ | q <;> [simp_all; simp_all; skip]
+  have h : (card F : ℚ) / (card F - 1) = 1 + 1 / (card F - 1) := by
+    have : (card F : ℚ) - 1 ≠ 0 := by simp [sub_eq_zero]; omega
+    field_simp
+    ring
+  have h' := JohnsonBound.abs_one_sub_div_le_one (v := v) (a := a) (by omega)
+  exact absurd (lt_of_lt_of_le (h ▸ h_johnson) h') (lt_irrefl _)
+
+/-- `JohnsonConditionStrong` is equivalent to `JohnsonDenominator` being positive. -/
+lemma johnson_condition_strong_iff_johnson_denom_pos {B : Finset (Fin n → F)} {v : Fin n → F} :
+    JohnsonConditionStrong B v ↔ 0 < JohnsonDenominator B v := by
+  simp [JohnsonDenominator, JohnsonConditionStrong]
+
+/-- Theorem 3.1: the Johnson bound on list size. -/
+theorem johnson_bound [Field F]
+    (h_condition : JohnsonConditionStrong B v) :
+    let d := d B
+    let q : ℚ := card F
+    let frac := q / (q - 1)
+    B.card ≤ (frac * d / n) / JohnsonDenominator B v := by
+  suffices B.card * JohnsonDenominator B v ≤
+           (card F : ℚ) / (card F - 1) * d B / n by
+    rw [johnson_condition_strong_iff_johnson_denom_pos] at h_condition
+    exact (le_div_iff₀ h_condition).mpr (by linarith)
+  rw [johnson_denominator_def]
+  exact JohnsonBound.johnson_bound_lemma
+    (johnson_condition_strong_implies_n_pos h_condition)
+    (johnson_condition_strong_implies_2_le_B_card h_condition)
+    (johnson_condition_strong_implies_2_le_F_card h_condition)
+
+/-- Alphabet-free Johnson bound from [codingtheory]. -/

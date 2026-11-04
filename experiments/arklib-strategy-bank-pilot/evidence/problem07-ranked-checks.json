@@ -1,0 +1,552 @@
+{
+  "source_result_sha256": "f6bf58299ebfb601ffb2b433fc6928c246b84250578f6062164890c62e0c86f5",
+  "ranked_candidates": [
+    {
+      "rank": 1,
+      "candidate_id": "c039",
+      "sha256": "41b7cbc95a439aaafce13910e6b88f5c3d121027f50f25d335fa4c6b63c6da24",
+      "tokens": 715,
+      "screening_hb": 9592481,
+      "core_ratio_sum": 0.39558011937459686,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<PROBLEM07_RERUN>/version-checks/v4.30.0/candidate/result.json",
+          "origin": "integrity_checked_same_run_receipt"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 2,
+      "candidate_id": "c040",
+      "sha256": "bc78cd302082255b1f83f1ad3d80489487e8729b637ba3a03e29a12ffcdc08fc",
+      "tokens": 720,
+      "screening_hb": 9484592,
+      "core_ratio_sum": 0.39727691775920326,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c040/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 3,
+      "candidate_id": "c038",
+      "sha256": "0bd21f50647fbe5a4604ba789e1241f966d891551a2645273869aa77a2428026",
+      "tokens": 737,
+      "screening_hb": 9643580,
+      "core_ratio_sum": 0.4062600387150661,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c038/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 4,
+      "candidate_id": "c037",
+      "sha256": "8a6e1ae751d2c9a9426aebe38d4420078aaf73b485bfa441905ed71673268aed",
+      "tokens": 741,
+      "screening_hb": 9589344,
+      "core_ratio_sum": 0.4078135364212334,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c037/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 5,
+      "candidate_id": "c035",
+      "sha256": "d06c4fdc054df0e5c469e08df1976d9142783d25a4f67dcb69a3a6b75d2abe54",
+      "tokens": 758,
+      "screening_hb": 9013739,
+      "core_ratio_sum": 0.41230647281481575,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c035/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 6,
+      "candidate_id": "c036",
+      "sha256": "edb9da598c5c98bd239edd4fbc2ec2fc8b61c6fe4f8b3a3f28344c4a423422b2",
+      "tokens": 763,
+      "screening_hb": 8905782,
+      "core_ratio_sum": 0.41400285555082456,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c036/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 7,
+      "candidate_id": "c033",
+      "sha256": "ef7f13c35aa7dffc2bb78d6a1d9d80235b50f49928cf00ba49f86b46877f9013",
+      "tokens": 789,
+      "screening_hb": 9026529,
+      "core_ratio_sum": 0.426993510992482,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c033/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 8,
+      "candidate_id": "c028",
+      "sha256": "f7db54ad483570544f0060b44d450d3b638ec47fa22af991d62f67cf2bbdffc6",
+      "tokens": 817,
+      "screening_hb": 9035542,
+      "core_ratio_sum": 0.44024370173234045,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c028/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 9,
+      "candidate_id": "c027",
+      "sha256": "036e6ee7cb1ce6a8fa707c23c6b9d6cbfcc94071d4ad59caab8be0437f40ed3d",
+      "tokens": 853,
+      "screening_hb": 7573408,
+      "core_ratio_sum": 0.4482715650507935,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c027/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 10,
+      "candidate_id": "c022",
+      "sha256": "f2bce4037320991386ec0e314a5701eb5c51393ae8fe19312241acf38ebdac1c",
+      "tokens": 908,
+      "screening_hb": 8040281,
+      "core_ratio_sum": 0.4770442610266046,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c022/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 11,
+      "candidate_id": "c017",
+      "sha256": "571c7ba4f885437db0bb5908061149b54078e1f3dd7851311fe1d9f4811d6a17",
+      "tokens": 945,
+      "screening_hb": 8061303,
+      "core_ratio_sum": 0.49460913834090336,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c017/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 12,
+      "candidate_id": "c016",
+      "sha256": "54695038536aed60303b4ca19cd2cba96e471e53a38e61858c49423d3f47558f",
+      "tokens": 956,
+      "screening_hb": 7896240,
+      "core_ratio_sum": 0.49878398303607335,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c016/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 13,
+      "candidate_id": "c011",
+      "sha256": "12debd4d538d17e5e5288534ffd73271c532109ef224f91d52374331f8f740b0",
+      "tokens": 993,
+      "screening_hb": 8641429,
+      "core_ratio_sum": 0.5207753162026781,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c011/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 14,
+      "candidate_id": "c004",
+      "sha256": "b15b19ee3737116ef5ca849352a25fcadc9d4b424a41bf24cdbcc7a3af021d53",
+      "tokens": 1055,
+      "screening_hb": 8884247,
+      "core_ratio_sum": 0.551477255352702,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c004/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 15,
+      "candidate_id": "c031",
+      "sha256": "1568151a060ad899b40bff4015d9b1e5655daf30f8d6bf755c08a22b7cc41551",
+      "tokens": 775,
+      "screening_hb": 35395268,
+      "core_ratio_sum": 0.581574334820441,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c031/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 16,
+      "candidate_id": "c032",
+      "sha256": "651e6c411b3ae805d48102940d8a56ddf53daf68943859d1878b42b81d751bb6",
+      "tokens": 768,
+      "screening_hb": 42110819,
+      "core_ratio_sum": 0.6193242270658494,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c032/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 17,
+      "candidate_id": "c015",
+      "sha256": "f387bd813a0df047e1d19b5a3a76078be353d2fb75303acc26f1e8ce393f9d10",
+      "tokens": 889,
+      "screening_hb": 34427169,
+      "core_ratio_sum": 0.6293797525707516,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c015/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 18,
+      "candidate_id": "c002",
+      "sha256": "cedd0a7af692a46f1f0281c80eeca04c026fbaeb8e11b8c3a2e5c1d38ef97610",
+      "tokens": 1026,
+      "screening_hb": 92665418,
+      "core_ratio_sum": 1.0499215826927162,
+      "compatibility_status": "rejected",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": false,
+          "receipt": "<RANKED_CHECKS>/checks/c002/v4.30.0/result.json",
+          "origin": "fresh_check_and_three_measurements_if_valid"
+        }
+      },
+      "selected": false
+    },
+    {
+      "rank": 19,
+      "candidate_id": "c000",
+      "sha256": "4ad1a29e5ef91b442667c9b171deb6f3ed28c96ca9709e59911f7cbbbb16a2f4",
+      "tokens": 2122,
+      "screening_hb": 163599734,
+      "core_ratio_sum": 2.0,
+      "compatibility_status": "all_versions_passed",
+      "checked_versions": {
+        "v4.30.0": {
+          "valid": true,
+          "receipt": "<PROBLEM07_RERUN>/version-checks/v4.30.0/baseline/result.json",
+          "origin": "integrity_checked_same_run_receipt"
+        },
+        "v4.31.0": {
+          "valid": true,
+          "receipt": "<PROBLEM07_RERUN>/version-checks/v4.31.0/baseline/result.json",
+          "origin": "integrity_checked_same_run_receipt"
+        }
+      },
+      "selected": true
+    }
+  ],
+  "checks": [
+    {
+      "rank": 1,
+      "candidate_id": "c039",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "16b6d602e458632cb31f07d114e2e4de708297273200ea109bfbf3e9192a1f46",
+      "error": {
+        "kind": "compile",
+        "message": "<PROBLEM07_RERUN>/version-checks/v4.30.0/candidate/v4.30.0/check.lean:1007:57: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : r < n → ¬P (r + 1)\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 2,
+      "candidate_id": "c040",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "8579e37ed080dd376317c406122b3875696ad431b375e90cb7f21b250cad0c00",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c040/v4.30.0/v4.30.0/check.lean:1008:57: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : r < n → ¬P (r + 1)\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 3,
+      "candidate_id": "c038",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "0943ac122213ce2c58bd7ef320fd3cc5ce18c8d89216bf108c04e1d9aea97ff4",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c038/v4.30.0/v4.30.0/check.lean:1007:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : r < n → ¬P (r + 1)\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 4,
+      "candidate_id": "c037",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "801897db7b2aec33b98de52aa0e8b655ebf1c251415f0be3bc2cfff57b98b324",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c037/v4.30.0/v4.30.0/check.lean:1009:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : r < n → ¬P (r + 1)\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 5,
+      "candidate_id": "c035",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "039cb65a2db3ca734a6320bb4508ea32eda7ed5a169ca12335c0363a79be224e",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c035/v4.30.0/v4.30.0/check.lean:1012:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : r < n → ¬P (r + 1)\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 6,
+      "candidate_id": "c036",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "71035eb9605001496b7e8f0f41cf7286efc53bba4583cf55be6f9d4566aa56df",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c036/v4.30.0/v4.30.0/check.lean:1012:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : r < n → ¬P (r + 1)\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 7,
+      "candidate_id": "c033",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "ff749e4f36d69d6dc591d4b32a4adedbd4a0c70e21675489badb3895464260e9",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c033/v4.30.0/v4.30.0/check.lean:1012:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : r < n → ¬P (r + 1)\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 8,
+      "candidate_id": "c028",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "c21fe5a50298d0448366c4a696ab830d2315e037e8fcf20c5d352af2243aa786",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c028/v4.30.0/v4.30.0/check.lean:1012:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : ∀ (k : ℕ), r < k → k ≤ n → ¬P k\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 9,
+      "candidate_id": "c027",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "7729148d5564a568000c8e199b5ec86936ddde93beb8fba3164f5141acdfbba4",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c027/v4.30.0/v4.30.0/check.lean:1017:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : ∀ (k : ℕ), r < k → k ≤ n → ¬P k\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nhre : r ≤ e\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 10,
+      "candidate_id": "c022",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "8889a2a9d704ba2f6684ef155a1c29a4f64428b8fc291c1401959f9afb670478",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c022/v4.30.0/v4.30.0/check.lean:1023:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : ∀ (k : ℕ), r < k → k ≤ n → ¬P k\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nhre : r ≤ e\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nhdetB : B.det = 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhBu : B *ᵥ u = 0\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 11,
+      "candidate_id": "c017",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "50386725894bdac3d26d305713d4ceff7a413591fc484c8cd9ca1077b8a075e8",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c017/v4.30.0/v4.30.0/check.lean:1027:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : ∀ (k : ℕ), r < k → k ≤ n → ¬P k\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhPn : ¬P n\nhr : r < n\nhre : r ≤ e\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nhdetB : B.det = 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhBu : B *ᵥ u = 0\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 12,
+      "candidate_id": "c016",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "46aa7131d96d1f074eeb786b79c0c0b72aab9dd396392a40d944c886e9638d77",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c016/v4.30.0/v4.30.0/check.lean:1026:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : ∀ (k : ℕ), r < k → k ≤ n → ¬P k\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhPn : ¬P n\nhr : r < n\nhre : r ≤ e\nhmax : ¬P (r + 1)\nmissing : ∀ (L : Fin r ↪ Fin n), ∃ i, i ∉ Set.range ⇑L\ni0 : Fin n\nhi0 : i0 ∉ Set.range ⇑I\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nI' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc I hi0\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := K.submatrix ⇑I' ⇑J'\nhdetB : B.det = 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhBu : B *ᵥ u = 0\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 13,
+      "candidate_id": "c011",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "f59c1de04cae36537887e52186bac1e57a24e06b90a17ebd463451855f12f7b4",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c011/v4.30.0/v4.30.0/check.lean:1030:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : ∀ (k : ℕ), r < k → k ≤ n → ¬P k\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhPn : ¬P n\nhr : r < n\nhre : r ≤ e\nhmax : ¬P (r + 1)\nmissing : ∀ (L : Fin r ↪ Fin n), ∃ i, i ∉ Set.range ⇑L\ni0 : Fin n\nhi0 : i0 ∉ Set.range ⇑I\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nI' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc I hi0\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := K.submatrix ⇑I' ⇑J'\nhdetB : B.det = 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhBu : B *ᵥ u = 0\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 14,
+      "candidate_id": "c004",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "194196ea90dc0a55e5427bc6f0ef1f16c4f4b2b606077a20da212991a3adf0af",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c004/v4.30.0/v4.30.0/check.lean:1031:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrle : r ≤ n\nhgreatest : ∀ (k : ℕ), r < k → k ≤ n → ¬P k\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhPn : ¬P n\nhr : r < n\nhre : r ≤ e\nhmax : ¬P (r + 1)\nmissing : ∀ (L : Fin r ↪ Fin n), ∃ i, i ∉ Set.range ⇑L\ni0 : Fin n\nhi0 : i0 ∉ Set.range ⇑I\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nI' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc I hi0\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := K.submatrix ⇑I' ⇑J'\nhdetB : B.det = 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhBu : B *ᵥ u = 0\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 15,
+      "candidate_id": "c031",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "9e7a6766f83ed3972f63f7292bbc24d58e8088fd3f549e0635ba65386d4ee434",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c031/v4.30.0/v4.30.0/check.lean:1011:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ := Nat.findGreatest P n\nhr : r < n\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 16,
+      "candidate_id": "c032",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "ae3333d078d2c9a6f282a8746b82e807151c3462f4da539c8bbe245010a14eea",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c032/v4.30.0/v4.30.0/check.lean:1010:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ\nhrdef : Nat.findGreatest P n = r\nI J : Fin r ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhr : r < n\nhmax : ¬P (r + 1)\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := Fin.snoc (fun t j => K (I t) (J' j)) 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 17,
+      "candidate_id": "c015",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "99fd69211a7ae9506e3d0da09f20bfd820a29e26ac9d158bd7d58023841b4c5b",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c015/v4.30.0/v4.30.0/check.lean:1023:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ := Nat.findGreatest P n\nI J : Fin (Nat.findGreatest P n) ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhPn : ¬P n\nhr : r < n\nhre : r ≤ e\nhmax : ¬P (r + 1)\nmissing : ∀ (L : Fin r ↪ Fin n), ∃ i, i ∉ Set.range ⇑L\ni0 : Fin n\nhi0 : i0 ∉ Set.range ⇑I\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nI' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc I hi0\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := K.submatrix ⇑I' ⇑J'\nhdetB : B.det = 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhBu : B *ᵥ u = 0\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 18,
+      "candidate_id": "c002",
+      "version": "v4.30.0",
+      "valid": false,
+      "result_sha256": "c6c4a4426593fefebe648bbfd2e73599b10dad6de7f768d0a2387e80974faf50",
+      "error": {
+        "kind": "compile",
+        "message": "<RANKED_CHECKS>/checks/c002/v4.30.0/v4.30.0/check.lean:1029:59: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern\n  a (J' ?t)\nin the target expression\n  (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n\nF : Type\ninst✝ : Field F\ne : ℕ\nK : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X]\nhdeg : ∀ (i j : Fin (e + 1)), (K i j).natDegree ≤ 1\nhdet : K.det = 0\nn : ℕ := e + 1\nP : ℕ → Prop := fun r => ∃ I J, (K.submatrix ⇑I ⇑J).det ≠ 0\nhP0 : P 0\nr : ℕ := Nat.findGreatest P n\nI J : Fin (Nat.findGreatest P n) ↪ Fin n\nhIJ : (K.submatrix ⇑I ⇑J).det ≠ 0\nhPn : ¬P n\nhr : r < n\nhre : r ≤ e\nhmax : ¬P (r + 1)\nmissing : ∀ (L : Fin r ↪ Fin n), ∃ i, i ∉ Set.range ⇑L\ni0 : Fin n\nhi0 : i0 ∉ Set.range ⇑I\nj0 : Fin n\nhj0 : j0 ∉ Set.range ⇑J\nI' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc I hi0\nJ' : Fin (r + 1) ↪ Fin n := Fin.Embedding.snoc J hj0\nB : Matrix (Fin (r + 1)) (Fin (r + 1)) F[X] := K.submatrix ⇑I' ⇑J'\nhdetB : B.det = 0\nu : Fin (r + 1) → F[X] := fun t => B.adjugate t (Fin.last r)\nhBu : B *ᵥ u = 0\nhu : u (Fin.last r) ≠ 0\nhudeg : ∀ (t : Fin (r + 1)), (u t).natDegree ≤ e\na : Fin n → F[X] := extend (⇑J') u fun x => 0\nhon : ∀ (t : Fin (r + 1)), a (J' t) = u t\nhoff : ∀ t ∉ Set.range ⇑J', a t = 0\ni : Fin (e + 1)\nt : Fin (r + 1)\n⊢ (fun t => K i (J' t) * u t) t = (fun j => K i j * a j) (J' t)\n"
+      }
+    },
+    {
+      "rank": 19,
+      "candidate_id": "c000",
+      "version": "v4.30.0",
+      "valid": true,
+      "result_sha256": "523af23363dc47414876a7fe1f1a1209738441e36dc476fb24e6dab0e8af70bc",
+      "error": null
+    },
+    {
+      "rank": 19,
+      "candidate_id": "c000",
+      "version": "v4.31.0",
+      "valid": true,
+      "result_sha256": "7a21ad5e78bada092a3a27ae0e584dd726f3035aa0170a6402fa9f3fa7e1779a",
+      "error": null
+    }
+  ],
+  "selected_id": "c000",
+  "selected_rank": 19,
+  "additional_api_cost_usd": "0"
+}

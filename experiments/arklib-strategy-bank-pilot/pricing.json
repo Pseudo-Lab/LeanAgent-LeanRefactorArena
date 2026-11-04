@@ -1,0 +1,15 @@
+{
+  "model": "gpt-6.1-sol",
+  "provider": "OpenAI",
+  "service_tier": "default",
+  "currency": "USD",
+  "unit": "per_million_tokens",
+  "input": "2",
+  "cached_input": "0.10",
+  "cache_write_30m": "2.50",
+  "output_including_reasoning": "10",
+  "long_context_threshold": 272000,
+  "source": "https://developers.openai.com/api/docs/pricing",
+  "usage_source": "https://developers.openai.com/api/docs/guides/prompt-caching",
+  "verified_date": "2026-11-01"
+}
