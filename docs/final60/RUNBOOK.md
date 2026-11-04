@@ -160,9 +160,12 @@ compile slots exist. Operator rules (from the rc3 verification findings, 2026-11
   reports `changed after publication` and carries the ORIGINAL for that row. The next regolf pass on that
   row repairs this first (restores the published proof from its kept `final-prev-<sha12>-*` evidence,
   rebuilds `report.json`, rewrites `published.json`; record action `repaired`). After any crash or reboot:
-  `regolf --rows 1-60 --report-only` (such rows show `interrupted: true` and `repairable`), then
+  `regolf --rows 1-60 --report-only --repair-only` (such rows show `interrupted: true` and `repairable`), then
   `regolf --rows <those> --repair-only` (no golf, no Lean beyond the kept evidence), then grep
-  `report.json` for `changed after publication` before any upload.
+  `report.json` for `changed after publication` before any upload. A killed `--transfer-repair` can leave a
+  row that publishes the ORIGINAL in the same state (the assembler still carries the original, so no score is
+  lost, but the row would be stuck for every later pass and `report.json` never says so); since rc4 (fix)
+  `--repair-only` and `--transfer-repair` list and repair those rows too, plain `--report-only` does not.
 - The rolling assembly re-runs only when the SET of published rows changes, so a regolf publication is
   not in `submission.jsonl` / `SUBMIT-READY.txt` until the next assembly. After regolf finishes, run
   `python -m lean_agent.final60 assemble --run-dir "$RUN" --final` (then the two checkers) before any
@@ -266,7 +269,19 @@ are byte-identical across the three tags (measured at rc4: 68/68 sha256 equal, `
 over those paths empty), so a live run switches code without a new run dir: `touch "$RUN/supervisor/STOP"`,
 wait until the watchdog has exited and no `lean_agent.final60 row` process remains, check the new tag out
 in the production worktree, remove `STOP`, start the same launch line; every row resumes from disk and its
-`frozen.json` check passes. What each behaviour adds and where it shows in the run directory:
+`frozen.json` check passes. Operator rules for that switch (rc4 verification, 2026-11-04):
+
+- A row's `frozen.json` records the ABSOLUTE paths of the worktree that sealed it (`driver.prepare_inputs`), and
+  every resume re-hashes exactly those paths. So the worktree that sealed any row must stay untouched (no edit,
+  no checkout, no move) for the whole run, even after the production worktree switched to a newer tag: a touched
+  sealing worktree fails `verify_frozen` in every resumed row (worker errors count as crashes; 8 publish the
+  original), and a sealed row's `frozen_code_ok` says nothing about the files of the worktree that now runs it.
+- Before any STOP-and-restart switch, re-run the 68-file byte-identity proof between the sealing tag and the new
+  one (sha256 of every `driver.implementation_files(final60=True)` path against `git show <sealing-tag>:<path>`,
+  plus `git diff --stat <sealing-tag> <new-tag> -- <those paths>` empty); `status` `frozen_code_ok` is not that
+  proof. Prepare every row from one worktree at one tag whenever possible.
+
+What each behaviour adds and where it shows in the run directory:
 
 | Added | Behaviour | Where it shows |
 | --- | --- | --- |

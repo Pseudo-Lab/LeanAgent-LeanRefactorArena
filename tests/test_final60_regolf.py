@@ -291,6 +291,45 @@ class PassTests(unittest.TestCase):
         listed = regolf.regolf(self.run_dir, [1], report_only_mode=True, row_class=Scripted)["rows"][0]
         self.assertEqual((listed["interrupted"], listed["repairable"]), (True, False))
 
+    def test_repairs_an_interrupted_transfer_repair_of_a_row_that_published_the_original(self):
+        # A worker publication of the original (selected.lean is the best model proof, below the margin)
+        # touched by --transfer-repair and killed between write_selection and published.json.
+        atomic_json(self.fixture.root / "published.json",
+                    {**self.fixture.published, "origin": "original", "local_score_estimate": scoring.ORIGINAL_SCORE,
+                     "reason": "no validated improvement over the original (local estimate 33.4)"})
+        fake_write_selection(self.fixture.root, 1, selection_of(Fixture.better, 45.0))
+        Scripted.script["calls"] = []
+        Scripted.script["reports"] = [self.fixture.report(sha(Fixture.incumbent), 33.4)]
+        self.assertIn("publishes the original", regolf.eligibility(self.fixture.layout, 1)[1])
+        self.assertIn("selected.lean changed", regolf.eligibility(self.fixture.layout, 1, allow_original=True)[1])
+        # Plain golf never touches such a row; --transfer-repair and --repair-only list and repair it.
+        plain = regolf.regolf(self.run_dir, [1], report_only_mode=True, row_class=Scripted)["rows"][0]
+        self.assertEqual((plain["eligible"], "interrupted" in plain), (False, False))
+        self.assertEqual(self.run_pass()["action"], "skipped")
+        for flags in ({"transfer_repair": True}, {"repair_only": True}):
+            listed = regolf.regolf(self.run_dir, [1], report_only_mode=True, row_class=Scripted, **flags)["rows"][0]
+            self.assertEqual((listed["eligible"], listed["interrupted"], listed["repairable"], listed["published_sha256"],
+                              listed["current_sha256"]), (False, True, True, sha(Fixture.incumbent), sha(Fixture.better)))
+        result = self.run_pass(transfer_repair=True)
+        self.assertEqual(result["action"], "repaired", result)
+        self.assertFalse(golf.improve.called)
+        self.assertFalse(select.select_final.called)
+        self.assertEqual([call for call in Scripted.script["calls"] if isinstance(call, tuple)],
+                         [("write_selection", sha(Fixture.incumbent))])
+        self.assertEqual((self.fixture.folder / "selected.lean").read_text(), Fixture.incumbent)
+        after = self.published()
+        self.assertEqual((after["origin"], after["selected_sha256"], after["local_score_estimate"]),
+                         ("original", sha(Fixture.incumbent), scoring.ORIGINAL_SCORE))
+        self.assertEqual(after["report_sha256"], sha_bytes((self.fixture.root / "report.json").read_bytes()))
+        self.assertEqual((after["regolf"]["repaired"], after["regolf"]["interrupted_sha256"]), (True, sha(Fixture.better)))
+        self.assertEqual(regolf.eligibility(self.fixture.layout, 1, allow_original=True), (True, None))
+        self.assertIn("publishes the original", regolf.eligibility(self.fixture.layout, 1)[1])
+        # The same kill repaired by --repair-only alone.
+        fake_write_selection(self.fixture.root, 1, selection_of(Fixture.better, 45.0))
+        self.assertEqual(self.run_pass(repair_only=True)["action"], "repaired")
+        self.assertEqual(self.published()["selected_sha256"], sha(Fixture.incumbent))
+        self.assertFalse(golf.improve.called)
+
     def test_repair_only_never_golfs_an_intact_row(self):
         before = (self.fixture.root / "published.json").read_bytes()
         result = self.run_pass(repair_only=True)

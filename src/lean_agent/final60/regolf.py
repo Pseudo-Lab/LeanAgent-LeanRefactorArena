@@ -28,7 +28,10 @@ Before anything else under the lock the pass repairs an interrupted publication:
 alternates-fallback publication was killed between ``write_selection`` and ``published.json``,
 the published proof is restored from its kept ``final-prev-<sha12>-*`` evidence (the rollback
 path above), the report is rebuilt and ``published.json`` rewritten; the row's record says
-``repaired``. ``--repair-only`` does just that and never golfs.
+``repaired``. ``--repair-only`` does just that and never golfs. A worker or regolf publication
+of the original (origin ``original`` carrying ``selected_sha256`` and ``report_sha256``) that a
+killed ``--transfer-repair`` left in the same state is repaired the same way; ``--repair-only``
+and ``--transfer-repair`` (also with ``--report-only``) consider such rows, plain golf does not.
 
 ``--transfer-repair`` (hotfix 2026-11-04) replaces step 2 by the deprecated-alias transfer
 repair (``transfer``): the row's recorded candidates whose saved all-version check failed
@@ -204,7 +207,13 @@ def interrupted_publication(layout, row):
     """
     root, folder = layout.row_root(row), layout.row_folder(row)
     published = read_or(root / "published.json", None)
-    if not isinstance(published, dict) or published.get("origin") != "openrouter-run":
+    if not isinstance(published, dict):
+        return None
+    # A worker/regolf publication of the original carries both hashes (a fallback does not); a killed
+    # --transfer-repair leaves such a row in the same state as a killed model publication.
+    original_ok = (published.get("origin") == "original" and isinstance(published.get("selected_sha256"), str)
+                   and isinstance(published.get("report_sha256"), str))
+    if published.get("origin") != "openrouter-run" and not original_ok:
         return None
     if not (folder / "selected.lean").exists() or not (root / "report.json").exists():
         return None
@@ -280,7 +289,9 @@ class RegolfRow:
                        "margin": self.margin, "action": None, "reason": None, "mode": "transfer-repair" if self.transfer_repair else "golf"}
 
     def eligible(self):
-        return eligibility(self.layout, self.row, allow_dev_roots=self.allow_dev_roots, allow_original=self.transfer_repair)
+        # --repair-only must reach the rows --transfer-repair can touch (publications of the original).
+        return eligibility(self.layout, self.row, allow_dev_roots=self.allow_dev_roots,
+                           allow_original=self.transfer_repair or self.repair_only)
 
     # -- hooks (tests patch these) -------------------------------------------------------------
     def adapter(self):
@@ -613,7 +624,9 @@ def regolf(run_dir, rows, *, compiles=DEFAULT_COMPILES, margin=DEFAULT_MARGIN, m
     rows = [int(row) for row in rows]
     if report_only_mode:
         return {"run_dir": str(layout.run_dir), "report_only": True, "transfer_repair": bool(transfer_repair),
-                "rows": report_only(layout, rows, allow_dev_roots=allow_dev_roots, allow_original=bool(transfer_repair))}
+                "repair_only": bool(repair_only),
+                "rows": report_only(layout, rows, allow_dev_roots=allow_dev_roots,
+                                    allow_original=bool(transfer_repair or repair_only))}
     opts = run_options(layout, compiler_slots=compiler_slots, deadline=deadline)
     if compiler_slots:
         os.environ["FINAL60_COMPILER_SLOTS"] = str(opts.compiler_slots)
