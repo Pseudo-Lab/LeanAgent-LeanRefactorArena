@@ -378,20 +378,50 @@ def _record(adapter, selection: Selection, alternates, dropped, errors, *, gated
         "published": False})
 
 
-def alternates(run_root: Path, row: int) -> list[Selection]:
-    """Validated runners-up recorded by select_final, best first (for assembly fallback)."""
-    folder = _driver().folder(Path(run_root).resolve(), row) / "golf"
+def _rebased(stored: str, folder: Path) -> Path:
+    """A path recorded inside this row folder, re-rooted when the run dir was moved or copied."""
+    path = Path(stored)
+    if path.exists():
+        return path
+    parts = path.parts
+    marker = folder.name          # F0NN
+    if marker in parts:
+        rebased = folder.joinpath(*parts[len(parts) - 1 - parts[::-1].index(marker) + 1:])
+        if rebased.exists():
+            return rebased
+    return path
+
+
+def alternates(run_root: Path, row: int, *, non_openrouter_sha256=frozenset()) -> list[Selection]:
+    """Validated runners-up recorded by select_final, best first (for assembly fallback).
+
+    Only entries whose stored code still hashes as recorded, that were validated on every
+    listed version with a fresh measurement, and that equal no non-OpenRouter proof are
+    returned; scores are the validated official-formula estimates.
+    """
+    row_folder = _driver().folder(Path(run_root).resolve(), row)
+    folder = row_folder / "golf"
     path = folder / "selection.json"
     if not path.exists():
         return []
+    blocked = {str(value) for value in non_openrouter_sha256}
     out = []
     for item in _read(path).get("alternates", []):
-        code = Path(item["code_path"]).read_text()
-        if sha(code) != item["sha256"]:
+        try:
+            code = _rebased(item["code_path"], row_folder).read_text()
+        except OSError:
+            continue
+        if sha(code) != item["sha256"] or provenance_sha(code) in blocked:
+            continue
+        envs = item.get("envs") or {}
+        if not envs or not all(envs.values()) or type(item.get("tokens")) is not int \
+                or type(item.get("raw_heartbeats")) is not int or not isinstance(item.get("score"), (int, float)):
             continue
         candidate = Candidate(code, item["sha256"], item["origin"], item.get("parent_sha256"), item["label"], None)
-        result = EvalResult(True, item["tokens"], item["raw_heartbeats"], item["envs"], None, "", item["evidence_dir"])
+        result = EvalResult(True, item["tokens"], item["raw_heartbeats"], envs, None, "",
+                            str(_rebased(item["evidence_dir"], row_folder)))
         out.append(Selection(candidate, result, item["score"], True, (item["label"],)))
+    out.sort(key=lambda selection: (-selection.score, selection.candidate.sha256))
     return out
 
 

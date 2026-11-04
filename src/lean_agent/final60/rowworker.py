@@ -296,14 +296,21 @@ class RowWorker:
             adapter = evaladapter.EvalAdapter(self.root, self.row)
             pool = [candidate for candidate in select.candidates_from_run(self.root, self.row, top=6) if clean(candidate)]
             top = max(1, int(settings.get("top_k", 2)))
-            results = golf.improve(adapter, problem, pool[:top], settings, deadline=deadline)
+            # The blocklist goes into golf and selection too: a golf session then skips a variant
+            # that equals a non-OpenRouter proof instead of adopting it (and losing the whole
+            # session when its final best is dropped here), and select_final never validates or
+            # G1-fixes into one. A blocklisted text can therefore not win selection and be thrown
+            # away by the assembler afterwards; the row selects its best clean candidate.
+            results = golf.improve(adapter, problem, pool[:top], settings, deadline=deadline,
+                                   non_openrouter_sha256=outside)
             known = {candidate.sha256 for candidate in pool}
             for result in results:
                 if result.best.sha256 not in known and clean(result.best):
                     pool.append(result.best)
                     known.add(result.best.sha256)
             self.status("validating")
-            selection = select.select_final(adapter, problem, pool, k=3, deadline=deadline)
+            selection = select.select_final(adapter, problem, pool, k=3, deadline=deadline,
+                                            non_openrouter_sha256=outside)
             select.write_selection(self.root, self.row, selection)
             self.update_worker(golf={"accepted": [result.accepted for result in results], "selected": selection.candidate.label,
                                      "score": selection.score, "beat_original": selection.beat_original,
@@ -319,34 +326,12 @@ class RowWorker:
 
     def audit_and_publish(self):
         problem = read_json(self.folder / "input/problem.json")
-        report = self.report.build_report(self.root)
-        report_bytes = json_bytes(report)
-        atomic_bytes(self.root / "report.json", report_bytes)
-        entry = next((item for item in report["rows"] if item["row"] == self.row), {})
-        selected = self.folder / "selected.lean"
-        code = selected.read_text(encoding="utf-8") if selected.exists() else None
-        score = entry.get("local_score_estimate")
-        # A non-original proof is submitted only when it scores better than the original (33.33) by
-        # at least PUBLISH_MARGIN; an equal or noise-level variant would only add provenance risk.
-        improved = (report["audit_passed"] and code is not None and "final" in entry
-                    and normalized_sha(code) != normalized_sha(problem["reference"])
-                    and isinstance(score, (int, float)) and score >= 100 / 3 + self.PUBLISH_MARGIN)
-        value = {"row": self.row, "name": problem["name"], "at": now_iso(),
-                 "origin": "openrouter-run" if improved else "original",
-                 "selected_sha256": sha_text(code) if code is not None else None,
-                 "report_sha256": sha_bytes(report_bytes), "audit_passed": report["audit_passed"],
-                 "local_score_estimate": entry.get("local_score_estimate") if improved else 100 / 3,
-                 "cost_usd": entry.get("known_cost_usd"), "calls": entry.get("calls"),
-                 "status": entry.get("status"), "golf": self.worker_state().get("golf")}
-        if not improved:
-            value["reason"] = ("row audit failed: " + "; ".join(report["audit_errors"][:4])[:600]
-                               if not report["audit_passed"] else
-                               f"no validated improvement over the original (local estimate {score})")
-        atomic_json(self.root / "published.json", value)   # critic A13: after report.json
+        value = publish(self.root, self.folder, self.row, problem, self.report, golf=self.worker_state().get("golf"),
+                        margin=self.PUBLISH_MARGIN)
         self.state = load_rowstate(self.layout, self.row)
         self.state.selected_sha256 = value["selected_sha256"]
         self.state.score_estimate = value["local_score_estimate"]
-        self.state.last_error = None if report["audit_passed"] else value.get("reason")
+        self.state.last_error = None if value["audit_passed"] else value.get("reason")
         save_rowstate(self.layout, self.state)
         self.status("published", origin=value["origin"])
         return self.state
@@ -359,9 +344,40 @@ class RowWorker:
         return self.state
 
 
-def run_row(run_dir, row, opts):
-    """Run (or resume) one row; returns its RowState. Never runs twice concurrently."""
-    layout = Layout(run_dir)
+def publish(root, folder, row, problem, report_module, *, golf=None, margin=RowWorker.PUBLISH_MARGIN):
+    """Audit the row root and write report.json, then published.json (critic A13: in that order).
+
+    A non-original proof is published only when the audit passed and it scores better than the
+    original (33.33) by at least ``margin``; an equal or noise-level variant would only add
+    provenance and transfer risk. Returns the published.json value.
+    """
+    report = report_module.build_report(root)
+    report_bytes = json_bytes(report)
+    atomic_bytes(root / "report.json", report_bytes)
+    entry = next((item for item in report["rows"] if item["row"] == row), {})
+    selected = folder / "selected.lean"
+    code = selected.read_text(encoding="utf-8") if selected.exists() else None
+    score = entry.get("local_score_estimate")
+    improved = (report["audit_passed"] and code is not None and "final" in entry
+                and normalized_sha(code) != normalized_sha(problem["reference"])
+                and isinstance(score, (int, float)) and score >= 100 / 3 + margin)
+    value = {"row": row, "name": problem["name"], "at": now_iso(),
+             "origin": "openrouter-run" if improved else "original",
+             "selected_sha256": sha_text(code) if code is not None else None,
+             "report_sha256": sha_bytes(report_bytes), "audit_passed": report["audit_passed"],
+             "local_score_estimate": entry.get("local_score_estimate") if improved else 100 / 3,
+             "cost_usd": entry.get("known_cost_usd"), "calls": entry.get("calls"),
+             "status": entry.get("status"), "golf": golf}
+    if not improved:
+        value["reason"] = ("row audit failed: " + "; ".join(report["audit_errors"][:4])[:600]
+                           if not report["audit_passed"] else
+                           f"no validated improvement over the original (local estimate {score})")
+    atomic_json(root / "published.json", value)
+    return value
+
+
+def try_row_lock(layout, row):
+    """rows/F0NN/worker.lock taken non-blocking: the open stream, or None while a worker holds it."""
     path = layout.row_root(row) / "worker.lock"
     path.parent.mkdir(parents=True, exist_ok=True)
     stream = path.open("a+")
@@ -369,7 +385,90 @@ def run_row(run_dir, row, opts):
         fcntl.flock(stream, fcntl.LOCK_EX | fcntl.LOCK_NB)
     except BlockingIOError:
         stream.close()
-        raise WorkerBusy(f"F{row:03} already has a live worker") from None
+        return None
+    return stream
+
+
+def release_row_lock(stream):
+    fcntl.flock(stream, fcntl.LOCK_UN)
+    stream.close()
+
+
+def fallback_to_alternate(layout, row, *, rejects, reason, report_module=None, margin=RowWorker.PUBLISH_MARGIN):
+    """Assembly fallback: re-publish the row's best untried validated alternate, or report why not.
+
+    The assembler calls this when the row's published proof is rejected (a checker, the
+    non-OpenRouter blocklist or the row audit). The provenance checker certifies only the proof
+    that equals the root's selected.lean under a passing report.json, so an alternate cannot be
+    substituted in the submission text: it is published through the worker's own path
+    (select.write_selection -> report.json -> published.json) and the assembler re-checks it in
+    its next round. Alternates are the validated runners-up select_final recorded (best first);
+    ``rejects(code)`` pre-checks each one (blocklist, rules, static filter) and every alternate
+    is tried at most once (rows/F0NN/alternates.json). Nothing runs while the row's worker holds
+    worker.lock; no model call and no Lean. Returns (code, published) or (None, why).
+    """
+    from . import select
+    root, folder = layout.row_root(row), layout.row_folder(row)
+    record_path = root / "alternates.json"
+    record = read_or(record_path, {"row": row, "tried": [], "log": []})
+    stream = try_row_lock(layout, row)
+    if stream is None:
+        return None, "row worker is live; alternates deferred to the next assembly"
+    try:
+        if report_module is None:
+            _, report_module = driver_modules()
+        problem = read_json(folder / "input/problem.json")
+        selected = folder / "selected.lean"
+        current = sha_text(selected.read_text(encoding="utf-8")) if selected.exists() else None
+        if current and current not in record["tried"]:
+            record["tried"].append(current)
+        record["log"].append({"at": now_iso(), "event": "rejected", "selected_sha256": current, "reason": reason[:600]})
+        try:
+            alternates = select.alternates(root, row)
+        except (OSError, ValueError, KeyError, TypeError) as exc:
+            alternates = []
+            record["log"].append({"at": now_iso(), "event": "alternates-unreadable", "error": f"{type(exc).__name__}: {exc}"[:300]})
+        outcome = (None, "no validated alternate left")
+        for alternate in alternates:
+            candidate = alternate.candidate
+            if candidate.sha256 in record["tried"]:
+                continue
+            record["tried"].append(candidate.sha256)
+            entry = {"at": now_iso(), "label": candidate.label, "sha256": candidate.sha256, "score": alternate.score}
+            issues = list(rejects(candidate.code) or [])
+            if issues:
+                record["log"].append({**entry, "event": "skipped", "issues": issues[:4]})
+                continue
+            if not alternate.validated.valid or not (isinstance(alternate.score, (int, float)) and alternate.score >= 100 / 3 + margin):
+                record["log"].append({**entry, "event": "skipped", "issues": ["not validated above the publish margin"]})
+                continue
+            try:
+                select.write_selection(root, row, alternate)
+                value = publish(root, folder, row, problem, report_module, golf=read_or(layout.worker_path(row), {}).get("golf"),
+                                margin=margin)
+            except Exception as exc:   # evidence missing or stale: the next alternate, never the row
+                record["log"].append({**entry, "event": "publish-error", "error": f"{type(exc).__name__}: {exc}"[:500]})
+                continue
+            value["alternate"] = {"label": candidate.label, "origin": candidate.origin, "fallback_from": current,
+                                  "reason": reason[:600]}
+            atomic_json(root / "published.json", value)
+            record["log"].append({**entry, "event": "published", "origin": value["origin"], "reason": value.get("reason")})
+            if value["origin"] == "openrouter-run":
+                outcome = (candidate.code, value)
+                break
+        del record["log"][:-60]
+        atomic_json(record_path, record)
+        return outcome
+    finally:
+        release_row_lock(stream)
+
+
+def run_row(run_dir, row, opts):
+    """Run (or resume) one row; returns its RowState. Never runs twice concurrently."""
+    layout = Layout(run_dir)
+    stream = try_row_lock(layout, row)
+    if stream is None:
+        raise WorkerBusy(f"F{row:03} already has a live worker")
     try:
         stream.seek(0)
         stream.truncate()
@@ -389,5 +488,4 @@ def run_row(run_dir, row, opts):
             exc.final60_retryable = retryable
             raise
     finally:
-        fcntl.flock(stream, fcntl.LOCK_UN)
-        stream.close()
+        release_row_lock(stream)
