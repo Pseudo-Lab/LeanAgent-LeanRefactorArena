@@ -1,0 +1,975 @@
+{
+  "schema": 1,
+  "audit_passed": true,
+  "all_trials_terminal": true,
+  "all_trials_completed": false,
+  "completed_trials": 4,
+  "stopped_trials": 2,
+  "known_total_usd": "16.7266868",
+  "trials": [
+    {
+      "arm": "control",
+      "row": 6,
+      "name": "Lambda.liftBVars_denote",
+      "status": "completed",
+      "stop_reason": "portfolio_budget_complete",
+      "audited_terminal_reason": "next_request_reservation_exceeds_cap",
+      "portfolio_complete": true,
+      "portfolio": {
+        "complete": true,
+        "active": "merge",
+        "quotas": {
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6,
+          "merge": 22
+        },
+        "evaluations": {
+          "merge": 14,
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6
+        },
+        "calls": {
+          "merge": 44,
+          "scout-a": 16,
+          "scout-b": 13,
+          "scout-c": 17
+        },
+        "execution": "serial-scoped-scouts-then-merger",
+        "exits": {
+          "scout-a": "quota",
+          "scout-b": "quota",
+          "scout-c": "quota"
+        },
+        "stalled_calls": {
+          "merge": 0,
+          "scout-a": 0,
+          "scout-b": 0,
+          "scout-c": 0
+        },
+        "round": 1,
+        "rounds": 1,
+        "completed_rounds": [],
+        "merger_until_budget": true
+      },
+      "model_settings": {
+        "backend": "openai",
+        "id": "gpt-6.1-sol",
+        "provider": "openai",
+        "reasoning_effort": "high",
+        "max_tokens": 8192,
+        "timeout_seconds": 900,
+        "seed": 42
+      },
+      "input_sha256": {
+        "problem.json": "6051dd29507829c67ef27a117c1a3b1cd64fd8f66826ed80d540691e1f0f70d1",
+        "config.json": "fbe9b7b4f51063370bc17edc79796e73c7351f14fc603be43ca15271854350e9",
+        "prompt.txt": "1b859a96e99078683a9b6ef81bcc41f8cf47581d0a5d670c094e622fe16d198e",
+        "action-corpus.json": "2dcdaa5b649829f5e1052ca5ecb9fa0666fcc67594b5f2c4e9c18642333c5dcb"
+      },
+      "transitions": [
+        {
+          "after_step": 16,
+          "from": "scout-a",
+          "to": "scout-b",
+          "reason": "quota",
+          "calls": 16,
+          "evaluations": 6
+        },
+        {
+          "after_step": 29,
+          "from": "scout-b",
+          "to": "scout-c",
+          "reason": "quota",
+          "calls": 13,
+          "evaluations": 6
+        },
+        {
+          "after_step": 46,
+          "from": "scout-c",
+          "to": "merge",
+          "reason": "quota",
+          "calls": 17,
+          "evaluations": 6
+        }
+      ],
+      "cost_usd": "2.755256",
+      "calls": 90,
+      "target_2_8_to_2_9_reached": false,
+      "max_spent_plus_reservation_usd": "2.9682095",
+      "baseline": {
+        "tokens": 972,
+        "raw_heartbeats": 8897929,
+        "raw_samples": [
+          8898614,
+          8897929,
+          8897359
+        ]
+      },
+      "final": {
+        "tokens": 570,
+        "raw_heartbeats": 5627111,
+        "raw_samples": [
+          5627111,
+          5627111,
+          5627112
+        ]
+      },
+      "local_score_estimate": 59.37244750188314,
+      "selected_sha256": "6cbf0fb0be5fb08a8be590e9f77c0b73e7888a79f6df1d0ce4137e109ab441cc",
+      "selected_step": 90,
+      "required_versions": [
+        "strata-v4.27.0",
+        "strata-v4.31.0"
+      ],
+      "truncations": [],
+      "invalid_json_steps": [],
+      "next_request_stop": {
+        "remaining_usd": "0.244744",
+        "full_output_tokens": 8192,
+        "full_reservation_usd": "0.2558775",
+        "minimum_output_tokens": 2048,
+        "minimum_reservation_usd": "0.1944375",
+        "policy_reservation_usd": "0.2558775"
+      },
+      "tail": {
+        "reduced_calls": 0,
+        "tail_cost_usd": "0",
+        "first_reduced_step": null,
+        "selected_source_created_in_tail": false,
+        "incremental_selected_primary_screening_score_delta": 0.0
+      },
+      "receipt_audit_passed": true,
+      "proof_audit_passed": true,
+      "official_evaluation": false
+    },
+    {
+      "arm": "control",
+      "row": 45,
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "status": "completed",
+      "stop_reason": "portfolio_budget_complete",
+      "audited_terminal_reason": "next_request_reservation_exceeds_cap",
+      "portfolio_complete": true,
+      "portfolio": {
+        "complete": true,
+        "active": "merge",
+        "quotas": {
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6,
+          "merge": 22
+        },
+        "evaluations": {
+          "merge": 17,
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6
+        },
+        "calls": {
+          "merge": 36,
+          "scout-a": 16,
+          "scout-b": 10,
+          "scout-c": 8
+        },
+        "execution": "serial-scoped-scouts-then-merger",
+        "exits": {
+          "scout-a": "quota",
+          "scout-b": "quota",
+          "scout-c": "quota"
+        },
+        "stalled_calls": {
+          "merge": 0,
+          "scout-a": 0,
+          "scout-b": 0,
+          "scout-c": 0
+        },
+        "round": 1,
+        "rounds": 1,
+        "completed_rounds": [],
+        "merger_until_budget": true
+      },
+      "model_settings": {
+        "backend": "openai",
+        "id": "gpt-6.1-sol",
+        "provider": "openai",
+        "reasoning_effort": "high",
+        "max_tokens": 8192,
+        "timeout_seconds": 900,
+        "seed": 42
+      },
+      "input_sha256": {
+        "problem.json": "16e5ebe3469811634b5b7e63033205a9799daa7c50ced9da14d23a6ef31bd71b",
+        "config.json": "87df78c5e142e567405bf2309ba1746134d8aae8bb09254901d645ddfa58e92e",
+        "prompt.txt": "1dbaa38f638f43349b811d52c472523084cbcd99ec5cc725ff3be58d7c18ef15",
+        "action-corpus.json": "d3dbd21d1a2846e14a6cb795bbbefe32775171f408e5622665833a9d8d7a06e4"
+      },
+      "transitions": [
+        {
+          "after_step": 16,
+          "from": "scout-a",
+          "to": "scout-b",
+          "reason": "quota",
+          "calls": 16,
+          "evaluations": 6
+        },
+        {
+          "after_step": 26,
+          "from": "scout-b",
+          "to": "scout-c",
+          "reason": "quota",
+          "calls": 10,
+          "evaluations": 6
+        },
+        {
+          "after_step": 34,
+          "from": "scout-c",
+          "to": "merge",
+          "reason": "quota",
+          "calls": 8,
+          "evaluations": 6
+        }
+      ],
+      "cost_usd": "2.790792",
+      "calls": 70,
+      "target_2_8_to_2_9_reached": false,
+      "max_spent_plus_reservation_usd": "2.991396",
+      "baseline": {
+        "tokens": 1756,
+        "raw_heartbeats": 53089873,
+        "raw_samples": [
+          53089873,
+          53089873,
+          53089873
+        ]
+      },
+      "final": {
+        "tokens": 1083,
+        "raw_heartbeats": 45126611,
+        "raw_samples": [
+          45126611,
+          45126611,
+          45126611
+        ]
+      },
+      "local_score_estimate": 51.10844263501208,
+      "selected_sha256": "eb9f96142549d1c6f621ea176aad0d90bbf6ddae64d5fc6fcb5f4399b32e588b",
+      "selected_step": 69,
+      "required_versions": [
+        "leanpool-v4.34.0",
+        "leanpool-v4.35.0-rc3"
+      ],
+      "truncations": [],
+      "invalid_json_steps": [],
+      "next_request_stop": {
+        "remaining_usd": "0.209208",
+        "full_output_tokens": 8192,
+        "full_reservation_usd": "0.25337",
+        "minimum_output_tokens": 2048,
+        "minimum_reservation_usd": "0.19193",
+        "policy_reservation_usd": "0.25337"
+      },
+      "tail": {
+        "reduced_calls": 0,
+        "tail_cost_usd": "0",
+        "first_reduced_step": null,
+        "selected_source_created_in_tail": false,
+        "incremental_selected_primary_screening_score_delta": 0.0
+      },
+      "receipt_audit_passed": true,
+      "proof_audit_passed": true,
+      "official_evaluation": false
+    },
+    {
+      "arm": "control",
+      "row": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "status": "stopped",
+      "stop_reason": "cost_limit",
+      "audited_terminal_reason": "next_request_reservation_exceeds_cap",
+      "portfolio_complete": false,
+      "portfolio": {
+        "complete": false,
+        "active": "merge",
+        "quotas": {
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6,
+          "merge": 22
+        },
+        "evaluations": {
+          "merge": 8,
+          "scout-a": 5,
+          "scout-b": 6,
+          "scout-c": 6
+        },
+        "calls": {
+          "merge": 18,
+          "scout-a": 26,
+          "scout-b": 10,
+          "scout-c": 10
+        },
+        "execution": "serial-scoped-scouts-then-merger",
+        "exits": {
+          "scout-a": "call_limit",
+          "scout-b": "quota",
+          "scout-c": "quota"
+        },
+        "stalled_calls": {
+          "merge": 2,
+          "scout-a": 1,
+          "scout-b": 0,
+          "scout-c": 0
+        },
+        "round": 1,
+        "rounds": 1,
+        "completed_rounds": [],
+        "merger_until_budget": true
+      },
+      "model_settings": {
+        "backend": "openai",
+        "id": "gpt-6.1-sol",
+        "provider": "openai",
+        "reasoning_effort": "high",
+        "max_tokens": 16384,
+        "timeout_seconds": 900,
+        "seed": 42
+      },
+      "input_sha256": {
+        "problem.json": "381851558a08b942df643d704ca42c8617d3369d51230e92f8b8a3bd28585ea0",
+        "config.json": "4dbca053e579f3531c0a75ba2ba1754534c72c8e62048b84589a4584f24d98a5",
+        "prompt.txt": "616da02bbd24f898f2a53dd38950e3f0ed658bf74d0687f29bf7906522df616f",
+        "action-corpus.json": "413b709bf20a0f6a456b2c9f3e7586c07a069c296cc2bfb74510625a6e99d211"
+      },
+      "transitions": [
+        {
+          "after_step": 26,
+          "from": "scout-a",
+          "to": "scout-b",
+          "reason": "call_limit",
+          "calls": 26,
+          "evaluations": 5
+        },
+        {
+          "after_step": 36,
+          "from": "scout-b",
+          "to": "scout-c",
+          "reason": "quota",
+          "calls": 10,
+          "evaluations": 6
+        },
+        {
+          "after_step": 46,
+          "from": "scout-c",
+          "to": "merge",
+          "reason": "quota",
+          "calls": 10,
+          "evaluations": 6
+        }
+      ],
+      "cost_usd": "2.6686988",
+      "calls": 64,
+      "target_2_8_to_2_9_reached": false,
+      "max_spent_plus_reservation_usd": "2.9827847",
+      "baseline": {
+        "tokens": 2879,
+        "raw_heartbeats": 4193446,
+        "raw_samples": [
+          4193446,
+          4193446,
+          4193446
+        ]
+      },
+      "final": {
+        "tokens": 2219,
+        "raw_heartbeats": 3321947,
+        "raw_samples": [
+          3321947,
+          3321947,
+          3321947
+        ]
+      },
+      "local_score_estimate": 47.90234441589372,
+      "selected_sha256": "200d5e7a5cc04040faad51675d89d523f396e141db3c2e4d036ff08962707051",
+      "selected_step": 62,
+      "required_versions": [
+        "leanpool-v4.34.0",
+        "leanpool-v4.35.0-rc3"
+      ],
+      "truncations": [],
+      "invalid_json_steps": [],
+      "next_request_stop": {
+        "remaining_usd": "0.3313012",
+        "full_output_tokens": 16384,
+        "full_reservation_usd": "0.37156",
+        "minimum_output_tokens": 2048,
+        "minimum_reservation_usd": "0.2281975",
+        "policy_reservation_usd": "0.37156"
+      },
+      "tail": {
+        "reduced_calls": 0,
+        "tail_cost_usd": "0",
+        "first_reduced_step": null,
+        "selected_source_created_in_tail": false,
+        "incremental_selected_primary_screening_score_delta": 0.0
+      },
+      "receipt_audit_passed": true,
+      "proof_audit_passed": true,
+      "official_evaluation": false
+    },
+    {
+      "arm": "adaptive",
+      "row": 6,
+      "name": "Lambda.liftBVars_denote",
+      "status": "completed",
+      "stop_reason": "portfolio_budget_complete",
+      "audited_terminal_reason": "next_request_reservation_exceeds_cap",
+      "portfolio_complete": true,
+      "portfolio": {
+        "complete": true,
+        "active": "merge",
+        "quotas": {
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6,
+          "merge": 22
+        },
+        "evaluations": {
+          "merge": 23,
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6
+        },
+        "calls": {
+          "merge": 44,
+          "scout-a": 19,
+          "scout-b": 10,
+          "scout-c": 18
+        },
+        "execution": "serial-scoped-scouts-then-merger",
+        "exits": {
+          "scout-a": "quota",
+          "scout-b": "quota",
+          "scout-c": "quota"
+        },
+        "stalled_calls": {
+          "merge": 0,
+          "scout-a": 0,
+          "scout-b": 0,
+          "scout-c": 0
+        },
+        "round": 1,
+        "rounds": 1,
+        "completed_rounds": [],
+        "merger_until_budget": true
+      },
+      "model_settings": {
+        "backend": "openai",
+        "id": "gpt-6.1-sol",
+        "provider": "openai",
+        "reasoning_effort": "high",
+        "max_tokens": 8192,
+        "timeout_seconds": 900,
+        "seed": 42
+      },
+      "input_sha256": {
+        "problem.json": "6051dd29507829c67ef27a117c1a3b1cd64fd8f66826ed80d540691e1f0f70d1",
+        "config.json": "fbe9b7b4f51063370bc17edc79796e73c7351f14fc603be43ca15271854350e9",
+        "prompt.txt": "1b859a96e99078683a9b6ef81bcc41f8cf47581d0a5d670c094e622fe16d198e",
+        "action-corpus.json": "2dcdaa5b649829f5e1052ca5ecb9fa0666fcc67594b5f2c4e9c18642333c5dcb"
+      },
+      "transitions": [
+        {
+          "after_step": 19,
+          "from": "scout-a",
+          "to": "scout-b",
+          "reason": "quota",
+          "calls": 19,
+          "evaluations": 6
+        },
+        {
+          "after_step": 29,
+          "from": "scout-b",
+          "to": "scout-c",
+          "reason": "quota",
+          "calls": 10,
+          "evaluations": 6
+        },
+        {
+          "after_step": 47,
+          "from": "scout-c",
+          "to": "merge",
+          "reason": "quota",
+          "calls": 18,
+          "evaluations": 6
+        }
+      ],
+      "cost_usd": "2.841431",
+      "calls": 91,
+      "target_2_8_to_2_9_reached": true,
+      "max_spent_plus_reservation_usd": "2.999999",
+      "baseline": {
+        "tokens": 972,
+        "raw_heartbeats": 8897767,
+        "raw_samples": [
+          8897767,
+          8897468,
+          8898205
+        ]
+      },
+      "final": {
+        "tokens": 515,
+        "raw_heartbeats": 4272111,
+        "raw_samples": [
+          4272111,
+          4272111,
+          4272111
+        ]
+      },
+      "local_score_estimate": 66.33438907763454,
+      "selected_sha256": "7663992e048ea709bd3b7295ba9c1b203517c42e45781e82deb966f5d52a33f5",
+      "selected_step": 87,
+      "required_versions": [
+        "strata-v4.27.0",
+        "strata-v4.31.0"
+      ],
+      "truncations": [],
+      "invalid_json_steps": [],
+      "next_request_stop": {
+        "remaining_usd": "0.158569",
+        "full_output_tokens": 8192,
+        "full_reservation_usd": "0.22742",
+        "minimum_output_tokens": 2048,
+        "minimum_reservation_usd": "0.16598",
+        "policy_reservation_usd": "0.22742"
+      },
+      "tail": {
+        "reduced_calls": 2,
+        "first_reduced_step": 90,
+        "cost_before_tail_usd": "2.771829",
+        "tail_cost_usd": "0.069602",
+        "pre_tail_best_sha256": "7663992e048ea709bd3b7295ba9c1b203517c42e45781e82deb966f5d52a33f5",
+        "pre_tail_best_primary_screening": {
+          "tokens": 515,
+          "raw_heartbeats": 4272111
+        },
+        "selected_source_first_seen_step": 87,
+        "selected_source_created_in_tail": false,
+        "selected_source_unchanged_from_pre_tail": true,
+        "incremental_selected_primary_screening_score_delta": 0.0,
+        "score_delta_scope": "Within-trajectory primary screening measurements; not independently remeasured counterfactual or causal policy effect.",
+        "calls": [
+          {
+            "step": 90,
+            "output_tokens": 7989,
+            "spent_before_usd": "2.771829",
+            "reservation_usd": "0.22817",
+            "cost_usd": "0.039025",
+            "valid_candidate": true,
+            "best_sha256_after": "7663992e048ea709bd3b7295ba9c1b203517c42e45781e82deb966f5d52a33f5",
+            "finish_reason": "stop"
+          },
+          {
+            "step": 91,
+            "output_tokens": 4489,
+            "spent_before_usd": "2.810854",
+            "reservation_usd": "0.1891425",
+            "cost_usd": "0.030577",
+            "valid_candidate": true,
+            "best_sha256_after": "7663992e048ea709bd3b7295ba9c1b203517c42e45781e82deb966f5d52a33f5",
+            "finish_reason": "stop"
+          }
+        ]
+      },
+      "receipt_audit_passed": true,
+      "proof_audit_passed": true,
+      "official_evaluation": false
+    },
+    {
+      "arm": "adaptive",
+      "row": 45,
+      "name": "LocalComplexGeometry.holomorphic_constant_rank",
+      "status": "completed",
+      "stop_reason": "portfolio_budget_complete",
+      "audited_terminal_reason": "next_request_reservation_exceeds_cap",
+      "portfolio_complete": true,
+      "portfolio": {
+        "complete": true,
+        "active": "merge",
+        "quotas": {
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6,
+          "merge": 22
+        },
+        "evaluations": {
+          "merge": 17,
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6
+        },
+        "calls": {
+          "merge": 38,
+          "scout-a": 19,
+          "scout-b": 9,
+          "scout-c": 8
+        },
+        "execution": "serial-scoped-scouts-then-merger",
+        "exits": {
+          "scout-a": "quota",
+          "scout-b": "quota",
+          "scout-c": "quota"
+        },
+        "stalled_calls": {
+          "merge": 0,
+          "scout-a": 0,
+          "scout-b": 0,
+          "scout-c": 0
+        },
+        "round": 1,
+        "rounds": 1,
+        "completed_rounds": [],
+        "merger_until_budget": true
+      },
+      "model_settings": {
+        "backend": "openai",
+        "id": "gpt-6.1-sol",
+        "provider": "openai",
+        "reasoning_effort": "high",
+        "max_tokens": 8192,
+        "timeout_seconds": 900,
+        "seed": 42
+      },
+      "input_sha256": {
+        "problem.json": "16e5ebe3469811634b5b7e63033205a9799daa7c50ced9da14d23a6ef31bd71b",
+        "config.json": "87df78c5e142e567405bf2309ba1746134d8aae8bb09254901d645ddfa58e92e",
+        "prompt.txt": "1dbaa38f638f43349b811d52c472523084cbcd99ec5cc725ff3be58d7c18ef15",
+        "action-corpus.json": "d3dbd21d1a2846e14a6cb795bbbefe32775171f408e5622665833a9d8d7a06e4"
+      },
+      "transitions": [
+        {
+          "after_step": 19,
+          "from": "scout-a",
+          "to": "scout-b",
+          "reason": "quota",
+          "calls": 19,
+          "evaluations": 6
+        },
+        {
+          "after_step": 28,
+          "from": "scout-b",
+          "to": "scout-c",
+          "reason": "quota",
+          "calls": 9,
+          "evaluations": 6
+        },
+        {
+          "after_step": 36,
+          "from": "scout-c",
+          "to": "merge",
+          "reason": "quota",
+          "calls": 8,
+          "evaluations": 6
+        }
+      ],
+      "cost_usd": "2.839130",
+      "calls": 74,
+      "target_2_8_to_2_9_reached": true,
+      "max_spent_plus_reservation_usd": "2.999995",
+      "baseline": {
+        "tokens": 1756,
+        "raw_heartbeats": 53089873,
+        "raw_samples": [
+          53089873,
+          53089873,
+          53089873
+        ]
+      },
+      "final": {
+        "tokens": 1141,
+        "raw_heartbeats": 45694730,
+        "raw_samples": [
+          45694730,
+          45694730,
+          45694730
+        ]
+      },
+      "local_score_estimate": 49.65075286275913,
+      "selected_sha256": "e602e31adc4fb30c875e0b5526f0594fd0567b73ec4ac902e518555fc2f5c74a",
+      "selected_step": 72,
+      "required_versions": [
+        "leanpool-v4.34.0",
+        "leanpool-v4.35.0-rc3"
+      ],
+      "truncations": [],
+      "invalid_json_steps": [],
+      "next_request_stop": {
+        "remaining_usd": "0.160870",
+        "full_output_tokens": 8192,
+        "full_reservation_usd": "0.2556225",
+        "minimum_output_tokens": 2048,
+        "minimum_reservation_usd": "0.1941825",
+        "policy_reservation_usd": "0.2556225"
+      },
+      "tail": {
+        "reduced_calls": 1,
+        "first_reduced_step": 74,
+        "cost_before_tail_usd": "2.784170",
+        "tail_cost_usd": "0.05496",
+        "pre_tail_best_sha256": "e602e31adc4fb30c875e0b5526f0594fd0567b73ec4ac902e518555fc2f5c74a",
+        "pre_tail_best_primary_screening": {
+          "tokens": 1141,
+          "raw_heartbeats": 45694730
+        },
+        "selected_source_first_seen_step": 72,
+        "selected_source_created_in_tail": false,
+        "selected_source_unchanged_from_pre_tail": true,
+        "incremental_selected_primary_screening_score_delta": 0.0,
+        "score_delta_scope": "Within-trajectory primary screening measurements; not independently remeasured counterfactual or causal policy effect.",
+        "calls": [
+          {
+            "step": 74,
+            "output_tokens": 3472,
+            "spent_before_usd": "2.784170",
+            "reservation_usd": "0.215825",
+            "cost_usd": "0.05496",
+            "valid_candidate": false,
+            "best_sha256_after": "e602e31adc4fb30c875e0b5526f0594fd0567b73ec4ac902e518555fc2f5c74a",
+            "finish_reason": "stop"
+          }
+        ]
+      },
+      "receipt_audit_passed": true,
+      "proof_audit_passed": true,
+      "official_evaluation": false
+    },
+    {
+      "arm": "adaptive",
+      "row": 48,
+      "name": "IsoGraph.Canon.dfsNode_dom",
+      "status": "stopped",
+      "stop_reason": "cost_limit",
+      "audited_terminal_reason": "next_request_reservation_exceeds_cap",
+      "portfolio_complete": false,
+      "portfolio": {
+        "complete": false,
+        "active": "merge",
+        "quotas": {
+          "scout-a": 6,
+          "scout-b": 6,
+          "scout-c": 6,
+          "merge": 22
+        },
+        "evaluations": {
+          "merge": 10,
+          "scout-a": 5,
+          "scout-b": 6,
+          "scout-c": 6
+        },
+        "calls": {
+          "merge": 19,
+          "scout-a": 26,
+          "scout-b": 10,
+          "scout-c": 10
+        },
+        "execution": "serial-scoped-scouts-then-merger",
+        "exits": {
+          "scout-a": "call_limit",
+          "scout-b": "quota",
+          "scout-c": "quota"
+        },
+        "stalled_calls": {
+          "merge": 2,
+          "scout-a": 1,
+          "scout-b": 0,
+          "scout-c": 0
+        },
+        "round": 1,
+        "rounds": 1,
+        "completed_rounds": [],
+        "merger_until_budget": true
+      },
+      "model_settings": {
+        "backend": "openai",
+        "id": "gpt-6.1-sol",
+        "provider": "openai",
+        "reasoning_effort": "high",
+        "max_tokens": 16384,
+        "timeout_seconds": 900,
+        "seed": 42
+      },
+      "input_sha256": {
+        "problem.json": "381851558a08b942df643d704ca42c8617d3369d51230e92f8b8a3bd28585ea0",
+        "config.json": "4dbca053e579f3531c0a75ba2ba1754534c72c8e62048b84589a4584f24d98a5",
+        "prompt.txt": "616da02bbd24f898f2a53dd38950e3f0ed658bf74d0687f29bf7906522df616f",
+        "action-corpus.json": "413b709bf20a0f6a456b2c9f3e7586c07a069c296cc2bfb74510625a6e99d211"
+      },
+      "transitions": [
+        {
+          "after_step": 26,
+          "from": "scout-a",
+          "to": "scout-b",
+          "reason": "call_limit",
+          "calls": 26,
+          "evaluations": 5
+        },
+        {
+          "after_step": 36,
+          "from": "scout-b",
+          "to": "scout-c",
+          "reason": "quota",
+          "calls": 10,
+          "evaluations": 6
+        },
+        {
+          "after_step": 46,
+          "from": "scout-c",
+          "to": "merge",
+          "reason": "quota",
+          "calls": 10,
+          "evaluations": 6
+        }
+      ],
+      "cost_usd": "2.8313790",
+      "calls": 65,
+      "target_2_8_to_2_9_reached": true,
+      "max_spent_plus_reservation_usd": "2.9999959",
+      "baseline": {
+        "tokens": 2879,
+        "raw_heartbeats": 4193446,
+        "raw_samples": [
+          4193446,
+          4193446,
+          4193446
+        ]
+      },
+      "final": {
+        "tokens": 2416,
+        "raw_heartbeats": 3505480,
+        "raw_samples": [
+          3505480,
+          3505480,
+          3505480
+        ]
+      },
+      "local_score_estimate": 44.162572178907716,
+      "selected_sha256": "ac31927612110d1eb5b1bcfef76fd4fc63097e2841e99654cafb7e1440ab8ecd",
+      "selected_step": 60,
+      "required_versions": [
+        "leanpool-v4.34.0",
+        "leanpool-v4.35.0-rc3"
+      ],
+      "truncations": [
+        65
+      ],
+      "invalid_json_steps": [
+        65
+      ],
+      "next_request_stop": {
+        "remaining_usd": "0.1686210",
+        "full_output_tokens": 16384,
+        "full_reservation_usd": "0.365585",
+        "minimum_output_tokens": 2048,
+        "minimum_reservation_usd": "0.2222225",
+        "policy_reservation_usd": "0.365585"
+      },
+      "tail": {
+        "reduced_calls": 3,
+        "first_reduced_step": 63,
+        "cost_before_tail_usd": "2.6560892",
+        "tail_cost_usd": "0.1752898",
+        "pre_tail_best_sha256": "ac31927612110d1eb5b1bcfef76fd4fc63097e2841e99654cafb7e1440ab8ecd",
+        "pre_tail_best_primary_screening": {
+          "tokens": 2416,
+          "raw_heartbeats": 3505481
+        },
+        "selected_source_first_seen_step": 60,
+        "selected_source_created_in_tail": false,
+        "selected_source_unchanged_from_pre_tail": true,
+        "incremental_selected_primary_screening_score_delta": 0.0,
+        "score_delta_scope": "Within-trajectory primary screening measurements; not independently remeasured counterfactual or causal policy effect.",
+        "calls": [
+          {
+            "step": 63,
+            "output_tokens": 12941,
+            "spent_before_usd": "2.6560892",
+            "reservation_usd": "0.343905",
+            "cost_usd": "0.0790926",
+            "valid_candidate": false,
+            "best_sha256_after": "ac31927612110d1eb5b1bcfef76fd4fc63097e2841e99654cafb7e1440ab8ecd",
+            "finish_reason": "stop"
+          },
+          {
+            "step": 64,
+            "output_tokens": 6191,
+            "spent_before_usd": "2.7351818",
+            "reservation_usd": "0.26481",
+            "cost_usd": "0.0387866",
+            "valid_candidate": null,
+            "best_sha256_after": "ac31927612110d1eb5b1bcfef76fd4fc63097e2841e99654cafb7e1440ab8ecd",
+            "finish_reason": "stop"
+          },
+          {
+            "step": 65,
+            "output_tokens": 2339,
+            "spent_before_usd": "2.7739684",
+            "reservation_usd": "0.2260275",
+            "cost_usd": "0.0574106",
+            "valid_candidate": null,
+            "best_sha256_after": "ac31927612110d1eb5b1bcfef76fd4fc63097e2841e99654cafb7e1440ab8ecd",
+            "finish_reason": "length"
+          }
+        ]
+      },
+      "receipt_audit_passed": true,
+      "proof_audit_passed": true,
+      "official_evaluation": false
+    }
+  ],
+  "pairs": [
+    {
+      "row": 6,
+      "score_delta_adaptive_minus_control": 6.961941575751403,
+      "cost_delta_adaptive_minus_control_usd": "0.086175"
+    },
+    {
+      "row": 45,
+      "score_delta_adaptive_minus_control": -1.4576897722529552,
+      "cost_delta_adaptive_minus_control_usd": "0.048338"
+    },
+    {
+      "row": 48,
+      "score_delta_adaptive_minus_control": -3.7397722369860062,
+      "cost_delta_adaptive_minus_control_usd": "0.1626802"
+    }
+  ],
+  "protocol": {
+    "base_commit": "a517db26b8eee1b58f30810dca5d66000c810748",
+    "rows": [
+      6,
+      45,
+      48
+    ],
+    "arms": [
+      "control",
+      "adaptive"
+    ],
+    "total_cap_usd": "18.00",
+    "per_problem_per_arm_cap_usd": "3.00",
+    "minimum_output_tokens": 2048,
+    "model": "gpt-6.1-sol",
+    "cohort_reason": "F006 medium prior score 62.75, F045 low 48.88, F048 low 48.36; Strata/LeanPool, original token lengths 972/1756/2879. Selected using prior main20; exploratory Final adaptation.",
+    "comparison": "#67 merger-until-budget, scouts 6 each. Both arms use strict reservation guard in every phase. Adaptive only lowers output allowance when the normal full-output reservation will not fit; input bound unchanged. Both start from original."
+  },
+  "frozen_runtime_manifest_sha256": "07b6f8562118bafc7ccd82d29f723c10c7f75995171690af576ed3b4d9ec1644",
+  "paired_mean_score_delta": 0.5881598555041473,
+  "official_evaluation": false,
+  "cost_basis": "provider usage times frozen public prices; invoice not verified",
+  "limitations": [
+    "One stochastic trajectory per arm/problem; paired score differences are not causal estimates.",
+    "Selected Final adaptation cohort; no unseen-holdout claim.",
+    "Within-trajectory tail effects use primary screening metrics; no counterfactual rerun or fresh pre-tail remeasurement.",
+    "Direct OpenAI evidence does not claim official OpenRouter provenance eligibility."
+  ]
+}
