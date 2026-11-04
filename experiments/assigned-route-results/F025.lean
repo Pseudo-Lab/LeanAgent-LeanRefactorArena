@@ -35,7 +35,7 @@ theorem of_consensus [Fintype P] (f : ℕ) (hf : f < card P)
   refine ⟨ss n, b, ⟨seg.flatten.extract 0 n, ?_, ?_⟩, ?_⟩
   · simpa [hs] using he.extract_mTr (Nat.zero_le n)
   · simp [extract_eq_take, List.forall_iff_forall_mem, List.forall_mem_iff_getElem]
-    grind
+    grind only
   · apply Algorithm.decided_stable (a := a) (show (zz n).Decided b from ⟨p, h⟩)
     use xs.extract n (n + xl.length)
     rw [← ht]
