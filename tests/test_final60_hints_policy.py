@@ -8,6 +8,10 @@ class WarmupBankOffTests(unittest.TestCase):
     def test_route_rules_turn_warmup_bank_cards_off(self):
         self.assertEqual(routing.rules()["hints"]["bank_cards"], 0)
 
+    def test_route_rules_have_no_per_row_priority(self):
+        # Row lists measured on the final benchmark would be benchmark-specific tuning.
+        self.assertEqual(routing.rules()["priority"]["weak_rows"], [])
+
 
 if __name__ == "__main__":
     unittest.main()
