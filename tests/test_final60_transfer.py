@@ -181,6 +181,45 @@ class SubstitutionTests(unittest.TestCase):
         self.assertIn("sorry", transfer.repair_text(bad, self.statement, {NEW: OLD})[2])
         self.assertEqual(transfer.repair_text(parent, self.statement, {"other": "x"})[2], "no identifier to replace")
 
+    def test_projections_other_namespaces_and_root_prefix(self):
+        code = (self.statement + " := by\n  have h := Finset.card_univ_sdiff s\n  exact Finset.card_univ_sdiff.symm\n"
+                "  rw [card_univ_sdiff.mp, s.card_univ_sdiff.le, Set.card_univ_sdiff, h.foo.card_univ_sdiff.trans,"
+                " _root_.Finset.card_univ_sdiff.symm, S.card_univ_sdiff]\n")
+        fixed, edits = transfer.substitute(code, self.statement, {NEW: OLD})
+        self.assertEqual(fixed, (self.statement + " := by\n  have h := Finset.card_univ_diff s\n  exact Finset.card_univ_diff.symm\n"
+                                 "  rw [card_univ_diff.mp, s.card_univ_diff.le, Set.card_univ_sdiff, h.foo.card_univ_diff.trans,"
+                                 " _root_.Finset.card_univ_diff.symm, S.card_univ_sdiff]\n"))
+        self.assertEqual(len(edits), 6)
+        # Other namespaces: a suffix spelling keeps the projection; the full old name replaces a bare suffix.
+        self.assertEqual(transfer._replacement("qux_new.mp", {"Foo.Bar.qux_new": "Foo.Bar.qux_old"}), "qux_old.mp")
+        self.assertEqual(transfer._replacement("Bar.qux_new.mp", {"Foo.Bar.qux_new": "Foo.Bar.qux_old"}), "Bar.qux_old.mp")
+        self.assertEqual(transfer._replacement("foo_new.symm", {"Nat.foo_new": "Int.foo_old"}), "Int.foo_old.symm")
+        self.assertIsNone(transfer._replacement("Set.card_univ_sdiff", {NEW: OLD}))
+        self.assertIsNone(transfer._replacement("Finset.card_univ_sdiff'", {NEW: OLD}))
+        self.assertEqual(transfer.repair_text(Candidate(code, "x", "model", None, "c1", None), self.statement, {NEW: OLD})[2], None)
+
+    def test_repair_text_rejects_remaining_names_and_the_original(self):
+        # Dot notation on a parenthesised or expected-type term starts with the dot: last component only.
+        code = self.statement + " := by\n  have h := (s \\ t).card_univ_sdiff.symm\n  exact .card_univ_sdiff\n"
+        fixed, edits, rejection = transfer.repair_text(Candidate(code, "x", "model", None, "c1", None), self.statement, {NEW: OLD})
+        self.assertEqual(fixed, self.statement + " := by\n  have h := (s \\ t).card_univ_diff.symm\n  exact .card_univ_diff\n")
+        self.assertEqual(([(e["from"], e["to"]) for e in edits], rejection),
+                         ([(".card_univ_sdiff.symm", ".card_univ_diff.symm"), (".card_univ_sdiff", ".card_univ_diff")], None))
+        self.assertEqual(transfer.still_present("  exact Finset.card_univ_diff s\n", {NEW: OLD}), [])
+        self.assertEqual(transfer.still_present("  exact (Finset.card_univ_sdiff s).trans card_univ_sdiff.symm .card_univ_sdiff\n", {NEW: OLD}),
+                         ["Finset.card_univ_sdiff", "card_univ_sdiff.symm", ".card_univ_sdiff"])
+        # A rewrite that leaves a renamed name behind is rejected before any compile.
+        parent = Candidate(self.statement + " := by\n  exact Finset.card_univ_sdiff\n", "x", "model", None, "c1", None)
+        partial = self.statement + " := by\n  exact Finset.card_univ_sdiff -- x\n"
+        with patch.object(transfer, "substitute", return_value=(partial, [{"start": 0, "end": 1, "from": "a", "to": "b"}])):
+            fixed, edits, rejection = transfer.repair_text(parent, self.statement, {NEW: OLD})
+        self.assertEqual((fixed, len(edits), rejection), (None, 1, "unknown name still present: Finset.card_univ_sdiff"))
+        # A repair that equals the original proof gains nothing: rejected before validation.
+        parent = Candidate(self.statement + " := by\n  exact Finset.card_univ_sdiff\n", "x", "model", None, "c1", None)
+        reference = self.statement + " := by\n  exact Finset.card_univ_diff\n"
+        self.assertEqual(transfer.repair_text(parent, self.statement, {NEW: OLD}, reference=reference)[2], "repair equals the original")
+        self.assertEqual(transfer.repair_text(parent, self.statement, {NEW: OLD}, reference=reference + "\n")[2], None)
+
 
 def log_for(code: str, env: str, *, names=(NEW,)) -> str:
     """A check log with one unknown-constant error per unknown name (v4.31 and older formats)."""
@@ -218,6 +257,16 @@ class TriggerTests(unittest.TestCase):
         self.assertIsNone(transfer.plan(wide, "p", logs, alias_map))
         both = {"s": (log_for("", "s"), ""), "t": (log_for("", "t", names=("Nat.foo_new",)), "")}
         self.assertEqual(transfer.plan(wide, "p", both, {NEW: OLD, "Nat.foo_new": "Nat.foo_old"})["envs"], ["s", "t"])
+
+    def test_plan_resolves_suffix_spelled_unknown_identifiers(self):
+        failed = EvalResult(False, 10, None, {"p": True, "s": False}, "compile", "x", "")
+        logs = {"s": (log_for("", "s", names=("card_univ_sdiff",)), "src")}
+        self.assertEqual(transfer.plan(failed, "p", logs, {NEW: OLD}),
+                         {"envs": ["s"], "names": {"s": ["card_univ_sdiff"]}, "mapping": {NEW: OLD}})
+        # Two keys sharing the suffix are ambiguous; an unrelated suffix is unmapped.
+        self.assertIsNone(transfer.plan(failed, "p", logs, {NEW: OLD, "Multiset.card_univ_sdiff": "Multiset.card_univ_diff"}))
+        self.assertIsNone(transfer.plan(failed, "p", logs, {"Finset.card_univ_sdiff_other": "x"}))
+        self.assertEqual(transfer.resolve_name("sdiff", {NEW: OLD}), None)
 
 
 class PartialAdapter(G.FakeAdapter):
@@ -346,6 +395,78 @@ class SelectionTests(unittest.TestCase):
         (base / "result.json").write_text(json.dumps({"valid": False, "tokens": 5, "environments": {
             "p": {"valid": False, "runs": [], "error": {"kind": "environment", "message": "x"}}}}))
         self.assertEqual(transfer.compat_status(adapter.folder, sha(self.broken)), "unknown")
+
+    def failing_check(self, adapter, code):
+        base = adapter.folder / "compatibility" / sha(code)
+        base.mkdir(parents=True, exist_ok=True)
+        (base / "result.json").write_text(json.dumps({"valid": False, "tokens": 5, "environments": {
+            "p": {"valid": True, "runs": [], "error": None}, "s": {"valid": False, "runs": [], "error": {"kind": "compile", "message": "x"}}}}))
+        adapter.to_eval = lambda result, folder: EvalResult(False, 5, None, {e: v["valid"] for e, v in result["environments"].items()},
+                                                            "compile", "x", str(folder))
+
+    def test_golf_parents_repair_only_when_the_deadline_leaves_the_validation_reserve(self):
+        import time
+        adapter = PartialAdapter(self.statement, self.reference)
+        other = self.statement + " := by\n  exact trivial\n"
+        pool = [G.candidate(self.broken, "model", "c1", adapter), G.candidate(other, "model", "c2", adapter),
+                G.candidate(self.reference, "original", "c000", adapter)]
+        self.failing_check(adapter, self.broken)
+        # No baseline timing: the floor applies (480 s); a baseline with 100 s compiles raises it to 2 x 100 x (2 + 3).
+        self.assertEqual(transfer.validation_reserve(adapter), transfer.VALIDATION_RESERVE_S)
+        _, _, record = transfer.repair_known(adapter, self.problem(), pool[0], deadline=time.time() + 100)
+        self.assertTrue(record["skipped"].startswith("deadline reserve: "), record)
+        self.assertEqual(adapter.validations, [])
+        self.assertEqual([c.label for c in select.golf_parents(adapter, self.problem(), pool, 2, deadline=time.time() + 100)],
+                         ["c2", "c000"])
+        self.assertEqual(adapter.validations, [])
+        (adapter.folder / "baseline").mkdir(parents=True, exist_ok=True)
+        (adapter.folder / "baseline/result.json").write_text(json.dumps({"valid": True, "environments": {
+            "p": {"valid": True, "runs": [{"seconds": 30.0}, {"seconds": 100.0}]}, "s": {"valid": True, "runs": [{"seconds": 40.0}]}}}))
+        self.assertEqual(transfer.validation_reserve(adapter), 1000.0)
+        with patch.dict(os.environ, {"FINAL60_REPAIR_RESERVE_S": "5"}):
+            self.assertEqual(transfer.validation_reserve(adapter), 5.0)
+        self.assertEqual([c.label for c in select.golf_parents(adapter, self.problem(), pool, 2, deadline=time.time() + 999)],
+                         ["c2", "c000"])
+        self.assertEqual(adapter.validations, [])
+        parents = select.golf_parents(adapter, self.problem(), pool, 2, deadline=time.time() + 1001)
+        self.assertEqual([c.label for c in parents], ["repair:c1", "c2"])
+        self.assertEqual(adapter.validations, ["repair:c1"])
+        # Without a deadline (tests, legacy callers) the repair runs as before; the parent budget is 1 by default.
+        adapter = PartialAdapter(self.statement, self.reference)
+        second = self.statement + " := by\n  exact (Finset.card_univ_sdiff : True)\n"
+        pool = [G.candidate(self.broken, "model", "c1", adapter), G.candidate(second, "model", "c3", adapter),
+                G.candidate(other, "model", "c2", adapter)]
+        self.failing_check(adapter, self.broken)
+        self.failing_check(adapter, second)
+        self.assertEqual([c.label for c in select.golf_parents(adapter, self.problem(), pool, 3)], ["repair:c1", "c2"])
+        self.assertEqual(adapter.validations, ["repair:c1"])
+
+    def test_repair_equal_to_the_original_is_not_validated(self):
+        adapter = PartialAdapter(self.statement, self.repaired)
+        pool = [G.candidate(self.broken, "model", "c1", adapter)]
+        selection = select.select_final(adapter, {**self.problem(), "reference": self.repaired}, pool)
+        self.assertEqual((selection.candidate.origin, adapter.validations), ("original", ["c1", "c000"]))
+        record = json.loads((adapter.golf_dir / "selection.json").read_text())
+        self.assertEqual(record["repairs"][0]["skipped"], "repair equals the original")
+        self.assertFalse((adapter.golf_dir / "winners.json").exists())
+
+    def test_malformed_registry_blocks_repairs_instead_of_failing_selection(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        repo = Path(temp.name)
+        write(repo / transfer.REGISTRY, "{not json")
+        self.assertEqual(transfer.registry(repo), {})
+        with self.assertRaises(ValueError):
+            transfer.registry(repo, strict=True)
+        adapter = PartialAdapter(self.statement, self.reference)
+        adapter.d = type("D", (), {"REPO": str(repo)})()
+        self.assertTrue(transfer.gate_blocks(adapter, self.problem()).startswith("registry unreadable"))
+        selection = select.select_final(adapter, self.problem(), [G.candidate(self.broken, "model", "c1", adapter)])
+        self.assertEqual((selection.candidate.origin, adapter.validations), ("original", ["c1", "c000"]))
+        # A missing registry (fixtures without prepared sources) still allows the repair.
+        adapter = PartialAdapter(self.statement, self.reference)
+        adapter.d = type("D", (), {"REPO": str(repo / "elsewhere")})()
+        self.assertIsNone(transfer.gate_blocks(adapter, self.problem()))
 
 
 class PartialFixtureEvaluator(G.FixtureEvaluator):

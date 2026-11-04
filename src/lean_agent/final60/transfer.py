@@ -16,6 +16,8 @@ compiles everywhere (one deprecation warning on the newest toolchain).
   toolchain must have passed.
 * ``substitute``: identifier-level replacement in the proof body only (never inside comments
   or strings; the statement stays byte-identical), with an edit list for provenance.
+* ``validation_reserve`` / ``deadline_blocks``: no repair validation starts unless the reserve
+  (max(480 s, 2 x slowest baseline compile x (toolchains + 3))) remains before the deadline.
 * ``repair``: builds the candidate (``repair:<parent label>``, origin ``golf``, parent sha),
   runs the static rules and the official intake check, validates it exactly like any other
   finalist (every listed toolchain, then the fresh 3x primary measurement) and persists it
@@ -39,7 +41,13 @@ from . import rewrites as rw, rules
 
 MAP_SCHEMA = "final60-alias-map-v1"
 MAX_REPAIRS = 2            # repair validations per selection call
+MAX_REPAIRS_PARENTS = 1    # repair validations in ``select.golf_parents`` (before golf)
 MAX_REPAIRS_POSTHOC = 3    # repair validations per row in ``regolf --transfer-repair``
+# A repair validation (all listed toolchains + fresh 3x primary) is never started unless at least
+# ``validation_reserve`` seconds remain before the phase deadline: the floor below (golf's
+# validation_reserve_s) or RESERVE_FACTOR x the slowest baseline compile x (toolchains + 3).
+VALIDATION_RESERVE_S = 480
+RESERVE_FACTOR = 2.0
 REGISTRY = "configs/final-environments.local.json"
 PACKAGES = ".lake/packages"
 
@@ -57,6 +65,8 @@ _END = re.compile(r"^\s*end\b(?:\s+(?P<name>[^\s]+))?\s*$")
 _IDENT = re.compile(r"^(?:[^\W\d]|_)[\w'!?]*(?:\.(?:[^\W\d]|_)[\w'!?]*)*$")
 _UNKNOWN = re.compile(r"(?i)\bunknown\s+(?:identifier|constant)\s*[`'‘]?(?P<name>[^`'’\s,:]+)")
 _TOKEN = re.compile(r"(?<![\w.'!?])(?:[^\W\d]|_)[\w'!?]*(?:\.(?:[^\W\d]|_)[\w'!?]*)*")
+# Like _TOKEN but also matching the leading-dot form (``.card_univ_sdiff``) for the re-scan.
+_SCAN = re.compile(r"(?<![\w.'!?])\.?(?:[^\W\d]|_)[\w'!?]*(?:\.(?:[^\W\d]|_)[\w'!?]*)*")
 
 
 def sha(text: str) -> str:
@@ -64,11 +74,54 @@ def sha(text: str) -> str:
 
 
 # ---- library sources ----------------------------------------------------------------------------
-def registry(repo: Path) -> dict:
+def registry(repo: Path, *, strict: bool = False) -> dict:
+    """The environment registry (env -> entry); ``{}`` when missing or, unless ``strict``, unreadable."""
     path = Path(repo) / REGISTRY
-    if not path.exists():
+    try:
+        if not path.exists():
+            return {}
+        value = json.loads(path.read_text()).get("environments", {})
+        if not isinstance(value, dict):
+            raise ValueError("environments is not an object")
+        return value
+    except (OSError, ValueError, AttributeError, TypeError) as exc:
+        if strict:
+            raise ValueError(f"registry unreadable ({path.name}): {type(exc).__name__}: {exc}"[:300]) from exc
         return {}
-    return json.loads(path.read_text()).get("environments", {})
+
+
+def validation_reserve(adapter) -> float:
+    """Seconds one repair validation needs before a deadline (``FINAL60_REPAIR_RESERVE_S`` overrides).
+
+    max(VALIDATION_RESERVE_S, RESERVE_FACTOR x slowest baseline compile x (listed toolchains + 3)):
+    the all-version check compiles every toolchain once and the fresh measurement three times.
+    """
+    override = os.environ.get("FINAL60_REPAIR_RESERVE_S")
+    if override:
+        try:
+            return max(0.0, float(override))
+        except ValueError:
+            pass
+    slowest, count = 0.0, 1
+    try:
+        count = max(1, len(list(getattr(adapter, "environments", None) or [])))
+        rows = json.loads((Path(adapter.folder) / "baseline/result.json").read_text()).get("environments") or {}
+        for value in rows.values():
+            for run in (value.get("runs") or []):
+                slowest = max(slowest, float(run.get("seconds") or 0.0))
+    except (OSError, ValueError, TypeError, AttributeError, KeyError):
+        pass
+    return max(float(VALIDATION_RESERVE_S), RESERVE_FACTOR * slowest * (count + 3))
+
+
+def deadline_blocks(adapter, deadline: float | None) -> str | None:
+    """Why a repair validation must not start now (less than the reserve left), else None."""
+    if deadline is None:
+        return None
+    reserve, left = validation_reserve(adapter), float(deadline) - time.time()
+    if left < reserve:
+        return f"deadline reserve: {left:.0f} s left, {reserve:.0f} s needed for a validation"
+    return None
 
 
 def project_dir(repo: Path, env: str) -> Path | None:
@@ -352,12 +405,24 @@ def unknown_names(log: str) -> list[str]:
     return out
 
 
+def resolve_name(name: str, alias_map: dict) -> str | None:
+    """The map key a reported unknown name denotes: the name itself, or the unique key it is a suffix of.
+
+    Lean reports ``unknown identifier 'card_univ_sdiff'`` as written under an open namespace;
+    the map keys are full names.
+    """
+    if name in alias_map:
+        return name
+    matches = [key for key in alias_map if key.endswith("." + name)]
+    return matches[0] if len(matches) == 1 else None
+
+
 def plan(result: EvalResult, primary: str, logs: dict, alias_map: dict) -> dict | None:
     """The repair plan for a finalist that passed the primary toolchain but failed another one.
 
     ``logs`` is ``adapter.version_logs(code)``: env -> (log, source). Every failing listed
-    toolchain needs a saved log whose unknown-identifier/unknown-constant errors all name
-    keys of ``alias_map`` (and at least one such error); otherwise None.
+    toolchain needs a saved log whose unknown-identifier/unknown-constant errors all resolve
+    to keys of ``alias_map`` (``resolve_name``; at least one such error); otherwise None.
     """
     if result is None or result.valid or not alias_map:
         return None
@@ -373,11 +438,12 @@ def plan(result: EvalResult, primary: str, logs: dict, alias_map: dict) -> dict 
         if not pair:
             return None
         names = unknown_names(pair[0])
-        if not names or any(name not in alias_map for name in names):
+        keys = [resolve_name(name, alias_map) for name in names]
+        if not names or any(key is None for key in keys):
             return None
         per_env[env] = names
-        for name in names:
-            mapping[name] = alias_map[name]
+        for key in keys:
+            mapping[key] = alias_map[key]
     return {"envs": failing, "names": per_env, "mapping": mapping}
 
 
@@ -389,7 +455,7 @@ def substitute(code: str, statement: str, mapping: dict) -> tuple[str, list[dict
     body = code[len(statement):]
     masked = rw.mask_strings(rw.mask_comments(body))
     edits = []
-    for match in _TOKEN.finditer(masked):
+    for match in _SCAN.finditer(masked):
         token = match.group()
         replacement = _replacement(token, mapping)
         if replacement is None or replacement == token:
@@ -408,32 +474,86 @@ def substitute(code: str, statement: str, mapping: dict) -> tuple[str, list[dict
 
 
 def _replacement(token: str, mapping: dict) -> str | None:
+    """The rewritten token, or None when it does not name a key of ``mapping``.
+
+    Handled spellings: the full name, a suffix written under an open namespace, dot notation
+    on a term whose first component is not capitalised (``s.card_univ_sdiff``; a capitalised
+    first component such as ``Set.card_univ_sdiff`` is another namespace's declaration and is
+    left alone) or on a parenthesised/expected-type term (``(s \\ t).card_univ_sdiff``,
+    ``exact .card_univ_sdiff``: the token starts with the dot), each optionally followed by
+    projections (``.symm``, ``.mp``, ``.le`` ...) which are kept.
+    """
     if token in mapping:
         return mapping[token]
+    if token.startswith("."):
+        parts = token[1:].split(".")
+        for new, old in mapping.items():
+            new_parts, old_parts = new.split("."), old.split(".")
+            if len(new_parts) > 1 and new_parts[:-1] == old_parts[:-1]:
+                for index in range(len(parts)):
+                    if parts[index] == new_parts[-1]:
+                        return "." + ".".join(parts[:index] + [old_parts[-1]] + parts[index + 1:])
+        return None
     parts = token.split(".")
+    root = ""
+    if parts[0] == "_root_" and len(parts) > 1:       # ``_root_.X``: always a full name
+        root, parts = "_root_.", parts[1:]
     for new, old in mapping.items():
         new_parts, old_parts = new.split("."), old.split(".")
-        count = len(parts)
-        if count < len(new_parts) and new_parts[-count:] == parts:
-            # A suffix written under an open namespace keeps its depth when both names share the prefix.
-            if len(old_parts) >= count and new_parts[:-count] == old_parts[:-count]:
-                return ".".join(old_parts[-count:])
-            return old
-        if count > 1 and parts[-1] == new_parts[-1] and new_parts[:-1] == old_parts[:-1] and len(new_parts) > 1:
-            # Dot notation on a term (``s.card_univ_sdiff``): only the last component can change.
-            return ".".join(parts[:-1] + [old_parts[-1]])
+        depth = len(new_parts)
+        if parts[:depth] == new_parts:
+            return root + ".".join([old] + parts[depth:])
+        if root:
+            continue
+        for count in range(depth - 1, 0, -1):
+            if parts[:count] == new_parts[-count:]:
+                # A suffix written under an open namespace keeps its depth when both names share the prefix.
+                if len(old_parts) >= count and new_parts[:-count] == old_parts[:-count]:
+                    head = ".".join(old_parts[-count:])
+                else:
+                    head = old
+                return ".".join([head] + parts[count:])
+        if len(parts) > 1 and depth > 1 and new_parts[:-1] == old_parts[:-1] and not parts[0][:1].isupper():
+            # Dot notation on a term (``s.card_univ_sdiff``, ``h.card_univ_sdiff.symm``): only the
+            # last component of the name can change; the term and any projections are kept.
+            for index in range(1, len(parts)):
+                if parts[index] == new_parts[-1]:
+                    return ".".join(parts[:index] + [old_parts[-1]] + parts[index + 1:])
     return None
 
 
+def still_present(masked_body: str, mapping: dict) -> list[str]:
+    """Tokens of a masked proof body that still name a key of ``mapping`` in a handled spelling,
+    deduplicated (the invariant ``repair_text`` checks after the rewrite, before any compile)."""
+    out = []
+    for match in _SCAN.finditer(masked_body):
+        token = match.group()
+        replacement = _replacement(token, mapping)
+        if replacement is not None and replacement != token and token not in out:
+            out.append(token)
+    return out
+
+
 # ---- repair candidates --------------------------------------------------------------------------
-def repair_text(candidate: Candidate, statement: str, mapping: dict) -> tuple[str | None, list[dict], str | None]:
-    """(repaired text, edits, rejection) for ``candidate``; the text is None when rejected."""
+def repair_text(candidate: Candidate, statement: str, mapping: dict, *,
+                reference: str | None = None) -> tuple[str | None, list[dict], str | None]:
+    """(repaired text, edits, rejection) for ``candidate``; the text is None when rejected.
+
+    Rejected without any compile: nothing to replace, a renamed name still present after the
+    rewrite (a spelling the rewriter does not handle would fail the old toolchain anyway),
+    a text equal to the original proof (``reference``), the official intake check, static rules.
+    """
     try:
         fixed, edits = substitute(candidate.code, statement, mapping)
     except ValueError as exc:
         return None, [], str(exc)
     if not edits or fixed == candidate.code:
         return None, [], "no identifier to replace"
+    remaining = still_present(rw.mask_strings(rw.mask_comments(fixed[len(statement):])), mapping)
+    if remaining:
+        return None, edits, "unknown name still present: " + ", ".join(remaining)[:200]
+    if reference is not None and fixed == reference:
+        return None, edits, "repair equals the original"
     rejection = rules.official_rejection(fixed)
     if rejection:
         return None, edits, "official: " + rejection
@@ -460,6 +580,10 @@ def gate_blocks(adapter, problem: dict) -> str | None:
         repo, primary = Path(adapter.d.REPO), adapter.environments[0]
     except (AttributeError, IndexError):
         return None
+    try:
+        registry(repo, strict=True)     # fail closed: an unreadable registry hides warningAsError
+    except ValueError as exc:
+        return str(exc)
     if warning_as_error(repo, primary):
         return "primary checkout sets warningAsError"
     return None
@@ -523,10 +647,13 @@ def saved_result(adapter, code: str) -> EvalResult | None:
         return None
 
 
-def repair_known(adapter, problem: dict, candidate: Candidate, *, blocked=frozenset(), alias_map: dict | None = None):
+def repair_known(adapter, problem: dict, candidate: Candidate, *, blocked=frozenset(), alias_map: dict | None = None,
+                 deadline: float | None = None):
     """Validate the alias repair of a candidate whose saved all-version check failed.
 
-    Returns (repaired candidate, validated result, record) or (None, None, record).
+    Returns (repaired candidate, validated result, record) or (None, None, record). With a
+    ``deadline`` nothing is validated (nor is an alias map built) unless ``validation_reserve``
+    seconds remain before it.
     """
     from .select import provenance_sha
     record = {"label": candidate.label, "parent_sha256": candidate.sha256}
@@ -538,6 +665,10 @@ def repair_known(adapter, problem: dict, candidate: Candidate, *, blocked=frozen
     if result is None:
         record["skipped"] = "no saved all-version check"
         return None, None, record
+    why = deadline_blocks(adapter, deadline)
+    if why:
+        record["skipped"] = why
+        return None, None, record
     alias_map = alias_map if alias_map is not None else alias_map_for(adapter, problem)
     primary = problem["environments"][0]
     try:
@@ -548,7 +679,8 @@ def repair_known(adapter, problem: dict, candidate: Candidate, *, blocked=frozen
     if plan_info is None:
         record["skipped"] = "not an alias-repairable failure"
         return None, None, record
-    fixed, edits, rejection = repair_text(candidate, problem["statement"], plan_info["mapping"])
+    fixed, edits, rejection = repair_text(candidate, problem["statement"], plan_info["mapping"],
+                                          reference=problem.get("reference"))
     record.update(mapping=plan_info["mapping"], edits=edits)
     if fixed is None:
         record["skipped"] = rejection

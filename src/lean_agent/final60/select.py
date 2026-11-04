@@ -238,7 +238,8 @@ def _repair(adapter, problem: dict, candidate: Candidate, result: EvalResult, un
     if plan is None:
         return None, None, None
     entry = {"label": candidate.label, "parent_sha256": candidate.sha256, "envs": plan["envs"], "mapping": plan["mapping"]}
-    fixed, edits, rejection = transfer.repair_text(candidate, problem["statement"], plan["mapping"])
+    fixed, edits, rejection = transfer.repair_text(candidate, problem["statement"], plan["mapping"],
+                                                   reference=problem["reference"])
     entry["edits"] = edits
     if fixed is None:
         entry["skipped"] = rejection
@@ -405,13 +406,15 @@ def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, d
 
 
 def golf_parents(adapter, problem: dict, pool: list[Candidate], top: int, *, non_openrouter_sha256=frozenset(),
-                 repairs: int = transfer.MAX_REPAIRS) -> list[Candidate]:
+                 repairs: int = transfer.MAX_REPAIRS_PARENTS, deadline: float | None = None) -> list[Candidate]:
     """The first ``top`` golf parents of ``pool``, in order, without known transfer failures.
 
     A model candidate whose saved all-version check failed (``compatibility/<sha>/skipped.json``
     or an invalid result) is not golfed: its alias repair is validated instead (at most
-    ``repairs`` validations), and the repaired text becomes the parent when it validates;
-    otherwise the candidate is skipped. Candidates without a saved check are kept as before.
+    ``repairs`` validations, none unless ``transfer.validation_reserve`` seconds remain before
+    ``deadline``), and the repaired text becomes the parent when it validates; otherwise the
+    candidate is skipped (select_final may still repair it from its cached failure). Candidates
+    without a saved check are kept as before.
     """
     out, records, budget = [], [], int(repairs)
     folder = getattr(adapter, "folder", None)
@@ -423,7 +426,8 @@ def golf_parents(adapter, problem: dict, pool: list[Candidate], top: int, *, non
             continue
         repaired, record = None, {"label": candidate.label, "skipped": "repair budget spent"}
         if budget > 0:
-            repaired, _, record = transfer.repair_known(adapter, problem, candidate, blocked=non_openrouter_sha256)
+            repaired, _, record = transfer.repair_known(adapter, problem, candidate, blocked=non_openrouter_sha256,
+                                                        deadline=deadline)
             if "valid" in record or "error" in record:
                 budget -= 1
         records.append({**record, "parent": candidate.label, "golfed": repaired is not None})
@@ -660,7 +664,7 @@ def finalize_row(run_root: Path, row: int, route_golf: dict | None = None, *, go
     results, golf_error = [], None
     if run_golf:
         parents = golf_parents(adapter, problem, [c for c in candidates_from_run(run_root, row) if c.origin == "model"],
-                               settings["top_k"], non_openrouter_sha256=non_openrouter_sha256)
+                               settings["top_k"], non_openrouter_sha256=non_openrouter_sha256, deadline=golf_deadline)
         if parents:
             try:
                 results = golf.improve(adapter, problem, parents, settings, deadline=golf_deadline,

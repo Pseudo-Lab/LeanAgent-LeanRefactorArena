@@ -159,7 +159,25 @@ token-neutral, 84.21 -> 89.22 measured) is repaired automatically, without any A
   `repairs` and `golf/winners.json`) is validated like any finalist (at most 2 per selection).
 * Golf never spends its budget on a parent whose saved all-version check failed
   (`compatibility/<sha>/skipped.json` or an invalid result): its repair is validated first and
-  golfed instead when it holds (`select.golf_parents`).
+  golfed instead when it holds (`select.golf_parents`, at most 1 validation per row,
+  `transfer.MAX_REPAIRS_PARENTS`); an unrepaired parent is left out of golf and select_final can
+  still repair it from its cached failure.
+* Time bound (fix 2026-11-04): a repair validation is never started unless
+  `transfer.validation_reserve` seconds remain before the phase deadline (the golf/selection
+  deadline of the row worker, `golf_deadline` of `finalize_row`, the regolf deadline):
+  max(480 s, 2 x slowest baseline compile x (listed toolchains + 3)), `FINAL60_REPAIR_RESERVE_S`
+  overrides (ArkLib F036 measured: 19 s compiles -> 480 s; one repair validation = 8 compiles /
+  268 s wall at 2 slots). In select_final a repair starts only before the phase deadline, like
+  any finalist validation. Combined per-row bound inside the worker: 1 (golf_parents) + 2
+  (select_final) = 3 repair validations of about (toolchains + 3) compiles each (cached checks
+  excluded), and none after the phase deadline.
+* Rejected before any compile: a text that still names a renamed lemma after the rewrite
+  (spellings handled: full name, suffix under an open namespace, dot notation on a lowercase
+  term, each with projections such as `.symm`/`.mp`; `Set.card_univ_sdiff` of another namespace
+  is left alone), a repair equal to the original proof, static/official rule failures. A
+  malformed `configs/final-environments.local.json` blocks repairs (fail closed) instead of
+  failing the selection; `unknown identifier 'card_univ_sdiff'` (suffix spelling) resolves to
+  the unique map key ending in that name.
 * Alias maps (NEW -> OLD, kept only when OLD is declared in every other listed toolchain and NEW
   is missing in at least one) are built once per environment set from the prepared sources
   (project + `.lake/packages`, 6-14 s) and cached under `<run>/alias-maps/`

@@ -310,7 +310,8 @@ class RegolfRow:
         for candidate in failed:
             if budget <= 0 or time.time() >= deadline:
                 break
-            repaired, _, record = transfer.repair_known(adapter, problem, candidate, blocked=frozenset(outside))
+            repaired, _, record = transfer.repair_known(adapter, problem, candidate, blocked=frozenset(outside),
+                                                        deadline=deadline)
             records.append(record)
             if "valid" in record or "error" in record:
                 budget -= 1

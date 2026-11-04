@@ -302,8 +302,9 @@ class RowWorker:
             # G1-fixes into one. A blocklisted text can therefore not win selection and be thrown
             # away by the assembler afterwards; the row selects its best clean candidate.
             # Transfer repair (hotfix 2026-11-04): a parent whose saved all-version check failed is
-            # not golfed; its deprecated-alias repair is validated and golfed instead when it holds.
-            parents = select.golf_parents(adapter, problem, pool, top, non_openrouter_sha256=outside)
+            # not golfed; its deprecated-alias repair is validated and golfed instead when it holds
+            # and the phase deadline leaves at least transfer.validation_reserve seconds for it.
+            parents = select.golf_parents(adapter, problem, pool, top, non_openrouter_sha256=outside, deadline=deadline)
             results = golf.improve(adapter, problem, parents, settings, deadline=deadline,
                                    non_openrouter_sha256=outside)
             known = {candidate.sha256 for candidate in pool}
