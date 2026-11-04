@@ -23,6 +23,12 @@ Passes:
   G4 ``deletion_edits``   ``clear`` and ``show`` lines, ``have`` blocks whose name is never
                           referenced later; ``ddmin_batches`` enumerates batch deletions.
   G5 ``decide_variants``  generic kernel-decision forms for tiny ``decide`` proofs.
+  G3s ``sugar_span_edits`` / ``flatten_span_edits`` / ``intro_span_edits`` (research item 14):
+                          ``<-``/``<->``/``<|`` -> ``←``/``↔``/``$``, top-level ``;`` -> newline,
+                          trailing ``(g x)`` -> ``$ g x``, closed bullet runs flattened,
+                          ``⟨a, b⟩`` -> ``.intro a b`` (risky).
+  G4h ``hint_lists`` / ``hint_variant`` (research item 15): hint lists of ``nlinarith``,
+                          ``linarith``, ``norm_num`` and ``field_simp`` for golf's ddmin.
 """
 from __future__ import annotations
 
@@ -1064,3 +1070,385 @@ def heartbeat_span_edits(code: str, statement: str, *, max_sites: int = 3) -> li
         edits.append(Edit("G6:decide-kernel", match.start(), match.end(), "decide +kernel"))
     edits.sort(key=lambda edit: edit.start)
     return edits[:max(0, int(max_sites))]
+
+
+# ---- G3s: syntax sugar (research item 14) ---------------------------------------------------
+# Each rewrite is priced by the official lexer: ``<-`` (2 tokens) -> ``←`` (1), ``<->`` (2) ->
+# ``↔`` (1), ``<|`` (2) -> ``$`` (1), a top-level ``;`` (1) -> newline (0), a trailing ``(g x)``
+# argument (parens: 2) -> ``$ g x`` (1), ``⟨a, b⟩`` (5) -> ``.intro a b`` (3, risky: only
+# constructors named ``intro``), and a closed bullet sequence loses one ``·`` per bullet.
+_TACTIC_SEQ_WORDS = re.compile(r"(?<![\w.'])(?:by|fun|λ|try|repeat|repeat'|iterate|all_goals|any_goals|focus|case|"
+                               r"case'|next|on_goal|first|calc|conv|conv_lhs|conv_rhs|match|do|if|then|else)(?![\w'])"
+                               r"|=>|<;>|\|")
+_TERM_TACTICS = ("exact", "apply", "refine", "refine'", "exact_mod_cast", "apply_mod_cast", "specialize", "use",
+                 "show", "change")
+_APP_TOKEN = re.compile(r"@?[\w.'₀-₉]+|\?_")
+_SEQ_UNSAFE = re.compile(r"(?<![\w.'])(?:all_goals|any_goals|repeat'|case|case'|next|on_goal|swap|rotate_left|"
+                         r"rotate_right|pick_goal|exacts|focus|done)(?![\w'])")
+_BULLET_HEAD = re.compile(r"^(?P<indent> *)(?P<marker>[·.] +)(?=\S)")
+_ANON_PAIR = re.compile(r"(?P<lead>(?:\bexact|\brefine|:=)[ \t]+)(?P<ctor>⟨[ \t]*(?P<a>[\w.'₀-₉]+|\?_)[ \t]*,[ \t]*"
+                        r"(?P<b>[\w.'₀-₉]+|\?_)[ \t]*⟩)[ \t]*$", re.M)
+_PAIRS = {"(": ")", "[": "]", "{": "}", "⟨": "⟩", "‹": "›"}
+
+
+def mask_strings(text: str) -> str:
+    """Same-length copy with the contents of string literals replaced by spaces (quotes kept)."""
+    chars, i, n = list(text), 0, len(text)
+    while i < n:
+        if text[i] != '"':
+            i += 1
+            continue
+        i += 1
+        while i < n and text[i] != '"':
+            if text[i] != "\n":
+                chars[i] = " "
+            if text[i] == "\\" and i + 1 < n:
+                if text[i + 1] != "\n":
+                    chars[i + 1] = " "
+                i += 1
+            i += 1
+        i += 1
+    return "".join(chars)
+
+
+def bracket_depths(text: str) -> list[int]:
+    """Depth of ``([{⟨`` nesting before each character, plus one final entry."""
+    depths, depth = [0] * (len(text) + 1), 0
+    for i, char in enumerate(text):
+        depths[i] = depth
+        if char in "([{⟨":
+            depth += 1
+        elif char in ")]}⟩":
+            depth = max(0, depth - 1)
+    depths[len(text)] = depth
+    return depths
+
+
+def _match_group(text: str, open_at: int) -> int | None:
+    """Index of the bracket closing ``text[open_at]``; None if unbalanced."""
+    closing = _PAIRS.get(text[open_at])
+    if closing is None:
+        return None
+    depth = 0
+    for i in range(open_at, len(text)):
+        char = text[i]
+        if char in _PAIRS:
+            depth += 1
+        elif char in _PAIRS.values():
+            depth -= 1
+            if depth == 0:
+                return i if char == closing else None
+    return None
+
+
+def _open_bracket(text: str, close_at: int) -> int | None:
+    """Index of the ``(`` matching the ``)`` at ``close_at``; None if it is not a paren group."""
+    depth = 0
+    for i in range(close_at, -1, -1):
+        char = text[i]
+        if char in ")]}⟩›":
+            depth += 1
+        elif char in "([{⟨‹":
+            depth -= 1
+            if depth == 0:
+                return i if char == "(" else None
+    return None
+
+
+def _depth0_positions(text: str, needle: str) -> list[int]:
+    out, depth, i = [], 0, 0
+    while i < len(text):
+        char = text[i]
+        if char in "([{⟨":
+            depth += 1
+        elif char in ")]}⟩":
+            depth -= 1
+        elif depth == 0 and text.startswith(needle, i):
+            out.append(i)
+            i += len(needle)
+            continue
+        i += 1
+    return out
+
+
+def _app_chain(chain: str) -> bool:
+    """True for a non-empty application spine: identifiers, ``_``/``?_`` and bracket groups only."""
+    i, n, tokens = 0, len(chain), 0
+    while i < n:
+        char = chain[i]
+        if char in " \t":
+            i += 1
+            continue
+        if char in _PAIRS:
+            close_at = _match_group(chain, i)
+            if close_at is None:
+                return False
+            i, tokens = close_at + 1, tokens + 1
+            continue
+        match = _APP_TOKEN.match(chain, i)
+        if not match:
+            return False
+        i, tokens = match.end(), tokens + 1
+    return tokens > 0
+
+
+def _sugar_text(text: str) -> str:
+    """Token-level sugar on a plain string (used inside a trailing argument)."""
+    text = text.replace("<->", "↔")
+    text = re.sub(r"<-(?!>)", "←", text)
+    return re.sub(r"(?<=\s)<\|(?=\s)", "$", text)
+
+
+def _tactic_head(mline: str) -> int:
+    """Column of the first tactic character of a line (after an optional bullet marker)."""
+    match = _BULLET_HEAD.match(mline)
+    return match.end() if match else indent_of(mline)
+
+
+def _continues_term(layout: Layout, line: int) -> bool:
+    """True when the previous non-blank line ends with ``:=`` (this line starts its term)."""
+    for j in range(line - 1, layout.by_line, -1):
+        if layout.mlines[j].strip():
+            return layout.mlines[j].rstrip().endswith(":=")
+    return False
+
+
+def _token_sugar(layout: Layout, text: str) -> list[Edit]:
+    edits = []
+    for match in re.finditer(r"<->|<-(?!>)|(?<=\s)<\|(?=\s)", text):
+        if match.start() < layout.by_end:
+            continue
+        token = match.group()
+        name, replacement = {"<->": ("G3s:iff", "↔"), "<-": ("G3s:arrow", "←")}.get(token, ("G3s:pipe", "$"))
+        edits.append(Edit(name, match.start(), match.end(), replacement))
+    return edits
+
+
+def _split_semicolons(layout: Layout, text: str, depths: list[int]) -> list[Edit]:
+    """A depth-0 ``tac1; tac2`` on a plain tactic line becomes two lines (never inside brackets,
+    never on a line with ``<;>``, ``by``, ``=>``, ``|`` or a tactic-sequence combinator)."""
+    edits = []
+    for line in range(layout.by_line + 1, len(layout.mlines)):
+        a, b = layout.spans[line]
+        mline = text[a:b]
+        if ";" not in mline or _inside_conv(layout, line):
+            continue
+        head = _tactic_head(mline)
+        body = mline[head:]
+        if _TACTIC_SEQ_WORDS.search(body):
+            continue
+        for match in re.finditer(";", body):
+            at = a + head + match.start()
+            if depths[at] != 0:
+                continue
+            rest = body[match.end():]
+            if not rest.strip():
+                continue
+            stop = at + 1 + (len(rest) - len(rest.lstrip(" \t")))
+            edits.append(Edit("G3s:semicolon", at, stop, "\n" + " " * head))
+    return edits
+
+
+def _trailing_argument(layout: Layout, text: str, depths: list[int], line: int) -> Edit | None:
+    """``f a (g x)`` at the end of a single-line term tactic -> ``f a $ g x``."""
+    a, _ = layout.spans[line]
+    mline = text[layout.spans[line][0]:layout.spans[line][1]]
+    if depths[a] != 0 or not _single_line(layout, line) or _inside_conv(layout, line):
+        return None
+    head = _tactic_head(mline)
+    segment = mline[head:].rstrip()
+    if not segment.endswith(")"):
+        return None
+    close_at = head + len(segment) - 1
+    open_at = _open_bracket(mline, close_at)
+    if open_at is None or open_at == 0 or mline[open_at - 1] != " ":
+        return None
+    before = mline[head:open_at]
+    assigns = _depth0_positions(before, ":=")
+    if assigns:
+        chain = before[assigns[-1] + 2:]
+        if re.match(r"\s*by\b", chain):
+            return None
+    else:
+        first = re.match(r"[\w']+", before)
+        if first and first.group() in _TERM_TACTICS:
+            chain = before[first.end():]
+        elif _continues_term(layout, line):
+            chain = before
+        else:
+            return None
+    if not _app_chain(chain):
+        return None
+    inner_masked = mline[open_at + 1:close_at]
+    plain = re.sub(r"<\|>?|\|>", "  ", inner_masked)       # pipes are fine inside; bars and ascriptions are not
+    if (not inner_masked.strip() or inner_masked.lstrip().startswith(("·", "←", "$", "<|"))
+            or any(_depth0_positions(plain, needle) for needle in (",", ":", "|"))):
+        return None
+    inner = layout.code[a + open_at + 1:a + close_at].strip()
+    return Edit("G3s:dollar-arg", a + open_at, a + close_at + 1, "$ " + _sugar_text(inner))
+
+
+def sugar_span_edits(code: str, statement: str) -> list[Edit]:
+    """Token-level sugar (research item 14) as one batch: arrows, iff, pipes, top-level
+    semicolons and trailing ``$`` arguments. Bullet flattening and ``.intro`` are separate."""
+    layout = Layout(code, statement)
+    text = mask_strings(layout.masked)
+    depths = bracket_depths(text)
+    edits = _token_sugar(layout, text)
+    edits += _split_semicolons(layout, text, depths)
+    for line in range(layout.by_line + 1, len(layout.mlines)):
+        edit = _trailing_argument(layout, text, depths, line)
+        if edit:
+            edits.append(edit)
+    return edits
+
+
+def _bullet_run(mlines: list[str], start: int, indent: int) -> tuple[int, int]:
+    """``(stop, last)``: index after the consecutive bullets at ``indent`` from ``start``
+    (blank lines between bullets allowed) and the index after the last bullet's last line."""
+    j = last = start
+    while j < len(mlines):
+        if not mlines[j].strip():
+            j += 1
+            continue
+        head = _BULLET_HEAD.match(mlines[j])
+        if not head or len(head["indent"]) != indent:
+            break
+        j = last = subtree_end(mlines, j)
+    return j, last
+
+
+def _flatten_lines(lines: list[str], mlines: list[str], indent: int) -> list[str] | None:
+    """Lines of a block whose tactics sit at ``indent``, with its closing bullet run (if any)
+    flattened: markers dropped, bodies dedented, nested closing runs flattened too."""
+    i, n = 0, len(lines)
+    while i < n:
+        if not mlines[i].strip():
+            i += 1
+            continue
+        head = _BULLET_HEAD.match(mlines[i])
+        if not head or len(head["indent"]) != indent:
+            i = subtree_end(mlines, i)
+            continue
+        stop, last = _bullet_run(mlines, i, indent)
+        if any(mlines[k].strip() for k in range(last, n)):
+            i = stop
+            continue
+        return lines[:i] + _flatten_run(lines[i:last], mlines[i:last], indent) + lines[last:]
+    return None
+
+
+def _flatten_run(lines: list[str], mlines: list[str], indent: int) -> list[str]:
+    out, i, n = [], 0, len(lines)
+    while i < n:
+        if not mlines[i].strip():
+            out.append(lines[i])
+            i += 1
+            continue
+        head = _BULLET_HEAD.match(mlines[i])
+        shift = len(head["marker"])
+        stop = subtree_end(mlines, i)
+        body = [lines[i][:indent] + lines[i][indent + shift:]]
+        mbody = [mlines[i][:indent] + mlines[i][indent + shift:]]
+        for k in range(i + 1, stop):
+            cut = min(shift, len(lines[k]) - len(lines[k].lstrip(" "))) if lines[k].strip() else 0
+            body.append(lines[k][cut:])
+            mbody.append(mlines[k][cut:])
+        nested = _flatten_lines(body, mbody, indent)
+        out += nested if nested is not None else body
+        i = stop
+    return out
+
+
+def flatten_span_edits(code: str, statement: str) -> list[Edit]:
+    """Closed bullet sequences (research item 14): drop the ``·`` markers of a bullet run
+    that ends its block and dedent the bodies (one token per bullet, nested runs too).
+    Runs using goal-selecting tactics (``all_goals``, ``case``, ``swap``, ``done`` ...) are left alone."""
+    layout = Layout(code, statement)
+    edits, i, n = [], layout.by_line + 1, len(layout.lines)
+    while i < n:
+        mline = layout.mlines[i]
+        head = _BULLET_HEAD.match(mline) if mline.strip() else None
+        if not head:
+            i += 1
+            continue
+        indent = len(head["indent"])
+        stop, last = _bullet_run(layout.mlines, i, indent)
+        if (_ends_block(layout, last, indent) and not _inside_conv(layout, i)
+                and not any(_SEQ_UNSAFE.search(layout.mlines[k]) for k in range(i, last))):
+            flat = _flatten_lines(layout.lines[i:last], layout.mlines[i:last], indent)
+            if flat is not None and flat != layout.lines[i:last]:
+                edits.append(Edit("G3s:flat-bullets", layout.spans[i][0], layout.spans[last - 1][1], "\n".join(flat)))
+                i = last
+                continue
+        i += 1
+    return edits
+
+
+def intro_span_edits(code: str, statement: str) -> list[Edit]:
+    """``exact ⟨a, b⟩`` / ``refine ⟨a, ?_⟩`` / ``:= ⟨a, b⟩`` -> ``.intro a b`` (risky: the
+    constructor must be named ``intro``, as for And, Iff, Exists and Nonempty)."""
+    layout = Layout(code, statement)
+    text = mask_strings(layout.masked)
+    edits = []
+    for match in _ANON_PAIR.finditer(text):
+        if match.start("ctor") < layout.by_end:
+            continue
+        edits.append(Edit("G3s:intro", match.start("ctor"), match.end("ctor"), f".intro {match['a']} {match['b']}"))
+    return edits
+
+
+def sugar_rewrites(code: str, statement: str) -> list[tuple[str, str]]:
+    return singles(code, sugar_span_edits(code, statement) + flatten_span_edits(code, statement)
+                   + intro_span_edits(code, statement))
+
+
+# ---- G4h: hint-list ddmin (research item 15) -------------------------------------------------
+HINT_TACTICS = ("nlinarith", "linarith", "norm_num", "field_simp")
+_HINT_HEAD = re.compile(r"(?<![\w.'])(?P<tac>nlinarith|linarith|norm_num|field_simp)!?"
+                        r"(?P<cfg>(?:[ \t]+(?:[+\-]\w+|\([^()\n]*\)|only))*)[ \t]*\[")
+
+
+def _item_spans(text: str, start: int, end: int) -> list[tuple[int, int]]:
+    spans, depth, begin = [], 0, start
+    for i in range(start, end):
+        char = text[i]
+        if char in "([{⟨":
+            depth += 1
+        elif char in ")]}⟩":
+            depth -= 1
+        elif char == "," and depth == 0:
+            spans.append((begin, i))
+            begin = i + 1
+    spans.append((begin, end))
+    return spans
+
+
+def hint_lists(code: str, statement: str) -> list[dict]:
+    """Hint lists of ``nlinarith``/``linarith``/``norm_num``/``field_simp`` after the statement:
+    ``{"tactic", "open", "close", "items"}`` with bracket positions and the item texts
+    (comments dropped, inner newlines collapsed)."""
+    layout = Layout(code, statement)
+    text = mask_strings(layout.masked)
+    out = []
+    for match in _HINT_HEAD.finditer(text, layout.by_end):
+        open_at = match.end() - 1
+        close_at = _match_group(text, open_at)
+        if close_at is None:
+            continue
+        items = [re.sub(r"\s*\n\s*", " ", layout.masked[a:b].strip()) for a, b in _item_spans(text, open_at + 1, close_at)]
+        items = [item for item in items if item]
+        if items:
+            out.append({"tactic": match["tac"], "open": open_at, "close": close_at, "items": items})
+    return out
+
+
+def hint_variant(code: str, hint: dict, kept: list[str]) -> str:
+    """``code`` with the hint list rebuilt from ``kept`` (an empty list drops the brackets)."""
+    open_at, close_at = hint["open"], hint["close"]
+    if kept:
+        return code[:open_at + 1] + ", ".join(kept) + code[close_at:]
+    start = open_at
+    while start > 0 and code[start - 1] in " \t":
+        start -= 1
+    return code[:start] + code[close_at + 1:]

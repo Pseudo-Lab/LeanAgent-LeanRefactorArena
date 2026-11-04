@@ -8,6 +8,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import tempfile
 import types
@@ -393,11 +394,11 @@ class HeartbeatSwapTests(unittest.TestCase):
             return True, 50 if "omega" in text else 100
         adapter = FakeAdapter(self.statement, code, oracle)
         result, = golf.improve(adapter, {"statement": self.statement}, [candidate(code, "model", "c001", adapter)],
-                               {"max_compiles_best": 8, "simp_probe": False})
+                               {"max_compiles_best": 8, "simp_probe": False, "sugar": False})
         self.assertEqual(result.best.code, self.statement + " := by\n  constructor\n  · omega\n  · norm_num\n")
         self.assertEqual([name for name in result.accepted if name.startswith("G6:")], ["G6:linarith-to-omegax1"])
         off, = golf.improve(FakeAdapter(self.statement, code, oracle), {"statement": self.statement},
-                            [candidate(code, "model", "c001")], {"max_compiles_best": 8, "heartbeat_swaps": False})
+                            [candidate(code, "model", "c001")], {"max_compiles_best": 8, "heartbeat_swaps": False, "sugar": False})
         self.assertFalse(any(name.startswith("G6:") for name in off.accepted))
 
 
@@ -551,7 +552,7 @@ class GolfTests(unittest.TestCase):
         log = f"probe.lean:{blocks[0]['probe_line'] + 1}:4: info: Try this: omega\n"
         adapter = FakeAdapter(statement, code, lambda text: ("BROKEN" not in text, 100), probe_log=log)
         result, = golf.improve(adapter, {"statement": statement}, [candidate(code, "model", "c004", adapter)],
-                               {"max_compiles_best": 6, "root_probe_max_tokens": 0})
+                               {"max_compiles_best": 6, "root_probe_max_tokens": 0, "sugar": False})
         self.assertIn("  · omega\n  · exact y", result.best.code)
         self.assertTrue(any(name.startswith("G2:") for name in result.accepted))
 
@@ -1073,6 +1074,197 @@ class RealLeanTests(unittest.TestCase):
                               "messages": len(rw.parse_messages(log))}))
         if not keep:
             shutil.rmtree(root, ignore_errors=True)
+
+
+class SugarRewriteTests(unittest.TestCase):
+    """Research item 14: syntax-sugar rewrites, priced by the arena tokenizer."""
+    statement = "theorem t : P"
+
+    def code(self, body):
+        return self.statement + " := by\n" + body
+
+    def saved(self, code, new):
+        return scoring.count_tokens(code, self.statement) - scoring.count_tokens(new, self.statement)
+
+    def test_token_sugar_prices(self):
+        code = self.code("  rw [<- h, foo <-> bar]\n  exact f <| g x\n")
+        edits = rw.sugar_span_edits(code, self.statement)
+        self.assertEqual(sorted(e.name for e in edits), ["G3s:arrow", "G3s:iff", "G3s:pipe"])
+        new = rw.apply_edits(code, edits)
+        self.assertEqual(new, self.code("  rw [← h, foo ↔ bar]\n  exact f $ g x\n"))
+        self.assertEqual(self.saved(code, new), 3)
+        # <|> and string contents are left alone; nothing before the proof body is touched.
+        self.assertEqual(rw.sugar_span_edits(self.code('  first <|> simp\n  trace "a <- b"\n'), self.statement), [])
+        self.assertEqual(rw.sugar_span_edits("theorem u (h : a <-> b) : P := by\n  simp\n", "theorem u (h : a <-> b) : P"), [])
+
+    def test_semicolon_split(self):
+        code = self.code("  intro x; simp at h; omega\n  · rw [h]; ring\n  try simp; ring\n  exact (by simp; ring)\n"
+                         "  cases h with | inl => simp; ring\n  constructor <;> simp; ring\n")
+        edits = [e for e in rw.sugar_span_edits(code, self.statement) if e.name == "G3s:semicolon"]
+        new = rw.apply_edits(code, edits)
+        self.assertEqual(new, self.code("  intro x\n  simp at h\n  omega\n  · rw [h]\n    ring\n  try simp; ring\n"
+                                        "  exact (by simp; ring)\n  cases h with | inl => simp; ring\n  constructor <;> simp; ring\n"))
+        self.assertEqual(self.saved(code, new), 3)
+        inline = self.statement + " := by simp; ring\n"
+        self.assertEqual(rw.sugar_span_edits(inline, self.statement), [])
+
+    def test_dollar_argument(self):
+        cases = [("  exact foo bar (g x)\n", "  exact foo bar $ g x\n"),
+                 ("  have h := Continuous.inner' (𝕜 := ℝ) _ _ hf (continuous_const (y := f x₀))\n",
+                  "  have h := Continuous.inner' (𝕜 := ℝ) _ _ hf $ continuous_const (y := f x₀)\n"),
+                 ("  have h : Q :=\n    lt_of_le_of_ne' h1 (mt foo.mp hx)\n", "  have h : Q :=\n    lt_of_le_of_ne' h1 $ mt foo.mp hx\n"),
+                 ("  · exact (foo x).trans (g x)\n", "  · exact (foo x).trans $ g x\n"),
+                 ("  refine foo ?_ (g <| x)\n", "  refine foo ?_ $ g $ x\n")]
+        for body, expected in cases:
+            with self.subTest(body=body):
+                code = self.code(body)
+                edits = [e for e in rw.sugar_span_edits(code, self.statement) if e.name == "G3s:dollar-arg"]
+                new = rw.apply_edits(code, edits)
+                self.assertEqual(new, self.code(expected))
+                self.assertEqual(self.saved(code, self.code(expected)), 2 if "<|" in body else 1)
+        for body in ("  exact (g x)\n", "  exact foo + bar (g x)\n", "  exact foo (x : T)\n", "  exact foo (a, b)\n",
+                     "  exact foo (g x).symm\n", "  exact foo (g x)\n    (h y)\n", "  simp [foo (g x)]\n",
+                     "  exact foo ▸ bar (g x)\n", "  rw [h] at (g x)\n", "  _ = foo (g x)\n", "  exact foo(g x)\n",
+                     "  exact foo (· + 1)\n", "  exact foo !b (g x)\n"):
+            with self.subTest(body=body):
+                names = [e.name for e in rw.sugar_span_edits(self.code(body), self.statement)]
+                self.assertNotIn("G3s:dollar-arg", names)
+
+    def test_flatten_closed_bullets(self):
+        code = self.code("  refine foo ?_ ?_\n  · intro x\n    by_cases h : p x\n    · exact a h\n    · simp [h]\n  · exact b\n")
+        edits = rw.flatten_span_edits(code, self.statement)
+        self.assertEqual([e.name for e in edits], ["G3s:flat-bullets"])
+        new = rw.apply_edits(code, edits)
+        self.assertEqual(new, self.code("  refine foo ?_ ?_\n  intro x\n  by_cases h : p x\n  exact a h\n  simp [h]\n  exact b\n"))
+        self.assertEqual(self.saved(code, new), 4)
+        # An open run (a tactic follows at the same indent) keeps its bullets; so do goal-selecting bodies.
+        for body in ("  constructor\n  · simp\n  · ring\n  exact foo\n", "  constructor\n  · simp\n  · all_goals ring\n",
+                     "  conv_lhs =>\n    · rw [a]\n"):
+            with self.subTest(body=body):
+                self.assertEqual(rw.flatten_span_edits(self.code(body), self.statement), [])
+        # A bullet with a goal-sensitive tactic keeps its focus; the closed tail after it is still flattened.
+        tail = self.code("  constructor\n  · simp; done\n  · ring\n")
+        self.assertEqual(rw.apply_edits(tail, rw.flatten_span_edits(tail, self.statement)),
+                         self.code("  constructor\n  · simp; done\n  ring\n"))
+        # A closed nested run inside an open outer bullet is still flattened, and a lone bullet too.
+        nested = self.code("  · cases x\n    · exact a\n    · exact b\n  all_goals simp\n")
+        self.assertEqual(rw.apply_edits(nested, rw.flatten_span_edits(nested, self.statement)),
+                         self.code("  · cases x\n    exact a\n    exact b\n  all_goals simp\n"))
+        lone = self.code("  intro x\n  · simp\n")
+        self.assertEqual(rw.apply_edits(lone, rw.flatten_span_edits(lone, self.statement)), self.code("  intro x\n  simp\n"))
+
+    def test_intro_pairs(self):
+        code = self.code("  refine ⟨?_, h⟩\n  exact ⟨a, b⟩\n  exact ⟨f x, b⟩\n  have u : Q := ⟨a, b⟩\n  exact ⟨a, b, c⟩\n")
+        edits = rw.intro_span_edits(code, self.statement)
+        new = rw.apply_edits(code, edits)
+        self.assertEqual(new, self.code("  refine .intro ?_ h\n  exact .intro a b\n  exact ⟨f x, b⟩\n"
+                                        "  have u : Q := .intro a b\n  exact ⟨a, b, c⟩\n"))
+        self.assertEqual(self.saved(code, new), 6)
+        self.assertTrue(all(name.startswith("G3s:") for name, _ in rw.sugar_rewrites(code, self.statement)))
+
+    def test_static_rules_accept_sugar(self):
+        code = self.code("  rw [<- h]; exact foo bar (g x)\n  · exact ⟨a, b⟩\n")
+        for name, new in rw.sugar_rewrites(code, self.statement):
+            with self.subTest(name=name):
+                self.assertEqual(rules.check_static(new, self.statement), [], name)
+                self.assertIsNone(rules.official_rejection(new))
+
+
+class HintListTests(unittest.TestCase):
+    """Research item 15: hint lists of nlinarith/linarith/norm_num/field_simp."""
+    statement = "theorem t : P"
+
+    def code(self, body):
+        return self.statement + " := by\n" + body
+
+    def test_lists_and_variants(self):
+        code = self.code("  nlinarith [sq_nonneg (a - b), mul_pos ha hb,\n    sq_nonneg (a + b)]\n  norm_num [foo] at h\n"
+                         "  simp only [bar]\n  linarith\n  field_simp\n")
+        lists = rw.hint_lists(code, self.statement)
+        self.assertEqual([(h["tactic"], h["items"]) for h in lists],
+                         [("nlinarith", ["sq_nonneg (a - b)", "mul_pos ha hb", "sq_nonneg (a + b)"]), ("norm_num", ["foo"])])
+        self.assertEqual(rw.hint_variant(code, lists[0], ["mul_pos ha hb"]),
+                         self.code("  nlinarith [mul_pos ha hb]\n  norm_num [foo] at h\n  simp only [bar]\n  linarith\n  field_simp\n"))
+        self.assertEqual(rw.hint_variant(code, lists[1], []),
+                         self.code("  nlinarith [sq_nonneg (a - b), mul_pos ha hb,\n    sq_nonneg (a + b)]\n  norm_num at h\n"
+                                   "  simp only [bar]\n  linarith\n  field_simp\n"))
+        self.assertEqual(rw.hint_lists(self.code("  simp [a, b]\n  positivity\n  linarith [] -- [x]\n"), self.statement), [])
+        self.assertEqual([h["items"] for h in rw.hint_lists(self.code("  linarith! [h.1, h.2]\n"), self.statement)], [["h.1", "h.2"]])
+
+
+class SugarPassTests(unittest.TestCase):
+    statement = "theorem t : P"
+
+    def test_sugar_batch_then_halves(self):
+        code = self.statement + " := by\n  rw [<- h]; simp\n  exact foo bar (g x)\n"
+        oracle = lambda text: ("$" not in text, 100)     # the $ form fails here; the other half passes
+        adapter = FakeAdapter(self.statement, code, oracle)
+        result, = golf.improve(adapter, {"statement": self.statement}, [candidate(code, "model", "c001", adapter)],
+                               {"max_compiles_best": 8, "passes": ["G3s"]})
+        self.assertEqual(result.best.code, self.statement + " := by\n  rw [← h]\n  simp\n  exact foo bar (g x)\n")
+        # Batch of 3 fails, halves 1+2: the arrow passes; arrow+semicolon+dollar is the already-seen text
+        # (no compile), so it splits again: the semicolon passes and the dollar form is seen too.
+        self.assertEqual(result.accepted, ["G3s:arrowx1", "G3s:semicolonx1"])
+        self.assertEqual(adapter.compiles - 1, 3)
+        off, = golf.improve(FakeAdapter(self.statement, code, oracle), {"statement": self.statement},
+                            [candidate(code, "model", "c001")], {"max_compiles_best": 8, "sugar": False, "passes": ["G3s"]})
+        self.assertEqual(off.accepted, [])
+
+    def test_flatten_and_intro_are_separate_batches(self):
+        code = self.statement + " := by\n  constructor\n  · exact ⟨a, b⟩\n  · simp\n"
+        oracle = lambda text: (".intro" not in text, 100)
+        adapter = FakeAdapter(self.statement, code, oracle)
+        result, = golf.improve(adapter, {"statement": self.statement}, [candidate(code, "model", "c001", adapter)],
+                               {"max_compiles_best": 8, "passes": ["G3s"]})
+        self.assertEqual(result.best.code, self.statement + " := by\n  constructor\n  exact ⟨a, b⟩\n  simp\n")
+        names = [entry["name"] for entry in result.log if "name" in entry]
+        self.assertEqual(names, ["G3s:flat-bulletsx1", "G3s:introx1"])
+        self.assertEqual(result.accepted, ["G3s:flat-bulletsx1"])
+        # The pass list setting restricts a run: with only G4 nothing here is tried.
+        only_g4, = golf.improve(FakeAdapter(self.statement, code, oracle), {"statement": self.statement},
+                                [candidate(code, "model", "c001")], {"max_compiles_best": 8, "passes": ["G4"]})
+        self.assertEqual([entry for entry in only_g4.log if "name" in entry], [])
+
+
+class HintPassTests(unittest.TestCase):
+    statement = "theorem t : P"
+
+    @staticmethod
+    def hints(text):
+        found = re.search(r"(?:nlinarith|linarith)(?: \[([^\]]*)\])?", text.split(":= by", 1)[1])
+        return [item.strip() for item in (found[1] or "").split(",") if item.strip()] if found else []
+
+    def test_ddmin_keeps_needed_hints_within_cap(self):
+        code = self.statement + " := by\n  nlinarith [h1, h2, h3, h4]\n"
+        oracle = lambda text: (("h3" in self.hints(text)), 100 * len(self.hints(text)))
+        adapter = FakeAdapter(self.statement, code, oracle)
+        result, = golf.improve(adapter, {"statement": self.statement}, [candidate(code, "model", "c001", adapter)],
+                               {"max_compiles_best": 8, "passes": ["G4h"]})
+        # all (fails), first half (accepted), second half (same text as "all": seen, no compile), h4 alone
+        # (fails), h3 alone (accepted): 4 compiles = log2(4)+2, the cap.
+        self.assertEqual(result.best.code, self.statement + " := by\n  nlinarith [h3]\n")
+        self.assertEqual(adapter.compiles - 1, 4)
+        self.assertEqual(result.accepted, ["G4h:drop-hints:nlinarithx2", "G4h:drop-hints:nlinarithx1"])
+        two = self.statement + " := by\n  linarith [h1, h2]\n  simp\n"
+        oracle = lambda text: (("h2" in self.hints(text)), 100 * len(self.hints(text)))
+        adapter = FakeAdapter(self.statement, two, oracle)
+        result, = golf.improve(adapter, {"statement": self.statement}, [candidate(two, "model", "c001", adapter)],
+                               {"max_compiles_best": 8, "passes": ["G4h"]})
+        self.assertEqual(result.best.code, self.statement + " := by\n  linarith [h2]\n  simp\n")
+        self.assertLessEqual(adapter.compiles - 1, 3)
+
+    def test_whole_list_dropped_and_best_only(self):
+        code = self.statement + " := by\n  linarith [h1]\n  nlinarith [h2, h3]\n"
+        oracle = lambda text: (True, 100 * (1 + len(self.hints(text))))
+        adapter = FakeAdapter(self.statement, code, oracle)
+        pool = [candidate(code, "model", "c001", adapter), candidate(code + "\n", "model", "c002", adapter)]
+        results = golf.improve(adapter, {"statement": self.statement}, pool,
+                               {"max_compiles_best": 8, "max_compiles_other": 4, "max_compiles_total": 12, "top_k": 2,
+                                "passes": ["G4h"]})
+        self.assertEqual(results[0].best.code, self.statement + " := by\n  linarith\n  nlinarith\n")
+        self.assertEqual(results[0].accepted, ["G4h:drop-hints:nlinarithx2", "G4h:drop-hints:linarithx1"])
+        self.assertEqual(results[1].accepted, [])          # hint ddmin runs on the best candidate only
+        self.assertEqual(rw.hint_lists(results[0].best.code, self.statement), [])
 
 
 if __name__ == "__main__":

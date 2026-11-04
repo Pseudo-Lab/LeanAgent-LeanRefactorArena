@@ -9,11 +9,17 @@ Delta L + Delta H > 0. Final selection re-validates on every listed version.
 Pass order (amendment A14: linter and closer passes first):
   G5 decide variants (tiny ``decide`` proofs only), G1 linter-guided removals from the
   incumbent's own compile log, G2 ``try?`` closer probes (whole proof for short proofs,
-  then terminal blocks), G3 local rewrites, G4 deletions, G6 heartbeat swaps (``decide``
+  then terminal blocks), G3 local rewrites, G3s syntax sugar (research item 14: ``<-``/``<->``/
+  ``<|`` -> ``←``/``↔``/``$``, top-level ``;`` -> newline, trailing ``(g x)`` -> ``$ g x``,
+  closed bullet runs flattened; then the risky ``⟨a, b⟩`` -> ``.intro a b`` as one unsplit
+  batch), G4h hint-list ddmin (research item 15: hints of ``nlinarith``/``linarith``/
+  ``norm_num``/``field_simp`` on the best candidate, halves then singles, at most
+  log2(n)+2 compiles per list), G4 deletions, G6 heartbeat swaps (``decide``
   -> ``decide +kernel``, whole-line ``linarith``/``norm_num``/``norm_cast`` -> ``omega``),
   G2s ``simp?`` probe (``simp`` -> ``simp only [...]``, fewer heartbeats for more tokens;
   the score decides); then G1 again on a changed incumbent. Batches of non-overlapping edits are screened together and split in halves
   on failure (ddmin style; no splitting of deletions when T0 > ``ddmin_max_tokens``).
+  ``settings["passes"]`` (a list of pass names) restricts a run to those passes.
 
 Stop rules: per-candidate compile budget, a per-call total, ``non_improving_stop``
 consecutive non-improving compiles, two environment failures, the wall clock
@@ -26,6 +32,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 import hashlib
 import json
+import math
 import time
 
 from .contracts import Candidate, EvalResult
@@ -56,6 +63,14 @@ DEFAULTS = {
     "heartbeat_swaps": True,        # G6: decide -> decide +kernel, linarith/norm_num/norm_cast -> omega
     "heartbeat_swap_sites": 3,
     "simp_probe": True,
+    # Research item 14 (G3s): token sugar + bullet flattening batches, then the risky .intro batch.
+    "sugar": True,
+    "sugar_intro": True,
+    # Research item 15 (G4h): hint-list ddmin on the best candidate, largest lists first.
+    "hint_ddmin": True,
+    "hint_ddmin_lists": 2,
+    "hint_ddmin_best_only": True,
+    "passes": None,                 # e.g. ["G3s", "G4h"] to run only those passes (experiments)
     # A caller deadline also bounds the final validation that follows golf; keep this
     # much of it free (all versions + fresh 3x is about 4-12 Lean processes).
     "validation_reserve_s": 480,
@@ -417,12 +432,73 @@ def pass_heartbeat(session: _Session) -> int:
     return search_edits(session, edits, "G6")
 
 
-PASSES = (("G5", pass_decide), ("G1", pass_linter), ("G2", pass_closers), ("G3", pass_local), ("G4", pass_delete),
-          ("G6", pass_heartbeat), ("G2s", pass_simp_only))
+def pass_sugar(session: _Session) -> int:
+    """G3s syntax sugar (research item 14): one token-level batch, one bullet-flattening
+    batch (each split in halves on failure), then the risky ``.intro`` batch unsplit."""
+    if not session.settings.get("sugar", True):
+        return 0
+    gained = search_edits(session, rw.sugar_span_edits(session.code, session.statement), "G3s")
+    if session.alive():
+        gained += search_edits(session, rw.flatten_span_edits(session.code, session.statement), "G3s")
+    if session.settings.get("sugar_intro", True) and session.alive():
+        gained += search_edits(session, rw.intro_span_edits(session.code, session.statement), "G3s", allow_split=False)
+    return gained
+
+
+def pass_hints(session: _Session) -> int:
+    """G4h hint-list ddmin (research item 15): drop hints of ``nlinarith``/``linarith``/
+    ``norm_num``/``field_simp`` lists, all first, then halves, then singles, at most
+    log2(n)+2 compiles per list (a child budget), largest lists first, best candidate only."""
+    if not session.settings.get("hint_ddmin", True):
+        return 0
+    if session.settings.get("hint_ddmin_best_only", True) and session.index != 0:
+        return 0
+    initial = rw.hint_lists(session.code, session.statement)
+    limit = max(0, int(session.settings.get("hint_ddmin_lists", 2)))
+    order = sorted(range(len(initial)), key=lambda k: (-len(initial[k]["items"]), initial[k]["open"]))[:limit]
+    gained, dropped = 0, []            # ordinals of lists whose brackets were removed entirely
+    for ordinal in order:
+        if not session.alive():
+            break
+        items = list(initial[ordinal]["items"])
+        current = ordinal - sum(1 for k in dropped if k < ordinal)
+        outer = session.budget
+        session.budget = _Budget(int(math.log2(len(items))) + 2, outer)
+        removed: set[int] = set()
+        queue = [list(range(len(items)))]
+        try:
+            while queue and session.alive():
+                subset = [k for k in queue.pop(0) if k not in removed]
+                if not subset:
+                    continue
+                lists = rw.hint_lists(session.code, session.statement)
+                if current >= len(lists):
+                    break
+                kept = [item for k, item in enumerate(items) if k not in removed and k not in subset]
+                variant = rw.hint_variant(session.code, lists[current], kept)
+                if session.try_variant(f"G4h:drop-hints:{lists[current]['tactic']}x{len(subset)}", variant):
+                    removed.update(subset)
+                    gained += 1
+                    if not kept:
+                        dropped.append(ordinal)
+                        break
+                elif len(subset) > 1:
+                    middle = len(subset) // 2
+                    queue += [subset[:middle], subset[middle:]]
+        finally:
+            session.budget = outer
+    return gained
+
+
+PASSES = (("G5", pass_decide), ("G1", pass_linter), ("G2", pass_closers), ("G3", pass_local), ("G3s", pass_sugar),
+          ("G4h", pass_hints), ("G4", pass_delete), ("G6", pass_heartbeat), ("G2s", pass_simp_only))
 
 
 def _run(session: _Session) -> None:
+    wanted = session.settings.get("passes")
     for name, function in PASSES:
+        if wanted is not None and name not in wanted:
+            continue
         if not session.alive():
             break
         try:
