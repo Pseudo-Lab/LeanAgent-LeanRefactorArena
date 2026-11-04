@@ -1,0 +1,201 @@
+--- a/scripts/check_common_harness.py
++++ b/scripts/check_common_harness.py
+@@ -16,7 +16,7 @@
+     "test_harness.py", "test_actions.py", "test_portfolio.py", "test_budgeting.py", "test_repair_feedback.py",
+     "test_runtime_integration.py", "test_api_integration.py", "test_prepared_cache.py",
+     "test_accounting.py", "test_usage_*.py", "test_evaluation.py", "test_corpus_storage.py",
+-    "test_final_*.py", "test_strategy_bank.py",
++    "test_final_*.py", "test_strategy_bank.py", "test_strategy_mixed.py",
+ )
+ EXPERIMENTS = (
+     "api-comparison", "usage-cost", "final-batch-next",
+--- a/scripts/configure_strategy_bank.py
++++ b/scripts/configure_strategy_bank.py
+@@ -9,11 +9,12 @@
+ from lean_agent import strategy_bank
+ 
+ 
+-def configure(config_path, bank_path, output, top_k=3, contextual=False):
++def configure(config_path, bank_path, output, top_k=3, contextual=False, search_policy="guided"):
+     if output.exists():raise ValueError('Use a new output config; existing inputs are never overwritten')
+     config=json.loads(config_path.read_text())
+     settings={'bank':json.loads(bank_path.read_text()),'top_k':top_k}
+     settings['contextual'] = contextual
++    settings['search_policy'] = search_policy
+     strategy_bank.validate_settings(settings)
+     if config.get('agent',{}).get('mode')!='actions-v1':raise ValueError('Expected actions-v1')
+     for key in ('problem','template','project','prompt'):
+@@ -35,8 +36,9 @@
+     ap.add_argument('--output',type=Path,required=True)
+     ap.add_argument('--top-k',type=int,choices=(1,2,3),default=3)
+     ap.add_argument('--contextual',action='store_true')
++    ap.add_argument('--search-policy', choices=('guided', 'alternating-v1'), default='guided')
+     args=ap.parse_args()
+-    configure(args.config,args.bank,args.output,args.top_k,args.contextual)
++    configure(args.config,args.bank,args.output,args.top_k,args.contextual,args.search_policy)
+     print('Configured Bank input only; no model or Lean execution.')
+ 
+ 
+--- a/scripts/export_strategy_trace.py
++++ b/scripts/export_strategy_trace.py
+@@ -21,6 +21,7 @@
+         cost=Decimal(state['cost_usd'])
+         rows.append({'problem_id':problem['name'],'attempt_id':folder.name,
+             'bank_sha256':bank.get('bank_sha256'),'recommended_ids':recommended,
++            'search_mode':bank.get('search_mode', 'withheld' if bank.get('status') == 'withheld_hidden_original' else 'guided' if bank else 'off'),
+             'selected_ids':selected,'selected_not_recommended':sorted(set(selected)-set(recommended)),
+             'selection_status':'declared' if 'strategy_ids' in action else 'not_reported',
+             'candidate_written':candidate.exists(),
+--- a/src/lean_agent/harness.py
++++ b/src/lean_agent/harness.py
+@@ -252,6 +252,8 @@
+         prompt += "\n" + search_policy.GUIDANCE
+     bank_settings = config.get("agent", {}).get("strategy_bank")
+     if bank_settings is not None:
++        if strategy_bank.search_mode(bank_settings, packet, hidden=hidden) == "free":
++            packet = strategy_bank.without_strategy_history(packet)
+         packet["strategy_bank"] = strategy_bank.for_request(problem, bank_settings, packet, hidden=hidden)
+     threshold = config["limits"].get("cost_stop_usd")
+     if threshold is not None:
+--- a/src/lean_agent/strategy_bank.py
++++ b/src/lean_agent/strategy_bank.py
+@@ -83,11 +83,13 @@
+ 
+ 
+ def validate_settings(settings):
+-    if (not isinstance(settings, dict) or not {"bank", "top_k"} <= set(settings) or set(settings) - {"bank", "top_k", "contextual"}
++    if (not isinstance(settings, dict) or not {"bank", "top_k"} <= set(settings) or set(settings) - {"bank", "top_k", "contextual", "search_policy"}
+             or type(settings["top_k"]) is not int or not 1 <= settings["top_k"] <= 3):
+         raise ValueError("Strategy bank requires bank and top_k (1..3)")
+     if "contextual" in settings and type(settings["contextual"]) is not bool:
+         raise ValueError("contextual must be boolean")
++    if settings.get("search_policy", "guided") not in ("guided", "alternating-v1"):
++        raise ValueError("Unknown strategy search_policy")
+     validate(settings["bank"])
+ 
+ 
+@@ -162,8 +164,48 @@
+             for c in value["strategies"]]
+ 
+ 
++def search_mode(settings, request, *, hidden=False):
++    """Alternate by completed candidates, not tool calls or truncated history."""
++    if hidden:
++        return "withheld"
++    if settings.get("search_policy", "guided") == "alternating-v1":
++        count = request.get("exploration", {}).get("candidate_count")
++        if type(count) is not int or count < 1:
++            raise ValueError("alternating-v1 requires actions candidate_count")
++        return "free" if (count - 1) % 2 == 0 else "guided"
++    return "guided"
++
++
++def without_strategy_history(value):
++    """Remove explicit historical Bank labels from a free request copy.
++
++    Proof code and diagnostics remain visible; this is not an independent reset.
++    """
++    if isinstance(value, dict):
++        return {k: without_strategy_history(v) for k, v in value.items()
++                if k not in {"strategy", "strategy_ids", "strategy_hints", "recommended_ids"}}
++    if isinstance(value, list):
++        return [without_strategy_history(v) for v in value]
++    return value
++
++
+ def for_request(problem, settings, request, *, hidden=False):
+     """Use only visible snapshotted request data; reproducible by the auditor."""
++    validate_settings(settings)
++    mode = search_mode(settings, request, hidden=hidden)
++    if mode == "free":
++        bank = settings["bank"]
++        return {"bank_version": bank["version"], "bank_sha256": sha(canonical(bank)),
++                "scope": bank["scope"], "policy": "alternating-v1",
++                "search_mode": "free", "status": "withheld_free_exploration",
++                "strategies": [], "strategy_hints": [],
++                "note": "Develop your own proof modification without Bank hints. "
++                        "Existing proofs and verification feedback remain available."}
++    if settings.get("search_policy") == "alternating-v1" and not hidden:
++        guided = dict(settings, search_policy="guided")
++        result = for_request(problem, guided, request)
++        result.update(search_mode="guided", search_policy="alternating-v1")
++        return result
+     if not settings.get("contextual", False) or hidden:
+         return packet(problem, settings, hidden=hidden)
+     best = request["best"]
+--- /dev/null
++++ b/tests/test_strategy_mixed.py
+@@ -0,0 +1,73 @@
++"""Mixed retrieval contracts; runnable with the archived common runtime."""
++import copy
++import unittest
++from lean_agent import strategy_bank as sb
++
++
++def settings():
++    return {'bank': {'schema_version': 1, 'version': 'test', 'scope': 'warmup',
++        'strategies': [{'id': 'S1', 'title': 'test', 'match': {}, 'guide': 'test',
++        'risks': 'test', 'evidence': [{'problem': 'other', 'candidate_sha256': 'a'*64}]}]},
++        'top_k': 1, 'contextual': True, 'search_policy': 'alternating-v1'}
++
++
++def request(count):
++    return {'best': {'tokens': 2, 'raw_heartbeats': 10},
++            'baseline': {'tokens': 4, 'raw_heartbeats': 20},
++            'exploration': {'candidate_count': count, 'recent_actions': []}}
++
++
++class MixedTests(unittest.TestCase):
++    def test_candidate_sequence_and_tool_calls(self):
++        s = settings()
++        self.assertEqual([sb.search_mode(s, request(n)) for n in range(1, 6)],
++                         ['free', 'guided', 'free', 'guided', 'free'])
++        for step in (1, 3, 20):
++            r = request(1); r['step'] = step
++            self.assertEqual(sb.search_mode(s, r), 'free')
++
++    def test_free_has_no_cards_signals_or_evidence(self):
++        value = sb.for_request({'name': 'p', 'reference': 'by rfl'}, settings(), request(1))
++        self.assertEqual(value['strategies'], [])
++        self.assertEqual(value['strategy_hints'], [])
++        self.assertNotIn('context', value)
++        self.assertNotIn('matched_signals', value)
++
++    def test_guided_retains_retrieval(self):
++        value = sb.for_request({'name': 'p', 'reference': 'by rfl'}, settings(), request(2))
++        self.assertEqual(value['search_mode'], 'guided')
++        self.assertEqual(value['strategies'][0]['id'], 'S1')
++
++    def test_hidden_has_no_mixed_context(self):
++        value = sb.for_request({'name': 'p'}, settings(), {}, hidden=True)
++        self.assertEqual(value['status'], 'withheld_hidden_original')
++        self.assertNotIn('context', value)
++        self.assertNotIn('search_mode', value)
++
++    def test_history_redaction_does_not_mutate_receipts(self):
++        original = {'best': {'code': 'by rfl', 'strategy': 'Bank idea'},
++                    'exploration': {'recent_actions': [{'action': {
++                        'action': 'propose', 'strategy_ids': ['S1'], 'strategy': 'idea'},
++                        'outcome': {'status': 'proof_rejected'}}]}}
++        before = copy.deepcopy(original)
++        result = sb.without_strategy_history(original)
++        self.assertEqual(original, before)
++        self.assertNotIn('strategy', result['best'])
++        self.assertNotIn('strategy_ids', result['exploration']['recent_actions'][0]['action'])
++        self.assertEqual(result['best']['code'], 'by rfl')
++        self.assertEqual(result['exploration']['recent_actions'][0]['outcome']['status'], 'proof_rejected')
++
++    def test_legacy_output_unchanged(self):
++        s = settings(); s.pop('search_policy')
++        r = request(1); problem = {'name': 'p', 'reference': 'by rfl'}
++        old = sb.for_request(problem, s, r)
++        self.assertNotIn('search_mode', old)
++        self.assertEqual(old['strategies'][0]['id'], 'S1')
++
++    def test_invalid_policy_and_missing_counter(self):
++        s = settings(); s['search_policy'] = 'random'
++        with self.assertRaises(ValueError): sb.validate_settings(s)
++        with self.assertRaises(ValueError): sb.search_mode(settings(), {})
++
++
++if __name__ == '__main__': unittest.main()

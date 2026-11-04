@@ -1,0 +1,409 @@
+{
+  "scope": "final-adaptation",
+  "official_evaluation": false,
+  "cost_basis": "OpenAI token usage times frozen public list prices; not invoice verified",
+  "completed_count": 10,
+  "remaining_count": 0,
+  "rows": [
+    {
+      "row": 51,
+      "name": "putnam_1964_a4",
+      "selected_candidate": "c102",
+      "proof_sha256": "905d85668034eb64a8c2d0f77799317a8677a45d99fb6c6e8145695cd2213f5c",
+      "proof_file": "proofs/putnam_1964_a4.lean",
+      "baseline": {
+        "tokens": 1769,
+        "raw_heartbeats": 111470971,
+        "raw_samples": [
+          111471000,
+          111470968,
+          111470971
+        ]
+      },
+      "final": {
+        "tokens": 186,
+        "raw_heartbeats": 3116088,
+        "raw_samples": [
+          3116088,
+          3116088,
+          3116088
+        ]
+      },
+      "token_reduction_pct": 89.4855850763143,
+      "hb_reduction_pct": 97.20457445373827,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 95.56338651001752,
+      "cost_usd": "2.4391398",
+      "stop_threshold_usd": "2.50",
+      "calls": 102,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T10:46:29.938635+00:00"
+    },
+    {
+      "row": 52,
+      "name": "putnam_1995_a3",
+      "selected_candidate": "c082",
+      "proof_sha256": "3ae7cd1cee967fcb87e81f561b9e89e1cd5f5f339f879955381fb436d30ff666",
+      "proof_file": "proofs/putnam_1995_a3.lean",
+      "baseline": {
+        "tokens": 4085,
+        "raw_heartbeats": 14127586,
+        "raw_samples": [
+          14127586,
+          14127586,
+          14127586
+        ]
+      },
+      "final": {
+        "tokens": 410,
+        "raw_heartbeats": 1762265,
+        "raw_samples": [
+          1762265,
+          1762265,
+          1762265
+        ]
+      },
+      "token_reduction_pct": 89.96328029375765,
+      "hb_reduction_pct": 87.52607133306427,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 92.49645054227398,
+      "cost_usd": "2.5345832",
+      "stop_threshold_usd": "2.50",
+      "calls": 82,
+      "stop_reason": "cost_limit",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T11:13:44.960911+00:00"
+    },
+    {
+      "row": 53,
+      "name": "putnam_1988_a2",
+      "selected_candidate": "c062",
+      "proof_sha256": "14f0bbd2254b5d5a5907099c4398a6beac58a66d87156cda9d7d4ba68beb59da",
+      "proof_file": "proofs/putnam_1988_a2.lean",
+      "baseline": {
+        "tokens": 2162,
+        "raw_heartbeats": 58090725,
+        "raw_samples": [
+          58090725,
+          58090725,
+          58090725
+        ]
+      },
+      "final": {
+        "tokens": 224,
+        "raw_heartbeats": 4574665,
+        "raw_samples": [
+          4574665,
+          4574665,
+          4574665
+        ]
+      },
+      "token_reduction_pct": 89.63922294172063,
+      "hb_reduction_pct": 92.12496487175879,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 93.92139593782647,
+      "cost_usd": "1.4621914",
+      "stop_threshold_usd": "2.50",
+      "calls": 63,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T11:39:41.257830+00:00"
+    },
+    {
+      "row": 54,
+      "name": "putnam_2001_b1",
+      "selected_candidate": "c069",
+      "proof_sha256": "ff0609f4ea4bd4abf99faad8b583984025f3c2a35657b260ce247e5b9dabd0ec",
+      "proof_file": "proofs/putnam_2001_b1.lean",
+      "baseline": {
+        "tokens": 3178,
+        "raw_heartbeats": 50251248,
+        "raw_samples": [
+          50251248,
+          50251248,
+          50251248
+        ]
+      },
+      "final": {
+        "tokens": 213,
+        "raw_heartbeats": 3960512,
+        "raw_samples": [
+          3960512,
+          3960512,
+          3960512
+        ]
+      },
+      "token_reduction_pct": 93.29767149150409,
+      "hb_reduction_pct": 92.11857982114195,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 95.13875043754868,
+      "cost_usd": "1.9696948",
+      "stop_threshold_usd": "2.50",
+      "calls": 70,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T12:05:20.165638+00:00"
+    },
+    {
+      "row": 55,
+      "name": "putnam_1964_b2",
+      "selected_candidate": "c108",
+      "proof_sha256": "a060075d5eba7ae4b0058fd5eb418efdcc6029355abffc3746affc54dadff18b",
+      "proof_file": "proofs/putnam_1964_b2.lean",
+      "baseline": {
+        "tokens": 1754,
+        "raw_heartbeats": 134489543,
+        "raw_samples": [
+          134489542,
+          134489544,
+          134489543
+        ]
+      },
+      "final": {
+        "tokens": 91,
+        "raw_heartbeats": 667679,
+        "raw_samples": [
+          667679,
+          667679,
+          667680
+        ]
+      },
+      "token_reduction_pct": 94.81185860889396,
+      "hb_reduction_pct": 99.50354578868634,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0"
+      ],
+      "local_score_estimate": 98.10513479919344,
+      "cost_usd": "2.5127760",
+      "stop_threshold_usd": "2.50",
+      "calls": 112,
+      "stop_reason": "cost_limit",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T12:33:53.071117+00:00"
+    },
+    {
+      "row": 56,
+      "name": "putnam_2007_a1",
+      "selected_candidate": "c057",
+      "proof_sha256": "51afbd733e8177dc781ffa25c38fe4bc6afee84b2606c9613ff49b71e97caefd",
+      "proof_file": "proofs/putnam_2007_a1.lean",
+      "baseline": {
+        "tokens": 5464,
+        "raw_heartbeats": 528106386,
+        "raw_samples": [
+          528106379,
+          528106386,
+          528106399
+        ]
+      },
+      "final": {
+        "tokens": 437,
+        "raw_heartbeats": 11335613,
+        "raw_samples": [
+          11335613,
+          11335613,
+          11335612
+        ]
+      },
+      "token_reduction_pct": 92.00219619326501,
+      "hb_reduction_pct": 97.85353608657176,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 96.61857742661226,
+      "cost_usd": "2.445598",
+      "stop_threshold_usd": "2.50",
+      "calls": 57,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T13:13:19.367484+00:00"
+    },
+    {
+      "row": 57,
+      "name": "putnam_1970_b5",
+      "selected_candidate": "c094",
+      "proof_sha256": "18e90d7543678a1d49a8e342d63953741b9baa73d185584f57bc6e1cd9187e37",
+      "proof_file": "proofs/putnam_1970_b5.lean",
+      "baseline": {
+        "tokens": 2134,
+        "raw_heartbeats": 288824888,
+        "raw_samples": [
+          288824883,
+          288824895,
+          288824888
+        ]
+      },
+      "final": {
+        "tokens": 238,
+        "raw_heartbeats": 4454554,
+        "raw_samples": [
+          4454554,
+          4454554,
+          4454554
+        ]
+      },
+      "token_reduction_pct": 88.84723523898782,
+      "hb_reduction_pct": 98.45769731589058,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 95.76831085162614,
+      "cost_usd": "2.2307274",
+      "stop_threshold_usd": "2.50",
+      "calls": 94,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T13:38:08.403242+00:00"
+    },
+    {
+      "row": 58,
+      "name": "putnam_1968_a1",
+      "selected_candidate": "c129",
+      "proof_sha256": "7ba793b891ddf6b1cde887a3672cec7fb152831491062bdc43a5a6cf1bb2617d",
+      "proof_file": "proofs/putnam_1968_a1.lean",
+      "baseline": {
+        "tokens": 1084,
+        "raw_heartbeats": 60254799,
+        "raw_samples": [
+          60254799,
+          60254801,
+          60254797
+        ]
+      },
+      "final": {
+        "tokens": 117,
+        "raw_heartbeats": 4395787,
+        "raw_samples": [
+          4395787,
+          4395787,
+          4395787
+        ]
+      },
+      "token_reduction_pct": 89.20664206642066,
+      "hb_reduction_pct": 92.70466905050998,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 93.97043703897688,
+      "cost_usd": "2.4443692",
+      "stop_threshold_usd": "2.50",
+      "calls": 129,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T14:12:58.921793+00:00"
+    },
+    {
+      "row": 59,
+      "name": "putnam_1991_b1",
+      "selected_candidate": "c046",
+      "proof_sha256": "fb52592cb46d0809ef23a58364215ebafbeca553b03d36b65f33765aed3c2163",
+      "proof_file": "proofs/putnam_1991_b1.lean",
+      "baseline": {
+        "tokens": 3313,
+        "raw_heartbeats": 342798487,
+        "raw_samples": [
+          342798487,
+          342798487,
+          342798487
+        ]
+      },
+      "final": {
+        "tokens": 385,
+        "raw_heartbeats": 13603762,
+        "raw_samples": [
+          13603762,
+          13603761,
+          13603762
+        ]
+      },
+      "token_reduction_pct": 88.37911258677936,
+      "hb_reduction_pct": 96.03155716378643,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 94.80355658352192,
+      "cost_usd": "1.5732660",
+      "stop_threshold_usd": "2.50",
+      "calls": 46,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T14:49:21.261602+00:00"
+    },
+    {
+      "row": 60,
+      "name": "putnam_2019_a1",
+      "selected_candidate": "c080",
+      "proof_sha256": "41f9ddc8843f753efd05bc0b3b01d1541ca5f77b75e10dcf6602ac5107f1d53b",
+      "proof_file": "proofs/putnam_2019_a1.lean",
+      "baseline": {
+        "tokens": 2381,
+        "raw_heartbeats": 3223874343,
+        "raw_samples": [
+          3223874343,
+          3223874343,
+          3223874343
+        ]
+      },
+      "final": {
+        "tokens": 246,
+        "raw_heartbeats": 23577200,
+        "raw_samples": [
+          23577200,
+          23577200,
+          23577200
+        ]
+      },
+      "token_reduction_pct": 89.66820663586729,
+      "hb_reduction_pct": 99.2686687664737,
+      "compatibility_ratio": 1,
+      "versions": [
+        "putnambench-v4.26.0",
+        "putnambench-v4.27.0"
+      ],
+      "local_score_estimate": 96.31229180078033,
+      "cost_usd": "2.1882032",
+      "stop_threshold_usd": "2.50",
+      "calls": 80,
+      "stop_reason": "portfolio_complete",
+      "official_evaluation": false,
+      "provider_invoice_verified": false,
+      "finished_at": "2026-11-03T15:30:44.261676+00:00"
+    }
+  ],
+  "finalized_cost_usd": "21.8005490"
+}

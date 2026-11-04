@@ -1,0 +1,555 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. Then reduce repeated whole-context simplification or broad search using recorded evidence. Judge complete proof-token and heartbeat ratios together; a shorter proof can be worse. propose: state a short concrete approach in strategy and supply the complete replacement proof. repair: fix the reported errors in the named rejected parent, preserving working branches. search/inspect: retrieve a specific missing definition or theorem rather than repeatedly browsing. After repeated failure of the same approach, branch from another candidate or change the proof structure. Search is lexical evidence only, not a theorem-prover or availability guarantee. Every action consumes paid model budget. The controller stops after actual settled cost reaches $2.50. The exact statement and original full source context are preserved by the evaluator. Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. At final selection the controller checks candidates in score order against every required version, falling back to another candidate if needed. All listed versions must accept the final candidate. No extra imports or helper declarations.
+<original_context>
+[Original imports/header]
+import Mathlib
+import Aesop
+
+[Original prefix scope-command excerpts in source order]
+L4: set_option maxHeartbeats 0
+L5: 
+L6: 
+
+[Original prefix immediately before target]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+
+
+[context-lines-1-6]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Integrals.Basic-0e854739-L353-417]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Integrals.Basic, lines 353-417.
+theorem integral_inv_one_add_sq : (∫ x : ℝ in a..b, (↑1 + x ^ 2)⁻¹) = arctan b - arctan a := by
+  simp only [← one_div, integral_one_div_one_add_sq]
+
+@[simp]
+theorem integral_inv_sq_add_sq {c : ℝ} (hc : c ≠ 0) :
+    ∫ x : ℝ in a..b, (c ^ 2 + x ^ 2)⁻¹ = c⁻¹ * (arctan (b / c) - arctan (a / c)) := calc
+  _ = ∫ x : ℝ in a..b, (c ^ 2)⁻¹ * (1 + (x / c) ^ 2)⁻¹ := by field_simp
+  _ = _ := by
+    simp [integral_comp_div (fun x => (c ^ 2)⁻¹ * (1 + x ^ 2)⁻¹) hc]
+    field_simp
+
+theorem integral_div_sq_add_sq {c : ℝ} :
+    ∫ x : ℝ in a..b, c / (c ^ 2 + x ^ 2) = arctan (b / c) - arctan (a / c) := calc
+  _ = ∫ x : ℝ in a..b, c * (c ^ 2 + x ^ 2)⁻¹ := by ring_nf
+  _ = _ := by
+    by_cases hc : c = 0
+    · simp [hc]
+    · rw [integral_const_mul, integral_inv_sq_add_sq hc]
+      field_simp
+
+section RpowCpow
+
+open Complex
+
+theorem integral_mul_cpow_one_add_sq {t : ℂ} (ht : t ≠ -1) :
+    (∫ x : ℝ in a..b, (x : ℂ) * ((1 : ℂ) + ↑x ^ 2) ^ t) =
+      ((1 : ℂ) + (b : ℂ) ^ 2) ^ (t + 1) / (2 * (t + ↑1)) -
+      ((1 : ℂ) + (a : ℂ) ^ 2) ^ (t + 1) / (2 * (t + ↑1)) := by
+  have : t + 1 ≠ 0 := by contrapose! ht; rwa [add_eq_zero_iff_eq_neg] at ht
+  apply integral_eq_sub_of_hasDerivAt
+  · intro x _
+    have f : HasDerivAt (fun y : ℂ => 1 + y ^ 2) (2 * x : ℂ) x := by
+      convert (hasDerivAt_pow 2 (x : ℂ)).const_add 1
+      simp
+    have g :
+      ∀ {z : ℂ}, 0 < z.re → HasDerivAt (fun z => z ^ (t + 1) / (2 * (t + 1))) (z ^ t / 2) z := by
+      intro z hz
+      convert (HasDerivAt.cpow_const (c := t + 1) (hasDerivAt_id _)
+        (Or.inl hz)).div_const (2 * (t + 1)) using 1
+      simp [field]
+    convert (HasDerivAt.comp (↑x) (g _) f).comp_ofReal using 1
+    · ring
+    · exact mod_cast add_pos_of_pos_of_nonneg zero_lt_one (sq_nonneg x)
+  · apply Continuous.intervalIntegrable
+    refine continuous_ofReal.mul ?_
+    apply Continuous.cpow
+    · exact continuous_const.add (continuous_ofReal.pow 2)
+    · exact continuous_const
+    · intro a
+      norm_cast
+      exact ofReal_mem_slitPlane.2 <| add_pos_of_pos_of_nonneg one_pos <| sq_nonneg a
+
+theorem integral_mul_rpow_one_add_sq {t : ℝ} (ht : t ≠ -1) :
+    (∫ x : ℝ in a..b, x * (↑1 + x ^ 2) ^ t) =
+      (↑1 + b ^ 2) ^ (t + 1) / (↑2 * (t + ↑1)) - (↑1 + a ^ 2) ^ (t + 1) / (↑2 * (t + ↑1)) := by
+  have : ∀ x s : ℝ, (((↑1 + x ^ 2) ^ s : ℝ) : ℂ) = (1 + (x : ℂ) ^ 2) ^ (s : ℂ) := by
+    intro x s
+    norm_cast
+    rw [ofReal_cpow, ofReal_add, ofReal_pow, ofReal_one]
+    exact add_nonneg zero_le_one (sq_nonneg x)
+  rw [← ofReal_inj]
+  convert integral_mul_cpow_one_add_sq (_ : (t : ℂ) ≠ -1)
+  · rw [← intervalIntegral.integral_ofReal]
+    congr with x : 1
+    rw [ofReal_mul, this x t]
+
+
+[import-Mathlib.NumberTheory.ZetaValues-eac655ac-L122-179]
+-- Lexical source excerpt: module Mathlib.NumberTheory.ZetaValues, lines 122-179.
+  rw [integral_bernoulliFun, if_neg hk]
+
+/-- Fundamental theorem of calculus to express a Bernoulli polynomial via the previous one -/
+theorem bernoulliFun_eq_integral (k : ℕ) (x y : ℝ) :
+    bernoulliFun (k + 1) y =
+      bernoulliFun (k + 1) x + ∫ t in x..y, (k + 1 : ℕ) * bernoulliFun k t := by
+  rw [intervalIntegral.integral_eq_sub_of_hasDerivAt, add_sub_cancel]
+  · exact fun y _ ↦ hasDerivAt_bernoulliFun _ y
+  · exact Continuous.intervalIntegrable (by fun_prop) _ _
+
+end Calculus
+
+/-- Reflection principle: `B_s(1 - x) = (-1)^s B_s(x)` -/
+theorem bernoulliFun_eval_one_sub {k : ℕ} {x : ℝ} :
+    bernoulliFun k (1 - x) = (-1) ^ k * bernoulliFun k x := by
+  simpa [bernoulliFun, Polynomial.aeval_comp]
+    using congr_arg (·.aeval x) (Polynomial.bernoulli_comp_one_sub_X k)
+
+/-- The multiplication theorem. Proof follows https://math.stackexchange.com/a/1721099/38218. -/
+theorem bernoulliFun_mul (k : ℕ) {m : ℕ} (m0 : m ≠ 0) (x : ℝ) :
+    bernoulliFun k (m * x) =
+      m ^ k / m * ∑ i ∈ Finset.range m, bernoulliFun k (x + i / m) := by
+  have m0' : (m : ℝ) ≠ 0 := Nat.cast_ne_zero.mpr m0
+  let f (k x) := bernoulliFun k (m * x) -
+    m ^ k / m * ∑ i ∈ Finset.range m, bernoulliFun k (x + i / ↑m)
+  suffices h : ∀ x, f k x = 0 by
+    rw [← sub_eq_zero]
+    exact h x
+  induction k with
+  | zero =>
+    intro x
+    simp only [f, bernoulliFun_zero, pow_zero, one_div, Finset.sum_const, Finset.card_range,
+      nsmul_eq_mul, mul_one, sub_eq_zero]
+    rw [inv_mul_cancel₀ (Nat.cast_ne_zero.mpr m0)]
+  | succ k h =>
+    have d (x) : HasDerivAt (f (k + 1)) (m * (k + 1) * f k x) x := by
+      simp only [f, mul_sub, Finset.mul_sum, pow_succ, mul_div_cancel_right₀ _ m0',
+        ← mul_assoc, mul_comm _ (_ / _), div_mul_cancel₀ _ m0']
+      apply HasDerivAt.sub
+      · rw [mul_assoc, mul_comm (m : ℝ) _, ← Nat.cast_add_one]
+        exact (hasDerivAt_bernoulliFun _ _).comp _ (hasDerivAt_const_mul ..)
+      · refine HasDerivAt.fun_sum fun i _ ↦ ?_
+        simp only [mul_assoc, ← Nat.cast_add_one]
+        apply HasDerivAt.const_mul
+        rw [← mul_one (_ * _)]
+        exact (hasDerivAt_bernoulliFun _ _).comp _ ((hasDerivAt_id' _).add_const _)
+    simp only [h, mul_zero] at d
+    have fc (x) : f (k + 1) x = f (k + 1) 0 :=
+      is_const_of_deriv_eq_zero (fun _ ↦ (d _).differentiableAt) (fun _ ↦ (d _).deriv) x 0
+    generalize f (k + 1) 0 = c at fc
+    have i : ∫ x in (0 : ℝ)..m⁻¹, f (k + 1) x = 0 := by
+      simp only [f]
+      rw [intervalIntegral.integral_sub, intervalIntegral.integral_comp_mul_left _ m0', mul_zero,
+        mul_inv_cancel₀ m0', integral_bernoulliFun_eq_zero (by lia), smul_zero, sub_eq_zero,
+        intervalIntegral.integral_const_mul, eq_comm (a := 0), mul_eq_zero]
+      · right
+        rw [intervalIntegral.integral_finset_sum]
+        · simp only [intervalIntegral.integral_comp_add_right, zero_add, ← one_div, ← add_div,
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Integrals.Basic-0e854739-L292-356]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Integrals.Basic, lines 292-356.
+  rcases lt_trichotomy b 0 with h | h | h
+  · -- If t is negative, use that log is an even function to reduce to the positive case.
+    conv => arg 1; arg 1; intro t; rw [← log_neg_eq_log]
+    rw [intervalIntegral.integral_comp_neg, intervalIntegral.integral_symm, neg_zero,
+      integral_log_from_zero_of_pos (Left.neg_pos_iff.mpr h), log_neg_eq_log]
+    ring
+  · simp [h]
+  · exact integral_log_from_zero_of_pos h
+
+@[simp]
+theorem integral_log : ∫ s in a..b, log s = b * log b - a * log a - b + a := by
+  rw [← intervalIntegral.integral_add_adjacent_intervals (b := 0)]
+  · rw [intervalIntegral.integral_symm, integral_log_from_zero, integral_log_from_zero]
+    ring
+  all_goals exact intervalIntegrable_log'
+
+@[simp]
+theorem integral_sin : ∫ x in a..b, sin x = cos a - cos b := by
+  rw [integral_deriv_eq_sub' fun x => -cos x]
+  · ring
+  · simp
+  · simp only [differentiableAt_fun_neg_iff, differentiableAt_cos, implies_true]
+  · exact continuousOn_sin
+
+@[simp]
+theorem integral_cos : ∫ x in a..b, cos x = sin b - sin a := by
+  rw [integral_deriv_eq_sub']
+  · simp
+  · simp only [differentiableAt_sin, implies_true]
+  · exact continuousOn_cos
+
+theorem integral_cos_mul_complex {z : ℂ} (hz : z ≠ 0) (a b : ℝ) :
+    (∫ x in a..b, Complex.cos (z * x)) = Complex.sin (z * b) / z - Complex.sin (z * a) / z := by
+  apply integral_eq_sub_of_hasDerivAt
+  swap
+  · apply Continuous.intervalIntegrable
+    exact Complex.continuous_cos.comp (continuous_const.mul Complex.continuous_ofReal)
+  intro x _
+  have a := Complex.hasDerivAt_sin (↑x * z)
+  have b : HasDerivAt (fun y => y * z : ℂ → ℂ) z ↑x := hasDerivAt_mul_const _
+  have c : HasDerivAt (Complex.sin ∘ fun y : ℂ => (y * z)) _ ↑x := HasDerivAt.comp (𝕜 := ℂ) x a b
+  have d := HasDerivAt.comp_ofReal (c.div_const z)
+  simp only [mul_comm] at d
+  convert d using 1
+  conv_rhs => arg 1; rw [mul_comm]
+  rw [mul_div_cancel_right₀ _ hz]
+
+theorem integral_cos_sq_sub_sin_sq :
+    ∫ x in a..b, cos x ^ 2 - sin x ^ 2 = sin b * cos b - sin a * cos a := by
+  simpa only [sq, sub_eq_add_neg, neg_mul_eq_mul_neg] using
+    integral_deriv_mul_eq_sub (fun x _ => hasDerivAt_sin x) (fun x _ => hasDerivAt_cos x)
+      continuousOn_cos.intervalIntegrable continuousOn_sin.neg.intervalIntegrable
+
+theorem integral_one_div_one_add_sq :
+    (∫ x : ℝ in a..b, ↑1 / (↑1 + x ^ 2)) = arctan b - arctan a := by
+  refine integral_deriv_eq_sub' _ Real.deriv_arctan (fun _ _ => differentiableAt_arctan _)
+    (continuous_const.div ?_ fun x => ?_).continuousOn
+  · fun_prop
+  · nlinarith
+
+@[simp]
+theorem integral_inv_one_add_sq : (∫ x : ℝ in a..b, (↑1 + x ^ 2)⁻¹) = arctan b - arctan a := by
+  simp only [← one_div, integral_one_div_one_add_sq]
+
+@[simp]
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Trigonometric.EulerSineProd-5edf41eb-L62-116]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Trigonometric.EulerSineProd, lines 62-116.
+        ∫ x in (0 : ℝ)..π / 2, Complex.sin (2 * z * x) * sin x * (cos x : ℂ) ^ (n - 1) := by
+  have der1 :
+    ∀ x : ℝ,
+      x ∈ uIcc 0 (π / 2) →
+        HasDerivAt (fun y : ℝ => (cos y : ℂ) ^ n) (-n * sin x * (cos x : ℂ) ^ (n - 1)) x := by
+    intro x _
+    have b : HasDerivAt (fun y : ℝ => (cos y : ℂ)) (-sin x) x := by
+      simpa using (hasDerivAt_cos x).ofReal_comp
+    convert HasDerivAt.comp x (hasDerivAt_pow _ _) b using 1
+    ring
+  convert (config := { sameFun := true })
+    integral_mul_deriv_eq_deriv_mul der1 (fun x _ => antideriv_cos_comp_const_mul hz x) _ _ using 2
+  · ext1 x; rw [mul_comm]
+  · rw [Complex.ofReal_zero, mul_zero, Complex.sin_zero, zero_div, mul_zero, sub_zero,
+      cos_pi_div_two, Complex.ofReal_zero, zero_pow (by positivity : n ≠ 0), zero_mul, zero_sub,
+      ← integral_neg, ← integral_const_mul]
+    refine integral_congr fun x _ => ?_
+    ring
+  · apply Continuous.intervalIntegrable
+    exact
+      (continuous_const.mul (Complex.continuous_ofReal.comp continuous_sin)).mul
+        ((Complex.continuous_ofReal.comp continuous_cos).pow (n - 1))
+  · apply Continuous.intervalIntegrable
+    exact Complex.continuous_cos.comp (continuous_const.mul Complex.continuous_ofReal)
+
+theorem integral_sin_mul_sin_mul_cos_pow_eq (hn : 2 ≤ n) (hz : z ≠ 0) :
+    (∫ x in (0 : ℝ)..π / 2, Complex.sin (2 * z * x) * sin x * (cos x : ℂ) ^ (n - 1)) =
+      (n / (2 * z) * ∫ x in (0 : ℝ)..π / 2, Complex.cos (2 * z * x) * (cos x : ℂ) ^ n) -
+        (n - 1) / (2 * z) *
+          ∫ x in (0 : ℝ)..π / 2, Complex.cos (2 * z * x) * (cos x : ℂ) ^ (n - 2) := by
+  have der1 :
+    ∀ x : ℝ,
+      x ∈ uIcc 0 (π / 2) →
+        HasDerivAt (fun y : ℝ => sin y * (cos y : ℂ) ^ (n - 1))
+          ((cos x : ℂ) ^ n - (n - 1) * (sin x : ℂ) ^ 2 * (cos x : ℂ) ^ (n - 2)) x := by
+    intro x _
+    have c := HasDerivAt.comp (x : ℂ) (hasDerivAt_pow (n - 1) _) (Complex.hasDerivAt_cos x)
+    convert ((Complex.hasDerivAt_sin x).fun_mul c).comp_ofReal using 1
+    · simp only [Complex.ofReal_sin, Complex.ofReal_cos, Function.comp]
+    · simp only [Complex.ofReal_cos, Complex.ofReal_sin]
+      rw [mul_neg, mul_neg, ← sub_eq_add_neg, Function.comp_apply]
+      congr 1
+      · rw [← pow_succ', Nat.sub_add_cancel (by lia : 1 ≤ n)]
+      · have : ((n - 1 : ℕ) : ℂ) = (n : ℂ) - 1 := by
+          rw [Nat.cast_sub (one_le_two.trans hn), Nat.cast_one]
+        rw [Nat.sub_sub, this]
+        ring
+  convert
+    integral_mul_deriv_eq_deriv_mul der1 (fun x _ => antideriv_sin_comp_const_mul hz x) _ _ using 1
+  · refine integral_congr fun x _ => ?_
+    ring_nf
+  · -- now a tedious rearrangement of terms
+    -- gather into a single integral, and deal with continuity subgoals:
+    rw [sin_zero, cos_pi_div_two, Complex.ofReal_zero, zero_pow, zero_mul,
+      mul_zero, zero_mul, zero_mul, sub_zero, zero_sub, ←
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Integrals.Basic-0e854739-L588-636]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Integrals.Basic, lines 588-636.
+/-- The integral of `sin x * cos x`, given in terms of cos².
+See `integral_sin_mul_cos₁` above for the integral given in terms of sin². -/
+theorem integral_sin_mul_cos₂ : ∫ x in a..b, sin x * cos x = (cos a ^ 2 - cos b ^ 2) / 2 := by
+  simpa using integral_sin_pow_odd_mul_cos_pow 0 1
+
+@[simp]
+theorem integral_sin_mul_cos_sq :
+    ∫ x in a..b, sin x * cos x ^ 2 = (cos a ^ 3 - cos b ^ 3) / 3 := by
+  have := @integral_sin_pow_odd_mul_cos_pow a b 0 2
+  norm_num at this; exact this
+
+@[simp]
+theorem integral_sin_pow_three :
+    ∫ x in a..b, sin x ^ 3 = cos a - cos b - (cos a ^ 3 - cos b ^ 3) / 3 := by
+  have := @integral_sin_pow_odd_mul_cos_pow a b 1 0
+  norm_num at this; exact this
+
+/-- Simplification of the integral of `sin x ^ m * cos x ^ n`, case `m` and `n` are both even. -/
+theorem integral_sin_pow_even_mul_cos_pow_even (m n : ℕ) :
+    (∫ x in a..b, sin x ^ (2 * m) * cos x ^ (2 * n)) =
+      ∫ x in a..b, ((1 - cos (2 * x)) / 2) ^ m * ((1 + cos (2 * x)) / 2) ^ n := by
+  simp [pow_mul, sin_sq, cos_sq, ← sub_sub]
+  field_simp
+  norm_num
+
+@[simp]
+theorem integral_sin_sq_mul_cos_sq :
+    ∫ x in a..b, sin x ^ 2 * cos x ^ 2 = (b - a) / 8 - (sin (4 * b) - sin (4 * a)) / 32 := by
+  convert integral_sin_pow_even_mul_cos_pow_even 1 1 using 1
+  have h1 : ∀ c : ℝ, (↑1 - c) / ↑2 * ((↑1 + c) / ↑2) = (↑1 - c ^ 2) / 4 := fun c => by ring
+  have h2 : Continuous fun x => cos (2 * x) ^ 2 := by fun_prop
+  have h3 : ∀ x, cos x * sin x = sin (2 * x) / 2 := by intro; rw [sin_two_mul]; ring
+  have h4 : ∀ d : ℝ, 2 * (2 * d) = 4 * d := fun d => by ring
+  simp [h1, h2.intervalIntegrable, integral_comp_mul_left fun x => cos x ^ 2, h3, h4]
+  ring
+
+/-! ### Integral of miscellaneous functions -/
+
+theorem integral_sqrt_one_sub_sq : ∫ x in (-1 : ℝ)..1, √(1 - x ^ 2 : ℝ) = π / 2 :=
+  calc
+    _ = ∫ x in sin (-(π / 2))..sin (π / 2), √(1 - x ^ 2 : ℝ) := by rw [sin_neg, sin_pi_div_two]
+    _ = ∫ x in (-(π / 2))..(π / 2), √(1 - sin x ^ 2 : ℝ) * cos x :=
+          (integral_comp_mul_deriv (fun x _ => hasDerivAt_sin x) continuousOn_cos
+            (by fun_prop)).symm
+    _ = ∫ x in (-(π / 2))..(π / 2), cos x ^ 2 := by
+          refine integral_congr_ae (MeasureTheory.ae_of_all _ fun _ h => ?_)
+          rw [uIoc_of_le (neg_le_self (le_of_lt (half_pos Real.pi_pos))), Set.mem_Ioc] at h
+          rw [← Real.cos_eq_sqrt_one_sub_sin_sq (le_of_lt h.1) h.2, pow_two]
+    _ = π / 2 := by simp
+
+
+[import-Mathlib.NumberTheory.Chebyshev-251a1cfa-L239-303]
+-- Lexical source excerpt: module Mathlib.NumberTheory.Chebyshev, lines 239-303.
+    norm_cast
+    apply one_le_div _ |>.mpr <;> bound
+  _ = (log 4 / log 2) * x.sqrt * x.log := by field
+  _ = _ := by
+    congr
+    rw [(by norm_num : (4 : ℝ) = 2 ^ 2), Real.log_pow]
+    field
+
+/-- Explicit upper bound on `ψ`. -/
+theorem psi_le {x : ℝ} (hx : 1 ≤ x) :
+    ψ x ≤ log 4 * x + 2 * x.sqrt * x.log := by
+  calc
+  _ = ψ x - θ x + θ x := by ring
+  _ ≤ 2 * x.sqrt * x.log + log 4 * x := by
+    gcongr
+    · exact le_trans (le_abs_self _) (abs_psi_sub_theta_le_sqrt_mul_log hx)
+    · exact theta_le_log4_mul_x (by linarith)
+  _ = _ := by ring
+
+/-- Chebyshev's bound `ψ x ≤ c x` with an explicit constant.
+Note that `Chebyshev.psi_le` gives a sharper bound with a better main term. -/
+theorem psi_le_const_mul_self {x : ℝ} (hx : 0 ≤ x) :
+    ψ x ≤ (log 4 + 4) * x := by
+  by_cases! hx : x < 1
+  · rw [psi_eq_zero_of_lt_two (by linarith)]
+    bound
+  apply le_trans (psi_le hx)
+  rw [add_mul]
+  gcongr 1
+  grw [sqrt_eq_rpow, log_le_rpow_div (ε := 1 / 2) (by linarith) (by linarith), ← mul_div_assoc,
+    ← mul_one_div]
+  nth_rw 2 [mul_assoc]
+  rw [← rpow_add (by linarith)]
+  norm_num
+  linarith
+
+/-- `ψ - θ` is the sum of `Λ` over non-primes. -/
+theorem psi_sub_theta_eq_sum_not_prime (x : ℝ) :
+    ψ x - θ x = ∑ n ∈ Ioc 0 ⌊x⌋₊ with ¬n.Prime, vonMangoldt n := by
+  rw [psi, theta, sum_filter, sum_filter, ← sum_sub_distrib]
+  refine sum_congr rfl fun n hn ↦ ?_
+  split_ifs with h
+  · simp [h, vonMangoldt_apply_prime]
+  · simp
+
+section PrimeCounting
+
+/-! ## Relation to prime counting
+
+We relate `θ` to the prime counting function `π`.-/
+
+open Asymptotics Filter MeasureTheory
+
+/-- Integrability for the integral in `Chebyshev.primeCounting_eq_theta_div_log_add_integral`. -/
+theorem integrableOn_theta_div_id_mul_log_sq (x : ℝ) :
+    IntegrableOn (fun t ↦ θ t / (t * log t ^ 2)) (Set.Icc 2 x) volume := by
+  conv => arg 1; ext; rw [theta, div_eq_mul_one_div, mul_comm, sum_filter]
+  refine integrableOn_mul_sum_Icc _ (by norm_num) <| ContinuousOn.integrableOn_Icc fun x hx ↦
+    ContinuousAt.continuousWithinAt ?_
+  have : x ≠ 0 := by linarith [hx.1]
+  have : x * log x ^ 2 ≠ 0 := mul_ne_zero this <| by simp; grind
+  fun_prop (disch := assumption)
+
+/-- Expresses the prime counting function `π` in terms of `θ` by using Abel summation. -/
+theorem primeCounting_eq_theta_div_log_add_integral {x : ℝ} (hx : 2 ≤ x) :
+
+
+[import-Mathlib.Geometry.Manifold.Instances.Real-d7fdf8a3-L306-370]
+-- Lexical source excerpt: module Mathlib.Geometry.Manifold.Instances.Real, lines 306-370.
+  continuousOn_invFun := by
+    apply Continuous.continuousOn
+    apply Continuous.subtype_mk
+    have A : Continuous fun z : ℝ => min (z + x) y :=
+      (continuous_id.add continuous_const).min continuous_const
+    have B : Continuous fun z : EuclideanSpace ℝ (Fin 1) ↦ z 0 := PiLp.continuous_apply 2 _ 0
+    exact (A.comp B).comp continuous_subtype_val
+
+variable {x y : ℝ} [hxy : Fact (x < y)]
+
+namespace Fact.Manifold
+
+scoped instance : Fact (x ≤ y) := Fact.mk hxy.out.le
+
+end Fact.Manifold
+
+open Fact.Manifold
+
+lemma IccLeftChart_extend_bot : (IccLeftChart x y).extend (𝓡∂ 1) ⊥ = 0 := by
+  norm_num [IccLeftChart, modelWithCornersEuclideanHalfSpace_zero]
+  congr
+
+lemma iccLeftChart_extend_zero {p : Set.Icc x y} :
+    (IccLeftChart x y).extend (𝓡∂ 1) p 0 = p.val - x := rfl
+
+lemma IccLeftChart_extend_interior_pos {p : Set.Icc x y} (hp : x < p.val ∧ p.val < y) :
+    0 < (IccLeftChart x y).extend (𝓡∂ 1) p 0 := by
+  simp_rw [iccLeftChart_extend_zero]
+  norm_num [hp.1]
+
+lemma IccLeftChart_extend_bot_mem_frontier :
+    (IccLeftChart x y).extend (𝓡∂ 1) ⊥ ∈ frontier (range (𝓡∂ 1)) := by
+  rw [IccLeftChart_extend_bot, frontier_range_modelWithCornersEuclideanHalfSpace,
+    mem_setOf, PiLp.zero_apply]
+
+/-- The right chart for the topological space `[x, y]`, defined on `(x,y]` and sending `y` to `0` in
+`EuclideanHalfSpace 1`.
+-/
+def IccRightChart (x y : ℝ) [h : Fact (x < y)] :
+    OpenPartialHomeomorph (Icc x y) (EuclideanHalfSpace 1) where
+  source := { z : Icc x y | x < z.val }
+  target := { z : EuclideanHalfSpace 1 | z.val 0 < y - x }
+  toFun z := ⟨toLp 2 fun _ ↦ y - z.val, sub_nonneg.mpr z.property.2⟩
+  invFun z :=
+    ⟨max (y - z.val 0) x, by simp [z.prop, h.out.le, sub_eq_add_neg]⟩
+  map_source' := by simp only [mem_setOf_eq, Fin.isValue, sub_lt_sub_iff_left,
+    imp_self, implies_true]
+  map_target' := by
+    simp only [lt_max_iff, mem_setOf_eq]; intro z hz; left
+    linarith
+  left_inv' := by
+    rintro ⟨z, hz⟩ h'z
+    simp only [mem_setOf_eq, mem_Icc] at hz h'z
+    simp only [Fin.isValue, sub_eq_add_neg, neg_add_rev, neg_neg,
+      add_neg_cancel_comm_assoc, hz, sup_of_le_left]
+  right_inv' := by
+    rintro ⟨z, hz⟩ h'z
+    rw [Subtype.mk_eq_mk]
+    ext i
+    dsimp at hz h'z
+    have A : x ≤ y - z 0 := by linarith
+    rw [Subsingleton.elim i 0]
+    simp only [Fin.isValue, A, sup_of_le_left, sub_sub_cancel]
+  open_source :=
+    haveI : IsOpen { z : ℝ | x < z } := isOpen_Ioi
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Log.Deriv-f46392e2-L383-436]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Log.Deriv, lines 383-436.
+      term ∘ (2 * ·) = fun k : ℕ => 2 * (1 / (2 * k + 1)) * x ^ (2 * k + 1) := by
+    ext n
+    dsimp only [term, (· ∘ ·)]
+    rw [Odd.neg_pow (⟨n, rfl⟩ : Odd (2 * n + 1)) x]
+    push_cast
+    ring_nf
+  rw [← h_term_eq_goal, (mul_right_injective₀ (two_ne_zero' ℕ)).hasSum_iff]
+  · have h₁ := (hasSum_pow_div_log_of_abs_lt_one (Eq.trans_lt (abs_neg x) h)).mul_left (-1)
+    convert h₁.add (hasSum_pow_div_log_of_abs_lt_one h) using 1
+    ring_nf
+  · intro m hm
+    rw [range_two_mul, Set.mem_setOf_eq, ← Nat.even_add_one] at hm
+    dsimp [term]
+    rw [Even.neg_pow hm, neg_one_mul, neg_add_cancel]
+
+/-- Expansion of `log (1 + a⁻¹)` as a series in powers of `1 / (2 * a + 1)`. -/
+theorem hasSum_log_one_add_inv {a : ℝ} (h : 0 < a) :
+    HasSum (fun k : ℕ => (2 : ℝ) * (1 / (2 * k + 1)) * (1 / (2 * a + 1)) ^ (2 * k + 1))
+      (log (1 + a⁻¹)) := by
+  have h₁ : |1 / (2 * a + 1)| < 1 := by
+    rw [abs_of_pos, div_lt_one]
+    · linarith
+    · linarith
+    · exact div_pos one_pos (by linarith)
+  convert hasSum_log_sub_log_of_abs_lt_one h₁ using 1
+  have h₂ : (2 : ℝ) * a + 1 ≠ 0 := by linarith
+  have h₃ := h.ne'
+  rw [← log_div]
+  · congr
+    simp [field]
+    ring
+  · field_simp
+    positivity
+  · simp [field, h₃]
+
+/-- Expansion of `log (1 + a)` as a series in powers of `a / (a + 2)`. -/
+theorem hasSum_log_one_add {a : ℝ} (h : 0 ≤ a) :
+    HasSum (fun k : ℕ => (2 : ℝ) * (1 / (2 * k + 1)) * (a / (a + 2)) ^ (2 * k + 1))
+      (log (1 + a)) := by
+  obtain (rfl | ha0) := eq_or_ne a 0
+  · simp [hasSum_zero]
+  · convert hasSum_log_one_add_inv (inv_pos.mpr (lt_of_le_of_ne h ha0.symm)) using 4
+    all_goals simp [field, add_comm]
+
+lemma le_log_one_add_of_nonneg {x : ℝ} (hx : 0 ≤ x) : 2 * x / (x + 2) ≤ log (1 + x) := by
+  convert le_hasSum (hasSum_log_one_add hx) 0 (by intros; positivity) using 1
+  simp [field]
+
+lemma lt_log_one_add_of_pos {x : ℝ} (hx : 0 < x) : 2 * x / (x + 2) < log (1 + x) := by
+  convert lt_hasSum (hasSum_log_one_add hx.le) 0 (by intros; positivity)
+    1 (by positivity) (by positivity) using 1
+  simp [field]
+
+end Real
+
+</original_context>

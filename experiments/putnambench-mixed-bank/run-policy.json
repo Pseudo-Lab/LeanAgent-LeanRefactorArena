@@ -1,0 +1,27 @@
+{
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "rows": [
+    51,
+    52,
+    53,
+    54,
+    55,
+    56,
+    57,
+    58,
+    59,
+    60
+  ],
+  "problem_count": 10,
+  "per_problem_target_usd": "2.50",
+  "nominal_total_usd": "25.00",
+  "last_call_may_overshoot": true,
+  "max_api_parallel": 2,
+  "max_lean_parallel": 1,
+  "no_automatic_retries": true,
+  "created_at": "2026-11-03T10:06:23.352053+00:00",
+  "verification_policy": "candidate-cache-final-compatibility-fast-inventory-v2",
+  "provider": "OpenAI direct",
+  "api_endpoint": "https://api.openai.com/v1/chat/completions",
+  "budget_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+}
