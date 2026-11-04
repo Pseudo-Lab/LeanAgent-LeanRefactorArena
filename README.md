@@ -8,8 +8,18 @@
 ## Reproduction (final60)
 
 The final submission is produced by the final60 harness, `python -m lean_agent.final60`, at tag
-`final60-rc2` (`01f8c703ae8ac9ab94a352ecf15705283bf63c9c`). This section was added on top of that tag
-in a commit that changes only this README and the file mode of `scripts/final60_supervise.sh`.
+`final60-rc3-hotfix` (`git rev-parse final60-rc3-hotfix` names the commit): the rc2 harness, tag
+`final60-rc2` (`01f8c703ae8ac9ab94a352ecf15705283bf63c9c`), plus the hot-fix track of 2026-11-04. The 68
+frozen implementation files that every row seals (`frozen.json`) are byte-identical between the two tags;
+rows started before the switch were sealed from and produced by rc2 code. The hot-fix track adds three
+behaviours, each visible in the run directory: (1) when a checker rejects a row's published proof, the
+assembler re-publishes the row's next validated runner-up before falling back to the original
+(`published.json` `alternate` block, `rows/F0NN/alternates.json`, `alternates_used` in the assembly
+report); (2) two golf passes, `G3s` (sugar) and `G4h` (hint ddmin), that run only on routes whose
+`golf.passes` list them; (3) `regolf`, a second API-free golf pass over published rows with a repair step
+for publications interrupted by a crash (`published.json` `regolf` block, `rows/F0NN/regolf/*.json`).
+This section was first added on top of rc2 in a commit that changed only this README and the file mode
+of `scripts/final60_supervise.sh`.
 Commands and flags: [docs/final60/RUNBOOK.md](docs/final60/RUNBOOK.md).
 Order of operations, deadline actions and uploads: [docs/final-run.md](docs/final-run.md).
 
@@ -87,7 +97,7 @@ checkout, `KEY` the dotenv file and `DEADLINE` an ISO 8601 time with a UTC offse
 
 ```bash
 export PYTHONPATH=src FINAL60_PYTHON="$PY"
-# Tests (no API). At final60-rc2 the three suites hold 215, 167 and 568 test cases.
+# Tests (no API). At final60-rc3-hotfix the three suites hold 249, 167 and 602 test cases (215, 167, 568 at rc2).
 export PROJECT_CACHE_DIR="$(mktemp -d)"
 "$PY" -B -m unittest discover -s tests -p 'test_final60_*.py'
 "$PY" -B -m unittest discover -s experiments/final-batch-next -p 'test_*.py'

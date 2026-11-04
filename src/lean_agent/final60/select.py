@@ -392,12 +392,47 @@ def _rebased(stored: str, folder: Path) -> Path:
     return path
 
 
+def gated_sha256(record: dict) -> set[str]:
+    """Finalists the warning gate marked in a selection record: a candidate with new warnings,
+    and its G1 fix unless that fix validated clean (select_final ranks these demoted ones last)."""
+    out = set()
+    for entry in (record.get("warning_gate") or {}).get("entries") or []:
+        if not entry.get("warnings"):
+            continue
+        if entry.get("sha256"):
+            out.add(str(entry["sha256"]))
+        fix = entry.get("fix") or {}
+        if fix.get("sha256") and (not fix.get("valid") or fix.get("warnings")):
+            out.add(str(fix["sha256"]))
+    return out
+
+
+def _alternate_evidence(folder: Path, evidence: Path, digest: str) -> Path:
+    """The recorded measurement of an alternate, or the kept ``final-prev-<sha12>-*`` copy when
+    the recorded directory was the row's ``final/`` and a later publication replaced it."""
+    try:
+        if _read(evidence / "evaluation-request.json").get("candidate_sha256") == digest:
+            return evidence
+    except (OSError, ValueError):
+        pass
+    for kept in sorted(folder.glob(f"final-prev-{digest[:12]}-*"), key=lambda path: path.name, reverse=True):
+        try:
+            if _read(kept / "evaluation-request.json").get("candidate_sha256") == digest:
+                return kept
+        except (OSError, ValueError):
+            continue
+    return evidence
+
+
 def alternates(run_root: Path, row: int, *, non_openrouter_sha256=frozenset()) -> list[Selection]:
     """Validated runners-up recorded by select_final, best first (for assembly fallback).
 
     Only entries whose stored code still hashes as recorded, that were validated on every
     listed version with a fresh measurement, and that equal no non-OpenRouter proof are
-    returned; scores are the validated official-formula estimates.
+    returned; scores are the validated official-formula estimates. Warning-gated (demoted)
+    entries rank after every clean one, as in select_final itself. An alternate whose
+    recorded evidence was ``final/`` (the driver's previous selection) is served from the
+    kept ``final-prev-<sha12>-*`` copy once a later publication replaced ``final/``.
     """
     row_folder = _driver().folder(Path(run_root).resolve(), row)
     folder = row_folder / "golf"
@@ -405,8 +440,10 @@ def alternates(run_root: Path, row: int, *, non_openrouter_sha256=frozenset()) -
     if not path.exists():
         return []
     blocked = {str(value) for value in non_openrouter_sha256}
+    record = _read(path)
+    gated = gated_sha256(record)
     out = []
-    for item in _read(path).get("alternates", []):
+    for item in record.get("alternates", []):
         try:
             code = _rebased(item["code_path"], row_folder).read_text()
         except OSError:
@@ -418,11 +455,11 @@ def alternates(run_root: Path, row: int, *, non_openrouter_sha256=frozenset()) -
                 or type(item.get("raw_heartbeats")) is not int or not isinstance(item.get("score"), (int, float)):
             continue
         candidate = Candidate(code, item["sha256"], item["origin"], item.get("parent_sha256"), item["label"], None)
-        result = EvalResult(True, item["tokens"], item["raw_heartbeats"], envs, None, "",
-                            str(_rebased(item["evidence_dir"], row_folder)))
-        out.append(Selection(candidate, result, item["score"], True, (item["label"],)))
-    out.sort(key=lambda selection: (-selection.score, selection.candidate.sha256))
-    return out
+        evidence = _alternate_evidence(row_folder, _rebased(item["evidence_dir"], row_folder), item["sha256"])
+        result = EvalResult(True, item["tokens"], item["raw_heartbeats"], envs, None, "", str(evidence))
+        out.append((item["sha256"] in gated, Selection(candidate, result, item["score"], True, (item["label"],))))
+    out.sort(key=lambda pair: (pair[0], -pair[1].score, pair[1].candidate.sha256))
+    return [selection for _, selection in out]
 
 
 # ---- publication -------------------------------------------------------------------------------

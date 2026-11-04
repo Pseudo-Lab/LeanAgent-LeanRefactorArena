@@ -22,6 +22,13 @@ OpenAI-direct development roots, for testing only), the pass
    not show the gain, the previous selection is restored the same way (``write_selection``
    from the kept ``final-prev-*`` evidence, report, then ``published.json``).
 
+Before anything else under the lock the pass repairs an interrupted publication: when
+``selected.lean`` (or ``report.json``) no longer matches ``published.json`` because a regolf or
+alternates-fallback publication was killed between ``write_selection`` and ``published.json``,
+the published proof is restored from its kept ``final-prev-<sha12>-*`` evidence (the rollback
+path above), the report is rebuilt and ``published.json`` rewritten; the row's record says
+``repaired``. ``--repair-only`` does just that and never golfs.
+
 Never any API call: no transport is imported and the ledger is untouched. Rows that are not
 terminal are never touched. ``--report-only`` lists what would run (no Lean, no write).
 Every attempt is recorded under ``rows/F0NN/regolf/`` and appended to the ``regolf`` list of
@@ -161,12 +168,73 @@ def incumbent_candidate(root, row, folder):
                      (summary.get("golf") or {}).get("parent_sha256"), "selected", None)
 
 
+def kept_evidence(folder, digest):
+    """The newest kept ``final-prev-<sha12>-*`` directory whose receipt names ``digest`` (or None)."""
+    if not digest or len(digest) < 12:
+        return None
+    for path in sorted(folder.glob(f"final-prev-{digest[:12]}-*"), key=lambda item: item.name, reverse=True):
+        if read_or(path / "evaluation-request.json", {}).get("candidate_sha256") == digest:
+            return path
+    return None
+
+
+def interrupted_publication(layout, row):
+    """A model publication cut between ``write_selection`` and ``published.json`` (or None).
+
+    ``selected.lean`` or ``report.json`` differs from what ``published.json`` certifies, so the
+    assembler would silently carry the original for this row (assemble.published_proof).
+    """
+    root, folder = layout.row_root(row), layout.row_folder(row)
+    published = read_or(root / "published.json", None)
+    if not isinstance(published, dict) or published.get("origin") != "openrouter-run":
+        return None
+    if not (folder / "selected.lean").exists() or not (root / "report.json").exists():
+        return None
+    digest = str(published.get("selected_sha256") or "")
+    current = sha_text((folder / "selected.lean").read_text(encoding="utf-8"))
+    report_ok = sha_bytes((root / "report.json").read_bytes()) == published.get("report_sha256")
+    if current == digest and report_ok:
+        return None
+    return {"published": published, "published_sha256": digest, "current_sha256": current, "report_ok": report_ok,
+            "kept": kept_evidence(folder, digest)}
+
+
+def published_candidate(layout, row, digest):
+    """The published proof (sha256 ``digest``) from the row's own records, or None.
+
+    Exploration candidates and golf winners (select.candidates_from_run), the incumbent regolf
+    saved before publishing, select_final's stored alternates, then the driver's step candidates.
+    """
+    root, folder = layout.row_root(row), layout.row_folder(row)
+    try:
+        for candidate in select.candidates_from_run(root, row, top=10 ** 6):
+            if candidate.sha256 == digest:
+                return candidate
+    except (OSError, ValueError, KeyError, TypeError):
+        pass
+    saved = read_or(root / "regolf" / "incumbents" / f"{digest[:12]}.json", {})
+    if isinstance(saved.get("code"), str) and sha_text(saved["code"]) == digest:
+        origin = saved.get("origin") if saved.get("origin") in ("model", "golf") else "model"
+        return Candidate(saved["code"], digest, origin, saved.get("parent_sha256"), saved.get("label") or "published", None)
+    paths = [folder / "golf" / "alternates" / (digest[:12] + ".lean")] + sorted(folder.glob("steps/*/candidate.lean"))
+    for path in paths:
+        try:
+            code = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        if sha_text(code) == digest:
+            return Candidate(code, digest, "model", None, "published", None)
+    return None
+
+
 def previous_selection(adapter, folder, candidate, score):
     """The incumbent as a Selection whose evidence is the kept ``final-prev-<sha12>-*`` copy."""
-    kept = sorted(folder.glob(f"final-prev-{candidate.sha256[:12]}-*"), key=lambda path: path.name)
-    if not kept:
-        raise ValueError("no kept final evidence for the previous selection")
-    evidence = kept[-1]
+    evidence = kept_evidence(folder, candidate.sha256)
+    if evidence is None:
+        kept = sorted(folder.glob(f"final-prev-{candidate.sha256[:12]}-*"), key=lambda path: path.name)
+        if not kept:
+            raise ValueError("no kept final evidence for the previous selection")
+        evidence = kept[-1]
     measured = adapter.to_eval(read_json(evidence / "result.json"), evidence)
     if not measured.valid:
         raise ValueError("kept final evidence of the previous selection is not valid")
@@ -180,10 +248,10 @@ class RegolfRow:
     """One regolf pass over one published row. Every Lean compile goes through EvalAdapter."""
 
     def __init__(self, layout, row, opts, *, compiles=DEFAULT_COMPILES, margin=DEFAULT_MARGIN,
-                 minutes=DEFAULT_MINUTES, allow_dev_roots=False):
+                 minutes=DEFAULT_MINUTES, allow_dev_roots=False, repair_only=False):
         self.layout, self.row, self.opts = layout, int(row), opts
         self.compiles, self.margin, self.minutes = int(compiles), float(margin), float(minutes)
-        self.allow_dev_roots = bool(allow_dev_roots)
+        self.allow_dev_roots, self.repair_only = bool(allow_dev_roots), bool(repair_only)
         self.root = layout.row_root(row)
         self.folder = layout.row_folder(row)
         self.started = time.time()
@@ -233,7 +301,8 @@ class RegolfRow:
     # -- the pass ------------------------------------------------------------------------------
     def run(self):
         ok, reason = eligibility(self.layout, self.row, allow_dev_roots=self.allow_dev_roots)
-        if not ok:
+        # A row whose files changed after publication may be an interrupted publication: repair under the lock.
+        if not ok and "changed after publication" not in str(reason):
             return self.note(action="skipped", reason=reason)
         try:
             with RowLock(self.root / "worker.lock"):
@@ -242,14 +311,23 @@ class RegolfRow:
             return self.note(action="skipped", reason=str(exc))
 
     def locked(self):
-        # Re-read under the lock: a worker may have republished between the check and the lock.
-        ok, reason = eligibility(self.layout, self.row, allow_dev_roots=self.allow_dev_roots)
-        if not ok:
-            return self.note(action="skipped", reason=reason)
         try:
             self.verify_frozen()
         except (OSError, ValueError) as exc:
             return self.finish("skipped", "frozen code check failed: " + str(exc)[:300])
+        try:
+            repaired = self.repair()
+        except Exception as exc:   # the row stays as it is; the operator sees the record
+            return self.finish("error", "repair failed: " + f"{type(exc).__name__}: {exc}"[:500],
+                               traceback=traceback.format_exc()[-4000:])
+        if repaired is not None:
+            return repaired
+        # Re-read under the lock: a worker may have republished between the check and the lock.
+        ok, reason = eligibility(self.layout, self.row, allow_dev_roots=self.allow_dev_roots)
+        if not ok:
+            return self.note(action="skipped", reason=reason)
+        if self.repair_only:
+            return self.note(action="skipped", reason="repair-only: publication intact")
         deadline = min(self.started + self.minutes * 60 + VALIDATION_RESERVE_S,
                        self.opts.deadline_epoch() - DEADLINE_RESERVE_S)
         if deadline - VALIDATION_RESERVE_S <= time.time():
@@ -310,8 +388,49 @@ class RegolfRow:
             return self.finish("kept", reason, compiles=adapter.compiles)
         return self.publish_selection(adapter, incumbent, incumbent_estimate, selection)
 
+    def repair(self):
+        """Restore a publication that was cut between write_selection and published.json.
+
+        Returns the row's record when a repair was attempted (``repaired``, or ``skipped`` with
+        the reason it could not be done), None when the publication is intact.
+        """
+        found = interrupted_publication(self.layout, self.row)
+        if found is None:
+            return None
+        published, digest = found["published"], found["published_sha256"]
+        info = {"previous_sha256": digest, "previous_estimate": published.get("local_score_estimate"),
+                "interrupted_sha256": found["current_sha256"], "report_matched": found["report_ok"],
+                "accepted": None, "compiles": 0, "rolled_back": True, "repaired": True}
+        self.note(repair=info)
+        if found["kept"] is None:
+            return self.finish("skipped", "interrupted publication: no kept final-prev evidence for the published proof "
+                               + digest[:12] + "; restore it by hand before the next upload")
+        candidate = published_candidate(self.layout, self.row, digest)
+        if candidate is None:
+            return self.finish("skipped", "interrupted publication: the published proof text " + digest[:12]
+                               + " is in no row record; restore it by hand before the next upload")
+        try:
+            packet = problem_packet(self.row)
+        except (OSError, ValueError):
+            packet = None
+        self.configure(packet)
+        adapter = self.adapter()
+        estimate = published.get("local_score_estimate")
+        restored = previous_selection(adapter, self.folder, candidate,
+                                      float(estimate) if isinstance(estimate, (int, float)) else scoring.ORIGINAL_SCORE)
+        select.write_selection(self.root, self.row, restored)
+        report = self.build_report()
+        value = self.publish(report, {**info, "audit_errors": list(report.get("audit_errors") or [])[:4]})
+        return self.finish("repaired", "interrupted publication restored from kept final evidence of " + digest[:12],
+                           compiles=0, published=value["origin"], audit_passed=report["audit_passed"],
+                           selected_sha256=value["selected_sha256"], regolf_estimate=value["local_score_estimate"])
+
     def publish_selection(self, adapter, incumbent, incumbent_estimate, selection):
         """write_selection -> report.json -> published.json; roll back if the audit disagrees."""
+        # The incumbent's text, so a kill inside the publication window can be repaired (see repair()).
+        atomic_json(self.root / "regolf" / "incumbents" / f"{incumbent.sha256[:12]}.json",
+                    {"sha256": incumbent.sha256, "code": incumbent.code, "origin": incumbent.origin,
+                     "label": incumbent.label, "parent_sha256": incumbent.parent_sha256, "at": now_iso()})
         select.write_selection(self.root, self.row, selection)
         report = self.build_report()
         entry = next((item for item in report["rows"] if item["row"] == self.row), {})
@@ -378,6 +497,12 @@ def report_only(layout, rows, *, allow_dev_roots=False):
             entry.update(incumbent_estimate=published.get("local_score_estimate"),
                          selected_sha256=published.get("selected_sha256"),
                          busy=lock_held(layout.row_root(row) / "worker.lock"))
+        elif "changed after publication" in str(reason):
+            found = interrupted_publication(layout, row)
+            if found is not None:
+                entry.update(interrupted=True, published_sha256=found["published_sha256"],
+                             current_sha256=found["current_sha256"], repairable=found["kept"] is not None,
+                             busy=lock_held(layout.row_root(row) / "worker.lock"))
         out.append(entry)
     return out
 
@@ -396,7 +521,8 @@ def lock_held(path):
 
 
 def regolf(run_dir, rows, *, compiles=DEFAULT_COMPILES, margin=DEFAULT_MARGIN, minutes=DEFAULT_MINUTES,
-           compiler_slots=None, deadline=None, report_only_mode=False, allow_dev_roots=False, row_class=RegolfRow):
+           compiler_slots=None, deadline=None, report_only_mode=False, allow_dev_roots=False, repair_only=False,
+           row_class=RegolfRow):
     layout = Layout(run_dir)
     rows = [int(row) for row in rows]
     if report_only_mode:
@@ -409,7 +535,7 @@ def regolf(run_dir, rows, *, compiles=DEFAULT_COMPILES, margin=DEFAULT_MARGIN, m
     out = []
     for row in rows:
         record = row_class(layout, row, opts, compiles=compiles, margin=margin, minutes=minutes,
-                           allow_dev_roots=allow_dev_roots).run()
+                           allow_dev_roots=allow_dev_roots, repair_only=repair_only).run()
         out.append({key: record.get(key) for key in (
             "row", "action", "reason", "incumbent_estimate", "regolf_estimate", "gain", "selected_sha256", "label",
             "accepted", "considered", "tried", "compiles", "seconds", "published", "audit_passed")})
@@ -431,6 +557,8 @@ def add_parser(commands):
     parser.add_argument("--compiler-slots", type=int, help="Compiler pool slots to use (default: the run's)")
     parser.add_argument("--deadline", help="Run deadline override (ISO with offset)")
     parser.add_argument("--report-only", action="store_true", help="List eligible rows; no Lean, no write")
+    parser.add_argument("--repair-only", action="store_true",
+                        help="Only restore publications interrupted between write_selection and published.json; no golf")
     parser.add_argument("--allow-dev-roots", action="store_true",
                         help="Testing only: also mock/dry-run and OpenAI-direct roots")
     return parser
@@ -444,7 +572,7 @@ def main(args):
         raise SystemExit("--margin must be >= 0")
     value = regolf(args.run_dir, rows, compiles=args.compiles, margin=args.margin, minutes=args.minutes,
                    compiler_slots=args.compiler_slots, deadline=args.deadline, report_only_mode=args.report_only,
-                   allow_dev_roots=args.allow_dev_roots)
+                   allow_dev_roots=args.allow_dev_roots, repair_only=args.repair_only)
     print(json.dumps({key: item for key, item in value.items() if key != "rows"} if not args.report_only else value,
                      ensure_ascii=False, default=str), flush=True)
     return 0

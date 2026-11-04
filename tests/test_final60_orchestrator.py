@@ -587,8 +587,9 @@ class AssemblyTests(AssemblyFixture):
                          ["by\n  constructor", "by\n  exact True.intro", "by\n  simp"])
 
 
-def record_alternates(layout, row, entries):
-    """golf/selection.json alternates as select._record writes them: (label, code, score, envs, stored_text)."""
+def record_alternates(layout, row, entries, *, gated=()):
+    """golf/selection.json alternates as select._record writes them: (label, code, score, envs, stored_text);
+    ``gated`` are warning_gate entries (demote mode) as select_final records them."""
     folder = layout.row_folder(row) / "golf"
     stored = []
     for label, code, score, envs, stored_text in entries:
@@ -598,7 +599,8 @@ def record_alternates(layout, row, entries):
         stored.append({"label": label, "sha256": o.sha_text(code), "origin": "model", "parent_sha256": None,
                        "score": score, "tokens": 5, "raw_heartbeats": 500, "envs": envs,
                        "evidence_dir": str(folder / "validate" / o.sha_text(code)[:12] / "final"), "code_path": str(path)})
-    o.atomic_json(folder / "selection.json", {"schema": select.SELECTION_SCHEMA, "selected": {}, "alternates": stored})
+    o.atomic_json(folder / "selection.json", {"schema": select.SELECTION_SCHEMA, "selected": {}, "alternates": stored,
+                                              "warning_gate": {"mode": "demote" if gated else "off", "entries": list(gated)}})
 
 
 def fake_report_module(score=60.0):
@@ -702,6 +704,42 @@ class AlternatesAssemblyTests(AssemblyFixture):
             result = self.assemble()
         self.assertEqual({row["name"]: row["proof"] for row in self.submission()}["Final.t5"], clean)
         self.assertEqual(result["improved"], 2)
+
+    def test_warning_gated_alternates_rank_last_and_final_prev_evidence_is_found(self):
+        warned = "theorem t7 : True := by\n  exact old_lemma\n"
+        clean = "theorem t7 : True := by\n  exact trivial\n"
+        fixed = "theorem t7 : True := by\n  trivial\n"
+        publish_row(self.layout, 7, "theorem t7 : True := by\n  sorry\n")
+        record_alternates(self.layout, 7, [("c9", warned, 90.0, {"p": True, "s": True}, None),
+                                           ("c5", clean, 60.0, {"p": True, "s": True}, None)],
+                          gated=[{"label": "c9", "sha256": o.sha_text(warned), "mode": "demote",
+                                  "warnings": {"p": ["`old_lemma` has been deprecated: use `new_lemma`"]},
+                                  "fix": {"label": "golf:G1fix:c9", "sha256": o.sha_text(fixed), "valid": True,
+                                          "warnings": {"p": ["still"]}}}])
+        folder = self.layout.row_folder(7)
+        record = o.read_json(folder / "golf/selection.json")
+        self.assertEqual(select.gated_sha256(record), {o.sha_text(warned), o.sha_text(fixed)})
+        self.assertEqual(select.gated_sha256({"warning_gate": {"mode": "off", "entries": []}}), set())
+        # Clean alternates first whatever their score; the demoted one only after them (as in select_final).
+        self.assertEqual([s.candidate.label for s in select.alternates(self.layout.row_root(7), 7)], ["c5", "c9"])
+        # The driver's previous selection: its recorded evidence_dir was final/, later renamed to final-prev-<sha12>-*.
+        record["alternates"][1]["evidence_dir"] = str(folder / "final")
+        o.atomic_json(folder / "golf/selection.json", record)
+        o.atomic_json(folder / "final/evaluation-request.json", {"candidate_sha256": o.sha_text("another proof")})
+        kept = folder / ("final-prev-" + o.sha_text(clean)[:12] + "-1")
+        o.atomic_json(kept / "evaluation-request.json", {"candidate_sha256": o.sha_text(clean), "options": {"fresh": True}})
+        found = select.alternates(self.layout.row_root(7), 7)
+        self.assertEqual([s.candidate.label for s in found], ["c5", "c9"])
+        self.assertEqual(found[0].validated.evidence_dir, str(kept))
+        self.assertEqual(found[1].validated.evidence_dir, str(folder / "golf/validate" / o.sha_text(warned)[:12] / "final"))
+        # The assembly fallback takes the clean alternate; the demoted one is not tried while a clean one is left.
+        with patch.object(rw, "driver_modules", return_value=(None, fake_report_module())), \
+                patch.object(select, "write_selection", self.fake_write_selection):
+            result = self.assemble()
+        self.assertEqual({row["name"]: row["proof"] for row in self.submission()}["Final.t7"], clean)
+        self.assertEqual((result["improved"], result["checks"]["passed"]), (1, True))
+        log = o.read_json(self.layout.row_root(7) / "alternates.json")["log"]
+        self.assertEqual([(item["label"], item["event"]) for item in log if "label" in item], [("c5", "published")])
 
     def test_alternates_can_be_disabled(self):
         publish_row(self.layout, 2, "theorem t2 : True := by\n  sorry\n")

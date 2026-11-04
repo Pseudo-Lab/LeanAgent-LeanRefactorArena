@@ -144,7 +144,32 @@ beats the published one by `--margin` points writes `selected.lean`/`final/`/`su
 disagrees). Records: `rows/F0NN/regolf/*.json`, the `regolf` list in `worker-state.json`, the usual
 `golf/` evidence, and `published.json` `regolf` (previous sha and estimate). `--allow-dev-roots`
 (mock/OpenAI-direct roots) is for testing on copies only. Run it from the hot-fix worktree while idle
-compile slots exist; the next rolling assembly picks the new proof up.
+compile slots exist. Operator rules (from the rc3 verification findings, 2026-11-04):
+
+- Run it only after the rows it targets (and their neighbours) are terminal: its `--compiles` screens
+  (24 per row) compete for the shared 8-slot pool with live rows whose validations are deadline-bounded.
+  While more than 8 rows are live, use `--compiler-slots 2` to `4` (or `--compiles 8` to `12`). Regolf
+  holds the row's `worker.lock`, so the supervisor counts one row slot as live while it runs and logs a
+  `worker_exit` with code None (no alert) when the lock is released; both are expected.
+- Do not start regolf rows after 19:30 KST: its own guard stops at deadline - 28 min, but the top
+  validation always completes, so a late row can write during the last assembly.
+- Never kill a regolf process (`idle.sh` lists it as BUSY; let it finish the row). A kill between
+  `write_selection` and `published.json` leaves `selected.lean` != `published.json`; the assembler then
+  reports `changed after publication` and carries the ORIGINAL for that row. The next regolf pass on that
+  row repairs this first (restores the published proof from its kept `final-prev-<sha12>-*` evidence,
+  rebuilds `report.json`, rewrites `published.json`; record action `repaired`). After any crash or reboot:
+  `regolf --rows 1-60 --report-only` (such rows show `interrupted: true` and `repairable`), then
+  `regolf --rows <those> --repair-only` (no golf, no Lean beyond the kept evidence), then grep
+  `report.json` for `changed after publication` before any upload.
+- The rolling assembly re-runs only when the SET of published rows changes, so a regolf publication is
+  not in `submission.jsonl` / `SUBMIT-READY.txt` until the next assembly. After regolf finishes, run
+  `python -m lean_agent.final60 assemble --run-dir "$RUN" --final` (then the two checkers) before any
+  upload, and never take an upload copy while a regolf process is running (inside its write window the
+  assembler carries the original for that row).
+- Golf (first pass and regolf) runs only the passes in the row's route (`route_rules.json` `golf.passes`:
+  default `G1,G2,G3[,G4]`, tiny kernel-decide rows `G5,G3`). G5/G6/G2s and the new G3s/G4h passes do not
+  run on default routes unless listed there (rc2 ran every pass on every row; on 53 rc2 records no accepted
+  edit came from a pass outside the route list, measured).
 
 ## 7. Outputs
 

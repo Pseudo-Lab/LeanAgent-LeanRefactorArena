@@ -12,6 +12,7 @@ import importlib.util
 import json
 import os
 from pathlib import Path
+import shutil
 import tempfile
 import time
 import unittest
@@ -237,6 +238,74 @@ class PassTests(unittest.TestCase):
         self.assertEqual([c.sha256 for c in pool], [sha(Fixture.incumbent), sha(Fixture.better)])
         self.assertEqual(golf.improve.call_args.args[2][0].label, "c003")
         self.assertEqual(golf.improve.call_args.args[3]["max_compiles_total"], regolf.DEFAULT_COMPILES)
+        # The incumbent's text was saved before the publication window, for repair().
+        saved = read_json(self.fixture.root / "regolf/incumbents" / (sha(Fixture.incumbent)[:12] + ".json"))
+        self.assertEqual((saved["sha256"], saved["code"], saved["label"]), (sha(Fixture.incumbent), Fixture.incumbent, "c003"))
+        with patch.object(select, "candidates_from_run", return_value=[]):
+            found = regolf.published_candidate(self.fixture.layout, 1, sha(Fixture.incumbent))
+        self.assertEqual((found.code, found.origin, found.label), (Fixture.incumbent, "model", "c003"))
+
+    def test_repairs_a_publication_cut_between_write_selection_and_published_json(self):
+        # The kill window: write_selection ran for the golf winner, published.json is still the old one.
+        fake_write_selection(self.fixture.root, 1, selection_of(Fixture.better, 70.0))
+        Scripted.script["calls"] = []
+        Scripted.script["reports"] = [self.fixture.report(sha(Fixture.incumbent), 60.0)]
+        self.assertIn("selected.lean changed", regolf.eligibility(self.fixture.layout, 1)[1])
+        listed = regolf.regolf(self.run_dir, [1], report_only_mode=True, row_class=Scripted)["rows"][0]
+        self.assertEqual((listed["eligible"], listed["interrupted"], listed["repairable"], listed["published_sha256"],
+                          listed["current_sha256"]), (False, True, True, sha(Fixture.incumbent), sha(Fixture.better)))
+        result = self.run_pass()
+        self.assertEqual(result["action"], "repaired", result)
+        self.assertFalse(golf.improve.called)
+        self.assertEqual([call for call in Scripted.script["calls"] if isinstance(call, tuple)],
+                         [("write_selection", sha(Fixture.incumbent))])
+        self.assertEqual((self.fixture.folder / "selected.lean").read_text(), Fixture.incumbent)
+        self.assertEqual(read_json(self.fixture.folder / "final/evaluation-request.json")["candidate_sha256"],
+                         sha(Fixture.incumbent))
+        after = self.published()
+        self.assertEqual((after["origin"], after["selected_sha256"], after["local_score_estimate"]),
+                         ("openrouter-run", sha(Fixture.incumbent), 60.0))
+        self.assertEqual(after["report_sha256"], sha_bytes((self.fixture.root / "report.json").read_bytes()))
+        self.assertEqual((after["regolf"]["repaired"], after["regolf"]["rolled_back"], after["regolf"]["previous_sha256"],
+                          after["regolf"]["interrupted_sha256"]), (True, True, sha(Fixture.incumbent), sha(Fixture.better)))
+        self.assertEqual(regolf.eligibility(self.fixture.layout, 1), (True, None))
+        self.assertEqual(read_json(self.fixture.layout.worker_path(1))["regolf"][-1]["action"], "repaired")
+        state = load_rowstate(self.fixture.layout, 1)
+        self.assertEqual((state.status, state.selected_sha256), ("published", sha(Fixture.incumbent)))
+        # The repaired row is eligible again: the next pass golfs it as usual.
+        Scripted.script["reports"] = [self.fixture.report(sha(Fixture.better), 70.0)]
+        self.assertEqual(self.run_pass()["action"], "published")
+        self.assertEqual(self.published()["selected_sha256"], sha(Fixture.better))
+
+    def test_interrupted_publication_without_kept_evidence_is_reported_not_guessed(self):
+        fake_write_selection(self.fixture.root, 1, selection_of(Fixture.better, 70.0))
+        for kept in self.fixture.folder.glob("final-prev-*"):
+            shutil.rmtree(kept)
+        before = self.published()
+        result = self.run_pass()
+        self.assertEqual(result["action"], "skipped")
+        self.assertIn("no kept final-prev evidence", result["reason"])
+        self.assertEqual(self.published(), before)
+        self.assertEqual((self.fixture.folder / "selected.lean").read_text(), Fixture.better)
+        self.assertFalse(golf.improve.called)
+        listed = regolf.regolf(self.run_dir, [1], report_only_mode=True, row_class=Scripted)["rows"][0]
+        self.assertEqual((listed["interrupted"], listed["repairable"]), (True, False))
+
+    def test_repair_only_never_golfs_an_intact_row(self):
+        before = (self.fixture.root / "published.json").read_bytes()
+        result = self.run_pass(repair_only=True)
+        self.assertEqual((result["action"], result["reason"]), ("skipped", "repair-only: publication intact"))
+        self.assertFalse(golf.improve.called)
+        self.assertEqual((self.fixture.root / "published.json").read_bytes(), before)
+        from lean_agent.final60.__main__ import build_parser
+        args = build_parser().parse_args(["regolf", "--run-dir", str(self.run_dir), "--rows", "1", "--repair-only"])
+        self.assertTrue(args.repair_only)
+        # An interrupted row is repaired and nothing else happens.
+        fake_write_selection(self.fixture.root, 1, selection_of(Fixture.better, 70.0))
+        Scripted.script["reports"] = [self.fixture.report(sha(Fixture.incumbent), 60.0)]
+        self.assertEqual(self.run_pass(repair_only=True)["action"], "repaired")
+        self.assertFalse(golf.improve.called)
+        self.assertEqual(self.published()["selected_sha256"], sha(Fixture.incumbent))
 
     def test_keeps_the_incumbent_below_the_margin_and_restores_the_selection_record(self):
         record = self.fixture.folder / "golf/selection.json"
