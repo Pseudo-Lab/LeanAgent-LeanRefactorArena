@@ -125,20 +125,58 @@ class Runner:
         env = self.envs[0]
         nonce = uuid.uuid4().hex
         log = self._run(env, render(env["template"], code, self.name, nonce), f"t{self.compiles:04d}")
-        out, cur = [], None
-        for line in log.splitlines():
-            if re.match(r"^[^\s:]+:\d+:\d+: ", line):
+        return parse_try_this(log)
+
+
+POSITION = re.compile(r"^[^\s:]+:\d+:\d+: ")
+
+
+def parse_try_this(log: str) -> list[str]:
+    """Suggestions from Lean "Try this" messages.
+
+    Recent Lean versions put the suggestion on the following indented lines with an
+    `[apply]` marker (`Try this:` / `  [apply] simp only [...]`), with or without a
+    `file:line:col:` prefix; older ones print it on the same line. Each `[apply]` entry is
+    one suggestion; continuation lines keep their indentation relative to the first line.
+    """
+    out, block = [], None
+
+    def flush():
+        if block is None:
+            return
+        entries, cur, base = [], None, {}
+        for line in block:
+            m = re.match(r"^(\s*)\[apply\]\s?(.*)$", line)
+            if m:
                 if cur is not None:
-                    out.append(cur.strip())
-                    cur = None
-                m = re.search(r"Try this: (.*)$", line)
-                if m:
-                    cur = m.group(1)
-            elif cur is not None:
-                cur += "\n" + line
+                    entries.append(cur)
+                cur = [m.group(2)]
+                base[len(entries)] = len(m.group(1))
+            elif cur is None:
+                cur = [line.strip()] if line.strip() else None
+            else:
+                cur.append(line)
         if cur is not None:
-            out.append(cur.strip())
-        return out
+            entries.append(cur)
+        for k, lines in enumerate(entries):
+            rest = [ln for ln in lines[1:] if ln.strip()]
+            indent = min([len(ln) - len(ln.lstrip()) for ln in rest] + ([base[k]] if k in base else []), default=0)
+            text = "\n".join([lines[0].strip()] + [ln[indent:].rstrip() for ln in rest]).strip()
+            if text:
+                out.append(text)
+
+    for line in log.splitlines():
+        m = re.search(r"Try this:\s*(.*)$", line)
+        if m:
+            flush()
+            block = [m.group(1)] if m.group(1).strip() else []
+        elif block is not None and line[:1].isspace() and line.strip() and not POSITION.match(line):
+            block.append(line)
+        else:
+            flush()
+            block = None
+    flush()
+    return out
 
 
 # ───────────────────────── text surgery ─────────────────────────
