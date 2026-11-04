@@ -8,16 +8,30 @@
 ## Reproduction (final60)
 
 The final submission is produced by the final60 harness, `python -m lean_agent.final60`, at tag
-`final60-rc3-hotfix` (`git rev-parse final60-rc3-hotfix` names the commit): the rc2 harness, tag
-`final60-rc2` (`01f8c703ae8ac9ab94a352ecf15705283bf63c9c`), plus the hot-fix track of 2026-11-04. The 68
-frozen implementation files that every row seals (`frozen.json`) are byte-identical between the two tags;
-rows started before the switch were sealed from and produced by rc2 code. The hot-fix track adds three
-behaviours, each visible in the run directory: (1) when a checker rejects a row's published proof, the
-assembler re-publishes the row's next validated runner-up before falling back to the original
-(`published.json` `alternate` block, `rows/F0NN/alternates.json`, `alternates_used` in the assembly
-report); (2) two golf passes, `G3s` (sugar) and `G4h` (hint ddmin), that run only on routes whose
-`golf.passes` list them; (3) `regolf`, a second API-free golf pass over published rows with a repair step
-for publications interrupted by a crash (`published.json` `regolf` block, `rows/F0NN/regolf/*.json`).
+`final60-rc4` (`git rev-parse final60-rc4` names the commit): the rc2 harness, tag
+`final60-rc2` (`01f8c703ae8ac9ab94a352ecf15705283bf63c9c`), plus the hot-fix track of 2026-11-04
+(`final60-rc3-hotfix`, then the transfer-repair branch and the G3s route change, integrated as rc4). The 68
+frozen implementation files that every row seals (`frozen.json`) are byte-identical across rc2, rc3 and rc4
+(sha256 per file and `git diff --stat final60-rc2` over those paths: no difference, measured at rc4), so rows
+started under rc2 were sealed from and produced by the same frozen code, and a live run switches code by the
+STOP-and-restart procedure of the runbook. Behaviours added since rc2, each visible in the run directory:
+(1) the row exploration clock polls the wall clock instead of `threading.Timer` (the WSL2 monotonic clock ran
+about 7% slow, measured): `rows/F0NN/stop-exploration.json` (`reason: row exploration clock`) and
+`exploration_started_at` in `rows/F0NN/worker-state.json`; (2) when a checker rejects a row's published proof,
+the assembler re-publishes the row's next validated runner-up before falling back to the original
+(`published.json` `alternate` block, `rows/F0NN/alternates.json`, `alternates_used` in the assembly report;
+warning-gated runners-up rank last); (3) the golf pass `G3s` (syntax sugar) runs on every default route right
+after `G3` (`route_rules.json` `golf.passes`, shown in `input/route.json` `golf.passes`, `golf/improve-*.json`
+`settings.passes` with the `G3s:*` entries of its log, and `worker-state.json` `golf.accepted`; `G4h`, `G6` and
+`G2s` are valid pass names enabled on no route); (4) `regolf`, a second API-free golf pass over published rows
+with a repair step for publications interrupted by a crash (`published.json` `regolf` block,
+`rows/F0NN/regolf/*.json`); (5) transfer repair of deprecated-alias renames across the listed toolchains, in
+`select_final`, for the golf parents and post-hoc through `regolf --transfer-repair` (`golf/selection.json`
+`repairs`, `repair:*` winners in `golf/winners.json`, `golf-parents` records in `golf/events.jsonl`,
+`<run>/alias-maps/`, `rows/F0NN/regolf/*.json` with `mode: transfer-repair`); (6) the launch line passes
+`--lean-memory-mib 16384` (a Strata candidate of F004 aborted the Lean allocator under `-M4096` and
+`-M8192` and crashed the row worker, measured; under `-M16384` it is an ordinary compile failure):
+`run-options.json` `lean_memory_mib` and `environment.lean_memory_mib` in `rows/F0NN/worker-state.json`.
 This section was first added on top of rc2 in a commit that changed only this README and the file mode
 of `scripts/final60_supervise.sh`.
 Commands and flags: [docs/final60/RUNBOOK.md](docs/final60/RUNBOOK.md).
@@ -97,7 +111,7 @@ checkout, `KEY` the dotenv file and `DEADLINE` an ISO 8601 time with a UTC offse
 
 ```bash
 export PYTHONPATH=src FINAL60_PYTHON="$PY"
-# Tests (no API). At final60-rc3-hotfix the three suites hold 249, 167 and 602 test cases (215, 167, 568 at rc2).
+# Tests (no API). At final60-rc4 the three suites hold 273, 167 and 626 test cases (249, 167, 602 at rc3; 215, 167, 568 at rc2).
 export PROJECT_CACHE_DIR="$(mktemp -d)"
 "$PY" -B -m unittest discover -s tests -p 'test_final60_*.py'
 "$PY" -B -m unittest discover -s experiments/final-batch-next -p 'test_*.py'
@@ -109,7 +123,7 @@ export PROJECT_CACHE_DIR="$(mktemp -d)"
 "$PY" -B experiments/final-batch-next/openrouter_transport.py endpoint-check
 # 3. run, through the watchdog (it restarts the supervisor every 30 s until it exits 0)
 nohup bash scripts/final60_supervise.sh "$RUN" --key-file "$KEY" --rows 1-60 --deadline "$DEADLINE" \
-    > "$RUN.watchdog.out" 2>&1 < /dev/null &
+    --lean-memory-mib 16384 > "$RUN.watchdog.out" 2>&1 < /dev/null &
 # 4. status: frozen-code check first, then per-row state and spend (JSON)
 "$PY" -B -m lean_agent.final60 status --run-dir "$RUN"
 # 5. Final assembly by hand (the supervisor also runs it near the deadline)
@@ -124,6 +138,8 @@ nohup bash scripts/final60_supervise.sh "$RUN" --key-file "$KEY" --rows 1-60 --d
   pass a future time, or the supervisor stops at once. Relative to the deadline: no new paid requests
   from `--soft-stop-min` (100) minutes before it, no new rows and a final assembly every 10 min from
   60 min before it, the last assembly and `SUBMIT-READY.txt` 20 min before it.
+- `--lean-memory-mib 16384` sets Lean's `-M` for every row (the competition run used it; without it
+  Strata rows get `-M4096`, under which a Strata candidate of F004 aborted the allocator, measured).
 - `run` defaults: `--max-rows 8` (1..14), `--compiler-slots 6` (2..8), `--exploration-minutes 75`,
   `--mem-start-gib 10`, `--mem-reserve-gib 6`, `--gib-per-compile 3.5`, `--transport openrouter`
   (the only submittable transport; `--dry-run` uses the `mock` transport: no network, no spend,

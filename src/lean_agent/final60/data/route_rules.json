@@ -26,13 +26,13 @@
   "wallclock_budget_s": {"default": 4500, "kernel-decide-tiny": 1200},
   "golf": {
     "default": {"original_compiles": 4, "top_k": 2, "max_compiles_best": 8, "max_compiles_other": 4,
-                "max_compiles_row": 12, "minutes": 20, "passes": ["G1", "G2", "G3", "G4"]},
+                "max_compiles_row": 12, "minutes": 20, "passes": ["G1", "G2", "G3", "G3s", "G4"]},
     "by_type": {
       "kernel-decide-tiny": {"original_compiles": 8, "top_k": 0, "max_compiles_best": 0, "max_compiles_other": 0,
                              "max_compiles_row": 8, "passes": ["G5", "G3"]}
     },
     "ddmin_max_t0": 600,
-    "note": "Amendment A7: at most 4 screens on the original and 12 per row on candidates (best 8, next 4); no ddmin when T0 > 600. A14: G1/G2 first."
+    "note": "Amendment A7: at most 4 screens on the original and 12 per row on candidates (best 8, next 4); no ddmin when T0 > 600. A14: G1/G2 first. rc4 (2026-11-04): G3s (syntax sugar, about 1 compile per batch) right after G3 on default routes; measured on real proofs F018 +0.24, F027 +0.18, F035 +0.22, F048 +0.47. G4h/G6/G2s are valid names but enabled on no route."
   },
   "priority": {
     "base": {"kernel-decide-tiny": 70, "algebra-analysis-long": 40, "structural-induction": 30, "short-tactic": 30,

@@ -1,7 +1,7 @@
 # final60 runbook
 
 One autonomous, resumable run over all 60 final problems through OpenRouter only.
-Entry point: `python -m lean_agent.final60 {plan,run,row,status,assemble,package}` from the repository
+Entry point: `python -m lean_agent.final60 {plan,run,row,status,assemble,package,regolf}` from the repository
 root with `PYTHONPATH=src`. Paths below are placeholders (`$REPO`, `$RUN`, `$KEY`, `$PY`); the harness
 reads no machine-specific path (historical record files under `experiments/` keep the paths of the
 machines that produced them). Linux uses the bwrap sandbox and macOS uses sandbox-exec, both unchanged.
@@ -30,7 +30,8 @@ machines that produced them). Linux uses the bwrap sandbox and macOS uses sandbo
 
 ## 0. One-time setup (before launch)
 
-1. Production runs from a dedicated worktree at a tagged commit that no agent edits (critic A6).
+1. Production runs from a dedicated worktree at a tagged commit that no agent edits (critic A6); the
+   production tag is `final60-rc4` (see the hot-fix track section below).
    Every row root freezes `experiments/final-batch-next/*.py`, the `lean_agent` harness files and
    `src/lean_agent/final60/{contracts,catalog,transport,ledger,money}.py`; editing any of them in
    that worktree stops **every** row at its next request. Only routing/golf/select/orchestrator
@@ -87,6 +88,7 @@ row's cap to `2.99 - prior`, and assembly passes it to the PR #70 checker as `pr
 ```bash
 nohup scripts/final60_supervise.sh "$RUN" --key-file "$KEY" --rows 1-60 \
     --max-rows 8 --compiler-slots 6 --deadline 2026-11-04T20:59:59+09:00 --soft-stop-min 100 \
+    --lean-memory-mib 16384 \
     > "$RUN.watchdog.out" 2>&1 < /dev/null &     # Linux: setsid optional; macOS has none
 ```
 
@@ -158,18 +160,74 @@ compile slots exist. Operator rules (from the rc3 verification findings, 2026-11
   reports `changed after publication` and carries the ORIGINAL for that row. The next regolf pass on that
   row repairs this first (restores the published proof from its kept `final-prev-<sha12>-*` evidence,
   rebuilds `report.json`, rewrites `published.json`; record action `repaired`). After any crash or reboot:
-  `regolf --rows 1-60 --report-only` (such rows show `interrupted: true` and `repairable`), then
+  `regolf --rows 1-60 --report-only --repair-only` (such rows show `interrupted: true` and `repairable`), then
   `regolf --rows <those> --repair-only` (no golf, no Lean beyond the kept evidence), then grep
-  `report.json` for `changed after publication` before any upload.
+  `report.json` for `changed after publication` before any upload. A killed `--transfer-repair` can leave a
+  row that publishes the ORIGINAL in the same state (the assembler still carries the original, so no score is
+  lost, but the row would be stuck for every later pass and `report.json` never says so); since rc4 (fix)
+  `--repair-only` and `--transfer-repair` list and repair those rows too, plain `--report-only` does not.
 - The rolling assembly re-runs only when the SET of published rows changes, so a regolf publication is
   not in `submission.jsonl` / `SUBMIT-READY.txt` until the next assembly. After regolf finishes, run
   `python -m lean_agent.final60 assemble --run-dir "$RUN" --final` (then the two checkers) before any
   upload, and never take an upload copy while a regolf process is running (inside its write window the
   assembler carries the original for that row).
 - Golf (first pass and regolf) runs only the passes in the row's route (`route_rules.json` `golf.passes`:
-  default `G1,G2,G3[,G4]`, tiny kernel-decide rows `G5,G3`). G5/G6/G2s and the new G3s/G4h passes do not
-  run on default routes unless listed there (rc2 ran every pass on every row; on 53 rc2 records no accepted
-  edit came from a pass outside the route list, measured).
+  default `G1,G2,G3,G3s[,G4]` since rc4, tiny kernel-decide rows `G5,G3`). G5/G6/G2s/G4h do not run on
+  default routes unless listed there (rc2 ran every pass on every row; on 53 rc2 records no accepted edit
+  came from a pass outside the route list, measured). A row keeps the pass list sealed in its
+  `input/route.json`, and regolf reads that same list (`regolf.golf_settings`), so a row routed before the
+  rc4 switch never runs G3s; only rows prepared from a rc4 checkout do.
+
+### Transfer repair (deprecated-alias renames; `transfer.py`, hot-fix 2026-11-04)
+
+A candidate that compiles on the first-listed toolchain but fails an older listed toolchain
+only with unknown identifiers that the newer pinned library maps through
+`@[deprecated] alias OLD := NEW` (rehearsal F036: `Finset.card_univ_sdiff` -> `Finset.card_univ_diff`,
+token-neutral, 84.21 -> 89.22 measured) is repaired automatically, without any API call:
+
+* `select_final` reads the failing toolchain's saved `compatibility/<sha>/<env>/check.log`; when
+  every unknown-identifier/unknown-constant error names a key of the row's alias map, the repaired
+  text (`repair:<parent label>`, origin `golf`, parent sha, edit list in `golf/selection.json`
+  `repairs` and `golf/winners.json`) is validated like any finalist (at most 2 per selection).
+* Golf never spends its budget on a parent whose saved all-version check failed
+  (`compatibility/<sha>/skipped.json` or an invalid result): its repair is validated first and
+  golfed instead when it holds (`select.golf_parents`, at most 1 validation per row,
+  `transfer.MAX_REPAIRS_PARENTS`); an unrepaired parent is left out of golf and select_final can
+  still repair it from its cached failure.
+* Time bound (fix 2026-11-04): a repair validation is never started unless
+  `transfer.validation_reserve` seconds remain before the phase deadline (the golf/selection
+  deadline of the row worker, `golf_deadline` of `finalize_row`, the regolf deadline):
+  max(480 s, 2 x slowest baseline compile x (listed toolchains + 3)), `FINAL60_REPAIR_RESERVE_S`
+  overrides (ArkLib F036 measured: 19 s compiles -> 480 s; one repair validation = 8 compiles /
+  268 s wall at 2 slots). In select_final a repair starts only before the phase deadline, like
+  any finalist validation. Combined per-row bound inside the worker: 1 (golf_parents) + 2
+  (select_final) = 3 repair validations of about (toolchains + 3) compiles each (cached checks
+  excluded), and none after the phase deadline.
+* Rejected before any compile: a text that still names a renamed lemma after the rewrite
+  (spellings handled: full name, suffix under an open namespace, dot notation on a lowercase
+  term, each with projections such as `.symm`/`.mp`; `Set.card_univ_sdiff` of another namespace
+  is left alone), a repair equal to the original proof, static/official rule failures. A
+  malformed `configs/final-environments.local.json` blocks repairs (fail closed) instead of
+  failing the selection; `unknown identifier 'card_univ_sdiff'` (suffix spelling) resolves to
+  the unique map key ending in that name.
+* Alias maps (NEW -> OLD, kept only when OLD is declared in every other listed toolchain and NEW
+  is missing in at least one) are built once per environment set from the prepared sources
+  (project + `.lake/packages`, 6-14 s) and cached under `<run>/alias-maps/`
+  (`FINAL60_ALIAS_MAP_DIR` overrides). Measured 2026-11-04: ArkLib v4.31.0/v4.30.0 598 pairs,
+  CSLib v4.34.1 -> v4.31.0 1020 / -> v4.33.1 302, PutnamBench 398, LeanPool and PhysLib 0.
+* Never on Strata rows (its v4.31.0 lakefile sets `warningAsError`, read from the checkout) or
+  under a warning gate other than `off` (`FINAL60_WARNING_GATE`): the deprecation warning would
+  break the build.
+
+Post-hoc, for terminal rows (model proofs and worker publications of the original alike):
+
+```bash
+PYTHONPATH=src $PY -m lean_agent.final60 regolf --run-dir "$RUN" --rows 31-40 --transfer-repair [--repairs 3] [--margin 0.25]
+```
+
+re-examines the recorded candidates that failed only non-primary toolchains, repairs and validates
+them (`--repairs` validations per row) and publishes through the regolf path when the validated
+estimate beats the published one by `--margin`. A later plain `regolf` golfs the repaired incumbent.
 
 ## 7. Outputs
 
@@ -199,6 +257,45 @@ Scores in reports are local estimates, not official worker scores.
 - `--transport NAME` is passed through to row workers (`FINAL60_TRANSPORT` and `--transport`).
 - `python -m lean_agent.final60 package --out code.zip [--repo R]` builds the code ZIP from tracked
   files and asserts that no `declaration-indexes`, `quarantine` or competitor artifact is packed.
+
+
+## Hot-fix track since rc2 (2026-11-04; production tag `final60-rc4`)
+
+Tags: `final60-rc2` (01f8c703, the verified base), `final60-rc3-hotfix` (rc2 + the first hot fixes),
+`final60-rc4` (rc3 + transfer repair + G3s on the default route; the production tag). The 68 frozen
+implementation files (`driver.implementation_files(final60=True)`: the `lean_agent` core, the
+`experiments/final-batch-next/*.py` driver, `proof_tokens.py`, `final60/{contracts,catalog,transport,ledger,money}.py`)
+are byte-identical across the three tags (measured at rc4: 68/68 sha256 equal, `git diff --stat final60-rc2`
+over those paths empty), so a live run switches code without a new run dir: `touch "$RUN/supervisor/STOP"`,
+wait until the watchdog has exited and no `lean_agent.final60 row` process remains, check the new tag out
+in the production worktree, remove `STOP`, start the same launch line; every row resumes from disk and its
+`frozen.json` check passes. Operator rules for that switch (rc4 verification, 2026-11-04):
+
+- A row's `frozen.json` records the ABSOLUTE paths of the worktree that sealed it (`driver.prepare_inputs`), and
+  every resume re-hashes exactly those paths. So the worktree that sealed any row must stay untouched (no edit,
+  no checkout, no move) for the whole run, even after the production worktree switched to a newer tag: a touched
+  sealing worktree fails `verify_frozen` in every resumed row (worker errors count as crashes; 8 publish the
+  original), and a sealed row's `frozen_code_ok` says nothing about the files of the worktree that now runs it.
+- Before any STOP-and-restart switch, re-run the 68-file byte-identity proof between the sealing tag and the new
+  one (sha256 of every `driver.implementation_files(final60=True)` path against `git show <sealing-tag>:<path>`,
+  plus `git diff --stat <sealing-tag> <new-tag> -- <those paths>` empty); `status` `frozen_code_ok` is not that
+  proof. Prepare every row from one worktree at one tag whenever possible.
+
+What each behaviour adds and where it shows in the run directory:
+
+| Added | Behaviour | Where it shows |
+| --- | --- | --- |
+| rc3 | Exploration wall-clock timer: the row exploration clock polls `time.time()` (the WSL2 monotonic clock ran about 7% slow; measured 43-46 s late per 600 s) | `rows/F0NN/stop-exploration.json` (`reason: row exploration clock`), `exploration_started_at` in `rows/F0NN/worker-state.json` |
+| rc3 | Alternates: a checker-rejected publication is replaced by the row's next validated runner-up before the original; gated runners-up rank last; evidence is served from `final-prev-<sha12>-*` once `final/` was replaced | `published.json` `alternate`, `rows/F0NN/alternates.json`, `alternates_used` in `report.json` of the assembly, `golf/selection.json` `alternates` |
+| rc3/rc4 | Golf passes G3s (sugar) and G4h (hint ddmin) exist; rc4 enables G3s on every default route right after G3 (measured gains on real proofs: F018 +0.24, F027 +0.18, F035 +0.22, F048 +0.47; G4h gained nothing and stays off); G4h/G6/G2s are valid route names enabled nowhere | `input/route.json` `golf.passes`, `golf/improve-*.json` `settings.passes` and `G3s:*` log entries, `worker-state.json` `golf.accepted` |
+| rc3 | `regolf`: second API-free golf pass over published rows; repairs a publication interrupted between `write_selection` and `published.json` (`--repair-only`) | `rows/F0NN/regolf/*.json`, `regolf` list in `worker-state.json`, `published.json` `regolf` |
+| rc4 | Transfer repair of deprecated-alias renames (`transfer.py`): in `select_final`, for the golf parents (`select.golf_parents`), post-hoc `regolf --transfer-repair`; bounded by the phase deadline | `golf/selection.json` `repairs`, `repair:*` entries in `golf/winners.json`, `golf-parents` records in `golf/events.jsonl`, `<run>/alias-maps/`, `rows/F0NN/regolf/*.json` `mode: transfer-repair` |
+| ops | `--lean-memory-mib 16384` in the launch line (a Strata candidate of F004 aborted the Lean allocator under `-M4096`/`-M8192` and crashed the worker; under `-M16384` an ordinary compile failure, measured) | `run-options.json` `lean_memory_mib`, `environment.lean_memory_mib` in `rows/F0NN/worker-state.json` |
+
+Golf compile budgets are unchanged by rc4 (`original_compiles 4`, best 8, other 4, row 12): G3s costs about
+one compile per batch (token sugar, bullet flattening, `.intro`; a failing batch splits in halves). On the
+60-row rc2 rehearsal records (measured) the best candidate had used a mean 3.08 compiles for probes + G1 +
+G2 + G3, leaving a median 5 (at least 3 in 55 of 60 sessions) of its 8 for G3s and G4.
 
 ## Component dependencies
 

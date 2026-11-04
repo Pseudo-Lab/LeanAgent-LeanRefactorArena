@@ -526,5 +526,42 @@ class SixtyRows(unittest.TestCase):
         self.assertEqual([routing.route_json(r) for r in routes], [routing.route_json(r) for r in again])
 
 
+class GolfPasses(unittest.TestCase):
+    """rc4 (2026-11-04): the sugar pass G3s runs on every default route, right after G3."""
+
+    def test_default_route_lists_g3s_after_g3(self):
+        for problem in (SHORT, STRUCT, ALGEBRA, COMP):
+            passes = route(problem).golf["passes"]
+            self.assertIn("G3s", passes)
+            self.assertEqual(passes.index("G3s"), passes.index("G3") + 1)
+        self.assertEqual(routing.golf_for("algebra-analysis-long", 500)["passes"], ["G1", "G2", "G3", "G3s", "G4"])
+        self.assertEqual(routing.golf_for("algebra-analysis-long", 700)["passes"], ["G1", "G2", "G3", "G3s"])
+        self.assertEqual(routing.golf_for("short-tactic", None)["passes"], ["G1", "G2", "G3", "G3s"])
+        self.assertEqual(routing.golf_for("kernel-decide-tiny", 10)["passes"], ["G5", "G3"])
+        self.assertIn("G3s", routing.default_route(STRUCT).golf["passes"])
+        self.assertNotIn("G3s", route(TINY).golf["passes"])
+        # Budgets are unchanged (amendment A7): G3s costs about one compile per batch out of these.
+        value = routing.golf_for("algebra-analysis-long", 500)
+        self.assertEqual((value["original_compiles"], value["max_compiles_best"], value["max_compiles_other"],
+                          value["max_compiles_row"], value["top_k"]), (4, 8, 4, 12, 2))
+
+    def test_route_validation_accepts_every_golf_pass(self):
+        from lean_agent.final60 import golf
+        self.assertEqual(set(routing.GOLF_PASSES), {name for name, _ in golf.PASSES})
+        value = route(STRUCT)
+        self.assertIn("G3s", value.golf["passes"])
+        routing.validate_route(value)
+        routing.validate_route(routing.route_from_json(routing.route_json(value)))
+        for extra in ("G4h", "G6", "G2s", "G5"):
+            routing.validate_route(dataclasses.replace(value, golf={**value.golf, "passes": value.golf["passes"] + [extra]}))
+        for bad in (["G1", "G9"], ["g3s"], "G3s"):
+            with self.assertRaises(ValueError):
+                routing.validate_route(dataclasses.replace(value, golf={**value.golf, "passes": bad}))
+        # Only G3s is enabled: G4h, G6 and G2s are valid names on no route of route_rules.json.
+        spec = routing.rules()["golf"]
+        listed = set(spec["default"]["passes"]) | {name for item in spec["by_type"].values() for name in item["passes"]}
+        self.assertEqual(listed, {"G1", "G2", "G3", "G3s", "G4", "G5"})
+
+
 if __name__ == "__main__":
     unittest.main()
