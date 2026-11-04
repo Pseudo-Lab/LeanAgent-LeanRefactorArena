@@ -1,0 +1,321 @@
+{
+  "rows": [
+    {
+      "arm": "control",
+      "problem": "F002",
+      "timings": {
+        "wall_seconds": 120.61863862583414,
+        "compiler_lock_wait_seconds": 16.476278664544225,
+        "lock_held_seconds": 103.95898404461332,
+        "new_compiler_invocations": 30,
+        "cache_hits": 1,
+        "environment_verify_seconds": 1.8911132935900241,
+        "compiler_seconds": 101.37371358531527,
+        "api_seconds": 347.3965288756881,
+        "trial_wall_seconds": 515.073647,
+        "unattributed_runner_seconds": 47.05847949847782,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 515.073647,
+        "unattributed_active_runner_seconds": 47.05847949847782
+      },
+      "actions": {
+        "search": 4,
+        "propose": 11,
+        "rejected": 1,
+        "inspect": 6,
+        "analyze": 1,
+        "repair": 1
+      }
+    },
+    {
+      "arm": "control",
+      "problem": "F007",
+      "timings": {
+        "wall_seconds": 119.13556746067479,
+        "compiler_lock_wait_seconds": 13.7373247530777,
+        "lock_held_seconds": 105.02375387656502,
+        "new_compiler_invocations": 55,
+        "cache_hits": 2,
+        "environment_verify_seconds": 3.5349936697166413,
+        "compiler_seconds": 100.21426011878066,
+        "api_seconds": 563.7854287077207,
+        "trial_wall_seconds": 728.696656,
+        "unattributed_runner_seconds": 45.77565983160446,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 728.696656,
+        "unattributed_active_runner_seconds": 45.77565983160446
+      },
+      "actions": {
+        "analyze": 1,
+        "propose": 18,
+        "repair": 14,
+        "read_candidate": 2,
+        "inspect": 1,
+        "search": 2
+      }
+    },
+    {
+      "arm": "control",
+      "problem": "F009",
+      "timings": {
+        "wall_seconds": 194.79568016552366,
+        "compiler_lock_wait_seconds": 45.23702891753055,
+        "lock_held_seconds": 148.3676091688685,
+        "new_compiler_invocations": 49,
+        "cache_hits": 14,
+        "environment_verify_seconds": 4.084777090232819,
+        "compiler_seconds": 143.49642012408003,
+        "api_seconds": 607.3761762902141,
+        "trial_wall_seconds": 846.472399,
+        "unattributed_runner_seconds": 44.30054254426227,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 846.472399,
+        "unattributed_active_runner_seconds": 44.30054254426227
+      },
+      "actions": {
+        "repair": 5,
+        "propose": 32,
+        "read_candidate": 2
+      }
+    },
+    {
+      "arm": "control",
+      "problem": "F041",
+      "timings": {
+        "wall_seconds": 341.6804039988201,
+        "compiler_lock_wait_seconds": 51.89022191427648,
+        "lock_held_seconds": 289.08223708253354,
+        "new_compiler_invocations": 29,
+        "cache_hits": 1,
+        "environment_verify_seconds": 13.095362081658095,
+        "compiler_seconds": 274.4749285399448,
+        "api_seconds": 407.95917795575224,
+        "trial_wall_seconds": 894.292487,
+        "unattributed_runner_seconds": 144.6529050454277,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 894.292487,
+        "unattributed_active_runner_seconds": 144.6529050454277
+      },
+      "actions": {
+        "read_candidate": 2,
+        "inspect": 1,
+        "propose": 10,
+        "search": 4,
+        "repair": 3,
+        "analyze": 1
+      }
+    },
+    {
+      "arm": "control",
+      "problem": "F048",
+      "timings": {
+        "wall_seconds": 89.23069720645435,
+        "compiler_lock_wait_seconds": 40.85130799910985,
+        "lock_held_seconds": 47.69702854426578,
+        "new_compiler_invocations": 14,
+        "cache_hits": 1,
+        "environment_verify_seconds": 6.3007777482271194,
+        "compiler_seconds": 40.54035641462542,
+        "api_seconds": 247.9729214569088,
+        "trial_wall_seconds": 464.469548,
+        "unattributed_runner_seconds": 127.26592933663682,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 464.469548,
+        "unattributed_active_runner_seconds": 127.26592933663682
+      },
+      "actions": {
+        "inspect": 1,
+        "propose": 3,
+        "repair": 2,
+        "search": 4,
+        "analyze": 1
+      }
+    },
+    {
+      "arm": "control",
+      "problem": "F049",
+      "timings": {
+        "wall_seconds": 1661.5343244574033,
+        "compiler_lock_wait_seconds": 622.8202920001931,
+        "lock_held_seconds": 1037.8107752942014,
+        "new_compiler_invocations": 39,
+        "cache_hits": 1,
+        "environment_verify_seconds": 16.309463497949764,
+        "compiler_seconds": 1019.316516999621,
+        "api_seconds": 395.4321258740965,
+        "trial_wall_seconds": 2903.987568,
+        "unattributed_runner_seconds": 847.0211176685002,
+        "operator_pause_seconds": 591.581809,
+        "trial_active_wall_seconds": 2312.405759,
+        "unattributed_active_runner_seconds": 255.4393086685002
+      },
+      "actions": {
+        "inspect": 4,
+        "propose": 14,
+        "repair": 5,
+        "search": 4,
+        "analyze": 1,
+        "read_candidate": 1
+      }
+    },
+    {
+      "arm": "treatment",
+      "problem": "F002",
+      "timings": {
+        "wall_seconds": 135.2710729157552,
+        "compiler_lock_wait_seconds": 38.768953622085974,
+        "lock_held_seconds": 96.2804152101744,
+        "new_compiler_invocations": 29,
+        "cache_hits": 1,
+        "environment_verify_seconds": 1.8286823723465204,
+        "compiler_seconds": 93.81219254247844,
+        "api_seconds": 358.7320555811748,
+        "trial_wall_seconds": 547.154739,
+        "unattributed_runner_seconds": 53.151610503069946,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 547.154739,
+        "unattributed_active_runner_seconds": 53.151610503069946
+      },
+      "actions": {
+        "rejected": 1,
+        "analyze": 1,
+        "search": 3,
+        "inspect": 6,
+        "read_candidate": 1,
+        "propose": 11,
+        "repair": 1
+      }
+    },
+    {
+      "arm": "treatment",
+      "problem": "F007",
+      "timings": {
+        "wall_seconds": 125.2698421261739,
+        "compiler_lock_wait_seconds": 16.26884120865725,
+        "lock_held_seconds": 108.67232733569108,
+        "new_compiler_invocations": 56,
+        "cache_hits": 2,
+        "environment_verify_seconds": 3.595831123413518,
+        "compiler_seconds": 103.72774050268345,
+        "api_seconds": 516.531162252184,
+        "trial_wall_seconds": 703.101854,
+        "unattributed_runner_seconds": 61.3008496216421,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 703.101854,
+        "unattributed_active_runner_seconds": 61.3008496216421
+      },
+      "actions": {
+        "repair": 14,
+        "propose": 19,
+        "search": 1,
+        "read_candidate": 4,
+        "inspect": 1
+      }
+    },
+    {
+      "arm": "treatment",
+      "problem": "F009",
+      "timings": {
+        "wall_seconds": 131.99500291701406,
+        "compiler_lock_wait_seconds": 0.41937237372621894,
+        "lock_held_seconds": 130.74815879156813,
+        "new_compiler_invocations": 45,
+        "cache_hits": 10,
+        "environment_verify_seconds": 3.4134871303103864,
+        "compiler_seconds": 126.59139358089305,
+        "api_seconds": 524.3395942111965,
+        "trial_wall_seconds": 704.487422,
+        "unattributed_runner_seconds": 48.15282487178945,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 704.487422,
+        "unattributed_active_runner_seconds": 48.15282487178945
+      },
+      "actions": {
+        "analyze": 1,
+        "propose": 25,
+        "repair": 7,
+        "read_candidate": 3,
+        "rejected": 2
+      }
+    },
+    {
+      "arm": "treatment",
+      "problem": "F041",
+      "timings": {
+        "wall_seconds": 512.5617995455395,
+        "compiler_lock_wait_seconds": 137.38137916568667,
+        "lock_held_seconds": 374.2675280428957,
+        "new_compiler_invocations": 36,
+        "cache_hits": 1,
+        "environment_verify_seconds": 15.072593417251483,
+        "compiler_seconds": 356.89683345658705,
+        "api_seconds": 552.1233274599072,
+        "trial_wall_seconds": 1189.798642,
+        "unattributed_runner_seconds": 125.11351499455327,
+        "operator_pause_seconds": 0.0,
+        "trial_active_wall_seconds": 1189.798642,
+        "unattributed_active_runner_seconds": 125.11351499455327
+      },
+      "actions": {
+        "propose": 13,
+        "repair": 4,
+        "search": 3,
+        "analyze": 1
+      }
+    },
+    {
+      "arm": "treatment",
+      "problem": "F048",
+      "timings": {
+        "wall_seconds": 203.22260433551855,
+        "compiler_lock_wait_seconds": 153.78166591771878,
+        "lock_held_seconds": 48.74048995762132,
+        "new_compiler_invocations": 14,
+        "cache_hits": 1,
+        "environment_verify_seconds": 6.930365792475641,
+        "compiler_seconds": 41.28529666806571,
+        "api_seconds": 345.0553175006062,
+        "trial_wall_seconds": 958.484639,
+        "unattributed_runner_seconds": 410.2067171638753,
+        "operator_pause_seconds": 221.978861,
+        "trial_active_wall_seconds": 736.505778,
+        "unattributed_active_runner_seconds": 188.2278561638753
+      },
+      "actions": {
+        "inspect": 2,
+        "search": 3,
+        "propose": 3,
+        "repair": 2,
+        "analyze": 1,
+        "rejected": 1
+      }
+    },
+    {
+      "arm": "treatment",
+      "problem": "F049",
+      "timings": {
+        "wall_seconds": 1766.946469251532,
+        "compiler_lock_wait_seconds": 573.2818680822384,
+        "lock_held_seconds": 1192.7713524599094,
+        "new_compiler_invocations": 46,
+        "cache_hits": 1,
+        "environment_verify_seconds": 19.27881437377073,
+        "compiler_seconds": 1170.9122100840323,
+        "api_seconds": 523.247943876544,
+        "trial_wall_seconds": 2790.065648,
+        "unattributed_runner_seconds": 499.87123487192366,
+        "operator_pause_seconds": 199.500762,
+        "trial_active_wall_seconds": 2590.5648859999997,
+        "unattributed_active_runner_seconds": 300.37047287192365
+      },
+      "actions": {
+        "search": 3,
+        "propose": 18,
+        "analyze": 1,
+        "repair": 5,
+        "read_candidate": 1
+      }
+    }
+  ],
+  "note": "Shared preflight excluded. API, compiler and lock-wait sums are worker time; overlapping trials do not add to experiment wall time. Cache hits exclude historical compiler time. First start/completion markers include archived recovery evidence; interrupted trials include the operator pause in wall and unattributed time. Active wall fields subtract the recorded stopped-to-resumed interval, including waiting for an operator restart slot."
+}

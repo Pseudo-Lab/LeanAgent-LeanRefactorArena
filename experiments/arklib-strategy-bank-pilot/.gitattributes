@@ -1,0 +1,4 @@
+# Preserve patch syntax/context and exact proof bytes in the evidence snapshot.
+*.patch -text -whitespace
+*.lean -text
+*.csv text eol=lf

@@ -1,0 +1,1046 @@
+{
+  "invoice_verified": false,
+  "cost_basis": "provider token usage times frozen public list prices",
+  "calls": [
+    {
+      "run": "initial",
+      "step": 1,
+      "reserved_usd": "0.281855",
+      "cost_usd": "0.031249",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 13944,
+        "completion_tokens": 85,
+        "total_tokens": 14029,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 5022,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 45,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "c7fefb3283b1dc78ceb3f20a57f5d95e9acd206b7ea99fc88db6e2d332cdf636",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 2,
+      "reserved_usd": "0.3074025",
+      "cost_usd": "0.0257282",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 17365,
+        "completion_tokens": 54,
+        "total_tokens": 17419,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 22,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "383088f6100b1af4902e4c391635ac0d2a289837b1c8b3c6a6cf8fd280ff29f5",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 3,
+      "reserved_usd": "0.2953725",
+      "cost_usd": "0.0225142",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 15743,
+        "completion_tokens": 57,
+        "total_tokens": 15800,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 29,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "fab68470a698e37e527ccc1dc1beef6a17ca53726027471df4f2e19f44d17983",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 4,
+      "reserved_usd": "0.318765",
+      "cost_usd": "0.0379242",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 18833,
+        "completion_tokens": 980,
+        "total_tokens": 19813,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 180,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "19a18b0104e1c344378fb3998445d1ac18eb484314c6da92bc6d213f5758d73b",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 5,
+      "reserved_usd": "0.3187375",
+      "cost_usd": "0.0390882",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 18690,
+        "completion_tokens": 1125,
+        "total_tokens": 19815,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 332,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "27a010c69fa3ccde3703b30cf055e7c2487cd99147a2bfbece71cc15b72cd9a8",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 6,
+      "reserved_usd": "0.3087525",
+      "cost_usd": "0.0258642",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 17213,
+        "completion_tokens": 98,
+        "total_tokens": 17311,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 65,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "4a6732f983cbf52dbd278a0997283e1a5b512cd4a2d9e0bd51e66304839fa4aa",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 7,
+      "reserved_usd": "0.3329",
+      "cost_usd": "0.0329122",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 20482,
+        "completion_tokens": 149,
+        "total_tokens": 20631,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 121,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "d0699e6dcb7020bb7102e115a38b8dd2099020f0c65497473f53127651cdc300",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 8,
+      "reserved_usd": "0.32953",
+      "cost_usd": "0.0311022",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 19902,
+        "completion_tokens": 84,
+        "total_tokens": 19986,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 56,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "0c6be6b11a80c99502660f747462c586746d721cd9d0d9f7a30e0d4dada91ad5",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 9,
+      "reserved_usd": "0.34062",
+      "cost_usd": "0.0474462",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 21514,
+        "completion_tokens": 1396,
+        "total_tokens": 22910,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 504,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "0e202a56f79b2a383e0d82d45feaebbf966ef37fd3d0dff7e18b9c2aaeb2c129",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 10,
+      "reserved_usd": "0.330845",
+      "cost_usd": "0.0418862",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 20219,
+        "completion_tokens": 1099,
+        "total_tokens": 21318,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 225,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "ba27c59707bc61fc3069d4783de27832d14b30ca37931c83fb196f980a73524a",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 11,
+      "reserved_usd": "0.324875",
+      "cost_usd": "0.0397582",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 19170,
+        "completion_tokens": 1096,
+        "total_tokens": 20266,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 193,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "a52ace08a3e0044b79687195c73fad02db63c50eb62a50815c46e2ccb4ea1427",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 12,
+      "reserved_usd": "0.31662",
+      "cost_usd": "0.0279902",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 18386,
+        "completion_tokens": 76,
+        "total_tokens": 18462,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 52,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "b8847fab686c16145dd695b5f1374b24adf855fb9186b1dde8e6adeafda1ae96",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 13,
+      "reserved_usd": "0.2989425",
+      "cost_usd": "0.0236702",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 15921,
+        "completion_tokens": 137,
+        "total_tokens": 16058,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 92,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "f6b0b483179f42f7080b809052c000be9cf7fee02e5643b76407ecc507ab5153",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 14,
+      "reserved_usd": "0.32282",
+      "cost_usd": "0.0298262",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 19209,
+        "completion_tokens": 95,
+        "total_tokens": 19304,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 63,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "b1232d91d3833768ff2c9d0bcf418562be037cff5fb44ccdbc79dc370da2a94c",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 15,
+      "reserved_usd": "0.3092925",
+      "cost_usd": "0.0260942",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 17458,
+        "completion_tokens": 72,
+        "total_tokens": 17530,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 44,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "0d71b0880a02a239bdc94608963ad83c986fd3b57db2ac073de00bc2e68314e2",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 16,
+      "reserved_usd": "0.33152",
+      "cost_usd": "0.0449742",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 20448,
+        "completion_tokens": 1362,
+        "total_tokens": 21810,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 432,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "464db3cb7740ea713f8913f6b0414b03ea2937b3615ce0ca5492871a3f6ad8fc",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 17,
+      "reserved_usd": "0.327735",
+      "cost_usd": "0.0313022",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 20002,
+        "completion_tokens": 84,
+        "total_tokens": 20086,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 60,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "ba85b90806955f7c39ccefe06d4fa95df4bff29a7d408c75dc45e99bf63bb117",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 18,
+      "reserved_usd": "0.3089575",
+      "cost_usd": "0.0370562",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 17354,
+        "completion_tokens": 1189,
+        "total_tokens": 18543,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 304,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "6a1209b1428eaf196f0737f730123be4b2e3e9d9bc14f8785383b6dcba3e3322",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 19,
+      "reserved_usd": "0.3164325",
+      "cost_usd": "0.0400682",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 18420,
+        "completion_tokens": 1277,
+        "total_tokens": 19697,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 464,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "d0545087800f706b018eb90b094a7bedccbf6af7e54b37f364fce162ba329cce",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 20,
+      "reserved_usd": "0.307195",
+      "cost_usd": "0.0256102",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 17016,
+        "completion_tokens": 112,
+        "total_tokens": 17128,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 80,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "be2986e527f1ca531c0d2a66207691ec2dfc17ec24a8302cd926d0e85317830f",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 21,
+      "reserved_usd": "0.30683",
+      "cost_usd": "0.0384002",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 16986,
+        "completion_tokens": 1397,
+        "total_tokens": 18383,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 482,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "59886c1400298549c403c09fbfee6b044667294e51dd317a8c20f1f3578f5fdc",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 22,
+      "reserved_usd": "0.3053225",
+      "cost_usd": "0.0250522",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 16902,
+        "completion_tokens": 79,
+        "total_tokens": 16981,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 55,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "e73d985ec429303af52e270f2a264ad622c42bec476a9c1b299d4ba0be2987e4",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 23,
+      "reserved_usd": "0.29801",
+      "cost_usd": "0.0232002",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 15861,
+        "completion_tokens": 102,
+        "total_tokens": 15963,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 70,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "17235659d0f8dcdaa7925ec2f1bfca6b61c747b43b930c0bf70514bc6fda8a62",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 24,
+      "reserved_usd": "0.2971525",
+      "cost_usd": "0.0229342",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 15798,
+        "completion_tokens": 88,
+        "total_tokens": 15886,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 48,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "80b1694c6cfdbcc76774a4a2f58d6c963d3f00b045f960a7b79c29069901348a",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 25,
+      "reserved_usd": "0.32154",
+      "cost_usd": "0.0300202",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 19046,
+        "completion_tokens": 147,
+        "total_tokens": 19193,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 120,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "0c89c5e2077c08d21c0d54765616cb1628979f8fbc363757d8260a4fc42edfda",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 26,
+      "reserved_usd": "0.331305",
+      "cost_usd": "0.0461602",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 20676,
+        "completion_tokens": 1435,
+        "total_tokens": 22111,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 511,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "7a85a3a5fe5e1615c75fc7c8cd36c80e21cf9e9c4a8da60f4974c0e0da5c5e0f",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 27,
+      "reserved_usd": "0.327125",
+      "cost_usd": "0.0311542",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 20073,
+        "completion_tokens": 55,
+        "total_tokens": 20128,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 31,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "9262843740978569e9826795cb48bf08303b026510d5c21583e39d2f95c1cf21",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 28,
+      "reserved_usd": "0.3205475",
+      "cost_usd": "0.0318802",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 19091,
+        "completion_tokens": 324,
+        "total_tokens": 19415,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 296,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "8581dc4a8c1dd5eab6d50ff0f4f6f73ec12a17331996b85b7c1d8d247de203f5",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 29,
+      "reserved_usd": "0.331355",
+      "cost_usd": "0.0328462",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 20494,
+        "completion_tokens": 140,
+        "total_tokens": 20634,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 108,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "ab073b330dba21ae596cd1cf4ea76f9cbdb216c3106ee2b6b4dffc6e7921d015",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 30,
+      "reserved_usd": "0.3083375",
+      "cost_usd": "0.0390182",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 17305,
+        "completion_tokens": 1395,
+        "total_tokens": 18700,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 598,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "caa59e0c1e134930b98e976a89d886668f36fb0949479b656efd3a5f018a4178",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 31,
+      "reserved_usd": "0.31416",
+      "cost_usd": "0.0389522",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 18142,
+        "completion_tokens": 1221,
+        "total_tokens": 19363,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 396,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "69a85e777881b9c6c987af8ac117a0eedd2fe0fdabf00c69de49e1418096b1b6",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 32,
+      "reserved_usd": "0.3146775",
+      "cost_usd": "0.0275922",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 18167,
+        "completion_tokens": 80,
+        "total_tokens": 18247,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 56,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "7f63b1bff80a9abf0710d8a9d36a4c4ec57be7663ad1402261e8bbddb236f659",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 33,
+      "reserved_usd": "0.29743",
+      "cost_usd": "0.0350802",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 15761,
+        "completion_tokens": 1310,
+        "total_tokens": 17071,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 550,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "8a9ada69af6d4dd4fee6c6e73614777d983dcfd6b59cbbed30cb338e8119a1f6",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 34,
+      "reserved_usd": "0.3061175",
+      "cost_usd": "0.0336162",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 16854,
+        "completion_tokens": 945,
+        "total_tokens": 17799,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 178,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "e2d3d2011c8be75cd671dacfa961cd7140e059b3070cca950c38c27934fe21c7",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 35,
+      "reserved_usd": "0.304155",
+      "cost_usd": "0.0341162",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 16704,
+        "completion_tokens": 1025,
+        "total_tokens": 17729,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 338,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "06683c8316a59e3fe65461a6f5d3a6901c853b0a9538a32252bde39202b45df5",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 36,
+      "reserved_usd": "0.30849",
+      "cost_usd": "0.0360622",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 17147,
+        "completion_tokens": 1131,
+        "total_tokens": 18278,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 364,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "5d8db08e50ed4a137ec71f71822c7bc7670234025862a0ff341b4b571ba31e3b",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 37,
+      "reserved_usd": "0.3043375",
+      "cost_usd": "0.0354302",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 16706,
+        "completion_tokens": 1156,
+        "total_tokens": 17862,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 378,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "1064b9203ae9f481997c382ae7f0d0bc247ab0f69627635acffd87da200742c2",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 38,
+      "reserved_usd": "0.3044525",
+      "cost_usd": "0.0345642",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 16703,
+        "completion_tokens": 1070,
+        "total_tokens": 17773,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 267,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "9560ee803c8a2500e64f25d93062be1802eaaa91ac61365d0bb29c79874dc483",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 39,
+      "reserved_usd": "0.305765",
+      "cost_usd": "0.0371182",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 16860,
+        "completion_tokens": 1294,
+        "total_tokens": 18154,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 512,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "c77009f719976e61e9c1eb628c39a1500e8159b4183be46501c19565a64420d5",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    },
+    {
+      "run": "initial",
+      "step": 40,
+      "reserved_usd": "0.30545",
+      "cost_usd": "0.0361322",
+      "model": "gpt-6.1-sol",
+      "service_tier": "default",
+      "usage": {
+        "prompt_tokens": 16832,
+        "completion_tokens": 1201,
+        "total_tokens": 18033,
+        "prompt_tokens_details": {
+          "cached_tokens": 5022,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 423,
+          "audio_tokens": 0,
+          "accepted_prediction_tokens": 0,
+          "rejected_prediction_tokens": 0
+        }
+      },
+      "raw_response_sha256": "3de86bcbc51d7b30ddbb992ab0aba36f352359461bf800497813832429165a60",
+      "receipt_cost_basis": "provider-token-usage-times-frozen-public-list-prices"
+    }
+  ]
+}

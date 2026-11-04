@@ -1,0 +1,251 @@
+{
+  "checked_at": "2026-10-23T15:46:18.919336+00:00",
+  "status": "completed",
+  "requested_solver_parallelism": 4,
+  "maximum_available_independent_subagents": 3,
+  "actual_scheduling": "P01-r1, P01-r2, P13-r1 first; P13-r2 spawned after P01-r1 completed",
+  "trial_count": 4,
+  "all_final_valid": true,
+  "all_record_replays_passed": true,
+  "all_frozen_inputs_unchanged": true,
+  "comparisons": {
+    "P01": {
+      "same_frozen_inputs_and_code": {
+        "input/problem.json": true,
+        "input/source.lean": true,
+        "input/context.lean.in": true,
+        "input/prompt.txt": true,
+        "code/harness.py": true,
+        "code/subagent_trials.py": true
+      },
+      "same_first_request_bytes": false,
+      "initial_baseline_measurements": [
+        {
+          "raw_heartbeats": 5173306,
+          "tokens": 313
+        },
+        {
+          "raw_heartbeats": 5173304,
+          "tokens": 313
+        }
+      ],
+      "same_selected_proof": true
+    },
+    "P13": {
+      "same_frozen_inputs_and_code": {
+        "input/problem.json": true,
+        "input/source.lean": true,
+        "input/context.lean.in": true,
+        "input/prompt.txt": true,
+        "code/harness.py": true,
+        "code/subagent_trials.py": true
+      },
+      "same_first_request_bytes": false,
+      "initial_baseline_measurements": [
+        {
+          "raw_heartbeats": 115674914,
+          "tokens": 1769
+        },
+        {
+          "raw_heartbeats": 115674916,
+          "tokens": 1769
+        }
+      ],
+      "same_selected_proof": false
+    }
+  },
+  "limitations": [
+    "Unmetered Codex subagents; exact backend model ID, hidden context, call counts and costs not observable",
+    "No OS isolation; prepared libraries shared read-only by policy",
+    "Same fixed rules can produce different first model requests because independently measured baselines vary",
+    "Two repetitions per problem do not establish general performance stability",
+    "Local metric; no official competition evaluation"
+  ],
+  "protocol": "subagent-trials.md",
+  "raw_records": "runs/first-harness-jwkweon/p01-p13-subagents-20261024/",
+  "trials": [
+    {
+      "trial_id": "P01-r1",
+      "problem_id": "P01",
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 3238489556,
+        "raw_heartbeats": 5173306,
+        "raw_samples": [
+          5173231,
+          5173562,
+          5173306
+        ],
+        "sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4",
+        "tokens": 313
+      },
+      "selected_local_score": 1.0,
+      "final": {
+        "raw_heartbeats": 5173302,
+        "raw_samples": [
+          5173231,
+          5173558,
+          5173302
+        ],
+        "tokens": 313
+      },
+      "final_valid": true,
+      "record_replay_passed": true,
+      "frozen_inputs_unchanged": true,
+      "artifact_index_sha256": "bd07814b0714b6b80a1f7ca8a47545ea04bbafb345ed4717ba6a8b802812c8af",
+      "api_calls": 0,
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "trial_started_at": "2026-10-23T15:19:21.576364+00:00",
+      "finished_at": "2026-10-23T15:25:49.429360+00:00"
+    },
+    {
+      "trial_id": "P01-r2",
+      "problem_id": "P01",
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 5173304,
+        "raw_samples": [
+          5173233,
+          5173558,
+          5173304
+        ],
+        "tokens": 313
+      },
+      "selected": {
+        "rank_numerator": 3238488304,
+        "raw_heartbeats": 5173304,
+        "raw_samples": [
+          5173233,
+          5173558,
+          5173304
+        ],
+        "sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4",
+        "tokens": 313
+      },
+      "selected_local_score": 1.0,
+      "final": {
+        "raw_heartbeats": 5173302,
+        "raw_samples": [
+          5173231,
+          5173558,
+          5173302
+        ],
+        "tokens": 313
+      },
+      "final_valid": true,
+      "record_replay_passed": true,
+      "frozen_inputs_unchanged": true,
+      "artifact_index_sha256": "bfb4154232fc425b0a245b6e3783c4362b6fd517ad18ae0b174eec3ddd259e6e",
+      "api_calls": 0,
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "trial_started_at": "2026-10-23T15:19:21.576516+00:00",
+      "finished_at": "2026-10-23T15:27:30.671249+00:00"
+    },
+    {
+      "trial_id": "P13-r1",
+      "problem_id": "P13",
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 115674914,
+        "raw_samples": [
+          115676746,
+          115674914,
+          115674509
+        ],
+        "tokens": 1769
+      },
+      "selected": {
+        "rank_numerator": 53906445006,
+        "raw_heartbeats": 3335984,
+        "raw_samples": [
+          3335936,
+          3336202,
+          3335984
+        ],
+        "sha256": "71b2860b0795606d5729c365510556a33605668a8b391142520eed5bd5923a9c",
+        "tokens": 415
+      },
+      "selected_local_score": 0.13171756037952734,
+      "final": {
+        "raw_heartbeats": 3335984,
+        "raw_samples": [
+          3335936,
+          3336202,
+          3335984
+        ],
+        "tokens": 415
+      },
+      "final_valid": true,
+      "record_replay_passed": true,
+      "frozen_inputs_unchanged": true,
+      "artifact_index_sha256": "4f82b1df4db2dfe545f5cc7ae5f3b468b254c998f06e1c871c474d5bcd779f46",
+      "api_calls": 0,
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "trial_started_at": "2026-10-23T15:19:21.576262+00:00",
+      "finished_at": "2026-10-23T15:45:29.674720+00:00"
+    },
+    {
+      "trial_id": "P13-r2",
+      "problem_id": "P13",
+      "status": "completed",
+      "baseline": {
+        "raw_heartbeats": 115674916,
+        "raw_samples": [
+          115676735,
+          115674916,
+          115674521
+        ],
+        "tokens": 1769
+      },
+      "selected": {
+        "rank_numerator": 81313939082,
+        "raw_heartbeats": 5555026,
+        "raw_samples": [
+          5554998,
+          5555026,
+          5555041
+        ],
+        "sha256": "7edfeca907bfd3055dfbb0dd3b06c2b43858d6e5b3e4a6de3426c9b24fd640b5",
+        "tokens": 618
+      },
+      "selected_local_score": 0.19868632580679588,
+      "final": {
+        "raw_heartbeats": 5555026,
+        "raw_samples": [
+          5554998,
+          5555026,
+          5555040
+        ],
+        "tokens": 618
+      },
+      "final_valid": true,
+      "record_replay_passed": true,
+      "frozen_inputs_unchanged": true,
+      "artifact_index_sha256": "c8bf47f7c3355c4a92610a7b87a293fd68ffbed53f45bb175dd19fe65f9c0a96",
+      "api_calls": 0,
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "trial_started_at": "2026-10-23T15:19:21.576162+00:00",
+      "finished_at": "2026-10-23T15:45:58.386017+00:00"
+    }
+  ],
+  "observations": [
+    "All four trials completed exactly three proof proposals, passed final Lean verification, record replay, frozen-input checks and coordinator request/state attribution checks.",
+    "P01 retained the original in both trials. Verified shorter proposals increased raw heartbeats enough to lose under the fixed local metric.",
+    "P13 selected different improved proofs: 415 and 618 source tokens, with local scores 0.13171756037952734 and 0.19868632580679588.",
+    "Both problem pairs had identical frozen source, prompt, context and runner code, but their first requests differed because independent baseline heartbeat medians differed by two.",
+    "These are unmetered Codex-subagent runs, not a controlled OpenRouter model/cost experiment. No exact hidden-model context or internal invocation count is claimed."
+  ]
+}

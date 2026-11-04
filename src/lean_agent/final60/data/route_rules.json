@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "version": "final60-route-rules-v1",
+  "note": "Thresholds and per-row scheduling rules only; never proof text. Scores are estimates, not measurements.",
+  "types": ["kernel-decide-tiny", "short-tactic", "structural-induction", "algebra-analysis-long", "competition"],
+  "classify": {
+    "order": ["kernel-decide-tiny", "competition", "short-tactic", "structural-induction", "algebra-analysis-long"],
+    "kernel_decide_tiny_max_t0": 16,
+    "competition_sources": ["putnambench"],
+    "short_tactic_max_t0_exclusive": 300,
+    "structural_sources": ["strata", "cslib"],
+    "algebra_sources": ["physlib", "arklib", "leanpool"],
+    "unknown_source_structural_lines_per_split": 15,
+    "unknown_source_structural_statement_words": ["Typing", "LTS", "Step", "Red", "Eval", "Derivation"]
+  },
+  "skip_llm_types": ["kernel-decide-tiny"],
+  "portfolio": {
+    "default": {"scout_evaluations": 6, "merger_evaluations": 22, "rounds": 1, "merger_until_budget": true,
+                "progress_guard": "bounded-v1", "hide_original_first_scout": true},
+    "by_type": {
+      "competition": {"merger_until_budget": false}
+    },
+    "note": "Competition keeps the standard 6x3 + 22 loop (design section 10: near saturation, compile slots go to weaker rows)."
+  },
+  "wallclock_budget_s": {"default": 4500, "kernel-decide-tiny": 1200},
+  "golf": {
+    "default": {"original_compiles": 4, "top_k": 2, "max_compiles_best": 8, "max_compiles_other": 4,
+                "max_compiles_row": 12, "minutes": 20, "passes": ["G1", "G2", "G3", "G3s", "G4"]},
+    "by_type": {
+      "kernel-decide-tiny": {"original_compiles": 8, "top_k": 0, "max_compiles_best": 0, "max_compiles_other": 0,
+                             "max_compiles_row": 8, "passes": ["G5", "G3"]}
+    },
+    "ddmin_max_t0": 600,
+    "note": "Amendment A7: at most 4 screens on the original and 12 per row on candidates (best 8, next 4); no ddmin when T0 > 600. A14: G1/G2 first. rc4: G3s (syntax sugar, about 1 compile per batch) right after G3 on default routes. G4h/G6/G2s are valid names but enabled on no route."
+  },
+  "priority": {
+    "base": {"kernel-decide-tiny": 70, "algebra-analysis-long": 40, "structural-induction": 30, "short-tactic": 30,
+             "competition": 10},
+    "weak_boost": 15,
+    "weak_sources": ["cslib", "arklib"],
+    "weak_rows": [],
+    "size_t0_cap": 6000,
+    "size_t0_per_point": 600,
+    "note": "No per-row rules: weak_rows stays empty (row lists from earlier runs on the final benchmark are benchmark-specific). Weak sources go first within longest-first order. kernel-decide-tiny rows (no API, about 8 golf compiles each) start first so their gain is locked in while LLM rows are still in preflight; this departs from pure longest-first. Putnam stays last per design section 10; its expected gain over the original is the largest (estimate), so raise competition here if rows risk never starting."
+  },
+  "hints": {
+    "max_hints": 6,
+    "playbook_core": 3,
+    "bank_cards": 0,
+    "lessons": 1,
+    "many_versions_min": 3,
+    "hb_heavy_min_raw": 100000000
+  },
+  "expected_score": {
+    "by_source": {"strata": 75.0, "physlib": 66.0, "cslib": 69.0, "arklib": 66.0, "leanpool": 74.0, "putnambench": 91.0},
+    "kernel-decide-tiny": 36.0,
+    "default": 70.0,
+    "note": "Estimates calibrated on the team dashboard's per-source means (OpenAI direct runs); not measurements of this harness."
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "created_at": "2026-11-02T23:38:00.654409+00:00",
+  "rows": [
+    2,
+    7,
+    9,
+    41,
+    48,
+    49
+  ],
+  "arms": {
+    "control": "baseline",
+    "treatment": "structure-repair-v1"
+  },
+  "total_cap_usd": "12.00",
+  "per_problem_per_arm_cap_usd": "1.00",
+  "repetitions": 1,
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "max_problem_workers": 2,
+  "primary_endpoint": "paired final score improvement from the shared historical-best seed",
+  "secondary_endpoints": [
+    "settled cost",
+    "unique valid candidates",
+    "repeated lookups",
+    "first improvement cost",
+    "compiler seconds"
+  ],
+  "shared_preflight": "Control preflight measured once and copied identically to treatment before any paid dispatch; full environment boundaries still checked per trial.",
+  "limitations": "One trajectory per condition/problem; selected cohort is exploratory, not a significance test or unbiased benchmark.",
+  "verifier_sources": {
+    "evaluator.py": {
+      "source_sha256": "55bae9007d71716aabee44990910ed62ae6a09a2063fbdc9ef51805d09beaabb",
+      "snapshot_sha256": "01d68928c5a60c81f348ef00c2758435f803195bfd613227a27cedf5a7c62a0a"
+    },
+    "evaluation_cache.py": {
+      "source_sha256": "527556bef3bd63f427d7bdd0043751640aa8e1d010db68ea31903844ae074b0a",
+      "snapshot_sha256": "527556bef3bd63f427d7bdd0043751640aa8e1d010db68ea31903844ae074b0a"
+    },
+    "fast_prepared.py": {
+      "source_sha256": "94525a77678bfe67840886f5480620ed53e26427198a49ac7b034c1e785d715a",
+      "snapshot_sha256": "94525a77678bfe67840886f5480620ed53e26427198a49ac7b034c1e785d715a"
+    },
+    "test_fast_prepared.py": {
+      "source_sha256": "d576e46e1cb2e277a1a2f59e666ab8629d9f66dff31b73db910e8a81853f02f8",
+      "snapshot_sha256": "d576e46e1cb2e277a1a2f59e666ab8629d9f66dff31b73db910e8a81853f02f8"
+    }
+  }
+}

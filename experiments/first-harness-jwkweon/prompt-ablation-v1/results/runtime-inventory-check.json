@@ -1,0 +1,20 @@
+{
+  "before": {
+    "artifacts_sha256": "fe014065676e0064bec1261026ad2d086c88733fb48c9f3f1f52a2d2050d3210",
+    "checked_at": "2026-10-23T17:23:37.632388+00:00",
+    "file_count": 95212,
+    "matches_historical_lock": true,
+    "phase": "before",
+    "seconds": 24.44698879099451,
+    "full_inventory_sha256": "6a5991074dd5a997ed2b702d6df966cc0bfdc9ea1736a51ba1c91f5caa7e9663"
+  },
+  "after": {
+    "artifacts_sha256": "fe014065676e0064bec1261026ad2d086c88733fb48c9f3f1f52a2d2050d3210",
+    "checked_at": "2026-10-24T01:52:59.732604+00:00",
+    "file_count": 95212,
+    "matches_historical_lock": true,
+    "phase": "after",
+    "seconds": 21.567571833031252,
+    "full_inventory_sha256": "ddce85848e193cf6b515768a5d3501b8663b5fe0a3d60534bb4b01c4971d16d7"
+  }
+}

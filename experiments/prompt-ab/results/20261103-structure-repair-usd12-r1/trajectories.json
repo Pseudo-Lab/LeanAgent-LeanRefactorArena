@@ -1,0 +1,636 @@
+{
+  "rows": [
+    {
+      "arm": "control",
+      "problem": "F002",
+      "completed": true,
+      "candidates": 12,
+      "valid_candidates": 11,
+      "valid_non_improving_incumbent": 6,
+      "duplicate_source_candidates_including_seed": 0,
+      "rejected_actions": {
+        "Unknown corpus entry": 1
+      },
+      "improvements": [
+        {
+          "step": 16,
+          "cost_usd": "0.4876932",
+          "score": 55.76712791926857,
+          "gain": 1.3511075166202957,
+          "action": {
+            "action": "propose",
+            "parent_id": "seed-best",
+            "strategy": "Keep the transfer-based structural proof, but use narrowly scoped simp only rewrites for constructor congruence to avoid repeated tactic rewriting and definitional matching."
+          },
+          "candidate_sha256": "91460bcf8f48334671ef5b67c95851fc6c9b270e189ed77bde75f947e87bb2c0"
+        },
+        {
+          "step": 17,
+          "cost_usd": "0.5279165",
+          "score": 56.71608268120904,
+          "gain": 0.9489547619404703,
+          "action": {
+            "action": "propose",
+            "parent_id": "c016",
+            "strategy": "Retain the verified structural proof; replace equality-branch simplification and backward rewriting with direct transitivity of denotation equalities, avoiding repeated semantic term traversal."
+          },
+          "candidate_sha256": "1051f5888ab99913a90f09465ca9fbb68a904235510c0036f2f154bee81b1772"
+        },
+        {
+          "step": 19,
+          "cost_usd": "0.6051411",
+          "score": 57.91707238557821,
+          "gain": 1.2009897043691709,
+          "action": {
+            "action": "propose",
+            "parent_id": "c017",
+            "strategy": "Replace abstraction simplifier traversal with direct transitivity and function extensionality; preserve all other verified branches."
+          },
+          "candidate_sha256": "1bfd85d35885fb133061667f039a4d457c90018e98dbe6c16a3dad73edaf85cc"
+        },
+        {
+          "step": 21,
+          "cost_usd": "0.6722417",
+          "score": 58.1882264694561,
+          "gain": 0.27115408387788875,
+          "action": {
+            "action": "propose",
+            "parent_id": "c019",
+            "strategy": "Use the fixed-result-type ite inversion on the second typing proof, eliminating three unnecessary context-transfer proofs while keeping all other best-candidate branches unchanged."
+          },
+          "candidate_sha256": "8a0bbe65d26904a13a7345d684c225636864bbb3eab2fd609aa3e66da383cdb3"
+        },
+        {
+          "step": 24,
+          "cost_usd": "0.7633396",
+          "score": 58.611622829067876,
+          "gain": 0.4233963596117789,
+          "action": {
+            "action": "propose",
+            "parent_id": "c021",
+            "strategy": "Replace bound-variable simplifier traversal with direct transitivity of prefix lookup equalities; denote_bvar is definitionally the lookup, so no semantic rewrite is needed."
+          },
+          "candidate_sha256": "b03b1b9e159d88e4705529a299efa0afda020af260c08b9803ac87ae4f834dd3"
+        }
+      ]
+    },
+    {
+      "arm": "control",
+      "problem": "F007",
+      "completed": true,
+      "candidates": 32,
+      "valid_candidates": 18,
+      "valid_non_improving_incumbent": 14,
+      "duplicate_source_candidates_including_seed": 1,
+      "rejected_actions": {},
+      "improvements": [
+        {
+          "step": 2,
+          "cost_usd": "0.0463402",
+          "score": 78.69474621655507,
+          "gain": 1.3201776953153512,
+          "action": {
+            "action": "propose",
+            "parent_id": "seed-best",
+            "strategy": "Merge identical existential destructuring in quantifier and equality cases and keep constructor-only synthesis."
+          },
+          "candidate_sha256": "7077ea40db3de91051eb7e747e885839af04aae38148c394a446bdb4baf64ad1"
+        },
+        {
+          "step": 14,
+          "cost_usd": "0.2550746",
+          "score": 78.84179024126145,
+          "gain": 0.1470440247063749,
+          "action": {
+            "action": "repair",
+            "parent_id": "c013",
+            "strategy": "Restore successful constructor synthesis, but unfold typeCheck definitionally before normalizing bind success, reducing repeated equation-lemma matching."
+          },
+          "candidate_sha256": "9b8bdc349ae9ecef3416e0f97061b5725be7f4b7d8231a51d1d55701c751fa4c"
+        },
+        {
+          "step": 28,
+          "cost_usd": "0.5596504",
+          "score": 78.84301664566365,
+          "gain": 0.0012264044022032294,
+          "action": {
+            "action": "repair",
+            "parent_id": "c027",
+            "strategy": "Case binders are matched from the right; retain placeholders for the expression children and induction hypotheses so ty again names the optional annotation, preserving all working normalization and reconstruction steps."
+          },
+          "candidate_sha256": "6ee887777abf49e05880743dadf7e3c4053690e05bd665cdbc2f53432ecde518"
+        },
+        {
+          "step": 31,
+          "cost_usd": "0.6282465",
+          "score": 79.30618752529608,
+          "gain": 0.463170879632429,
+          "action": {
+            "action": "repair",
+            "parent_id": "c030",
+            "strategy": "Restore the conjunction and unused Unit-witness simplifiers required by quantifier success; use head unfolding for typeCheck while preserving every working decomposition branch."
+          },
+          "candidate_sha256": "d60d068ac1166ba753d1ab2e0dfb4b6774975a5478722a485f0b3058a5d3e660"
+        }
+      ]
+    },
+    {
+      "arm": "control",
+      "problem": "F009",
+      "completed": true,
+      "candidates": 37,
+      "valid_candidates": 32,
+      "valid_non_improving_incumbent": 32,
+      "duplicate_source_candidates_including_seed": 12,
+      "rejected_actions": {},
+      "improvements": []
+    },
+    {
+      "arm": "control",
+      "problem": "F041",
+      "completed": true,
+      "candidates": 13,
+      "valid_candidates": 10,
+      "valid_non_improving_incumbent": 5,
+      "duplicate_source_candidates_including_seed": 0,
+      "rejected_actions": {},
+      "improvements": [
+        {
+          "step": 11,
+          "cost_usd": "0.3730775",
+          "score": 90.83849719689846,
+          "gain": 0.061793934206974654,
+          "action": {
+            "action": "propose",
+            "parent_id": "seed-best",
+            "strategy": "Consolidate offset arithmetic into one destructured fact, use its named bounds directly, and share the two identical rank-contradiction branches."
+          },
+          "candidate_sha256": "c9e945d624ec1f47f02959fbbe3eb9b2cf8da37c4041110a431a2a5d990bf198"
+        },
+        {
+          "step": 12,
+          "cost_usd": "0.4168872",
+          "score": 90.87001097294035,
+          "gain": 0.03151377604189065,
+          "action": {
+            "action": "propose",
+            "parent_id": "c011",
+            "strategy": "Keep the verified geometric proof, but derive transitive offset bounds explicitly instead of asking omega to prove six conjuncts."
+          },
+          "candidate_sha256": "23862fdb8f1a02824855808bf45e15c09722bc90ed004fa6f79cad9a94f9b21b"
+        },
+        {
+          "step": 15,
+          "cost_usd": "0.5374763",
+          "score": 91.04599698323138,
+          "gain": 0.17598601029102667,
+          "action": {
+            "action": "repair",
+            "parent_id": "c014",
+            "strategy": "Repair the direct offset-data destructuring by changing the two index equalities to the local aliases before rewriting; preserve the geometric and rank arguments."
+          },
+          "candidate_sha256": "1b4171e68a7455506ee8c19508bfabc23fa952fa8ad2d22cfc228d9613180025"
+        },
+        {
+          "step": 20,
+          "cost_usd": "0.7355928",
+          "score": 91.21186679546774,
+          "gain": 0.165869812236366,
+          "action": {
+            "action": "propose",
+            "parent_id": "c015",
+            "strategy": "Keep the verified geometric contradiction and rank closure; streamline the terminal-edge rewrite and replace its arithmetic search with the explicit positive z-offset bound."
+          },
+          "candidate_sha256": "a016ce1fdc62900d59ecaf5c3b80f4237f02cc5bb215aa0c4f8216dda4f9d6fb"
+        },
+        {
+          "step": 21,
+          "cost_usd": "0.7828225",
+          "score": 91.31541565416914,
+          "gain": 0.10354885870140151,
+          "action": {
+            "action": "propose",
+            "parent_id": "c020",
+            "strategy": "Preserve the verified geometry and rank closure; inline the one-use q-to-s distinctness witness directly into the distance-class bound."
+          },
+          "candidate_sha256": "b7a644114d81604f6f45405e7992c67d2a9b72f765a53e6d0cf209834b6a18aa"
+        }
+      ]
+    },
+    {
+      "arm": "control",
+      "problem": "F048",
+      "completed": true,
+      "candidates": 5,
+      "valid_candidates": 3,
+      "valid_non_improving_incumbent": 1,
+      "duplicate_source_candidates_including_seed": 0,
+      "rejected_actions": {},
+      "improvements": [
+        {
+          "step": 7,
+          "cost_usd": "0.3861023",
+          "score": 45.46013544026898,
+          "gain": 4.951462835742504,
+          "action": {
+            "action": "propose",
+            "parent_id": "seed-best",
+            "strategy": "Replace context-wide omega calls with direct Nat order lemmas, avoiding arithmetic scans of the large recursive induction contexts while preserving every invariant branch."
+          },
+          "candidate_sha256": "bf29bb11eb19b0e22311766e7d6c563b8b7f5fbfc72ec8e36d3af479edc57f98"
+        },
+        {
+          "step": 11,
+          "cost_usd": "0.6373175",
+          "score": 47.26941708627671,
+          "gain": 1.809281646007733,
+          "action": {
+            "action": "repair",
+            "parent_id": "c010",
+            "strategy": "Repair the two concrete failures: normalize the pushed-array size in the prefix equality before applying ancReach_congr, and restore the verified singleton-array simplification. Preserve the working direct membership proofs and shared fuel bound."
+          },
+          "candidate_sha256": "260133407a5c1cccd8006da8ecb5370b7888a1af9449ee0c48f9c378c6f81e4a"
+        }
+      ]
+    },
+    {
+      "arm": "control",
+      "problem": "F049",
+      "completed": true,
+      "candidates": 19,
+      "valid_candidates": 14,
+      "valid_non_improving_incumbent": 11,
+      "duplicate_source_candidates_including_seed": 0,
+      "rejected_actions": {},
+      "improvements": [
+        {
+          "step": 15,
+          "cost_usd": "0.3800702",
+          "score": 74.5059259988164,
+          "gain": 0.004106619341598616,
+          "action": {
+            "action": "propose",
+            "parent_id": "seed-best",
+            "strategy": "Keep the verified signed-body proof and only restrict the final language-map simplification to implication, isolating constructor rewrite cost."
+          },
+          "candidate_sha256": "44e6aed8eed3a75e8b2cc7af4813d7a7ca0be1c39c43da75fda16711be155bb2"
+        },
+        {
+          "step": 16,
+          "cost_usd": "0.4080940",
+          "score": 74.51164853438651,
+          "gain": 0.005722535570114928,
+          "action": {
+            "action": "propose",
+            "parent_id": "c015",
+            "strategy": "Elaborate the generic signed-body lemma before introducing concrete formula membership and term tuples, keeping its proof context small."
+          },
+          "candidate_sha256": "175b6c3a8146db837a505634401089949484fd0d699490a966ff124a761681bb"
+        },
+        {
+          "step": 28,
+          "cost_usd": "0.7676476",
+          "score": 80.47350654313814,
+          "gain": 5.9618580087516335,
+          "action": {
+            "action": "propose",
+            "parent_id": "c016",
+            "strategy": "Use a single final simpa to transport the signed-body equivalence through the two induction hypotheses, avoiding a separate goal simplification."
+          },
+          "candidate_sha256": "df60150c23fae16d60aa5a443cb6721b8eefbd09930132a6fe500b969da3e4f7"
+        }
+      ]
+    },
+    {
+      "arm": "treatment",
+      "problem": "F002",
+      "completed": true,
+      "candidates": 12,
+      "valid_candidates": 10,
+      "valid_non_improving_incumbent": 5,
+      "duplicate_source_candidates_including_seed": 0,
+      "rejected_actions": {
+        "Unknown corpus entry": 1
+      },
+      "improvements": [
+        {
+          "step": 7,
+          "cost_usd": "0.1877056",
+          "score": 55.317398869357156,
+          "gain": 0.9013784667088842,
+          "action": {
+            "action": "repair",
+            "parent_id": "c006",
+            "strategy": "Repair congruence bridge using core congr for application; keep direct transitivity for abs and restore the verified ite rewrite branch where the prior refine closed its hole prematurely."
+          },
+          "candidate_sha256": "257ba04b14eec6e6e7ea0fa23ea689a3d3633f384b622106b8b60910dca7a9f5"
+        },
+        {
+          "step": 10,
+          "cost_usd": "0.2778164",
+          "score": 56.74462310457947,
+          "gain": 1.4272242352223117,
+          "action": {
+            "action": "propose",
+            "parent_id": "c007",
+            "strategy": "Avoid dependent elimination of the entire typing derivation in app and ite; use their inversion witnesses, retaining the shared context-transport bridge and all other working branches."
+          },
+          "candidate_sha256": "1f937615212902e1991aafc2935c1f0b61efa1436993c17ebbbee5f152e74335"
+        },
+        {
+          "step": 12,
+          "cost_usd": "0.3693740",
+          "score": 57.03898414575205,
+          "gain": 0.29436104117258566,
+          "action": {
+            "action": "propose",
+            "parent_id": "c010",
+            "strategy": "Remove three unnecessary typing transports in ite: its result type fixes all subexpression types, so invert h₂ directly rather than recomputing typeCheck independence."
+          },
+          "candidate_sha256": "a944308b162635a42d932e2b2af10cf50c9c47b1d96af2c2939218004ebb116f"
+        },
+        {
+          "step": 16,
+          "cost_usd": "0.4823224",
+          "score": 58.55915675014174,
+          "gain": 1.5201726043896855,
+          "action": {
+            "action": "propose",
+            "parent_id": "c012",
+            "strategy": "Remove rewrite traversal in both equality-result branches: compose the two unfolding equalities directly, using the existing induction equalities only to transport the operand comparison."
+          },
+          "candidate_sha256": "fd6c5941c3b12435cb44da0eed00fdbf2a97da6c2728977151e6812c94e76ce3"
+        },
+        {
+          "step": 19,
+          "cost_usd": "0.6037412",
+          "score": 58.598076671944746,
+          "gain": 0.038919921803007185,
+          "action": {
+            "action": "propose",
+            "parent_id": "c016",
+            "strategy": "Remove the remaining typing transport for the quantifier body: its type is fixed to Bool, so obtain the second body's derivation directly from quant_inv rather than rerunning context-independent type checking."
+          },
+          "candidate_sha256": "6bc480df0d844ac138fe8cb5a832f362010591d9f93888c71279a586a0f8c5eb"
+        }
+      ]
+    },
+    {
+      "arm": "treatment",
+      "problem": "F007",
+      "completed": true,
+      "candidates": 33,
+      "valid_candidates": 18,
+      "valid_non_improving_incumbent": 15,
+      "duplicate_source_candidates_including_seed": 1,
+      "rejected_actions": {},
+      "improvements": [
+        {
+          "step": 10,
+          "cost_usd": "0.194874",
+          "score": 81.47465754302493,
+          "gain": 4.100089021785209,
+          "action": {
+            "action": "propose",
+            "parent_id": "seed-best",
+            "strategy": "Share existential and conjunction elimination across the non-application branches, replacing their repeated witness patterns with one decomposition pass; retain the explicit arrow inversion bridge for application."
+          },
+          "candidate_sha256": "8c89479d2240342262895ab3aebab8bb2f3feda11face8e126786f6611b35028"
+        },
+        {
+          "step": 11,
+          "cost_usd": "0.214773",
+          "score": 82.31492620426054,
+          "gain": 0.8402686612356121,
+          "action": {
+            "action": "propose",
+            "parent_id": "c010",
+            "strategy": "Share bind-witness elimination with application as well; recover its arrow shape from the retained isArrow equation before the common substitutions and constructor step."
+          },
+          "candidate_sha256": "ede5001f347c615c89474fbcdd78849fa1f68129649262cb710864a35412ef0e"
+        },
+        {
+          "step": 36,
+          "cost_usd": "0.718982",
+          "score": 82.31615260866275,
+          "gain": 0.0012264044022032294,
+          "action": {
+            "action": "repair",
+            "parent_id": "c035",
+            "strategy": "Repair the case binder alignment: case naming consumes trailing binders, so retain anonymous placeholders for body expressions and induction hypotheses. Keep the verified common witness inversion and constructor reconstruction."
+          },
+          "candidate_sha256": "529d696813789943a97c331a5b3f3a020bae8df0d189d6fca7d6260f2684e47a"
+        }
+      ]
+    },
+    {
+      "arm": "treatment",
+      "problem": "F009",
+      "completed": true,
+      "candidates": 32,
+      "valid_candidates": 25,
+      "valid_non_improving_incumbent": 25,
+      "duplicate_source_candidates_including_seed": 8,
+      "rejected_actions": {
+        "Unknown corpus entry": 1,
+        "Unexpected or missing action fields": 1
+      },
+      "improvements": []
+    },
+    {
+      "arm": "treatment",
+      "problem": "F041",
+      "completed": true,
+      "candidates": 17,
+      "valid_candidates": 13,
+      "valid_non_improving_incumbent": 6,
+      "duplicate_source_candidates_including_seed": 0,
+      "rejected_actions": {},
+      "improvements": [
+        {
+          "step": 4,
+          "cost_usd": "0.141490",
+          "score": 90.92784751106456,
+          "gain": 0.15114424837307183,
+          "action": {
+            "action": "repair",
+            "parent_id": "c003",
+            "strategy": "Preserve shared offset bounds; expose the local x/u aliases before rewriting the anchor, fixing only the failed definitional bridge."
+          },
+          "candidate_sha256": "3f355d3286fc53bfcbc281ab6489b346b3c2eccecc4946bb1aab25ce7b9c7932"
+        },
+        {
+          "step": 9,
+          "cost_usd": "0.314454",
+          "score": 91.15494036424639,
+          "gain": 0.22709285318182992,
+          "action": {
+            "action": "repair",
+            "parent_id": "c008",
+            "strategy": "Repair only the alias-sensitive rewrites by changing offset witness types to the local aliases; give the shared anchor bound explicit offsets so removing its auxiliary pair does not leave metavariables."
+          },
+          "candidate_sha256": "1a65e280970709fa08714debc599bceeac57d39625085be8b5434f9d9078706a"
+        },
+        {
+          "step": 10,
+          "cost_usd": "0.357654",
+          "score": 92.02956025680295,
+          "gain": 0.8746198925565665,
+          "action": {
+            "action": "propose",
+            "parent_id": "c009",
+            "strategy": "Remove alias-transport work for u and s; rewrite the original offset witness directly in the shared anchor and reuse established order bounds instead of solving the anchor offsets again."
+          },
+          "candidate_sha256": "9ee5f4037ed5e3bc621f83de095f3c8f3b1d6cc2aa9d3b235eb21c2209cbfdcb"
+        },
+        {
+          "step": 11,
+          "cost_usd": "0.398864",
+          "score": 92.39987354319047,
+          "gain": 0.37031328638751404,
+          "action": {
+            "action": "propose",
+            "parent_id": "c010",
+            "strategy": "Transport the terminal-color equality directly into the offset goal, removing repeated hypothesis normalization and the intermediate type change while retaining the verified rank and tail bridges."
+          },
+          "candidate_sha256": "ffe979ae287e1ec6a3c964127463e9ddec0b5eccf781b1c2326f9c5b25a53f13"
+        },
+        {
+          "step": 17,
+          "cost_usd": "0.628780",
+          "score": 92.43965263353772,
+          "gain": 0.03977909034725258,
+          "action": {
+            "action": "propose",
+            "parent_id": "c011",
+            "strategy": "After the verified structural reduction, share rejection of the two rank slots with terminal color d₁, removing duplicated branch closure while retaining the geometric and tail-degree bridges."
+          },
+          "candidate_sha256": "c58e1a67757aaaf839e8ab86b431b5872b1a72dc704a96dc193175bfb38e0154"
+        },
+        {
+          "step": 19,
+          "cost_usd": "0.708886",
+          "score": 92.61101049166747,
+          "gain": 0.17135785812975257,
+          "action": {
+            "action": "propose",
+            "parent_id": "c017",
+            "strategy": "Remove the redundant clockwise-endpoint alias and its equality transport after the verified structural reduction; use the original offset witness directly in terminal-color transport and radial comparisons."
+          },
+          "candidate_sha256": "8118607bceae04c92580d8e50bd9ca8b8d75879cbb7b36ca175444cbb28d0236"
+        },
+        {
+          "step": 21,
+          "cost_usd": "0.787936",
+          "score": 92.62896797912613,
+          "gain": 0.017957487458659216,
+          "action": {
+            "action": "repair",
+            "parent_id": "c020",
+            "strategy": "Repair the anchor type mismatch with the verified distinct-offset class bound, preserving both radial comparisons; eliminate the remaining one-use xu-color witness directly into the shared tail-degree bound."
+          },
+          "candidate_sha256": "719942b174d3b20e70e07667c11b6c56166899f9c87ea91fa16d32ca3ff56900"
+        }
+      ]
+    },
+    {
+      "arm": "treatment",
+      "problem": "F048",
+      "completed": true,
+      "candidates": 5,
+      "valid_candidates": 3,
+      "valid_non_improving_incumbent": 1,
+      "duplicate_source_candidates_including_seed": 0,
+      "rejected_actions": {
+        "Unknown corpus entry": 1
+      },
+      "improvements": [
+        {
+          "step": 10,
+          "cost_usd": "0.5244044",
+          "score": 41.07625157222169,
+          "gain": 0.5675789676952192,
+          "action": {
+            "action": "repair",
+            "parent_id": "c009",
+            "strategy": "Keep the shared leaf/branch invariant transport; restore the leaf state's syntactic name after unfolding dfsNode so the abort equation rewrites the stopDepth hypothesis."
+          },
+          "candidate_sha256": "c01c8bccdf2cc5da866481f29ff9d94ece7da99864b14eec20e9fcf67013321a"
+        },
+        {
+          "step": 12,
+          "cost_usd": "0.6923476",
+          "score": 41.40697221678504,
+          "gain": 0.3307206445633497,
+          "action": {
+            "action": "repair",
+            "parent_id": "c011",
+            "strategy": "Retain the shared child guarantee in stop/go branches; restore the explicit node motive required to instantiate the dependent induction theorem."
+          },
+          "candidate_sha256": "bdb6570e84cee1d3abb8e1b29adf4f2904758fbf594c05f0990fb8ca3394ee67"
+        }
+      ]
+    },
+    {
+      "arm": "treatment",
+      "problem": "F049",
+      "completed": true,
+      "candidates": 23,
+      "valid_candidates": 17,
+      "valid_non_improving_incumbent": 13,
+      "duplicate_source_candidates_including_seed": 0,
+      "rejected_actions": {},
+      "improvements": [
+        {
+          "step": 12,
+          "cost_usd": "0.3110576",
+          "score": 77.02518650952943,
+          "gain": 2.5233671300546376,
+          "action": {
+            "action": "repair",
+            "parent_id": "c011",
+            "strategy": "Preserve the single signed-body witness; replace fragile rewriting through finite-support subtype coercions with direct Iff composition, then normalize only the semantic bridge."
+          },
+          "candidate_sha256": "c0189fa3d3ea1992c84675d706c0137b78551849c643ad4e46f127512dce1e46"
+        },
+        {
+          "step": 19,
+          "cost_usd": "0.5183823",
+          "score": 77.41804070821307,
+          "gain": 0.39285419868363647,
+          "action": {
+            "action": "propose",
+            "parent_id": "c012",
+            "strategy": "Replace three separate completeness parameters and sign-membership branches with a finite-family witness: one image of selected signs, one membership bridge shared over all three sentences."
+          },
+          "candidate_sha256": "2f809119ec94bdc9791b8f54f3ce0a9762c0b7627f3f88d0470b85522e84eed2"
+        },
+        {
+          "step": 25,
+          "cost_usd": "0.6902529",
+          "score": 81.14528746866186,
+          "gain": 3.727246760448793,
+          "action": {
+            "action": "propose",
+            "parent_id": "c019",
+            "strategy": "Remove the repeated finite-set projection proofs: normalize the three-point universal witness once into a conjunction of the three semantic equivalences."
+          },
+          "candidate_sha256": "2063fda84e058a9805e7a7acf9d005b5f9f73cbd41f7405b201a96453f064659"
+        },
+        {
+          "step": 26,
+          "cost_usd": "0.7220610",
+          "score": 83.02288527454911,
+          "gain": 1.8775978058872482,
+          "action": {
+            "action": "propose",
+            "parent_id": "c025",
+            "strategy": "Remove the repeated semantic relation wrapper and its unfolding: keep the finite signed-body bridge abstract in sentences, but state realization directly so the final transport normalizes without an extra local definition."
+          },
+          "candidate_sha256": "2f06b11f71556f7ae8f6861688150f55cf35491ee8b5097182f48b64104f5a23"
+        }
+      ]
+    }
+  ],
+  "note": "Exploration uses single-sample scores; final comparison uses fresh three-sample verification. Non-improvement is relative to the best rank available before that candidate. Source duplicates are exact hashes, not semantic equivalence."
+}

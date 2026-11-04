@@ -1,0 +1,38 @@
+{
+  "actual_api_budget_usd": "0",
+  "actual_api_calls": 0,
+  "conditions": [
+    "no-repair",
+    "auto-solver-v1"
+  ],
+  "corpus_sha256": "94cc70a11a223911d279ce1086980eeeb81aff7094502a14e451bbea88183890",
+  "duplicate_policy": "retain all occurrences; report a separate first-occurrence unique summary",
+  "limits": {
+    "depth": 2,
+    "lean_calls": 64,
+    "lean_seconds": 10,
+    "memory_mib": 2048,
+    "node_calls": 2,
+    "nodes": 8,
+    "repair_calls": 6,
+    "repair_seconds": 120,
+    "run_calls": 32,
+    "run_seconds": 600
+  },
+  "model_dispatch_enabled": false,
+  "profile_enabled": false,
+  "recursive_repair": "not_measured",
+  "reference_policy": "one shared original evaluation per problem; baseline failure stops every corresponding case",
+  "revision": "historical-auto-1",
+  "scope": "fixed historical failures; no generation loop",
+  "source_commit": "c60b6b6d7ea111d3451e14af52c994cd1cc71f8a",
+  "source_tree_dirty": false,
+  "tactics": [
+    "rfl",
+    "assumption",
+    "trivial",
+    "simp",
+    "omega",
+    "grind"
+  ]
+}

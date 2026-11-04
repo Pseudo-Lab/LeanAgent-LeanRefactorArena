@@ -1,0 +1,8 @@
+{
+  "usage_cost_replay_passed": true,
+  "record_replay_passed": true,
+  "model_called": false,
+  "lean_called": false,
+  "steps": 40,
+  "selected_sha256": "780d371904d7b31fdf2d472fac7c9bb3b5a09ba0989411b41fc18b8fab5dcc53"
+}

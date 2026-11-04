@@ -1,0 +1,105 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+This is an ArkLib refactoring experiment. Minimize combined source-token and raw-heartbeat ratios. Only edit the proof body; preserve the exact statement. No new imports, global helpers, options, axioms, sorry or unsafe evaluation. Use original input and generic strategy hints; historical improved proofs are unavailable. On propose/repair include strategy_ids for Bank strategies you selected (empty if none); the IDs are declarations, not verified attribution. Try concrete changes and repair from the diagnostics. All search/analysis calls also cost money. Stop after the configured reservation budget; do not finish early solely because one candidate passes. Screening uses Lean v4.31.0; final compatibility is checked separately on every required version.
+Pre-target source context (tail only, truncated; full proof in problem.reference):
+/-
+Copyright (c) 2024-2026 ArkLib Contributors. All rights reserved.
+Released under Apache 2.0 license as described in the file LICENSE.
+Authors: Alexander Hicks, Aleph
+-/
+
+import ArkLib.Data.CodingTheory.PolishchukSpielman.Resultant
+{{HARNESS_IMPORT}}
+{{HARNESS_COMMANDS}}
+
+/-!
+# Existence of polynomials for Polishchuk-Spielman
+
+This file contains the core existence proofs for the polynomials $P$ and $Q$
+required by the Polishchuk-Spielman lemma [BCIKS20].
+
+## Main results
+
+- `ps_exists_p`: Existence of a polynomial `P` such that `B = P * A`.
+- `ps_exists_qx_of_cancel`: Existence of `Q_x` after cancellation in the X direction.
+- `ps_exists_qy_of_cancel`: Existence of `Q_y` after cancellation in the Y direction.
+
+## References
+
+* [Ben-Sasson, E., Carmon, D., Ishai, Y., Kopparty, S., and Saraf, S., *Proximity Gaps
+    for Reed-Solomon Codes*][BCIKS20]
+
+-/
+
+open Polynomial.Bivariate Polynomial Matrix
+open scoped BigOperators
+
+
+/-- A bivariate polynomial of degree zero in both variables divides every polynomial. -/
+lemma ps_exists_p_of_degree_x_eq_zero_nat_degree_y_eq_zero {F : Type} [Field F]
+    {A B : F[X][Y]} (hA0 : A ≠ 0)
+    (hdegX : degreeX A = 0) (hdegY : natDegreeY A = 0) :
+    ∃ P : F[X][Y], B = P * A := by
+  classical
+  rcases natDegree_eq_zero.1 (by simpa [natDegreeY] using hdegY) with ⟨a0, ha0⟩
+  subst ha0; simp_all only [ne_eq, C_eq_zero]
+  rcases natDegree_eq_zero.1 (by simpa [degreeX, support_C hA0] using hdegX) with ⟨a, ha⟩
+  subst ha; simp_all only [map_eq_zero]
+  exact ⟨B * C (C a⁻¹), by ext n m : 2; simp [coeff_mul_C, inv_mul_cancel_right₀ hA0]⟩
+
+/-- After cancellation in X, a large subset of evaluation points witnesses `P = quot_y`. -/
+lemma ps_exists_qx_of_cancel {F : Type} [Field F]
+    (a_x : ℕ) (n_x : ℕ+) {A B P : F[X][Y]} (hA : A ≠ 0) (hBA : B = P * A)
+    (P_x : Finset F) (h_card_Px : n_x ≤ P_x.card) (quot_y : F → F[X])
+    (h_quot_y : ∀ x ∈ P_x, evalX x B = (quot_y x) * (evalX x A))
+    (h_f_degX : a_x ≥ degreeX A) :
+    ∃ Q_x : Finset F, Q_x.card ≥ (n_x : ℕ) - a_x ∧ Q_x ⊆ P_x ∧
+      ∀ x ∈ Q_x, evalX x P = quot_y x := by
+  classical
+  refine ⟨P_x.filter (fun x ↦ evalX x A ≠ 0), ?_, Finset.filter_subset _ _, ?_⟩
+  · have := ps_card_eval_x_eq_zero_le_degree_x A hA P_x
+    have := Finset.card_filter_add_card_filter_not (s := P_x) (fun x ↦ evalX x A = 0)
+    have : {a ∈ P_x | ¬evalX a A = 0}.card = {x ∈ P_x | evalX x A ≠ 0}.card := rfl
+    omega
+  · intro x hx
+    exact mul_right_cancel₀ (Finset.mem_filter.mp hx).2
+      (by rw [← evalX_mul, ← hBA]; exact h_quot_y x (Finset.mem_of_mem_filter x hx))
+
+/-- After cancellation in Y, a large subset of evaluation points witnesses `P = quot_x`. -/
+lemma ps_exists_qy_of_cancel {F : Type} [Field F]
+    (a_y : ℕ) (n_y : ℕ+) {A B P : F[X][Y]} (hA : A ≠ 0) (hBA : B = P * A)
+    (P_y : Finset F) (h_card_Py : n_y ≤ P_y.card) (quot_x : F → F[X])
+    (h_quot_x : ∀ y ∈ P_y, evalY y B = (quot_x y) * (evalY y A))
+    (h_f_degY : a_y ≥ natDegreeY A) :
+    ∃ Q_y : Finset F, Q_y.card ≥ (n_y : ℕ) - a_y ∧ Q_y ⊆ P_y ∧
+      ∀ y ∈ Q_y, evalY y P = quot_x y := by
+  classical
+  refine ⟨P_y.filter (fun y ↦ evalY y A ≠ 0), ?_, Finset.filter_subset _ _, ?_⟩
+  · have := ps_card_eval_y_eq_zero_le_nat_degree_y A hA P_y
+    have := Finset.card_filter_add_card_filter_not (s := P_y) (fun y ↦ evalY y A = 0)
+    have : {a ∈ P_y | ¬evalY a A = 0}.card = {y ∈ P_y | evalY y A ≠ 0}.card := rfl
+    omega
+  · intro y hy
+    exact mul_right_cancel₀ (Finset.mem_filter.mp hy).2 (by
+      rw [← show evalY y (P * A) = evalY y P * evalY y A from by simp [evalY], ← hBA]
+      exact h_quot_x y (Finset.mem_filter.mp hy).1)
+
+/-- If `A` and `B` are coprime and agree on sufficiently many lines, then `A` is constant. -/

@@ -1,0 +1,20 @@
+{
+  "reason": "A failed required version already rejects a candidate; avoid evaluating its remaining versions.",
+  "model_generation_policy_changed": false,
+  "model_calls_repeated": 0,
+  "resume_scope": "completed screening receipts and validated same-source compiler receipts only",
+  "cache_checks": [
+    "source context and candidate bytes",
+    "source/log hashes",
+    "compiler argv",
+    "measurement JSON against log",
+    "sample count",
+    "allowed axioms"
+  ],
+  "selected_candidate_requirement": "Every required version passes check and 3 measured fresh-process receipts from this pilot.",
+  "completed_problem_results_retained": [
+    1,
+    2,
+    3
+  ]
+}

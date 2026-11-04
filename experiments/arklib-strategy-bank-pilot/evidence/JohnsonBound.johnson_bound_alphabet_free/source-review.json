@@ -1,0 +1,26 @@
+{
+  "problem": "JohnsonBound.johnson_bound_alphabet_free",
+  "selected_candidate": "c039",
+  "review_status": "agent-source-comparison",
+  "human_approved": false,
+  "attribution": "joint",
+  "observed_bank_mechanisms": [
+    {
+      "strategy_id": "M04",
+      "observation_ko": "grind 및 넓은 linarith/nlinarith 문맥을 필요한 사실의 only 목록, 직접 부등식 정리 적용, ring 인증으로 제한한다."
+    },
+    {
+      "strategy_id": "M11",
+      "observation_ko": "분모·양수 조건을 명시하고 field_simp/ring 및 곱 양수 상쇄 정리로 대수 논증을 정리한다. 제곱 부등식과 sqrt_le_iff로 긴 sqrt 나눗셈 변환을 줄인다."
+    },
+    {
+      "strategy_id": "M05",
+      "observation_ko": "보조 집합·부분집합 매핑을 따로 구성하는 대신 Nat.sInf_mem의 달성 witness를 직접 사용하고 단일 사용 별칭·래퍼를 줄인다."
+    }
+  ],
+  "additional_observed_transformations_ko": [
+    "한 최소거리 witness에서 d≥1, d≤n, n≥1을 함께 얻어 별도의 n=0 모순 증명을 제거한다.",
+    "공통 부등식과 양수 증거를 재사용해 분기별 중복 추론을 줄인다."
+  ],
+  "interpretation": "Observed joint whole-candidate gain; model-selected IDs and source-reviewed mechanisms are distinct evidence. No isolated strategy effect or human approval."
+}

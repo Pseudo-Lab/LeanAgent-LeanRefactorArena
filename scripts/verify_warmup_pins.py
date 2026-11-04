@@ -1,4 +1,4 @@
-"""Restore exact library pins and measure warmup proofs with the frozen PR3 evaluator.
+"""Restore exact library pins and measure warmup proofs with patched, frozen PR3 code.
 
 Builds run in the supplied work directory. Evidence is written separately; this
 command never edits candidates, published scores, or upstream tracked sources.
@@ -16,9 +16,16 @@ import subprocess
 import sys
 import traceback
 
+if __package__:
+    from .warmup_evaluator import EVALUATOR_REVISION, restore_evaluator
+else:
+    from warmup_evaluator import EVALUATOR_REVISION, restore_evaluator
+
 ROOT = Path(__file__).resolve().parents[1]
-EVALUATOR_REVISION = 'c18ec56682462847e2f4d8b6d60aa79ec071a10b'
 REPOSITORIES = {'arklib': 'https://github.com/Verified-zkEVM/ArkLib.git',
+                'cslib': 'https://github.com/leanprover/cslib.git',
+                'strata': 'https://github.com/strata-org/Strata.git',
+                'physlib': 'https://github.com/leanprover-community/physlib.git',
                 'putnambench': 'https://github.com/leanprover-community/mathlib4.git'}
 
 def sha(data):
@@ -27,6 +34,28 @@ def sha(data):
 def write(path, value):
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+
+def load_experiment(path):
+    """Read frozen candidate bytes without changing the published selection."""
+    data = json.loads(path.read_text())
+    snapshot = ROOT / 'dashboard/public/data/warmup-team-results.json'
+    if data['startingSnapshotSha256'] != sha(snapshot.read_bytes()):
+        raise ValueError('Experiment starting selection changed')
+    groups = data['problems']
+    if not isinstance(groups, dict) or not groups:
+        raise ValueError('Expected a nonempty problem/candidate map')
+    for problem, candidates in groups.items():
+        if not problem.isdigit() or not 1 <= int(problem) <= 15 or not isinstance(candidates, list):
+            raise ValueError('Invalid experiment problem')
+        names = set()
+        for candidate in candidates:
+            name = candidate['id']
+            if not re.fullmatch(r'[A-Za-z0-9_-]+', name) or name in names or name in {'original', 'selected'}:
+                raise ValueError('Invalid or duplicate experiment candidate label')
+            if sha(candidate['proof'].encode()) != candidate['candidateHash']:
+                raise ValueError('Experiment proof hash mismatch')
+            names.add(name)
+    return groups
 
 def trailing_doc_start(text):
     """Locate the immediately trailing declaration doc, respecting nested comments.
@@ -93,9 +122,17 @@ def main(args):
     work.mkdir(parents=True, exist_ok=True)
     output.mkdir(parents=True, exist_ok=False)
     snapshot = json.loads((ROOT / 'dashboard/public/data/warmup-team-results.json').read_text())
+    # PR #17 added --candidate-file; programmatic callers (PR #23's runner tests) may omit it.
+    candidate_file = getattr(args, 'candidate_file', None)
+    experiments = load_experiment(candidate_file) if candidate_file else None
     inputs = json.loads((ROOT / 'submissions/warmup/verification-inputs.json').read_text())
     rows = []
     for row in snapshot['problems']:
+        if experiments is not None:
+            if str(row['id']) not in experiments:
+                continue
+            selected = next(c for c in row['teamResults'] if c['id'] == row['selectedCandidateId'])
+            row = {**row, 'teamResults': [selected, *experiments[str(row['id'])]]}
         if row['source'] != args.source or str(row['id']) not in inputs['problems']:
             continue
         meta = inputs['problems'][str(row['id'])]
@@ -110,6 +147,8 @@ def main(args):
               'startedAt': datetime.now(timezone.utc).isoformat(),
               'host': platform.platform(), 'commit': os.environ.get('GITHUB_SHA'),
               'runId': os.environ.get('GITHUB_RUN_ID'), 'status': 'preparing', 'problems': []}
+    if candidate_file:
+        report['experimentInputSha256'] = sha(candidate_file.read_bytes())
     write(output / 'summary.json', report)
     counter = 0
     def run(command, cwd=work, capture=False):
@@ -125,6 +164,9 @@ def main(args):
             raise RuntimeError(f'{command[0]} failed ({result.returncode}); see {logfile.name}: {text[-2000:]}')
         return text.strip() if capture else None
     try:
+        runtime = work / 'evaluator'
+        report.update(restore_evaluator(ROOT, runtime))
+        write(output / 'summary.json', report)
         project = work / 'project'
         run(['git', 'init', str(project)])
         run(['git', 'remote', 'add', 'origin', REPOSITORIES[args.source]], project)
@@ -137,8 +179,27 @@ def main(args):
             raise ValueError(f'Toolchain mismatch: {toolchain}')
         lock = (project / 'lake-manifest.json').read_bytes()
         run(['elan', 'toolchain', 'install', toolchain], project)
-        run(['lake', 'exe', 'cache', 'get'], project)
-        target = '+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean' if args.source == 'arklib' else '+Mathlib:olean'
+        if args.source == 'strata':
+            # Strata has no Mathlib cache executable. Loading its Lake workspace
+            # fetches the dependencies recorded in the existing manifest.
+            run(['lake', 'env', 'lean', '--version'], project)
+        else:
+            run(['lake', 'exe', 'cache', 'get'], project)
+        if args.source == 'arklib':
+            targets = ['+ArkLib.ProofSystem.Binius.BinaryBasefold.Prelude:olean']
+            if any(row['id'] == 12 for row, _, _ in rows):
+                targets.append('+ArkLib.Data.CodingTheory.ProximityGap.DG25.MainResults:olean')
+        elif args.source in ('cslib', 'strata', 'physlib'):
+            # Build only modules containing problems designated for this pin.
+            # P01/P02 share a module; Cslib v4.30.0 designates only P08.
+            targets = sorted({
+                '+' + meta['file_path'].removesuffix('.lean').replace('/', '.') + ':olean'
+                for _, meta, _ in rows
+            })
+        elif args.source == 'putnambench':
+            targets = ['+Mathlib:olean']
+        else:
+            raise ValueError(f'Unsupported source: {args.source}')
         if (project / 'lake-manifest.json').read_bytes() != lock:
             raise ValueError('Preparation changed the pinned dependency manifest')
         packages = []
@@ -156,7 +217,7 @@ def main(args):
             packages.append({'name': package['name'], 'revision': head})
         report['dependencies'] = packages
         report['manifestSha256'] = sha(lock)
-        run(['lake', 'build', target], project)
+        run(['lake', 'build', *targets], project)
         if (project / 'lake-manifest.json').read_bytes() != lock:
             raise ValueError('Build changed the pinned dependency manifest')
         if sys.platform == 'linux':
@@ -165,12 +226,6 @@ def main(args):
             probe = output / 'import-probe.lean'
             probe.write_text('import Mathlib\nimport Aesop\n#check Nat\n')
             run(['lake', 'env', 'lean', f'-M{args.memory_mb}', str(probe)], project)
-        runtime = work / 'evaluator'
-        names = subprocess.check_output(['git', '-C', str(ROOT), 'ls-tree', '-r', '--name-only', EVALUATOR_REVISION, 'refactor_eval'], text=True).splitlines()
-        for name in names:
-            dest = runtime / name
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            dest.write_bytes(subprocess.check_output(['git', '-C', str(ROOT), 'show', f'{EVALUATOR_REVISION}:{name}']))
         sys.path.insert(0, str(runtime))
         from refactor_eval.lean import LeanEvaluator
         from refactor_eval.tokens import TOKENIZER_ID
@@ -248,4 +303,5 @@ if __name__ == '__main__':
     parser.add_argument('--work', type=Path, required=True)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--memory-mb', type=int, default=6144)
+    parser.add_argument('--candidate-file', type=Path)
     main(parser.parse_args())

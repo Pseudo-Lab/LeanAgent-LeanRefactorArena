@@ -19,16 +19,15 @@ PR #54의 PhysLib·CSLib F011–F030은 `public/data/physlib-cslib-results.json`
 상세의 원본 버전별 측정표와 후보 증명·버전 검증은 별도로 표시합니다.
 배포 후 검사는 원본 기준값과 후보 결과 JSON 모두를 검증한 소스와 대조합니다.
 
+## 웜업 증명 개선 연구
+
 웜업 P01–P15의 팀원 후보와 공통 환경에서 재검증한 결과를 보여줍니다.
 공식 제출 성적이 아니며 자료 미확보·환경 준비 실패·검증기 지원 대기·증명 실패를 구분합니다.
 일부 버전만 통과한 후보는 대표 환경의 측정값과 미완료 호환성을 구분해 표시합니다.
 
+정소미가 웜업 P01–P15에서 여러 성능 개선 기법을 시도하고 고정된 원본과 독립적으로 검증한 결과를 보여줍니다. 별도 자료 목록에는 원래 작성자·출처와 팀 활동 기록을 보존합니다. 공식 제출 성적이 아닙니다. 자료 미확보·환경 오류·검증기 지원 범위·증명 실패를 구분하고 미측정을 0점으로 평균내지 않습니다.
 
-후보 출처와 검증 상태는 `../submissions/warmup/manifest.json`에 있습니다.
-제출 후보·출처·재검증 실행법은 `../submissions/warmup/README.md`에 있습니다.
-문제별 대표 표시는 담당자 최종본을 우선하며, 다른 후보도 상세 화면에서 확인할 수 있습니다.
-동일한 15개 대표 후보는 `../submissions/warmup/best/`에 보관하며, 제출 준비 묶음의 `manifest.json`에서 파일 해시와 검증 상태를 확인할 수 있습니다.
-
+대표 후보는 검증된 증명의 원본 대비 토큰·HB 감소율 평균으로 선택합니다. 버전 미완료는 호환성 대기로 남깁니다. 종전 담당자 최종본 우선 선택은 별도 실험 기록에서 볼 수 있으며 모든 원래 후보와 작성자 출처를 보존합니다.
 
 ## 실행
 
@@ -77,7 +76,7 @@ python3 dashboard/scripts/export_final_baselines.py \
 
 결과 JSON은 `public/data/`에 두고 `index.json`에 파일 이름을 적습니다.
 파일 형식은 `src/lib/model.ts`에 있습니다. `warmup`은 15문제, `competition`은 50문제를 받습니다.
-P10·P11·P13·P14·P15의 웜업 JSON은 `scripts/publish_warmup_verification.py`로 검증 artifact에서 갱신하며 점수를 직접 편집하지 않습니다. 나머지 문제는 기존 측정 결과를 유지합니다. 확인하지 않은 결과는 대기로 표시합니다.
+P07·P10·P11·P12·P13·P14·P15의 웜업 JSON은 `scripts/publish_warmup_verification.py`로 검증 artifact에서 갱신하며 점수를 직접 편집하지 않습니다. 이전 실행 [40301978929](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40301978929)의 7개 summary를 반영했으며, P12 수정 후보도 지정된 세 버전의 Linux 검증을 통과했습니다. P07은 Cslib 지정 버전 3개의 CI 준비를 새로 연결한 상태로, Linux 검증·결과 게시 전까지 대기로 표시합니다. 현재 전체 실행은 10개 환경이며 Cslib 결과도 모두 전달해야 합니다. P07의 대표 측정 버전은 v4.32.0입니다. 평가 대상이 아닌 문제의 측정과 근거 링크는 유지합니다.
 JSON 불러오기는 현재 화면에서만 적용됩니다.
 
 ## 팀 PR과 개선 조사
@@ -95,6 +94,24 @@ npm test
 npm run data:check
 npm run build
 ```
+
+기본 로컬 주소는 http://127.0.0.1:4173 입니다.
+
+## 웜업 데이터와 근거
+
+- `public/data/warmup-team-results.json`: 현재 대표와 전체 후보, 주 환경 성능, 지정 버전 상태. 형식은 `src/lib/model.ts`에 있습니다.
+- `public/data/warmup-team-baseline.json`: 종전 담당자 최종본 우선 선택의 보관 사본.
+- `public/research/warmup15/experiment.json`:15문제별 기법·판단·문헌 연결과 실제 작업 경로 변경.
+- `public/research/warmup15/p12-v2.json`: P12의 별도 전체 문맥 검증. v4.31.0에서 원본1353/HB9198과 후보886/HB6575를 각각3회 확인했습니다. `separate_verified` 상태로 수치를 표시하되 공통 평균에는 합산하지 않습니다. 동일 후보의 지정 세 버전 확인도 완료했습니다.
+- `public/research/warmup15/verification.json`: 원본·출발 후보·새 후보의 측정 counter, 해시와 정확한 버전 근거. 계측 경로가 다른 진단 결과는 점수표에 섞지 않습니다.
+- `public/research/external/problem-literature.json`: 기존 63편·종전 추가 4편과 중복되지 않는 새 6편의 원문 방법 대조와 문제별 후속 실험 설계. P05–P12 우선이며, 15문제 전체의 분야 문헌 확보나 새 성능 결과를 뜻하지 않습니다. 인용 구절·PDF 해시는 같은 폴더의 `reading-evidence.json`에 있습니다.
+- `public/research/literature.json`: 저장소에서 확인한 arXiv 61편과 ACL 2편 및 추가 조사 문헌. 초록만 확인한 자료와 방법 절까지 확인한 자료를 구분합니다. 방법군의 적용이며 학습·검색 시스템 전체의 재현은 아닙니다.
+- `src/data/team-activity.json`:2026-10-26 수집한7명·PR30개·실험36묶음. 작성자 보고값과 공통 재검증값을 분리합니다. PR24의 파일 목록 API 제한도 기록했습니다.
+- `public/research/p09/experiment.json`: 동일한79토큰 증명과 원본이 정확한 세 지정 버전에서 각각3회 통과한 근거. 별도 전체 문맥 도구의1HB 미세 차이는 고정PR3에서 재현되지 않았습니다.
+
+`measuredAt`은 혼합 자료의 갱신 시각입니다. 실제 측정일·환경과 보관 결과 재사용 여부는 각 실험 근거를 확인합니다. 후보 작성과 검증 실행에는 Codex 보조를 사용했습니다. 문제별 모델 비용 장부와 예산 제한을 갖춘 대회용 자동 재현 실행은 아직 확인하지 않았습니다.
+
+현재 대시보드 선택과 `../submissions/warmup/best/`, `manifest.json`은 같은 proof SHA-256을 사용합니다. 제출 준비·실행법은 `../submissions/warmup/README.md`에 있습니다. JSON 불러오기는 현재 브라우저 화면에만 적용됩니다.
 
 ## 배포
 
@@ -142,3 +159,40 @@ Cloudflare에서 운영 확인을 마친 후 기존 Vercel 자동 배포용 Secr
 저장소 루트에서 `python3 -B dashboard/scripts/publish_final_baselines.py`를 실행하면 완료된 측정 문서와 원시 증거를 검증해 기존 공개 파일을 갱신합니다. 60/60 완료·종료 해시 검사·17개 환경과 8개 compiler의 최종 감사가 통과해야 합니다. 다른 실행은 `--run-root`, `--audit`로 지정합니다. 기존 `export_final_baselines.py`는 대표 버전의 과거 기록을 읽는 용도로 유지합니다. 공개 CI는 전체 지정 버전의 완료·identity·Length·HB 표본을 측정 JSON과 환경 lock에 대조합니다.
 
 PR은 검사·빌드만 실행하고, main 병합 시 기존 Cloudflare Pages 운영 배포가 실행됩니다. Final 측정 JSON·환경 lock 변경도 Dashboard CI를 실행합니다.
+
+### 이전 Vercel 배포 기록 (PR #17 시점)
+
+현재 운영 배포는 위 Cloudflare Pages 경로입니다. 아래는 PR #17 작성 당시 Vercel 배포 상태의 기록이며, PR #17이 추가한 `inspect_url` 수동 입력과 `inspect` 작업은 기존 Vercel 배포 조회용으로 남아 있습니다.
+
+당시 운영 주소는 https://lean-arena-dashboard.vercel.app 였습니다. `.github/workflows/dashboard-ci.yml`은 PR에서 테스트·데이터 검사·빌드를 수행하고 main에서 검사 성공 후 기존 Vercel 프로젝트에 배포했습니다. `npm run deploy:check`까지 통과해야 실제 운영 데이터가 해당 커밋과 같다고 확인할 수 있습니다.
+
+2026-10-26의 배포는 Vercel이 커밋 작성자의 프로젝트 배포 권한 부족으로 차단했습니다. [배포 진단 실행](https://github.com/Pseudo-Lab/LeanAgent-LeanRefactorArena/actions/runs/40214095577)에 원인이 남아 있습니다. 저장소 Secret의 인증·업로드는 성공했으며 프로젝트 소유자 측에서 작성자의 배포 권한 연결이 필요합니다. 로컬·저장소 반영과 운영 배포 완료를 구분합니다.
+
+- 기존 프로젝트: `lean-arena-dashboard`, `prj_3e8Wjo50Pwb0G1lNq0Vh22iD9OPS`
+- 기존 팀: `jwkweons-projects`, `team_NVZHpKfsscaAUAhvimCrDeGP`
+- 저장소 Secret: `VERCEL_TOKEN`
+- 고정 CLI:65.0.0
+
+권한 연결 후 **Dashboard CI and Production → Run workflow → main**으로 재배포합니다. 기존 배포를 조사할 때 `inspect_url`을 지정하면 조회만 수행하며 운영 배포를 발생시키지 않습니다.
+
+## 20문제 시도별 점수 추이
+
+[독립 HTML 보고서](public/reports/final20-attempts.html)는 Strata F001–F010과 LeanPool F041–F050의
+`20261102-strata-leanpool-usd3-r1` 실행만 표시합니다. 2,141회 API 시도와 사용량 기준
+$55.7459113을 완료 감사·원장·단계별 기록에 대조했습니다. 외부 의존성 없이 파일을 열어도
+작동하며, 배포 시 `/reports/final20-attempts.html`에서 볼 수 있습니다.
+
+문제별 후보 점수, 그때까지의 최고점, 실패/조회 시도를 구분합니다. 가로축은 시도 번호 또는
+누적 비용으로 전환합니다. 탐색은 단일 표본이고 최종 마커는 새로운 3회 HB 검증 결과입니다.
+후보가 없는 시도나 실패는 0점으로 처리하지 않습니다. 기존 대시보드의 최선 결과를 교체하지 않습니다.
+
+기존 기록에서만 재생성(모델·Lean 호출 없음):
+
+```sh
+python3 -B dashboard/scripts/export_final20_trajectories.py \
+  --root /ABSOLUTE/PATH/20261102-strata-leanpool-usd3-r1 \
+  --output dashboard/public/reports/final20-attempts.html
+python3 -B -m unittest discover -s dashboard/scripts -p 'test_final20_trajectories.py'
+```
+
+JSON에는 API 응답이나 절대 경로를 내보내지 않고 원본 감사·원장·문제 기록의 해시를 남깁니다.

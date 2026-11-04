@@ -20,7 +20,8 @@
     "max_proof_characters": 4000,
     "max_feedback_characters": 1200,
     "max_request_characters": 24000,
-    "cost_stop_usd": "2.50"
+    "cost_stop_usd": "2.50",
+    "cost_cap_usd": "3.00"
   },
   "model": {
     "backend": "openrouter",

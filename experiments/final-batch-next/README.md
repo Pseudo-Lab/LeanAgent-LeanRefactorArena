@@ -10,6 +10,61 @@
 이전 `final-batch` 복사본과 source snapshot은 원본 커밋 `3ee67de`에 보존하고
 새 브랜치에는 현재 실행기만 남겼다.
 
+## 기존 최선 풀이에서 시작하고 탐색 기록 기억하기
+
+새 `prepare`/`inputs`는 기본으로 격리된 scout→merger를 사용한다.
+`--no-portfolio`로 단일 문맥을 선택하면 기본적으로
+`dashboard/public/data/final-results.json`의 문제별 최선 증명을 읽는다.
+현재 20문제 중 F002·F006·F007·F008은 이전 $1 결과, 나머지는 $3 결과다.
+데이터셋·문제 이름·source·필수 버전·증명 해시·정확한 선언을 확인하고,
+문제 전체의 canonical hash와 증명/출처를 `input/warm-start.json`에 봉인한다.
+과거 측정값·비용·캐시는 새 상태로 가져오지 않는다.
+
+유료 호출 전 preflight에서 원본 baseline을 그대로 측정한 뒤, 가져온 증명을
+현재 기본 버전에서 새 프로세스로 3회 측정하고 모든 필수 버전을 검사한다.
+통과한 증명은 `seed-best`라는 부모 후보로 등록하고 원본보다 좋으면 첫 요청의
+`best_candidate_id`가 된다. 원본은 `c000`으로 남고 점수 분모도 원본을 유지한다.
+검증 실패 시 유료 호출 전에 중단한다. 초기 호출 수/지출은 0이며, 재시작 시
+동일한 검증 영수증을 재사용하고 진행된 탐색 상태를 초기화하지 않는다.
+최종 전체 버전 검사와 독립적인 최종 3회 측정도 그대로 유지한다.
+
+`--no-portfolio`와 함께 `--warm-start-manifest /path/to/final-results.json`을 사용할 수 있다.
+없는 명시적 경로, 다른 데이터셋/문제, 해시 불일치는 오류다. manifest에 없는
+문제는 원본에서 시작하고 그 사유를 저장한다. 기본 manifest 자체가 없는
+checkout에서는 `manifest_unavailable`을 기록한다. 비교 실험에는
+`--no-portfolio --cold-start`를 명시한다. 격리된 portfolio는 기존 역할 계약을 보존하기 위해
+historical seed를 사용하지 않으며, 명시적 warm-start와 함께 지정하면 거절한다.
+이미 봉인되었거나 유료 실행한 root에 새 정책을 덮어쓰지 않는다.
+
+```sh
+# 입력 준비만 수행. API 호출도 Lean 검증도 시작하지 않는다.
+PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py inputs \
+  --root runs/final-batch-next/NEW-WARM-RUN --no-portfolio --rows 1 2 3 4 5 6 7 8 9 10 41 42 43 44 45 46 47 48 49 50
+```
+
+`agent.persistent_memory: true`도 새 입력의 기본 설정이다. 공통 action 하네스의
+기존 설정은 opt-in이므로 이 항목이 없으면 이전 동작을 유지한다.
+
+- 전체 action/candidate 기록에서 검색 결과·조회한 페이지·실패한 전략과 오류를
+  매 요청에 요약한다. 최근 4회 창 밖으로 나가거나 프로세스를 재시작해도 남는다.
+  기억은 해당 문제/portfolio 역할 범위에 한정되며, 이전 실행의 실패 기록을
+  자동으로 가져오거나 다른 문제의 정리를 사용 가능하다고 간주하지 않는다.
+- 같은 검색/조회는 저장된 관측값을 돌려주고 최초 단계와 반복 횟수를 알려준다.
+  서로 다른 페이지와 후보는 구분한다. **그 행동을 고른 모델 호출 비용은 여전히
+  계산한다.** 캐시 자체가 유료 턴을 없애는 것은 아니며, 요청에 미리 제공한
+  기억과 안내로 반복 행동을 줄이는 방식이다.
+- 검색은 정확한 선언 이름을 우선하고 `theorem`, `eq` 같은 일반 단어의 영향을
+  제거한다. 일반 단어만 있는 질의는 구체적인 이름으로 좁히도록 안내한다.
+- 조회 3회 연속이면 기억을 활용한 propose/repair를 권한다. 필요한 추가 조회나
+  수정된 전략의 재시도는 막지 않는다. 실패는 해당 부모/후보의 기록이다.
+- 요청에 추가되는 기억은 최대 10,000자로 제한하고 생략 개수를 표시한다.
+  원본 기록은 자르지 않는다. 이 한도와 효과는 실제 실행에서 조정할 수 있지만
+  유료 비교 실행 전에는 속도/점수 향상을 확정하지 않는다.
+
+오프라인 테스트는 시작 후보의 검증 실패/훼손 차단, 원본 점수 기준과 비용 보존,
+재시작, 첫 후보의 부모 연결, 오래된 실패/검색 기억, 역할 격리, 요청 크기,
+검색 순위와 replay를 확인한다. 실제 API/Lean 대신 fixture를 사용한다.
+
 ## 변경한 실행 방식
 
 - 탐색 중 후보는 기본 Lean 버전에서 검사하고 1회 측정한다. 이 결과는
@@ -46,7 +101,8 @@ PYTHONPATH=src python3 -B experiments/final-batch-next/driver.py prepare --root 
 
 이는 입력 준비 명령이다. `run`에서는 봉인된 설정을 읽으므로 정책 플래그를 다시 지정하지 않는다.
 기존 준비 입력/실행의 정책은 바꾸지 않으며, 다른 정책에는 새 root가 필요하다.
-이미 준비된 입력은 플래그 없이 재개하면 기존 정책을 그대로 유지한다. 이는 이전 단일 문맥 입력에도 적용된다.
+같은 검증 정책으로 이미 준비된 입력은 플래그 없이 재개하면 기존 portfolio·프롬프트·strict-cap 정책을 그대로 유지한다.
+이는 단일 문맥 입력에도 적용된다. 이전 검증 정책의 frozen 실행은 원래 snapshot 실행기를 사용하며 새 정책으로 이관하지 않는다.
 명시적으로 다른 정책을 요청하면 새 root를 요구한다. 역할별 입력, 환율·단계 선택과
 합성 출처는 [`docs/common-harness/README.md`](../../docs/common-harness/README.md)를 따른다.
 
@@ -121,11 +177,43 @@ PYTHONPATH=src .venv/bin/python -B experiments/final-batch-next/report.py --root
 ```
 
 새 배치 authorization에는
-`verification_policy: candidate-cache-final-compatibility-fast-inventory-v2`을 기록한다.
+`verification_policy: candidate-cache-final-compatibility-memory-warm-start-v2`를 기록한다.
 이 값이 없는 기존 배치에 새 runner를 적용하려 하면 파일 변경 전에 거절한다.
 기존 배치를 이 정책으로 reseal하거나 자동 이관하지 않는다.
 
 ## 검증
+
+Linux(WSL2 포함) 실행에는 bubblewrap sandbox가 필요하다. 평가기(`evaluator.linux_sandbox`)는
+`PATH`의 `bwrap`을, 없으면 `ARENA_BWRAP`이 가리키는 실행 파일을, 그것도 없으면 준비된
+`sources/final/bin/bwrap`을 찾는다. `route60`/`route20`과 `driver.py preflight`/`run`은 시작 전에
+그 바이너리를 평가기와 같은 옵션으로 한 번 실행해 보고, 실패하면 출력 디렉터리를 만들기 전에
+종료한다. 준비된 Lean toolchain과 라이브러리는 WSL 내부 경로에 둔다. `ARENA_SOURCE_BUILD=1`을
+설정하면 Lake 소스 빌드에서 캐시 다운로드를 건너뛴다.
+
+Lean의 `-M` 메모리 한도는 기본 4096 MiB다. Linux는 mmap된 `.olean` 페이지도 상주 메모리로
+세므로 `import Mathlib`만으로 약 6 GB에 이르고, putnambench-v4.27.0 원본까지
+`lean::memory_exception`으로 실패한다(WSL2에서 측정, arklib-v4.30.0의 F032도 같은 오류).
+Linux에서 최종 행을 평가할 때는 `ARENA_LEAN_MEMORY_MIB=16384`처럼 한도를 명시한다
+(1024–262144 MiB). 값은 평가 캐시 식별자와 `route60`/`route20`의 `protocol.json`에 남는다.
+
+Lean이 `-M` 한도로 중단되면(`lean::memory_exception`; sandbox 밖에서는 SIGABRT, bwrap 아래에서는
+종료 코드 134) 평가기는 그 결과를 후보의 잘못이 아닌 환경 실패(`kind: environment`,
+`resource: lean_allocator_limit`, `retryable: true`, 명령의 `-M` 값이 `limit_mib`)로 기록한다.
+다른 시그널 종료(OOM kill은 137)도 같다. 이런 결과는 평가 캐시에 들어가지 않고 모델에 피드백으로
+가지 않으며, `driver.evaluate_cached`가 저장된 결과를 `<이름>-environment-failed-<ns>`로 옮기고
+다시 측정한다. 재시작한 worker는 그래서 실패한 baseline·reference-compatibility·후보 평가·호환성
+검사·최종 측정을 다시 시도한다. 같은 호출 안에서는 `ARENA_EVALUATION_RETRIES`(기본 2)번 더
+재시도한다. 드라이버가 직접 시간 초과로 죽인 컴파일은 `timeout` 판정을 유지한다(원본 참조만 재시도).
+
+`route60`/`route20`의 `--compiler-parallelism`(1–8)과 `driver.py prepare`/`seal`의
+`--compiler-parallelism`(authorization.json의 `max_lean_parallel`로 봉인; 기본값은
+`ARENA_COMPILER_PARALLELISM` 또는 1)은 PR #68의 메모리 게이트 compiler pool을 다른 프로세스와
+공유한다. `driver.evaluator()`는 봉인된 값을 쓰고, 실행 중에는 `ARENA_COMPILER_PARALLELISM`
+(orchestrator의 `FINAL60_COMPILER_SLOTS`도 같은 뜻)으로 덮어쓴다. 3개를 넘는 slot은 기존 메모리
+게이트(여유 메모리 15% + 활성 compiler당 10%)를 통과할 때만 채워진다. 값 1은 같은 lock 파일에
+배타 lock을 잡으므로 pool을 쓰는 compiler가 모두 끝날 때까지 기다리고, 그동안 그들을 막는다.
+다른 작업과 함께 돌릴 때는 2 이상을 쓴다. 최종 60문제 실행 중에는 개발용 Lean 작업을
+같은 pool에서 돌리지 않는다. 대기 시간이 실행 시간의 대부분을 차지할 수 있다.
 
 ```sh
 PYTHONPATH=src .venv/bin/python -B -m unittest discover -s experiments/final-batch-next -p 'test_*.py'

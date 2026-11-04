@@ -34,6 +34,7 @@ __pycache__/
 /dist/
 /runs/demo/
 /runs/manual/
+/runs/autosolver-smoke/
 /runs/environment-preflight/
 
 # API experiment credentials and full local request/runtime evidence
@@ -61,6 +62,7 @@ __pycache__/
 /experiments/final-batch-next/validation.json
 /docs/common-harness/validation.json
 /experiments/portfolio-94/
+# PR #15 tracks its archived first-harness experiment below; this rule only keeps new local outputs untracked.
 /experiments/first-harness-jwkweon/
 /experiments/feedback-summary-20261025/
 /experiments/offline-proof-search/

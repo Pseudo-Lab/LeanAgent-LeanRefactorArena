@@ -1,0 +1,551 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. Then reduce repeated whole-context simplification or broad search using recorded evidence. Judge complete proof-token and heartbeat ratios together; a shorter proof can be worse. propose: state a short concrete approach in strategy and supply the complete replacement proof. repair: fix the reported errors in the named rejected parent, preserving working branches. search/inspect: retrieve a specific missing definition or theorem rather than repeatedly browsing. After repeated failure of the same approach, branch from another candidate or change the proof structure. Search is lexical evidence only, not a theorem-prover or availability guarantee. Every action consumes paid model budget. The controller stops after actual settled cost reaches $2.50. The exact statement and original full source context are preserved by the evaluator. Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. At final selection the controller checks candidates in score order against every required version, falling back to another candidate if needed. All listed versions must accept the final candidate. No extra imports or helper declarations.
+<original_context>
+[Original imports/header]
+import Mathlib
+import Aesop
+
+[Original prefix scope-command excerpts in source order]
+L4: set_option maxHeartbeats 0
+L5: 
+L6: open Topology Filter
+L7: 
+L8: 
+
+[Original prefix immediately before target]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Topology Filter
+
+
+
+
+[context-lines-1-9]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Topology Filter
+
+
+
+
+[import-Mathlib.NumberTheory.PythagoreanTriples-5093336f-L306-369]
+-- Lexical source excerpt: module Mathlib.NumberTheory.PythagoreanTriples, lines 306-369.
+    ring
+  have h2n : (p : ℤ) ∣ 2 * n ^ 2 := by
+    convert dvd_sub hp2 hp1 using 1
+    ring
+  have hmc : p = 2 ∨ p ∣ Int.natAbs m := prime_two_or_dvd_of_dvd_two_mul_pow_self_two hp h2m
+  have hnc : p = 2 ∨ p ∣ Int.natAbs n := prime_two_or_dvd_of_dvd_two_mul_pow_self_two hp h2n
+  by_cases h2 : p = 2
+  · have h3 : (m ^ 2 + n ^ 2) % 2 = 1 := by
+      simp only [sq, Int.add_emod, Int.mul_emod, hm, hn, dvd_refl, Int.emod_emod_of_dvd]
+      decide
+    have h4 : (m ^ 2 + n ^ 2) % 2 = 0 := by
+      apply Int.emod_eq_zero_of_dvd
+      rwa [h2] at hp2
+    rw [h4] at h3
+    exact zero_ne_one h3
+  · apply hp.not_dvd_one
+    rw [← h]
+    exact Nat.dvd_gcd (Or.resolve_left hmc h2) (Or.resolve_left hnc h2)
+
+private theorem coprime_sq_sub_sq_add_of_odd_even {m n : ℤ} (h : Int.gcd m n = 1) (hm : m % 2 = 1)
+    (hn : n % 2 = 0) : Int.gcd (m ^ 2 - n ^ 2) (m ^ 2 + n ^ 2) = 1 := by
+  rw [Int.gcd, ← Int.natAbs_neg (m ^ 2 - n ^ 2)]
+  rw [(by ring : -(m ^ 2 - n ^ 2) = n ^ 2 - m ^ 2), add_comm]
+  apply coprime_sq_sub_sq_add_of_even_odd _ hn hm; rwa [Int.gcd_comm]
+
+private theorem coprime_sq_sub_mul_of_even_odd {m n : ℤ} (h : Int.gcd m n = 1) (hm : m % 2 = 0)
+    (hn : n % 2 = 1) : Int.gcd (m ^ 2 - n ^ 2) (2 * m * n) = 1 := by
+  by_contra H
+  obtain ⟨p, hp, hp1, hp2⟩ := Nat.Prime.not_coprime_iff_dvd.mp H
+  rw [← Int.natCast_dvd] at hp1 hp2
+  have hnp : ¬(p : ℤ) ∣ Int.gcd m n := by
+    rw [h]
+    norm_cast
+    exact mt Nat.dvd_one.mp (Nat.Prime.ne_one hp)
+  rcases Int.Prime.dvd_mul hp hp2 with hp2m | hpn
+  · rw [Int.natAbs_mul] at hp2m
+    rcases (Nat.Prime.dvd_mul hp).mp hp2m with hp2 | hpm
+    · have hp2' : p = 2 := (Nat.le_of_dvd zero_lt_two hp2).antisymm hp.two_le
+      revert hp1
+      rw [hp2']
+      apply mt Int.emod_eq_zero_of_dvd
+      simp only [sq, Nat.cast_ofNat, Int.sub_emod, Int.mul_emod, hm, hn,
+        mul_zero, EuclideanDomain.zero_mod, mul_one, zero_sub]
+      decide
+    apply mt (Int.dvd_coe_gcd (Int.natCast_dvd.mpr hpm)) hnp
+    apply or_self_iff.mp
+    apply Int.Prime.dvd_mul' hp
+    rw [(by ring : n * n = -(m ^ 2 - n ^ 2) + m * m)]
+    exact hp1.neg_right.add ((Int.natCast_dvd.2 hpm).mul_right _)
+  rw [Int.gcd_comm] at hnp
+  apply mt (Int.dvd_coe_gcd (Int.natCast_dvd.mpr hpn)) hnp
+  apply or_self_iff.mp
+  apply Int.Prime.dvd_mul' hp
+  rw [(by ring : m * m = m ^ 2 - n ^ 2 + n * n)]
+  apply dvd_add hp1
+  exact (Int.natCast_dvd.mpr hpn).mul_right n
+
+private theorem coprime_sq_sub_mul_of_odd_even {m n : ℤ} (h : Int.gcd m n = 1) (hm : m % 2 = 1)
+    (hn : n % 2 = 0) : Int.gcd (m ^ 2 - n ^ 2) (2 * m * n) = 1 := by
+  rw [Int.gcd, ← Int.natAbs_neg (m ^ 2 - n ^ 2)]
+  rw [(by ring : 2 * m * n = 2 * n * m), (by ring : -(m ^ 2 - n ^ 2) = n ^ 2 - m ^ 2)]
+  apply coprime_sq_sub_mul_of_even_odd _ hn hm; rwa [Int.gcd_comm]
+
+private theorem coprime_sq_sub_mul {m n : ℤ} (h : Int.gcd m n = 1)
+
+
+[import-Mathlib.NumberTheory.SiegelsLemma-2435027c-L123-187]
+-- Lexical source excerpt: module Mathlib.NumberTheory.SiegelsLemma, lines 123-187.
+
+/-- The sup norm of a non-zero integer matrix is at least one -/
+lemma one_le_norm_A_of_ne_zero (hA : A ≠ 0) : 1 ≤ ‖A‖ := by
+  by_contra! h
+  apply hA
+  ext i j
+  simp only [zero_apply]
+  rw [norm_lt_iff Real.zero_lt_one] at h
+  specialize h i j
+  rw [Int.norm_eq_abs] at h
+  norm_cast at h
+  exact Int.abs_lt_one_iff.1 h
+
+-- # Step 2: #S < #T
+
+open Real Nat
+
+private lemma card_S_lt_card_T [DecidableEq α] [DecidableEq β]
+    (hn : Fintype.card α < Fintype.card β) (hm : 0 < Fintype.card α) :
+    #S < #T := by
+  zify -- This is necessary to use card_S_eq
+  rw [card_T_eq A, card_S_eq]
+  rify -- This is necessary because ‖A‖ is a real number
+  calc
+  ∏ x : α, (∑ x_1 : β, ↑B * ↑(A x x_1)⁺ - ∑ x_1 : β, ↑B * -↑(A x x_1)⁻ + 1)
+    ≤ ∏ x : α, (n * max 1 ‖A‖ * B + 1) := by
+      refine Finset.prod_le_prod (fun i _ ↦ ?_) (fun i _ ↦ ?_)
+      · have h := N_le_P_add_one A i
+        rify at h
+        linarith only [h]
+      · simp only [mul_neg, sum_neg_distrib, sub_neg_eq_add, add_le_add_iff_right]
+        have h1 : n * max 1 ‖A‖ * B = ∑ _ : β, max 1 ‖A‖ * B := by
+          simp
+          ring
+        simp_rw [h1, ← Finset.sum_add_distrib, ← mul_add, mul_comm (max 1 ‖A‖), ← Int.cast_add]
+        gcongr with j _
+        rw [posPart_add_negPart (A i j), Int.cast_abs]
+        exact le_trans (norm_entry_le_entrywise_sup_norm A) (le_max_right ..)
+  _ = (n * max 1 ‖A‖ * B + 1) ^ m := by simp
+  _ ≤ (n * max 1 ‖A‖) ^ m * (B + 1) ^ m := by
+        rw [← mul_pow, mul_add, mul_one]
+        gcongr
+        have H : 1 ≤ (n : ℝ) := mod_cast (hm.trans hn)
+        exact one_le_mul_of_one_le_of_one_le H <| le_max_left ..
+  _ = ((n * max 1 ‖A‖) ^ (m / ((n : ℝ) - m))) ^ ((n : ℝ) - m) * (B + 1) ^ m := by
+        congr 1
+        rw [← rpow_mul (mul_nonneg (Nat.cast_nonneg' n) (le_trans zero_le_one (le_max_left ..))),
+          ← Real.rpow_natCast, div_mul_cancel₀]
+        exact sub_ne_zero_of_ne (mod_cast hn.ne')
+  _ < (B + 1) ^ ((n : ℝ) - m) * (B + 1) ^ m := by
+        gcongr
+        · exact sub_pos.mpr (mod_cast hn)
+        · exact Nat.lt_floor_add_one ((n * max 1 ‖A‖) ^ e)
+  _ = (B + 1) ^ n := by
+        rw [← rpow_natCast, ← rpow_add (Nat.cast_add_one_pos B), ← rpow_natCast, sub_add_cancel]
+
+end preparation
+
+theorem exists_ne_zero_int_vec_norm_le
+    (hn : Fintype.card α < Fintype.card β) (hm : 0 < Fintype.card α) : ∃ t : β → ℤ, t ≠ 0 ∧
+    A *ᵥ t = 0 ∧ ‖t‖ ≤ (n * max 1 ‖A‖) ^ ((m : ℝ) / (n - m)) := by
+  classical
+  -- Pigeonhole
+  rcases Finset.exists_ne_map_eq_of_card_lt_of_maps_to
+    (card_S_lt_card_T A hn hm) (image_T_subset_S A)
+
+
+[import-Mathlib.Analysis.Real.Pi.Irrational-df998f47-L237-298]
+-- Lexical source excerpt: module Mathlib.Analysis.Real.Pi.Irrational, lines 237-298.
+so the integral is positive.
+-/
+private lemma I_pos : 0 < I n (π / 2) := by
+  refine integral_pos (by simp) (by fun_prop) ?_ ⟨0, by simp⟩
+  refine fun x hx => mul_nonneg (pow_nonneg ?_ _) ?_
+  · rw [sub_nonneg, sq_le_one_iff_abs_le_one, abs_le]
+    exact ⟨hx.1.le, hx.2⟩
+  refine cos_nonneg_of_neg_pi_div_two_le_of_le ?_ ?_ <;>
+  nlinarith [hx.1, hx.2, pi_pos]
+
+/--
+Auxiliary for the proof that `π` is irrational.
+The integrand in the definition of `I` is bounded by 1 and the interval has length 2, so the
+integral is bounded above by `2`.
+-/
+private lemma I_le (n : ℕ) : I n (π / 2) ≤ 2 := by
+  rw [← norm_of_nonneg I_pos.le]
+  refine (norm_integral_le_of_norm_le_const ?_).trans (show (1 : ℝ) * _ ≤ _ by norm_num)
+  intro x hx
+  simp only [uIoc_of_le, neg_le_self_iff, zero_le_one, mem_Ioc] at hx
+  rw [norm_eq_abs, abs_mul, abs_pow]
+  refine mul_le_one₀ (pow_le_one₀ (abs_nonneg _) ?_) (abs_nonneg _) (abs_cos_le_one _)
+  rw [abs_le]
+  constructor <;> nlinarith
+
+/--
+Auxiliary for the proof that `π` is irrational.
+For any real `a`, we have that `a ^ (2n+1) / n!` tends to `0` as `n → ∞`.  This is just a
+reformulation of tendsto_pow_div_factorial_atTop, which asserts the same for `a ^ n / n!`
+-/
+private lemma tendsto_pow_div_factorial_at_top_aux (a : ℝ) :
+    Tendsto (fun n => (a : ℝ) ^ (2 * n + 1) / n !) atTop (nhds 0) := by
+  rw [← mul_zero a]
+  refine ((FloorSemiring.tendsto_pow_div_factorial_atTop (a ^ 2)).const_mul a).congr (fun x => ?_)
+  rw [← pow_mul, mul_div_assoc', _root_.pow_succ']
+
+/-- If `x` is rational, it can be written as `a / b` with `a : ℤ` and `b : ℕ` satisfying `b > 0`. -/
+private lemma not_irrational_exists_rep {x : ℝ} :
+    ¬Irrational x → ∃ (a : ℤ) (b : ℕ), 0 < b ∧ x = a / b := by
+  rw [Irrational, not_not, mem_range]
+  rintro ⟨q, rfl⟩
+  exact ⟨q.num, q.den, q.pos, by exact_mod_cast (Rat.num_div_den _).symm⟩
+
+@[simp] theorem irrational_pi : Irrational π := by
+  apply Irrational.of_div_natCast 2
+  rw [Nat.cast_two]
+  by_contra h'
+  obtain ⟨a, b, hb, h⟩ := not_irrational_exists_rep h'
+  have ha : (0 : ℝ) < a := by
+    have : 0 < (a : ℝ) / b := h ▸ pi_div_two_pos
+    rwa [lt_div_iff₀ (by positivity), zero_mul] at this
+  have k (n : ℕ) : 0 < (a : ℝ) ^ (2 * n + 1) / n ! := by positivity
+  have j : ∀ᶠ n : ℕ in atTop, (a : ℝ) ^ (2 * n + 1) / n ! * I n (π / 2) < 1 := by
+    have := (tendsto_pow_div_factorial_at_top_aux a).eventually_lt_const
+      (show (0 : ℝ) < 1 / 2 by simp)
+    filter_upwards [this] with n hn
+    rw [lt_div_iff₀ (zero_lt_two : (0 : ℝ) < 2)] at hn
+    exact hn.trans_le' (mul_le_mul_of_nonneg_left (I_le _) (by positivity))
+  obtain ⟨n, hn⟩ := j.exists
+  have hn' : 0 < a ^ (2 * n + 1) / n ! * I n (π / 2) := mul_pos (k _) I_pos
+  obtain ⟨z, hz⟩ : ∃ z : ℤ, (sinPoly n).eval₂ (Int.castRingHom ℝ) (a / b) * b ^ (2 * n + 1) = z :=
+    is_integer a b ((sinPoly_natDegree_le _).trans (by lia))
+
+
+[import-Mathlib.Analysis.Analytic.Inverse-803bb208-L502-556]
+-- Lexical source excerpt: module Mathlib.Analysis.Analytic.Inverse, lines 502-556.
+      tendsto_const_nhds.mul tendsto_id
+    have B : ∀ᶠ a in 𝓝 0, r * (I + 1) * a < 1 / 2 := by
+      apply (tendsto_order.1 this).2; simp
+    have C : ∀ᶠ a in 𝓝[>] (0 : ℝ), (0 : ℝ) < a := by
+      filter_upwards [self_mem_nhdsWithin] with _ ha using ha
+    rcases (C.and ((A.and B).filter_mono inf_le_left)).exists with ⟨a, ha⟩
+    exact ⟨a, ha.1, ha.2.1.le, ha.2.2.le⟩
+  -- check by induction that the partial sums are suitably bounded, using the choice of `a` and the
+  -- inductive control from Lemma `radius_rightInv_pos_of_radius_pos_aux2`.
+  let S n := ∑ k ∈ Ico 1 n, a ^ k * ‖p.rightInv i x k‖
+  have IRec : ∀ n, 1 ≤ n → S n ≤ (I + 1) * a := by
+    apply Nat.le_induction
+    · simp only [S]
+      rw [Ico_eq_empty_of_le (le_refl 1), sum_empty]
+      exact mul_nonneg (add_nonneg (norm_nonneg _) zero_le_one) apos.le
+    · intro n one_le_n hn
+      have In : 2 ≤ n + 1 := by lia
+      have rSn : r * S n ≤ 1 / 2 :=
+        calc
+          r * S n ≤ r * ((I + 1) * a) := by gcongr
+          _ ≤ 1 / 2 := by rwa [← mul_assoc]
+      calc
+        S (n + 1) ≤ I * a + I * C * ∑ k ∈ Ico 2 (n + 1), (r * S n) ^ k :=
+          radius_rightInv_pos_of_radius_pos_aux2 In p i rpos.le apos.le Cpos.le ple
+        _ = I * a + I * C * (((r * S n) ^ 2 - (r * S n) ^ (n + 1)) / (1 - r * S n)) := by
+          rw [geom_sum_Ico' _ In]; exact ne_of_lt (rSn.trans_lt (by norm_num))
+        _ ≤ I * a + I * C * ((r * S n) ^ 2 / (1 / 2)) := by
+          gcongr
+          · simp only [sub_le_self_iff]
+            positivity
+          · linarith only [rSn]
+        _ = I * a + 2 * I * C * (r * S n) ^ 2 := by ring
+        _ ≤ I * a + 2 * I * C * (r * ((I + 1) * a)) ^ 2 := by gcongr
+        _ = (I + 2 * I * C * r ^ 2 * (I + 1) ^ 2 * a) * a := by ring
+        _ ≤ (I + 1) * a := by gcongr
+  -- conclude that all coefficients satisfy `aⁿ Qₙ ≤ (I + 1) a`.
+  let a' : NNReal := ⟨a, apos.le⟩
+  suffices H : (a' : ENNReal) ≤ (p.rightInv i x).radius by
+    apply lt_of_lt_of_le _ H
+    -- Prior to https://github.com/leanprover/lean4/pull/2734, this was `exact_mod_cast apos`.
+    simpa only [ENNReal.coe_pos]
+  apply le_radius_of_eventually_le _ ((I + 1) * a)
+  filter_upwards [Ici_mem_atTop 1] with n (hn : 1 ≤ n)
+  calc
+    ‖p.rightInv i x n‖ * (a' : ℝ) ^ n = a ^ n * ‖p.rightInv i x n‖ := mul_comm _ _
+    _ ≤ ∑ k ∈ Ico 1 (n + 1), a ^ k * ‖p.rightInv i x k‖ :=
+      (haveI : ∀ k ∈ Ico 1 (n + 1), 0 ≤ a ^ k * ‖p.rightInv i x k‖ := fun k _ => by positivity
+      single_le_sum this (by simp [hn]))
+    _ ≤ (I + 1) * a := IRec (n + 1) (by simp)
+
+/-- If a a formal multilinear series has a positive radius of convergence, then its left inverse
+also has a positive radius of convergence. -/
+theorem radius_leftInv_pos_of_radius_pos
+    {p : FormalMultilinearSeries 𝕜 E F} {i : E ≃L[𝕜] F} {x : E}
+    (hp : 0 < p.radius) (h : p 1 = (continuousMultilinearCurryFin1 𝕜 E F).symm i) :
+
+
+[import-Mathlib.Combinatorics.Schnirelmann-cb7f03dc-L179-243]
+-- Lexical source excerpt: module Mathlib.Combinatorics.Schnirelmann, lines 179-243.
+Note this cannot be improved to `∃ᶠ n : ℕ in atTop`, as can be seen by `A = {1}ᶜ`.
+-/
+lemma exists_of_schnirelmannDensity_eq_zero {ε : ℝ} (hε : 0 < ε) (hA : schnirelmannDensity A = 0) :
+    ∃ n, 0 < n ∧ #{a ∈ Ioc 0 n | a ∈ A} / n < ε := by
+  by_contra! h
+  rw [← le_schnirelmannDensity_iff] at h
+  linarith
+
+end
+
+@[simp] lemma schnirelmannDensity_empty : schnirelmannDensity ∅ = 0 :=
+  schnirelmannDensity_eq_zero_of_one_notMem (by simp)
+
+/-- The Schnirelmann density of any finset is `0`. -/
+lemma schnirelmannDensity_finset (A : Finset ℕ) : schnirelmannDensity A = 0 := by
+  refine le_antisymm ?_ schnirelmannDensity_nonneg
+  simp only [schnirelmannDensity_le_iff_forall, zero_add]
+  intro ε hε
+  wlog hε₁ : ε ≤ 1 generalizing ε
+  · obtain ⟨n, hn, hn'⟩ := this 1 zero_lt_one le_rfl
+    exact ⟨n, hn, hn'.trans_le (le_of_not_ge hε₁)⟩
+  let n : ℕ := ⌊#A / ε⌋₊ + 1
+  have hn : 0 < n := Nat.succ_pos _
+  use n, hn
+  rw [div_lt_iff₀ (Nat.cast_pos.2 hn), ← div_lt_iff₀' hε, Nat.cast_add_one]
+  exact (Nat.lt_floor_add_one _).trans_le' <| by gcongr; simp [subset_iff]
+
+/-- The Schnirelmann density of any finite set is `0`. -/
+lemma schnirelmannDensity_finite {A : Set ℕ} [DecidablePred (· ∈ A)] (hA : A.Finite) :
+    schnirelmannDensity A = 0 := by simpa using schnirelmannDensity_finset hA.toFinset
+
+@[simp] lemma schnirelmannDensity_univ : schnirelmannDensity Set.univ = 1 :=
+  (schnirelmannDensity_eq_one_iff_of_zero_mem (by simp)).2 (by simp)
+
+lemma schnirelmannDensity_setOf_even : schnirelmannDensity (setOf Even) = 0 :=
+  schnirelmannDensity_eq_zero_of_one_notMem <| by simp
+
+lemma schnirelmannDensity_setOf_prime : schnirelmannDensity (setOf Nat.Prime) = 0 :=
+  schnirelmannDensity_eq_zero_of_one_notMem <| by simp [Nat.not_prime_one]
+
+/--
+The Schnirelmann density of the set of naturals which are `1 mod m` is `m⁻¹`, for any `m ≠ 1`.
+
+Note that if `m = 1`, this set is empty.
+-/
+lemma schnirelmannDensity_setOf_mod_eq_one {m : ℕ} (hm : m ≠ 1) :
+    schnirelmannDensity {n | n % m = 1} = (m⁻¹ : ℝ) := by
+  rcases m.eq_zero_or_pos with rfl | hm'
+  · simp only [Nat.cast_zero, inv_zero]
+    refine schnirelmannDensity_finite ?_
+    simp
+  apply le_antisymm (schnirelmannDensity_le_of_le m hm'.ne' _) _
+  · rw [← one_div, ← @Nat.cast_one ℝ]
+    gcongr
+    simp only [Set.mem_setOf_eq, card_le_one_iff_subset_singleton, subset_iff,
+      mem_filter, mem_Ioc, mem_singleton, and_imp]
+    use 1
+    intro x _ hxm h
+    rcases eq_or_lt_of_le hxm with rfl | hxm'
+    · simp at h
+    rwa [Nat.mod_eq_of_lt hxm'] at h
+  rw [le_schnirelmannDensity_iff]
+  intro n hn
+  simp only [Set.mem_setOf_eq]
+  have : (Icc 0 ((n - 1) / m)).image (· * m + 1) ⊆ {x ∈ Ioc 0 n | x % m = 1} := by
+
+
+[import-Mathlib.SetTheory.Cardinal.Divisibility-87948b04-L123-152]
+-- Lexical source excerpt: module Mathlib.SetTheory.Cardinal.Divisibility, lines 123-152.
+    cases hbc <;> contradiction
+  wlog hℵ₀b : ℵ₀ ≤ b
+  apply (this h c b _ _ hc hb hℵ₀.symm hn (hℵ₀.resolve_left hℵ₀b)).symm <;> try assumption
+  · rwa [mul_comm] at hbc
+  · rwa [mul_comm] at h'
+  · exact Or.inl (dvd_of_le_of_aleph0_le hn (natCast_lt_aleph0.le.trans hℵ₀b) hℵ₀b)
+
+theorem is_prime_iff {a : Cardinal} : Prime a ↔ ℵ₀ ≤ a ∨ ∃ p : ℕ, a = p ∧ p.Prime := by
+  rcases le_or_gt ℵ₀ a with h | h
+  · simp [h]
+  lift a to ℕ using id h
+  simp [not_le.mpr h]
+
+theorem isPrimePow_iff {a : Cardinal} : IsPrimePow a ↔ ℵ₀ ≤ a ∨ ∃ n : ℕ, a = n ∧ IsPrimePow n := by
+  by_cases h : ℵ₀ ≤ a
+  · simp [h, (prime_of_aleph0_le h).isPrimePow]
+  simp only [h, false_or, isPrimePow_nat_iff]
+  lift a to ℕ using not_le.mp h
+  rw [isPrimePow_def]
+  refine
+    ⟨?_, fun ⟨n, han, p, k, hp, hk, h⟩ =>
+          ⟨p, k, nat_is_prime_iff.2 hp, hk, by rw [han]; exact mod_cast h⟩⟩
+  rintro ⟨p, k, hp, hk, hpk⟩
+  have key : p ^ (1 : Cardinal) ≤ ↑a := by
+    rw [← hpk]; apply power_le_power_left hp.ne_zero; exact mod_cast hk
+  rw [power_one] at key
+  lift p to ℕ using key.trans_lt natCast_lt_aleph0
+  exact ⟨a, rfl, p, k, nat_is_prime_iff.mp hp, hk, mod_cast hpk⟩
+
+end Cardinal
+
+
+[import-Mathlib.NumberTheory.WellApproximable-946d2f84-L265-322]
+-- Lexical source excerpt: module Mathlib.NumberTheory.WellApproximable, lines 265-322.
+    let f : 𝕊 → 𝕊 := fun y => p • y + x
+    suffices
+      f '' B p ⊆ blimsup (fun n => approxAddOrderOf 𝕊 n (p * δ n)) atTop fun n => 0 < n ∧ p∣∣n by
+      apply (ergodic_nsmul_add x hp.one_lt).ae_empty_or_univ_of_image_ae_le
+        (hB₀ p).nullMeasurableSet
+      apply (HasSubset.Subset.eventuallyLE this).congr EventuallyEq.rfl
+      exact blimsup_thickening_mul_ae_eq μ (fun n => 0 < n ∧ p∣∣n) (fun n => {y | addOrderOf y = n})
+        (Nat.cast_pos.mpr hp.pos) _ hδ
+    refine (sSupHom.setImage f).apply_blimsup_le.trans (mono_blimsup ?_)
+    rintro n ⟨hn, h_div, h_ndiv⟩
+    have h_cop : (addOrderOf x).Coprime (n / p) := by
+      obtain ⟨q, rfl⟩ := h_div
+      rw [hu₀, Subtype.coe_mk, hp.coprime_iff_not_dvd, q.mul_div_cancel_left hp.pos]
+      exact fun contra => h_ndiv (mul_dvd_mul_left p contra)
+    replace h_div : n / p * p = n := Nat.div_mul_cancel h_div
+    have hf : f = (fun y => x + y) ∘ fun y => p • y := by
+      ext; simp [f, add_comm x]
+    simp_rw [Function.comp_apply, le_eq_subset]
+    rw [sSupHom.setImage_toFun, hf, image_comp]
+    have := @monotone_image 𝕊 𝕊 fun y => x + y
+    specialize this (approxAddOrderOf.image_nsmul_subset (δ n) (n / p) hp.pos)
+    simp only [h_div] at this ⊢
+    refine this.trans ?_
+    convert approxAddOrderOf.vadd_subset_of_coprime (p * δ n) h_cop
+    rw [hu₀, Subtype.coe_mk, mul_comm p, h_div]
+  change (∀ᵐ x, x ∉ E) ∨ E ∈ ae volume
+  rw [← eventuallyEq_empty, ← eventuallyEq_univ]
+  have hC : ∀ p : Nat.Primes, u p +ᵥ C p = C p := by
+    intro p
+    let e := (AddAction.toPerm (u p) : Equiv.Perm 𝕊).toOrderIsoSet
+    change e (C p) = C p
+    rw [OrderIso.apply_blimsup e, ← hu₀ p]
+    exact blimsup_congr (Eventually.of_forall fun n hn =>
+      approxAddOrderOf.vadd_eq_of_mul_dvd (δ n) hn.1 hn.2)
+  by_cases! +distrib h : ∀ p : Nat.Primes, A p =ᵐ[μ] (∅ : Set 𝕊) ∧ B p =ᵐ[μ] (∅ : Set 𝕊)
+  · replace h : ∀ p : Nat.Primes, (u p +ᵥ E : Set _) =ᵐ[μ] E := by
+      intro p
+      replace hE₂ : E =ᵐ[μ] C p := hE₂ p (h p)
+      have h_qmp : Measure.QuasiMeasurePreserving (-u p +ᵥ ·) μ μ :=
+        (measurePreserving_vadd _ μ).quasiMeasurePreserving
+      refine (h_qmp.vadd_ae_eq_of_ae_eq (u p) hE₂).trans (ae_eq_trans ?_ hE₂.symm)
+      rw [hC]
+    exact ae_empty_or_univ_of_forall_vadd_ae_eq_self hE₀ h hu
+  · right
+    obtain ⟨p, hp⟩ := h
+    rw [hE₁ p]
+    cases hp
+    · rcases hA p with _ | h; · contradiction
+      simp only [μ, h, union_ae_eq_univ_of_ae_eq_univ_left]
+    · rcases hB p with _ | h; · contradiction
+      simp only [μ, h, union_ae_eq_univ_of_ae_eq_univ_left,
+        union_ae_eq_univ_of_ae_eq_univ_right]
+
+/-- A general version of **Dirichlet's approximation theorem**.
+
+See also `AddCircle.exists_norm_nsmul_le`. -/
+lemma _root_.NormedAddCommGroup.exists_norm_nsmul_le {A : Type*}
+    [NormedAddCommGroup A] [CompactSpace A] [PreconnectedSpace A]
+
+
+[import-Mathlib.RingTheory.MvPowerSeries.Trunc-cd5faf56-L184-248]
+-- Lexical source excerpt: module Mathlib.RingTheory.MvPowerSeries.Trunc, lines 184-248.
+    intro h'
+    have : d ≤ m := .trans hd h
+    contradiction
+  · simp [coeff_trunc', if_neg hd]
+
+/-- Truncation of the multivariate power series `1` -/
+@[simp]
+theorem trunc'_one (n : σ →₀ ℕ) : trunc' R n 1 = 1 :=
+  MvPolynomial.ext _ _ fun m ↦ by
+    classical
+    rw [coeff_trunc', coeff_one]
+    split_ifs with H H'
+    · subst m; simp only [MvPolynomial.coeff_zero_one]
+    · rw [MvPolynomial.coeff_one, if_neg (Ne.symm H')]
+    · rw [MvPolynomial.coeff_one, if_neg ?_]
+      rintro rfl
+      exact H (zero_le n)
+
+@[simp]
+theorem trunc'_C (n : σ →₀ ℕ) (a : R) :
+    trunc' R n (C a) = MvPolynomial.C a :=
+  MvPolynomial.ext _ _ fun m ↦ by
+    classical
+    rw [coeff_trunc', coeff_C, MvPolynomial.coeff_C]
+    split_ifs with H <;> first | rfl | try simp_all
+    exfalso; apply H; subst m; exact zero_le n
+
+/-- Coefficients of the truncation of a product of two multivariate power series -/
+theorem coeff_mul_eq_coeff_trunc'_mul_trunc' (n : σ →₀ ℕ)
+    (f g : MvPowerSeries σ R) {m : σ →₀ ℕ} (h : m ≤ n) :
+    coeff m (f * g) = (trunc' R n f * trunc' R n g).coeff m := by
+  classical
+  simp only [MvPowerSeries.coeff_mul, MvPolynomial.coeff_mul]
+  apply Finset.sum_congr rfl
+  rintro ⟨i, j⟩ hij
+  simp only [mem_antidiagonal] at hij
+  rw [← hij] at h
+  simp only
+  apply congr_arg₂
+  · rw [coeff_trunc', if_pos (le_trans le_self_add h)]
+  · rw [coeff_trunc', if_pos (le_trans le_add_self h)]
+
+theorem trunc'_trunc'_pow {n : σ →₀ ℕ} {k : ℕ} (hk : 1 ≤ k) (φ : MvPowerSeries σ R) :
+    trunc' R n ((trunc' R n φ) ^ k) = trunc' R n (φ ^ k) := by
+  induction k, hk using Nat.le_induction with
+  | base => simp [trunc'_trunc']
+  | succ m h_le ih =>
+    ext d
+    by_cases hd : d ≤ n
+    · rw [coeff_trunc', if_pos hd, pow_succ, pow_succ, coeff_mul_eq_coeff_trunc'_mul_trunc' n _ _
+        hd, ih, coeff_trunc', if_pos hd, MvPolynomial.coeff_mul, coeff_mul, Finset.sum_congr rfl]
+      intro x hx
+      have le_aux₁ : x.1 ≤ n := .trans (Finset.mem_antidiagonal.mp hx ▸ self_le_add_right _ _) hd
+      have le_aux₂ : x.2 ≤ n := .trans (Finset.mem_antidiagonal.mp hx ▸ self_le_add_left _ _) hd
+      simp [coeff_trunc', if_pos le_aux₁, coeff_trunc', if_pos le_aux₂]
+    simp [coeff_trunc', if_neg hd]
+
+@[simp]
+theorem trunc'_C_mul (n : σ →₀ ℕ) (a : R) (p : MvPowerSeries σ R) :
+    trunc' R n (C a * p) = MvPolynomial.C a * trunc' R n p := by
+  ext m; simp [coeff_trunc']
+
+@[simp]
+theorem trunc'_map [CommSemiring S] (n : σ →₀ ℕ) (f : R →+* S) (p : MvPowerSeries σ R) :
+    trunc' S n (map f p) = MvPolynomial.map f (trunc' R n p) := by
+
+</original_context>

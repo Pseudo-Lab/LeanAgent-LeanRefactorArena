@@ -717,5 +717,116 @@
     }
   },
   "sourceFile": "Cslib/Languages/CCS/BehaviouralTheory.lean",
-  "note": "Full-source local verification, independent fresh Lean processes; same computer. Historical source-anchored performance numbers are preserved and not mixed."
+  "note": "Full-source local verification, independent fresh Lean processes; same computer. Historical source-anchored performance numbers are preserved and not mixed.",
+  "protocolCrossCheck": {
+    "evaluatorRevision": "c18ec56682462847e2f4d8b6d60aa79ec071a10b",
+    "protocol": "lean-source-anchored-v1",
+    "version": "v4.32.0",
+    "revision": "197a7be621263b84c67ca4f803f69205b36d06df",
+    "checks": [
+      {
+        "role": "published",
+        "candidateHash": "12c49a5118cd4a455ecbc9c793284fe24bb4123803196cf73139ba254aad7f7a",
+        "valid": true,
+        "tokens": 79,
+        "heartbeats": 512,
+        "runs": [
+          {
+            "sourceHash": "15ae69d65d158693e4aa532015b28902ead5e8d63e20a929914b21e00b48dea3",
+            "logHash": "abc210a3917f041eb1d45ea453a987dbbcfdc637126d53710f1d195535805860",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 512881,
+              "scaled": 512,
+              "target": "Cslib.CCS.bisimilarity_congr_choice"
+            }
+          },
+          {
+            "sourceHash": "dc612e270154c52ff78b3a151f238e3f06abac1e35c634daeb065a0b233757a8",
+            "logHash": "c939ca2e30c0f88277f68451ae7007f439623ded59850aa1813c348138c83d13",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 512846,
+              "scaled": 512,
+              "target": "Cslib.CCS.bisimilarity_congr_choice"
+            }
+          },
+          {
+            "sourceHash": "54602b10c20215204599d52cc2178e56d599c34dcdf15ff2864cbb3b0f8e9446",
+            "logHash": "c88c5201a76cc6ead262be6a367dc4326c918cf4aab216bb01bc31525f3f6760",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 512884,
+              "scaled": 512,
+              "target": "Cslib.CCS.bisimilarity_congr_choice"
+            }
+          }
+        ]
+      },
+      {
+        "role": "explicit_apply",
+        "candidateHash": "70de2169ec69ef3169c7fceac86112b74069406bb60ae1432e6695b63a69bce4",
+        "valid": true,
+        "tokens": 79,
+        "heartbeats": 512,
+        "runs": [
+          {
+            "sourceHash": "4051a7b5a08bbf0229a17dda3fd5900c5c8c2368576e6876b06667b83fd23fc0",
+            "logHash": "8d230ebc9e5b25e92d647c41860513b567e09df99c5fadfcb3559ab6c0060b3c",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 512275,
+              "scaled": 512,
+              "target": "Cslib.CCS.bisimilarity_congr_choice"
+            }
+          },
+          {
+            "sourceHash": "41529aa52122b88714020551cd3fe2a5f3b3db38bcdf7431386cf7a70e0c05d1",
+            "logHash": "0ff7a19c94d079e2240094b25b3a8c5ab454471062141bbeae12feac5953d263",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 512268,
+              "scaled": 512,
+              "target": "Cslib.CCS.bisimilarity_congr_choice"
+            }
+          },
+          {
+            "sourceHash": "59710fbc1e83dc762318b8c185c1f38f781138619e027e9a6321d46ded8cdf62",
+            "logHash": "c3c58c93f65f165449f3760c55a9e670aff409ef72e5aac016b7befbff40a882",
+            "measurement": {
+              "axioms": [
+                "propext",
+                "Classical.choice",
+                "Quot.sound"
+              ],
+              "raw": 512288,
+              "scaled": 512,
+              "target": "Cslib.CCS.bisimilarity_congr_choice"
+            }
+          }
+        ]
+      }
+    ],
+    "decision": "Both79tokens/HB512; retain published proof. Separate full-source harness1HB gap did not reproduce in frozen PR3."
+  }
 }

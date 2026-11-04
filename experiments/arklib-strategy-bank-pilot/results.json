@@ -1,0 +1,441 @@
+{
+  "scope": "ArkLib 10; 20-card contextual top-1 single-arm pilot; standalone problem07 rerun and ranked compatibility selection",
+  "dataset_sha256": "d53690b057f9972f44643678ee6b5eee7a66f56e1a7d2678a2e5ff47fadbd682",
+  "initial_runtime_base_commit": "7d537bf0dbf67e58fe6edcc3209f8feff3f66cbb",
+  "selection_reference_commit": "a517db26b8eee1b58f30810dca5d66000c810748",
+  "model": "gpt-6.1-sol",
+  "reasoning_effort": "high",
+  "provider": "OpenAI direct",
+  "official_evaluation": false,
+  "invoice_verified": false,
+  "score_definition": "(length reduction % + mean of per-version HB reduction % + compatibility %) / 3",
+  "representative_hb_display": "v4.31.0, median of 3 fresh-process samples; combined score uses all designated versions",
+  "initial_cost_usd": "15.8040339",
+  "problem07_rerun_cost_usd": "1.6292248",
+  "total_cost_usd": "17.4332587",
+  "initial_unknown_reservation_usd": "0.258152",
+  "total_with_unknown_reservation_usd": "17.6914107",
+  "mean_score": 71.14890154715673,
+  "mean_length_reduction_pct": 48.515867682822496,
+  "mean_hb_reduction_pct": 64.93083695864769,
+  "required_problem_version_combinations": 25,
+  "api_calls": 427,
+  "problems": [
+    {
+      "index": 1,
+      "name": "interleaved_affine_gaps_imply_tensor_gaps",
+      "source": "arklib",
+      "file_path": "ArkLib/Data/CodingTheory/ProximityGap/DG25/MainResults.lean",
+      "statement": "theorem interleaved_affine_gaps_imply_tensor_gaps\n    (hC_proximityGapAffineLines : e_ε_correlatedAgreementAffineLinesNat\n      (F := F) (A := A) (ι := ι) (C := MC) (e := e) (ε := ε))\n    (h_interleaved_gaps : ∀ m : ℕ, m ≥ 1 →\n      e_ε_correlatedAgreementAffineLinesNat (F := F)\n        (A := InterleavedSymbol A (Fin m)) (ι := ι) (C := MC ^⋈ (Fin m)) e ε) :\n    ∀ (ϑ : ℕ), (hϑ_gt_0 : ϑ > 0) → δ_ε_multilinearCorrelatedAgreement_Nat (F := F) (A := A)\n      (ι := ι) (C := MC) (ϑ := ϑ) (e := e) (ε := ε)",
+      "selection": "c040",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/interleaved_affine_gaps_imply_tensor_gaps.lean",
+      "original_file": "originals/interleaved_affine_gaps_imply_tensor_gaps.lean",
+      "proof_sha256": "3f73d4eb83872baff4ce757e0fdacad10dff5aca24783bd0f8cc63a168ac437d",
+      "original_sha256": "5e8c33db1f147ea33ed9adae552f5f17c7559384f868799a83392817c2e56979",
+      "original_tokens": 1353,
+      "selected_tokens": 427,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 9185435,
+      "representative_selected_raw_hb": 3421286,
+      "length_reduction_pct": 68.44050258684405,
+      "hb_reduction_pct_mean_within_version": 62.273680984870936,
+      "compatibility_pct": 100,
+      "passed_versions": 4,
+      "required_versions": 4,
+      "local_combined_score": 76.90472785723833,
+      "initial_cost_usd": "1.3313948",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "1.3313948",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 40,
+      "input_policy": "legacy_duplicate_reference",
+      "version_info": [
+        {
+          "v4.34.0": "fa14552d40e793f2ea26e65c440306aae0c08a26"
+        },
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 2,
+      "name": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+      "source": "arklib",
+      "file_path": "ArkLib/ProofSystem/Binius/BinaryBasefold/Prelude.lean",
+      "statement": "theorem fold_advances_evaluation_poly\n  (i : Fin (ℓ)) (h_i_succ_lt : i + 1 < ℓ + 𝓡)\n  (coeffs : Fin (2 ^ (ℓ - ↑i)) → L) (r_chal : L) :\n  let P_i : L[X] := intermediateEvaluationPoly 𝔽q β h_ℓ_add_R_rate (i := ⟨i, by\n    exact Nat.lt_trans (n := i) (k := ℓ+1) (m := ℓ) (h₁ := i.isLt) (by exact Nat.lt_add_one ℓ)\n  ⟩) coeffs\n  let f_i := fun (x : (sDomain 𝔽q β h_ℓ_add_R_rate)\n      ⟨i, by exact Nat.lt_trans (n := i) (k := r) (m := ℓ) (h₁ := by omega) (by omega)⟩) =>\n    P_i.eval (x.val : L)\n  let f_i_plus_1 := fold (i := ⟨i, by omega⟩) (h_i := by omega) (f := f_i) (r_chal := r_chal)\n  let new_coeffs := fun j : Fin (2^(ℓ - (i + 1))) =>\n    (1 - r_chal) * (coeffs ⟨j.val * 2, by\n      rw [←Nat.add_zero (j.val * 2)]\n      apply mul_two_add_bit_lt_two_pow (c := ℓ - i) (a := j) (b := ℓ - (↑i + 1))\n        (i := 0) (by omega) (by omega)\n    ⟩) +\n    r_chal * (coeffs ⟨j.val * 2 + 1, by\n      apply mul_two_add_bit_lt_two_pow (c := ℓ - i) (a := j) (b := ℓ - (↑i + 1))\n        (i := 1) (by omega) (by omega)\n    ⟩)\n  let P_i_plus_1 :=\n    intermediateEvaluationPoly 𝔽q β h_ℓ_add_R_rate (i := ⟨i+1, by omega⟩) new_coeffs\n  ∀ (y : (sDomain 𝔽q β h_ℓ_add_R_rate)\n    ⟨i+1, by omega⟩), f_i_plus_1 y = P_i_plus_1.eval y.val",
+      "selection": "c040",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/Binius.BinaryBasefold.fold_advances_evaluation_poly.lean",
+      "original_file": "originals/Binius.BinaryBasefold.fold_advances_evaluation_poly.lean",
+      "proof_sha256": "5f4fb878fcc8affedd7b98862ec1f73163197ffd6e998aee0d6ff24856f40a4c",
+      "original_sha256": "67401740132ca27612c5a143c6dd3a90205f5d84a7c0850182c9391592a0752f",
+      "original_tokens": 1906,
+      "selected_tokens": 418,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 45488466,
+      "representative_selected_raw_hb": 8952006,
+      "length_reduction_pct": 78.06925498426023,
+      "hb_reduction_pct_mean_within_version": 80.34587150320728,
+      "compatibility_pct": 100,
+      "passed_versions": 2,
+      "required_versions": 2,
+      "local_combined_score": 86.1383754958225,
+      "initial_cost_usd": "1.4552396",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "1.4552396",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 40,
+      "input_policy": "legacy_duplicate_reference",
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 3,
+      "name": "Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius",
+      "source": "arklib",
+      "file_path": "ArkLib/ProofSystem/Binius/BinaryBasefold/Prelude.lean",
+      "statement": "theorem fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius (i : Fin ℓ) (steps : ℕ)\n    [NeZero steps] (h_i_add_steps : i.val + steps ≤ ℓ)\n    (f : OracleFunction 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) ⟨i, by omega⟩)\n  (h_fw_dist_lt : fiberwiseClose 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate)\n    (i := i) (steps := steps) (h_i_add_steps := h_i_add_steps) (f := f)) :\n  hammingClose 𝔽q β (h_ℓ_add_R_rate := h_ℓ_add_R_rate) ⟨i, by omega⟩ f",
+      "selection": "c039",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius.lean",
+      "original_file": "originals/Binius.BinaryBasefold.fiberwise_dist_lt_imp_dist_lt_unique_decoding_radius.lean",
+      "proof_sha256": "b09d7be61758d7cd066033f88ca0bb5c31bed39fa7603b157966c79739d81386",
+      "original_sha256": "561da2e1599d85a33fddbdbdb9eca3f05f504c3dfaa7e32d367eef4eba532033",
+      "original_tokens": 1463,
+      "selected_tokens": 672,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 15886419,
+      "representative_selected_raw_hb": 6671017,
+      "length_reduction_pct": 54.066985645933016,
+      "hb_reduction_pct_mean_within_version": 57.98332751790277,
+      "compatibility_pct": 100,
+      "passed_versions": 2,
+      "required_versions": 2,
+      "local_combined_score": 70.6834377212786,
+      "initial_cost_usd": "1.6471116",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "1.6471116",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 40,
+      "input_policy": "legacy_duplicate_reference",
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 4,
+      "name": "Combine.master_lemma",
+      "source": "arklib",
+      "file_path": "ArkLib/ProofSystem/Stir/Combine.lean",
+      "statement": "lemma master_lemma\n  [Nonempty ι]\n  {φ : ι ↪ F} {dstar m : ℕ}\n  {fs : Fin m → ι → F} {degs : Fin m → ℕ} (hdegs : ∀ i, degs i ≤ dstar)\n  {δ : ℝ≥0}\n  (hδLt : δ < (min (1 - (ReedSolomon.sqrtRate dstar φ))\n    (1 - (rate (code φ dstar)) - 1 / Fintype.card ι)))\n  {S : Finset ι}\n  (hS_card : (1 - δ) * (Fintype.card ι) ≤ S.card)\n  {v : (i : Fin m) → Fin (block_size dstar degs i) → Polynomial F}\n  (hv_deg : ∀ i j, (v i j).degree < dstar)\n  (hv_eval : ∀ i j, ∀ x ∈ S, (v i j).eval (φ x) = (φ x) ^ j.val * (fs i x))\n  (i : Fin m)\n  (j : Fin (block_size dstar degs i)) :\n  (v i j).degree < degs i + j",
+      "selection": "c023",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/Combine.master_lemma.lean",
+      "original_file": "originals/Combine.master_lemma.lean",
+      "proof_sha256": "8f4b9725d142695158f76c67de56a14c4131fefc98cfb1e925aea534d5dfb647",
+      "original_sha256": "9bd964e1df9b474cee4c4a0d14ba8d3e8a9fbc85bbe7790544932292df270cfa",
+      "original_tokens": 546,
+      "selected_tokens": 406,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 282474830,
+      "representative_selected_raw_hb": 6977010,
+      "length_reduction_pct": 25.64102564102564,
+      "hb_reduction_pct_mean_within_version": 97.15107519175783,
+      "compatibility_pct": 100,
+      "passed_versions": 3,
+      "required_versions": 3,
+      "local_combined_score": 74.26403361092783,
+      "initial_cost_usd": "1.0146596",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "1.0146596",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 40,
+      "input_policy": "legacy_duplicate_reference",
+      "version_info": [
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 5,
+      "name": "JohnsonBound.johnson_bound_alphabet_free",
+      "source": "arklib",
+      "file_path": "ArkLib/Data/CodingTheory/JohnsonBound/Basic.lean",
+      "statement": "theorem johnson_bound_alphabet_free [Field F]\n    {B : Finset (Fin n → F)} {v : Fin n → F} {e : ℕ} (hB : 1 < B.card) :\n    let d := sInf { d | ∃ u ∈ B, ∃ v ∈ B, u ≠ v ∧ hammingDist u v = d }\n    let q : ℚ := card F\n    let _frac := q / (q - 1)\n    e ≤ n - ((n * (n - d)) : ℝ).sqrt →\n    (B ∩ ({ x | Δ₀(x, v) ≤ e } : Finset _)).card ≤ q * d * n",
+      "selection": "c039",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/JohnsonBound.johnson_bound_alphabet_free.lean",
+      "original_file": "originals/JohnsonBound.johnson_bound_alphabet_free.lean",
+      "proof_sha256": "5862e0e2589b2816baf11e2aa75f8697abb6c20d3c00c650c32ca9e78d0b2878",
+      "original_sha256": "762d9c0342f6ad7b06dcbaa3e18a475614b61fff262d85cc7433a7ce1d9d3c44",
+      "original_tokens": 2440,
+      "selected_tokens": 1733,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 84137861,
+      "representative_selected_raw_hb": 22065084,
+      "length_reduction_pct": 28.97540983606557,
+      "hb_reduction_pct_mean_within_version": 74.34211619291791,
+      "compatibility_pct": 100,
+      "passed_versions": 2,
+      "required_versions": 2,
+      "local_combined_score": 67.77250867632783,
+      "initial_cost_usd": "2.2047912",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "2.2047912",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 40,
+      "input_policy": "legacy_duplicate_reference",
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 6,
+      "name": "ProximityToRS.dir_close_of_many_close_pts",
+      "source": "arklib",
+      "file_path": "ArkLib/Data/CodingTheory/ProximityGap/AHIV22.lean",
+      "statement": "lemma dir_close_of_many_close_pts\n    {deg : ℕ}\n    {α : ι ↪ F} {e : ℕ} {u v : ι → F}\n    (he : (e : ℚ≥0) < ‖(RScodeSet α deg)‖₀ / 3)\n    (h_many : numberOfClosePts u v deg α e > ‖(RScodeSet α deg)‖₀) :\n    Δ₀(v, ReedSolomon.code α deg) ≤ e",
+      "selection": "c030",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/ProximityToRS.dir_close_of_many_close_pts.lean",
+      "original_file": "originals/ProximityToRS.dir_close_of_many_close_pts.lean",
+      "proof_sha256": "74ddd03afc7db40bfe965043d6ec5c5fb454ccb1802ea634c021dd831aed06de",
+      "original_sha256": "81afc259bab2d5268fc8e907ac6cf301de625c35067e3be1f081cd6c849ccf5c",
+      "original_tokens": 5128,
+      "selected_tokens": 1428,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 105831625,
+      "representative_selected_raw_hb": 14143202,
+      "length_reduction_pct": 72.15288611544462,
+      "hb_reduction_pct_mean_within_version": 86.60388952471483,
+      "compatibility_pct": 100,
+      "passed_versions": 2,
+      "required_versions": 2,
+      "local_combined_score": 86.25225854671982,
+      "initial_cost_usd": "1.9397206",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "1.9397206",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 30,
+      "input_policy": "legacy_duplicate_reference",
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 7,
+      "name": "ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one",
+      "source": "arklib",
+      "file_path": "ArkLib/Data/CodingTheory/ProximityGap/BCIKS20/AffineLines/BWMatrix.lean",
+      "statement": "theorem RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one (e : ℕ)\n    (K : Matrix (Fin (e + 1)) (Fin (e + 1)) F[X])\n    (hdeg : ∀ i j, (K i j).natDegree ≤ 1)\n    (hdet : Matrix.det K = 0) :\n    ∃ a : Fin (e + 1) → F[X],\n      a ≠ 0 ∧ (∀ t, (a t).natDegree ≤ e) ∧ Matrix.mulVec K a = 0",
+      "selection": "rerun-ranked/c000",
+      "status": "original_retained_after_ranked_rejections",
+      "proof_file": "proofs/ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one.lean",
+      "original_file": "originals/ProximityGap.RS_exists_nonzero_kernelVec_of_det_eq_zero_natDegree_le_one.lean",
+      "proof_sha256": "4ad1a29e5ef91b442667c9b171deb6f3ed28c96ca9709e59911f7cbbbb16a2f4",
+      "original_sha256": "4ad1a29e5ef91b442667c9b171deb6f3ed28c96ca9709e59911f7cbbbb16a2f4",
+      "original_tokens": 2122,
+      "selected_tokens": 2122,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 163599734,
+      "representative_selected_raw_hb": 163599734,
+      "length_reduction_pct": 0.0,
+      "hb_reduction_pct_mean_within_version": 0.0,
+      "compatibility_pct": 100,
+      "passed_versions": 2,
+      "required_versions": 2,
+      "local_combined_score": 33.333333333333336,
+      "initial_cost_usd": "1.6265804",
+      "problem07_rerun_cost_usd": "1.6292248",
+      "total_cost_usd": "3.2558052",
+      "budget_usd_by_run": [
+        "2.50",
+        "2.50"
+      ],
+      "api_calls": 80,
+      "input_policy": "legacy_duplicate_reference",
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 8,
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "source": "arklib",
+      "file_path": "ArkLib/Data/CodingTheory/ProximityGap/BCIKS20/AffineLines/JointAgreement.lean",
+      "statement": "theorem RS_jointAgreement_of_goodCoeffs_card_gt {deg : ℕ} {domain : ι ↪ F} {δ : ℝ≥0}\n    (hδ : δ ≤ relativeUniqueDecodingRadius (ι := ι) (F := F)\n      (C := ReedSolomon.code domain deg))\n    (u : WordStack F (Fin 2) ι)\n    (hS : (RS_goodCoeffs (deg := deg) (domain := domain) u δ).card > Fintype.card ι) :\n    jointAgreement (C := ReedSolomon.code domain deg) (δ := δ) (W := u)",
+      "selection": "c037",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt.lean",
+      "original_file": "originals/ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt.lean",
+      "proof_sha256": "e49497e8ee53e7a66184852ee839fb949143bd3ef4b48a1740d91f4ebb054e8a",
+      "original_sha256": "1901501cdd37e5592f25590cce58688d20049ca2c5dce6d23529eb148902e9ed",
+      "original_tokens": 5538,
+      "selected_tokens": 2108,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 60935224,
+      "representative_selected_raw_hb": 18076989,
+      "length_reduction_pct": 61.93571686529433,
+      "hb_reduction_pct_mean_within_version": 70.01995634564477,
+      "compatibility_pct": 100,
+      "passed_versions": 2,
+      "required_versions": 2,
+      "local_combined_score": 77.3185577369797,
+      "initial_cost_usd": "1.9865501",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "1.9865501",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 37,
+      "input_policy": "single_reference_with_version_info",
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 9,
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "source": "arklib",
+      "file_path": "ArkLib/ProofSystem/Sumcheck/Spec/SingleRound.lean",
+      "statement": "theorem reduction_perfectCompleteness :\n    (reduction R deg D oSpec).perfectCompleteness init impl\n      (inputRelation R deg D) (outputRelation R deg)",
+      "selection": "c039",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness.lean",
+      "original_file": "originals/Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness.lean",
+      "proof_sha256": "058a655a485cf87a699cc976d715b355fa9f3da36b8d89d4bc87119a77b96a9d",
+      "original_sha256": "e6acb4f7de76b3d013c869c5a72bc86428b2587b4080e59d1b6261d395198dde",
+      "original_tokens": 1426,
+      "selected_tokens": 615,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 44259801,
+      "representative_selected_raw_hb": 27896928,
+      "length_reduction_pct": 56.87237026647966,
+      "hb_reduction_pct_mean_within_version": 35.817951514379146,
+      "compatibility_pct": 100,
+      "passed_versions": 2,
+      "required_versions": 2,
+      "local_combined_score": 64.23010726028627,
+      "initial_cost_usd": "1.3892044",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "1.3892044",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 40,
+      "input_policy": "single_reference_with_version_info",
+      "version_info": [
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    },
+    {
+      "index": 10,
+      "name": "ps_coprime_case_constant",
+      "source": "arklib",
+      "file_path": "ArkLib/Data/CodingTheory/PolishchukSpielman/Existence.lean",
+      "statement": "lemma ps_coprime_case_constant {F : Type} [Field F]\n    (a_x a_y b_x b_y : ℕ) (n_x n_y : ℕ+)\n    (h_bx_ge_ax : b_x ≥ a_x) (h_by_ge_ay : b_y ≥ a_y)\n    (A B : F[X][Y]) (hA0 : A ≠ 0) (hB0 : B ≠ 0) (hrel : IsRelPrime A B)\n    (h_f_degX : a_x ≥ degreeX A) (h_g_degX : b_x ≥ degreeX B)\n    (h_f_degY : a_y ≥ natDegreeY A) (h_g_degY : b_y ≥ natDegreeY B)\n    (P_x P_y : Finset F) [Nonempty P_x] [Nonempty P_y]\n    (quot_x quot_y : F → F[X])\n    (h_card_Px : n_x ≤ P_x.card) (h_card_Py : n_y ≤ P_y.card)\n    (h_quot_x : ∀ y ∈ P_y, (quot_x y).natDegree ≤ (b_x - a_x) ∧\n      evalY y B = (quot_x y) * (evalY y A))\n    (h_quot_y : ∀ x ∈ P_x, (quot_y x).natDegree ≤ (b_y - a_y) ∧\n      evalX x B = (quot_y x) * (evalX x A))\n    (h_le_1 : 1 > (b_x : ℚ) / (n_x : ℚ) + (b_y : ℚ) / (n_y : ℚ)) :\n    degreeX A = 0 ∧ natDegreeY A = 0",
+      "selection": "c040",
+      "status": "improved_all_versions",
+      "proof_file": "proofs/ps_coprime_case_constant.lean",
+      "original_file": "originals/ps_coprime_case_constant.lean",
+      "proof_sha256": "f0d176c66f7d0ac2b0e292b830dba6df62b8dccba0b3991aee4867f5a33cd646",
+      "original_sha256": "17eafc75486d1b6fc4f1bf5f3a9cfc825d675c4d6ae7172548ce46aee5da4b68",
+      "original_tokens": 1105,
+      "selected_tokens": 674,
+      "representative_version": "v4.31.0",
+      "representative_original_raw_hb": 43924817,
+      "representative_selected_raw_hb": 6828906,
+      "length_reduction_pct": 39.004524886877824,
+      "hb_reduction_pct_mean_within_version": 84.77050081108146,
+      "compatibility_pct": 100,
+      "passed_versions": 4,
+      "required_versions": 4,
+      "local_combined_score": 74.59167523265309,
+      "initial_cost_usd": "1.2087816",
+      "problem07_rerun_cost_usd": "0",
+      "total_cost_usd": "1.2087816",
+      "budget_usd_by_run": [
+        "2.50"
+      ],
+      "api_calls": 40,
+      "input_policy": "single_reference_with_version_info",
+      "version_info": [
+        {
+          "v4.34.0": "fa14552d40e793f2ea26e65c440306aae0c08a26"
+        },
+        {
+          "v4.33.1": "3f3f045dd295834c262bd6f0d9dfdfee07cc8e76"
+        },
+        {
+          "v4.31.0": "c1712f6c496d0aef04f09bae42aec13811b3273f"
+        },
+        {
+          "v4.30.0": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "problem": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+  "selected_candidate": "c037",
+  "review_status": "agent-source-comparison",
+  "human_approved": false,
+  "attribution": "joint",
+  "observed_bank_mechanisms": [
+    {
+      "strategy_id": "M05",
+      "observation_ko": "deg=0 가지에서 좌표별 나쁜 계수 -(u 0 i)/(u 1 i)의 image 밖에 있는 good 계수 하나를 선택한다. 이 계수의 agreement 집합을 직접 사용해 기존 이중 기수 합 계산 전체를 대체한다."
+    },
+    {
+      "strategy_id": "M10",
+      "observation_ko": "나쁜 계수 image의 정확한 크기 대신 card_image_le의 상계 ≤ n과 good.card > n만으로 원하는 원소의 존재를 얻는다."
+    },
+    {
+      "strategy_id": "M02",
+      "observation_ko": "deg>n 가지에서 임의의 word w의 Lagrange 보간 코드 소속성 hmem을 한 번 증명해 두 행 모두에 재사용한다. 중간 가지의 coefficient 코드 소속성도 지수 j에 대해 공유한다."
+    },
+    {
+      "strategy_id": "M11",
+      "observation_ko": "분수 조건을 add_div와 양의 분모 비교로 정리하고 자연수 차수 조건을 omega로 한 번 모아 사용한다."
+    }
+  ],
+  "additional_observed_transformations_ko": [
+    "deg=0의 나쁜 계수 회피는 단순 전술 축약을 넘어 증명의 조합적 논증을 바꾼다. 기존 M05/M10의 구체적 새 recipe 후보이나 자동 Bank 승인은 하지 않는다.",
+    "evalX/evalY의 교환을 eval_map과 eval₂_at_apply로 직접 표현하고 긴 evaluation calc를 줄인다."
+  ],
+  "interpretation": "Both designated versions passed; observed transformations coexist, without per-strategy causal attribution."
+}

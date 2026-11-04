@@ -1,0 +1,524 @@
+[
+  {
+    "version": "v4.31.0",
+    "source_revision": "c1712f6c496d0aef04f09bae42aec13811b3273f",
+    "toolchain": "leanprover/lean4:v4.31.0",
+    "source_sha256": "932c80d6a069be3f150c359906b72c2c758a23109e74ca330aca983d7b8dc6c6",
+    "template_sha256": "98946ec3631a912835abe7cddca9a33486881c9e7b6d8ecd65b407508a429ced",
+    "baseline": {
+      "tokens": 5538,
+      "raw_hb_samples": [
+        60939384,
+        60935224,
+        60933498
+      ],
+      "raw_hb_median": 60935224,
+      "valid": true,
+      "runs": [
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/baseline/v4.31.0/v4.31.0",
+            "<INITIAL_RUN>/verification/08/baseline/v4.31.0/v4.31.0/check.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 6.337646,
+          "stderr": "",
+          "source": "check.lean",
+          "source_sha256": "57a7bb64b67e3cb1e9d49754546e253c91ce91b7d6dbfe4cbae28225c291ed8f",
+          "log": "check.log",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/baseline/v4.31.0/v4.31.0",
+            "<INITIAL_RUN>/verification/08/baseline/v4.31.0/v4.31.0/measure-1.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 7.208239,
+          "stderr": "",
+          "source": "measure-1.lean",
+          "source_sha256": "6c719cd83fba196669cb2053a0a8483de8fe6213d10e1ab83e35a679fb2a0846",
+          "log": "measure-1.log",
+          "log_sha256": "2626d70fa5a827959e53e838eaefc2dc21d1cd7d6cffd870753f5efea046f5d0",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 60939384,
+            "scaled": 60939,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/baseline/v4.31.0/v4.31.0",
+            "<INITIAL_RUN>/verification/08/baseline/v4.31.0/v4.31.0/measure-2.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 6.057049,
+          "stderr": "",
+          "source": "measure-2.lean",
+          "source_sha256": "ae7db583d325ddec60831431538ed4ba3f6ebbd81483cb66003fa6d4255fff56",
+          "log": "measure-2.log",
+          "log_sha256": "4b7dc0ec08faf8f7a830d86beacae96049fd465a6fc481a954c433459ec626c9",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 60935224,
+            "scaled": 60935,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/baseline/v4.31.0/v4.31.0",
+            "<INITIAL_RUN>/verification/08/baseline/v4.31.0/v4.31.0/measure-3.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 6.161158,
+          "stderr": "",
+          "source": "measure-3.lean",
+          "source_sha256": "d0fccb783dfd6669a780929cceaf21794503be52cf60b66556dd06e9cfa1d5c7",
+          "log": "measure-3.log",
+          "log_sha256": "b65cdcec79cd9c3a157eece4bd01843c61b7a8cc51f2ff6c0416177dd6217eab",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 60933498,
+            "scaled": 60933,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        }
+      ]
+    },
+    "selected": {
+      "tokens": 2108,
+      "raw_hb_samples": [
+        18076989,
+        18078248,
+        18076859
+      ],
+      "raw_hb_median": 18076989,
+      "valid": true,
+      "runs": [
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/c037/v4.31.0/v4.31.0",
+            "<INITIAL_RUN>/verification/08/c037/v4.31.0/v4.31.0/check.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 16.178823,
+          "stderr": "",
+          "source": "check.lean",
+          "source_sha256": "896b80bd59aa3812f8836cb961cc7ea2dc4979a28b69185f773d80463636d1de",
+          "log": "check.log",
+          "log_sha256": "bcfb6a38c80c0b2a973d878e605c0d080f592cf9215d75ca47d320fcea53a4b9"
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/c037/v4.31.0/v4.31.0",
+            "<INITIAL_RUN>/verification/08/c037/v4.31.0/v4.31.0/measure-1.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 5.345456,
+          "stderr": "",
+          "source": "measure-1.lean",
+          "source_sha256": "63e754f2e0077040756f8934514320e3dcf1a1efe7a2f6c24468ab34c87281fe",
+          "log": "measure-1.log",
+          "log_sha256": "113850be794fa2d2691eb9e6a1cf08ce6156e91bae186f4ce88074e0468fd56d",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 18076989,
+            "scaled": 18076,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/c037/v4.31.0/v4.31.0",
+            "<INITIAL_RUN>/verification/08/c037/v4.31.0/v4.31.0/measure-2.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 4.355805,
+          "stderr": "",
+          "source": "measure-2.lean",
+          "source_sha256": "323b8ffd99b2c815c3c13770963084040693a276a2281121cd2c8ff96d1d609d",
+          "log": "measure-2.log",
+          "log_sha256": "091d5ae4773dbaa20b9f08f74b375d5dba9ddda5db155d683a24dd3ca5e4920c",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 18078248,
+            "scaled": 18078,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.31.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/c037/v4.31.0/v4.31.0",
+            "<INITIAL_RUN>/verification/08/c037/v4.31.0/v4.31.0/measure-3.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 4.32919,
+          "stderr": "",
+          "source": "measure-3.lean",
+          "source_sha256": "5d9101d825ea84640c3aa0e4b86c9399d8217881707c1d514b731ff760522512",
+          "log": "measure-3.log",
+          "log_sha256": "a8922f3b1db205cd18b40258b99d17a9bd2d2ba5a946f37546448392691bfb69",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 18076859,
+            "scaled": 18076,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        }
+      ]
+    },
+    "baseline_result_sha256": "533d5aad908a7f938b8c90b261271a7afcd6bb63bc0162a0ee4f323450bfaeaf",
+    "selected_result_sha256": "54ceb65b46bc5b0219de58c6b31ac91571933d86fab11a0ee1af0a21dd2ba19a"
+  },
+  {
+    "version": "v4.30.0",
+    "source_revision": "e6d77b18ca1334a91faf4d1ccf9f96d854d58ba4",
+    "toolchain": "leanprover/lean4:v4.30.0",
+    "source_sha256": "932c80d6a069be3f150c359906b72c2c758a23109e74ca330aca983d7b8dc6c6",
+    "template_sha256": "98946ec3631a912835abe7cddca9a33486881c9e7b6d8ecd65b407508a429ced",
+    "baseline": {
+      "tokens": 5538,
+      "raw_hb_samples": [
+        68858457,
+        68832173,
+        68835876
+      ],
+      "raw_hb_median": 68835876,
+      "valid": true,
+      "runs": [
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/baseline/v4.30.0/v4.30.0",
+            "<INITIAL_RUN>/verification/08/baseline/v4.30.0/v4.30.0/check.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 23.590594,
+          "stderr": "",
+          "source": "check.lean",
+          "source_sha256": "57a7bb64b67e3cb1e9d49754546e253c91ce91b7d6dbfe4cbae28225c291ed8f",
+          "log": "check.log",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/baseline/v4.30.0/v4.30.0",
+            "<INITIAL_RUN>/verification/08/baseline/v4.30.0/v4.30.0/measure-1.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 6.921885,
+          "stderr": "",
+          "source": "measure-1.lean",
+          "source_sha256": "8a9c10266638f299159e4396d5f8dfa1d3f70c7c6be6194950b3aca9881f4964",
+          "log": "measure-1.log",
+          "log_sha256": "83f3916e9dcc6c0dee31a19b3f1949216a65a8fbd21d01470d49c7596e895aa2",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 68858457,
+            "scaled": 68858,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/baseline/v4.30.0/v4.30.0",
+            "<INITIAL_RUN>/verification/08/baseline/v4.30.0/v4.30.0/measure-2.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 6.717615,
+          "stderr": "",
+          "source": "measure-2.lean",
+          "source_sha256": "718ff19f15ef721dc7b544be56d8ee23d55eec4d316d20ec1f701d9f1d73f643",
+          "log": "measure-2.log",
+          "log_sha256": "8370fbb4a823113ef1ca1fe58b948b862e6022087d3bcb9d7d2f3316cac31e35",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 68832173,
+            "scaled": 68832,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/baseline/v4.30.0/v4.30.0",
+            "<INITIAL_RUN>/verification/08/baseline/v4.30.0/v4.30.0/measure-3.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 6.749662,
+          "stderr": "",
+          "source": "measure-3.lean",
+          "source_sha256": "0da417980fe8c732dba27d44152dc284d2d8726e19d9c54ceac3d9ade88755a3",
+          "log": "measure-3.log",
+          "log_sha256": "0ee959a55ed0effc3c0f10c2d9a2fa0a62d2773a9873ef93324166b677cf667e",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 68835876,
+            "scaled": 68835,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        }
+      ]
+    },
+    "selected": {
+      "tokens": 2108,
+      "raw_hb_samples": [
+        20853262,
+        20856431,
+        20853246
+      ],
+      "raw_hb_median": 20853262,
+      "valid": true,
+      "runs": [
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/c037/v4.30.0/v4.30.0",
+            "<INITIAL_RUN>/verification/08/c037/v4.30.0/v4.30.0/check.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 21.761525,
+          "stderr": "",
+          "source": "check.lean",
+          "source_sha256": "896b80bd59aa3812f8836cb961cc7ea2dc4979a28b69185f773d80463636d1de",
+          "log": "check.log",
+          "log_sha256": "9d5c3b6796bac5ace816110556565f130d4237d403b66be46827bda098b44956"
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/c037/v4.30.0/v4.30.0",
+            "<INITIAL_RUN>/verification/08/c037/v4.30.0/v4.30.0/measure-1.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 4.858823,
+          "stderr": "",
+          "source": "measure-1.lean",
+          "source_sha256": "0c6addabdf4868e405d179dd7ca58de832bd4942df69ece8756be7444e542c19",
+          "log": "measure-1.log",
+          "log_sha256": "215de9c9014c94fffd5be96ca319cd33fdb143baa3a73d010636e1360be345af",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 20853262,
+            "scaled": 20853,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/c037/v4.30.0/v4.30.0",
+            "<INITIAL_RUN>/verification/08/c037/v4.30.0/v4.30.0/measure-2.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 4.546834,
+          "stderr": "",
+          "source": "measure-2.lean",
+          "source_sha256": "363ba74ecf843dbaf949bee5371954a91b206d88665998af16d9f975af9aae5f",
+          "log": "measure-2.log",
+          "log_sha256": "eaf5a79c4c557d784e6aaf026f301961b66f5afd87b7bea39f08d17df6229a37",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 20856431,
+            "scaled": 20856,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        },
+        {
+          "command": [
+            "/usr/bin/sandbox-exec",
+            "-p",
+            "(version 1) (allow default) (deny network*) (deny file-write*) (allow file-write* (literal \"/dev/null\"))",
+            "<LOCAL_HOME>/.elan/toolchains/leanprover--lean4---v4.30.0/bin/lean",
+            "-j1",
+            "-M8192",
+            "-DautoImplicit=false",
+            "--root=<INITIAL_RUN>/verification/08/c037/v4.30.0/v4.30.0",
+            "<INITIAL_RUN>/verification/08/c037/v4.30.0/v4.30.0/measure-3.lean"
+          ],
+          "returncode": 0,
+          "timed_out": false,
+          "seconds": 4.432837,
+          "stderr": "",
+          "source": "measure-3.lean",
+          "source_sha256": "5d579d1b9b79860489bd0455e7dae1e3c82191a89dfed044d35ca3b43290ceca",
+          "log": "measure-3.log",
+          "log_sha256": "1b040f7cc94ce51003ef493011070b2c19892d96e40af1fe11f6aff22a0a116b",
+          "measurement": {
+            "axioms": [
+              "propext",
+              "Classical.choice",
+              "Quot.sound"
+            ],
+            "raw": 20853246,
+            "scaled": 20853,
+            "target": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt"
+          }
+        }
+      ]
+    },
+    "baseline_result_sha256": "30f76b7be9c18293f18ac4d8a9cd9dd46fdd63662d8dfb2f18f6cd4417bb9a15",
+    "selected_result_sha256": "df20d7dd945b4605cb6711cd1650e39889daec5f324126c37b892c78d63baae2"
+  }
+]

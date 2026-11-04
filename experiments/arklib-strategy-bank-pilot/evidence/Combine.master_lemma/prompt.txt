@@ -1,0 +1,320 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+This is an ArkLib refactoring experiment. Minimize combined source-token and raw-heartbeat ratios. Only edit the proof body; preserve the exact statement. No new imports, global helpers, options, axioms, sorry or unsafe evaluation. Use original input and generic strategy hints; historical improved proofs are unavailable. On propose/repair include strategy_ids for Bank strategies you selected (empty if none); the IDs are declarations, not verified attribution. Try concrete changes and repair from the diagnostics. All search/analysis calls also cost money. Stop after the configured reservation budget; do not finish early solely because one candidate passes. Screening uses Lean v4.31.0; final compatibility is checked separately on every required version.
+Pre-target source context (tail only, truncated; full proof in problem.reference):
+ ∑ L ∈ range (total_terms dstar degs),
+      let i_opt := Finset.max (univ.filter (fun j => block_start dstar degs j ≤ L))
+      match i_opt with
+      | none => 0
+      | some i =>
+        let k := L - block_start dstar degs i
+        ri dstar degs r i * fs i x * (φ x * r) ^ k := by
+  have h_sum_reorganized : ∀ x : ι,
+    ∑ L ∈ Finset.range (total_terms dstar degs),
+      (let i_opt := Finset.max (Finset.univ.filter (block_start dstar degs · ≤ L))
+      match i_opt with
+      | Option.none => 0
+      | Option.some i =>
+        let k := L - block_start dstar degs i
+        ri dstar degs r i * fs i x * ((φ x) * r) ^ k) =
+          ∑ i : Fin m, ∑ L ∈ Finset.range (block_size dstar degs i),
+            ri dstar degs r i * fs i x * ((φ x) * r) ^ L := by
+    intro x
+    have h_partition : Finset.range (total_terms dstar degs) =
+      Finset.biUnion
+        Finset.univ
+        (fun i =>
+          Finset.Ico
+            (block_start dstar degs i)
+            (block_start dstar degs i + block_size dstar degs i)) := by
+      ext L
+      simp only [total_terms, block_size, mem_range, block_start,
+                  mem_biUnion, mem_univ, mem_Ico, true_and]
+      constructor
+      · induction m with
+        | zero => aesop
+        | succ m ih =>
+          intro hL
+          by_cases h : L < ∑ x : Fin m, (dstar - degs (Fin.castSucc x) + 1)
+          · obtain ⟨ a, ha₁, ha₂ ⟩ := ih
+              (fun i x => fs i.castSucc x)
+              (fun i => degs i.castSucc)
+              h
+            exists (Fin.castSucc a)
+            constructor
+            · simp_all only [forall_const, Fin.sum_univ_castSucc]
+              convert ha₁ using 1
+              simp only [sum_filter, Fin.sum_univ_castSucc, Fin.castSucc_lt_castSucc_iff,
+                Nat.add_eq_left, ite_eq_right_iff, Nat.add_eq_zero_iff, one_ne_zero, and_false,
+                imp_false, not_lt]
+              exact Fin.le_last _
+            · aesop
+                (add simp [Fin.sum_univ_castSucc, Finset.sum_filter])
+                (add safe (by grind))
+          · exists (Fin.last m)
+            constructor
+            · simp_all only [forall_const, Fin.sum_univ_castSucc, not_lt]
+              rw [Finset.sum_filter, Fin.sum_univ_castSucc]
+              aesop
+            · simp_all [Fin.sum_univ_castSucc, Finset.sum_filter]
+      · rintro ⟨i, hi⟩
+        exact lt_of_lt_of_le hi.2 <| by
+          rw [←Finset.sum_sdiff
+                (Finset.subset_univ (Finset.filter (· < i) Finset.univ)),
+              add_comm]
+          simp only [add_le_add_iff_right, Order.add_one_le_iff]
+          exact Nat.lt_of_succ_le <| by
+            rw [Nat.succ_eq_add_one]
+            exact Finset.single_le_sum
+              (fun x _ => Nat.zero_le (dstar - degs x + 1)) (by simp)
+    rw [h_partition, Finset.sum_biUnion]
+    · exact Finset.sum_congr rfl (by {
+        intro i _
+        apply Finset.sum_bij (fun L hL => L - block_start dstar degs i)
+        · simp only [mem_Ico, mem_range, and_imp]
+          exact fun a ha₁ ha₂ => by
+            rw [tsub_lt_iff_left ha₁]
+            exact ha₂
+        · simp only [mem_Ico, and_imp]
+          intros
+          omega
+        · simp only [mem_range, mem_Ico, exists_prop]
+          exact fun b hb =>
+            ⟨block_start dstar degs i + b,
+              ⟨by linarith, by linarith⟩,
+              by simp +decide⟩
+        · simp only [mem_Ico, and_imp]
+          intro a ha₁ ha₂
+          rw [show Finset.max
+              (Finset.filter (block_start dstar degs · ≤ a) Finset.univ) = ↑i from ?_]
+          apply le_antisymm
+          · simp only [Finset.max, Finset.sup_le_iff, mem_filter, mem_univ, true_and,
+            WithBot.coe_le_coe]
+            intro j hj₁
+            contrapose! hj₁
+            apply lt_of_lt_of_le ha₂
+            unfold block_start block_size
+            rw [show (Finset.univ.filter fun k => k < j) =
+                  Finset.univ.filter (fun k => k < i) ∪
+                      {i} ∪ Finset.univ.filter (fun k => i < k ∧ k < j) from ?_,
+                Finset.sum_union, Finset.sum_union] <;> norm_num
+            · exact Finset.disjoint_left.mpr fun x hx₁ hx₂ ↦
+                lt_asymm (Finset.mem_filter.mp hx₁ |>.2) (Finset.mem_filter.mp hx₂ |>.2.1)
+            · grind
+          · simp only [Finset.max, WithBot.bot_lt_coe, Finset.le_sup_iff, mem_filter, mem_univ,
+            true_and, WithBot.coe_le_coe]
+            exact ⟨i, ha₁, le_rfl⟩
+      })
+    · intro i _ j _ hij
+      have h_disjoint :
+        block_start dstar degs j ≥
+          block_start dstar degs i + block_size dstar degs i ∨
+        block_start dstar degs i ≥
+          block_start dstar degs j + block_size dstar degs j := by
+        cases lt_or_gt_of_ne hij
+        · simp_all only [block_start, block_size, coe_univ, Set.mem_univ, ne_eq, ge_iff_le]
+          left
+          apply
+            (Function.swap le_trans <|
+              Finset.sum_le_sum_of_subset
+                (show Finset.filter (· < i) Finset.univ ∪ {i} ⊆
+                  Finset.filter (· < j) Finset.univ from _))
+          · rw [Finset.sum_union] <;> simp [*, Finset.sum_singleton]
+          · simp only [union_singleton, subset_iff, mem_insert, mem_filter, mem_univ, true_and,
+            forall_eq_or_imp, *]
+            exact fun a ha ↦ lt_trans ha ‹_›
+        · simp_all only [block_start, block_size]
+          rw [show (Finset.univ.filter fun x => x < i) =
+            Finset.univ.filter (· < j) ∪ {j} ∪
+              (Finset.univ.filter (· < i) \
+                (Finset.univ.filter (· < j) ∪ {j})) from ?_,
+            Finset.sum_union, Finset.sum_union]
+          · simp
+          · simp
+          · exact fun x hx₁ hx₂ a ha ↦ by
+              specialize hx₁ ha
+              specialize hx₂ ha
+              simp_all
+              omega
+          · simp only [union_singleton, union_sdiff_self_eq_union, insert_union, mem_union,
+            mem_filter, mem_univ, lt_self_iff_false, and_false, and_self, or_true, insert_eq_of_mem,
+            right_eq_union, *]
+            exact fun x hx ↦ Finset.mem_filter.mpr
+              ⟨Finset.mem_univ _, lt_trans (Finset.mem_filter.mp hx |>.2) ‹_›⟩
+      cases h_disjoint
+      · exact Finset.disjoint_left.mpr fun x hx₁ hx₂ ↦ by
+          linarith [Finset.mem_Ico.mp hx₁, Finset.mem_Ico.mp hx₂]
+      · exact Finset.disjoint_left.mpr fun x hx₁ hx₂ ↦ by
+          linarith [ Finset.mem_Ico.mp hx₁, Finset.mem_Ico.mp hx₂ ];
+  ext x
+  exact (by
+    convert h_sum_reorganized x |> Eq.symm using 2
+    simp [combine, Finset.mul_sum _ _ _]
+    ring!)
+
+omit [DecidableEq F] in
+private lemma combine_eq_flat'
+  (φ : ι ↪ F) (dstar : ℕ) (r : F)
+  (fs : Fin m.succ → ι → F) (degs : Fin m.succ → ℕ) :
+  combine φ dstar r fs degs = fun x ↦
+    ∑ l : Fin (total_terms dstar degs),
+      let i := Finset.max'
+          (univ.filter (block_start dstar degs · ≤ l))
+          block_start_filter_nonempty
+      let k := l - block_start dstar degs i
+      ri dstar degs r i * fs i x * (φ x * r) ^ k := by
+  rw [combine_eq_flat]
+  ext x
+  rw [Finset.sum_fin_eq_sum_range]
+  exact Finset.sum_equiv (Equiv.refl _) (by simp) <| fun i hi ↦ by
+    have h : Finset.max {j | block_start dstar degs j ≤ i} =
+      Finset.max' {j | block_start dstar degs j ≤ i} block_start_filter_nonempty := by
+        aesop (add simp [Finset.max, Finset.max'])
+    aesop
+
+omit [DecidableEq F] in
+private lemma combine_eq_flat''
+  (φ : ι ↪ F) (dstar : ℕ) (r : F)
+  (fs : Fin m.succ → ι → F) (degs : Fin m.succ → ℕ) :
+  combine φ dstar r fs degs = fun x ↦
+    ∑ l : Fin (total_terms dstar degs),
+      let i := Finset.max'
+          (univ.filter (block_start dstar degs · ≤ l))
+          block_start_filter_nonempty
+      let k := l - block_start dstar degs i
+      r ^ (i + ∑ j < i, (dstar - degs j)) *
+        fs i x * (φ x * r) ^ k := by
+  aesop (add safe combine_eq_flat')
+
+omit [DecidableEq F] in
+private lemma combine_eq_flat'''
+  (φ : ι ↪ F) (dstar : ℕ) (r : F)
+  (fs : Fin m.succ → ι → F) (degs : Fin m.succ → ℕ) :
+  combine φ dstar r fs degs = fun x ↦
+    ∑ l : Fin (total_terms dstar degs),
+      (r ^ l.val) *
+      (let i := Finset.max'
+          (univ.filter (block_start dstar degs · ≤ l))
+          block_start_filter_nonempty
+      let k := l - block_start dstar degs i
+      fs i x * (φ x) ^ k) := by
+  have h_block :
+    ∀ l : Fin (Combine.total_terms dstar degs),
+      ∃ i : Fin m.succ,
+        Combine.block_start dstar degs i ≤ l ∧
+          ∀ j : Fin m.succ, Combine.block_start dstar degs j ≤ l → j ≤ i :=
+        fun l ↦ by
+        use (Finset.max'
+          (Finset.univ.filter (Combine.block_start dstar degs · ≤ l))
+          ⟨0, by simp [block_start]⟩)
+        constructor
+        · exact Finset.mem_filter.mp
+            (Finset.max'_mem (Finset.univ.filter
+              (Combine.block_start dstar degs · ≤ l)) _) |>.2
+        · aesop (add safe Finset.le_max')
+  convert Combine.combine_eq_flat'' φ dstar r fs degs using 1
+  funext x
+  exact Finset.sum_congr rfl <| fun l _ ↦ by
+    obtain ⟨i, hi, hi'⟩ := h_block l
+    have hi_eq : (Finset.max'
+      (filter (Combine.block_start dstar degs · ≤ l) Finset.univ)
+      Combine.block_start_filter_nonempty) = i :=
+        le_antisymm
+          (by simp_all [Finset.max'])
+          (by aesop (add simp [Finset.max']))
+    rw [hi_eq, ←Nat.add_sub_of_le hi]
+    ring_nf
+    simp only [block_start, Nat.succ_eq_add_one, block_size, sum_add_distrib, sum_const,
+      smul_eq_mul, mul_comm, one_mul, add_tsub_cancel_left, mul_assoc, mul_left_comm,
+      mul_eq_mul_left_iff]
+    rw [show filter _ _ = Finset.Iio i by aesop]
+    aesop (add safe (by ring))
+
+omit [DecidableEq F] in
+private lemma combine_eq_flat_final
+  (φ : ι ↪ F) (dstar : ℕ) (r : F) (fs : Fin m → ι → F) (degs : Fin m → ℕ) :
+  combine φ dstar r fs degs =
+    ∑ l : Fin (total_terms dstar degs),
+      r ^ (l : ℕ) • fun (x : ι) ↦ (
+        let i : WithBot (Fin m) := Finset.max (univ.filter (block_start dstar degs · ≤ l))
+        i.elim (0 : F) fun i ↦
+          let k := l - block_start dstar degs i
+          fs i x * (φ x) ^ k) :=
+  match m with
+  | 0 => by aesop (add simp Option.elim)
+  | Nat.succ m => by
+    have h {l : Fin (total_terms dstar degs)} :
+      Finset.max {j | block_start dstar degs j ≤ ↑l} =
+        Finset.max' {j | block_start dstar degs j ≤ ↑l}
+          block_start_filter_nonempty := by
+            aesop (add simp [Finset.max, Finset.max'])
+    aesop (add simp [Option.elim, combine_eq_flat'''])
+
+-- def DegCor
+
+/-- Definition 4.12.1
+    DegCor(d*, r, f, degree)(x) := f(x) * ( sum_{ l < d* - d + 1 } (r * φ(x))^l ) -/
+def degCor
+  (φ : ι ↪ F) (dstar degree : ℕ) (r : F) (f : ι → F) (x : ι) : F :=
+    f x * ∑ l ∈ range (dstar - degree + 1), ((φ x) * r) ^ l
+
+/-- Definition 4.12.2
+    DegCor(d*, r, f, d)(x) := f(x) * conditionalExp(x) -/
+lemma degreeCor_eq {F : Type u_1} [Field F] [DecidableEq F] {ι : Type u_2} (φ : ι ↪ F)
+  (dstar degree : ℕ) (r : F) (f : ι → F) (hd : degree ≤ dstar) (x : ι) :
+  let q := φ x * r
+  degCor φ dstar degree r f x =
+    if q ≠ 1
+    then f x * (1 - q^(dstar - degree + 1)) / (1 - q)
+    else f x * (dstar - degree + 1) := by
+  convert congr_arg _ (geom_sum_cases (φ x * r) (dstar - degree)) using 1
+  · rfl
+  · rw [Nat.cast_add, Nat.cast_sub hd, Nat.cast_one]
+    split_ifs <;> ring
+
+variable {F : Type} [Field F] [Fintype F] [DecidableEq F]
+         {ι : Type} [Fintype ι]
+
+open scoped NNReal NNRat in
+private lemma glorious_lemma
+  {n m : ℕ}
+  {δ : ℝ≥0} {rho : ℚ≥0}
+  (hδLt : δ < (min (1 - NNReal.sqrt rho)
+    (1 - rho - 1 / (↑m))))
+  (hrho : rho = n / (↑m : ℚ≥0)) :
+  ↑rho + 1 / ↑(m) < 1 - δ := by
+  all_goals first | infer_instance | simp_all +decide [lt_tsub_iff_left]
+  ring_nf at *
+  exact hδLt.2.trans_le' (by norm_cast)
+
+private lemma even_more_glorious_lemma
+  {n m : ℕ}
+  {δ : ℝ≥0}
+  (hm : 0 < m)
+  (h : ↑n / ↑(m) + (↑(m))⁻¹ < 1 - δ) : ↑(n + 1) < (1 - δ) * m := by
+ rw [← div_lt_iff₀ (by positivity)]
+ convert h using 1
+ push_cast
+ ring
+
+set_option maxHeartbeats 0 in
+omit [DecidableEq F] [Fintype F] in
+open LinearCode Classical ProbabilityTheory ReedSolomon STIR in

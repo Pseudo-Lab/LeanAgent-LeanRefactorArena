@@ -1,0 +1,24 @@
+{
+  "problem": "Binius.BinaryBasefold.fold_advances_evaluation_poly",
+  "selected_candidate": "c040",
+  "review_status": "agent-source-comparison",
+  "human_approved": false,
+  "attribution": "joint",
+  "observed_bank_mechanisms": [
+    {
+      "strategy_id": "M02",
+      "observation_ko": "서로 복제되던 x₀/x₁의 qMap 평가 증명과 split-identity 평가 증명을 각각 k : Fin 2에 대한 hq/he 보조정리 하나로 공유한다."
+    },
+    {
+      "strategy_id": "M11",
+      "observation_ko": "fiber 차이 hd를 이용해 한 변수를 먼저 치환하고 ring으로 직접 정규화한다. 긴 calc 체인을 짧은 인증식으로 줄인다."
+    }
+  ],
+  "additional_observed_transformations_ko": [
+    "quotient index의 왕복 변환 대신 fiber 생성에 대한 직접 정리를 적용한다.",
+    "일반 fiber 기저합 전개 대신 one-level fiber 정리와 제한된 simp only를 사용한다.",
+    "최종 다항식 등식을 polynomial 수준 lifting/congruence 대신 eval_finset_sum 이후 각 summand의 ring 등식으로 정리한다."
+  ],
+  "model_declared_strategy_note": "The final candidate declares no IDs; earlier ancestry declares M05. Those declarations alone are not used to assert actual M05 application.",
+  "interpretation": "Observed M02/M11 and library-specific changes are joint. No isolated causal contribution or Bank approval is established."
+}

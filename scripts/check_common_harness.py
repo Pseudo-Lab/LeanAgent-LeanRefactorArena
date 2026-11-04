@@ -5,6 +5,7 @@ Separate processes isolate historical experiment modules named worker/report/etc
 Frozen-dataset checks run when the separately distributed dataset is installed;
 full environment inspection requires ARENA_FINAL_INTEGRATION=1 explicitly.
 """
+import argparse
 import os
 from pathlib import Path
 import subprocess
@@ -13,17 +14,24 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[1]
 CORE = (
-    "test_harness.py", "test_actions.py", "test_portfolio.py", "test_budgeting.py", "test_repair_feedback.py",
+    "test_harness.py", "test_actions.py", "test_action_memory.py", "test_portfolio.py", "test_budgeting.py", "test_repair_feedback.py",
+    "test_autosolver.py", "test_autosolver_native.py",
     "test_runtime_integration.py", "test_api_integration.py", "test_prepared_cache.py",
     "test_accounting.py", "test_usage_*.py", "test_evaluation.py", "test_corpus_storage.py",
-    "test_final_*.py", "test_strategy_bank.py", "test_strategy_mixed.py",
+    "test_final_*.py", "test_strategy_bank.py", "test_strategy_mixed.py", "test_strategy_retriever.py",
+    # Submission gates (PR #64 rules, PR #70 OpenRouter/$3 provenance).
+    "test_submission_rules.py", "test_submission_provenance.py",
+    # The frozen warm-up experiment pin must match the published dashboard snapshot.
+    "test_warmup_experiment_pin.py",
 )
 EXPERIMENTS = (
     "api-comparison", "usage-cost", "final-batch-next",
 )
 
 
-def main():
+def main(argv=None):
+    # No options; this makes --help print the description instead of running every suite.
+    argparse.ArgumentParser(description=__doc__).parse_args(argv)
     env = dict(os.environ)
     env["PYTHONPATH"] = str(ROOT / "src")
     # macOS /var and /private/var aliases must not break path identity assertions.
@@ -34,6 +42,7 @@ def main():
         env["PROJECT_CACHE_DIR"] = env["TMPDIR"] = str(Path(directory).resolve())
         suites = [("tests", pattern) for pattern in CORE]
         suites += [("experiments/" + name, "test_*.py") for name in EXPERIMENTS]
+        suites.append(("dashboard/scripts", "test_final20_trajectories.py"))
         failed = []
         for folder, pattern in suites:
             print(f"\n== {folder}/{pattern} ==", flush=True)

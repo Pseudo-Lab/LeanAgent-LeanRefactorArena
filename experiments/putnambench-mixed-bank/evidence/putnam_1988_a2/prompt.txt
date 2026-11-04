@@ -1,0 +1,499 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. Then reduce repeated whole-context simplification or broad search using recorded evidence. Judge complete proof-token and heartbeat ratios together; a shorter proof can be worse. propose: state a short concrete approach in strategy and supply the complete replacement proof. repair: fix the reported errors in the named rejected parent, preserving working branches. search/inspect: retrieve a specific missing definition or theorem rather than repeatedly browsing. After repeated failure of the same approach, branch from another candidate or change the proof structure. Search is lexical evidence only, not a theorem-prover or availability guarantee. Every action consumes paid model budget. The controller stops after actual settled cost reaches $2.50. The exact statement and original full source context are preserved by the evaluator. Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. At final selection the controller checks candidates in score order against every required version, falling back to another candidate if needed. All listed versions must accept the final candidate. No extra imports or helper declarations.
+<original_context>
+[Original imports/header]
+import Mathlib
+import Aesop
+
+[Original prefix scope-command excerpts in source order]
+L4: set_option maxHeartbeats 0
+L5: 
+L6: open Set
+L7: 
+L8: 
+
+[Original prefix immediately before target]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Set
+
+
+
+
+[context-lines-1-9]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Set
+
+
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Log.Deriv-f46392e2-L184-241]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Log.Deriv, lines 184-241.
+
+@[fun_prop]
+theorem DifferentiableOn.log (hf : DifferentiableOn ℝ f s) (hx : ∀ x ∈ s, f x ≠ 0) :
+    DifferentiableOn ℝ (fun x => log (f x)) s := fun x h => (hf x h).log (hx x h)
+
+@[simp, fun_prop]
+theorem Differentiable.log (hf : Differentiable ℝ f) (hx : ∀ x, f x ≠ 0) :
+    Differentiable ℝ fun x => log (f x) := fun x => (hf x).log (hx x)
+
+theorem fderivWithin.log (hf : DifferentiableWithinAt ℝ f s x) (hx : f x ≠ 0)
+    (hxs : UniqueDiffWithinAt ℝ s x) :
+    fderivWithin ℝ (fun x => log (f x)) s x = (f x)⁻¹ • fderivWithin ℝ f s x :=
+  (hf.hasFDerivWithinAt.log hx).fderivWithin hxs
+
+@[simp]
+theorem fderiv.log (hf : DifferentiableAt ℝ f x) (hx : f x ≠ 0) :
+    fderiv ℝ (fun x => log (f x)) x = (f x)⁻¹ • fderiv ℝ f x :=
+  (hf.hasFDerivAt.log hx).fderiv
+
+end fderiv
+
+end LogDifferentiable
+
+namespace Real
+
+-- see https://github.com/leanprover-community/mathlib4/issues/29041
+set_option linter.unusedSimpArgs false in
+/-- A crude lemma estimating the difference between `log (1-x)` and its Taylor series at `0`,
+where the main point of the bound is that it tends to `0`. The goal is to deduce the series
+expansion of the logarithm, in `hasSum_pow_div_log_of_abs_lt_1`.
+
+TODO: use one of generic theorems about Taylor's series to prove this estimate.
+-/
+theorem abs_log_sub_add_sum_range_le {x : ℝ} (h : |x| < 1) (n : ℕ) :
+    |(∑ i ∈ range n, x ^ (i + 1) / (i + 1)) + log (1 - x)| ≤ |x| ^ (n + 1) / (1 - |x|) := by
+  /- For the proof, we show that the derivative of the function to be estimated is small,
+    and then apply the mean value inequality. -/
+  let F : ℝ → ℝ := fun x => (∑ i ∈ range n, x ^ (i + 1) / (i + 1)) + log (1 - x)
+  let F' : ℝ → ℝ := fun x ↦ -x ^ n / (1 - x)
+  -- Porting note: In `mathlib3`, the proof used `deriv`/`DifferentiableAt`. `simp` failed to
+  -- compute `deriv`, so I changed the proof to use `HasDerivAt` instead
+  -- First step: compute the derivative of `F`
+  have A : ∀ y ∈ Ioo (-1 : ℝ) 1, HasDerivAt F (F' y) y := fun y hy ↦ by
+    have : HasDerivAt F ((∑ i ∈ range n, ↑(i + 1) * y ^ i / (↑i + 1)) + (-1) / (1 - y)) y :=
+      .add (.fun_sum fun i _ ↦ (hasDerivAt_pow (i + 1) y).div_const ((i : ℝ) + 1))
+        (((hasDerivAt_id y).const_sub _).log <| sub_ne_zero.2 hy.2.ne')
+    convert this using 1
+    calc
+      -y ^ n / (1 - y) = ∑ i ∈ Finset.range n, y ^ i + -1 / (1 - y) := by
+        simp [field, geom_sum_eq hy.2.ne, sub_ne_zero.2 hy.2.ne, sub_ne_zero.2 hy.2.ne']
+        ring
+      _ = ∑ i ∈ Finset.range n, ↑(i + 1) * y ^ i / (↑i + 1) + -1 / (1 - y) := by
+        congr with i
+        rw [Nat.cast_succ, mul_div_cancel_left₀ _ (Nat.cast_add_one_pos i).ne']
+  -- second step: show that the derivative of `F` is small
+  have B : ∀ y ∈ Icc (-|x|) |x|, |F' y| ≤ |x| ^ n / (1 - |x|) := fun y hy ↦
+    calc
+      |F' y| = |y| ^ n / |1 - y| := by simp [F', abs_div]
+
+
+[import-Mathlib.Analysis.Calculus.Deriv.MeanValue-290727d2-L115-168]
+-- Lexical source excerpt: module Mathlib.Analysis.Calculus.Deriv.MeanValue, lines 115-168.
+    intro x hx
+    exact ((hff' x hx).const_mul _).sub ((hgg' x hx).const_mul _)
+  rcases exists_hasDerivAt_eq_zero' hab hha hhb hhh' with ⟨c, cmem, hc⟩
+  exact ⟨c, cmem, sub_eq_zero.1 hc⟩
+
+include hab hfc hff' in
+/-- Lagrange's Mean Value Theorem, `HasDerivAt` version -/
+theorem exists_hasDerivAt_eq_slope : ∃ c ∈ Ioo a b, f' c = (f b - f a) / (b - a) := by
+  obtain ⟨c, cmem, hc⟩ : ∃ c ∈ Ioo a b, (b - a) * f' c = (f b - f a) * 1 :=
+    exists_ratio_hasDerivAt_eq_ratio_slope f f' hab hfc hff' id 1 continuousOn_id
+      fun x _ => hasDerivAt_id x
+  use c, cmem
+  rwa [mul_one, mul_comm, ← eq_div_iff (sub_ne_zero.2 hab.ne')] at hc
+
+include hab hfc hgc hgd hfd in
+/-- Cauchy's Mean Value Theorem, `deriv` version. -/
+theorem exists_ratio_deriv_eq_ratio_slope :
+    ∃ c ∈ Ioo a b, (g b - g a) * deriv f c = (f b - f a) * deriv g c :=
+  exists_ratio_hasDerivAt_eq_ratio_slope f (deriv f) hab hfc
+    (fun x hx => ((hfd x hx).differentiableAt <| IsOpen.mem_nhds isOpen_Ioo hx).hasDerivAt) g
+    (deriv g) hgc fun x hx =>
+    ((hgd x hx).differentiableAt <| IsOpen.mem_nhds isOpen_Ioo hx).hasDerivAt
+
+include hab in
+/-- Cauchy's Mean Value Theorem, extended `deriv` version. -/
+theorem exists_ratio_deriv_eq_ratio_slope' {lfa lga lfb lgb : ℝ}
+    (hdf : DifferentiableOn ℝ f <| Ioo a b) (hdg : DifferentiableOn ℝ g <| Ioo a b)
+    (hfa : Tendsto f (𝓝[>] a) (𝓝 lfa)) (hga : Tendsto g (𝓝[>] a) (𝓝 lga))
+    (hfb : Tendsto f (𝓝[<] b) (𝓝 lfb)) (hgb : Tendsto g (𝓝[<] b) (𝓝 lgb)) :
+    ∃ c ∈ Ioo a b, (lgb - lga) * deriv f c = (lfb - lfa) * deriv g c :=
+  exists_ratio_hasDerivAt_eq_ratio_slope' _ _ hab _ _
+    (fun x hx => ((hdf x hx).differentiableAt <| Ioo_mem_nhds hx.1 hx.2).hasDerivAt)
+    (fun x hx => ((hdg x hx).differentiableAt <| Ioo_mem_nhds hx.1 hx.2).hasDerivAt) hfa hga hfb hgb
+
+include hab hfc hfd in
+/-- Lagrange's **Mean Value Theorem**, `deriv` version. -/
+theorem exists_deriv_eq_slope : ∃ c ∈ Ioo a b, deriv f c = (f b - f a) / (b - a) :=
+  exists_hasDerivAt_eq_slope f (deriv f) hab hfc fun x hx =>
+    ((hfd x hx).differentiableAt <| IsOpen.mem_nhds isOpen_Ioo hx).hasDerivAt
+
+include hab hfc hfd in
+/-- Lagrange's **Mean Value Theorem**, `deriv` version. -/
+theorem exists_deriv_eq_slope' : ∃ c ∈ Ioo a b, deriv f c = slope f a b := by
+  rw [slope_def_field]
+  exact exists_deriv_eq_slope f hab hfc hfd
+
+/-- A real function whose derivative tends to infinity from the right at a point is not
+differentiable on the right at that point. -/
+theorem not_differentiableWithinAt_of_deriv_tendsto_atTop_Ioi (f : ℝ → ℝ) {a : ℝ}
+    (hf : Tendsto (deriv f) (𝓝[>] a) atTop) : ¬ DifferentiableWithinAt ℝ f (Ioi a) a := by
+  replace hf : Tendsto (derivWithin f (Ioi a)) (𝓝[>] a) atTop := by
+    refine hf.congr' ?_
+    filter_upwards [eventually_mem_nhdsWithin] with x hx
+    have : Ioi a ∈ 𝓝 x := by simp [← mem_interior_iff_mem_nhds, hx]
+
+
+[import-Mathlib.Analysis.SpecialFunctions.Integrals.Basic-0e854739-L235-295]
+-- Lexical source excerpt: module Mathlib.Analysis.SpecialFunctions.Integrals.Basic, lines 235-295.
+theorem integral_exp : ∫ x in a..b, exp x = exp b - exp a := by
+  rw [integral_deriv_eq_sub']
+  · simp
+  · exact fun _ _ => differentiableAt_exp
+  · exact continuousOn_exp
+
+theorem integral_exp_mul_complex {c : ℂ} (hc : c ≠ 0) :
+    (∫ x in a..b, Complex.exp (c * x)) = (Complex.exp (c * b) - Complex.exp (c * a)) / c := by
+  have D : ∀ x : ℝ, HasDerivAt (fun y : ℝ => Complex.exp (c * y) / c) (Complex.exp (c * x)) x := by
+    intro x
+    conv => congr
+    rw [← mul_div_cancel_right₀ (Complex.exp (c * x)) hc]
+    apply ((Complex.hasDerivAt_exp _).comp x _).div_const c
+    simpa only [mul_one] using ((hasDerivAt_id (x : ℂ)).const_mul _).comp_ofReal
+  rw [integral_deriv_eq_sub' _ (funext fun x => (D x).deriv) fun x _ => (D x).differentiableAt]
+  · ring
+  · fun_prop
+
+lemma integral_exp_mul_I_eq_sin (r : ℝ) :
+    ∫ t in -r..r, Complex.exp (t * Complex.I) = 2 * Real.sin r :=
+  calc ∫ t in -r..r, Complex.exp (t * Complex.I)
+  _ = (Complex.exp (Complex.I * r) - Complex.exp (Complex.I * (-r))) / Complex.I := by
+    simp_rw [mul_comm _ Complex.I]
+    rw [integral_exp_mul_complex]
+    · simp
+    · simp
+  _ = 2 * Real.sin r := by
+    simp only [mul_comm Complex.I, Complex.exp_mul_I, Complex.cos_neg, Complex.sin_neg,
+      add_sub_add_left_eq_sub, Complex.div_I, Complex.ofReal_sin]
+    rw [sub_mul, mul_assoc, mul_assoc, two_mul]
+    simp
+
+lemma integral_exp_mul_I_eq_sinc (r : ℝ) :
+    ∫ t in -r..r, Complex.exp (t * Complex.I) = 2 * r * sinc r := by
+  rw [integral_exp_mul_I_eq_sin]
+  by_cases hr : r = 0
+  · simp [hr]
+  rw [sinc_of_ne_zero hr]
+  norm_cast
+  field
+
+/-- Helper lemma for `integral_log`: case where `a = 0` and `b` is positive. -/
+lemma integral_log_from_zero_of_pos (ht : 0 < b) : ∫ s in 0..b, log s = b * log b - b := by
+  -- Compute the integral by giving a primitive and considering it limit as x approaches 0 from the
+  -- right. The following lines were suggested by Gareth Ma on Zulip.
+  rw [integral_eq_sub_of_hasDerivAt_of_tendsto (f := fun x ↦ x * log x - x)
+    (fa := 0) (fb := b * log b - b) (hint := intervalIntegrable_log')]
+  · abel
+  · exact ht
+  · intro s ⟨hs, _ ⟩
+    simpa using (hasDerivAt_mul_log hs.ne.symm).sub (hasDerivAt_id s)
+  · simpa [mul_comm] using ((tendsto_log_mul_rpow_nhdsGT_zero zero_lt_one).sub
+      (tendsto_nhdsWithin_of_tendsto_nhds Filter.tendsto_id))
+  · exact tendsto_nhdsWithin_of_tendsto_nhds (ContinuousAt.tendsto (by fun_prop))
+
+/-- Helper lemma for `integral_log`: case where `a = 0`. -/
+lemma integral_log_from_zero {b : ℝ} : ∫ s in 0..b, log s = b * log b - b := by
+  rcases lt_trichotomy b 0 with h | h | h
+  · -- If t is negative, use that log is an even function to reduce to the positive case.
+    conv => arg 1; arg 1; intro t; rw [← log_neg_eq_log]
+    rw [intervalIntegral.integral_comp_neg, intervalIntegral.integral_symm, neg_zero,
+
+
+[import-Mathlib.Analysis.Calculus.Taylor-644e5d6c-L370-426]
+-- Lexical source excerpt: module Mathlib.Analysis.Calculus.Taylor, lines 370-426.
+    (hf : ContDiffOn ℝ n f (Icc x₀ x))
+    (hf' : DifferentiableOn ℝ (iteratedDerivWithin n f (Icc x₀ x)) (Ioo x₀ x)) :
+    ∃ x' ∈ Ioo x₀ x, f x - taylorWithinEval f n (Icc x₀ x) x₀ x =
+      iteratedDerivWithin (n + 1) f (Icc x₀ x) x' * (x - x') ^ n / n ! * (x - x₀) := by
+  have gcont : ContinuousOn id (Icc x₀ x) := by fun_prop
+  have gdiff : ∀ x_1 : ℝ, x_1 ∈ Ioo x₀ x → HasDerivAt id ((fun _ : ℝ => (1 : ℝ)) x_1) x_1 :=
+    fun _ _ => hasDerivAt_id _
+  -- We apply the general theorem with g = id
+  rcases taylor_mean_remainder hx hf hf' gcont gdiff fun _ _ => by simp with ⟨y, hy, h⟩
+  use y, hy
+  rw [h]
+  simp [field]
+
+/-- **Taylor's theorem** with a polynomial bound on the remainder
+
+We assume that `f` is `n+1`-times continuously differentiable on the closed set `Icc a b`.
+The difference of `f` and its `n`-th Taylor polynomial can be estimated by
+`C * (x - a)^(n+1) / n!` where `C` is a bound for the `n+1`-th iterated derivative of `f`. -/
+theorem taylor_mean_remainder_bound {f : ℝ → E} {a b C x : ℝ} {n : ℕ} (hab : a ≤ b)
+    (hf : ContDiffOn ℝ (n + 1) f (Icc a b)) (hx : x ∈ Icc a b)
+    (hC : ∀ y ∈ Icc a b, ‖iteratedDerivWithin (n + 1) f (Icc a b) y‖ ≤ C) :
+    ‖f x - taylorWithinEval f n (Icc a b) a x‖ ≤ C * (x - a) ^ (n + 1) / n ! := by
+  rcases eq_or_lt_of_le hab with (rfl | h)
+  · rw [Icc_self, mem_singleton_iff] at hx
+    simp [hx]
+  -- The nth iterated derivative is differentiable
+  have hf' : DifferentiableOn ℝ (iteratedDerivWithin n f (Icc a b)) (Icc a b) :=
+    hf.differentiableOn_iteratedDerivWithin (mod_cast n.lt_succ_self)
+      (uniqueDiffOn_Icc h)
+  -- We can uniformly bound the derivative of the Taylor polynomial
+  have h' : ∀ y ∈ Ico a x,
+      ‖((n ! : ℝ)⁻¹ * (x - y) ^ n) • iteratedDerivWithin (n + 1) f (Icc a b) y‖ ≤
+        (n ! : ℝ)⁻¹ * |x - a| ^ n * C := by
+    rintro y ⟨hay, hyx⟩
+    rw [norm_smul, Real.norm_eq_abs]
+    gcongr
+    · rw [abs_mul, abs_pow, abs_inv, Nat.abs_cast]
+      gcongr
+      exact sub_nonneg.2 hyx.le
+    -- Estimate the iterated derivative by `C`
+    · exact hC y ⟨hay, hyx.le.trans hx.2⟩
+  -- Apply the mean value theorem for vector-valued functions:
+  have A : ∀ t ∈ Icc a x, HasDerivWithinAt (fun y => taylorWithinEval f n (Icc a b) y x)
+      (((↑n !)⁻¹ * (x - t) ^ n) • iteratedDerivWithin (n + 1) f (Icc a b) t) (Icc a x) t := by
+    intro t ht
+    have I : Icc a x ⊆ Icc a b := Icc_subset_Icc_right hx.2
+    exact (hasDerivWithinAt_taylorWithinEval_at_Icc x h (I ht) hf.of_succ hf').mono I
+  have := norm_image_sub_le_of_norm_deriv_le_segment' A h' x (right_mem_Icc.2 hx.1)
+  simp only [taylorWithinEval_self] at this
+  refine this.trans_eq ?_
+  -- The rest is a trivial calculation
+  rw [abs_of_nonneg (sub_nonneg.mpr hx.1)]
+  ring
+
+/-- **Taylor's theorem** with a polynomial bound on the remainder
+
+We assume that `f` is `n+1`-times continuously differentiable on the closed set `Icc a b`.
+
+
+[import-Mathlib.Analysis.ODE.Gronwall-0ba6c379-L62-122]
+-- Lexical source excerpt: module Mathlib.Analysis.ODE.Gronwall, lines 62-122.
+      ((((hasDerivAt_id x).const_mul K).exp.sub_const 1).const_mul (ε / K)) using 1
+    simp only [id, mul_add, (mul_assoc _ _ _).symm, mul_comm _ K, mul_div_cancel₀ _ hK]
+    ring
+
+theorem hasDerivAt_gronwallBound_shift (δ K ε x a : ℝ) :
+    HasDerivAt (fun y => gronwallBound δ K ε (y - a)) (K * gronwallBound δ K ε (x - a) + ε) x := by
+  convert (hasDerivAt_gronwallBound δ K ε _).comp x ((hasDerivAt_id x).sub_const a) using 1
+  rw [id, mul_one]
+
+theorem gronwallBound_x0 (δ K ε : ℝ) : gronwallBound δ K ε 0 = δ := by
+  by_cases hK : K = 0
+  · simp only [gronwallBound, if_pos hK, mul_zero, add_zero]
+  · simp only [gronwallBound, if_neg hK, mul_zero, exp_zero, sub_self, mul_one,
+      add_zero]
+
+theorem gronwallBound_ε0 (δ K x : ℝ) : gronwallBound δ K 0 x = δ * exp (K * x) := by
+  by_cases hK : K = 0
+  · simp only [gronwallBound_K0, hK, zero_mul, exp_zero, add_zero, mul_one]
+  · simp only [gronwallBound_of_K_ne_0 hK, zero_div, zero_mul, add_zero]
+
+theorem gronwallBound_ε0_δ0 (K x : ℝ) : gronwallBound 0 K 0 x = 0 := by
+  simp only [gronwallBound_ε0, zero_mul]
+
+theorem gronwallBound_continuous_ε (δ K x : ℝ) : Continuous fun ε => gronwallBound δ K ε x := by
+  by_cases hK : K = 0
+  · simp only [gronwallBound_K0, hK]
+    exact continuous_const.add (continuous_id.mul continuous_const)
+  · simp only [gronwallBound_of_K_ne_0 hK]
+    exact continuous_const.add ((continuous_id.mul continuous_const).mul continuous_const)
+
+/-- The Gronwall bound is monotone with respect to the time variable `x`. -/
+lemma gronwallBound_mono {δ K ε : ℝ} (hδ : 0 ≤ δ) (hε : 0 ≤ ε) (hK : 0 ≤ K) :
+    Monotone (gronwallBound δ K ε) := by
+  intro x₁ x₂ hx
+  unfold gronwallBound
+  split_ifs with hK₀
+  · gcongr
+  · have hK_pos : 0 < K := by positivity
+    gcongr
+
+/-! ### Inequality and corollaries -/
+
+/-- A Grönwall-like inequality: if `f : ℝ → ℝ` is continuous on `[a, b]` and satisfies
+the inequalities `f a ≤ δ` and
+`∀ x ∈ [a, b), liminf_{z→x+0} (f z - f x)/(z - x) ≤ K * (f x) + ε`, then `f x`
+is bounded by `gronwallBound δ K ε (x - a)` on `[a, b]`.
+
+See also `norm_le_gronwallBound_of_norm_deriv_right_le` for a version bounding `‖f x‖`,
+`f : ℝ → E`. -/
+theorem le_gronwallBound_of_liminf_deriv_right_le {f f' : ℝ → ℝ} {δ K ε : ℝ} {a b : ℝ}
+    (hf : ContinuousOn f (Icc a b))
+    (hf' : ∀ x ∈ Ico a b, ∀ r, f' x < r → ∃ᶠ z in 𝓝[>] x, (z - x)⁻¹ * (f z - f x) < r)
+    (ha : f a ≤ δ) (bound : ∀ x ∈ Ico a b, f' x ≤ K * f x + ε) :
+    ∀ x ∈ Icc a b, f x ≤ gronwallBound δ K ε (x - a) := by
+  have H : ∀ x ∈ Icc a b, ∀ ε' ∈ Ioi ε, f x ≤ gronwallBound δ K ε' (x - a) := by
+    intro x hx ε' (hε' : ε < ε')
+    apply image_le_of_liminf_slope_right_lt_deriv_boundary hf hf'
+    · rwa [sub_self, gronwallBound_x0]
+    · exact fun x => hasDerivAt_gronwallBound_shift δ K ε' x a
+    · intro x hx hfB
+      grw [← hfB, bound x hx]
+
+
+[import-Mathlib.Analysis.Calculus.Monotone-b95d5372-L181-231]
+-- Lexical source excerpt: module Mathlib.Analysis.Calculus.Monotone, lines 181-231.
+    have : Tendsto (fun y => (hf.stieltjesFunction (y + -1 * (y - x) ^ 2) - f x) / (y - x)) (𝓝[<] x)
+        (𝓝 (rnDeriv hf.stieltjesFunction.measure volume x).toReal) := by
+      apply tendsto_apply_add_mul_sq_div_sub (nhdsLT_le_nhdsNE x) hx.1
+      apply tendsto_nhdsWithin_of_tendsto_nhds_of_eventually_within
+      · apply Tendsto.mono_left _ nhdsWithin_le_nhds
+        have : Tendsto (fun y : ℝ => y + -↑1 * (y - x) ^ 2) (𝓝 x) (𝓝 (x + -↑1 * (x - x) ^ 2)) :=
+          tendsto_id.add (((tendsto_id.sub_const x).pow 2).const_mul (-1))
+        simpa using this
+      · filter_upwards [Ioo_mem_nhdsLT <| show x - 1 < x by simp]
+        rintro y hy
+        rw [mem_Ioo] at hy
+        rw [mem_Iio]
+        nlinarith
+    -- apply the sandwiching argument, with `g` and the helper function
+    apply tendsto_of_tendsto_of_tendsto_of_le_of_le' hx.1 this
+    · filter_upwards [self_mem_nhdsWithin]
+      rintro y hy
+      rw [mem_Iio, ← sub_neg] at hy
+      apply div_le_div_of_nonpos_of_le hy.le
+      exact (sub_le_sub_iff_right _).2 (hf.le_rightLim (le_refl _))
+    · filter_upwards [self_mem_nhdsWithin]
+      rintro y hy
+      rw [mem_Iio, ← sub_neg] at hy
+      have : 0 < (y - x) ^ 2 := sq_pos_of_neg hy
+      apply div_le_div_of_nonpos_of_le hy.le
+      exact (sub_le_sub_iff_right _).2 (hf.rightLim_le (by linarith))
+  -- conclude global differentiability
+  rw [hasDerivAt_iff_tendsto_slope, slope_fun_def_field, ← nhdsLT_sup_nhdsGT, tendsto_sup]
+  exact ⟨L2, L1⟩
+
+/-- A monotone real function is differentiable Lebesgue-almost everywhere. -/
+theorem Monotone.ae_differentiableAt {f : ℝ → ℝ} (hf : Monotone f) :
+    ∀ᵐ x, DifferentiableAt ℝ f x := by
+  filter_upwards [hf.ae_hasDerivAt] with x hx using hx.differentiableAt
+
+/-- A real function which is monotone on a set is differentiable Lebesgue-almost everywhere on
+this set. This version does not assume that `s` is measurable. For a formulation with
+`volume.restrict s` assuming that `s` is measurable, see `MonotoneOn.ae_differentiableWithinAt`.
+-/
+theorem MonotoneOn.ae_differentiableWithinAt_of_mem {f : ℝ → ℝ} {s : Set ℝ} (hf : MonotoneOn f s) :
+    ∀ᵐ x, x ∈ s → DifferentiableWithinAt ℝ f s x := by
+  /- We use a global monotone extension of `f`, and argue that this extension is differentiable
+    almost everywhere. Such an extension need not exist (think of `1/x` on `(0, +∞)`), but it exists
+    if one restricts first the function to a compact interval `[a, b]`. -/
+  apply ae_of_mem_of_ae_of_mem_inter_Ioo
+  intro a b as bs _
+  obtain ⟨g, hg, gf⟩ : ∃ g : ℝ → ℝ, Monotone g ∧ EqOn f g (s ∩ Icc a b) :=
+    (hf.mono inter_subset_left).exists_monotone_extension
+      (hf.map_bddBelow inter_subset_left ⟨a, fun x hx => hx.2.1, as⟩)
+      (hf.map_bddAbove inter_subset_left ⟨b, fun x hx => hx.2.2, bs⟩)
+  filter_upwards [hg.ae_differentiableAt] with x hx
+
+
+[import-Mathlib.Analysis.Calculus.LHopital-4bcf3e3a-L156-213]
+-- Lexical source excerpt: module Mathlib.Analysis.Calculus.LHopital, lines 156-213.
+      exact hg' _ (fact2 x hx))
+    (hftop.comp tendsto_inv_nhdsGT_zero) (hgtop.comp tendsto_inv_nhdsGT_zero)
+    (by
+      refine (tendsto_congr' ?_).mp (hdiv.comp tendsto_inv_nhdsGT_zero)
+      filter_upwards [self_mem_nhdsWithin] with x (hx : 0 < x)
+      simp only [Function.comp_def]
+      rw [mul_div_mul_right]
+      exact neg_ne_zero.mpr (by positivity))
+  have := this.comp tendsto_inv_atTop_nhdsGT_zero
+  unfold Function.comp at this
+  simpa only [inv_inv]
+
+theorem lhopital_zero_atBot_on_Iio (hff' : ∀ x ∈ Iio a, HasDerivAt f (f' x) x)
+    (hgg' : ∀ x ∈ Iio a, HasDerivAt g (g' x) x) (hg' : ∀ x ∈ Iio a, g' x ≠ 0)
+    (hfbot : Tendsto f atBot (𝓝 0)) (hgbot : Tendsto g atBot (𝓝 0))
+    (hdiv : Tendsto (fun x => f' x / g' x) atBot l) : Tendsto (fun x => f x / g x) atBot l := by
+  -- Here, we essentially compose by `Neg.neg`. The following is mostly technical details.
+  have hdnf : ∀ x ∈ -Iio a, HasDerivAt (f ∘ Neg.neg) (f' (-x) * -1) x := fun x hx =>
+    comp x (hff' (-x) hx) (hasDerivAt_neg x)
+  have hdng : ∀ x ∈ -Iio a, HasDerivAt (g ∘ Neg.neg) (g' (-x) * -1) x := fun x hx =>
+    comp x (hgg' (-x) hx) (hasDerivAt_neg x)
+  rw [neg_Iio] at hdnf
+  rw [neg_Iio] at hdng
+  have := lhopital_zero_atTop_on_Ioi hdnf hdng
+    (by
+      intro x hx h
+      apply hg' _ (by rw [← neg_Iio] at hx; exact hx)
+      rwa [mul_comm, ← neg_eq_neg_one_mul, neg_eq_zero] at h)
+    (hfbot.comp tendsto_neg_atTop_atBot) (hgbot.comp tendsto_neg_atTop_atBot)
+    (by
+      simp only [mul_one, mul_neg, neg_div_neg_eq]
+      exact (hdiv.comp tendsto_neg_atTop_atBot))
+  have := this.comp tendsto_neg_atBot_atTop
+  unfold Function.comp at this
+  simpa only [neg_neg]
+
+end HasDerivAt
+
+namespace deriv
+
+theorem lhopital_zero_right_on_Ioo (hab : a < b) (hdf : DifferentiableOn ℝ f (Ioo a b))
+    (hg' : ∀ x ∈ Ioo a b, deriv g x ≠ 0) (hfa : Tendsto f (𝓝[>] a) (𝓝 0))
+    (hga : Tendsto g (𝓝[>] a) (𝓝 0))
+    (hdiv : Tendsto (fun x => (deriv f) x / (deriv g) x) (𝓝[>] a) l) :
+    Tendsto (fun x => f x / g x) (𝓝[>] a) l := by
+  have hdf : ∀ x ∈ Ioo a b, DifferentiableAt ℝ f x := fun x hx =>
+    (hdf x hx).differentiableAt (Ioo_mem_nhds hx.1 hx.2)
+  have hdg : ∀ x ∈ Ioo a b, DifferentiableAt ℝ g x := fun x hx =>
+    by_contradiction fun h => hg' x hx (deriv_zero_of_not_differentiableAt h)
+  exact HasDerivAt.lhopital_zero_right_on_Ioo hab (fun x hx => (hdf x hx).hasDerivAt)
+    (fun x hx => (hdg x hx).hasDerivAt) hg' hfa hga hdiv
+
+theorem lhopital_zero_right_on_Ico (hab : a < b) (hdf : DifferentiableOn ℝ f (Ioo a b))
+    (hcf : ContinuousOn f (Ico a b)) (hcg : ContinuousOn g (Ico a b))
+    (hg' : ∀ x ∈ Ioo a b, (deriv g) x ≠ 0) (hfa : f a = 0) (hga : g a = 0)
+    (hdiv : Tendsto (fun x => (deriv f) x / (deriv g) x) (𝓝[>] a) l) :
+    Tendsto (fun x => f x / g x) (𝓝[>] a) l := by
+  refine lhopital_zero_right_on_Ioo hab hdf hg' ?_ ?_ hdiv
+
+
+[import-Mathlib.Analysis.Complex.Periodic-21c2aedb-L233-244]
+-- Lexical source excerpt: module Mathlib.Analysis.Complex.Periodic, lines 233-244.
+If `f` is periodic, holomorphic near `I∞`, and tends to zero at `I∞`, then in fact it tends to zero
+exponentially fast.
+-/
+theorem exp_decay_of_zero_at_inf (hh : 0 < h) (hf : Periodic f h)
+    (h_hol : ∀ᶠ z in I∞, DifferentiableAt ℂ f z) (h_zer : ZeroAtFilter I∞ f) :
+    f =O[I∞] fun z ↦ Real.exp (-2 * π * im z / h) := by
+  simpa [cuspFunction_zero_of_zero_at_inf hh h_zer, sub_zero] using
+    exp_decay_sub_of_bounded_at_inf hh hf h_hol h_zer.boundedAtFilter
+
+end HoloAtInfC
+
+end Function.Periodic
+
+</original_context>

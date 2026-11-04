@@ -1,0 +1,522 @@
+Refactor the supplied Lean theorem, preserving its exact statement.
+Return one JSON action object from exploration.actions per response.
+Choose searches, source inspection, lexical analysis, candidate reading,
+or a full replacement tactic proof with propose/repair. Each action consumes
+one model call. Proposals are evaluated immediately by the harness.
+Search and inspect read only a frozen source corpus; a hit does not establish
+that a declaration is accessible or applicable in this problem's environment.
+read_candidate can recover older source and compiler feedback by candidate ID.
+You may branch from a failed or worse candidate. Use repair for a failed parent.
+Keep track of the approach you are testing in the strategy field.
+Minimize half the sum of proof-token and raw-heartbeat ratios to the original.
+finish ends the run and submits the harness's verified best candidate.
+No shell, filesystem paths, network, delegation, extra declarations, sorry,
+admit, axioms, native_decide, executable metaprogramming, or Lean option changes.
+Only the harness runs Lean. Use recorded evidence to decide the next action.
+When exploration.repair_context is present, use its parent source, candidate-line
+diagnostics and error-specific instructions. Keep working branches intact while
+fixing concrete errors. Do not assume imported automation such as aesop is available.
+If finish is absent from exploration.actions, continue until the controller stops.
+
+Optimization guidance: first look for existing lemmas, assumptions, or witnesses that remove proof steps. Then reduce repeated whole-context simplification or broad search using recorded evidence. Judge complete proof-token and heartbeat ratios together; a shorter proof can be worse. propose: state a short concrete approach in strategy and supply the complete replacement proof. repair: fix the reported errors in the named rejected parent, preserving working branches. search/inspect: retrieve a specific missing definition or theorem rather than repeatedly browsing. After repeated failure of the same approach, branch from another candidate or change the proof structure. Search is lexical evidence only, not a theorem-prover or availability guarantee. Every action consumes paid model budget. The controller stops after actual settled cost reaches $2.50. The exact statement and original full source context are preserved by the evaluator. Exploration feedback verifies only the primary version; it does not establish cross-version compatibility. At final selection the controller checks candidates in score order against every required version, falling back to another candidate if needed. All listed versions must accept the final candidate. No extra imports or helper declarations.
+<original_context>
+[Original imports/header]
+import Mathlib
+import Aesop
+
+[Original prefix scope-command excerpts in source order]
+L4: set_option maxHeartbeats 0
+L5: 
+L6: open Filter Topology Real
+L7: 
+L8: 
+
+[Original prefix immediately before target]
+import Mathlib
+import Aesop
+
+set_option maxHeartbeats 0
+
+open Filter Topology Real
+
+
+
+[import-Mathlib.NumberTheory.ClassNumber.Finite-a8ddc299-L178-236]
+-- Lexical source excerpt: module Mathlib.NumberTheory.ClassNumber.Finite, lines 178-236.
+    rw [Ne, sub_eq_zero]
+    exact fun h => hij ((distinctElems bS adm).injective h)
+
+section Real
+
+open Real
+
+attribute [-instance] Real.decidableEq
+
+/-- We can approximate `a / b : L` with `q / r`, where `r` has finitely many options for `L`. -/
+theorem exists_mem_finsetApprox (a : S) {b} (hb : b ≠ (0 : R)) :
+    ∃ q : S,
+      ∃ r ∈ finsetApprox bS adm, abv (Algebra.norm R (r • a - b • q)) <
+      abv (Algebra.norm R (algebraMap R S b)) := by
+  have dim_pos := Fintype.card_pos_iff.mpr bS.index_nonempty
+  set ε : ℝ := normBound abv bS ^ (-1 / Fintype.card ι : ℝ) with ε_eq
+  have hε : 0 < ε := Real.rpow_pos_of_pos (Int.cast_pos.mpr (normBound_pos abv bS)) _
+  have ε_le : (normBound abv bS : ℝ) * (abv b • ε) ^ (Fintype.card ι : ℝ)
+                ≤ abv b ^ (Fintype.card ι : ℝ) := by
+    have := normBound_pos abv bS
+    have := abv.nonneg b
+    rw [ε_eq, Algebra.smul_def, eq_intCast, mul_rpow, ← rpow_mul, div_mul_cancel₀, rpow_neg_one,
+      mul_left_comm, mul_inv_cancel₀, mul_one, rpow_natCast] <;>
+      try norm_cast; lia
+    · exact Int.cast_nonneg this
+    · linarith
+  set μ : Fin (cardM bS adm).succ ↪ R := distinctElems bS adm
+  let s : ι →₀ R := bS.repr a
+  have s_eq : ∀ i, s i = bS.repr a i := fun i => rfl
+  let qs : Fin (cardM bS adm).succ → ι → R := fun j i => μ j * s i / b
+  let rs : Fin (cardM bS adm).succ → ι → R := fun j i => μ j * s i % b
+  have r_eq : ∀ j i, rs j i = μ j * s i % b := fun i j => rfl
+  have μ_eq : ∀ i j, μ j * s i = b * qs j i + rs j i := by
+    intro i j
+    rw [r_eq, EuclideanDomain.div_add_mod]
+  have μ_mul_a_eq : ∀ j, μ j • a = b • ∑ i, qs j i • bS i + ∑ i, rs j i • bS i := by
+    intro j
+    rw [← bS.sum_repr a]
+    simp only [μ, qs, rs, Finset.smul_sum, ← Finset.sum_add_distrib]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [← s_eq, ← mul_smul, μ_eq, add_smul, mul_smul, ← μ_eq]
+  obtain ⟨j, k, j_ne_k, hjk⟩ := adm.exists_approx hε hb fun j i => μ j * s i
+  have hjk' : ∀ i, (abv (rs k i - rs j i) : ℝ) < abv b • ε := by simpa only [r_eq] using hjk
+  let q := ∑ i, (qs k i - qs j i) • bS i
+  set r := μ k - μ j with r_eq
+  refine ⟨q, r, (mem_finsetApprox bS adm).mpr ?_, ?_⟩
+  · exact ⟨k, j, j_ne_k.symm, rfl⟩
+  have : r • a - b • q = ∑ x : ι, (rs k x • bS x - rs j x • bS x) := by
+    simp only [q, r_eq, sub_smul, μ_mul_a_eq, Finset.smul_sum, ← Finset.sum_add_distrib,
+      ← Finset.sum_sub_distrib, smul_sub]
+    refine Finset.sum_congr rfl fun x _ => ?_
+    ring
+  rw [this, Algebra.norm_algebraMap_of_basis bS, abv.map_pow]
+  refine Int.cast_lt.mp ((norm_lt abv bS _ fun i => lt_of_le_of_lt ?_ (hjk' i)).trans_le ?_)
+  · apply le_of_eq
+    congr
+    simp_rw [map_sum, map_sub, map_smul, Finset.sum_apply',
+      Finsupp.sub_apply, Finsupp.smul_apply, Finset.sum_sub_distrib, Basis.repr_self_apply,
+      smul_eq_mul, mul_boole, Finset.sum_ite_eq', Finset.mem_univ, if_true]
+
+
+[import-Mathlib.RingTheory.WittVector.TeichmullerSeries-ca837c88-L62-126]
+-- Lexical source excerpt: module Mathlib.RingTheory.WittVector.TeichmullerSeries, lines 62-126.
+      push_neg at this
+      choose b hb hb' using this
+      have : a = b :=
+        congrArg (fun x ↦ x.1) <|
+          (h m).allEq ⟨a, S'.mem_insert_self a, hma⟩ ⟨b, S'.mem_insert_of_mem hb, hb'⟩
+      exact ha (this ▸ hb)
+    rw [coeff_add_of_disjoint n _ _ this, hind n]
+
+variable [CharP R p]
+
+@[simp]
+theorem teichmuller_mul_pow_coeff (n : ℕ) (x : R) :
+    (teichmuller p x * p ^ n).coeff n = x ^ p ^ n := by
+  simpa using WittVector.mul_pow_charP_coeff_succ (teichmuller p x) (m := 0)
+
+theorem teichmuller_mul_pow_coeff_of_ne (x : R)
+    {m n : ℕ} (h : m ≠ n) : (teichmuller p x * p ^ n).coeff m = 0 := by
+  cases Nat.lt_or_lt_of_ne h with
+  | inl h =>
+    exact WittVector.mul_pow_charP_coeff_zero (teichmuller p x) h
+  | inr h =>
+    rw [← Nat.sub_add_cancel h.le, WittVector.mul_pow_charP_coeff_succ (teichmuller p x),
+      WittVector.teichmuller_coeff_pos p x (m - n) (Nat.zero_lt_sub_of_lt h), zero_pow]
+    simp [Nat.Prime.ne_zero Fact.out]
+
+variable [PerfectRing R p]
+
+/--
+`p ^ (n + 1)` divides
+`x` minus the summation of the first `n + 1` terms of the Teichmuller series.
+-/
+theorem dvd_sub_sum_teichmuller_iterateFrobeniusEquiv_coeff (x : 𝕎 R) (n : ℕ) :
+    (p : 𝕎 R) ^ (n + 1) ∣ x - ∑ (i ≤ n), (teichmuller p
+        (((_root_.frobeniusEquiv R p).symm ^ i) (x.coeff i)) * p ^ i) := by
+  rw [← Ideal.mem_span_singleton, mem_span_p_pow_iff_le_coeff_eq_zero,
+      ← le_coeff_eq_iff_le_sub_coeff_eq_zero]
+  intro i hi
+  rw [WittVector.sum_coeff_eq_coeff_sum]
+  · rw [Finset.sum_eq_add_sum_diff_singleton (Finset.mem_Iic.mpr (Nat.lt_succ_iff.mp hi))]
+    let g := fun x : ℕ ↦ (0 : R)
+    rw [Finset.sum_congr rfl (g := g)]
+    · simp [g]
+    · intro b hb
+      simp only [Finset.mem_sdiff, Finset.mem_Iic, Finset.mem_singleton] at hb
+      exact teichmuller_mul_pow_coeff_of_ne _ (Ne.intro hb.2).symm
+  · refine fun n ↦ ⟨fun ⟨a, _, ha⟩ ⟨b, _, hb⟩ ↦ ?_⟩
+    ext
+    dsimp only [ne_eq, Set.mem_setOf_eq]
+    rw [← Not.imp_symm (teichmuller_mul_pow_coeff_of_ne _) ha]
+    exact Not.imp_symm (teichmuller_mul_pow_coeff_of_ne _) hb
+
+/--
+Given a ring `S` such that `p` is nilpotent in `S`
+and two ring maps `f g : 𝕎 R →+* S`, if they coincide on the teichmuller representatives,
+then they are equal.
+-/
+theorem eq_of_apply_teichmuller_eq
+    {S : Type*} [CommRing S] (f g : 𝕎 R →+* S) (hp : IsNilpotent (p : S))
+    (h : ∀ (x : R), f (teichmuller p x) = g (teichmuller p x)) : f = g := by
+  obtain ⟨n, hn⟩ := hp
+  ext x
+  obtain ⟨c, hc⟩ := (dvd_sub_sum_teichmuller_iterateFrobeniusEquiv_coeff x n)
+  calc
+    f x = f (x - ∑ (i ≤ n), teichmuller p (((_root_.frobeniusEquiv R p).symm ^ i)
+        (x.coeff i)) * p ^ i) + f (∑ (i ≤ n), teichmuller p
+
+
+[import-Mathlib.RingTheory.WittVector.InitTail-c1138e5f-L62-126]
+-- Lexical source excerpt: module Mathlib.RingTheory.WittVector.InitTail, lines 62-126.
+section Select
+
+variable (P : ℕ → Prop)
+
+open scoped Classical in
+/-- The polynomial that witnesses that `WittVector.select` is a polynomial function.
+`selectPoly n` is `X n` if `P n` holds, and `0` otherwise. -/
+def selectPoly (n : ℕ) : MvPolynomial ℕ ℤ :=
+  if P n then X n else 0
+
+theorem coeff_select (x : 𝕎 R) (n : ℕ) :
+    (select P x).coeff n = aeval x.coeff (selectPoly P n) := by
+  dsimp [select, selectPoly]
+  split_ifs with hi <;> simp
+
+instance select_isPoly {P : ℕ → Prop} : IsPoly p fun _ _ x => select P x := by
+  use selectPoly P
+  rintro R _Rcr x
+  funext i
+  apply coeff_select
+
+variable [hp : Fact p.Prime]
+
+theorem select_add_select_not : ∀ x : 𝕎 R, select P x + select (fun i => ¬P i) x = x := by
+  -- Porting note: TC search was insufficient to find this instance, even though all required
+  -- instances exist. See zulip: [https://leanprover.zulipchat.com/#narrow/stream/287929-mathlib4/topic/WittVector.20saga/near/370073526]
+  have : IsPoly p fun {R} [CommRing R] x ↦ select P x + select (fun i ↦ ¬P i) x :=
+    IsPoly₂.diag (hf := IsPoly₂.comp)
+  ghost_calc x
+  intro n
+  simp only [map_add]
+  suffices
+    (bind₁ (selectPoly P)) (wittPolynomial p ℤ n) +
+        (bind₁ (selectPoly fun i => ¬P i)) (wittPolynomial p ℤ n) =
+      wittPolynomial p ℤ n by
+    apply_fun aeval x.coeff at this
+    simpa only [map_add, aeval_bind₁, ← coeff_select]
+  simp only [wittPolynomial_eq_sum_C_mul_X_pow, selectPoly, map_sum, map_pow, map_mul,
+    bind₁_X_right, bind₁_C_right, ← Finset.sum_add_distrib, ← mul_add]
+  apply Finset.sum_congr rfl
+  refine fun m _ => mul_eq_mul_left_iff.mpr (Or.inl ?_)
+  rw [ite_pow, zero_pow (pow_ne_zero _ hp.out.ne_zero)]
+  by_cases Pm : P m
+  · rw [if_pos Pm, if_neg <| not_not_intro Pm, zero_pow Fin.pos'.ne', add_zero]
+  · rwa [if_neg Pm, if_pos, zero_add]
+
+theorem coeff_add_of_disjoint (x y : 𝕎 R) (h : ∀ n, x.coeff n = 0 ∨ y.coeff n = 0) :
+    (x + y).coeff n = x.coeff n + y.coeff n := by
+  let P : ℕ → Prop := fun n => y.coeff n = 0
+  haveI : DecidablePred P := Classical.decPred P
+  set z := mk p fun n => if P n then x.coeff n else y.coeff n
+  have hx : select P z = x := by
+    ext1 n; rw [select, coeff_mk, coeff_mk]
+    split_ifs with hn
+    · rfl
+    · rw [(h n).resolve_right hn]
+  have hy : select (fun i => ¬P i) z = y := by
+    ext1 n; rw [select, coeff_mk, coeff_mk]
+    split_ifs with hn
+    · exact hn.symm
+    · rfl
+  calc
+    (x + y).coeff n = z.coeff n := by rw [← hx, ← hy, select_add_select_not P z]
+    _ = x.coeff n + y.coeff n := by
+      simp only [z, mk.eq_1]
+
+
+[import-Mathlib.LinearAlgebra.Vandermonde-c95a40e8-L165-212]
+-- Lexical source excerpt: module Mathlib.LinearAlgebra.Vandermonde, lines 165-212.
+        Finset.prod_sigma', Finset.prod_eq_zero (i := ⟨0, Fin.last n⟩) (by simpa) (by simp [h0'])]
+    rw [← mul_right_inj' (a := ((Equiv.swap 0 i₀).sign : K))
+      (by simp [show 0 ≠ i₀ by rintro rfl; contradiction]), ← det_permute, ← projVandermonde_comp,
+      aux _ _ (by simpa), ← (Equiv.swap 0 i₀).prod_Ioi_comp_eq_sign_mul_prod (by simp)]
+    rfl
+  /- Let `W` be obtained from the matrix by subtracting `r = (v 0) / (w 0)` times each column
+  from the next column, starting from the penultimate column. This doesn't change the determinant.-/
+  set r := v 0 / w 0 with hr
+  set W : Matrix (Fin (n + 1)) (Fin (n + 1)) K := .of fun i ↦ (cons (projVandermonde v w i 0)
+    (fun j ↦ projVandermonde v w i j.succ - r * projVandermonde v w i j.castSucc))
+  -- deleting the first row and column of `W` gives a row-scaling of a Vandermonde matrix.
+  have hW_eq : (W.submatrix succ succ) = .of fun i j ↦ (v (succ i) - r * w (succ i)) *
+      projVandermonde (v ∘ succ) (w ∘ succ) i j := by
+    ext i j
+    simp only [projVandermonde_apply, val_zero, rev_zero, val_last, val_succ,
+      val_castSucc, submatrix_apply, Function.comp_apply, rev_succ,
+      W, r, rev_castSucc]
+    simp
+    ring
+  /- The first row of `W` is `[(w 0)^n, 0, ..., 0]` - take a cofactor expansion along this row,
+  and apply induction. -/
+  rw [det_eq_of_forall_col_eq_smul_add_pred (B := W) (c := fun _ ↦ r) (by simp [W])
+    (fun i j ↦ by simp [W, r, projVandermonde_apply]), det_succ_row_zero,
+    Finset.sum_eq_single 0 _ (by simp)]
+  · rw [succAbove_zero, hW_eq, det_mul_column, ih]
+    simp only [Nat.succ_eq_add_one, coe_ofNat_eq_mod, Nat.zero_mod,
+      pow_zero, show W 0 0 = w 0 ^ n by simp [W, projVandermonde_apply], one_mul, hr]
+    field_simp
+    simp only [Finset.prod_div_distrib, Finset.prod_const, Finset.card_fin, Function.comp_apply]
+    field_simp
+    simp only [prod_univ_succ, Ioi_zero_eq_map, Finset.prod_map, coe_succEmb, prod_Ioi_succ]
+  intro j _ hj0
+  obtain ⟨j, rfl⟩ := j.eq_succ_of_ne_zero hj0
+  rw [mul_eq_zero, mul_eq_zero]
+  refine .inl (.inr ?_)
+  simp only [of_apply, projVandermonde_apply_of_ne_zero h0, val_succ, val_castSucc, cons_succ, W, r]
+  ring
+
+/-- The formula for the determinant of a projective Vandermonde matrix. -/
+theorem det_projVandermonde (v w : Fin n → R) : (projVandermonde v w).det =
+    ∏ i : Fin n, ∏ j ∈ Finset.Ioi i, (v j * w i - v i * w j) := by
+  let u (b : Bool) (i : Fin n) := (algebraMap (MvPolynomial (Fin n × Bool) ℤ)
+    (FractionRing (MvPolynomial (Fin n × Bool) ℤ))) (MvPolynomial.X ⟨i, b⟩)
+  have hdet := det_projVandermonde_of_field (u true) (u false)
+  simp only [u] at hdet
+  norm_cast at hdet
+  rw [projVandermonde_map, ← RingHom.map_det, IsFractionRing.coe_inj] at hdet
+  apply_fun MvPolynomial.eval₂Hom (Int.castRingHom R) (fun x ↦ (if x.2 then v else w) x.1) at hdet
+
+
+[import-Mathlib.Analysis.InnerProductSpace.Subspace-3510c85f-L123-184]
+-- Lexical source excerpt: module Mathlib.Analysis.InnerProductSpace.Subspace, lines 123-184.
+    ⟪V i v, ∑ j : ι, V j (l j)⟫ = ⟪v, l i⟫ := by
+  classical
+  calc
+    ⟪V i v, ∑ j : ι, V j (l j)⟫ = ∑ j : ι, ⟪V i v, V j (l j)⟫ := by rw [inner_sum]
+    _ = ∑ j, ite (i = j) ⟪V i v, V j (l j)⟫ 0 :=
+      (congr_arg (Finset.sum Finset.univ) <| funext fun j => hV.eq_ite v (l j))
+    _ = ⟪v, l i⟫ := by
+      simp only [Finset.sum_ite_eq, Finset.mem_univ, (V i).inner_map_map, if_true]
+
+nonrec theorem OrthogonalFamily.inner_sum (l₁ l₂ : ∀ i, G i) (s : Finset ι) :
+    ⟪∑ i ∈ s, V i (l₁ i), ∑ j ∈ s, V j (l₂ j)⟫ = ∑ i ∈ s, ⟪l₁ i, l₂ i⟫ := by
+  classical
+  calc
+    ⟪∑ i ∈ s, V i (l₁ i), ∑ j ∈ s, V j (l₂ j)⟫ = ∑ j ∈ s, ∑ i ∈ s, ⟪V i (l₁ i), V j (l₂ j)⟫ := by
+      simp only [sum_inner, inner_sum]
+    _ = ∑ j ∈ s, ∑ i ∈ s, ite (i = j) ⟪V i (l₁ i), V j (l₂ j)⟫ 0 := by
+      congr with i
+      congr with j
+      apply hV.eq_ite
+    _ = ∑ i ∈ s, ⟪l₁ i, l₂ i⟫ := by
+      simp only [Finset.sum_ite_of_true, Finset.sum_ite_eq', LinearIsometry.inner_map_map,
+        imp_self, imp_true_iff]
+
+theorem OrthogonalFamily.norm_sum (l : ∀ i, G i) (s : Finset ι) :
+    ‖∑ i ∈ s, V i (l i)‖ ^ 2 = ∑ i ∈ s, ‖l i‖ ^ 2 := by
+  have : ((‖∑ i ∈ s, V i (l i)‖ : ℝ) : 𝕜) ^ 2 = ∑ i ∈ s, ((‖l i‖ : ℝ) : 𝕜) ^ 2 := by
+    simp only [← inner_self_eq_norm_sq_to_K, hV.inner_sum]
+  exact mod_cast this
+
+/-- The composition of an orthogonal family of subspaces with an injective function is also an
+orthogonal family. -/
+theorem OrthogonalFamily.comp {γ : Type*} {f : γ → ι} (hf : Function.Injective f) :
+    OrthogonalFamily 𝕜 (fun g => G (f g)) fun g => V (f g) :=
+  fun _i _j hij v w => hV (hf.ne hij) v w
+
+theorem OrthogonalFamily.orthonormal_sigma_orthonormal {α : ι → Type*} {v_family : ∀ i, α i → G i}
+    (hv_family : ∀ i, Orthonormal 𝕜 (v_family i)) :
+    Orthonormal 𝕜 fun a : Σ i, α i => V a.1 (v_family a.1 a.2) := by
+  constructor
+  · rintro ⟨i, v⟩
+    simpa only [LinearIsometry.norm_map] using (hv_family i).left v
+  rintro ⟨i, v⟩ ⟨j, w⟩ hvw
+  by_cases hij : i = j
+  · subst hij
+    have : v ≠ w := fun h => by
+      subst h
+      exact hvw rfl
+    simpa only [LinearIsometry.inner_map_map] using (hv_family i).2 this
+  · exact hV hij (v_family i v) (v_family j w)
+
+theorem OrthogonalFamily.norm_sq_diff_sum [DecidableEq ι] (f : ∀ i, G i) (s₁ s₂ : Finset ι) :
+    ‖(∑ i ∈ s₁, V i (f i)) - ∑ i ∈ s₂, V i (f i)‖ ^ 2 =
+      (∑ i ∈ s₁ \ s₂, ‖f i‖ ^ 2) + ∑ i ∈ s₂ \ s₁, ‖f i‖ ^ 2 := by
+  rw [← Finset.sum_sdiff_sub_sum_sdiff, sub_eq_add_neg, ← Finset.sum_neg_distrib]
+  let F : ∀ i, G i := fun i => if i ∈ s₁ then f i else -f i
+  have hF₁ : ∀ i ∈ s₁ \ s₂, F i = f i := fun i hi => if_pos (Finset.sdiff_subset hi)
+  have hF₂ : ∀ i ∈ s₂ \ s₁, F i = -f i := fun i hi => if_neg (Finset.mem_sdiff.mp hi).2
+  have hF : ∀ i, ‖F i‖ = ‖f i‖ := by
+    intro i
+    dsimp only [F]
+    split_ifs <;> simp only [norm_neg]
+  have :
+
+
+[import-Mathlib.RingTheory.Ideal.Norm.AbsNorm-790ab533-L394-424]
+-- Lexical source excerpt: module Mathlib.RingTheory.Ideal.Norm.AbsNorm, lines 394-424.
+  simp_rw [Nat.card_congr e, Nat.card_sum, add_right_inj]
+  conv_lhs =>
+    enter [1, 1, I]
+    rw [← absNorm_ne_zero_iff_mem_nonZeroDivisors, ne_eq, not_not, and_iff_left_iff_imp.mpr
+      (fun h ↦ by rw [h]; exact Nat.zero_le n), absNorm_eq_zero_iff]
+  rw [Nat.card_unique]
+
+theorem norm_dvd_iff {x : S} (hx : Prime (Algebra.norm ℤ x)) {y : ℤ} :
+    Algebra.norm ℤ x ∣ y ↔ x ∣ y := by
+  rw [← Ideal.mem_span_singleton (y := x), ← eq_intCast (algebraMap ℤ S), ← Ideal.mem_comap,
+    ← Ideal.span_singleton_absNorm, Ideal.mem_span_singleton, Ideal.absNorm_span_singleton,
+    Int.natAbs_dvd]
+  rwa [Ideal.absNorm_span_singleton, ← Int.prime_iff_natAbs_prime]
+
+end Ideal
+
+end RingOfIntegers
+
+section Int
+
+open Ideal
+
+@[simp]
+theorem Int.ideal_span_absNorm_eq_self (J : Ideal ℤ) :
+    span {(absNorm J : ℤ)} = J := by
+  obtain ⟨g, rfl⟩ := IsPrincipalIdealRing.principal J
+  simp
+
+end Int
+
+end abs_norm
+
+
+[import-Mathlib.MeasureTheory.Covering.BesicovitchVectorSpace-93c5718e-L123-187]
+-- Lexical source excerpt: module Mathlib.MeasureTheory.Covering.BesicovitchVectorSpace, lines 123-187.
+    apply ball_disjoint_ball
+    rw [dist_eq_norm]
+    convert h c hc d hd hcd
+    norm_num
+  have A_subset : A ⊆ ball (0 : E) ρ := by
+    refine iUnion₂_subset fun x hx => ?_
+    apply ball_subset_ball'
+    calc
+      δ + dist x 0 ≤ δ + 2 := by rw [dist_zero_right]; exact add_le_add le_rfl (hs x hx)
+      _ = 5 / 2 := by norm_num
+  have I :
+    (s.card : ℝ≥0∞) * ENNReal.ofReal (δ ^ finrank ℝ E) * μ (ball 0 1) ≤
+      ENNReal.ofReal (ρ ^ finrank ℝ E) * μ (ball 0 1) :=
+    calc
+      (s.card : ℝ≥0∞) * ENNReal.ofReal (δ ^ finrank ℝ E) * μ (ball 0 1) = μ A := by
+        rw [hA, measure_biUnion_finset D fun c _ => measurableSet_ball]
+        have I : 0 < δ := by norm_num
+        simp only [μ.addHaar_ball_of_pos _ I]
+        simp only [Finset.sum_const, nsmul_eq_mul, mul_assoc]
+      _ ≤ μ (ball (0 : E) ρ) := measure_mono A_subset
+      _ = ENNReal.ofReal (ρ ^ finrank ℝ E) * μ (ball 0 1) := by
+        simp only [μ.addHaar_ball_of_pos _ ρpos]
+  have J : (s.card : ℝ≥0∞) * ENNReal.ofReal (δ ^ finrank ℝ E) ≤ ENNReal.ofReal (ρ ^ finrank ℝ E) :=
+    (ENNReal.mul_le_mul_iff_left (measure_ball_pos _ _ zero_lt_one).ne' measure_ball_lt_top.ne).1 I
+  have K : (s.card : ℝ) ≤ (5 : ℝ) ^ finrank ℝ E := by
+    have := ENNReal.toReal_le_of_le_ofReal (pow_nonneg ρpos.le _) J
+    simpa [ρ, δ, div_eq_mul_inv, mul_pow] using this
+  exact mod_cast K
+
+theorem multiplicity_le : multiplicity E ≤ 5 ^ finrank ℝ E := by
+  apply csSup_le
+  · refine ⟨0, ⟨∅, by simp⟩⟩
+  · rintro _ ⟨s, ⟨rfl, h⟩⟩
+    exact Besicovitch.card_le_of_separated s h.1 h.2
+
+theorem card_le_multiplicity {s : Finset E} (hs : ∀ c ∈ s, ‖c‖ ≤ 2)
+    (h's : ∀ c ∈ s, ∀ d ∈ s, c ≠ d → 1 ≤ ‖c - d‖) : s.card ≤ multiplicity E := by
+  apply le_csSup
+  · refine ⟨5 ^ finrank ℝ E, ?_⟩
+    rintro _ ⟨s, ⟨rfl, h⟩⟩
+    exact Besicovitch.card_le_of_separated s h.1 h.2
+  · simp only [mem_setOf_eq, Ne]
+    exact ⟨s, rfl, hs, h's⟩
+
+variable (E)
+
+/-- If `δ` is small enough, a `(1-δ)`-separated set in the ball of radius `2` also has cardinality
+at most `multiplicity E`. -/
+theorem exists_goodδ :
+    ∃ δ : ℝ, 0 < δ ∧ δ < 1 ∧ ∀ s : Finset E, (∀ c ∈ s, ‖c‖ ≤ 2) →
+      (∀ c ∈ s, ∀ d ∈ s, c ≠ d → 1 - δ ≤ ‖c - d‖) → s.card ≤ multiplicity E := by
+  classical
+  /- This follows from a compactness argument: otherwise, one could extract a converging
+    subsequence, to obtain a `1`-separated set in the ball of radius `2` with cardinality
+    `N = multiplicity E + 1`. To formalize this, we work with functions `Fin N → E`.
+     -/
+  by_contra! h
+  set N := multiplicity E + 1 with hN
+  have :
+    ∀ δ : ℝ, 0 < δ → ∃ f : Fin N → E, (∀ i : Fin N, ‖f i‖ ≤ 2) ∧
+      Pairwise fun i j => 1 - δ ≤ ‖f i - f j‖ := by
+    intro δ hδ
+    rcases lt_or_ge δ 1 with (hδ' | hδ')
+    · rcases h δ hδ hδ' with ⟨s, hs, h's, s_card⟩
+      obtain ⟨f, f_inj, hfs⟩ : ∃ f : Fin N → E, Function.Injective f ∧ range f ⊆ ↑s := by
+
+
+[import-Mathlib.RingTheory.LocalRing.Module-6d7bb62a-L267-318]
+-- Lexical source excerpt: module Mathlib.RingTheory.LocalRing.Module, lines 267-318.
+    exact sum_mem fun _ _ ↦ Submodule.smul_mem_smul (this _) ⟨⟩
+  let a' (i : ι) : R := if hi : _ then a ⟨i, hi⟩ j else 0
+  have a_eq i : a i j = a' i.1 := by simp_rw [a', dif_pos i.2]
+  have hfn : f n = -(∑ i ∈ s, f i * a' i) * hj.unit⁻¹ := by
+    rw [← hj.mul_left_inj, mul_assoc, hj.val_inv_mul, mul_one, eq_neg_iff_add_eq_zero]
+    convert hfa j
+    simp_rw [a_eq, Finset.sum_coe_sort _ (fun i ↦ f i * a' i), s.sum_insert hn, n_def]
+  let c (i : ι) : R := -(if i = n then 0 else a' i) * hj.unit⁻¹
+  specialize ih (v + (c · • v n)) ?_ ?_
+  · convert (linearIndependent_add_smul_iff (c := Ideal.Quotient.mk _ ∘ c) (i := n.1) ?_).mpr h
+    · ext; simp [tmul_add]; rfl
+    simp_rw [Function.comp_def, c, if_pos, neg_zero, zero_mul, map_zero]
+  · rw [Finset.sum_coe_sort _ (fun i ↦ f i • v i), s.sum_insert hn, add_comm, hfn] at hfv
+    simp_rw [Pi.add_apply, smul_add, s.sum_add_distrib, c, smul_smul, ← s.sum_smul, ← mul_assoc,
+      ← s.sum_mul, mul_neg, s.sum_neg_distrib, ← hfv]
+    congr 4
+    exact s.sum_congr rfl fun i hi ↦ by rw [if_neg (ne_of_mem_of_not_mem hi hn)]
+  obtain hi | hi := Finset.mem_insert.mp hi
+  · rw [hi, hfn, Finset.sum_eq_zero, neg_zero, zero_mul]
+    intro i hi; rw [ih i hi, zero_mul]
+  · exact ih i hi
+
+open Finsupp in
+theorem IsLocalRing.linearCombination_bijective_of_flat [Module.Finite R M] [Flat R M] {ι : Type u}
+    (v : ι → M) (h : Function.Bijective (linearCombination k (TensorProduct.mk R k M 1 ∘ v))) :
+    Function.Bijective (linearCombination R v) := by
+  use linearIndependent_of_flat _ h.1
+  rw [← LinearMap.range_eq_top, range_linearCombination]
+  refine span_eq_top_of_tmul_eq_basis _ (.mk h.1 ?_) fun _ ↦ ?_
+  · simpa only [top_le_iff, ← range_linearCombination, LinearMap.range_eq_top] using h.2
+  · simp
+
+@[stacks 00NZ]
+theorem free_of_flat_of_isLocalRing [Module.Finite R P] [Flat R P] : Free R P :=
+  let w := Free.chooseBasis k (k ⊗[R] P)
+  have ⟨v, eq⟩ := (TensorProduct.mk_surjective R P k Quotient.mk_surjective).comp_left w
+  .of_basis <| .mk (IsLocalRing.linearIndependent_of_flat _ (eq ▸ w.linearIndependent)) <| by
+    exact (span_eq_top_of_tmul_eq_basis _ w <| congr_fun eq).ge
+
+/--
+If `M → N → P → 0` is a presentation of `P` over a local ring `(R, 𝔪, k)` with
+`M` finite and `N` finite free, then injectivity of `k ⊗ M → k ⊗ N` implies that `P` is free.
+-/
+theorem free_of_lTensor_residueField_injective (hg : Surjective g) (h : Exact f g)
+    [Module.Finite R M] [Module.Finite R N] [Module.Free R N]
+    (hf : Function.Injective (f.lTensor k)) :
+    Module.Free R P := by
+  have := Module.finitePresentation_of_free_of_surjective g hg
+    (by rw [h.linearMap_ker_eq, LinearMap.range_eq_map]; exact (Module.Finite.fg_top).map f)
+  apply free_of_maximalIdeal_rTensor_injective
+  rw [← LinearMap.lTensor_inj_iff_rTensor_inj]
+  apply lTensor_injective_of_exact_of_exact_of_rTensor_injective
+
+</original_context>

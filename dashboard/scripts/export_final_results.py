@@ -52,12 +52,12 @@ def audit_result(path, code, expected_envs, metrics=None):
                     and median(samples) == metrics['raw_heartbeats'] == value['median_raw_heartbeats'], 'Fresh three-sample measurement mismatch')
     return records
 
-def audit_candidate(root, row):
+def audit_candidate(root, row, *, allow_budget_stop=False):
     folder = root / 'problems' / f'F{row:03}'
     problem, s = read(folder / 'input/problem.json'), read(folder / 'summary.json')
     code = (folder / 'selected.lean').read_text()
     require(problem['row'] == row and problem['dataset_sha256'] == SHA, 'Problem identity mismatch')
-    require(s['status'] == 'completed' and s['all_versions_valid'], 'Incomplete candidate')
+    require((s['status'] == 'completed' or allow_budget_stop and s['status'] == 'stopped' and s.get('stop_reason') == 'next_request_would_exceed_budget') and s['all_versions_valid'], 'Incomplete candidate')
     require(digest(folder / 'selected.lean') == s['selected']['sha256'], 'Selected proof hash mismatch')
     start, end = [read(folder / name) for name in ['initial-environment-fingerprints.json', 'final/environment-fingerprints.json']]
     require(start['full_content_verification'] and end['full_content_verification']

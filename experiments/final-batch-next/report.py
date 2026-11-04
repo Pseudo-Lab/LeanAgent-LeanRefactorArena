@@ -10,9 +10,10 @@ import json
 from pathlib import Path
 
 from policy import validate_declaration
-from openai_transport import compute_cost, normalize
+from openai_transport import compute_cost, normalize, request_cost
 from evaluation_cache import EvaluationCache, VERIFICATION_POLICY
-from lean_agent import portfolio
+from lean_agent import autosolver, harness as h, portfolio
+import warm_start
 
 
 def read(path):
@@ -21,6 +22,44 @@ def read(path):
 
 def sha(text):
     return hashlib.sha256(text.encode()).hexdigest()
+
+
+def openrouter_transport_for(authorization):
+    """final60 hook 6: the adapter that audits a final60 root's steps.
+
+    OpenRouter roots (real or mock) are audited by the OpenRouter adapter; an OpenAI-direct
+    development root (sealed transport ``openai``) by the OpenAI-direct adapter, whose
+    normalizer and bound match its evidence (auditing it with the OpenRouter normalizer failed
+    every step and published the original over validated improvements, smoke). Legacy OpenAI
+    roots carry no sealed transport and keep the openai_transport checks below.
+    """
+    if authorization.get("provider") == "OpenRouter":
+        import openrouter_transport
+        return openrouter_transport
+    if authorization.get("transport") == "openai":
+        import openai_direct_transport
+        return openai_direct_transport
+    return None
+
+
+def audit_budget_stop(folder, summary, spent, cap, cost_bound=None):
+    from driver import make_request
+    from lean_agent.artifacts import canonical
+    state = read(folder / "state.json")
+    config = read(folder / "input/config.json")
+    if Decimal(config["limits"]["cost_cap_usd"]) != cap:
+        raise ValueError("Strict cap differs from authorization")
+    stop = read(folder / "budget-stop.json")
+    request = read(folder / "budget-stop-request.json")
+    expected = make_request(state, read(folder / "input/problem.json"), config,
+                            (folder / "input/prompt.txt").read_text())
+    bound = (cost_bound or request_cost)(request)
+    if (request != expected or stop.get("next_request_sha256") != sha(canonical(request))
+            or summary.get("stop_reason") != "next_request_would_exceed_budget"
+            or Decimal(stop["spent_usd"]) != spent or Decimal(stop["cap_usd"]) != cap
+            or Decimal(stop["next_request_bound_usd"]) != Decimal(bound["reserved_usd"])
+            or spent + Decimal(bound["reserved_usd"]) <= cap):
+        raise ValueError("Strict budget stop does not reconstruct from final state")
 
 
 def audit_portfolio(folder, summary, attempts):
@@ -64,10 +103,48 @@ def audit_portfolio(folder, summary, attempts):
     return expected["complete"]
 
 
+def audit_autosolver(folder, summary, attempts):
+    config = read(folder / "input/config.json")
+    if not autosolver.enabled(config):
+        return
+    state = read(folder / "state.json")
+    totals = {"searches": 0, "attempts": 0, "inspections": 0, "verified_candidates": 0,
+              "native_seconds": 0.0, "model_calls": 0}
+    for _, item in attempts:
+        step = folder / "steps" / f"{item['step']:04}"
+        code = (step / "candidate.lean").read_text() if (step / "candidate.lean").exists() else None
+        result = read(step / "selection-result.json") if (step / "selection-result.json").exists() else None
+        automatic = h.read_automatic(config, read(step / "response.json"), code, result, step)
+        if automatic is None:
+            continue
+        outcome = autosolver.replay_search(config, code, automatic["search"])
+        parent = f"c{item['step']:03}"
+        info = autosolver.summary(outcome, parent)
+        totals["searches"] += 1
+        for key in ("attempts", "inspections", "native_seconds"):
+            totals[key] += info[key]
+        if outcome["candidate_code"] is not None:
+            child = state["exploration"]["candidates"][parent + "-auto"]
+            measured = automatic["evaluation"]
+            candidate = h.candidate(outcome["candidate_code"], measured, summary["baseline"])
+            if (child["code"] != outcome["candidate_code"] or child["sha256"] != sha(child["code"])
+                    or child["parent_id"] != parent or child["valid"] != bool(candidate)
+                    or candidate and any(child[key] != value for key, value in candidate.items())):
+                raise ValueError("Automatic candidate ancestry/measurement differs")
+            totals["verified_candidates"] += candidate is not None
+            if portfolio.enabled(config) and state["portfolio"]["owners"][parent] != state["portfolio"]["owners"][parent + "-auto"]:
+                raise ValueError("Automatic candidate crossed scout scope")
+    expected = totals if totals["searches"] else {"searches": 0, "model_calls": 0}
+    if state.get("autosolver", expected) != expected or summary.get("autosolver") != expected:
+        raise ValueError("AutoSolver accounting differs from saved inspections")
+
+
 def build_report(root, *, require_complete=False):
     root = Path(root).resolve()
     authorization = read(root / "authorization.json")
     ledger = read(root / "ledger.json")
+    router = openrouter_transport_for(authorization)
+    cost_bound = router.request_cost if router is not None else request_cost
     errors, generations, by_row = [], set(), {}
     for attempt, item in ledger["attempts"].items():
         row = item["row"]
@@ -77,6 +154,24 @@ def build_report(root, *, require_complete=False):
         if item.get("cost_usd") is None:
             continue
         step = root / "problems" / f"F{row:03}" / "steps" / f"{item['step']:04}"
+        if router is not None:
+            try:
+                errors.extend(f"{attempt}: {error}" for error in router.audit_step(step, item))
+                generation = item.get("response_id")
+                lost = isinstance(generation, str) and generation == "lost-" + attempt
+                if not generation or (not lost and generation in generations):
+                    errors.append(attempt + ": missing/duplicate generation ID")
+                if not lost:
+                    generations.add(generation)
+                if read(step / "response.json").get("id") != generation:
+                    errors.append(attempt + ": response identity differs from ledger")
+                request = read(step / "request.json")
+                canonical = json.dumps(request, ensure_ascii=False, sort_keys=True, separators=(",", ":")) + "\n"
+                if sha(canonical) != item["request_sha256"]:
+                    errors.append(attempt + ": request hash differs from ledger")
+            except (OSError, ValueError, KeyError, TypeError) as exc:
+                errors.append(attempt + ": malformed evidence (" + type(exc).__name__ + ")")
+            continue
         try:
             response = read(step / "response.json")
             provider_response = read(step / "provider-response.json")
@@ -114,6 +209,14 @@ def build_report(root, *, require_complete=False):
         for attempt, item in attempts:
             if spent >= Decimal(authorization["per_problem_target_usd"]):
                 errors.append(attempt + ": dispatched after cost threshold")
+            if authorization.get("last_call_may_overshoot") is False:
+                try:
+                    request = read(folder / "steps" / f"{item['step']:04}" / "request.json")
+                    bound = Decimal(cost_bound(request)["reserved_usd"])
+                    if bound != Decimal(item["maximum_request_cost_usd"]) or spent + bound > Decimal(authorization["per_problem_target_usd"]):
+                        raise ValueError("Reservation exceeds strict cap")
+                except (OSError, KeyError, TypeError, ValueError) as exc:
+                    errors.append(attempt + ": invalid strict budget reservation: " + str(exc))
             if item.get("cost_usd") is not None:
                 spent += Decimal(item["cost_usd"])
         progress = read(folder / "progress.json") if (folder / "progress.json").exists() else {"status": "prepared"}
@@ -121,11 +224,17 @@ def build_report(root, *, require_complete=False):
                "status": progress["status"], "known_cost_usd": str(spent), "calls": len(attempts)}
         if (folder / "summary.json").exists():
             summary = read(folder / "summary.json")
+            if authorization.get("verification_policy") == warm_start.POLICY or (folder / "input/warm-start.json").exists():
+                try:
+                    warm_start.audit(folder)
+                except (OSError, ValueError, KeyError, TypeError) as exc:
+                    errors.append(f"F{number:03}: invalid warm-start evidence: {exc}")
             portfolio_complete = False
             try:
                 portfolio_complete = audit_portfolio(folder, summary, attempts)
+                audit_autosolver(folder, summary, attempts)
             except (OSError, ValueError, KeyError, TypeError) as exc:
-                errors.append(f"F{number:03}: invalid portfolio evidence: {exc}")
+                errors.append(f"F{number:03}: invalid exploration evidence: {exc}")
             final = read(folder / "final/result.json")
             code = (folder / "selected.lean").read_text()
             try:
@@ -162,7 +271,15 @@ def build_report(root, *, require_complete=False):
                 errors.append(f"F{number:03}: summary accounting mismatch")
             if (summary.get("status", "completed") == "completed" and not portfolio_complete
                     and spent < Decimal(authorization["per_problem_target_usd"])):
-                errors.append(f"F{number:03}: completed below authorized cost threshold")
+                if authorization.get("last_call_may_overshoot") is False:
+                    try:
+                        audit_budget_stop(folder, summary, spent, Decimal(authorization["per_problem_target_usd"]), cost_bound)
+                    except (OSError, KeyError, TypeError, ValueError) as exc:
+                        errors.append(f"F{number:03}: invalid strict budget stop: {exc}")
+                else:
+                    errors.append(f"F{number:03}: completed below authorized cost threshold")
+            if authorization.get("last_call_may_overshoot") is False and spent > Decimal(authorization["per_problem_target_usd"]):
+                errors.append(f"F{number:03}: actual cost exceeded strict cap")
             baseline, selected = summary["baseline"], summary["final"]
             length_ratio = selected["tokens"] / baseline["tokens"]
             heartbeat_ratio = selected["raw_heartbeats"] / baseline["raw_heartbeats"]
@@ -183,7 +300,8 @@ def build_report(root, *, require_complete=False):
               "known_mean_usd": str(sum(costs, Decimal(0)) / len(costs)),
               "known_max_usd": str(max(costs)), "attempts": len(ledger["attempts"]),
               "unique_generation_ids": len(generations), "audit_errors": errors,
-              "api_cost_basis": "OpenAI response usage times frozen public list prices",
+              "api_cost_basis": (authorization.get("budget_cost_basis") if router is not None else
+                                 "OpenAI response usage times frozen public list prices"),
               "provider_invoice_verified": False,
               "all_completed": complete, "audit_passed": not errors,
               "official_evaluation": False, "rows": rows}
@@ -198,7 +316,7 @@ def main():
     parser.add_argument("--require-complete", action="store_true")
     parser.add_argument("--export", action="store_true")
     args = parser.parse_args()
-    if read(args.root / "authorization.json").get("verification_policy") != VERIFICATION_POLICY:
+    if read(args.root / "authorization.json").get("verification_policy") != warm_start.POLICY:
         raise ValueError("Different verification policy: do not write reports into an existing batch")
     report = build_report(args.root, require_complete=args.require_complete or args.export)
     (args.root / "report.json").write_text(json.dumps(report, ensure_ascii=False, indent=2) + "\n")

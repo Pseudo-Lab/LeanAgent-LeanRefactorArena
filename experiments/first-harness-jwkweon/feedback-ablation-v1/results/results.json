@@ -1,0 +1,3498 @@
+{
+  "checked_at": "2026-10-25T08:33:57.647330+00:00",
+  "trial_count": 8,
+  "proposal_count": 80,
+  "all_record_checks_passed": true,
+  "all_final_valid": true,
+  "trials": [
+    {
+      "trial_id": "P01-L-r1",
+      "problem_id": "P01",
+      "condition": "L",
+      "repetition": 1,
+      "max_proposals": 10,
+      "error_feedback_mode": "legacy",
+      "usage_interrupted_and_resumed": true,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.5326314252902905,
+          "tokens": 35,
+          "raw_heartbeats": 4932446,
+          "code_sha256": "53b20c9feaab3a40d781506a116e26e271847c7c0d88c8efcc855a44f989a04f"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.4537297201646433,
+          "tokens": 40,
+          "raw_heartbeats": 4033440,
+          "code_sha256": "65395f6369de0ce91e5674301dd236df172bd109b6289e64150903ee08096450"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.7437138997523449,
+          "tokens": 31,
+          "raw_heartbeats": 7182547,
+          "code_sha256": "f01a23e414ce1e6c6dd5ec5cda4523b20b2fdc4c5ca316b0c2f00743de706e4b"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.7437138997523449,
+          "tokens": 31,
+          "raw_heartbeats": 7182547,
+          "code_sha256": "f01a23e414ce1e6c6dd5ec5cda4523b20b2fdc4c5ca316b0c2f00743de706e4b"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.5326314252902905,
+          "tokens": 35,
+          "raw_heartbeats": 4932446,
+          "code_sha256": "53b20c9feaab3a40d781506a116e26e271847c7c0d88c8efcc855a44f989a04f"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.48565532103880593,
+          "tokens": 46,
+          "raw_heartbeats": 4264593,
+          "code_sha256": "df566c435ce4106097ad0169d1853d5b9c1fc1817541c450b24c4c27f257d55d"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.48565532103880593,
+          "tokens": 46,
+          "raw_heartbeats": 4264593,
+          "code_sha256": "df566c435ce4106097ad0169d1853d5b9c1fc1817541c450b24c4c27f257d55d"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.48565532103880593,
+          "tokens": 46,
+          "raw_heartbeats": 4264593,
+          "code_sha256": "df566c435ce4106097ad0169d1853d5b9c1fc1817541c450b24c4c27f257d55d"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.4537297201646433,
+          "tokens": 40,
+          "raw_heartbeats": 4033440,
+          "code_sha256": "65395f6369de0ce91e5674301dd236df172bd109b6289e64150903ee08096450"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"data, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nh1 :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm✝ : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nc✝ t✝ e✝ : Lambda.LExpr { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }\\nc_ih✝ :\\n  (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) c✝)).Subset\\n    (Lambda.LExpr.LExpr.getVars c✝ ++ [h1])\\nt_ih✝ :\\n  (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) t✝)).Subset\\n    (Lambda.LExpr.LExpr.getVars t✝ ++ [h1])\\ne_ih✝ :\\n  (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e✝)).Subset\\n    (Lambda.LExpr.LExpr.getVars e✝ ++ [h1])\\n⊢ (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) c✝) ++\\n        (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) t✝) ++\\n          Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e✝))).Subset\\n    (Lambda.LExpr.LExpr.getVars c✝ ++ (Lambda.LExpr.LExpr.getVars t✝ ++ (Lambda.LExpr.LExpr.getVars e✝ ++ [h1])))\\n<RUN>/steps/001/evaluation/fixed/check.lean:3097:12: error: Tactic `split` failed: Could not split an `if` or `match` expression in the goal\\n\\nHint: Use `set_option trace.split.failure tr",
+          "details_characters": 1600,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "ad44d489e35a5a1e61db0fe4103f5de47cd73c3a17c964c0415e7af215244053"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 10920520,
+            "tokens": 28
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "5adb331c2f4b6518388e1985e65171172b04d4b4b5c1ac510412d08487931e3c"
+        },
+        {
+          "step": 3,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"<RUN>/steps/003/evaluation/fixed/check.lean:173:8: warning: declaration uses 'sorry'\\n<RUN>/steps/003/evaluation/fixed/check.lean:3098:32: error: simp_all made no progress\\n<RUN>/steps/003/evaluation/fixed/check.lean:3098:32: error: simp_all made no progress\\n<RUN>/steps/003/evaluation/fixed/check.lean:3098:32: error: simp_all made no progress\\n<RUN>/steps/003/evaluation/fixed/check.lean:3098:42: warning: This simp argument is unused:\\n  Imperative.HasVarsPure.getVars\\n\\nHint: Omit it from the simp argument list.\\n  simp_all [I̵m̵p̵e̵r̵a̵t̵i̵v̵e̵.̵H̵a̵s̵V̵a̵r̵s̵P̵u̵r̵e̵.̵g̵e̵t̵V̵a̵r̵s̵,̵ ̵Lambda.LExpr.LExpr.getVars]\\n\\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`\\n<RUN>/steps/003/evaluation/fixed/check.lean:3198:8: warning: declaration uses 'sorry'\\n\"}},\"error\":{\"kind\":\"lean\",\"message\":\"One or more required environments failed\"}}\n",
+          "details_characters": 931,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "e693306c8f0e209d077b7be5d67e2a9d8436deeeb118f1e21066158971084ecf"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 7182547,
+            "tokens": 31
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "f01a23e414ce1e6c6dd5ec5cda4523b20b2fdc4c5ca316b0c2f00743de706e4b"
+        },
+        {
+          "step": 5,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"<RUN>/steps/005/evaluation/fixed/check.lean:173:8: warning: declaration uses 'sorry'\\n<RUN>/steps/005/evaluation/fixed/check.lean:3098:32: error: `simp` made no progress\\n<RUN>/steps/005/evaluation/fixed/check.lean:3098:32: error: `simp` made no progress\\n<RUN>/steps/005/evaluation/fixed/check.lean:3098:32: error: `simp` made no progress\\n<RUN>/steps/005/evaluation/fixed/check.lean:3098:32: error: `simp` made no progress\\n<RUN>/steps/005/evaluation/fixed/check.lean:3098:32: error: `simp` made no progress\\n<RUN>/steps/005/evaluation/fixed/check.lean:3098:38: warning: This simp argument is unused:\\n  Imperative.HasVarsPure.getVars\\n\\nHint: Omit it from the simp argument list.\\n  simp [I̵m̵p̵e̵r̵a̵t̵i̵v̵e̵.̵H̵a̵s̵V̵a̵r̵s̵P̵u̵r̵e̵.̵g̵e̵t̵V̵a̵r̵s̵,̵ ̵Lambda.LExpr.LExpr.getVars] at *\\n\\nNote: This linter can be disabled with `set_option linter.unusedSimpArgs false`\\n<RUN>/steps/005/evaluation/fixed/check.lean:3198:8: warning: declaration uses 'sorry'\\n\"}},\"error\":{\"kind\":\"lean\",\"message\":\"One or more required environments failed\"}}\n",
+          "details_characters": 1096,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "b14af323f593c3734e1516a78aacc63c2d853dc171db282fc000cebfe1827238"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4932446,
+            "tokens": 35
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "53b20c9feaab3a40d781506a116e26e271847c7c0d88c8efcc855a44f989a04f"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4264593,
+            "tokens": 46
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "df566c435ce4106097ad0169d1853d5b9c1fc1817541c450b24c4c27f257d55d"
+        },
+        {
+          "step": 8,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.\\n<RUN>/steps/008/evaluation/fixed/check.lean:3098:187: error: omega could not prove the goal:\\nNo usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.\\n<RUN>/steps/008/evaluation/fixed/check.lean:3098:187: error: omega could not prove the goal:\\nNo usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.\\n<RUN>/steps/008/evaluation/fixed/check.lean:3098:187: error: omega could not prove the goal:\\nNo usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.\\n<RUN>/steps/008/evaluation/fixed/check.lean:3098:187: error: omega could not prove the goal:\\nNo usable constraints found. You may need to unfold definitions so `omega` can see linear arithmetic facts about `Nat` and `Int`, which may also involve multiplication, division, and modular remainder by constants.\\n<RUN>/steps/008/evaluation/fixed/check.lean:3098:187: error: omega could not prove the goal:\\nNo usable constraints found. You may n",
+          "details_characters": 1600,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "374d1455cd833eef5ab5d91ff00394d582eb9bac138500efad899ee4d0d26ce2"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4922122,
+            "tokens": 56
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "7a29f2e77a976031bfc47eea33323a699c179829cf2c73917a4335f7c9e3053c"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4033440,
+            "tokens": 40
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "65395f6369de0ce91e5674301dd236df172bd109b6289e64150903ee08096450"
+        }
+      ],
+      "verified_proposals": 6,
+      "valid_first3": 1,
+      "improved_at3": false,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 4,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 4,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        },
+        {
+          "from_step": 3,
+          "next_valid": true
+        },
+        {
+          "from_step": 5,
+          "next_valid": true
+        },
+        {
+          "from_step": 8,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 4
+      },
+      "selected": {
+        "rank_numerator": 1469398960,
+        "raw_heartbeats": 4033440,
+        "raw_samples": [
+          4033393,
+          4033440,
+          4033527
+        ],
+        "sha256": "65395f6369de0ce91e5674301dd236df172bd109b6289e64150903ee08096450",
+        "tokens": 40
+      },
+      "selected_local_cost": 0.4537297201646433,
+      "final": {
+        "raw_heartbeats": 4033390,
+        "raw_samples": [
+          4033519,
+          4033388,
+          4033390
+        ],
+        "tokens": 40
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 4033,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "a77f6523a91a93538151580d8b80ed8955b1dece2f9c9657a4ffe59da80b9dcb",
+                "returncode": 0,
+                "seconds": 20.073628,
+                "source": "check.lean",
+                "source_sha256": "0b96d621ee38cee879fc970b115a01bf1e9d36bee5ccb0394e53e2c931cca188",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "3db9ef851568d9bcd90af115762a74b975ede5bc10a6620c91bd0c70a5b86527",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 4033519,
+                  "scaled": 4033,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 23.595035,
+                "source": "measure-1.lean",
+                "source_sha256": "6d0d7eefe2d3e59406d7751008c1481b3ed3cb7c7a0fc76eb442a8df546edd65",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "e2245e303a48f00da34cec0e37809054e4afdb4bb66400aeb48a22cfdf4da90b",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 4033388,
+                  "scaled": 4033,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 22.396198,
+                "source": "measure-2.lean",
+                "source_sha256": "cd3b623743c4a7729378d2592f4c3f4b57dd6f059843e27ebe4cc0a28a1410c0",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "4b06b7a5c4e158016dc7f432caf456e91da7575e09d3fd136cc93f63343fb8d3",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 4033390,
+                  "scaled": 4033,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 22.684388,
+                "source": "measure-3.lean",
+                "source_sha256": "9a057a6283512c31c6b4a2990bead764a0e8d4b68451b7b7c58ddc3948aca2c7",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 40,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "5fb306a10db0c16dfa7ed8d248284dcc4d39ea5e277762428df78b2fe4a5ed7e",
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "solver_dispatched_at": "2026-10-25T06:01:58.530790+00:00",
+      "solver_completion_observed_at": "2026-10-25T06:31:43.622335+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P13-S-r1",
+      "problem_id": "P13",
+      "condition": "S",
+      "repetition": 1,
+      "max_proposals": 10,
+      "error_feedback_mode": "structured_v1",
+      "usage_interrupted_and_resumed": true,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.19058160983856198,
+          "tokens": 558,
+          "raw_heartbeats": 7603401,
+          "code_sha256": "d78d5b4f09d23dc5124d3998cda411923c61e2dd0af758e9ee2c1538c4992354"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.16541780800903985,
+          "tokens": 490,
+          "raw_heartbeats": 6228280,
+          "code_sha256": "8361f551d097e05beb22b47f7c0b3626e84484faab20a4074db15feca70255c3"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.1587828384998046,
+          "tokens": 468,
+          "raw_heartbeats": 6131861,
+          "code_sha256": "336deeb37ca2e70fd5665cebf825eaa126620e2d4ee7b8fc39e6c94e0014d138"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 1769,
+          "raw_heartbeats": 115674908,
+          "code_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.25261041124453704,
+          "tokens": 742,
+          "raw_heartbeats": 9921993,
+          "code_sha256": "89a266a11debc6d1ed58f2b76dac70e14153aaf7d9117a0359071d7355dc704c"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.19058160983856198,
+          "tokens": 558,
+          "raw_heartbeats": 7603401,
+          "code_sha256": "d78d5b4f09d23dc5124d3998cda411923c61e2dd0af758e9ee2c1538c4992354"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.18656913642772327,
+          "tokens": 545,
+          "raw_heartbeats": 7525186,
+          "code_sha256": "02fede70b3fde46db430e52c14dccfe022212ff36ca159ca504a3dcd508f445d"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.1788702412195042,
+          "tokens": 536,
+          "raw_heartbeats": 6332558,
+          "code_sha256": "12d02c1a738749dcde03da2bab0f3e5a4a2d4987d447f8f891dbe0838aceb672"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.16541780800903985,
+          "tokens": 490,
+          "raw_heartbeats": 6228280,
+          "code_sha256": "8361f551d097e05beb22b47f7c0b3626e84484faab20a4074db15feca70255c3"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.16541780800903985,
+          "tokens": 490,
+          "raw_heartbeats": 6228280,
+          "code_sha256": "8361f551d097e05beb22b47f7c0b3626e84484faab20a4074db15feca70255c3"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.16020313353681326,
+          "tokens": 472,
+          "raw_heartbeats": 6198886,
+          "code_sha256": "e8c6523247a39eeb9605d129e533fc8e5bd8e9d875e4a46a05c4dc9f54883781"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.1587828384998046,
+          "tokens": 468,
+          "raw_heartbeats": 6131861,
+          "code_sha256": "336deeb37ca2e70fd5665cebf825eaa126620e2d4ee7b8fc39e6c94e0014d138"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.1587828384998046,
+          "tokens": 468,
+          "raw_heartbeats": 6131861,
+          "code_sha256": "336deeb37ca2e70fd5665cebf825eaa126620e2d4ee7b8fc39e6c94e0014d138"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:20:25\",\"message\":\"error(lean.unknownIdentifier): Unknown constant `Set.finite_Icc.subset`\",\"truncated\":false}\n",
+          "details_characters": 210,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "3f41155eac05fa063692670f60497a643a4c972766e6c33fcbd59ae5c1365ad2"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 9921993,
+            "tokens": 742
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "89a266a11debc6d1ed58f2b76dac70e14153aaf7d9117a0359071d7355dc704c"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 7603401,
+            "tokens": 558
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "d78d5b4f09d23dc5124d3998cda411923c61e2dd0af758e9ee2c1538c4992354"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 7525186,
+            "tokens": 545
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "02fede70b3fde46db430e52c14dccfe022212ff36ca159ca504a3dcd508f445d"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6332558,
+            "tokens": 536
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "12d02c1a738749dcde03da2bab0f3e5a4a2d4987d447f8f891dbe0838aceb672"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6228280,
+            "tokens": 490
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "8361f551d097e05beb22b47f7c0b3626e84484faab20a4074db15feca70255c3"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6227887,
+            "tokens": 502
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "9284ccf20879a59d70fa69a02de4e237b2e4b28d08f47b065c08609f63b0572a"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6198886,
+            "tokens": 472
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "e8c6523247a39eeb9605d129e533fc8e5bd8e9d875e4a46a05c4dc9f54883781"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6131861,
+            "tokens": 468
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "336deeb37ca2e70fd5665cebf825eaa126620e2d4ee7b8fc39e6c94e0014d138"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6131861,
+            "tokens": 468
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "336deeb37ca2e70fd5665cebf825eaa126620e2d4ee7b8fc39e6c94e0014d138"
+        }
+      ],
+      "verified_proposals": 9,
+      "valid_first3": 2,
+      "improved_at3": true,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 2,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 1,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 1
+      },
+      "selected": {
+        "rank_numerator": 64983119053,
+        "raw_heartbeats": 6131861,
+        "raw_samples": [
+          6131854,
+          6131861,
+          6131869
+        ],
+        "sha256": "336deeb37ca2e70fd5665cebf825eaa126620e2d4ee7b8fc39e6c94e0014d138",
+        "tokens": 468
+      },
+      "selected_local_cost": 0.1587828384998046,
+      "final": {
+        "raw_heartbeats": 6131861,
+        "raw_samples": [
+          6131854,
+          6131861,
+          6131870
+        ],
+        "tokens": 468
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 6131,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "returncode": 0,
+                "seconds": 105.726073,
+                "source": "check.lean",
+                "source_sha256": "731f1ca849bddb9e79e23be7f6cb2afc320bed77a6e1d7f003d2af41f089cddc",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "86ca5f33e66dd55509ac90194aa4e85d8a4513c7f82f9aa338b63fcbf5930ed5",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 6131854,
+                  "scaled": 6131,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 98.456194,
+                "source": "measure-1.lean",
+                "source_sha256": "4a42e9ff504976956bfad8c349774c8e9388d7059d2a23e670b9f19e2df727b8",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "05fa64086155773bbc60e2d2c53af40b80b35c97de63ceec933f0de4d9746980",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 6131861,
+                  "scaled": 6131,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 128.534274,
+                "source": "measure-2.lean",
+                "source_sha256": "f919da76a1f705f6501c8c9758cb8cf5e40380a6b8b2fdb6c8a69658ece6ceca",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "30c5ffad800ac397d42eead12b17da1b586a7d94c07738f7e623bca3b25b7d32",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 6131870,
+                  "scaled": 6131,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 102.78106,
+                "source": "measure-3.lean",
+                "source_sha256": "10051600bd4c46691a6fe1e69db17f981036bd3063f0d167c96b908f5f341e14",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 468,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "8b7f3f1550554fe4abf28cb383f4cd81e117a5abd1e80c7295e33859569b9e11",
+      "first_request_sha256": "dda888025d2788b9e365db3d6557ad072369b024f574ccad989ce3b712352adb",
+      "solver_dispatched_at": "2026-10-25T06:02:07.433523+00:00",
+      "solver_completion_observed_at": "2026-10-25T07:27:36.218110+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P13-L-r1",
+      "problem_id": "P13",
+      "condition": "L",
+      "repetition": 1,
+      "max_proposals": 10,
+      "error_feedback_mode": "legacy",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.17304209747933075,
+          "tokens": 520,
+          "raw_heartbeats": 6030458,
+          "code_sha256": "638d81a240409a937981557b6ab36aa5682860c96144a2cef8c4038e3e633780"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.14613315057441367,
+          "tokens": 445,
+          "raw_heartbeats": 4709328,
+          "code_sha256": "4ec17b37cd53c33996c660d513b2ee1bbc60d7aa647f6df5731a3955d7fef2c2"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.13681100802863883,
+          "tokens": 412,
+          "raw_heartbeats": 4710522,
+          "code_sha256": "3334f802ab290051c1cf18b2604a756f77ca195d37366f5619cac15aed4b23e9"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 0.20364516859759005,
+          "tokens": 633,
+          "raw_heartbeats": 5721403,
+          "code_sha256": "5cd6c5cd0af018d0ca95ef1d7c75cb6cb8ebdd51e5198aa453e26f9e8ef4bd0a"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.178810046690469,
+          "tokens": 530,
+          "raw_heartbeats": 6710972,
+          "code_sha256": "1f7287f9ac4ff23da82567ec3d4093d037358541a8c9cea733cbf24fc71e785e"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.17304209747933075,
+          "tokens": 520,
+          "raw_heartbeats": 6030458,
+          "code_sha256": "638d81a240409a937981557b6ab36aa5682860c96144a2cef8c4038e3e633780"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.16590768950182005,
+          "tokens": 496,
+          "raw_heartbeats": 5949274,
+          "code_sha256": "58abf8016bed930ab40341903da251dd66a46c8392d0b49ae5826dd69014ecc7"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.1579409704318756,
+          "tokens": 488,
+          "raw_heartbeats": 4629295,
+          "code_sha256": "8e264ed22a7fe95d2f95bc289bca11f229bbd0a42bc3c5b484c39e1adc453741"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.14613315057441367,
+          "tokens": 445,
+          "raw_heartbeats": 4709328,
+          "code_sha256": "4ec17b37cd53c33996c660d513b2ee1bbc60d7aa647f6df5731a3955d7fef2c2"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.14613315057441367,
+          "tokens": 445,
+          "raw_heartbeats": 4709328,
+          "code_sha256": "4ec17b37cd53c33996c660d513b2ee1bbc60d7aa647f6df5731a3955d7fef2c2"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.14079444747533917,
+          "tokens": 427,
+          "raw_heartbeats": 4651240,
+          "code_sha256": "d675932699af5ad2eeb69a8c0ba75cb78a8914fae14c4247e9faf413ac17cc57"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.13956874952904347,
+          "tokens": 422,
+          "raw_heartbeats": 4694625,
+          "code_sha256": "f713de4bab75a1d464ceb76205abb139bb436814b191d8cba1b37bf6aa2feb0d"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.13681100802863883,
+          "tokens": 412,
+          "raw_heartbeats": 4710522,
+          "code_sha256": "3334f802ab290051c1cf18b2604a756f77ca195d37366f5619cac15aed4b23e9"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5721403,
+            "tokens": 633
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "5cd6c5cd0af018d0ca95ef1d7c75cb6cb8ebdd51e5198aa453e26f9e8ef4bd0a"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6710972,
+            "tokens": 530
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "1f7287f9ac4ff23da82567ec3d4093d037358541a8c9cea733cbf24fc71e785e"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6030458,
+            "tokens": 520
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "638d81a240409a937981557b6ab36aa5682860c96144a2cef8c4038e3e633780"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5949274,
+            "tokens": 496
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "58abf8016bed930ab40341903da251dd66a46c8392d0b49ae5826dd69014ecc7"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4629295,
+            "tokens": 488
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "8e264ed22a7fe95d2f95bc289bca11f229bbd0a42bc3c5b484c39e1adc453741"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4709328,
+            "tokens": 445
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "4ec17b37cd53c33996c660d513b2ee1bbc60d7aa647f6df5731a3955d7fef2c2"
+        },
+        {
+          "step": 7,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"<RUN>/steps/007/evaluation/fixed/check.lean:40:29: error: Invalid argument name `R` for function `Int.cast_injective`\\n\\nHint: Perhaps you meant one of the following parameter names:\\n  • `α`: R̵α̲\\n  • `a₁`: R̵a̲₁̲\\n  • `a₂`: R̵a̲₂̲\\n<RUN>/steps/007/evaluation/fixed/check.lean:41:8: error: No goals to be solved\\n\"}},\"error\":{\"kind\":\"lean\",\"message\":\"One or more required environments failed\"}}\n",
+          "details_characters": 451,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "c38bdc8e48834a86648fd639005810de7ccd86bd0e8083bb9d43e8d559d5142b"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4651240,
+            "tokens": 427
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "d675932699af5ad2eeb69a8c0ba75cb78a8914fae14c4247e9faf413ac17cc57"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4694625,
+            "tokens": 422
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "f713de4bab75a1d464ceb76205abb139bb436814b191d8cba1b37bf6aa2feb0d"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4710522,
+            "tokens": 412
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "3334f802ab290051c1cf18b2604a756f77ca195d37366f5619cac15aed4b23e9"
+        }
+      ],
+      "verified_proposals": 9,
+      "valid_first3": 3,
+      "improved_at3": true,
+      "first_valid_proposal": 1,
+      "first_improvement_proposal": 1,
+      "early_error_feedback_exposures": 0,
+      "error_feedback_exposures": 1,
+      "post_error_transitions": [
+        {
+          "from_step": 7,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 1
+      },
+      "selected": {
+        "rank_numerator": 55990975514,
+        "raw_heartbeats": 4710522,
+        "raw_samples": [
+          4710522,
+          4710513,
+          4710531
+        ],
+        "sha256": "3334f802ab290051c1cf18b2604a756f77ca195d37366f5619cac15aed4b23e9",
+        "tokens": 412
+      },
+      "selected_local_cost": 0.13681100802863883,
+      "final": {
+        "raw_heartbeats": 4710522,
+        "raw_samples": [
+          4710522,
+          4710513,
+          4710530
+        ],
+        "tokens": 412
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 4710,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "returncode": 0,
+                "seconds": 50.80659,
+                "source": "check.lean",
+                "source_sha256": "8135f9036a9b0e489c5fae078291327da73eaa2cf7c35651ea9c0beb1864bdbd",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "c2b7dfda4ef5d9765fcce586aeb56cc12f42c1cb195ecd164f92e55c46db293b",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 4710522,
+                  "scaled": 4710,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 57.967445,
+                "source": "measure-1.lean",
+                "source_sha256": "5ef00e45306e9b2badfb59c1d82112ed3a5d2331d057ede14f48a7deb5e1d059",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "51a38eeca0327ef326e81c6025b8561b114688ea8cd03a7d86cc4ddc04b068bb",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 4710513,
+                  "scaled": 4710,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 54.374645,
+                "source": "measure-2.lean",
+                "source_sha256": "2c48233d820bf442aa51bccaaf60d99eddc41ed363ceeb1714b5cbe37fea92e2",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "ce6ab07db7bb584673844960f13cdbf6f5873d43a8d2e8c44da498060a29310a",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 4710530,
+                  "scaled": 4710,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 49.363731,
+                "source": "measure-3.lean",
+                "source_sha256": "c46eb15dbc68eca7c9be93f13c80b0afba6ba8fb902aa0edec4a83140fe92737",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 412,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "dafc9b4d377d91eba947ff97d73318e54815bcec594ec983a0a01cecb4fdab53",
+      "first_request_sha256": "dda888025d2788b9e365db3d6557ad072369b024f574ccad989ce3b712352adb",
+      "solver_dispatched_at": "2026-10-25T06:31:52.555494+00:00",
+      "solver_completion_observed_at": "2026-10-25T07:38:00.532607+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-S-r1",
+      "problem_id": "P01",
+      "condition": "S",
+      "repetition": 1,
+      "max_proposals": 10,
+      "error_feedback_mode": "structured_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.38602548977928525,
+          "tokens": 37,
+          "raw_heartbeats": 3382515,
+          "code_sha256": "4dc8c41d124e598c2826be450f6f97e8a6cf92b50fe68a282eda5a650ec0a6ac"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.3592466756128702,
+          "tokens": 37,
+          "raw_heartbeats": 3105445,
+          "code_sha256": "f737e9d58b2db7f37a3a282b69f6f5951c926667be89bf95924dc029ba67af48"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.5672193599008785,
+          "tokens": 42,
+          "raw_heartbeats": 5174617,
+          "code_sha256": "32d42181f43069f26447fb398c3a72f52343b0b4804ee45f4796d93ba53832fb"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.3864524764890117,
+          "tokens": 36,
+          "raw_heartbeats": 3403461,
+          "code_sha256": "950824744de116b839f3e62e01d4cd265546afee467c9587b71ad0f9fc4016c6"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.38602548977928525,
+          "tokens": 37,
+          "raw_heartbeats": 3382515,
+          "code_sha256": "4dc8c41d124e598c2826be450f6f97e8a6cf92b50fe68a282eda5a650ec0a6ac"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.38602548977928525,
+          "tokens": 37,
+          "raw_heartbeats": 3382515,
+          "code_sha256": "4dc8c41d124e598c2826be450f6f97e8a6cf92b50fe68a282eda5a650ec0a6ac"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.3592466756128702,
+          "tokens": 37,
+          "raw_heartbeats": 3105445,
+          "code_sha256": "f737e9d58b2db7f37a3a282b69f6f5951c926667be89bf95924dc029ba67af48"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.3592466756128702,
+          "tokens": 37,
+          "raw_heartbeats": 3105445,
+          "code_sha256": "f737e9d58b2db7f37a3a282b69f6f5951c926667be89bf95924dc029ba67af48"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.3592466756128702,
+          "tokens": 37,
+          "raw_heartbeats": 3105445,
+          "code_sha256": "f737e9d58b2db7f37a3a282b69f6f5951c926667be89bf95924dc029ba67af48"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3097:31\",\"message\":\"simp_all made no progress\",\"truncated\":false}\n",
+          "details_characters": 166,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "93246b5f9609a0e6b7c8b3f4277cce808ae11a7c3485bd8685fd6990a4330425"
+        },
+        {
+          "step": 2,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"case\":\"grind\",\"goal\":\"⊢ False\\n[grind] Goal diagnostics\\n  [facts] Asserted facts\\n    [prop] ¬[name].Subset [name, h1]\\n  [eqc] False propositions\\n    [prop] [name].Subset [name, h1]\",\"local_context\":\"EvalEnv := Lambda.LState { Metadata := ExpressionMetadata, IDMeta := Visibility } }.Ident\\nm : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nh1 :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm_1 : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nname :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadat\",\"location\":\"<RUN>/steps/002/evaluation/fixed/check.lean:3097:111\",\"message\":\"`grind` failed\",\"truncated\":true}\n",
+          "details_characters": 977,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "fbe2de7fde144882a49d8ccb1992616ed55b28dc10878f37c64f7f762a4c2987"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 12283267,
+            "tokens": 33
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "e11e4b0698e7735289d06d33ff189eef08ad446a65fd47eb6c8563d29cf9abf2"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5174617,
+            "tokens": 42
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "32d42181f43069f26447fb398c3a72f52343b0b4804ee45f4796d93ba53832fb"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3403461,
+            "tokens": 36
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "950824744de116b839f3e62e01d4cd265546afee467c9587b71ad0f9fc4016c6"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3382515,
+            "tokens": 37
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "4dc8c41d124e598c2826be450f6f97e8a6cf92b50fe68a282eda5a650ec0a6ac"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3324124,
+            "tokens": 41
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "92af2d948533b2196770be35c6fd8e9f996719a0a4d95267884f3e6e21e1dc46"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3105445,
+            "tokens": 37
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "f737e9d58b2db7f37a3a282b69f6f5951c926667be89bf95924dc029ba67af48"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3267377,
+            "tokens": 43
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "4fce155fc0c7e5e2d8a1bf32e6c9c7b60129b746461378567cd981d3bc2df67e"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3242290,
+            "tokens": 35
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "fd126413b0f8d701a5fc7ef1f34f2cf727ce70b40389eedf47e99395b404a6d4"
+        }
+      ],
+      "verified_proposals": 8,
+      "valid_first3": 1,
+      "improved_at3": false,
+      "first_valid_proposal": 3,
+      "first_improvement_proposal": 4,
+      "early_error_feedback_exposures": 2,
+      "error_feedback_exposures": 2,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": false
+        },
+        {
+          "from_step": 2,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "selected": {
+        "rank_numerator": 1163416607,
+        "raw_heartbeats": 3105445,
+        "raw_samples": [
+          3105445,
+          3105376,
+          3105541
+        ],
+        "sha256": "f737e9d58b2db7f37a3a282b69f6f5951c926667be89bf95924dc029ba67af48",
+        "tokens": 37
+      },
+      "selected_local_cost": 0.3592466756128702,
+      "final": {
+        "raw_heartbeats": 3105405,
+        "raw_samples": [
+          3105286,
+          3105424,
+          3105405
+        ],
+        "tokens": 37
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 3105,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "23534ff19e82103678f1f1382772f0f51ab3c9ceffead123b17892d13e912224",
+                "returncode": 0,
+                "seconds": 14.281658,
+                "source": "check.lean",
+                "source_sha256": "abd745c1313766c5ef0f12fdf749b3ddde6f4e357d25dce842334014b4eeb7ab",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "502ad918e6c8cd63a8d6ba1eebbb522c3cc3b7d145628a9f6eab73e53618ccb7",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3105286,
+                  "scaled": 3105,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.443395,
+                "source": "measure-1.lean",
+                "source_sha256": "8bce9bbe3ef8d169ca0af2f1a955bd7c239e880849441cafca95ad2ce1287aab",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "a532ef4592250ddad7731ab3c577cca557515efcdf04a6b9cced8f55af09b058",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3105424,
+                  "scaled": 3105,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.539185,
+                "source": "measure-2.lean",
+                "source_sha256": "3d2137d2408706d3b8e74a82695c8492347c85616199890de32969ededbf1066",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r1/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "4bdcc3a0e61ecc2c5b06cf0063173a0bcfc377c78ce5951b607dee1f222ff260",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3105405,
+                  "scaled": 3105,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 15.753707,
+                "source": "measure-3.lean",
+                "source_sha256": "0c47b41f6bf753554095a73e2f8b7b0ebeb38ee28652aefd6a8dabcbc507e346",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 37,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "f41c8a043913a77d33d8543642680d98cb67362aac6794e047a753500f6d6195",
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "solver_dispatched_at": "2026-10-25T07:27:47.965279+00:00",
+      "solver_completion_observed_at": "2026-10-25T07:43:06.927701+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-S-r2",
+      "problem_id": "P01",
+      "condition": "S",
+      "repetition": 2,
+      "max_proposals": 10,
+      "error_feedback_mode": "structured_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.5551369318666408,
+          "tokens": 48,
+          "raw_heartbeats": 4950436,
+          "code_sha256": "99b53728333791f660e84fd1dcdf3a7cc0694448ce9e270a2de2056459f8dd8f"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.3844218730591454,
+          "tokens": 37,
+          "raw_heartbeats": 3365923,
+          "code_sha256": "3bb4292428b2e673fc56d14bed945520d344bb66844e78d0218d9bbe0cc247e7"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.3584277472346432,
+          "tokens": 36,
+          "raw_heartbeats": 3113500,
+          "code_sha256": "6d2b6a2eb28293acd9f36934c92c3ba866c7f5a2900730afd4df7edf06b83c41"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.9833670286506861,
+          "tokens": 38,
+          "raw_heartbeats": 9546448,
+          "code_sha256": "6bd3cb63fbcda44aad0d4b831253895cfd95c1d94f9dd2f55200697ca23c9360"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.5551369318666408,
+          "tokens": 48,
+          "raw_heartbeats": 4950436,
+          "code_sha256": "99b53728333791f660e84fd1dcdf3a7cc0694448ce9e270a2de2056459f8dd8f"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.5551369318666408,
+          "tokens": 48,
+          "raw_heartbeats": 4950436,
+          "code_sha256": "99b53728333791f660e84fd1dcdf3a7cc0694448ce9e270a2de2056459f8dd8f"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.4466563467280794,
+          "tokens": 59,
+          "raw_heartbeats": 3646220,
+          "code_sha256": "eb5557aaf76368eae1c8f60107afccfa4f0c65c71f3196fe2628d0fd1afd2ce1"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.3844218730591454,
+          "tokens": 37,
+          "raw_heartbeats": 3365923,
+          "code_sha256": "3bb4292428b2e673fc56d14bed945520d344bb66844e78d0218d9bbe0cc247e7"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.3844218730591454,
+          "tokens": 37,
+          "raw_heartbeats": 3365923,
+          "code_sha256": "3bb4292428b2e673fc56d14bed945520d344bb66844e78d0218d9bbe0cc247e7"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.3697787929503516,
+          "tokens": 35,
+          "raw_heartbeats": 3247473,
+          "code_sha256": "3d5d46aecf4f2b94745580c7dbc06633eea5f3964be5fd0462c4203ef8abae15"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.36200121344470376,
+          "tokens": 38,
+          "raw_heartbeats": 3117417,
+          "code_sha256": "1a2956dd390947945e870025c65a89bcfb0555d7c55046a8421def3119be5802"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.3584277472346432,
+          "tokens": 36,
+          "raw_heartbeats": 3113500,
+          "code_sha256": "6d2b6a2eb28293acd9f36934c92c3ba866c7f5a2900730afd4df7edf06b83c41"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:3099:12\",\"message\":\"simp_all made no progress\",\"truncated\":false}\n",
+          "details_characters": 166,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "46f74262f3f7351f0b30b59e18b51ed13b7a33af25661fd32cb82168cba04fb0"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 9546448,
+            "tokens": 38
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "6bd3cb63fbcda44aad0d4b831253895cfd95c1d94f9dd2f55200697ca23c9360"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4950436,
+            "tokens": 48
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "99b53728333791f660e84fd1dcdf3a7cc0694448ce9e270a2de2056459f8dd8f"
+        },
+        {
+          "step": 4,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/004/evaluation/fixed/check.lean:3099:12\",\"message\":\"`simp` made no progress\",\"truncated\":false}\n",
+          "details_characters": 164,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "82bc9e5e8bd990b6da738ac8b4d1a473f5254cdbb4961f8376d4a3744cb48e83"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3646220,
+            "tokens": 59
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "eb5557aaf76368eae1c8f60107afccfa4f0c65c71f3196fe2628d0fd1afd2ce1"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3365923,
+            "tokens": 37
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "3bb4292428b2e673fc56d14bed945520d344bb66844e78d0218d9bbe0cc247e7"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3382723,
+            "tokens": 43
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "9eb295e7ed33181e1c4f8e614fe7277d88cd516cec203f0ae4a32708726a8480"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3247473,
+            "tokens": 35
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "3d5d46aecf4f2b94745580c7dbc06633eea5f3964be5fd0462c4203ef8abae15"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3117417,
+            "tokens": 38
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "1a2956dd390947945e870025c65a89bcfb0555d7c55046a8421def3119be5802"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3113500,
+            "tokens": 36
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "6d2b6a2eb28293acd9f36934c92c3ba866c7f5a2900730afd4df7edf06b83c41"
+        }
+      ],
+      "verified_proposals": 8,
+      "valid_first3": 2,
+      "improved_at3": true,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 2,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 2,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        },
+        {
+          "from_step": 4,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "selected": {
+        "rank_numerator": 1160764516,
+        "raw_heartbeats": 3113500,
+        "raw_samples": [
+          3113601,
+          3113435,
+          3113500
+        ],
+        "sha256": "6d2b6a2eb28293acd9f36934c92c3ba866c7f5a2900730afd4df7edf06b83c41",
+        "tokens": 36
+      },
+      "selected_local_cost": 0.3584277472346432,
+      "final": {
+        "raw_heartbeats": 3113517,
+        "raw_samples": [
+          3113548,
+          3113378,
+          3113517
+        ],
+        "tokens": 36
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 3113,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "7089ad064aa01ea49abd51b8d5ca362c4dd3a4c8688d9211216dd01c5c369d86",
+                "returncode": 0,
+                "seconds": 16.54736,
+                "source": "check.lean",
+                "source_sha256": "887284c8c6150ede728021af17a3120037b2fffac965830080012541413e2dc6",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "7cac88a9e0fdeb84a30f1a462f6f68bc81d2b0cccd9fae9680c21b61b63e9f54",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3113548,
+                  "scaled": 3113,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.975693,
+                "source": "measure-1.lean",
+                "source_sha256": "b60bec8ca27df2f51912de047df1661ac664b52ccaffc94dbbf2e716689b6331",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "5432e442c381d58dd0a64611ec44cefd05121f0047b7e7b6f1d575257f6c61c8",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3113378,
+                  "scaled": 3113,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 16.489123,
+                "source": "measure-2.lean",
+                "source_sha256": "916b7f5e430333b5402d841b8d10afffa124bfccc615eed8d9309664c51f7569",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-S-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "63bec0472f743222bedbb22d45a03f2738f298339941b38f6c58a51a81951663",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3113517,
+                  "scaled": 3113,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 18.330753,
+                "source": "measure-3.lean",
+                "source_sha256": "4f378bf6e68f987d56fe29787c5b753fb6cdbb0aadfc15233495b576ee42b857",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 36,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "234fd1d87b817f70a0dbeada7778d4dd0e502f1e5effbaa77e56458f62f7681d",
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "solver_dispatched_at": "2026-10-25T07:38:13.394468+00:00",
+      "solver_completion_observed_at": "2026-10-25T07:52:21.008761+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P13-L-r2",
+      "problem_id": "P13",
+      "condition": "L",
+      "repetition": 2,
+      "max_proposals": 10,
+      "error_feedback_mode": "legacy",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.17911528991496053,
+          "tokens": 562,
+          "raw_heartbeats": 4689110,
+          "code_sha256": "4f4327a826a4d0df69848e9c993b7c573423e872bb0187e7b308f7635d461872"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.11231101911296691,
+          "tokens": 348,
+          "raw_heartbeats": 3227414,
+          "code_sha256": "1ae01a19b19c3c296763ed3e9db8d394adcff04b2b6b5e445c20df33e500994c"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.10184574618583161,
+          "tokens": 318,
+          "raw_heartbeats": 2767975,
+          "code_sha256": "4e8bf6ddf7969f3df4a62255bfaedb308b712c9dfbe764916f12c3c441af88d6"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 0.25159691236396536,
+          "tokens": 547,
+          "raw_heartbeats": 22438570,
+          "code_sha256": "24bbb5d9a0b43da6adca9b1313cb63428e3c0c767edf693e7612126f43cb5e08"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.17911528991496053,
+          "tokens": 562,
+          "raw_heartbeats": 4689110,
+          "code_sha256": "4f4327a826a4d0df69848e9c993b7c573423e872bb0187e7b308f7635d461872"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.17911528991496053,
+          "tokens": 562,
+          "raw_heartbeats": 4689110,
+          "code_sha256": "4f4327a826a4d0df69848e9c993b7c573423e872bb0187e7b308f7635d461872"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.1583463089668225,
+          "tokens": 492,
+          "raw_heartbeats": 4461510,
+          "code_sha256": "9982ca219dc6f4a9851ee89f754975bed06abc9d598e28b4a147b1fa3bccceb9"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.14466119781033376,
+          "tokens": 446,
+          "raw_heartbeats": 4303402,
+          "code_sha256": "17ac378a444715e4a6173b892a7f505208ee941eee58d96f24fc7541e4260ad3"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.11231101911296691,
+          "tokens": 348,
+          "raw_heartbeats": 3227414,
+          "code_sha256": "1ae01a19b19c3c296763ed3e9db8d394adcff04b2b6b5e445c20df33e500994c"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.11126930227464697,
+          "tokens": 347,
+          "raw_heartbeats": 3051803,
+          "code_sha256": "d4120609de6ff77a2fcab5058afe7ae512da2ff449cb30fd3147b96b6fa17486"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.10635830644839527,
+          "tokens": 330,
+          "raw_heartbeats": 3027275,
+          "code_sha256": "c2dc61d860c561fb812d5b0611b9eec7ab75fade3e933a22f39e9b63b0cd4fe8"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.10184574618583161,
+          "tokens": 318,
+          "raw_heartbeats": 2767975,
+          "code_sha256": "4e8bf6ddf7969f3df4a62255bfaedb308b712c9dfbe764916f12c3c441af88d6"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.10184574618583161,
+          "tokens": 318,
+          "raw_heartbeats": 2767975,
+          "code_sha256": "4e8bf6ddf7969f3df4a62255bfaedb308b712c9dfbe764916f12c3c441af88d6"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 22438570,
+            "tokens": 547
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "24bbb5d9a0b43da6adca9b1313cb63428e3c0c767edf693e7612126f43cb5e08"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4689110,
+            "tokens": 562
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "4f4327a826a4d0df69848e9c993b7c573423e872bb0187e7b308f7635d461872"
+        },
+        {
+          "step": 3,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"<RUN>/steps/003/evaluation/fixed/check.lean:49:33: error: Invalid argument name `R` for function `Int.cast_injective`\\n\\nHint: Perhaps you meant one of the following parameter names:\\n  • `α`: R̵α̲\\n  • `a₁`: R̵a̲₁̲\\n  • `a₂`: R̵a̲₂̲\\n<RUN>/steps/003/evaluation/fixed/check.lean:50:12: error: No goals to be solved\\n\"}},\"error\":{\"kind\":\"lean\",\"message\":\"One or more required environments failed\"}}\n",
+          "details_characters": 452,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "1e1b2336bab684ec033cda02dcea24f482c50be97f594c3d6fa4fa18972aaeb0"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4461510,
+            "tokens": 492
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "9982ca219dc6f4a9851ee89f754975bed06abc9d598e28b4a147b1fa3bccceb9"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4303402,
+            "tokens": 446
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "17ac378a444715e4a6173b892a7f505208ee941eee58d96f24fc7541e4260ad3"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3227414,
+            "tokens": 348
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "1ae01a19b19c3c296763ed3e9db8d394adcff04b2b6b5e445c20df33e500994c"
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3051803,
+            "tokens": 347
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "d4120609de6ff77a2fcab5058afe7ae512da2ff449cb30fd3147b96b6fa17486"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3027275,
+            "tokens": 330
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "c2dc61d860c561fb812d5b0611b9eec7ab75fade3e933a22f39e9b63b0cd4fe8"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2767975,
+            "tokens": 318
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "4e8bf6ddf7969f3df4a62255bfaedb308b712c9dfbe764916f12c3c441af88d6"
+        },
+        {
+          "step": 10,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"<RUN>/steps/010/evaluation/fixed/check.lean:22:69: error: Invalid `⟨...⟩` notation: The expected type of this term could not be determined\\n<RUN>/steps/010/evaluation/fixed/check.lean:28:8: error: Type mismatch\\n  congrFun he ⟨m, hm⟩\\nhas type\\n  ?m.218 i ⟨m, hm⟩ = ?m.218 j ⟨m, hm⟩\\nbut is expected to have type\\n  u (i + m) = u (j + m)\\n<RUN>/steps/010/evaluation/fixed/check.lean:32:51: error: (kernel) application type mismatch\\n  Lean.Omega.Int.ofNat_lt_of_lt hij\\nargument has type\\n  i < j\\nbut function has type\\n  i < j → ↑i < ↑j\\n<RUN>/steps/010/evaluation/fixed/check.lean:34:21: error: (kernel) application type mismatch\\n  Lean.Omega.Int.ofNat_lt_of_lt hij\\nargument has type\\n  i < j\\nbut function has type\\n  i < j → ↑i < ↑j\\n<RUN>/steps/010/evaluation/fixed/check.lean:36:50: error: (kernel) application type mismatch\\n  Lean.Omega.Int.ofNat_lt_of_lt hij\\nargument has type\\n  i < j\\nbut function has type\\n  i < j → ↑i < ↑j\\n\"}},\"error\":{\"kind\":\"lean\",\"message\":\"One or more required environments failed\"}}\n",
+          "details_characters": 1078,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "33e9f9a460de9d47d5631e5be670dfe2c7f289135c58670a94b17e4e8f20ec1d"
+        }
+      ],
+      "verified_proposals": 8,
+      "valid_first3": 2,
+      "improved_at3": true,
+      "first_valid_proposal": 1,
+      "first_improvement_proposal": 1,
+      "early_error_feedback_exposures": 0,
+      "error_feedback_exposures": 1,
+      "post_error_transitions": [
+        {
+          "from_step": 3,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "selected": {
+        "rank_numerator": 41681168519,
+        "raw_heartbeats": 2767975,
+        "raw_samples": [
+          2767975,
+          2767974,
+          2767978
+        ],
+        "sha256": "4e8bf6ddf7969f3df4a62255bfaedb308b712c9dfbe764916f12c3c441af88d6",
+        "tokens": 318
+      },
+      "selected_local_cost": 0.10184574618583161,
+      "final": {
+        "raw_heartbeats": 2767975,
+        "raw_samples": [
+          2767975,
+          2767974,
+          2767978
+        ],
+        "tokens": 318
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2767,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "returncode": 0,
+                "seconds": 55.213767,
+                "source": "check.lean",
+                "source_sha256": "1798e418539c44d5441fa231665fb971064d58984379474da61bee22185d627f",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "dd408e10af42ad2daea90c2e5c27d1f8da8b6af37a0c51faefe1c90e37f7747e",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 2767975,
+                  "scaled": 2767,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 56.4079,
+                "source": "measure-1.lean",
+                "source_sha256": "c3802548af48a8123b9b6bdafa41c9d8bed4afb385fd04f4d09aeb7416563888",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "9933092e94fd072b67a13adc0781eec359a0dc35ba1803cac69f8331ca9c2ba1",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 2767974,
+                  "scaled": 2767,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 58.168451,
+                "source": "measure-2.lean",
+                "source_sha256": "d656cbf1e6e98db486ab3dfa51f379f3da8d3fc2517aab03cd37b2145e087648",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-L-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "6e2a6362dbd7cf5377138abb1d11321ff4e1793aede0bb745a918dac71045a56",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 2767978,
+                  "scaled": 2767,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 52.340915,
+                "source": "measure-3.lean",
+                "source_sha256": "bc9456f5fcac3125a352ecb246c47185b2fcb96992cab980d41eed0fb9e9b7b5",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 318,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "9895dfce6526b43bea2734baf7f5d5a7f8c23c0e062c1206363fb6980d1fa32e",
+      "first_request_sha256": "dda888025d2788b9e365db3d6557ad072369b024f574ccad989ce3b712352adb",
+      "solver_dispatched_at": "2026-10-25T07:43:16.859235+00:00",
+      "solver_completion_observed_at": "2026-10-25T08:18:30.298613+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P13-S-r2",
+      "problem_id": "P13",
+      "condition": "S",
+      "repetition": 2,
+      "max_proposals": 10,
+      "error_feedback_mode": "structured_v1",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 0.18906891780939847,
+          "tokens": 578,
+          "raw_heartbeats": 5945640,
+          "code_sha256": "a9213f10bd4593ca4dc379166c37e991deeba27105e7681e232cbc81e66a5692"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.13055534710119582,
+          "tokens": 416,
+          "raw_heartbeats": 3001716,
+          "code_sha256": "bfa3700ba4e10d44206b9c61070fbe630eaf95e668a0e1322cd08e0280f66fbb"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.12143116883160356,
+          "tokens": 384,
+          "raw_heartbeats": 2983319,
+          "code_sha256": "0ece012cb99af19e1692bfc85a95e31944d165fa49ed2a9fb5ddb27483045e3a"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 1769,
+          "raw_heartbeats": 115674908,
+          "code_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669"
+        },
+        {
+          "step": 2,
+          "local_cost": 0.19011718317737267,
+          "tokens": 578,
+          "raw_heartbeats": 6188156,
+          "code_sha256": "3faf8fbb0cc243163afa0d286e43b3db51cdba0ec4836e59da2e8fa7ad1a7c95"
+        },
+        {
+          "step": 3,
+          "local_cost": 0.18906891780939847,
+          "tokens": 578,
+          "raw_heartbeats": 5945640,
+          "code_sha256": "a9213f10bd4593ca4dc379166c37e991deeba27105e7681e232cbc81e66a5692"
+        },
+        {
+          "step": 4,
+          "local_cost": 0.18042556986782374,
+          "tokens": 539,
+          "raw_heartbeats": 6496213,
+          "code_sha256": "b16a7eab9f92991308e67d2e501c4f6f51de82d52d5eab022556b0af2d73192a"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.16588354416993306,
+          "tokens": 512,
+          "raw_heartbeats": 4897448,
+          "code_sha256": "7108cc32d8c2912a9ea0e335b41dac601cde796ae324065cd179fb26652406f4"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.13055534710119582,
+          "tokens": 416,
+          "raw_heartbeats": 3001716,
+          "code_sha256": "bfa3700ba4e10d44206b9c61070fbe630eaf95e668a0e1322cd08e0280f66fbb"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.13055534710119582,
+          "tokens": 416,
+          "raw_heartbeats": 3001716,
+          "code_sha256": "bfa3700ba4e10d44206b9c61070fbe630eaf95e668a0e1322cd08e0280f66fbb"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.12670892094206782,
+          "tokens": 402,
+          "raw_heartbeats": 3027306,
+          "code_sha256": "1a447e3b288ae58f4d498b9ca6e8ab8a43f868f190d92840f3183d212f5eb0d2"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.12670892094206782,
+          "tokens": 402,
+          "raw_heartbeats": 3027306,
+          "code_sha256": "1a447e3b288ae58f4d498b9ca6e8ab8a43f868f190d92840f3183d212f5eb0d2"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.12143116883160356,
+          "tokens": 384,
+          "raw_heartbeats": 2983319,
+          "code_sha256": "0ece012cb99af19e1692bfc85a95e31944d165fa49ed2a9fb5ddb27483045e3a"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":\"⊢ u (i + m) = u (j + m)\",\"local_context\":\"(↑(u (n - 1)) * ↑(u (n - 2)) + ↑(u (n - 3)) + ↑(u (n - 4))) ∧\\n      u (n - 1) * u (n - 2) + u (n - 3) + u (n - 4) ≠ 0\\nB T : ℤ\\nhb : ∀ (n : ℕ), B ≤ u n ∧ u n ≤ T\\nf : ℕ → ℤ × ℤ × ℤ × ℤ := fun n => (u n, u (n + 1), u (n + 2), u (n + 3))\\nhf : (range f).Finite\\ni j : ℕ\\nhij : i < j\\nhe : u i = u j ∧ u (i + 1) = u (j + 1) ∧ u (i + 2) = u (j + 2) ∧ u (i + 3) = u (j + 3)\\nm : ℕ\\nih : ∀ m < 0, u (i + m) = u (j + m)\\nhm : 0 < 4\",\"location\":\"<RUN>/steps/001/evaluation/fixed/check.lean:41:45\",\"message\":\"Tactic `tauto` failed\",\"truncated\":true}\n",
+          "details_characters": 605,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "02de1710a3bbc14dfe2d58f9dcc371530529bcd56e150235cf962719402d5fbd"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6188156,
+            "tokens": 578
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "3faf8fbb0cc243163afa0d286e43b3db51cdba0ec4836e59da2e8fa7ad1a7c95"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 5945640,
+            "tokens": 578
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "a9213f10bd4593ca4dc379166c37e991deeba27105e7681e232cbc81e66a5692"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 6496213,
+            "tokens": 539
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "b16a7eab9f92991308e67d2e501c4f6f51de82d52d5eab022556b0af2d73192a"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 4897448,
+            "tokens": 512
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "7108cc32d8c2912a9ea0e335b41dac601cde796ae324065cd179fb26652406f4"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3001716,
+            "tokens": 416
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "bfa3700ba4e10d44206b9c61070fbe630eaf95e668a0e1322cd08e0280f66fbb"
+        },
+        {
+          "step": 7,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":\"⊢ (↑(u (i + m - 1)) + ↑(u (i + m - 2)) + ↑(u (i + m - 3)) * ↑(u (i + m - 4))) /\\n      (↑(u (i + m - 1)) * ↑(u (i + m - 2)) + ↑(u (i + m - 3)) + ↑(u (i + m - 4))) =\\n    (↑(u (j + m - 1)) + ↑(u (j + m - 2)) + ↑(u (j + m - 3)) * ↑(u (j + m - 4))) /\\n      (↑(u (j + m - 1)) * ↑(u (j + m - 2)) + ↑(u (j + m - 3)) + ↑(u (j + m - 4)))\",\"local_context\":\"u (n - 1) * u (n - 2) + u (n - 3) + u (n - 4) ≠ 0\\nB T : ℤ\\nhb : ∀ (n : ℕ), B ≤ u n ∧ u n ≤ T\\nf : ℕ → Fin 4 → ℤ := fun n k => u (n + ↑k)\\nhf : (range f).Finite\\ni j : ℕ\\nhij : i < j\\nhe : f i = f j\\nm : ℕ\\nih : ∀ m_1 < m, u (i + m_1) = u (j + m_1)\\nhm : ¬m < 4\\nhp : ∀ (k : Fin 4), u (i + m - (↑k + 1)) = u (j + m - (↑k + 1))\",\"location\":\"<RUN>/steps/007/evaluation/fixed/check.lean:44:12\",\"message\":\"Tactic `rewrite` failed: Did not find an occurrence of the pattern\\n  u (i + m - (↑0 + 1))\\nin the target expression\\n  (↑(u (i + m - 1)) + ↑(u (i + m - 2)) + ↑(u (i + m - 3)) * ↑(u (i + m - 4))) /\\n      (↑(u (i + m - 1)) * ↑(u (i + m - 2)) + ↑(u (i + m - 3)) + ↑(u (i + m - 4))) =\\n    (↑(u (j + m - 1)) + ↑(u (j + m - 2)) + ↑(u (j + m - 3)) * ↑(u (j + m - 4))) /\\n      (↑(u (j + m - 1)) * ↑(u (j + m - 2)) + ↑(u (j + m - 3)) + ↑(u (j + m - 4)))\",\"truncated\":true}\n",
+          "details_characters": 1240,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "9df0b13817f939ef2433d767826446b6ca2ad3a454f026853ff1d0fbf23fddf3"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3027306,
+            "tokens": 402
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "1a447e3b288ae58f4d498b9ca6e8ab8a43f868f190d92840f3183d212f5eb0d2"
+        },
+        {
+          "step": 9,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"case\":null,\"goal\":null,\"local_context\":\"\",\"location\":\"<RUN>/steps/009/evaluation/fixed/check.lean:42:33\",\"message\":\"Invalid argument name `R` for function `Int.cast_injective`\\n\\nHint: Perhaps you meant one of the following parameter names:\\n  • `α`: R̵α̲\\n  • `a₁`: R̵a̲₁̲\\n  • `a₂`: R̵a̲₂̲\",\"truncated\":false}\n",
+          "details_characters": 314,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "7ca395ff4eb1f627becba0fe296dd0ef6cae26f85d6c72baa4112cd1314f2cae"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 2983319,
+            "tokens": 384
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "0ece012cb99af19e1692bfc85a95e31944d165fa49ed2a9fb5ddb27483045e3a"
+        }
+      ],
+      "verified_proposals": 7,
+      "valid_first3": 2,
+      "improved_at3": true,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 2,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 3,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        },
+        {
+          "from_step": 7,
+          "next_valid": true
+        },
+        {
+          "from_step": 9,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 3
+      },
+      "selected": {
+        "rank_numerator": 49696655983,
+        "raw_heartbeats": 2983319,
+        "raw_samples": [
+          2983316,
+          2983319,
+          2983366
+        ],
+        "sha256": "0ece012cb99af19e1692bfc85a95e31944d165fa49ed2a9fb5ddb27483045e3a",
+        "tokens": 384
+      },
+      "selected_local_cost": 0.12143116883160356,
+      "final": {
+        "raw_heartbeats": 2983319,
+        "raw_samples": [
+          2983316,
+          2983319,
+          2983366
+        ],
+        "tokens": 384
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 2983,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "returncode": 0,
+                "seconds": 51.351442,
+                "source": "check.lean",
+                "source_sha256": "4a1f147e26aeb75d940fe7f83ecbfa2109036e976ab8a264f8fde80756414ae8",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "bb95e5a269b14345bf72b59c24c6c099b4254d81a47ac30dfc587f5d43bc16fc",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 2983316,
+                  "scaled": 2983,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 48.829227,
+                "source": "measure-1.lean",
+                "source_sha256": "fd96fd63f5942c8afa29c0e3277f5acc8e0d9e721d009afbe350e1b507254a91",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "99034637a1b64f83f4bcb7d6d192194a3b8cf939ba1ea810294356f8ed757b92",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 2983319,
+                  "scaled": 2983,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 46.716442,
+                "source": "measure-2.lean",
+                "source_sha256": "64c54bd5fe7e20ff3236d8b1d1ac44b49f9991c76953a7b40cca90406588d945",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P13-S-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "d1a9e02695381257fe90126ff1f2796a1094526dc9e3013b6b356f9673328dd3",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Classical.choice",
+                    "Quot.sound"
+                  ],
+                  "raw": 2983366,
+                  "scaled": 2983,
+                  "target": "putnam_1964_a4"
+                },
+                "returncode": 0,
+                "seconds": 45.042973,
+                "source": "measure-3.lean",
+                "source_sha256": "ea262f3757cd27138226263e9d45797a3330e3430cc80fba1ba7b71925c44eca",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 384,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "2af0c1d6ee918ba6a9f4cd53e561693c673d71f19682afa53c47cc47275abb98",
+      "first_request_sha256": "dda888025d2788b9e365db3d6557ad072369b024f574ccad989ce3b712352adb",
+      "solver_dispatched_at": "2026-10-25T07:52:30.190318+00:00",
+      "solver_completion_observed_at": "2026-10-25T08:26:19.671765+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    },
+    {
+      "trial_id": "P01-L-r2",
+      "problem_id": "P01",
+      "condition": "L",
+      "repetition": 2,
+      "max_proposals": 10,
+      "error_feedback_mode": "legacy",
+      "usage_interrupted_and_resumed": false,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        "6": {
+          "step": 6,
+          "local_cost": 0.38869741780325195,
+          "tokens": 40,
+          "raw_heartbeats": 3360576,
+          "code_sha256": "8baed1840124dba150617cc60e5e99938a3e8a550b121afae7edce93ca0293dd"
+        },
+        "10": {
+          "step": 10,
+          "local_cost": 0.38302962987847905,
+          "tokens": 37,
+          "raw_heartbeats": 3351518,
+          "code_sha256": "b32915323ba9d4acac577366cdec099bee191061e0efdffbc090b9c3f7a2cf94"
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 2,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 3,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 4,
+          "local_cost": 1.0,
+          "tokens": 313,
+          "raw_heartbeats": 5173306,
+          "code_sha256": "dbdbf6e6ea4e52714e1c16cef7626602865b5f0b737c5397d71c0f6fbfc59fc4"
+        },
+        {
+          "step": 5,
+          "local_cost": 0.38869741780325195,
+          "tokens": 40,
+          "raw_heartbeats": 3360576,
+          "code_sha256": "8baed1840124dba150617cc60e5e99938a3e8a550b121afae7edce93ca0293dd"
+        },
+        {
+          "step": 6,
+          "local_cost": 0.38869741780325195,
+          "tokens": 40,
+          "raw_heartbeats": 3360576,
+          "code_sha256": "8baed1840124dba150617cc60e5e99938a3e8a550b121afae7edce93ca0293dd"
+        },
+        {
+          "step": 7,
+          "local_cost": 0.38869741780325195,
+          "tokens": 40,
+          "raw_heartbeats": 3360576,
+          "code_sha256": "8baed1840124dba150617cc60e5e99938a3e8a550b121afae7edce93ca0293dd"
+        },
+        {
+          "step": 8,
+          "local_cost": 0.38869741780325195,
+          "tokens": 40,
+          "raw_heartbeats": 3360576,
+          "code_sha256": "8baed1840124dba150617cc60e5e99938a3e8a550b121afae7edce93ca0293dd"
+        },
+        {
+          "step": 9,
+          "local_cost": 0.38869741780325195,
+          "tokens": 40,
+          "raw_heartbeats": 3360576,
+          "code_sha256": "8baed1840124dba150617cc60e5e99938a3e8a550b121afae7edce93ca0293dd"
+        },
+        {
+          "step": 10,
+          "local_cost": 0.38302962987847905,
+          "tokens": 37,
+          "raw_heartbeats": 3351518,
+          "code_sha256": "b32915323ba9d4acac577366cdec099bee191061e0efdffbc090b9c3f7a2cf94"
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"sionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm✝ : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nc✝ t✝ e✝ : Lambda.LExpr { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }\\nc_ih✝ :\\n  (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) c✝)).Subset\\n    (Lambda.LExpr.LExpr.getVars c✝ ++ [h1])\\nt_ih✝ :\\n  (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) t✝)).Subset\\n    (Lambda.LExpr.LExpr.getVars t✝ ++ [h1])\\ne_ih✝ :\\n  (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e✝)).Subset\\n    (Lambda.LExpr.LExpr.getVars e✝ ++ [h1])\\n⊢ (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) c✝) ++\\n        (Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) t✝) ++\\n          Lambda.LExpr.LExpr.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) e✝))).Subset\\n    (Lambda.LExpr.LExpr.getVars c✝ ++ (Lambda.LExpr.LExpr.getVars t✝ ++ (Lambda.LExpr.LExpr.getVars e✝ ++ [h1])))\\n<RUN>/steps/001/evaluation/fixed/check.lean:3097:12: error: Tactic `split` failed: Could not split an `if` or `match` expression in the goal\\n\\nHint: Use `set_option trace.split.failure true` to display additional diagnostic information\\n\\ncase eq\\nh2 : Expression.Ident\\nm : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nh1 :\\n  Lambda.Identifier\\n    { base := { Metadata := Ex",
+          "details_characters": 1600,
+          "feedback_visible_before_step3": true,
+          "feedback_visible_later": true,
+          "code_sha256": "4e21e6ef896ed92dd385d1355a28448995a23dfaf2981ddc3389be83122b4886"
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 10059264,
+            "tokens": 29
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "8c376679fd9e2d7cf6362f0dd0e1ab04a2c440501c99addf42e70d054119cd40"
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 9949194,
+            "tokens": 33
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "6f357e0efa34ee515a5722e80765463fca815f0b4ac1714d0538649af526f9d4"
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 9932528,
+            "tokens": 34
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "543b647459c1a66c4e6fac6cca844f2f2975213c5de40914c0b3c25f2a15da03"
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3360576,
+            "tokens": 40
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "8baed1840124dba150617cc60e5e99938a3e8a550b121afae7edce93ca0293dd"
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3298062,
+            "tokens": 44
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "77fcc5d0757b799a0144c45f1e56c183c7d69d9304048f115b54e7b80eb90e3a"
+        },
+        {
+          "step": 7,
+          "valid": false,
+          "metrics": null,
+          "compile_error": true,
+          "details": "{\"environments\":{\"fixed\":{\"kind\":\"compile\",\"message\":\"a := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\ne1✝ e2✝ : Lambda.LExpr { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }\\nm✝¹ : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nty✝¹ : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nm✝ : { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.Metadata\\nx✝ :\\n  Lambda.Identifier\\n    { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.base.IDMeta\\nty✝ : Option { base := { Metadata := ExpressionMetadata, IDMeta := Visibility }, TypeType := Lambda.LMonoTy }.TypeType\\nfn_ih✝ :\\n  (Imperative.HasVarsPure.getVars\\n        (substOld h2 (Lambda.LExpr.fvar m h1 ty)\\n          (Lambda.LExpr.op m✝¹ { name := \\\"old\\\", metadata := Visibility.unres } ty✝¹))).Subset\\n    (Imperative.HasVarsPure.getVars (Lambda.LExpr.op m✝¹ { name := \\\"old\\\", metadata := Visibility.unres } ty✝¹) ++ [h1])\\ne_ih✝ :\\n  (Imperative.HasVarsPure.getVars (substOld h2 (Lambda.LExpr.fvar m h1 ty) (Lambda.LExpr.fvar m✝ x✝ ty✝))).Subset\\n    (Imperative.HasVarsPure.getVars (Lambda.LExpr.fvar m✝ x✝ ty✝) ++ [h1])\\nh✝ : ¬(x✝ == h2) = true\\n⊢ (Imperative.HasVarsPure.getVars\\n        (Lambda.LExpr.app m✝² (Lambda.LExpr.op m✝¹ { name := \\\"old\\\", metadata := Visibility.unres } ty✝¹)\\n          (Lambda.LExpr.fvar m✝ x✝ ty✝))).Subset\\n    (Imperat",
+          "details_characters": 1600,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": true,
+          "code_sha256": "c867d05a2da45ce0fe8805472b96bade6c7a784f12a50e3ba9eb070392c20f05"
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3345414,
+            "tokens": 41
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "9817f65fdebdcc1838455c700fe51f3a7bef89fdcf2fa2d11eefca8194c1f66f"
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 9943334,
+            "tokens": 38
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "6963c35f9c0fe0bc385327ede909b9b4d087141db744d81342143c477118bed5"
+        },
+        {
+          "step": 10,
+          "valid": true,
+          "metrics": {
+            "raw_heartbeats": 3351518,
+            "tokens": 37
+          },
+          "compile_error": false,
+          "details": "{\"environments\":{\"fixed\":null},\"error\":null}\n",
+          "details_characters": 45,
+          "feedback_visible_before_step3": false,
+          "feedback_visible_later": false,
+          "code_sha256": "b32915323ba9d4acac577366cdec099bee191061e0efdffbc090b9c3f7a2cf94"
+        }
+      ],
+      "verified_proposals": 8,
+      "valid_first3": 2,
+      "improved_at3": false,
+      "first_valid_proposal": 2,
+      "first_improvement_proposal": 5,
+      "early_error_feedback_exposures": 1,
+      "error_feedback_exposures": 2,
+      "post_error_transitions": [
+        {
+          "from_step": 1,
+          "next_valid": true
+        },
+        {
+          "from_step": 7,
+          "next_valid": true
+        }
+      ],
+      "proposal_error_counts": {
+        "compile": 2
+      },
+      "selected": {
+        "rank_numerator": 1240437456,
+        "raw_heartbeats": 3351518,
+        "raw_samples": [
+          3351518,
+          3351421,
+          3351538
+        ],
+        "sha256": "b32915323ba9d4acac577366cdec099bee191061e0efdffbc090b9c3f7a2cf94",
+        "tokens": 37
+      },
+      "selected_local_cost": 0.38302962987847905,
+      "final": {
+        "raw_heartbeats": 3351448,
+        "raw_samples": [
+          3351445,
+          3351558,
+          3351448
+        ],
+        "tokens": 37
+      },
+      "final_valid": true,
+      "final_validation": {
+        "environments": {
+          "fixed": {
+            "error": null,
+            "median_heartbeats": 3351,
+            "runs": [
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/final/fixed/check.lean"
+                ],
+                "log": "check.log",
+                "log_sha256": "b875f8c6eca7d8adb11e0ca671decb960f31e70ef80a94f68e252640c0565670",
+                "returncode": 0,
+                "seconds": 19.945019,
+                "source": "check.lean",
+                "source_sha256": "c439c41fc17bffaf2ab0cae3cf3ae593083e561c6acb1958c8b2f59acf29aa33",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/final/fixed/measure-1.lean"
+                ],
+                "log": "measure-1.log",
+                "log_sha256": "e6ab3747dcda69ff90d8c4ba743024022313e9495b35d9aa3aadc02acd9fb921",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3351445,
+                  "scaled": 3351,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 20.088111,
+                "source": "measure-1.lean",
+                "source_sha256": "ebf9ee41f68047c62be6eb2f46b2b33ea4beab475ea5ff19ee0fafbaad9a7ab5",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/final/fixed/measure-2.lean"
+                ],
+                "log": "measure-2.log",
+                "log_sha256": "f9e434d8741ec476c680868f41d55f91f983645c0b51bad59cdb34a1e3151af5",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3351558,
+                  "scaled": 3351,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 19.500793,
+                "source": "measure-2.lean",
+                "source_sha256": "f0d58a7b8ce40d8a58a96ec59d6faf7c264a73c9adeade9cf29fefd8fbc59a44",
+                "stderr": "",
+                "timed_out": false
+              },
+              {
+                "command": [
+                  "/opt/homebrew/opt/python@3.13/bin/python3.13",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/lean_runner.py",
+                  "-j1",
+                  "-M4096",
+                  "-T200000",
+                  "--root=/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/final/fixed",
+                  "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025/P01-L-r2/final/fixed/measure-3.lean"
+                ],
+                "log": "measure-3.log",
+                "log_sha256": "330b8af8cde73a89179af7c2786e9e353db7f42f82800fc3794fc7fa0f6661b7",
+                "measurement": {
+                  "axioms": [
+                    "propext",
+                    "Quot.sound",
+                    "Classical.choice"
+                  ],
+                  "raw": 3351448,
+                  "scaled": 3351,
+                  "target": "CallElimCorrect.substOldPostSubset"
+                },
+                "returncode": 0,
+                "seconds": 19.744937,
+                "source": "measure-3.lean",
+                "source_sha256": "92c3d543023a9f88001c2b14f8afd497f4964714a240d778279f6f657f6102e6",
+                "stderr": "",
+                "timed_out": false
+              }
+            ],
+            "valid": true
+          }
+        },
+        "error": null,
+        "tokens": 37,
+        "valid": true
+      },
+      "record_replay_passed": true,
+      "artifact_index_sha256": "45c41f8e5997767c7012c231b4b4cac02836a92d8df4742f31f147cde54b1a37",
+      "first_request_sha256": "2650761d8f4dfbbf29875e14b8c1190a686ee3995a3139c2b840f0219ca1d335",
+      "solver_dispatched_at": "2026-10-25T08:18:37.784460+00:00",
+      "solver_completion_observed_at": "2026-10-25T08:33:13.787826+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null
+    }
+  ],
+  "aggregate": {
+    "P01": {
+      "L": {
+        "run_count": 2,
+        "usage_interrupted_runs": 1,
+        "improved_at3_count": 0,
+        "valid_first3_mean": 1.5,
+        "valid_first3_per_run": [
+          1,
+          2
+        ],
+        "first_valid_per_run": [
+          2,
+          2
+        ],
+        "first_improvement_per_run": [
+          4,
+          5
+        ],
+        "early_feedback_exposures_per_run": [
+          1,
+          1
+        ],
+        "final_valid_count": 2,
+        "checkpoints": {
+          "3": {
+            "mean_cost": 1.0,
+            "min_cost": 1.0,
+            "max_cost": 1.0
+          },
+          "6": {
+            "mean_cost": 0.46066442154677123,
+            "min_cost": 0.38869741780325195,
+            "max_cost": 0.5326314252902905
+          },
+          "10": {
+            "mean_cost": 0.41837967502156115,
+            "min_cost": 0.38302962987847905,
+            "max_cost": 0.4537297201646433
+          }
+        }
+      },
+      "S": {
+        "run_count": 2,
+        "usage_interrupted_runs": 0,
+        "improved_at3_count": 1,
+        "valid_first3_mean": 1.5,
+        "valid_first3_per_run": [
+          1,
+          2
+        ],
+        "first_valid_per_run": [
+          3,
+          2
+        ],
+        "first_improvement_per_run": [
+          4,
+          2
+        ],
+        "early_feedback_exposures_per_run": [
+          2,
+          1
+        ],
+        "final_valid_count": 2,
+        "checkpoints": {
+          "3": {
+            "mean_cost": 0.7775684659333204,
+            "min_cost": 0.5551369318666408,
+            "max_cost": 1.0,
+            "difference_from_L": -0.2224315340666796
+          },
+          "6": {
+            "mean_cost": 0.3852236814192153,
+            "min_cost": 0.3844218730591454,
+            "max_cost": 0.38602548977928525,
+            "difference_from_L": -0.07544074012755592
+          },
+          "10": {
+            "mean_cost": 0.3588372114237567,
+            "min_cost": 0.3584277472346432,
+            "max_cost": 0.3592466756128702,
+            "difference_from_L": -0.05954246359780446
+          }
+        }
+      }
+    },
+    "P13": {
+      "L": {
+        "run_count": 2,
+        "usage_interrupted_runs": 0,
+        "improved_at3_count": 2,
+        "valid_first3_mean": 2.5,
+        "valid_first3_per_run": [
+          3,
+          2
+        ],
+        "first_valid_per_run": [
+          1,
+          1
+        ],
+        "first_improvement_per_run": [
+          1,
+          1
+        ],
+        "early_feedback_exposures_per_run": [
+          0,
+          0
+        ],
+        "final_valid_count": 2,
+        "checkpoints": {
+          "3": {
+            "mean_cost": 0.17607869369714563,
+            "min_cost": 0.17304209747933075,
+            "max_cost": 0.17911528991496053
+          },
+          "6": {
+            "mean_cost": 0.1292220848436903,
+            "min_cost": 0.11231101911296691,
+            "max_cost": 0.14613315057441367
+          },
+          "10": {
+            "mean_cost": 0.11932837710723522,
+            "min_cost": 0.10184574618583161,
+            "max_cost": 0.13681100802863883
+          }
+        }
+      },
+      "S": {
+        "run_count": 2,
+        "usage_interrupted_runs": 1,
+        "improved_at3_count": 2,
+        "valid_first3_mean": 2,
+        "valid_first3_per_run": [
+          2,
+          2
+        ],
+        "first_valid_per_run": [
+          2,
+          2
+        ],
+        "first_improvement_per_run": [
+          2,
+          2
+        ],
+        "early_feedback_exposures_per_run": [
+          1,
+          1
+        ],
+        "final_valid_count": 2,
+        "checkpoints": {
+          "3": {
+            "mean_cost": 0.18982526382398024,
+            "min_cost": 0.18906891780939847,
+            "max_cost": 0.19058160983856198,
+            "difference_from_L": 0.013746570126834612
+          },
+          "6": {
+            "mean_cost": 0.14798657755511785,
+            "min_cost": 0.13055534710119582,
+            "max_cost": 0.16541780800903985,
+            "difference_from_L": 0.01876449271142755
+          },
+          "10": {
+            "mean_cost": 0.14010700366570408,
+            "min_cost": 0.12143116883160356,
+            "max_cost": 0.1587828384998046,
+            "difference_from_L": 0.020778626558468863
+          }
+        }
+      }
+    }
+  },
+  "recorded_peak_solver_parallelism": 2,
+  "first_requests_identical_across_conditions": true,
+  "runtime_checks": {
+    "P01": {
+      "artifacts_sha256": "2f256eb28f1b6e5234f1262f1f6192b21c726ad1d47e3ed93281c89776decc22",
+      "checked_at": "2026-10-25T08:33:24.613703+00:00",
+      "file_count": 11532,
+      "matches_historical_lock": true,
+      "phase": "after",
+      "seconds": 4.438568874960765
+    },
+    "P13": {
+      "artifacts_sha256": "fe014065676e0064bec1261026ad2d086c88733fb48c9f3f1f52a2d2050d3210",
+      "checked_at": "2026-10-25T08:33:44.836867+00:00",
+      "file_count": 95212,
+      "matches_historical_lock": true,
+      "phase": "after",
+      "seconds": 24.661436083028093
+    }
+  },
+  "observer_stopped": true,
+  "operational_incidents": [
+    {
+      "observed_at": "2026-10-25T06:21:16.091019+00:00",
+      "kind": "account_usage_limit_interruption_and_user_authorized_resume",
+      "affected_trials": [
+        "P01-L-r1",
+        "P13-S-r1"
+      ],
+      "completed_steps_at_resume": {
+        "P01-L-r1": 4,
+        "P13-S-r1": 2
+      },
+      "inflight_worker_evaluations_at_resume": false,
+      "response_or_step_retries": false,
+      "action": "Continue original solver contexts at the next unconsumed requests, retaining original code/config/history and ten-proposal budgets. No trial restarted and no extra proposal authorized.",
+      "interruption_duration_seconds": null
+    }
+  ],
+  "design_sha256": "29519993e2fd46616af9e5b31ca753057c7ab143e93e6ce7c3044abc4ed3bd73",
+  "limitations": [
+    "Two fresh independent runs per condition are exploratory, not a significance test.",
+    "Exact backend model ID, sampling seed, hidden context, internal model calls and cost unobservable.",
+    "The policy changes which existing error information is selected as well as its structure; it does not isolate JSON syntax alone.",
+    "Both problems have already informed development; not held-out generalization.",
+    "Libraries are shared read-only by policy; no OS-level isolation.",
+    "Offline old-log formatter checks are manipulation checks, not extra solver trials or performance evidence."
+  ]
+}

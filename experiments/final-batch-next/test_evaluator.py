@@ -4,11 +4,173 @@ import os
 import tempfile
 import re
 from pathlib import Path
+from types import SimpleNamespace
 import unittest
 from unittest.mock import patch
 from contextlib import nullcontext
 
 from evaluator import FinalEvaluator, REPO, pending_command_start, proof_tokens, _comment_mask, target_is_private
+from evaluator import DEFAULT_LEAN_MEMORY_MIB, lean_memory_mib, compiler_abort, linux_sandbox
+from test_evaluation_cache import FixtureEvaluator
+
+
+def fixture_repo(path):
+    """A repository root with the registry the evaluator reads at construction."""
+    (path / "configs").mkdir(parents=True, exist_ok=True)
+    (path / "configs/final-environments.local.json").write_text(json.dumps({"dataset_sha256": "fixture"}))
+    return path
+
+
+def executable(path):
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text("#!/bin/sh\n")
+    path.chmod(0o755)
+    return str(path)
+
+
+class LinuxSandboxTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.repo = fixture_repo(Path(temporary.name))
+
+    def test_lookup_order_is_path_then_override_then_bundle(self):
+        bundled = executable(self.repo / "sources/final/bin/bwrap")
+        explicit = executable(self.repo / "tools/bwrap")
+        with patch.dict(os.environ, {"ARENA_BWRAP": explicit}), patch("evaluator.shutil.which", return_value="/usr/bin/bwrap"):
+            self.assertEqual(linux_sandbox(self.repo), "/usr/bin/bwrap")
+        with patch.dict(os.environ, {"ARENA_BWRAP": explicit}), patch("evaluator.shutil.which", return_value=None):
+            self.assertEqual(linux_sandbox(self.repo), explicit)
+        with patch.dict(os.environ, {}, clear=False), patch("evaluator.shutil.which", return_value=None):
+            os.environ.pop("ARENA_BWRAP", None)
+            self.assertEqual(linux_sandbox(self.repo), bundled)
+            Path(bundled).chmod(0o644)
+            self.assertIsNone(linux_sandbox(self.repo))
+        with patch.dict(os.environ, {"ARENA_BWRAP": str(self.repo / "missing")}), patch("evaluator.shutil.which", return_value=None):
+            with self.assertRaisesRegex(ValueError, "ARENA_BWRAP"):
+                linux_sandbox(self.repo)
+
+    def test_compiles_run_under_the_resolved_sandbox(self):
+        evaluator = FinalEvaluator(repo_root=self.repo)
+        evaluator._prepared["env"] = SimpleNamespace(settings={"library_paths": []}, verify=lambda full=False: None)
+        state, folder = {"id": "env", "project": "project", "version": "v0"}, self.repo / "out"
+        (self.repo / "project").mkdir()
+        folder.mkdir()
+        commands = []
+
+        class Done:
+            pid, returncode = 0, 0
+
+            def __init__(self, command, **_):
+                commands.append(command)
+
+            def communicate(self, timeout=None):
+                return b"", b""
+
+        explicit = executable(self.repo / "tools/bwrap")
+        with patch("evaluator.subprocess.Popen", Done), patch("evaluator.sys.platform", "linux"), \
+                patch("evaluator.shutil.which", side_effect=lambda name: None if name == "bwrap" else "/usr/bin/" + name), \
+                patch("resources.wait_for_memory"), patch("resources.memory_snapshot", return_value={}):
+            with patch.dict(os.environ, {"ARENA_BWRAP": explicit}):
+                evaluator._invoke("-- source", state, {"module": None}, folder, "run-1")
+                self.assertEqual(commands[-1][0], explicit)
+                self.assertIn("--unshare-all", commands[-1])
+            with patch.dict(os.environ, {}, clear=False):
+                os.environ.pop("ARENA_BWRAP", None)
+                with self.assertRaisesRegex(ValueError, "ARENA_BWRAP"):
+                    evaluator._invoke("-- source", state, {"module": None}, folder, "run-2")
+                bundled = executable(self.repo / "sources/final/bin/bwrap")
+                evaluator._invoke("-- source", state, {"module": None}, folder, "run-3")
+                self.assertEqual(commands[-1][0], bundled)
+
+
+class CompilerAbortTests(unittest.TestCase):
+    MESSAGE = ("libc++abi: terminating due to uncaught exception of type lean::memory_exception: "
+               "excessive memory consumption detected at 'interpreter'")
+
+    def test_sandboxed_exit_134_and_memory_exception_are_environment_aborts(self):
+        command = ["bwrap", "--", "lean", "candidate.lean", "-j1", "-M4096"]
+        for returncode, log, resource in ((134, self.MESSAGE, "lean_allocator_limit"), (-6, self.MESSAGE, "lean_allocator_limit"),
+                                          (134, "", "lean_allocator_limit"), (1, "Memory exception at 'interpreter'", "lean_allocator_limit"),
+                                          (137, "", "compiler_signal"), (-9, "", "compiler_signal")):
+            with self.subTest(returncode=returncode, log=log):
+                error = compiler_abort({"returncode": returncode, "command": command}, log)
+                self.assertEqual((error["kind"], error["resource"], error["limit_mib"]), ("environment", resource, 4096))
+                self.assertTrue(error["retryable"])
+                self.assertIn("never candidate feedback", error["message"])
+        self.assertEqual(compiler_abort({"returncode": 134, "command": command}, "")["signal"], 6)
+        self.assertIsNone(compiler_abort({"returncode": 134, "command": ["lean", "-M4096", "-M8192"]}, self.MESSAGE)["limit_mib"])
+        # Ordinary rejections, successes and the driver's own timeout kill keep their verdict.
+        self.assertIsNone(compiler_abort({"returncode": 1, "command": command}, "error: unknown identifier missing"))
+        self.assertIsNone(compiler_abort({"returncode": 0, "command": command}, ""))
+        self.assertIsNone(compiler_abort({"returncode": -9, "timed_out": True, "command": command}, ""))
+
+    def test_evaluate_records_the_abort_as_environment_and_never_caches_it(self):
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        root = Path(temporary.name)
+        ev = FixtureEvaluator(root / "cache")
+        code = "theorem test : True := by trivial\n"
+        problem = {"id": "test", "statement": "theorem test : True", "name": "test", "reference": code, "environments": ["v1"]}
+        ev.failure = (134, False, self.MESSAGE)
+        aborted = ev.evaluate(code, problem, root / "aborted")
+        self.assertFalse(aborted["valid"])
+        error = aborted["environments"]["v1"]["error"]
+        self.assertEqual((error["kind"], error["resource"], error["signal"]), ("environment", "lean_allocator_limit", 6))
+        self.assertTrue(error["retryable"])
+        self.assertEqual(list((root / "cache").glob("*/receipt.json")), [])
+        ev.failure = None
+        measured = ev.evaluate(code, problem, root / "retried")
+        self.assertTrue(measured["valid"])
+        self.assertNotIn("cache", measured["environments"]["v1"])
+
+
+class LeanMemoryBoundTests(unittest.TestCase):
+    def test_default_is_frozen_bound_and_override_is_explicit(self):
+        with patch.dict(os.environ, {}, clear=False):
+            os.environ.pop("ARENA_LEAN_MEMORY_MIB", None)
+            self.assertEqual(lean_memory_mib(), DEFAULT_LEAN_MEMORY_MIB)
+            self.assertEqual(DEFAULT_LEAN_MEMORY_MIB, 4096)
+        with patch.dict(os.environ, {"ARENA_LEAN_MEMORY_MIB": "16384"}):
+            self.assertEqual(lean_memory_mib(), 16384)
+        for bad in ("", "16G", "-1", "512", "999999999"):
+            with patch.dict(os.environ, {"ARENA_LEAN_MEMORY_MIB": bad}):
+                with self.assertRaises(ValueError):
+                    lean_memory_mib()
+
+    def test_compiler_command_uses_the_configured_bound(self):
+        # The evaluator's own compiles take the bound; an explicit caller value (AutoSolver) wins.
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        repo = Path(temporary.name)
+        (repo / "configs").mkdir()
+        (repo / "configs/final-environments.local.json").write_text(json.dumps({"dataset_sha256": "fixture"}))
+        evaluator = FinalEvaluator(repo_root=repo)
+        evaluator._prepared["env"] = SimpleNamespace(settings={"library_paths": []}, verify=lambda full=False: None)
+        state, folder = {"id": "env", "project": "project", "version": "v0"}, repo / "out"
+        (repo / "project").mkdir()
+        folder.mkdir()
+        commands = []
+
+        class Done:
+            pid, returncode = 0, 0
+
+            def __init__(self, command, **_):
+                commands.append(command)
+
+            def communicate(self, timeout=None):
+                return b"", b""
+
+        with patch("evaluator.subprocess.Popen", Done), patch("evaluator.shutil.which", return_value="/bin/true"), \
+                patch("resources.wait_for_memory"), patch("resources.memory_snapshot", return_value={}):
+            for env, explicit, expected in ((None, None, "-M4096"), ("16384", None, "-M16384"), ("16384", 2048, "-M2048")):
+                with patch.dict(os.environ, {} if env is None else {"ARENA_LEAN_MEMORY_MIB": env}):
+                    if env is None:
+                        os.environ.pop("ARENA_LEAN_MEMORY_MIB", None)
+                    kwargs = {} if explicit is None else {"memory_mib": explicit}
+                    evaluator._invoke("-- source", state, {"module": None}, folder, f"run-{len(commands)}", **kwargs)
+                    self.assertIn(expected, commands[-1])
+                    self.assertEqual(sum(part.startswith("-M") for part in commands[-1]), 1)
 
 
 class FinalEvaluatorContractTests(unittest.TestCase):
@@ -25,6 +187,24 @@ class FinalEvaluatorContractTests(unittest.TestCase):
             "id": "F001", "row": 1, "dataset_sha256": "fixture", "name": "sample",
             "statement": "theorem sample : True", "reference": "theorem sample : True := by trivial",
             "header": "", "environments": ["fixture-env"]}))
+
+    def test_linux_setup_accepts_only_pinned_mounted_artifacts(self):
+        evaluator = FinalEvaluator(repo_root=self.fixture_repo)
+        checkout = self.fixture_repo / 'checkout/lib'
+        artifact = checkout / 'Qq/Typ.olean'
+        frozen = self.fixture_repo / 'frozen'
+        mounted = frozen / 'Qq/Typ.olean'
+        setup = self.fixture_repo / 'project/.lake/build/ir/Test.setup.json'
+        setup.parent.mkdir(parents=True)
+        setup.write_text(json.dumps({'importArts': [str(artifact)]}))
+        state = {'id': 'fixture-env', 'project': 'project',
+                 'library_mounts': {str(checkout): str(frozen)}}
+        evaluator._prepared['fixture-env'] = SimpleNamespace(settings={'files': {str(mounted): 'pinned'}})
+        with patch('evaluator.sys.platform', 'linux'):
+            self.assertEqual(evaluator._compiler_setup(state, {'module': 'Test'})[0], setup)
+            evaluator._prepared['fixture-env'].settings['files'].clear()
+            with self.assertRaisesRegex(ValueError, 'unpinned artifact'):
+                evaluator._compiler_setup(state, {'module': 'Test'})
 
     def test_module_visibility_and_explicit_modifiers(self):
         cases = [

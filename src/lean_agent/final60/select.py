@@ -1,0 +1,720 @@
+"""Final selection for one row root: all versions, fresh 3x heartbeat, never below the original.
+
+``candidates_from_run`` reads the driver's exploration archive (state.json), the current
+``selected.lean`` and the original. ``select_final`` drops texts that equal a
+non-OpenRouter proof (PR #70 normalisation) or fail the static rules, orders the rest by
+screening score and validates in that order (every listed version, then a fresh 3x primary
+measurement) until a validated candidate is at least as good as every remaining screen
+estimate or ``k`` validations were spent. A candidate is selected only if its official
+score is strictly above the original's 100/3; otherwise the original is selected.
+
+``write_selection`` publishes the choice in the layout ``report.build_report`` audits:
+``selected.lean``, ``compatibility/<sha>/`` and a fresh ``final/`` (a previous ``final/`` is
+moved to ``final-prev-<sha12>-<ns>``). It keeps the driver summary's status, stop reason,
+portfolio, cost and call count, and only updates ``selected``, ``final``,
+``all_versions_valid`` and a ``golf`` block. Rows without a driver summary (skip_llm, salvage
+after a crash, API disabled) get a summary synthesized from state.json, the row's ledger
+entries and the portfolio replay, with status ``stopped`` unless the portfolio completed.
+Validated runners-up are kept in ``golf/selection.json`` (code in ``golf/alternates/``) so
+assembly can fall back to the next validated candidate before the original.
+"""
+from __future__ import annotations
+
+import collections
+from datetime import datetime, timezone
+from decimal import Decimal
+import hashlib
+import os
+from pathlib import Path
+import re
+import shutil
+import time
+
+from .contracts import Candidate, EvalResult, Selection
+from . import rewrites as rw, rules, scoring, transfer
+from .evaladapter import driver as _driver, sha, _read
+
+SELECTION_SCHEMA = "final60-golf-selection-v1"
+SUMMARY_SOURCE = "final60.select.write_selection"
+# Research item 8: validate up to ``DEEP_K`` finalists on rows that list >= 3 toolchains or span
+# >= 3 minor versions (the 10 Strata rows, 2 CSLib and 3 ArkLib rows of the final dataset).
+DEEP_K = 5
+# Research item 5: the final Strata checkout (v4.31.0, 33faa3268be1...) sets
+# ``[leanOptions] warningAsError = true``; our evaluator never applies lakefile options, so a
+# finalist with a new warning inside its declaration could fail on the organizers' worker.
+WARNING_GATE_SOURCES = ("strata",)
+WARNING_GATE_MODES = ("reject", "demote", "off")
+
+
+def version_span(problem: dict) -> tuple[int, int]:
+    """(listed toolchains, minor-version span) from the environment ids or ``version_info``."""
+    versions = []
+    for env in problem.get("environments", []):
+        match = re.search(r"v(\d+)\.(\d+)\.(\d+)", str(env))
+        if match:
+            versions.append((int(match[1]), int(match[2])))
+    for item in problem.get("version_info", []) or []:
+        for name in (item.keys() if isinstance(item, dict) else [item]):
+            match = re.search(r"v(\d+)\.(\d+)\.(\d+)", str(name))
+            if match:
+                versions.append((int(match[1]), int(match[2])))
+    count = max(len(problem.get("environments", [])), len(set(versions)))
+    minors = sorted({major * 1000 + minor for major, minor in versions})
+    return count, (minors[-1] - minors[0]) if minors else 0
+
+
+def validation_depth(problem: dict, *, base: int = 3, deep: int = DEEP_K) -> int:
+    """Validations allowed for a row: ``deep`` on wide-toolchain rows, otherwise ``base``."""
+    count, span = version_span(problem)
+    return max(base, deep) if (count >= 3 or span >= 3) else base
+
+
+def warning_gate_mode(problem: dict) -> str:
+    """``reject`` (default), ``demote`` or ``off`` for this row (``FINAL60_WARNING_GATE``).
+
+    ``FINAL60_WARNING_GATE_SOURCES`` (comma separated) replaces the gated sources; the
+    gate is ``off`` on every other source. Relax it (``demote``/``off``) if an interim
+    upload shows a warned Strata proof keeping full zero-shot transfer.
+    """
+    mode = (os.environ.get("FINAL60_WARNING_GATE") or "reject").strip().lower()
+    if mode not in WARNING_GATE_MODES:
+        raise ValueError("FINAL60_WARNING_GATE must be one of " + ", ".join(WARNING_GATE_MODES))
+    listed = os.environ.get("FINAL60_WARNING_GATE_SOURCES")
+    sources = {item.strip().lower() for item in listed.split(",") if item.strip()} if listed else set(WARNING_GATE_SOURCES)
+    return mode if str(problem.get("source") or "").strip().lower() in sources else "off"
+
+
+def new_warnings(adapter, code: str, reference: str) -> dict[str, list[str]]:
+    """Per version, warnings inside the candidate's declaration that the original lacks there.
+
+    Compared by normalised message text per version (a warning the original shows too, such
+    as an unused statement binder, is tolerated). Versions without log evidence are skipped.
+    """
+    logs = getattr(adapter, "version_logs", None)
+    if logs is None:
+        return {}
+    mine, base = logs(code), logs(reference)
+    out = {}
+    for env, (log, source) in mine.items():
+        shown = collections.Counter(key for _, key in rw.declaration_warnings(log, source, code))
+        known = collections.Counter(key for _, key in rw.declaration_warnings(*base[env], reference)) \
+            if env in base else collections.Counter()
+        extra = sorted((shown - known).elements())
+        if extra:
+            out[env] = extra
+    return out
+
+
+def _gate_fix(adapter, statement: str, code: str) -> str | None:
+    """One G1 fix for the gate: apply every linter-guided edit the version logs support."""
+    edits, seen = [], set()
+    for log, source in adapter.version_logs(code).values():
+        start = rw.declaration_start_line(source, code)
+        if start is None:
+            continue
+        for edit in rw.linter_span_edits(code, statement, log, start):
+            key = (edit.start, edit.end, edit.replacement)
+            if key not in seen:
+                seen.add(key)
+                edits.append(edit)
+    edits.sort(key=lambda edit: (edit.name != "G1:drop-unused-have", edit.start))
+    fixed = rw.apply_edits(code, rw.non_overlapping(edits)) if edits else None
+    if not fixed or fixed == code or rules.check_static(fixed, statement):
+        return None
+    return fixed
+
+
+def provenance_normalize(text: str) -> str:
+    """PR #70 check_submission_provenance.normalize."""
+    return "\n".join(line.rstrip() for line in text.strip("\n").splitlines())
+
+
+def provenance_sha(text: str) -> str:
+    return hashlib.sha256(provenance_normalize(text).encode()).hexdigest()
+
+
+def _now() -> str:
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _baseline_eval(folder: Path, primary: str) -> EvalResult | None:
+    from lean_agent import harness as h
+    path = folder / "baseline/result.json"
+    if not path.exists():
+        return None
+    measured = h.metrics(_read(path))
+    if measured is None:
+        return None
+    return EvalResult(True, measured["tokens"], measured["raw_heartbeats"], {primary: True}, None, "", str(path.parent))
+
+
+def _evidence(folder: Path, cid: str, value: dict) -> Path:
+    step = int(value.get("step") or 0)
+    if not step:
+        return folder / "baseline"
+    base = folder / "steps" / f"{step:04}"
+    return base / "autosolver" / "evaluation" if cid.endswith("-auto") else base / "evaluation"
+
+
+def candidates_from_run(run_root: Path, row: int, *, top: int = 6, include_golf: bool = True) -> list[Candidate]:
+    """Top valid exploration candidates, persisted golf winners, the current selected.lean,
+    then the original (always last)."""
+    from lean_agent import harness as h
+    from . import golf
+    d = _driver()
+    folder = d.folder(Path(run_root).resolve(), row)
+    problem = _read(folder / "input/problem.json")
+    reference, primary = problem["reference"], problem["environments"][0]
+    out, seen = [], set()
+    state_path = folder / "state.json"
+    if state_path.exists():
+        state = _read(state_path)
+        unique: dict[str, tuple[str, dict]] = {}
+        for cid, value in sorted(state.get("exploration", {}).get("candidates", {}).items(),
+                                 key=lambda item: (item[1].get("step", 0), item[0])):
+            code = value.get("code")
+            # Warm-start/imported seeds carry provenance and are never golf parents.
+            if (cid == "seed-best" or "provenance" in value or not value.get("valid") or not isinstance(code, str)
+                    or code == reference or sha(code) != value.get("sha256") or "rank_numerator" not in value):
+                continue
+            unique.setdefault(value["sha256"], (cid, value))
+        for cid, value in sorted(unique.values(), key=lambda item: h.ranking(item[1]))[:max(0, top)]:
+            screen = EvalResult(True, value["tokens"], value["raw_heartbeats"], {primary: True}, None, "",
+                                str(_evidence(folder, cid, value)))
+            out.append(Candidate(value["code"], value["sha256"], "model", None, cid, screen))
+            seen.add(value["sha256"])
+    if include_golf:
+        for winner in golf.load_winners(folder / "golf"):
+            if winner.sha256 not in seen and winner.code != reference:
+                out.append(winner)
+                seen.add(winner.sha256)
+    selected = folder / "selected.lean"
+    if selected.exists():
+        code = selected.read_text()
+        digest = sha(code)
+        if digest not in seen and code != reference:
+            summary = _read(folder / "summary.json") if (folder / "summary.json").exists() else {}
+            golf = summary.get("golf") or {}
+            origin = golf.get("origin") if golf.get("origin") in ("model", "golf") else "model"
+            out.append(Candidate(code, digest, origin, golf.get("parent_sha256"), "selected", None))
+            seen.add(digest)
+    out.append(Candidate(reference, sha(reference), "original", None, "c000", _baseline_eval(folder, primary)))
+    return out
+
+
+def select_final_stub(run_root: Path, row: int) -> Candidate | None:
+    """Fallback when golf/selection is unavailable: the driver's selected.lean as is."""
+    folder = _driver().folder(Path(run_root).resolve(), row)
+    path = folder / "selected.lean"
+    if not path.exists():
+        return None
+    code = path.read_text()
+    return Candidate(code, sha(code), "model", None, "selected", None)
+
+
+def _existing_selection(adapter) -> tuple[str, Path] | None:
+    """The row's current selected.lean when its final/ evidence already matches it."""
+    folder = adapter.folder
+    path, receipt = folder / "selected.lean", folder / "final" / "evaluation-request.json"
+    if not path.exists() or not receipt.exists() or not (folder / "final/result.json").exists():
+        return None
+    code = path.read_text()
+    return (code, folder / "final") if _read(receipt).get("candidate_sha256") == sha(code) else None
+
+
+def _repair(adapter, problem: dict, candidate: Candidate, result: EvalResult, unique: dict, blocked: set,
+            considered: list, errors: list):
+    """Transfer repair of a finalist that compiled on the primary toolchain but failed another one.
+
+    Returns (repaired candidate, its validation, record) or (None, None, record); the record
+    is None when the failure is not alias-repairable (``transfer.plan``).
+    """
+    primary = problem["environments"][0]
+    try:
+        logs = adapter.version_logs(candidate.code)
+    except Exception:
+        logs = {}
+    plan = transfer.plan(result, primary, logs, transfer.alias_map_for(adapter, problem))
+    if plan is None:
+        return None, None, None
+    entry = {"label": candidate.label, "parent_sha256": candidate.sha256, "envs": plan["envs"], "mapping": plan["mapping"]}
+    fixed, edits, rejection = transfer.repair_text(candidate, problem["statement"], plan["mapping"],
+                                                   reference=problem["reference"])
+    entry["edits"] = edits
+    if fixed is None:
+        entry["skipped"] = rejection
+        return None, None, entry
+    if sha(fixed) in unique:
+        entry["skipped"] = "already a finalist"
+        return None, None, entry
+    if provenance_sha(fixed) in blocked:
+        entry["skipped"] = "equals-non-openrouter-proof"
+        return None, None, entry
+    repaired = transfer.repair_candidate(candidate, fixed)
+    entry.update(label=repaired.label, sha256=repaired.sha256)
+    considered.append(repaired.label)
+    try:
+        validated = adapter.validate(fixed, repaired.label, as_final=False)
+    except Exception as exc:
+        entry["error"] = f"{type(exc).__name__}: {exc}"[:500]
+        errors.append({"label": repaired.label, "error": entry["error"]})
+        return None, None, entry
+    entry.update(valid=validated.valid, validated_envs=validated.envs)
+    if not validated.valid:
+        errors.append({"label": repaired.label, "error_kind": validated.error_kind, "message": validated.message[-300:]})
+        return None, None, entry
+    transfer.persist(adapter, repaired, validated, edits, plan)
+    return repaired, validated, entry
+
+
+def select_final(adapter, problem: dict, pool: list[Candidate], *, k: int = 3, deadline: float | None = None,
+                 non_openrouter_sha256=frozenset(), keep: int = 3, deep_k: int | None = DEEP_K,
+                 repairs: int = transfer.MAX_REPAIRS) -> Selection:
+    """Validate in screening order; return the best validated candidate or the original.
+
+    ``k`` is raised to ``deep_k`` on wide-toolchain rows (``validation_depth``). On gated
+    sources a validated finalist with a warning the original lacks gets one G1 fix attempt
+    (re-validated); if that fails it is rejected (or ranked last in ``demote`` mode).
+
+    A finalist that compiles on the primary toolchain but fails another listed toolchain
+    only on unknown identifiers that the toolchains' deprecated aliases map to older names
+    gets one transfer repair (``transfer``): the repaired text (``repair:<label>``, origin
+    ``golf``, parent sha) is validated like any other finalist, at most ``repairs`` per
+    call. Never on gated sources or when the primary checkout sets ``warningAsError``.
+    """
+    t0, hb0 = adapter.baseline()
+    total = len(problem["environments"])
+    reference, statement = problem["reference"], problem["statement"]
+    blocked = {str(value) for value in non_openrouter_sha256}
+    if deep_k is not None:
+        k = validation_depth(problem, base=int(k), deep=int(deep_k))
+    gate = warning_gate_mode(problem)
+    repairs_left = int(repairs) if (int(repairs) > 0 and total > 1 and transfer.gate_blocks(adapter, problem) is None) else 0
+    repaired_entries = []
+    dropped, unique = [], {}
+    existing = _existing_selection(adapter)
+    for candidate in pool:
+        code = candidate.code
+        if code == reference or sha(code) in unique:
+            continue
+        if provenance_sha(code) in blocked:
+            dropped.append({"label": candidate.label, "sha256": sha(code), "reason": "equals-non-openrouter-proof"})
+            continue
+        issues = rules.check_static(code, statement)
+        if issues:
+            dropped.append({"label": candidate.label, "sha256": sha(code), "reason": "static", "issues": issues[:3]})
+            continue
+        unique[sha(code)] = candidate
+    ranked = []
+    for candidate in unique.values():
+        screen = candidate.screen
+        if screen is None and existing and existing[0] == candidate.code:
+            screen = adapter.to_eval(_read(existing[1] / "result.json"), existing[1])
+        if screen is None:
+            try:
+                screen = adapter.screen(candidate.code, candidate.label)
+            except Exception as exc:
+                dropped.append({"label": candidate.label, "reason": "screen-error", "error": str(exc)[:300]})
+                continue
+        estimate = adapter.screen_score(screen) if screen.valid else None
+        if estimate is None:
+            dropped.append({"label": candidate.label, "sha256": candidate.sha256, "reason": "screen-invalid"})
+            continue
+        ranked.append((estimate, candidate))
+    # The current audited selection (driver or earlier golf) is re-checked first: free, cached.
+    ranked.sort(key=lambda item: (not (existing and item[1].code == existing[0]), -item[0], item[1].sha256))
+    validated, considered, errors, gated = [], [], [], []
+    best = scoring.ORIGINAL_SCORE
+    attempts = 0
+    for estimate, candidate in ranked:
+        free = existing is not None and candidate.code == existing[0]
+        if not free:
+            if not scoring.improves(estimate, best) or attempts >= k:
+                continue
+            # The deadline limits extra validations; the top candidate is always checked,
+            # since publishing anything (even the original) needs one validation.
+            if deadline is not None and time.time() >= deadline and attempts:
+                break
+            attempts += 1
+        considered.append(candidate.label)
+        try:
+            result = adapter.validate(candidate.code, candidate.label, as_final=False)
+        except Exception as exc:
+            errors.append({"label": candidate.label, "error": f"{type(exc).__name__}: {exc}"[:500]})
+            continue
+        if not result.valid:
+            errors.append({"label": candidate.label, "error_kind": result.error_kind, "message": result.message[-300:]})
+            if repairs_left <= 0 or (deadline is not None and time.time() >= deadline):
+                continue
+            repaired, result, entry = _repair(adapter, problem, candidate, result, unique, blocked, considered, errors)
+            if entry is not None:
+                repaired_entries.append(entry)
+                if "valid" in entry or "error" in entry:
+                    repairs_left -= 1
+            if repaired is None:
+                continue
+            unique[repaired.sha256] = candidate = repaired
+        warned = new_warnings(adapter, candidate.code, reference) if gate != "off" else {}
+        if warned:
+            fixed = _gate_fix(adapter, statement, candidate.code)
+            entry = {"label": candidate.label, "sha256": candidate.sha256, "warnings": warned, "mode": gate,
+                     "fix": None}
+            if fixed and sha(fixed) not in unique and provenance_sha(fixed) not in blocked:
+                label = "golf:G1fix:" + candidate.label
+                considered.append(label)
+                try:
+                    repaired = adapter.validate(fixed, label, as_final=False)
+                except Exception as exc:
+                    repaired = None
+                    errors.append({"label": label, "error": f"{type(exc).__name__}: {exc}"[:500]})
+                still = new_warnings(adapter, fixed, reference) if repaired is not None and repaired.valid else None
+                if repaired is not None and repaired.valid and not still:
+                    unique[sha(fixed)] = candidate = Candidate(fixed, sha(fixed), "golf", candidate.sha256, label, None)
+                    result, warned = repaired, {}
+                    entry["fix"] = {"label": label, "sha256": sha(fixed), "valid": True}
+                else:
+                    entry["fix"] = {"label": label, "sha256": sha(fixed),
+                                    "valid": bool(repaired is not None and repaired.valid), "warnings": still}
+            gated.append(entry)
+            if warned and gate == "reject":
+                errors.append({"label": candidate.label, "error_kind": "warning-gate",
+                               "message": "; ".join(f"{env}: {', '.join(items)}" for env, items in warned.items())[-300:]})
+                continue
+        score = scoring.problem_score(result.tokens, result.raw_heartbeats, total, total, t0, hb0)
+        validated.append((score, candidate, result, bool(warned)))
+        if not warned:
+            best = max(best, score)
+    # Clean finalists first; demoted (warned) ones only when nothing clean beats the original.
+    validated.sort(key=lambda item: (item[3], -item[0], item[1].sha256))
+    winners = [item for item in validated if scoring.improves(item[0], scoring.ORIGINAL_SCORE)]
+    if winners:
+        score, chosen, result, _ = winners[0]
+        beat = True
+    else:
+        chosen = Candidate(reference, sha(reference), "original", None, "c000", adapter.reference_result())
+        result = adapter.validate(reference, "c000", as_final=False)
+        if not result.valid:
+            raise ValueError("Original proof failed all-version validation: " + (result.message or "")[-500:])
+        score, beat = scoring.ORIGINAL_SCORE, False
+        considered.append("c000")
+    selection = Selection(candidate=chosen, validated=result, score=score, beat_original=beat,
+                          considered=tuple(considered))
+    _fingerprint(adapter, result)
+    _record(adapter, selection, winners[1:1 + max(0, keep - 1)], dropped, errors, gated=gated, k=k, gate=gate,
+            repairs=repaired_entries)
+    return selection
+
+
+def golf_parents(adapter, problem: dict, pool: list[Candidate], top: int, *, non_openrouter_sha256=frozenset(),
+                 repairs: int = transfer.MAX_REPAIRS_PARENTS, deadline: float | None = None) -> list[Candidate]:
+    """The first ``top`` golf parents of ``pool``, in order, without known transfer failures.
+
+    A model candidate whose saved all-version check failed (``compatibility/<sha>/skipped.json``
+    or an invalid result) is not golfed: its alias repair is validated instead (at most
+    ``repairs`` validations, none unless ``transfer.validation_reserve`` seconds remain before
+    ``deadline``), and the repaired text becomes the parent when it validates; otherwise the
+    candidate is skipped (select_final may still repair it from its cached failure). Candidates
+    without a saved check are kept as before.
+    """
+    out, records, budget = [], [], int(repairs)
+    folder = getattr(adapter, "folder", None)
+    for candidate in pool:
+        if len(out) >= max(0, int(top)):
+            break
+        if candidate.origin != "model" or folder is None or transfer.compat_status(folder, candidate.sha256) != "invalid":
+            out.append(candidate)
+            continue
+        repaired, record = None, {"label": candidate.label, "skipped": "repair budget spent"}
+        if budget > 0:
+            repaired, _, record = transfer.repair_known(adapter, problem, candidate, blocked=non_openrouter_sha256,
+                                                        deadline=deadline)
+            if "valid" in record or "error" in record:
+                budget -= 1
+        records.append({**record, "parent": candidate.label, "golfed": repaired is not None})
+        if repaired is not None:
+            out.append(repaired)
+    log = getattr(adapter, "_log", None)
+    if records and callable(log):
+        log("golf-parents", {"records": records})
+    return out
+
+
+def _fingerprint(adapter, result: EvalResult) -> None:
+    target = Path(result.evidence_dir) / "environment-fingerprints.json"
+    if not result.evidence_dir or target.exists():
+        return
+    try:
+        fingerprints = adapter.verify_environments()
+        if fingerprints is not None:
+            _driver().atomic(target, {"full_content_verification": True, "verified_at": _now(),
+                                      "environments": fingerprints})
+    except Exception as exc:  # recorded; the measurement evidence itself is unchanged
+        _driver().atomic(target.with_name("environment-fingerprints-error.json"),
+                         {"at": _now(), "error": f"{type(exc).__name__}: {exc}"[:1000]})
+
+
+def _entry(score: float, candidate: Candidate, result: EvalResult) -> dict:
+    return {"label": candidate.label, "sha256": candidate.sha256, "origin": candidate.origin,
+            "parent_sha256": candidate.parent_sha256, "score": score, "tokens": result.tokens,
+            "raw_heartbeats": result.raw_heartbeats, "envs": result.envs, "evidence_dir": result.evidence_dir}
+
+
+def _record(adapter, selection: Selection, alternates, dropped, errors, *, gated=(), k: int | None = None,
+            gate: str | None = None, repairs=()) -> None:
+    folder = adapter.golf_dir
+    stored = []
+    for score, candidate, result, *_ in alternates:
+        path = folder / "alternates" / (candidate.sha256[:12] + ".lean")
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(candidate.code)
+        stored.append({**_entry(score, candidate, result), "code_path": str(path)})
+    _driver().atomic(folder / "selection.json", {
+        "schema": SELECTION_SCHEMA, "at": _now(), "beat_original": selection.beat_original,
+        "selected": _entry(selection.score, selection.candidate, selection.validated),
+        "considered": list(selection.considered), "alternates": stored, "dropped": dropped,
+        "validation_errors": errors, "validations": k, "warning_gate": {"mode": gate, "entries": list(gated)},
+        "repairs": list(repairs), "published": False})
+
+
+def _rebased(stored: str, folder: Path) -> Path:
+    """A path recorded inside this row folder, re-rooted when the run dir was moved or copied."""
+    path = Path(stored)
+    if path.exists():
+        return path
+    parts = path.parts
+    marker = folder.name          # F0NN
+    if marker in parts:
+        rebased = folder.joinpath(*parts[len(parts) - 1 - parts[::-1].index(marker) + 1:])
+        if rebased.exists():
+            return rebased
+    return path
+
+
+def gated_sha256(record: dict) -> set[str]:
+    """Finalists the warning gate marked in a selection record: a candidate with new warnings,
+    and its G1 fix unless that fix validated clean (select_final ranks these demoted ones last)."""
+    out = set()
+    for entry in (record.get("warning_gate") or {}).get("entries") or []:
+        if not entry.get("warnings"):
+            continue
+        if entry.get("sha256"):
+            out.add(str(entry["sha256"]))
+        fix = entry.get("fix") or {}
+        if fix.get("sha256") and (not fix.get("valid") or fix.get("warnings")):
+            out.add(str(fix["sha256"]))
+    return out
+
+
+def _alternate_evidence(folder: Path, evidence: Path, digest: str) -> Path:
+    """The recorded measurement of an alternate, or the kept ``final-prev-<sha12>-*`` copy when
+    the recorded directory was the row's ``final/`` and a later publication replaced it."""
+    try:
+        if _read(evidence / "evaluation-request.json").get("candidate_sha256") == digest:
+            return evidence
+    except (OSError, ValueError):
+        pass
+    for kept in sorted(folder.glob(f"final-prev-{digest[:12]}-*"), key=lambda path: path.name, reverse=True):
+        try:
+            if _read(kept / "evaluation-request.json").get("candidate_sha256") == digest:
+                return kept
+        except (OSError, ValueError):
+            continue
+    return evidence
+
+
+def alternates(run_root: Path, row: int, *, non_openrouter_sha256=frozenset()) -> list[Selection]:
+    """Validated runners-up recorded by select_final, best first (for assembly fallback).
+
+    Only entries whose stored code still hashes as recorded, that were validated on every
+    listed version with a fresh measurement, and that equal no non-OpenRouter proof are
+    returned; scores are the validated official-formula estimates. Warning-gated (demoted)
+    entries rank after every clean one, as in select_final itself. An alternate whose
+    recorded evidence was ``final/`` (the driver's previous selection) is served from the
+    kept ``final-prev-<sha12>-*`` copy once a later publication replaced ``final/``.
+    """
+    row_folder = _driver().folder(Path(run_root).resolve(), row)
+    folder = row_folder / "golf"
+    path = folder / "selection.json"
+    if not path.exists():
+        return []
+    blocked = {str(value) for value in non_openrouter_sha256}
+    record = _read(path)
+    gated = gated_sha256(record)
+    out = []
+    for item in record.get("alternates", []):
+        try:
+            code = _rebased(item["code_path"], row_folder).read_text()
+        except OSError:
+            continue
+        if sha(code) != item["sha256"] or provenance_sha(code) in blocked:
+            continue
+        envs = item.get("envs") or {}
+        if not envs or not all(envs.values()) or type(item.get("tokens")) is not int \
+                or type(item.get("raw_heartbeats")) is not int or not isinstance(item.get("score"), (int, float)):
+            continue
+        candidate = Candidate(code, item["sha256"], item["origin"], item.get("parent_sha256"), item["label"], None)
+        evidence = _alternate_evidence(row_folder, _rebased(item["evidence_dir"], row_folder), item["sha256"])
+        result = EvalResult(True, item["tokens"], item["raw_heartbeats"], envs, None, "", str(evidence))
+        out.append((item["sha256"] in gated, Selection(candidate, result, item["score"], True, (item["label"],))))
+    out.sort(key=lambda pair: (pair[0], -pair[1].score, pair[1].candidate.sha256))
+    return [selection for _, selection in out]
+
+
+# ---- publication -------------------------------------------------------------------------------
+def _ledger_totals(root: Path, row: int) -> tuple[Decimal, int]:
+    ledger = _read(root / "ledger.json") if (root / "ledger.json").exists() else {"attempts": {}}
+    attempts = [item for item in ledger.get("attempts", {}).values() if item.get("row") == row]
+    spent = sum((Decimal(str(item["cost_usd"])) for item in attempts if item.get("cost_usd") is not None),
+                Decimal(0))
+    return spent, len(attempts)
+
+
+def _synthesized_summary(root: Path, folder: Path, row: int, problem: dict, stop_reason: str | None) -> dict:
+    from lean_agent import autosolver, harness as h, portfolio
+    d = _driver()
+    state = _read(folder / "state.json")
+    config = _read(folder / "input/config.json")
+    authorization = _read(root / "authorization.json") if (root / "authorization.json").exists() else {}
+    spent, calls = _ledger_totals(root, row)
+    summary = {"row": row, "id": problem["id"], "name": problem["name"], "status": "stopped",
+               "stop_reason": stop_reason or "selection_without_driver_summary",
+               "cost_usd": str(spent), "calls": calls,
+               "baseline": h.metrics(_read(folder / "baseline/result.json")),
+               "official_evaluation": False, "finished_at": _now(),
+               "verification_policy": d.VERIFICATION_POLICY, "summary_source": SUMMARY_SOURCE}
+    if portfolio.enabled(config):
+        replay = portfolio.summary(state, config)
+        summary["portfolio"] = replay
+        if portfolio.finished(state):
+            summary["stop_reason"] = portfolio.stop_reason(state, config)
+        elif portfolio.completed(state, config):
+            summary["stop_reason"] = "portfolio_budget_complete"
+        if replay.get("complete"):
+            summary["status"] = "completed"
+    if autosolver.enabled(config):
+        summary["autosolver"] = state.get("autosolver", {"searches": 0, "model_calls": 0})
+    summary.update(cost_basis=authorization.get("budget_cost_basis", "provider-token-usage-times-frozen-public-list-prices"),
+                   invoice_verified=False, provider=authorization.get("provider"),
+                   model=(config.get("model") or {}).get("id"))
+    return summary
+
+
+def _selected_entry(folder: Path, selection: Selection) -> dict:
+    candidate, digest = selection.candidate, selection.candidate.sha256
+    state_path = folder / "state.json"
+    if state_path.exists():
+        for cid, value in _read(state_path).get("exploration", {}).get("candidates", {}).items():
+            if value.get("sha256") == digest and value.get("valid"):
+                return {key: item for key, item in value.items() if key != "code"}
+    return {"sha256": digest, "tokens": selection.validated.tokens,
+            "raw_heartbeats": selection.validated.raw_heartbeats, "origin": candidate.origin,
+            "label": candidate.label, "parent_sha256": candidate.parent_sha256}
+
+
+def write_selection(run_root: Path, row: int, selection: Selection, *, stop_reason: str | None = None) -> dict:
+    """Publish ``selection`` into the row folder (selected.lean, final/, summary.json)."""
+    from lean_agent import harness as h
+    d = _driver()
+    root = Path(run_root).resolve()
+    folder = d.folder(root, row)
+    problem = _read(folder / "input/problem.json")
+    code = selection.candidate.code
+    digest = sha(code)
+    if digest != selection.candidate.sha256:
+        raise ValueError("Selection candidate hash differs from its code")
+    if not selection.validated.valid:
+        raise ValueError("Refusing to publish a selection without all-version validation")
+    if code != problem["reference"] and rules.check_static(code, problem["statement"]):
+        raise ValueError("Refusing to publish a statically invalid proof")
+    compatibility = folder / "compatibility" / digest / "result.json"
+    checked = _read(compatibility) if compatibility.exists() else None
+    if (not checked or not checked.get("valid")
+            or set(checked.get("environments", {})) != set(problem["environments"])):
+        raise ValueError("Missing all-version evidence for the selection: " + str(compatibility))
+    source = Path(selection.validated.evidence_dir).resolve()
+    final = folder / "final"
+    receipt = _read(source / "evaluation-request.json")
+    if receipt.get("candidate_sha256") != digest or receipt.get("options", {}).get("fresh") is not True:
+        raise ValueError("Validated measurement belongs to a different candidate or is not fresh")
+    if source != final.resolve():
+        staging = folder / f".final-staging-{os.getpid()}-{time.time_ns()}"
+        shutil.copytree(source, staging)
+        if final.exists():
+            previous = final / "evaluation-request.json"
+            old = _read(previous).get("candidate_sha256", "unknown") if previous.exists() else "unknown"
+            final.rename(folder / f"final-prev-{old[:12]}-{time.time_ns()}")
+        staging.rename(final)
+    measured = h.metrics(_read(final / "result.json"))
+    if measured is None or len(measured["raw_samples"]) != 3:
+        raise ValueError("Published final measurement is invalid")
+    temporary = folder / f"selected.lean.tmp-{os.getpid()}"
+    temporary.write_text(code)
+    os.replace(temporary, folder / "selected.lean")
+    summary_path = folder / "summary.json"
+    summary = _read(summary_path) if summary_path.exists() else _synthesized_summary(root, folder, row, problem, stop_reason)
+    summary.update(selected=_selected_entry(folder, selection), final=measured, all_versions_valid=True)
+    t0, hb0 = summary["baseline"]["tokens"], summary["baseline"]["raw_heartbeats"]
+    summary["golf"] = {"schema": SELECTION_SCHEMA, "origin": selection.candidate.origin,
+                       "label": selection.candidate.label, "parent_sha256": selection.candidate.parent_sha256,
+                       "beat_original": selection.beat_original, "considered": list(selection.considered),
+                       "score_estimate": scoring.problem_score(measured["tokens"], measured["raw_heartbeats"],
+                                                               len(problem["environments"]),
+                                                               len(problem["environments"]), t0, hb0),
+                       "selected_at": _now()}
+    d.atomic(summary_path, summary)
+    d.atomic(folder / "progress.json", {"row": row, "status": summary["status"], "cost_usd": summary["cost_usd"],
+                                         "at": _now(), "selected_sha256": digest})
+    record = folder / "golf" / "selection.json"
+    if record.exists():
+        value = _read(record)
+        if value.get("selected", {}).get("sha256") == digest:
+            d.atomic(record, {**value, "published": True, "published_at": _now()})
+    return summary
+
+
+# ---- convenience entry points for the row worker ------------------------------------------------
+def golf_original(run_root: Path, row: int, route_golf: dict | None = None, *, deadline: float | None = None,
+                  non_openrouter_sha256=frozenset(), adapter=None) -> list:
+    """golf-0: golf the original once (early fallback). Winners persist for selection."""
+    from . import golf
+    from .evaladapter import EvalAdapter
+    adapter = adapter or EvalAdapter(run_root, row)
+    reference = adapter.problem["reference"]
+    original = Candidate(reference, sha(reference), "original", None, "c000", adapter.reference_result())
+    return golf.improve(adapter, adapter.problem, [original], route_golf or {}, deadline=deadline,
+                        non_openrouter_sha256=non_openrouter_sha256)
+
+
+def finalize_row(run_root: Path, row: int, route_golf: dict | None = None, *, golf_deadline: float | None = None,
+                 validation_deadline: float | None = None, non_openrouter_sha256=frozenset(),
+                 stop_reason: str | None = None, adapter=None, run_golf: bool = True, k: int = 3) -> dict:
+    """golf-1 on the top exploration candidates, then select_final and write_selection.
+
+    Never raises for golf problems; raises only if nothing (not even the original) can be
+    validated and published, so the caller can fall back to the dataset original.
+    """
+    from . import golf
+    from .evaladapter import EvalAdapter
+    adapter = adapter or EvalAdapter(run_root, row)
+    problem = adapter.problem
+    settings = {**golf.DEFAULTS, **(route_golf or {})}
+    results, golf_error = [], None
+    if run_golf:
+        parents = golf_parents(adapter, problem, [c for c in candidates_from_run(run_root, row) if c.origin == "model"],
+                               settings["top_k"], non_openrouter_sha256=non_openrouter_sha256, deadline=golf_deadline)
+        if parents:
+            try:
+                results = golf.improve(adapter, problem, parents, settings, deadline=golf_deadline,
+                                       non_openrouter_sha256=non_openrouter_sha256)
+            except Exception as exc:  # golf never fails the row
+                golf_error = f"{type(exc).__name__}: {exc}"[:500]
+    pool = candidates_from_run(run_root, row)
+    selection = select_final(adapter, problem, pool, k=k, deadline=validation_deadline,
+                             non_openrouter_sha256=non_openrouter_sha256)
+    summary = write_selection(run_root, row, selection, stop_reason=stop_reason)
+    return {"row": row, "selected_sha256": selection.candidate.sha256, "origin": selection.candidate.origin,
+            "label": selection.candidate.label, "beat_original": selection.beat_original,
+            "score_estimate": summary["golf"]["score_estimate"], "considered": list(selection.considered),
+            "status": summary["status"], "golf_error": golf_error, "compiles": adapter.compiles,
+            "golf": [{"best_sha256": r.best.sha256, "origin": r.best.origin, "tried": r.tried,
+                      "accepted": r.accepted} for r in results]}

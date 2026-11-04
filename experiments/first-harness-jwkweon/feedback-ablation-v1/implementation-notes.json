@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "scope": "experiment-local error feedback and worker; no Lean, solver, network, trials, or paid APIs executed",
+  "worker_base": "experiments/first-harness-jwkweon/subagent_trials.py",
+  "worker_base_sha256": "057bdf6e4d60c44e5a93148836d8c04234b63089fa04e8a1a2aac0339569229b",
+  "modes": {
+    "default": "legacy",
+    "allowed": [
+      "legacy",
+      "structured_v1"
+    ]
+  },
+  "compatibility": "Shared harness/evaluator and old worker unchanged. Only structured failed-compile details differ. Status, valid, metrics, scoring, prompts, proposal budgets, verification and history logic remain copied.",
+  "archive_selection": "First compile-failed environment in recorded result order, then first non-timeout nonzero-returncode run in recorded run order. Read its full UTF-8 log. Missing run/log is an explicit exception.",
+  "extraction": "First located or unlocated error diagnostic, allowing optional Lean severity tags such as error(lean.unknownIdentifier), ending before next diagnostic regardless of severity or tag. Earlier warnings ignored. A tagged diagnostic preserves its full severity/code header in the existing message field. Location replaces trial root with <RUN>. First goal, its nearest preceding case and up to 12 immediately preceding local-context lines are retained. Missing standard diagnostics yields the archived message as a defensive fallback.",
+  "bounds": {
+    "details_characters": 1600,
+    "message_characters": 1100,
+    "location_characters": 220,
+    "case_characters": 120,
+    "goal_characters": 500,
+    "local_context_characters": 650,
+    "fitting_order": [
+      "local_context",
+      "goal",
+      "case",
+      "location",
+      "message"
+    ],
+    "method": "Clip values using serialized-length checks and binary search; never slice serialized JSON. Explicit truncated boolean."
+  },
+  "tests": [
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s experiments/first-harness-jwkweon/feedback-ablation-v1 -p test_error_feedback.py -v",
+      "passed": 13
+    },
+    {
+      "command": "python3 -m unittest discover -s experiments/first-harness-jwkweon -p test_harness.py -v",
+      "passed": 17
+    },
+    {
+      "command": "python3 -m unittest discover -s experiments/first-harness-jwkweon -p test_subagent_trials.py -v",
+      "passed": 13
+    },
+    {
+      "command": "PYTHONDONTWRITEBYTECODE=1 python3: Imported test_subagent_trials, rebound its worker global to the local worker module, and ran its full unittest suite",
+      "passed": 13
+    }
+  ],
+  "sha256": {
+    "error_feedback.py": "d6330355349f22417d43495aace342c8d02e69cc9d81bfab622a4e498c428484",
+    "worker.py": "52c6a80d4a11f0205852bd6ff94b0742fe3a5c82cb8b082a0209cddbb939fa0f",
+    "test_error_feedback.py": "4c8d51afd4791d007fe92ea6e69458572975176757754191b0f80af4c185343f"
+  },
+  "review_fix": "Optional parenthesized Lean diagnostic codes are recognized for every severity. Regression verifies a tagged first error is selected before a later ordinary error, with earlier/later tagged warnings excluded. Existing schema and field allocations unchanged."
+}

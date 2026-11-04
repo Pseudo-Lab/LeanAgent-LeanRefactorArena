@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import importlib.util
+import hashlib
 import json
 from pathlib import Path
 import tempfile
@@ -11,13 +12,40 @@ ROOT = Path(__file__).resolve().parents[1]
 spec = importlib.util.spec_from_file_location('exporter', ROOT / 'scripts/export_warmup_submission.py')
 exporter = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(exporter)
+# build_bundle() reads the pinned warm-up benchmark snapshot, which is gitignored and
+# distributed separately. Skip (with the fetch hint) instead of erroring in a fresh checkout.
+BENCHMARK_SNAPSHOT = json.loads((ROOT / 'submissions/warmup/manifest.json').read_text())['benchmarkSnapshot']
+needs_benchmark = unittest.skipUnless(
+    (ROOT / BENCHMARK_SNAPSHOT).is_file(),
+    f'{BENCHMARK_SNAPSHOT} is absent (gitignored); copy the pinned warm-up JSONL there, '
+    'e.g. via scripts/verify_p12_pins.py benchmark_bytes(), which downloads and checks it')
 
 
 class SubmissionTests(unittest.TestCase):
-    def test_current_team_p12_requires_explicit_fallback(self):
-        with self.assertRaisesRegex(ValueError, 'expected the exact benchmark statement'):
-            exporter.build_bundle()
+    @needs_benchmark
+    def test_current_p12_is_a_single_selected_declaration(self):
+        payload, audit = exporter.build_bundle()
+        rows = [json.loads(line) for line in payload.decode().splitlines()]
+        self.assertEqual(rows[11]['proof'], (ROOT / 'submissions/warmup/best/P12.lean').read_text())
+        self.assertEqual(audit['problems'][11]['selection'], 'team_best')
+        self.assertEqual(audit['problems'][11]['localStatus'], 'separate_verified')
+        self.assertFalse(audit['officiallySubmitted'])
+        self.assertIsNone(audit['officialEvaluationPassed'])
 
+    @needs_benchmark
+    def test_current_team_p12_packages_repaired_candidate_without_fallback(self):
+        payload, audit = exporter.build_bundle()
+        rows = [json.loads(line) for line in payload.decode().splitlines()]
+        self.assertEqual(rows[11]['proof'],
+                         (ROOT / 'submissions/warmup/best/P12.lean').read_text())
+        self.assertEqual(audit['problems'][11]['selection'], 'team_best')
+        manifest = json.loads((ROOT / 'submissions/warmup/manifest.json').read_text())
+        p12 = next(p for p in manifest['problems'] if p['id'] == 12)
+        self.assertEqual(audit['problems'][11]['localStatus'], p12['status'])
+        self.assertEqual(audit['problems'][11]['versions'], p12['versions'])
+        self.assertIsNone(audit['officialEvaluationPassed'])
+
+    @needs_benchmark
     def test_bundle_preserves_every_selected_source(self):
         payload, audit = exporter.build_bundle(p12_reference=True)
         rows = [json.loads(line) for line in payload.decode().splitlines()]
@@ -25,8 +53,13 @@ class SubmissionTests(unittest.TestCase):
         self.assertEqual(len({r['name'] for r in rows}), 15)
         self.assertTrue(all(set(r) == {'name', 'proof'} for r in rows))
         manifest = json.loads((ROOT / 'submissions/warmup/manifest.json').read_text())
+        snapshot_bytes = (ROOT / 'dashboard/public/data/warmup-team-results.json').read_bytes()
+        self.assertEqual(manifest['dashboardSnapshotSha256'], hashlib.sha256(snapshot_bytes).hexdigest())
+        snapshot = {p['id']: p for p in json.loads(snapshot_bytes)['problems']}
         benchmark = {r['name']: r for r in map(json.loads, (ROOT / manifest['benchmarkSnapshot']).read_text().splitlines())}
         for entry, row in zip(manifest['problems'], rows):
+            self.assertEqual(entry['sha256'], snapshot[entry['id']]['candidateHash'])
+            self.assertEqual(entry['versions'], snapshot[entry['id']]['versions'])
             self.assertEqual(row['name'], entry['name'])
             expected = (benchmark[row['name']]['src'] if entry['id'] == 12 else
                         (ROOT / 'submissions/warmup' / entry['path']).read_text())
@@ -50,6 +83,7 @@ class SubmissionTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 exporter.validate_proof(proof, meta)
 
+    @needs_benchmark
     def test_tampered_best_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)

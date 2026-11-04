@@ -226,12 +226,12 @@ class Recorder:
         self.records.append({"path": str(path.relative_to(self.root)), "stage": value["stage"],
                              "kind": value["kind"], "reason": value["reason"]})
 
-    def evaluated(self, result, folder):
+    def evaluated(self, result, folder, *, label=None):
         if folder.name in ("baseline", "final"):
             stage, name = folder.name, folder.name
         else:
             stage, name = "candidate", "candidate-" + folder.parent.name
-        self.save(name, evaluation(result, folder, self.root, stage))
+        self.save(label or name, evaluation(result, folder, self.root, stage))
 
 
 def step(raw, rejection, result, folder, root):

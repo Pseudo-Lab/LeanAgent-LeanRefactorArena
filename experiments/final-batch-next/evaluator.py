@@ -63,6 +63,82 @@ _token_module = importlib.util.module_from_spec(_token_spec)
 _token_spec.loader.exec_module(_token_module)
 proof_tokens = _token_module.proof_length
 TOKENIZER_ID = "arena-paper-compatible-v1"
+DEFAULT_LEAN_MEMORY_MIB = 4096
+MAX_COMPILER_PARALLELISM = 8
+BUNDLED_SANDBOX = Path("sources/final/bin/bwrap")
+# Lean's allocator bound (-M) ends a run with lean::memory_exception; the sandbox reports the abort as exit 134.
+ALLOCATOR_ABORT_MARKERS = ("lean::memory_exception", "memory exception", "excessive memory consumption")
+
+
+def linux_sandbox(repo=None):
+    """The bubblewrap binary for Linux compiles: PATH first, then ARENA_BWRAP, then the prepared bundle.
+
+    A prepared host rarely has bwrap installed system-wide. ARENA_BWRAP names an explicit binary
+    without putting a machine path into tracked files, and the prepared repository may bundle one
+    under sources/final/bin (route60 prepares it). Returns None when no usable binary exists.
+    """
+    found = shutil.which("bwrap")
+    if found:
+        return found
+    explicit = os.environ.get("ARENA_BWRAP")
+    if explicit:
+        if not (Path(explicit).is_file() and os.access(explicit, os.X_OK)):
+            raise ValueError("ARENA_BWRAP is not an executable file: " + explicit)
+        return explicit
+    bundled = Path(repo or REPO) / BUNDLED_SANDBOX
+    if bundled.is_file() and os.access(bundled, os.X_OK):
+        return str(bundled)
+    return None
+
+
+def compiler_abort(record, log):
+    """Classify a failed run that the machine ended rather than the candidate; None otherwise.
+
+    Lean's allocator bound raises lean::memory_exception and aborts: returncode -SIGABRT when lean
+    is the direct child, exit 134 (128 + SIGABRT) when bubblewrap reports it. Under Lean v4.27.0
+    `import Mathlib` alone needs about 6 GiB, so with the frozen -M4096 every compile of such a
+    row aborts, the reference included (ARENA_LEAN_MEMORY_MIB raises the bound). Any other signal
+    death (an OOM kill is exit 137 under the sandbox) is a machine event too. These results are
+    environment failures: the driver retries them, the cache refuses them, and they are never
+    feedback about the proof. A run the driver itself timed out is not classified here.
+    """
+    if record.get("timed_out"):
+        return None
+    returncode = record.get("returncode")
+    signal_number = None
+    if type(returncode) is int and returncode < 0:
+        signal_number = -returncode
+    elif type(returncode) is int and returncode > 128:
+        signal_number = returncode - 128
+    text = log.lower()
+    allocator = any(marker in text for marker in ALLOCATOR_ABORT_MARKERS) or signal_number == signal.SIGABRT
+    if allocator:
+        resource = "lean_allocator_limit"
+    elif signal_number is not None:
+        resource = "compiler_signal"
+    else:
+        return None
+    bounds = [part[2:] for part in record.get("command", []) if isinstance(part, str) and re.fullmatch(r"-M\d+", part)]
+    limit = int(bounds[0]) if len(bounds) == 1 else None
+    description = ("Lean allocator abort" + (f" under -M{limit}" if limit else "") if allocator
+                   else f"compiler terminated by signal {signal_number}")
+    return {"kind": "environment", "resource": resource, "retryable": True, "signal": signal_number,
+            "limit_mib": limit, "message": f"Environment abort ({description}, returncode {returncode}): "
+            "retry; never candidate feedback.\n" + log[-8000:]}
+
+
+def lean_memory_mib():
+    """Lean's -M bound for evaluator compiles in MiB; the default is the frozen 4 GiB.
+
+    Lean compares -M with resident memory. On Linux that includes mmapped .olean pages:
+    `import Mathlib` alone peaks near 6 GB and aborts under -M4096 before the target is
+    elaborated (Mathlib for Lean v4.27.0). ARENA_LEAN_MEMORY_MIB sets an explicit bound;
+    it is recorded in the evaluation-cache identity.
+    """
+    raw = os.environ.get("ARENA_LEAN_MEMORY_MIB", str(DEFAULT_LEAN_MEMORY_MIB))
+    if not raw.isdigit() or not 1024 <= int(raw) <= 262144:
+        raise ValueError("ARENA_LEAN_MEMORY_MIB must be a whole number of MiB from 1024 to 262144")
+    return int(raw)
 
 
 def digest(value):
@@ -205,7 +281,7 @@ def add_lean_import(prefix):
 
 
 class FinalEvaluator:
-    def __init__(self, repo_root=None, global_lock_path=None, cache_root=None):
+    def __init__(self, repo_root=None, global_lock_path=None, cache_root=None, compiler_parallelism=1):
         self.repo = Path(repo_root or REPO).resolve()
         self.root = self.repo / "sources/final"
         self.registry = json.loads((self.repo / "configs/final-environments.local.json").read_text())
@@ -215,6 +291,10 @@ class FinalEvaluator:
         self._contexts = {}
         self.cache = EvaluationCache(cache_root) if cache_root is not None else None
         self.timing_records = []
+        # final60 hook 5: up to 8 pooled slots (resources.compiler_slot gates admission by memory).
+        if type(compiler_parallelism) is not int or not 1 <= compiler_parallelism <= 8:
+            raise ValueError("Expected one to eight compiler slots")
+        self.compiler_parallelism = compiler_parallelism
 
     def _compiler_setup(self, state, context):
         if not context['module']:
@@ -236,8 +316,15 @@ class FinalEvaluator:
                 # Resolve checkout/build-directory aliases while retaining a
                 # final file symlink that the manifest itself already pins.
                 artifact = artifact.parent.resolve() / artifact.name
-                if str(artifact) not in self._prepared[state['id']].settings['files']:
-                    raise ValueError('Compiler setup imports an unpinned artifact: ' + str(artifact))
+                files = self._prepared[state['id']].settings['files']
+                if str(artifact) not in files:
+                    # On Linux the sandbox overlays checkout libraries with
+                    # frozen copies; the manifest pins those mounted files.
+                    mounted = (Path(frozen) / artifact.relative_to(Path(original))
+                               for original, frozen in state.get('library_mounts', {}).items()
+                               if artifact.is_relative_to(Path(original)))
+                    if sys.platform != 'linux' or not any(str(path) in files for path in mounted):
+                        raise ValueError('Compiler setup imports an unpinned artifact: ' + str(artifact))
         return path, checksum
 
     def _cache_identity(self, code, problem, state, context, repetitions, trusted_reference):
@@ -256,7 +343,8 @@ class FinalEvaluator:
                 raise ValueError("Original full-context source changed")
         _, setup = self._compiler_setup(state, context)
         implementation = [Path(__file__), Path(__file__).with_name("evaluation_cache.py"),
-                          Path(__file__).with_name("policy.py"), Path(__file__).with_name("fast_prepared.py"), Path(_token_spec.origin),
+                          Path(__file__).with_name("policy.py"), Path(__file__).with_name("fast_prepared.py"),
+                          Path(__file__).with_name("resources.py"), Path(_token_spec.origin),
                           self.repo / "src/lean_agent/prepared.py",
                           self.repo / "src/lean_agent/evaluator/lean.py"]
         compiler = self.root / "toolchains" / state["version"] / "bin/lean"
@@ -266,12 +354,17 @@ class FinalEvaluator:
                 "setup_sha256": setup, "compiler_sha256": digest(compiler.read_bytes()),
                 "implementation": {str(path): digest(path.read_bytes()) for path in implementation},
                 "repetitions": repetitions, "trusted_reference": trusted_reference,
+                "lean_memory_mib": lean_memory_mib(),
                 "platform": platform.platform(), "machine": platform.machine()}
 
-    def _cached_result(self, code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass=False):
+    def _cached_result(self, code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass=False,
+                       screen_single_pass=False):
         identity = self._cache_identity(code, problem, state, context, repetitions, trusted_reference)
         if reference_single_pass:
             identity = {**identity, "reference_single_pass": True}
+        if screen_single_pass:
+            # final60: exploration screens skip the separate plain compile; never shared with full checks.
+            identity = {**identity, "screen_single_pass": True}
         if not self.cache.contains(identity):
             return identity, None, 0
         started = time.monotonic()
@@ -338,6 +431,17 @@ class FinalEvaluator:
 
     @contextmanager
     def _compiler_lock(self):
+        if self.compiler_parallelism > 1:
+            from resources import compiler_slot
+            waiting = time.monotonic()
+            with compiler_slot(self.lock_path, slots=self.compiler_parallelism):
+                acquired = time.monotonic()
+                try:
+                    yield
+                finally:
+                    self.timing_records.append({"compiler_lock_wait_seconds": acquired - waiting,
+                                                "lock_held_seconds": time.monotonic() - acquired})
+            return
         self.lock_path.parent.mkdir(parents=True, exist_ok=True)
         with self.lock_path.open("a+") as stream:
             waiting = time.monotonic()
@@ -351,7 +455,7 @@ class FinalEvaluator:
                                             "lock_held_seconds": released - acquired})
                 fcntl.flock(stream, fcntl.LOCK_UN)
 
-    def _invoke(self, source, state, context, folder, label):
+    def _invoke(self, source, state, context, folder, label, *, timeout_seconds=1200, memory_mib=None):
         project = self.repo / state["project"]
         # Reuse Lake's exact compiler setup without invoking Lake's resolver:
         # the latter may try to rewrite normalized, shared dependency links.
@@ -359,16 +463,29 @@ class FinalEvaluator:
         saved = (folder / (label + ".lean")).resolve()
         saved.write_text(source)
         compiler = self.root / "toolchains" / state["version"] / "bin"
-        command = [str(compiler / "lean"), str(saved), "-j1", "-M4096"]
+        if memory_mib is None:  # evaluator compiles; AutoSolver's native inspection passes its own bound
+            memory_mib = lean_memory_mib()
+        command = [str(compiler / "lean"), str(saved), "-j1", f"-M{memory_mib}"]
         setup, setup_hash = self._compiler_setup(state, context)
         if setup:
             command.extend(["--setup", str(setup)])
-        sandbox = shutil.which("sandbox-exec")
-        if not sandbox:
-            raise ValueError("macOS readonly compiler sandbox unavailable")
-        command = [sandbox, "-p", "(version 1) (allow default) (deny network*) (deny file-write*)", *command]
+        if sys.platform == "linux":
+            sandbox = linux_sandbox(self.repo)
+            if not sandbox:
+                raise ValueError("Linux readonly compiler sandbox unavailable: bwrap is not on PATH, "
+                                 "ARENA_BWRAP is unset and sources/final/bin/bwrap is absent")
+            mounts = [part for original, frozen in state.get("library_mounts", {}).items()
+                      for part in ("--ro-bind", frozen, original)]
+            command = [sandbox, "--die-with-parent", "--unshare-all", "--ro-bind", "/", "/",
+                       "--dev", "/dev", "--proc", "/proc", *mounts, "--", *command]
+        else:
+            sandbox = shutil.which("sandbox-exec")
+            if not sandbox:
+                raise ValueError("macOS readonly compiler sandbox unavailable")
+            command = [sandbox, "-p", "(version 1) (allow default) (deny network*) (deny file-write*)", *command]
         child = {"PATH": str(compiler) + ":" + str(Path(shutil.which("git")).parent) + ":/opt/local/bin:/usr/bin:/bin:/usr/sbin:/sbin",
-                 "HOME": str(Path.home()), "TMPDIR": "/private/tmp", "LANG": "en_US.UTF-8",
+                 "HOME": str(Path.home()), "TMPDIR": "/tmp" if sys.platform == "linux" else "/private/tmp",
+                 "LANG": "C.UTF-8" if sys.platform == "linux" else "en_US.UTF-8",
                  "LEAN_NUM_THREADS": "1", "MATHLIB_NO_CACHE_ON_UPDATE": "1",
                  "LEAN_PATH": os.pathsep.join(self._prepared[state["id"]].settings["library_paths"])}
         started = time.monotonic()
@@ -386,7 +503,7 @@ class FinalEvaluator:
                                        stderr=subprocess.STDOUT, start_new_session=True)
             timed_out = False
             try:
-                output, _ = process.communicate(timeout=1200)
+                output, _ = process.communicate(timeout=timeout_seconds)
             except subprocess.TimeoutExpired:
                 timed_out = True
                 os.killpg(process.pid, signal.SIGKILL)
@@ -437,7 +554,7 @@ class FinalEvaluator:
                   '      throwError m!"Missing audit dependency {name}"\n'
                   '    let axioms ← Lean.collectAxioms name.toName\n'
                   '    result := result.push <| Json.mkObj [("name", toJson name),\n'
-                  '      ("axioms", toJson (axioms.toList.map Name.toString))]\n'
+                  '      ("axioms", toJson (axioms.toList.map _root_.Lean.Name.toString))]\n'
                   '  logInfo m!"AXIOM_FRONTIER ' + nonce + ' {(Json.arr result).compress}"\n')
         record, log = self._invoke(source, state, {"module": None}, folder, label)
         record["phase"] = "axiom-frontier-audit"
@@ -458,11 +575,13 @@ class FinalEvaluator:
         return record, resolved, error
 
     def evaluate(self, code, problem, output_folder, *, repetitions=1, all_versions=False,
-                 trusted_reference=False, fresh=False, reference_single_pass=False):
+                 trusted_reference=False, fresh=False, reference_single_pass=False, screen_single_pass=False):
         if type(repetitions) is not int or repetitions < 1:
             raise ValueError("Expected a positive measurement count")
         if reference_single_pass and not trusted_reference:
             raise ValueError("Single-pass compilation is only for an exact frozen reference")
+        if screen_single_pass and (all_versions or fresh or reference_single_pass):
+            raise ValueError("Single-pass screening is for primary-version exploration only")
         evaluation_started = time.monotonic()
         first_timing = len(getattr(self, "timing_records", []))
         problem = self.load_problem(problem)
@@ -471,6 +590,8 @@ class FinalEvaluator:
         result = {"valid": False, "tokens": None, "environments": {}, "error": None}
         if reference_single_pass:
             result["reference_compile_mode"] = "instrumented-compile-and-axioms"
+        if screen_single_pass:
+            result["screen_compile_mode"] = "instrumented-compile-and-axioms"
         try:
             result["tokens"] = proof_tokens(code, problem["statement"])
             result["tokenizer"] = {"id": TOKENIZER_ID, "source_sha256": digest(Path(_token_spec.origin).read_bytes())}
@@ -505,7 +626,8 @@ class FinalEvaluator:
                     state = self._states[environment_id]
                     context = self._contexts[context_key]
                     _, cached, seconds = self._cached_result(
-                        code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass)
+                        code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass,
+                        screen_single_pass)
                     cache_verification_seconds += seconds
                     if cached is not None:
                         result["environments"][environment_id] = cached
@@ -515,7 +637,8 @@ class FinalEvaluator:
                     context = self._context(problem, environment_id)
                     if self.cache is not None and not fresh:
                         cache_identity, cached, seconds = self._cached_result(
-                            code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass)
+                            code, problem, state, context, folder, repetitions, trusted_reference, reference_single_pass,
+                            screen_single_pass)
                         cache_verification_seconds += seconds
                         if cached is not None:
                             result["environments"][environment_id] = cached
@@ -524,7 +647,7 @@ class FinalEvaluator:
                     # The unchanged wrapper calls elabCommand, checks the created
                     # target, and collects axioms. For exact original references
                     # this is also the compile check; no synthetic check record.
-                    jobs = ([] if reference_single_pass else [("check", None)]) + [
+                    jobs = ([] if reference_single_pass or screen_single_pass else [("check", None)]) + [
                         (f"measure-{i+1}", uuid.uuid4().hex) for i in range(repetitions)]
                     raw = []
                     for label, nonce in jobs:
@@ -541,10 +664,12 @@ class FinalEvaluator:
                         record, log = self._invoke(source, state, context, folder, label)
                         row["runs"].append(record)
                         if record["returncode"] or record["timed_out"]:
+                            # macOS sandbox-exec and Linux bubblewrap setup failures are host failures alike.
                             host_failure = any(marker in log.lower() for marker in
-                                ("sandbox-exec:", "sandbox_apply:", "operation not permitted", "permission denied", "input/output error"))
+                                ("sandbox-exec:", "sandbox_apply:", "bwrap:", "operation not permitted", "permission denied", "input/output error"))
                             kind = "environment" if host_failure else "timeout" if record["timed_out"] else "compile"
-                            row["error"] = {"kind": kind, "message": log[-8000:]}
+                            # An allocator abort or signal death is the machine's result, not the candidate's.
+                            row["error"] = compiler_abort(record, log) or {"kind": kind, "message": log[-8000:]}
                             break
                         if nonce:
                             matches = re.findall(r"REFACTOR_EVAL " + nonce + r" (\{[^\n]*\})", log)
@@ -588,6 +713,22 @@ class FinalEvaluator:
             "compiler_seconds": sum(r.get("timing", {}).get("compiler_seconds", 0) for r in actual)}
         write(output / "result.json", result)
         return result
+
+    def inspect_native(self, code, problem, output, *, timeout, memory):
+        from lean_agent import native
+        problem = self.load_problem(problem)
+        with self._compiler_lock():
+            state = self._state(problem["environments"][0])
+            context = self._context(problem, state["id"])
+            prefix, suffix = context["prefix"], context["suffix"]
+            cut = pending_command_start(prefix)
+            def build(support, declaration):
+                return add_lean_import(prefix[:cut]) + "\n" + support + "\n" + prefix[cut:] + declaration + suffix
+            def run(path, seconds, mib):
+                record, log = self._invoke(path.read_text(), state, context, path.parent, "native",
+                                           timeout_seconds=seconds, memory_mib=mib)
+                return {**record, "output": log}
+            return native.observe(code, problem["statement"], output, build, run, timeout=timeout, memory=memory)
 
     def preflight(self, problem_id, output_folder):
         problem = self.load_problem(problem_id)

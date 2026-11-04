@@ -1,0 +1,674 @@
+{
+  "checked_at": "2026-10-23T16:59:10.470541+00:00",
+  "status": "completed_with_validation_failures",
+  "budget": 10,
+  "solver_agents": 2,
+  "unit_tests_passed": 21,
+  "all_final_valid": false,
+  "all_record_replays_passed": true,
+  "all_frozen_input_and_request_attribution_checks_passed": true,
+  "submission_control": {
+    "code_sha256": "6bf40078bbbbbafe922d313feb4228bc8c6262269d3a13231482b25c001feda9",
+    "environment": {
+      "command": [
+        "/opt/homebrew/opt/python@3.13/bin/python3.13",
+        "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p13-budget10-subagents-20261024/submission-control/lean_runner.py",
+        "-j1",
+        "-M4096",
+        "-T200000"
+      ],
+      "compiler": "/Users/zzu0203/.elan/toolchains/leanprover--lean4---v4.26.0/bin/lean",
+      "compiler_sha256": "2974847fff2e2621502841f4c2dbac4035b4847d6060a4f2087cbc0d04005e37",
+      "files": {
+        "lake-manifest.json": "b787693b47c8d434fcf5999f06b811e444a9fe83c88149476d6a5f64b770e9c1",
+        "lakefile.lean": "9c3256933d833cc9799e6dc23b72c9e502fc8a4ca01b43ee479997785da7041f",
+        "lakefile.toml": null,
+        "lean-toolchain": "e8173aad377a6d70041e5f7a5d8895ed587628f5cab243c53a18c40a1b7b6bf8"
+      },
+      "git": null,
+      "project": "/Users/zzu0203/projects/01_가짜연구소/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/p13-budget10-subagents-20261024/submission-control/project",
+      "template_sha256": "40ab003e87d11a9a916c343ed77ea304decdf866259463271b0d01e9b761dd2f",
+      "version": "Lean (version 4.26.0, arm64-apple-darwin24.6.0, commit d8204c9fd894f91bbb2cdfec5912ec8196fd8562, Release)"
+    },
+    "environment_unchanged": true,
+    "metrics": {
+      "raw_heartbeats": 2931231,
+      "raw_samples": [
+        2931408,
+        2931231,
+        2931214
+      ],
+      "tokens": 259
+    },
+    "role": "held-out existing submission",
+    "solver_access": false,
+    "valid": true
+  },
+  "previous_independent_budget3_trials": [
+    {
+      "trial_id": "P13-r1",
+      "budget": 3,
+      "tokens": 415,
+      "raw_heartbeats": 3335984,
+      "score": 0.13171756037952734
+    },
+    {
+      "trial_id": "P13-r2",
+      "budget": 3,
+      "tokens": 618,
+      "raw_heartbeats": 5555026,
+      "score": 0.19868632580679588
+    }
+  ],
+  "comparisons": {
+    "same_frozen_inputs": {
+      "input/problem.json": true,
+      "input/source.lean": true,
+      "input/context.lean.in": true,
+      "input/prompt.txt": true,
+      "code/subagent_trials.py": true,
+      "code/harness.py": true
+    },
+    "same_first_request_bytes": false,
+    "same_selected_code": false
+  },
+  "limitations": [
+    "Proposal count is not internal Codex model call count; exact calls, cost and hidden model context are not controlled",
+    "Previous three-proposal trials are independent historical trials, not paired-seed counterfactuals",
+    "The first three steps of a ten-budget run are performed knowing the ten-step budget",
+    "Baseline measurement variation can change the first actual request; raw requests are preserved",
+    "Two trials do not establish general performance stability; no OS isolation or official evaluation"
+  ],
+  "protocol": "p13-budget10.md",
+  "raw_records": "runs/first-harness-jwkweon/p13-budget10-subagents-20261024",
+  "audit_source_sha256": "1f992d26754a7327ee3bb1e191b61709065ecf750a1086d7772515ec97b4dc71",
+  "trials": [
+    {
+      "trial_id": "P13-10-r1",
+      "status": "failed",
+      "baseline": {
+        "raw_heartbeats": 115674908,
+        "raw_samples": [
+          115676744,
+          115674908,
+          115674506
+        ],
+        "tokens": 1769
+      },
+      "selected": {
+        "rank_numerator": 60631117275,
+        "raw_heartbeats": 4783343,
+        "raw_samples": [
+          4783355,
+          4783340,
+          4783343
+        ],
+        "sha256": "070e39ad5f89321b9a702dd231574a9125cf98babb12076f0eb2cd8e6af8a056",
+        "tokens": 451
+      },
+      "selected_local_score": 0.14814895072191198,
+      "final": null,
+      "final_valid": false,
+      "proposal_count": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 537,
+          "raw_heartbeats": 4951196,
+          "local_score": 0.17318200673596962,
+          "best_sha256": "824f438e7fbc14d2a49b4b38f079eaf5a7216d5efebb2f8b74259100a62e8010",
+          "best_code_changed": true
+        },
+        "6": {
+          "step": 6,
+          "tokens": 463,
+          "raw_heartbeats": 4768196,
+          "local_score": 0.1514752251911902,
+          "best_sha256": "e3289cc073cd34eee0eb379bb91c3a743cb180a1dfc6317bf6c8780abdf0c8c6",
+          "best_code_changed": true
+        },
+        "10": {
+          "step": 10,
+          "tokens": 451,
+          "raw_heartbeats": 4783343,
+          "local_score": 0.14814895072191198,
+          "best_sha256": "070e39ad5f89321b9a702dd231574a9125cf98babb12076f0eb2cd8e6af8a056",
+          "best_code_changed": false
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 1769,
+          "raw_heartbeats": 115674908,
+          "local_score": 1.0,
+          "best_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669",
+          "best_code_changed": false
+        },
+        {
+          "step": 2,
+          "tokens": 561,
+          "raw_heartbeats": 5032296,
+          "local_score": 0.18031605162695855,
+          "best_sha256": "b5fdd88a841cf6252c0aec75a545243e163fbbe3f772f7b20701ef5a1d9a9bc7",
+          "best_code_changed": true
+        },
+        {
+          "step": 3,
+          "tokens": 537,
+          "raw_heartbeats": 4951196,
+          "local_score": 0.17318200673596962,
+          "best_sha256": "824f438e7fbc14d2a49b4b38f079eaf5a7216d5efebb2f8b74259100a62e8010",
+          "best_code_changed": true
+        },
+        {
+          "step": 4,
+          "tokens": 537,
+          "raw_heartbeats": 4951196,
+          "local_score": 0.17318200673596962,
+          "best_sha256": "824f438e7fbc14d2a49b4b38f079eaf5a7216d5efebb2f8b74259100a62e8010",
+          "best_code_changed": false
+        },
+        {
+          "step": 5,
+          "tokens": 472,
+          "raw_heartbeats": 4760207,
+          "local_score": 0.15398450313167822,
+          "best_sha256": "7b3782935de6a9b4122a5556c52f23ce90c0095a161e272074ac5108612f6a35",
+          "best_code_changed": true
+        },
+        {
+          "step": 6,
+          "tokens": 463,
+          "raw_heartbeats": 4768196,
+          "local_score": 0.1514752251911902,
+          "best_sha256": "e3289cc073cd34eee0eb379bb91c3a743cb180a1dfc6317bf6c8780abdf0c8c6",
+          "best_code_changed": true
+        },
+        {
+          "step": 7,
+          "tokens": 463,
+          "raw_heartbeats": 4768196,
+          "local_score": 0.1514752251911902,
+          "best_sha256": "e3289cc073cd34eee0eb379bb91c3a743cb180a1dfc6317bf6c8780abdf0c8c6",
+          "best_code_changed": false
+        },
+        {
+          "step": 8,
+          "tokens": 463,
+          "raw_heartbeats": 4768196,
+          "local_score": 0.1514752251911902,
+          "best_sha256": "e3289cc073cd34eee0eb379bb91c3a743cb180a1dfc6317bf6c8780abdf0c8c6",
+          "best_code_changed": false
+        },
+        {
+          "step": 9,
+          "tokens": 451,
+          "raw_heartbeats": 4783343,
+          "local_score": 0.14814895072191198,
+          "best_sha256": "070e39ad5f89321b9a702dd231574a9125cf98babb12076f0eb2cd8e6af8a056",
+          "best_code_changed": true
+        },
+        {
+          "step": 10,
+          "tokens": 451,
+          "raw_heartbeats": 4783343,
+          "local_score": 0.14814895072191198,
+          "best_sha256": "070e39ad5f89321b9a702dd231574a9125cf98babb12076f0eb2cd8e6af8a056",
+          "best_code_changed": false
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "code_sha256": "db432afe7097cdabf3ef13b6835d1725e1ddff442cb2d8cba54a3e3729ee7e63",
+          "metrics": null
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "b5fdd88a841cf6252c0aec75a545243e163fbbe3f772f7b20701ef5a1d9a9bc7",
+          "metrics": {
+            "raw_heartbeats": 5032296,
+            "tokens": 561
+          }
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "824f438e7fbc14d2a49b4b38f079eaf5a7216d5efebb2f8b74259100a62e8010",
+          "metrics": {
+            "raw_heartbeats": 4951196,
+            "tokens": 537
+          }
+        },
+        {
+          "step": 4,
+          "valid": false,
+          "status": "proof_rejected",
+          "code_sha256": "e85040009da1200f5f913d100bd05580450c074e877df57ff2c6893c2661f363",
+          "metrics": null
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "7b3782935de6a9b4122a5556c52f23ce90c0095a161e272074ac5108612f6a35",
+          "metrics": {
+            "raw_heartbeats": 4760207,
+            "tokens": 472
+          }
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "e3289cc073cd34eee0eb379bb91c3a743cb180a1dfc6317bf6c8780abdf0c8c6",
+          "metrics": {
+            "raw_heartbeats": 4768196,
+            "tokens": 463
+          }
+        },
+        {
+          "step": 7,
+          "valid": false,
+          "status": "proof_rejected",
+          "code_sha256": "7ab2871cf1fec4d0980ce354d7812eef8516dc9d54be5275ac14f4621a437b52",
+          "metrics": null
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "f17a201671bf8c2ec50089108874183b5f2b6628d4f1a87beacd642ff2ccbdd7",
+          "metrics": {
+            "raw_heartbeats": 6170762,
+            "tokens": 456
+          }
+        },
+        {
+          "step": 9,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "070e39ad5f89321b9a702dd231574a9125cf98babb12076f0eb2cd8e6af8a056",
+          "metrics": {
+            "raw_heartbeats": 4783343,
+            "tokens": 451
+          }
+        },
+        {
+          "step": 10,
+          "valid": false,
+          "status": "proof_rejected",
+          "code_sha256": "340a27f6f809c25dcea599dcc4f50ceaa0d2502506297f722d0f0686ac376548",
+          "metrics": null
+        }
+      ],
+      "distinct_valid_proofs": 6,
+      "submission_control_local_score": 0.0858753253003633,
+      "beats_submission_on_local_score": false,
+      "record_replay_passed": true,
+      "request_state_attribution_passed": true,
+      "frozen_inputs_unchanged": true,
+      "artifact_index_sha256": "76ed11163581b78c3f98aa0ff56fea6901aeb8dc9c25e3e8d62b42f211fc677c",
+      "started_at": "2026-10-23T15:56:33.625611+00:00",
+      "finished_at": "2026-10-23T16:57:20.274877+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "selected_source": "results/p13-budget10/P13-10-r1.lean",
+      "proposal_failures_by_kind": {
+        "compile": 3,
+        "timeout": 1
+      },
+      "score_improvement_from_own_step3_percent": 14.454767262411172,
+      "final_validation_details": [
+        {
+          "environment": "fixed",
+          "valid": false,
+          "error": {
+            "kind": "timeout",
+            "message": ""
+          },
+          "runs": [
+            {
+              "source": "check.lean",
+              "source_sha256": "db97a477ece51d8c37c382b1be5a0c407a2f23cf034ee8eabd6b3e5921075073",
+              "log": "check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "seconds": 91.529444,
+              "returncode": 0,
+              "timed_out": false
+            },
+            {
+              "source": "measure-1.lean",
+              "source_sha256": "66bd98e8e2080dff4740acf95acb1c7f47d3c82d5a43578be67e7bb2626738f8",
+              "log": "measure-1.log",
+              "log_sha256": "cd3b0e68f10093d270ef63e544734e195e120c1e705ba74ce53ce7ca32a5a5eb",
+              "seconds": 103.293508,
+              "returncode": 0,
+              "timed_out": false,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Classical.choice",
+                  "Quot.sound"
+                ],
+                "raw": 4783355,
+                "scaled": 4783,
+                "target": "putnam_1964_a4"
+              }
+            },
+            {
+              "source": "measure-2.lean",
+              "source_sha256": "69d66865992296675dc9fb9a5bcbcbb52f1b2898ad7552ac9e650e5181350274",
+              "log": "measure-2.log",
+              "log_sha256": "6ddcda02f6fd64453943a0b7ccde0a259ad83b1fb606f9c3a0b3815e7805694b",
+              "seconds": 166.447165,
+              "returncode": 0,
+              "timed_out": false,
+              "measurement": {
+                "axioms": [
+                  "propext",
+                  "Classical.choice",
+                  "Quot.sound"
+                ],
+                "raw": 4783340,
+                "scaled": 4783,
+                "target": "putnam_1964_a4"
+              }
+            },
+            {
+              "source": "measure-3.lean",
+              "source_sha256": "1b307da0c75b8ae342f03583988c1a74b0c538ec31c92917d5be983ff7917c73",
+              "log": "measure-3.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "seconds": 180.214354,
+              "returncode": -9,
+              "timed_out": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "trial_id": "P13-10-r2",
+      "status": "failed",
+      "baseline": {
+        "raw_heartbeats": 115674902,
+        "raw_samples": [
+          115676746,
+          115674902,
+          115674516
+        ],
+        "tokens": 1769
+      },
+      "selected": {
+        "rank_numerator": 44647811341,
+        "raw_heartbeats": 3529533,
+        "raw_samples": [
+          3529647,
+          3529533,
+          3529528
+        ],
+        "sha256": "b38d87192c5c0f1f5fc3b43f918a850cf1eaf4e1915141b4b595fd40da0d47e5",
+        "tokens": 332
+      },
+      "selected_local_score": 0.1090945877723189,
+      "final": null,
+      "final_valid": false,
+      "proposal_count": 10,
+      "checkpoints": {
+        "3": {
+          "step": 3,
+          "tokens": 479,
+          "raw_heartbeats": 4909241,
+          "local_score": 0.1566072164634486,
+          "best_sha256": "83be9b63822fcc3658274ed9ea3a1b2028e508d622de46666c042834ebf82337",
+          "best_code_changed": true
+        },
+        "6": {
+          "step": 6,
+          "tokens": 432,
+          "raw_heartbeats": 4888746,
+          "local_score": 0.14323428623416457,
+          "best_sha256": "e66a3d6841b884bd08ee937c9296edbc790048de0268c156d1a67688d29ce847",
+          "best_code_changed": true
+        },
+        "10": {
+          "step": 10,
+          "tokens": 332,
+          "raw_heartbeats": 3529533,
+          "local_score": 0.1090945877723189,
+          "best_sha256": "b38d87192c5c0f1f5fc3b43f918a850cf1eaf4e1915141b4b595fd40da0d47e5",
+          "best_code_changed": false
+        }
+      },
+      "timeline": [
+        {
+          "step": 1,
+          "tokens": 1769,
+          "raw_heartbeats": 115674902,
+          "local_score": 1.0,
+          "best_sha256": "27b46ee810644ab2f6c3950cda14346274705204b619350947ad97d90e62b669",
+          "best_code_changed": false
+        },
+        {
+          "step": 2,
+          "tokens": 528,
+          "raw_heartbeats": 5099586,
+          "local_score": 0.17127960744764792,
+          "best_sha256": "a81d29a0dab89041da7439abcb7334b3dbb524e78cda7bc3760ab18834082b4b",
+          "best_code_changed": true
+        },
+        {
+          "step": 3,
+          "tokens": 479,
+          "raw_heartbeats": 4909241,
+          "local_score": 0.1566072164634486,
+          "best_sha256": "83be9b63822fcc3658274ed9ea3a1b2028e508d622de46666c042834ebf82337",
+          "best_code_changed": true
+        },
+        {
+          "step": 4,
+          "tokens": 449,
+          "raw_heartbeats": 4912034,
+          "local_score": 0.14813992221698308,
+          "best_sha256": "5a5dc6d68e3ce227b1404b842c4338ed37f1eff4115d1ede1df0a6fdf94f8f41",
+          "best_code_changed": true
+        },
+        {
+          "step": 5,
+          "tokens": 447,
+          "raw_heartbeats": 4867539,
+          "local_score": 0.14738230328701268,
+          "best_sha256": "404a339dede5a69ab49d34f192833ab1ea498ddfff2f53ceedaa62516af77063",
+          "best_code_changed": true
+        },
+        {
+          "step": 6,
+          "tokens": 432,
+          "raw_heartbeats": 4888746,
+          "local_score": 0.14323428623416457,
+          "best_sha256": "e66a3d6841b884bd08ee937c9296edbc790048de0268c156d1a67688d29ce847",
+          "best_code_changed": true
+        },
+        {
+          "step": 7,
+          "tokens": 408,
+          "raw_heartbeats": 6217107,
+          "local_score": 0.142192578450984,
+          "best_sha256": "39bad0872321c085ad042ec936df9d30dda8883fab05e61a12a01998fcca802a",
+          "best_code_changed": true
+        },
+        {
+          "step": 8,
+          "tokens": 332,
+          "raw_heartbeats": 3529533,
+          "local_score": 0.1090945877723189,
+          "best_sha256": "b38d87192c5c0f1f5fc3b43f918a850cf1eaf4e1915141b4b595fd40da0d47e5",
+          "best_code_changed": true
+        },
+        {
+          "step": 9,
+          "tokens": 332,
+          "raw_heartbeats": 3529533,
+          "local_score": 0.1090945877723189,
+          "best_sha256": "b38d87192c5c0f1f5fc3b43f918a850cf1eaf4e1915141b4b595fd40da0d47e5",
+          "best_code_changed": false
+        },
+        {
+          "step": 10,
+          "tokens": 332,
+          "raw_heartbeats": 3529533,
+          "local_score": 0.1090945877723189,
+          "best_sha256": "b38d87192c5c0f1f5fc3b43f918a850cf1eaf4e1915141b4b595fd40da0d47e5",
+          "best_code_changed": false
+        }
+      ],
+      "proposals": [
+        {
+          "step": 1,
+          "valid": false,
+          "status": "proof_rejected",
+          "code_sha256": "21c92dd423840236d55ea441de9b921af8347b3a304f427b1f4b66ca792b8a14",
+          "metrics": null
+        },
+        {
+          "step": 2,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "a81d29a0dab89041da7439abcb7334b3dbb524e78cda7bc3760ab18834082b4b",
+          "metrics": {
+            "raw_heartbeats": 5099586,
+            "tokens": 528
+          }
+        },
+        {
+          "step": 3,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "83be9b63822fcc3658274ed9ea3a1b2028e508d622de46666c042834ebf82337",
+          "metrics": {
+            "raw_heartbeats": 4909241,
+            "tokens": 479
+          }
+        },
+        {
+          "step": 4,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "5a5dc6d68e3ce227b1404b842c4338ed37f1eff4115d1ede1df0a6fdf94f8f41",
+          "metrics": {
+            "raw_heartbeats": 4912034,
+            "tokens": 449
+          }
+        },
+        {
+          "step": 5,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "404a339dede5a69ab49d34f192833ab1ea498ddfff2f53ceedaa62516af77063",
+          "metrics": {
+            "raw_heartbeats": 4867539,
+            "tokens": 447
+          }
+        },
+        {
+          "step": 6,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "e66a3d6841b884bd08ee937c9296edbc790048de0268c156d1a67688d29ce847",
+          "metrics": {
+            "raw_heartbeats": 4888746,
+            "tokens": 432
+          }
+        },
+        {
+          "step": 7,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "39bad0872321c085ad042ec936df9d30dda8883fab05e61a12a01998fcca802a",
+          "metrics": {
+            "raw_heartbeats": 6217107,
+            "tokens": 408
+          }
+        },
+        {
+          "step": 8,
+          "valid": true,
+          "status": "verified",
+          "code_sha256": "b38d87192c5c0f1f5fc3b43f918a850cf1eaf4e1915141b4b595fd40da0d47e5",
+          "metrics": {
+            "raw_heartbeats": 3529533,
+            "tokens": 332
+          }
+        },
+        {
+          "step": 9,
+          "valid": false,
+          "status": "proof_rejected",
+          "code_sha256": "c269f59fb676ddfda0cad998f52a6ffab475a0b46ead0b702f5b8bfbd8e8f7b7",
+          "metrics": null
+        },
+        {
+          "step": 10,
+          "valid": false,
+          "status": "proof_rejected",
+          "code_sha256": "ebd9fc779afb0bd7b5d865afd37320f00637d8a6d4e3910cc996c7af50f5f570",
+          "metrics": null
+        }
+      ],
+      "distinct_valid_proofs": 7,
+      "submission_control_local_score": 0.08587532595755641,
+      "beats_submission_on_local_score": false,
+      "record_replay_passed": true,
+      "request_state_attribution_passed": true,
+      "frozen_inputs_unchanged": true,
+      "artifact_index_sha256": "671f2e634dc755e5c4e6c196e119353cd3b6645cad2b7120c85962ebef77eaa8",
+      "started_at": "2026-10-23T15:56:33.624733+00:00",
+      "finished_at": "2026-10-23T16:58:49.480400+00:00",
+      "codex_model_calls": null,
+      "codex_cost_usd": null,
+      "selected_source": "results/p13-budget10/P13-10-r2.lean",
+      "proposal_failures_by_kind": {
+        "compile": 1,
+        "timeout": 2
+      },
+      "score_improvement_from_own_step3_percent": 30.33872241910317,
+      "final_validation_details": [
+        {
+          "environment": "fixed",
+          "valid": false,
+          "error": {
+            "kind": "timeout",
+            "message": ""
+          },
+          "runs": [
+            {
+              "source": "check.lean",
+              "source_sha256": "d19bbd6553e633d87249422d3340eaeb6e1ee37267579c834250856e111d58bc",
+              "log": "check.log",
+              "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+              "seconds": 180.121825,
+              "returncode": -9,
+              "timed_out": true
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "observations": [
+    "Both solvers submitted exactly ten proposals. The selected code differs between runs.",
+    "The selected scores improved 14.45% and 30.34% relative to each ten-budget run's own third-step checkpoint; this is not a paired comparison against the historical budget-three trials.",
+    "Both selected candidates compiled and passed three measurements during search. Neither passed the entire final revalidation protocol: r1 timed out on its third final measurement; r2 timed out on its final ordinary compilation. No retries or timeout changes were made.",
+    "Search-time metrics remain search-time observations, not confirmed final measurements. Both are worse than the held-out current submission on tokens and raw heartbeats.",
+    "All artifact hashes, frozen input checks, request-state attribution and record replays passed. Replay reconstructs recorded state transitions and does not rerun Lean.",
+    "The baseline raw medians differ by six; baseline and incumbent numeric fields make the first actual requests byte-different despite identical problem, prompt and frozen code.",
+    "Final run elapsed times increased, but host resource/clock/sleep telemetry was not captured, so the timeout cause is not established."
+  ]
+}

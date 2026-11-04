@@ -1,0 +1,35 @@
+{
+  "status": "frozen_before_solver_dispatch",
+  "problem": "P13",
+  "conditions": [
+    "A",
+    "B1",
+    "B2",
+    "B3",
+    "B4"
+  ],
+  "repetitions_per_condition": 2,
+  "total_trials": 10,
+  "max_solver_parallelism": 2,
+  "proposal_budget": 10,
+  "checkpoints": [
+    3,
+    6,
+    10
+  ],
+  "lean_timeout_seconds": 420,
+  "timeout_chosen_before_calibration": true,
+  "timeout_rationale": "Previous full Mathlib imports measured about161s in independent diagnostics; 180s final validation failed. Use one420s ceiling for every candidate and final validation in this new A/B cohort. No per-arm adjustments or automatic retries.",
+  "baseline_mode": "frozen_historical_original_with_current_readiness_checks",
+  "baseline_model_input": {
+    "tokens": 1769,
+    "raw_heartbeats": 115674908
+  },
+  "paid_api_calls": false,
+  "unit_tests_passed": 30,
+  "calibration_summaries_sha256": {
+    "1": "dc79ea6bc71e4f38b26485dfd4f1a163ef14af94daf7a5d2e83d34662029939c",
+    "2": "f27bd5754fc64f1d2ae2a92760e97c8efff043f4e729dc0eb20b67e00a8ee093"
+  },
+  "shared_runtime_inventory_sha256": "6a5991074dd5a997ed2b702d6df966cc0bfdc9ea1736a51ba1c91f5caa7e9663"
+}

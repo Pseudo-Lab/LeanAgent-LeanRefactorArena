@@ -1,0 +1,214 @@
+{
+  "schema_version": 1,
+  "validated_on": "2026-11-01",
+  "scope": "issue-37-based local implementation; fixtures and native Lean; live model effect unmeasured",
+  "base_commit": "cea09fbcfd62fa80f5883494eb7edd8ddf5762d5",
+  "execution_tree_dirty": true,
+  "source_files": {
+    "experiments/verification-repair-policy/repair.py": "4bef246b604b55c5ab3768bc9cc6af8ae12f73061d5b7063ead8e183e0c5d3e5",
+    "experiments/verification-repair-policy/test_contracts.py": "69a648e344d7490630d224c8e9b45fad6ff9b7a3ba6d760e4667b941feef0743",
+    "experiments/verification-repair-policy/test_recursive_lean.py": "bc1decd0305c6a804dcce46365f6cb55f02d3b3da3c65547ed37980a80ad7741",
+    "experiments/verification-repair-policy/run.py": "3185a7a1480c455a275ab14e88130f9143decc0896f5b29233d1f1693b283a99",
+    "experiments/verification-repair-policy/generation_runtime.py": "406aae793583c2bb1441e033ea7dad89e3293a4653964c9e5d2f48ba00a3fd05",
+    "experiments/verification-repair-policy/controller.py": "10acb79959987a7e5d89322411f870b083d075d654ecc030aeb0932e821c5dd8",
+    "experiments/verification-repair-policy/generation.py": "7be1c7fb4a7e0701a402598e05a7187952be70ad30425a6730dc96a534a571aa",
+    "experiments/verification-repair-policy/Support.lean": "824c547a3de68a916f06cdb916dcd0616a9d56c03f4d81a827a6f7e91b1a47b3",
+    "experiments/verification-repair-policy/test_corpus_lean.py": "ee739deb75be5653741db851104baa52a40afe6cbf392510e97004fb895369a9",
+    "experiments/verification-repair-policy/adapter.py": "f66f1964f62bb681cd43f82e3d1cdde31ef808cc08c54547300ee1e3c1e4d0af",
+    "experiments/verification-repair-policy/test_generation_lean.py": "5b5d0258eeb365a3ddaab908438ea558891a07f772e9ab64464594123a65df35",
+    "experiments/verification-repair-policy/test_scope.py": "b52dab7ee8d5ed2112b5049dfef1c53dacc1524b06c2725c4f0f04681ea6624f",
+    "experiments/verification-repair-policy/native.py": "34434a8c303b47a91f47b04e11f3f27282877115b397cf4a46fab8d7fd9c4a16",
+    "experiments/verification-repair-policy/generation_transport.py": "3d8bbbb12930add568ae44cd6b07f4e80c18d70fb752067dd73ce2936a69cb0a",
+    "experiments/verification-repair-policy/test_corpus.py": "38c53fd3b72dee9da0aa228a787e90aa044f6c90de13fb839383b5530b65cc8c",
+    "experiments/verification-repair-policy/corpus_import.py": "d959ef88c6791ec7456e2e7be316cb9081ba55f227b3bc37c17416ae63328e99",
+    "experiments/verification-repair-policy/runtime.py": "9531991b07ba7a17db10ca7dde7e080d6468062b7cca47bd5e690d1a736b9bff",
+    "experiments/verification-repair-policy/corpus_report.py": "4851ec9963b8cd7c92f3c8f718a64b8bd8bbb945f67479a9664d2e07eac48d12",
+    "experiments/verification-repair-policy/common.py": "249469a2b1436cc550ffdf89b37fa4cd76150b301965581f3cae6d6bae7f4afe",
+    "experiments/verification-repair-policy/test_corpus_evidence.py": "c823bb76e189efd259d51d854815143dc1f63ba85bab636353b47e663d35bfa2",
+    "experiments/verification-repair-policy/calibrate.py": "7d7942e9d52d017006fbc4b56357cd8344b1e678da99a926f3fe9f4d25f082b6",
+    "experiments/verification-repair-policy/test_generation.py": "3d3b651981eaa3b338c9ecf1f6c51901200bfb24b4c9b5d3acb89166dcf818b4",
+    "experiments/verification-repair-policy/corpus.py": "1204efd0beb5124db7f776a74572d267d04e39fde2505fa7c8d42ba8a10ecc7e",
+    "src/lean_agent/evaluator/lean.py": "b4fa9f8b1a3b61365a6c1b65c732355a150e0cbc1af6299b2721a6253eb76a42",
+    "src/lean_agent/openai_direct.py": "b2d6a531ef9f7d48a09587d04fa2394001327d253a1ce526a9e12c4669ecd1b9"
+  },
+  "python": "3.12.13",
+  "lean": "leanprover/lean4:v4.26.0",
+  "platform": "Darwin arm64",
+  "tests": {
+    "repository": {
+      "discovered": 144,
+      "passed": 140,
+      "skipped": 4,
+      "log_sha256": "24ae34a75c38eb294695b9eeb06e3b27f3434f983d669c3988c758efeb0ae7f3"
+    },
+    "api_comparison": {
+      "discovered": 13,
+      "passed": 13,
+      "skipped": 0,
+      "log_sha256": "8ecc5eea47eafcb8923db06546ae11cd6a6cefbe9f942a151144c4de5b5169dc"
+    },
+    "usage_cost": {
+      "discovered": 19,
+      "passed": 19,
+      "skipped": 0,
+      "log_sha256": "03b24306d7b857a070bf47759760470e4f6cfc9c182ddcf5e7b557b99f8f1ec4"
+    },
+    "budget_trial": {
+      "discovered": 24,
+      "passed": 24,
+      "skipped": 0,
+      "log_sha256": "77831e82b825da81a233e628a2585bbe2efa33537f6d2f287c7dd2faea3547b9"
+    },
+    "repair_offline": {
+      "discovered": 47,
+      "passed": 37,
+      "skipped": 10,
+      "log_sha256": "9779b2349250b7b5e0165035a91b9d65fede2fa8c8342407751ea7f46fc90ec6"
+    },
+    "repair_native": {
+      "discovered": 10,
+      "passed": 10,
+      "skipped": 0,
+      "log_sha256": "64633dd641de1d783ed95f4a7f7dbe1bc7e681eb3ba42b7632404c869267c47a"
+    }
+  },
+  "passed_distinct_tests": 243,
+  "p02_calibration": {
+    "ready": true,
+    "rounds": 3,
+    "metrics": [
+      {
+        "raw_heartbeats": 2695001,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695001
+        ],
+        "tokens": 222
+      },
+      {
+        "raw_heartbeats": 2695001,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695001
+        ],
+        "tokens": 222
+      },
+      {
+        "raw_heartbeats": 2695003,
+        "raw_samples": [
+          2694882,
+          2695038,
+          2695003
+        ],
+        "tokens": 222
+      }
+    ],
+    "max_process_seconds": 16.657561,
+    "time_headroom_factor": 3.601967899142017,
+    "stable_within_one_percent": true,
+    "limits": {
+      "depth": 2,
+      "lean_calls": 64,
+      "lean_seconds": 60,
+      "memory_mib": 2048,
+      "node_calls": 2,
+      "nodes": 8,
+      "repair_calls": 6,
+      "repair_seconds": 600,
+      "run_calls": 100,
+      "run_seconds": 1800
+    },
+    "final_verification_reserve_seconds": 480
+  },
+  "p02_suite_prepared_not_executed": "/private/tmp/repair-integration-p02-suite-v2",
+  "generation_fixture_summary": {
+    "actual_api_calls": 0,
+    "actual_api_cost_usd": "0",
+    "arms": {
+      "planner-worker-v1": {
+        "completed": 2,
+        "distinct_selected_sources": 1,
+        "final_q": [
+          2,
+          2
+        ],
+        "final_verified": 2,
+        "original_returns": 2,
+        "proof_tokens": [
+          38,
+          38
+        ],
+        "raw_heartbeats": [
+          79665,
+          79664
+        ],
+        "repair_entries": 0,
+        "runs": 2,
+        "verified_repairs": 0
+      },
+      "recursive-repair-v1": {
+        "completed": 2,
+        "distinct_selected_sources": 1,
+        "final_q": [
+          1.2672351656773264,
+          1.2672351656773264
+        ],
+        "final_verified": 2,
+        "original_returns": 0,
+        "proof_tokens": [
+          23,
+          23
+        ],
+        "raw_heartbeats": [
+          52736,
+          52736
+        ],
+        "repair_entries": 2,
+        "runs": 2,
+        "verified_repairs": 2
+      }
+    },
+    "backend": "fixture",
+    "evidence_kind": "fixture_contract_only",
+    "mean_q_repair_minus_baseline": -0.7327648343226736,
+    "reference_reason": null,
+    "reference_status": "completed",
+    "run_ids": [
+      "baseline-r1",
+      "repair-r1",
+      "repair-r2",
+      "baseline-r2"
+    ],
+    "unknown_cost": false
+  },
+  "actual_api_calls": 0,
+  "actual_api_cost_usd": "0",
+  "archive": {
+    "path": "evidence.tar.gz",
+    "bytes": 3006044,
+    "sha256": "dfe2944ccab0f83896721d68f19d0d312c8979a7fcb1e770795e0e374c74ac8f"
+  },
+  "commands": {
+    "repository_tests": "PYTHONPATH=src PROJECT_CACHE_DIR=/private/tmp TMPDIR=/private/tmp python3 -m unittest discover -s tests -v",
+    "offline_tests": "python3 -m unittest discover -s experiments/verification-repair-policy -p 'test_*.py' -v",
+    "native_tests": "REPAIR_RUN_LEAN_TESTS=1 REPAIR_EVIDENCE_DIR=/path/to/new-evidence python3 -m unittest discover -s experiments/verification-repair-policy -p 'test_*lean.py' -v",
+    "calibration": "python3 experiments/verification-repair-policy/calibrate.py --project /path/to/pinned/Strata --lean /path/to/lean-4.26.0/bin/lean --output /path/to/new-calibration",
+    "fixture_archive_replay": "python3 native/generation-suite/code/repo/experiments/verification-repair-policy/generation.py replay --output native/generation-suite"
+  },
+  "limitations": [
+    "No paid API experiment or production API acceptance test.",
+    "Two repetitions per arm are exploratory; fixture quality is not model performance.",
+    "#37 unpublished code is not integrated; no claim to close #37.",
+    "Historical C corpus results remain unchanged; two wrong-scope observations are corrected in prose."
+  ],
+  "archive_replay": {
+    "passed": true,
+    "generation_runs": 4,
+    "fixture_records": 17,
+    "subprocess_calls": 0,
+    "model_calls": 0,
+    "calibration_inventory_verified": true
+  }
+}

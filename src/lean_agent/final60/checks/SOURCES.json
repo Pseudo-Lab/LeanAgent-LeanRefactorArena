@@ -1,0 +1,18 @@
+{
+  "note": "Byte-identical vendored copies, used by final60 assembly only when scripts/ lacks them. Refresh both files and this record together.",
+  "files": {
+    "check_submission_rules.py": {
+      "source": "scripts/check_submission_rules.py",
+      "pull_request": 64,
+      "commit": "3a0db72d47d0433d08e4b8a34a82d34af7460cc6",
+      "sha256": "26d67591ea0c96020c8f48e475e891f662ec5811b0438a5b0087f76d4e231519"
+    },
+    "check_submission_provenance.py": {
+      "source": "scripts/check_submission_provenance.py",
+      "pull_request": 70,
+      "commit": "a125315005743fd41d5c5c9f749e5f444a1c8b69",
+      "sha256": "77dbaeff913a09d5ca9ca07a2b532992cf92248ca66cfc46c86050a84773ce99",
+      "note": "integration head: PR #70 plus the per-call api_endpoint check of the final60 transport"
+    }
+  }
+}

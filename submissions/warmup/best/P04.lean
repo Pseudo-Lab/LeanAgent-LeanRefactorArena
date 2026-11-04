@@ -5,7 +5,7 @@ lemma fundamental_theorem_of_variational_calculus' {f : Y → V}
     f = 0 := by
   funext x
   have hle := ‹OpensMeasurableSpace Y›.borel_le
-  have hc : Continuous fun y => ⟪f y, f x⟫_ℝ := by fun_prop
+  have hc := hf.inner' (𝕜 := ℝ) f (fun _ => f x) continuous_const
   refine inner_self_eq_zero'.1 (congrFun ((hc.ae_eq_iff_eq μ continuous_zero).1
     (ae_eq_of_ae_eq_trim (hm := hle) ?_)) x)
   letI := borel Y

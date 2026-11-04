@@ -7,6 +7,7 @@ never treated as permanent proof rejections. Final measurements bypass this cach
 """
 from __future__ import annotations
 
+import errno
 import hashlib
 import json
 import os
@@ -41,7 +42,7 @@ def cacheable(result):
         "no such file", "failed to open", "unknown module prefix", "object file",
         "permission denied", "input/output error", "stack overflow", "heartbeat",
         "maximum recursion depth", "timeout", "timed out",
-        "operation not permitted", "sandbox-exec:", "sandbox_apply:",
+        "operation not permitted", "sandbox-exec:", "sandbox_apply:", "bwrap:",
     )):
         return False
     return (error["kind"] == "axioms" or any((r.get("returncode") or 0) > 0 for r in runs))
@@ -160,4 +161,12 @@ class EvaluationCache:
             receipt = {"schema": SCHEMA, "key": key, "identity": identity,
                        "origin": str(source.resolve()), "files": files}
             (stage / "receipt.json").write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n")
-            os.replace(stage, entry)
+            try:
+                os.replace(stage, entry)
+            except OSError as exc:
+                if exc.errno not in (errno.EEXIST, errno.ENOTEMPTY):
+                    raise
+                # A concurrent verifier won publication. Validate its immutable
+                # evidence; never replace it or silently accept corruption.
+                if self._read(identity) is None:
+                    raise ValueError("Concurrent cache publication disappeared") from exc

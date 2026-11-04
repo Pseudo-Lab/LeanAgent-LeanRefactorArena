@@ -1,0 +1,26 @@
+{
+  "raw_cohort": "/Users/zzu0203/projects/01_\uac00\uc9dc\uc5f0\uad6c\uc18c/LeanAgent-LeanRefactorArena/runs/first-harness-jwkweon/feedback-ablation-20261025",
+  "audited_summary_sha256": "9e8b527e8ba772d91653340b563fb3e0635b150967624c75a52e4baaab54832e",
+  "files_sha256": {
+    "results.png": "541a8a801356251978a91e6edc68ebf9057ed400fb3bd26a4ed79870de89dcea",
+    "results.svg": "0d6c96267a582e56e082e0eaceedc1f5a0f3ad97a1c5202240d65bdca77a5843",
+    "results.json": "9e8b527e8ba772d91653340b563fb3e0635b150967624c75a52e4baaab54832e",
+    "operator-incidents.jsonl": "bef880e01bc34f83d1abee4f0c9d2ba4c9fad858da713f56422fa538ed3a68f6",
+    "offline-formatter-check.json": "f423ee3facee79faae7159e61a3ca10eb304dae3d861984a6d5b5bc941a0fdcb",
+    "README.md": "be7276a0b4acb4295e5b0c9233e0ceb71c51315934e4aa5d239fe6fa435c4a35",
+    "cohort.frozen.json": "8a1b5e081bf8345e2ca4523644f286f7ea6ab27373abf547d11aa07006e09220",
+    "dispatch.jsonl": "646459f5213691d543c1c860440a6363549891cf4922b88db9ef831aef57740c",
+    "execution-protocol.json": "6f889ae701b288b671780af06369c34520c63ff114549f5da0fa96792c64c3ff",
+    "runtime-checks.json": "fcaf06c39ac894978d9b506bd2bf108f00b0727e4a0b546a6ec5b23849caa5d0",
+    "design.frozen.json": "29519993e2fd46616af9e5b31ca753057c7ab143e93e6ce7c3044abc4ed3bd73",
+    "selected/P13-L-r2.lean": "4e8bf6ddf7969f3df4a62255bfaedb308b712c9dfbe764916f12c3c441af88d6",
+    "selected/P01-L-r2.lean": "b32915323ba9d4acac577366cdec099bee191061e0efdffbc090b9c3f7a2cf94",
+    "selected/P13-S-r2.lean": "0ece012cb99af19e1692bfc85a95e31944d165fa49ed2a9fb5ddb27483045e3a",
+    "selected/P01-S-r2.lean": "6d2b6a2eb28293acd9f36934c92c3ba866c7f5a2900730afd4df7edf06b83c41",
+    "selected/P01-S-r1.lean": "f737e9d58b2db7f37a3a282b69f6f5951c926667be89bf95924dc029ba67af48",
+    "selected/P13-S-r1.lean": "336deeb37ca2e70fd5665cebf825eaa126620e2d4ee7b8fc39e6c94e0014d138",
+    "selected/P01-L-r1.lean": "65395f6369de0ce91e5674301dd236df172bd109b6289e64150903ee08096450",
+    "selected/P13-L-r1.lean": "3334f802ab290051c1cf18b2604a756f77ca195d37366f5619cac15aed4b23e9"
+  },
+  "selected_proof_context": "../inputs/PROBLEM/context.lean.in; declarations require the frozen context."
+}

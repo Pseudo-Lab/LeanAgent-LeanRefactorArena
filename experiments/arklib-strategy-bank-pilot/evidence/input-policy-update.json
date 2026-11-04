@@ -1,0 +1,30 @@
+{
+  "policy": "single-reference-and-official-version-info-v2",
+  "scope": "only not-started problems",
+  "updates": [
+    {
+      "index": 8,
+      "name": "ProximityGap.RS_jointAgreement_of_goodCoeffs_card_gt",
+      "before_sha256": "cc255b7ffbe8c061ad36727b9d39c1feecfdb304e915350e8741bf63d69e8cec",
+      "after_sha256": "274d5b56c8279d1b49caa155fcc6704d1afa899fda32efda6125aec2eb8ae845",
+      "reference_and_statement_unchanged": true
+    },
+    {
+      "index": 9,
+      "name": "Sumcheck.Spec.SingleRound.Simple.reduction_perfectCompleteness",
+      "before_sha256": "84b53b09d6917b7900b112a03993ec073a2c72e179d131acdb10ccc8c3581633",
+      "after_sha256": "cd55a32bcd57da4a39dd84389a380b6c85fb2c9156addffd955075381009ed58",
+      "reference_and_statement_unchanged": true
+    },
+    {
+      "index": 10,
+      "name": "ps_coprime_case_constant",
+      "before_sha256": "1d1c545a9f9e1f2aa5d9b1a782df369af6cded201d39f558ad8433a4d9d1ba89",
+      "after_sha256": "81bf431766b01344092a118e6dad7db499745bce6891513b22d29050c277fe68",
+      "reference_and_statement_unchanged": true
+    }
+  ],
+  "model_bank_and_budget_changed": false,
+  "model_calls_repeated": 0,
+  "research_interpretation": "Exploratory pilot includes documented input-adapter correction; not a uniform controlled A/B trial."
+}

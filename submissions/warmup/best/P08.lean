@@ -1,62 +1,24 @@
 theorem parallelReduction_diamond : Diamond ParallelReduction := by
   intro a a₁ a₂ h₁ h₂
-  cases h₁
-  case refl => exact ⟨a₂, h₂, .refl a₂⟩
-  case par a a' b b' ha' hb' =>
-    cases h₂
-    case refl =>
-      use a' ⬝ b'
-      exact ⟨.refl (a' ⬝ b'), .par ha' hb'⟩
-    case par a'' b'' ha'' hb'' =>
-      let ⟨a₃, ha⟩ := parallelReduction_diamond ha' ha''
-      let ⟨b₃, hb⟩ := parallelReduction_diamond hb' hb''
-      use a₃ ⬝ b₃
-      constructor
-      · exact .par ha.1 hb.1
-      · exact .par ha.2 hb.2
-    case red_I =>
-      rw [I_irreducible a' ha']
-      use b', .red_I b'
-    case red_K =>
-      let ⟨a₂', ha₂'⟩ := Ka_irreducible a₂ a' ha'
-      rw [ha₂'.2]
-      use a₂'
-      exact ⟨.red_K a₂' b', ha₂'.1⟩
-    case red_S a c =>
-      let ⟨a'', c', h⟩ := Sab_irreducible a c a' ha'
-      rw [h.2.2]
-      use a'' ⬝ b' ⬝ (c' ⬝ b'), .red_S a'' c' b'
-      exact .par (.par h.1 hb') (.par h.2.1 hb')
-  case red_I =>
-    cases h₂
-    case refl => use a₁; exact ⟨.refl a₁, .red_I a₁⟩
-    case par c a₁' hc ha =>
-      rw [I_irreducible c hc]
-      use a₁'
-      exact ⟨ha, .red_I a₁'⟩
-    case red_I => use a₁; exact ⟨.refl a₁, .refl a₁⟩
-  case red_K c =>
-    cases h₂
-    case refl => use a₁; exact ⟨.refl a₁, .red_K a₁ c⟩
-    case par a' c' ha hc =>
-      let ⟨a₁', h'⟩ := Ka_irreducible a₁ a' ha
-      rw [h'.2]
-      use a₁'
-      exact ⟨h'.1, .red_K a₁' c'⟩
-    case red_K =>
-      use a₁; exact ⟨.refl a₁, .refl a₁⟩
-  case red_S a b c =>
-    cases h₂
-    case refl =>
-      use a ⬝ c ⬝ (b ⬝ c)
-      exact ⟨.refl _, .red_S ..⟩
-    case par d c' hd hc =>
-      let ⟨a', b', h⟩ := Sab_irreducible a b d hd
-      rw [h.2.2]
-      use a' ⬝ c' ⬝ (b' ⬝ c')
-      constructor
-      · apply ParallelReduction.par
-        · exact .par h.left hc
-        · exact .par h.2.1 hc
-      · exact .red_S ..
-    case red_S => exact ⟨a ⬝ c ⬝ (b ⬝ c), .refl _, .refl _,⟩
+  induction h₁ generalizing a₂
+  case refl => use a₂, h₂, .refl a₂
+  all_goals cases h₂
+  case' par.par iha ihb _ _ ha'' hb'' =>
+    rcases iha ha'', ihb hb'' with ⟨⟨_, ha⟩, ⟨_, hb⟩⟩
+    exact ⟨_, ha.1.par hb.1, ha.2.par hb.2⟩
+  case' par.red_I b' _ _ ha' _ =>
+    cases I_irreducible _ ha'
+    use b', .red_I b'
+  case' par.red_K ha' _ | red_K.par ha' _ =>
+    obtain ⟨k, h, rfl⟩ := Ka_irreducible _ _ ha'
+    refine ⟨k, ?_, ?_⟩ <;> first | assumption | constructor
+  case' par.red_S hb' _ _ _ ha' _ | red_S.par ha' hb' =>
+    obtain ⟨_, _, ha, hc, rfl⟩ := Sab_irreducible _ _ _ ha'
+    have hj := (ha.par hb').par (hc.par hb')
+    first
+    | exact ⟨_, hj, .red_S ..⟩
+    | exact ⟨_, .red_S .., hj⟩
+  case' red_I.par a₁' hc ha =>
+    cases I_irreducible _ hc
+    use a₁', ha, .red_I _
+  all_goals exact ⟨_, .refl _, by constructor <;> assumption⟩

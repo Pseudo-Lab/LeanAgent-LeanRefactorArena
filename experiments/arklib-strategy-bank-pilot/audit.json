@@ -1,0 +1,16 @@
+{
+  "passed": true,
+  "model_called": false,
+  "lean_called": false,
+  "original_archive_audit": true,
+  "source_log_context_hashes_checked": true,
+  "raw_api_costs_recomputed": true,
+  "pre_dispatch_reservations_checked": true,
+  "common_record_replay_runs": 11,
+  "selected_proofs": 10,
+  "required_problem_version_combinations": 25,
+  "samples_per_valid_proof_per_version": 3,
+  "problem07_ranked_generated_rejections": 18,
+  "raw_archives_included": false,
+  "public_summary_limit": "Public files permit arithmetic/hash/usage audits; full compiler logs and provider response bodies remain in the original local archives."
+}

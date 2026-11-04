@@ -155,7 +155,7 @@ def build_bundle(root=ROOT, *, p12_reference=False):
             'sha256': sha(proof.encode()), 'teamBestSha256': entry['sha256'],
             'localStatus': 'reference_not_reverified' if fallback else entry['status'],
             'versions': entry['versions'],
-            'note': ('P12 team candidate has three top-level helper lemmas. The upload uses the unchanged official reference until that candidate is repaired and verified.' if fallback else ''),
+            'note': ('Explicit original-reference fallback for P12; the selected candidate and its separate verification remain in the manifest.' if fallback else ''),
         })
     if len(rows) != 15 or {r['name'] for r in rows} != set(by_name):
         raise ValueError('Expected exactly one row for every warmup problem')
@@ -174,19 +174,19 @@ def build_bundle(root=ROOT, *, p12_reference=False):
         'apiEligibility': manifest['apiEligibility'],
         'limitations': [
             'Packaging checks are not Lean compilation or official scoring.',
-            'P03, P07, P08, P09 still have pending designated-version checks.',
+            'Designated-version status is recorded per problem; compatibility checks do not establish official scoring.',
             'No exemption from the OpenRouter, budget or reproduction requirements is inferred from warmup upload availability.',
         ],
         'problems': evidence,
     }
     if p12_reference:
-        audit['limitations'].append('P12 uses the official reference, not the owner refactor; it has not been reverified in this export.')
+        audit['limitations'].append('P12 explicitly uses the official reference instead of the selected candidate; this packaging run does not perform Lean verification.')
     return payload, audit
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--p12-reference', action='store_true', help='Explicitly use the official P12 reference instead of its unsupported team refactor')
+    parser.add_argument('--p12-reference', action='store_true', help='Explicitly use the official P12 reference instead of the selected candidate')
     parser.add_argument('--output', type=Path, default=ROOT / 'submissions/warmup/submission.jsonl')
     args = parser.parse_args()
     payload, audit = build_bundle(p12_reference=args.p12_reference)
