@@ -13,8 +13,8 @@ theorem of_consensus [Fintype P] (f : ℕ) (hf : f < card P)
     apply (Algorithm.drop_procFair_iff hz p xl.length).mp
     simpa [xs, ht, drop_append_of_ge_length] using fair p hp
   have hb : numProcFaulty zz xs ≤ f := by
-    have := numProcFaulty_le_not_procFair keep
-    omega
+    apply (numProcFaulty_le_not_procFair keep).trans
+    exact Nat.sub_le_iff_le_add'.2 (Nat.le_add_of_sub_le hps)
   have adm : a.AdmissibleRun inp f zz xs := by
     refine ⟨h0, hz, ?_, hb⟩
     intro p
