@@ -1,9 +1,9 @@
-"""Code ZIP for the organizers: tracked files only, no symlinks, no other teams' artifacts, no secrets.
+"""Code ZIP for the organizers: tracked runtime files, without historical proof artifacts.
 
 `python -m lean_agent.final60 package --out code.zip`. The pack list is `git ls-files` of the
-checkout; paths under declaration-indexes/, quarantine/ or competitor folders (and any file
-naming another team's index dataset) are left out, and the ZIP's own listing is asserted clean
-afterwards (research item 1). A tracked symlink or secret-looking content refuses the pack.
+checkout, restricted to the submission runtime, its tests, pins and operating instructions.
+Skills, solutions, dashboards, submissions, raw runs and historical experiments are omitted.
+A tracked symlink or secret-looking content refuses the pack.
 """
 from __future__ import annotations
 
@@ -15,11 +15,32 @@ import subprocess
 import zipfile
 
 EXCLUDED = re.compile(r"(^|/)(declaration-indexes|quarantine|competitors?|competitor-artifacts|third-party-indexes)(/|$)"
+                      r"|(^|/)(skills|solutions|dashboard|submissions|runs|sources)(/|$)"
+                      r"|(^|/)warmup_bank\.json$|(^|/)experiments/strategy-retriever/bank(/|$)"
                       r"|hrushi|lean-refactor-arena-indexes|vexorium|coco-refactor", re.IGNORECASE)
 # Real key shapes only (OpenRouter sk-or-v1-<64 hex>, OpenAI sk-...): a hit names the file; leave a
 # fixture-only file out with --exclude rather than packing it.
 SECRET = re.compile(rb"\bsk-or-v1-[0-9a-f]{32,}|\bsk-(?:proj-)?[A-Za-z0-9_-]{40,}")
 README = "README.md"
+SUBMISSION_FILES = frozenset({
+    README, "LICENSE", "pyproject.toml",
+    "configs/final-environments.lock.json",
+    "docs/final60/RUNBOOK.md", "docs/final-run.md", "docs/measurements/final60-baselines.json",
+    "scripts/final60_supervise.sh", "scripts/check_submission_rules.py",
+    "scripts/check_submission_provenance.py", "experiments/proof-analyze/proof_tokens.py",
+    "examples/actions/prompt.txt",
+})
+HISTORICAL_TESTS = frozenset({"test_assigned_routes.py", "test_route60.py"})
+
+
+def submission_path(name):
+    """Paths needed to run and test final60; experiment outputs are never runtime inputs."""
+    path = Path(name)
+    return (name in SUBMISSION_FILES or name.startswith(("src/", "refactor_eval/"))
+            or (path.parent.as_posix() == "experiments/final-batch-next" and path.suffix == ".py"
+                and path.name not in HISTORICAL_TESTS)
+            or (path.parent.as_posix() == "tests" and path.name.startswith("test_final60_")
+                and path.suffix == ".py"))
 
 
 def tracked(repo):
@@ -37,12 +58,14 @@ def tracked(repo):
 
 
 def excluded(name, extra=()):
-    return EXCLUDED.search(name) is not None or any(pattern.search(name) for pattern in extra)
+    return (not submission_path(name) or EXCLUDED.search(name) is not None
+            or any(pattern.search(name) for pattern in extra))
 
 
-def assert_clean(names, extra=()):
+def assert_clean(names, extra=(), *, prefix=""):
     """Raise when any packed path is an excluded artifact (called on the pack list and on the ZIP)."""
-    bad = [name for name in names if excluded(name, extra)]
+    bad = [name for name in names if (prefix and not name.startswith(prefix))
+           or excluded(name.removeprefix(prefix), extra)]
     if bad:
         raise ValueError("Packed paths include excluded artifacts: " + ", ".join(sorted(bad)[:8]))
     return True
@@ -80,7 +103,7 @@ def package_code(repo, out, *, name=None, extra_excludes=()):
             archive.writestr(info, data)
     with zipfile.ZipFile(out) as archive:
         names = archive.namelist()
-    assert_clean(names, extra)
+    assert_clean(names, extra, prefix=prefix)
     if any(not entry.startswith(prefix) for entry in names) or prefix + README not in names:
         raise ValueError("ZIP layout is not <name>/<tracked path> with a top-level README")
     manifest = {"zip": str(out), "prefix": prefix, "files": len(chosen), "excluded": sorted(dropped),

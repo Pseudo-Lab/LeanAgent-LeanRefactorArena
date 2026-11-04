@@ -255,8 +255,13 @@ Scores in reports are local estimates, not official worker scores.
 - `<sources>/final/bin` (this checkout's and `--prepared-repo`'s) is prepended to `PATH` for the
   supervisor's children and in every row worker, so `shutil.which("bwrap")` finds the shipped sandbox.
 - `--transport NAME` is passed through to row workers (`FINAL60_TRANSPORT` and `--transport`).
-- `python -m lean_agent.final60 package --out code.zip [--repo R]` builds the code ZIP from tracked
-  files and asserts that no `declaration-indexes`, `quarantine` or competitor artifact is packed.
+- `python -m lean_agent.final60 package --out code.zip [--repo R]` builds the code ZIP from an
+  explicit list of tracked runtime files, tests, pins and operating instructions. It excludes
+  `skills/`, `solutions/`, `dashboard/`, `submissions/`, `runs/`, historical experiment artifacts,
+  local environments, competitor artifacts and warm-up banks. Routing has no built-in warm-up
+  bank or warm-up hint loader; the old bank format is rejected when passed through `--bank`.
+  The dataset and Lean environments are provided separately by the organizers; the root README
+  describes the expected layout and reproduction commands.
 
 
 ## Hot-fix track since rc2 (2026-11-04; production tag `final60-rc4`)

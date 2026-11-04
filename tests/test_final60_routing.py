@@ -348,31 +348,18 @@ class LeakFilter(unittest.TestCase):
 
 
 class Banks(unittest.TestCase):
-    def test_warmup_bank_is_pinned_warmup_copy(self):
-        bank = routing.warmup_bank()
-        self.assertIn("warm-up material only", bank["built_from"])
-        for card in bank["strategies"]:
-            self.assertEqual(card["evidence"]["source_set"], "warm-up")
-        original = ROOT / routing.WARMUP_BANK_SOURCE
-        if original.is_file():
-            self.assertEqual((routing.DATA / "warmup_bank.json").read_bytes(), original.read_bytes())
-
-    def test_warmup_selection_matches_pr50_on_fixture(self):
-        problem = {"row": 3, "name": "t", "source": "strata", "statement": CASES_STMT, "reference": CASES}
-        feat = routing.features(problem, None)
-        self.assertIn("route_cue", feat["tags"])
-        self.assertIn("case_main", feat["tags"])
-        hints = routing.warmup_hints(feat, limit=1)
-        self.assertEqual(hints[0][1], "warmup-bank:bank-v1:S01@760b59e")
-        retriever_dir = ROOT / "experiments/strategy-retriever"
-        if retriever_dir.is_dir():
-            sys.path.insert(0, str(retriever_dir))
-            try:
-                import retriever
-                expected = retriever.retrieve(CASES_STMT, CASES, retriever.load_bank(), k=1)
-            finally:
-                sys.path.remove(str(retriever_dir))
-            self.assertEqual(expected["strategies"][0]["id"], "S01")
+    def test_warmup_bank_format_cannot_be_reintroduced(self):
+        bank = {"version": "bank-v1", "strategies": [
+            {"id": "S01", "title": "Previous solution hint", "match": {"all_tags": ["case_main"]},
+             "application_guide": ["Read the warm-up bank before solving."]}]}
+        base = routing.rules()
+        opted = {**base, "hints": {**base["hints"], "bank_cards": 1}}
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "old-bank.json"
+            path.write_text(json.dumps(bank))
+            with mock.patch.object(routing, "rules", return_value=opted):
+                with self.assertRaisesRegex(ValueError, "Unknown bank format"):
+                    route(STRUCT, bank_paths=[path])
 
     def test_team_bank_is_opt_in_and_leave_one_out(self):
         def card(card_id, problem):
@@ -381,7 +368,7 @@ class Banks(unittest.TestCase):
                     "evidence": [{"problem": problem, "candidate_sha256": "0" * 64}]}
         bank = {"schema_version": 1, "version": "fixture-team", "scope": "final-adaptation",
                 "strategies": [card("own", STRUCT["name"]), card("other", "Some.Other")]}
-        # Production rules set bank_cards to 0 (no warm-up cards); the opt-in team bank is tested with one card.
+        # Production disables external cards; this opt-in team bank is tested with one card.
         base = routing.rules()
         opted = {**base, "hints": {**base["hints"], "bank_cards": 1}}
         with mock.patch.object(routing, "rules", return_value=opted):

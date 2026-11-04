@@ -7,8 +7,7 @@ Inputs are the driver problem dict (``row``, ``name``, ``statement``,
 ``docs/measurements/final60-baselines.json``.
 
 Provenance (design 7.3 with amendments A15/A17): hints come only from the
-generic playbooks in ``data/playbooks.json``, the warm-up-only PR #50 bank
-(``data/warmup_bank.json``, commit 760b59e) and an in-run lesson bank built from
+generic playbooks in ``data/playbooks.json`` and an in-run lesson bank built from
 this run's own validated OpenRouter winners. Final-derived team banks (PR #73
 ``team-v1``) are used only when explicitly passed in ``bank_paths``, and then only
 leave-one-out. Every hint passes ``leak_filter`` against the non-OpenRouter proofs
@@ -37,8 +36,6 @@ insert_addendum = prompts.insert_addendum      # for the driver's prompt_text ho
 split_addendum = prompts.split_addendum        # for the driver's validate_inputs hook
 ROUTE_SCHEMA = "final60-route-v1"
 LESSON_SCHEMA = "final60-lessons-v1"
-WARMUP_BANK_COMMIT = "760b59e1e4e3b058c29e1954780367bb6f43dab8"
-WARMUP_BANK_SOURCE = "experiments/strategy-retriever/bank/strategies.json"
 TYPES = ("kernel-decide-tiny", "short-tactic", "structural-induction", "algebra-analysis-long", "competition")
 MIN_LEAK_CHARS = 40          # PR #70 MIN_LEAK_CHARS
 MAX_REQUEST_BYTES = 240_000  # transport refuses larger bodies (design section 5)
@@ -71,15 +68,10 @@ def rules() -> dict:
 
 
 @lru_cache(maxsize=None)
-def warmup_bank() -> dict:
-    return json.loads((DATA / "warmup_bank.json").read_text(encoding="utf-8"))
-
-
-@lru_cache(maxsize=None)
 def data_sha256() -> str:
-    """Identity of the routing data (rules, playbooks, warm-up bank), recorded in route.json."""
+    """Identity of the routing data (rules and playbooks), recorded in route.json."""
     digest = hashlib.sha256()
-    for name in ("route_rules.json", "playbooks.json", "warmup_bank.json"):
+    for name in ("route_rules.json", "playbooks.json"):
         digest.update(name.encode() + b"\0" + (DATA / name).read_bytes() + b"\0")
     return digest.hexdigest()
 
@@ -464,41 +456,6 @@ def leak_filter(texts: list[str], non_openrouter_proofs, *, min_chars: int = MIN
 
 # --------------------------------------------------------------------- banks
 
-def _bank_score(match: dict, feat: dict) -> int | None:
-    """PR #50 retriever score: all_tags required; any_tags/tactic_min need one hit when given."""
-    tags, counts = set(feat["tags"]), feat["counts"]
-    if not set(match.get("all_tags", [])) <= tags:
-        return None
-    hits = [tag for tag in match.get("any_tags", []) if tag in tags]
-    hits += [word for word, minimum in match.get("tactic_min", {}).items() if counts.get(word, 0) >= minimum]
-    if (match.get("any_tags") or match.get("tactic_min")) and not hits:
-        return None
-    return len(match.get("all_tags", [])) + len(hits)
-
-
-def _warmup_card_text(card: dict) -> str:
-    text = f"{card['title']}: {' '.join(card.get('application_guide', []))}"
-    risks = " ".join(card.get("risk_notes", []))
-    full = prompts.flat(text + (" Risk: " + risks if risks else ""))
-    return full if len(full) <= prompts.MAX_HINT_CHARS else prompts.shorten(text)
-
-
-def warmup_hints(feat: dict, *, limit: int, bank: dict | None = None) -> list[tuple[str, str]]:
-    """Specific warm-up bank matches (general moves excluded), leave-one-out by problem name."""
-    bank = bank if bank is not None else warmup_bank()
-    ranked = []
-    for index, card in enumerate(bank.get("strategies", [])):
-        evidence = set((card.get("evidence") or {}).get("source_problem_ids", []))
-        if feat["name"] and evidence == {feat["name"]}:
-            continue
-        score = _bank_score(card.get("match", {}), feat)
-        if score:
-            ranked.append((-score, index, card))
-    version = bank.get("version", "warmup")
-    return [(_warmup_card_text(card), f"warmup-bank:{version}:{card['id']}@{WARMUP_BANK_COMMIT[:7]}")
-            for _, _, card in sorted(ranked, key=lambda item: item[:2])[:limit]]
-
-
 def team_bank_hints(path: Path, problem: dict, *, limit: int) -> list[tuple[str, str]]:
     """Opt-in PR #73 bank: whole cards naming this problem are dropped; prose (title + guide) only."""
     from .. import strategy_bank, strategy_signals
@@ -572,8 +529,6 @@ def _bank_kind(path: Path) -> str:
     value = json.loads(path.read_text(encoding="utf-8"))
     if isinstance(value, dict) and "scope" in value and "schema_version" in value:
         return "team"
-    if isinstance(value, dict) and isinstance(value.get("strategies"), list):
-        return "warmup"
     raise ValueError(f"Unknown bank format: {path.name}")
 
 
@@ -594,13 +549,9 @@ def _hint_candidates(problem: dict, feat: dict, problem_type: str, bank_paths) -
     kinds = [(Path(path), _bank_kind(path)) for path in bank_paths]
     items += lesson_hints([path for path, kind in kinds if kind == "lessons"], feat, problem_type,
                           limit=spec["lessons"])
-    items += warmup_hints(feat, limit=spec["bank_cards"])
     for path, kind in kinds:
         if kind == "team":
             items += team_bank_hints(path, problem, limit=spec["bank_cards"])
-        elif kind == "warmup":
-            items += warmup_hints(feat, limit=spec["bank_cards"],
-                                  bank=json.loads(path.read_text(encoding="utf-8")))
     items += [(text, f"playbook:{problem_type}:{core + index + 1}") for index, text in enumerate(typed[core:])]
     return items
 
@@ -731,8 +682,7 @@ def route_json(value: Route, *, prior_cost_usd: str | Decimal = "0") -> dict:
     data = dataclasses.asdict(value)
     data.update(schema=SCHEMA, route_schema=ROUTE_SCHEMA, prompt_addendum=prompts.prompt_addendum(value),
                 prompt_addendum_sha256=_sha(prompts.prompt_addendum(value)), cost_stop_usd=str(CAP_USD),
-                prior_cost_usd=str(prior), routing_data_sha256=data_sha256(),
-                warmup_bank={"source": WARMUP_BANK_SOURCE, "commit": WARMUP_BANK_COMMIT})
+                prior_cost_usd=str(prior), routing_data_sha256=data_sha256())
     return _sorted(data)
 
 

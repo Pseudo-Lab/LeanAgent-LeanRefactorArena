@@ -125,8 +125,8 @@ def build_parser():
     assemble_parser.add_argument("--final", action="store_true")
     assemble_parser.add_argument("--refresh-non-openrouter", action="store_true")
     assemble_parser.add_argument("--allow-dry-run", action="store_true", help="Testing only: include dry-run roots")
-    package_parser = commands.add_parser("package", help="Code ZIP of tracked files (no symlinks, indexes, quarantine "
-                                                        "or competitor artifacts); asserts the exclusions")
+    package_parser = commands.add_parser("package", help="Code ZIP of tracked runtime files; excludes skills, solutions, "
+                                                        "dashboards, submissions and historical runs")
     package_parser.add_argument("--out", type=Path, required=True)
     package_parser.add_argument("--repo", type=Path, help="Checkout to pack (default: this one)")
     package_parser.add_argument("--name", help="Top-level folder inside the ZIP (default: the checkout's name)")

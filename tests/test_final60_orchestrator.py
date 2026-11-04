@@ -1298,6 +1298,11 @@ class PackageTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp:
             repo = Path(temp) / "harness-repo"
             files = {"README.md": "# harness\n", "src/a.py": "x = 1\n", "tools/.keep": "",
+                     "skills/proof/SKILL.md": "old hints", "solutions/final/F001.lean": "old proof",
+                     "dashboard/public/proof.json": "old results", "submissions/warmup/proof.jsonl": "old proof",
+                     "runs/warmup/result.json": "old results", "experiments/proof-analyze/results/P01.json": "old proof",
+                     "experiments/old/runtime/src/copied-proof.py": "old proof",
+                     "docs/submission-README-draft.md": "TODO", "sources/final/problems/F001.json": "dataset",
                      "declaration-indexes/Cslib-v4.34.1.sqlite": "db", "quarantine/notes.md": "n",
                      "competitors/vexorium.json": "{}", "docs/lean-refactor-arena-indexes.md": "m", "data/Hrushi-rows.json": "[]"}
             for name, text in files.items():
@@ -1315,20 +1320,20 @@ class PackageTests(unittest.TestCase):
             manifest = pk.package_code(repo, out, name="harness")
             with zipfile.ZipFile(out) as archive:
                 names = archive.namelist()
-            self.assertEqual(sorted(names), ["harness/README.md", "harness/src/a.py", "harness/tools/.keep"])
-            kept = {"README.md", "src/a.py", "tools/.keep"}
+            self.assertEqual(sorted(names), ["harness/README.md", "harness/src/a.py"])
+            kept = {"README.md", "src/a.py"}
             self.assertEqual(manifest["excluded"], sorted(name for name in files if name not in kept))
-            self.assertEqual(manifest["files"], 3)
+            self.assertEqual(manifest["files"], 2)
             self.assertTrue(out.with_name("code.zip.manifest.json").exists())
             with self.assertRaisesRegex(ValueError, "excluded"):
                 pk.assert_clean(["harness/x/declaration-indexes/y.sqlite"])
-            self.assertTrue(pk.assert_clean(names))
-            (repo / "keys.txt").write_text("OPENROUTER_API_KEY=sk-or-v1-" + "a" * 40 + "\n")
+            self.assertTrue(pk.assert_clean(names, prefix="harness/"))
+            (repo / "src/keys.txt").write_text("OPENROUTER_API_KEY=sk-or-v1-" + "a" * 40 + "\n")
             git("add", "-A")
             git("commit", "-q", "-m", "secret")
             with self.assertRaisesRegex(ValueError, "Secret"):
                 pk.package_code(repo, out, name="harness")
-            git("rm", "-q", "keys.txt")
+            git("rm", "-q", "src/keys.txt")
             os.symlink("README.md", repo / "link.md")
             git("add", "-A")
             git("commit", "-q", "-m", "symlink")
